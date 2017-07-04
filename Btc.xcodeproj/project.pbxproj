@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8634746F1F08262000E7EB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634746E1F08262000E7EB86 /* AppDelegate.swift */; };
 		863474711F08262000E7EB86 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474701F08262000E7EB86 /* FirstViewController.swift */; };
 		863474731F08262000E7EB86 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* SecondViewController.swift */; };
 		863474761F08262000E7EB86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
@@ -16,6 +15,9 @@
 		863474861F08262000E7EB86 /* BtcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474851F08262000E7EB86 /* BtcTests.swift */; };
 		863474911F08262000E7EB86 /* BtcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474901F08262000E7EB86 /* BtcUITests.swift */; };
 		8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634749E1F082E7000E7EB86 /* BtcPrices.swift */; };
+		863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */; };
+		863474A31F0BB11E00E7EB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A21F0BB11E00E7EB86 /* AppDelegate.swift */; };
+		863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		8634746B1F08262000E7EB86 /* Btc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Btc.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8634746E1F08262000E7EB86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		863474701F08262000E7EB86 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		863474721F08262000E7EB86 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		863474751F08262000E7EB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -51,6 +52,9 @@
 		863474901F08262000E7EB86 /* BtcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BtcUITests.swift; sourceTree = "<group>"; };
 		863474921F08262000E7EB86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8634749E1F082E7000E7EB86 /* BtcPrices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BtcPrices.swift; sourceTree = "<group>"; };
+		863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
+		863474A21F0BB11E00E7EB86 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewHeader.swift; path = ../CollectionViewHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +105,10 @@
 		8634746D1F08262000E7EB86 /* Btc */ = {
 			isa = PBXGroup;
 			children = (
-				8634746E1F08262000E7EB86 /* AppDelegate.swift */,
+				863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */,
+				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
 				863474701F08262000E7EB86 /* FirstViewController.swift */,
+				863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */,
 				863474721F08262000E7EB86 /* SecondViewController.swift */,
 				863474741F08262000E7EB86 /* Main.storyboard */,
 				8634749E1F082E7000E7EB86 /* BtcPrices.swift */,
@@ -266,8 +272,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				863474731F08262000E7EB86 /* SecondViewController.swift in Sources */,
+				863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */,
+				863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */,
 				8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */,
-				8634746F1F08262000E7EB86 /* AppDelegate.swift in Sources */,
+				863474A31F0BB11E00E7EB86 /* AppDelegate.swift in Sources */,
 				863474711F08262000E7EB86 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
