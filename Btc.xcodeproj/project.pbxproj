@@ -110,8 +110,8 @@
 				863474701F08262000E7EB86 /* FirstViewController.swift */,
 				863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */,
 				863474721F08262000E7EB86 /* SecondViewController.swift */,
-				863474741F08262000E7EB86 /* Main.storyboard */,
 				8634749E1F082E7000E7EB86 /* BtcPrices.swift */,
+				863474741F08262000E7EB86 /* Main.storyboard */,
 				863474771F08262000E7EB86 /* Assets.xcassets */,
 				863474791F08262000E7EB86 /* LaunchScreen.storyboard */,
 				8634747C1F08262000E7EB86 /* Info.plist */,
@@ -205,6 +205,7 @@
 				TargetAttributes = {
 					8634746A1F08262000E7EB86 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = P72J725MD8;
 						ProvisioningStyle = Automatic;
 					};
 					863474801F08262000E7EB86 = {
@@ -430,7 +431,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = P72J725MD8;
 				INFOPLIST_FILE = Btc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atalw.Btc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -442,7 +445,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = P72J725MD8;
 				INFOPLIST_FILE = Btc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atalw.Btc;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -17,21 +17,6 @@ class BtcPrices: NSObject {
 
 }
 
-//extension BtcPrices: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return items.count
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//        let item = items[indexPath.row]
-//        
-//        cell.textLabel!.text = item
-//        
-//        return cell
-//    }
-//}
-
 extension BtcPrices: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -40,29 +25,16 @@ extension BtcPrices: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! MyCollectionViewCell
         let item = items[indexPath.item]
-        cell.myLabel.text = item
-
-//        if (cell.myLabel != nil) {
-//            cell.myLabel.text = item
-//            print(item)
-//        }
-//
-        
-        
-//        cell.textLabel!.text = item
-//        print(item)
-//        cell.backgroundColor = UIColor.cyan // make cell more visible in our example project
-
-        
+        cell.myButton.setTitle(item, for: .normal)
+        cell.myButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         switch kind {
         case UICollectionElementKindSectionHeader:
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! CollectionViewHeader
-//            headerView.label.text = searches[(indexPath as NSIndexPath).section.searchTerm
             headerView.siteLabel.text = "Site"
             headerView.buyLabel.text = "Buy"
             headerView.sellLabel.text = "Sell"
@@ -71,4 +43,27 @@ extension BtcPrices: UICollectionViewDataSource {
             assert(false, "Unexpected element kind")
         }
     }
+    
+    func buttonAction(sender: UIButton!) {
+        
+        let title = sender.title(for: .normal)
+        
+        if title == "Zebpay" {
+            if let url = NSURL(string: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal"){ UIApplication.shared.open(url as URL, options: [:], completionHandler: nil) }
+
+        }
+        else if title == "Unocoin" {
+            if let url = NSURL(string: "https://www.unocoin.com/"){ UIApplication.shared.open(url as URL, options: [:], completionHandler: nil) }
+        }
+        else if title == "Localbitcoins" {
+            if let url = NSURL(string: "https://localbitcoins.com/?ch=cynk"){ UIApplication.shared.open(url as URL, options: [:], completionHandler: nil) }
+        }
+        else if title == "Coinsecure" {
+            if let url = NSURL(string: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM"){ UIApplication.shared.open(url as URL, options: [:], completionHandler: nil) }
+        }
+    }
 }
+
+
+
+

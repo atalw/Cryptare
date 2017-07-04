@@ -53,17 +53,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="102" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ijf-hw-Zqb">
-                                                    <rect key="frame" x="0.0" y="-2" width="102" height="52"/>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foI-BV-m8s">
+                                                    <rect key="frame" x="0.0" y="0.0" width="102" height="47"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didTapButWithSender:" destination="9pv-A4-QxB" eventType="touchDragInside" id="ek5-Bc-u1G"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </view>
                                         <connections>
-                                            <outlet property="myLabel" destination="Ijf-hw-Zqb" id="oCb-FD-bNv"/>
+                                            <outlet property="myButton" destination="foI-BV-m8s" id="owV-32-85j"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

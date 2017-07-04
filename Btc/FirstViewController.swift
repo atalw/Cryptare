@@ -7,17 +7,13 @@
 //
 
 import UIKit
-//import PlaygroundSupport
-
 
 class FirstViewController: UIViewController {
     
     @IBOutlet var btcPriceTextField: UITextField!
     @IBOutlet var btcPriceLabel: UILabel!
-//    @IBOutlet var tableView: UITableView!
     @IBOutlet var collectionView: UICollectionView!
-    
-    
+
     var dataValues: NSArray = []
     let btcPrices = BtcPrices()
     let numberFormatter = NumberFormatter()
@@ -35,11 +31,7 @@ class FirstViewController: UIViewController {
 
         self.getCurrentBtcPrice()
         self.populatePrices()
-
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-//        tableView.dataSource = btcPrices
         
-//        collectionView.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.dataSource = btcPrices
         
     }
@@ -66,7 +58,6 @@ class FirstViewController: UIViewController {
             let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
             let inrPrice = json?["INR"] as? [String: Any]
             let price = inrPrice?["buy"] as? Double
-//            self.btcPriceTextField.text = self.numberFormatter.string(from: NSNumber(value: price!))
             self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
         }
         task.resume()
@@ -99,14 +90,11 @@ class FirstViewController: UIViewController {
             
             let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: zebpayBuyPrice!))
             let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: zebpaySellPrice!))
-            
-//            self.btcPrices.add("Zebpay \(formattedBuyPrice!) \(formattedSellPrice!)")
-            
+                        
             self.btcPrices.add("Zebpay")
             self.btcPrices.add(formattedBuyPrice!)
             self.btcPrices.add(formattedSellPrice!)
             DispatchQueue.main.async {
-//                self.tableView.reloadData()
                 self.collectionView.reloadData()
             }
             
@@ -133,13 +121,10 @@ class FirstViewController: UIViewController {
             let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: unocoinBuyPrice!))
             let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: unocoinSellPrice!))
             
-//            self.btcPrices.add("Unocoin \(formattedBuyPrice!) \(formattedSellPrice!)")
-            
             self.btcPrices.add("Unocoin")
             self.btcPrices.add(formattedBuyPrice!)
             self.btcPrices.add(formattedSellPrice!)
             DispatchQueue.main.async {
-//                self.tableView.reloadData()
                 self.collectionView.reloadData()
 
             }
@@ -191,13 +176,10 @@ class FirstViewController: UIViewController {
                 let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tempBuy))
                 let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tempSell))
                 
-//                self.btcPrices.add("LocalBitcoin \(formattedBuyPrice!) \(formattedSellPrice!)")
-                
-                self.btcPrices.add("Localbitcoin")
+                self.btcPrices.add("Localbitcoins")
                 self.btcPrices.add(formattedBuyPrice!)
                 self.btcPrices.add(formattedSellPrice!)
                 DispatchQueue.main.async {
-//                    self.tableView.reloadData()
                     self.collectionView.reloadData()
 
                 }
@@ -232,14 +214,12 @@ class FirstViewController: UIViewController {
             let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: csBuyPrice!))
             let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: csSellPrice!))
             
-//            self.btcPrices.add("Coinsecure \(formattedBuyPrice!) \(formattedSellPrice!)")
             
             self.btcPrices.add("Coinsecure")
             self.btcPrices.add(formattedBuyPrice!)
             self.btcPrices.add(formattedSellPrice!)
             
             DispatchQueue.main.async {
-//                self.tableView.reloadData()
                 self.collectionView.reloadData()
 
             }
@@ -248,6 +228,7 @@ class FirstViewController: UIViewController {
         task.resume()
 
     }
+    
     
 }
 
