@@ -26,7 +26,15 @@ extension BtcPrices: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! MyCollectionViewCell
         let item = items[indexPath.item]
         cell.myButton.setTitle(item, for: .normal)
-        cell.myButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        cell.myButton.isEnabled = false
+        cell.myButton.setTitleColor(UIColor.black, for: .normal)
+
+        if item == "Zebpay" || item == "Unocoin" || item == "Localbitcoins" || item == "Coinsecure" {
+            cell.myButton.isEnabled = true
+            cell.myButton.setTitleColor(UIColor.blue, for: .normal)
+            cell.myButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        }
+        
         return cell
     }
     

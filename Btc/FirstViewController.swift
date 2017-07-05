@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class FirstViewController: UIViewController {
     
     @IBOutlet var btcPriceTextField: UITextField!
     @IBOutlet var btcPriceLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
+    
+    @IBOutlet weak var GoogleBannerView: GADBannerView!
+
 
     var dataValues: NSArray = []
     let btcPrices = BtcPrices()
@@ -33,6 +37,15 @@ class FirstViewController: UIViewController {
         self.populatePrices()
         
         collectionView.dataSource = btcPrices
+       
+        GoogleBannerView.adUnitID = "ca-app-pub-5797975753570133/6060905008"
+        GoogleBannerView.rootViewController = self
+        
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID]
+
+//        GoogleBannerView.load(GADRequest())
+        GoogleBannerView.load(request)
         
     }
 
@@ -58,7 +71,9 @@ class FirstViewController: UIViewController {
             let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
             let inrPrice = json?["INR"] as? [String: Any]
             let price = inrPrice?["buy"] as? Double
-            self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
+            DispatchQueue.main.async {
+                self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
+            }
         }
         task.resume()
     }
@@ -126,7 +141,6 @@ class FirstViewController: UIViewController {
             self.btcPrices.add(formattedSellPrice!)
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-
             }
             
         }
@@ -181,7 +195,6 @@ class FirstViewController: UIViewController {
                 self.btcPrices.add(formattedSellPrice!)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
-
                 }
                 
             }
@@ -221,7 +234,6 @@ class FirstViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-
             }
             
         }
