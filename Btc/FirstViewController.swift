@@ -11,17 +11,17 @@ import GoogleMobileAds
 
 class FirstViewController: UIViewController {
     
-    @IBOutlet var btcPriceTextField: UITextField!
     @IBOutlet var btcPriceLabel: UILabel!
+    @IBOutlet var btcChange: UILabel!
+    @IBOutlet var timespan: UILabel!
+
     @IBOutlet var collectionView: UICollectionView!
     
     @IBOutlet weak var GoogleBannerView: GADBannerView!
 
-
     var dataValues: NSArray = []
     let btcPrices = BtcPrices()
     let numberFormatter = NumberFormatter()
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -44,7 +44,6 @@ class FirstViewController: UIViewController {
         let request = GADRequest()
         request.testDevices = [kGADSimulatorID]
 
-//        GoogleBannerView.load(GADRequest())
         GoogleBannerView.load(request)
         
     }
@@ -56,7 +55,7 @@ class FirstViewController: UIViewController {
     
     // get current actual price of bitcoin
     func getCurrentBtcPrice() {
-        let url = URL(string: "https://blockchain.info/ticker")
+        let url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/INR.json")
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
@@ -69,13 +68,54 @@ class FirstViewController: UIViewController {
             }
             
             let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-            let inrPrice = json?["INR"] as? [String: Any]
-            let price = inrPrice?["buy"] as? Double
+            let inrPrice = json?["bpi"] as? [String: Any]
+            let inr = inrPrice?["INR"] as? [String: Any]
+            let priceString = inr?["rate"] as? String
+            let priceWithoutComma = priceString?.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
+            let price = Double(priceWithoutComma!)
+
+            self.getHistoricalBtcPrices(price!)
+            
             DispatchQueue.main.async {
                 self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
+                self.timespan.text = "24h"
             }
         }
         task.resume()
+    }
+    
+    // used to calculate percentage change over 24h period (add functionality to change timespan)
+    func getHistoricalBtcPrices(_ currentBtcPrice: Double) {
+        let current_date = Date()
+        let yesterday_date = Calendar.current.date(byAdding: .day, value: -1, to: current_date)!
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let yesterday = formatter.string(from: yesterday_date)
+        
+        let url = URL(string: "http://api.coindesk.com/v1/bpi/historical/close.json?currency=INR")
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            
+            let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+            let inrPrice = json?["bpi"] as? [String: Any]
+            let yesterdayBtcPrice = inrPrice?[yesterday] as? Double
+            
+            let change = currentBtcPrice - yesterdayBtcPrice!
+            let percentage = change/yesterdayBtcPrice! * 100
+            let roundedPercentage = Double(round(100*percentage)/100)
+            DispatchQueue.main.async {
+                self.btcChange.text = "\(roundedPercentage) %"
+            }
+        }
+        task.resume()
+
     }
 
     // populate exchange buy and sell prices
