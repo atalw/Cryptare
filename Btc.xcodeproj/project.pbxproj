@@ -29,6 +29,7 @@
 		863474C41F0CE54900E7EB86 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BD1F0CE54900E7EB86 /* StoreKit.framework */; };
 		863474C51F0CE54900E7EB86 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */; };
 		86A5BC4F1F0CF2AA00D58FCA /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */; };
+		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		863474BD1F0CE54900E7EB86 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		8634746D1F08262000E7EB86 /* Btc */ = {
 			isa = PBXGroup;
 			children = (
+				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
 				863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */,
 				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
 				863474701F08262000E7EB86 /* FirstViewController.swift */,
@@ -324,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
 				863474731F08262000E7EB86 /* SecondViewController.swift in Sources */,
 				863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */,
 				863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */,
@@ -490,7 +494,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Btc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atalw.Btc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -509,7 +513,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Btc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atalw.Btc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
