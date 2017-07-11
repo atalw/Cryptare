@@ -21,6 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YtO-PV-W2f" customClass="InfoView" customModule="Btc" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kev-nc-8F8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="253.5"/>
                                 <subviews>
@@ -122,7 +126,7 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nhi-AQ-FKC" userLabel="Bottom Background">
-                                <rect key="frame" x="0.0" y="253.5" width="375" height="413.5"/>
+                                <rect key="frame" x="0.0" y="253" width="375" height="414"/>
                                 <color key="backgroundColor" red="0.20392156862745098" green="0.28627450980392155" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IxL-Bc-4Ci" customClass="GADBannerView">
@@ -134,7 +138,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uw7-Wg-iYe">
-                                <rect key="frame" x="0.0" y="253.5" width="375" height="363.5"/>
+                                <rect key="frame" x="0.0" y="253" width="375" height="364"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="k1R-Ur-J5b">
                                     <size key="itemSize" width="102" height="50"/>
@@ -175,19 +179,19 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Site" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K4s-2q-mhr">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="127.5" height="50"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1t-Sq-wTF">
-                                            <rect key="frame" x="220" y="0.0" width="100" height="50"/>
+                                            <rect key="frame" x="247.5" y="0.0" width="127.5" height="50"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLx-V5-Vf4">
-                                            <rect key="frame" x="100" y="0.0" width="120" height="50"/>
+                                            <rect key="frame" x="127.5" y="0.0" width="120" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="Jf0-Rh-e5Q"/>
                                             </constraints>
@@ -230,14 +234,18 @@
                         <constraints>
                             <constraint firstItem="uw7-Wg-iYe" firstAttribute="width" secondItem="nhi-AQ-FKC" secondAttribute="width" id="0PE-IW-HMf"/>
                             <constraint firstItem="IxL-Bc-4Ci" firstAttribute="bottom" secondItem="4ug-Mw-9AY" secondAttribute="top" id="0xN-iX-MMC"/>
+                            <constraint firstItem="YtO-PV-W2f" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="3fU-xk-Nal"/>
                             <constraint firstAttribute="trailing" secondItem="X24-SZ-qDo" secondAttribute="trailing" constant="10" id="8bg-WY-Zc1"/>
                             <constraint firstItem="IxL-Bc-4Ci" firstAttribute="top" secondItem="uw7-Wg-iYe" secondAttribute="bottom" id="D7t-R0-m7O"/>
                             <constraint firstItem="nhi-AQ-FKC" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="E2E-bK-jqJ"/>
                             <constraint firstItem="kev-nc-8F8" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" id="IeR-zf-zl4"/>
                             <constraint firstItem="kev-nc-8F8" firstAttribute="leading" secondItem="uw7-Wg-iYe" secondAttribute="leading" id="Lks-N0-tI8"/>
+                            <constraint firstAttribute="trailing" secondItem="YtO-PV-W2f" secondAttribute="trailing" id="T8F-ll-IBq"/>
                             <constraint firstItem="uw7-Wg-iYe" firstAttribute="top" secondItem="nhi-AQ-FKC" secondAttribute="top" id="bNT-jz-nLI"/>
                             <constraint firstItem="uw7-Wg-iYe" firstAttribute="top" secondItem="kev-nc-8F8" secondAttribute="bottom" id="e0T-4c-vKL"/>
                             <constraint firstItem="nhi-AQ-FKC" firstAttribute="bottom" secondItem="4ug-Mw-9AY" secondAttribute="top" id="fRq-FB-xOA"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="YtO-PV-W2f" secondAttribute="bottom" id="iBq-f8-Vid"/>
+                            <constraint firstItem="YtO-PV-W2f" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="kbS-14-joH"/>
                             <constraint firstItem="kev-nc-8F8" firstAttribute="trailing" secondItem="uw7-Wg-iYe" secondAttribute="trailing" id="mwW-Xr-Aml"/>
                             <constraint firstItem="IxL-Bc-4Ci" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="ncD-EA-IXt"/>
                             <constraint firstItem="uw7-Wg-iYe" firstAttribute="centerX" secondItem="nhi-AQ-FKC" secondAttribute="centerX" id="r3X-JB-jjc"/>

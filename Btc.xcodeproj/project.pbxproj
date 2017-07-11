@@ -30,6 +30,8 @@
 		863474C51F0CE54900E7EB86 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */; };
 		86A5BC4F1F0CF2AA00D58FCA /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
+		86B20F811F15179C00B6ADDD /* InfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B20F801F15179C00B6ADDD /* InfoView.xib */; };
+		86B20F831F15180E00B6ADDD /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F821F15180E00B6ADDD /* InfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,8 @@
 		863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		86B20F801F15179C00B6ADDD /* InfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoView.xib; sourceTree = "<group>"; };
+		86B20F821F15180E00B6ADDD /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +157,8 @@
 				863474771F08262000E7EB86 /* Assets.xcassets */,
 				863474791F08262000E7EB86 /* LaunchScreen.storyboard */,
 				8634747C1F08262000E7EB86 /* Info.plist */,
+				86B20F801F15179C00B6ADDD /* InfoView.xib */,
+				86B20F821F15180E00B6ADDD /* InfoView.swift */,
 			);
 			path = Btc;
 			sourceTree = "<group>";
@@ -300,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86B20F811F15179C00B6ADDD /* InfoView.xib in Resources */,
 				8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */,
 				863474781F08262000E7EB86 /* Assets.xcassets in Resources */,
 				863474761F08262000E7EB86 /* Main.storyboard in Resources */,
@@ -327,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86B20F831F15180E00B6ADDD /* InfoView.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
 				863474731F08262000E7EB86 /* SecondViewController.swift in Sources */,
 				863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */,

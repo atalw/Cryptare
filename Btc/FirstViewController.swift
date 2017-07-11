@@ -20,6 +20,7 @@ class FirstViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     
     @IBOutlet var infoButton: UIButton!
+//    @IBOutlet var infoView: UIView!
     
     @IBOutlet weak var GoogleBannerView: GADBannerView!
 
@@ -28,6 +29,12 @@ class FirstViewController: UIViewController {
     let numberFormatter = NumberFormatter()
     
     var currentBtcPrice: Double = 0.0
+    
+    /// Overlayview that is being displayed when the user saves a car to the garage
+    lazy var infoView: InfoView = {
+        let infoView = InfoView()
+        return infoView
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,7 +67,8 @@ class FirstViewController: UIViewController {
         layout.minimumLineSpacing = 0
         layout.headerReferenceSize = CGSize(width: width, height: width/6)
         self.collectionView.collectionViewLayout = layout
-
+        
+        infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
     }
 
     override func viewDidLoad() {
@@ -97,6 +105,12 @@ class FirstViewController: UIViewController {
         self.populatePrices()
         
         self.collectionView.dataSource = btcPrices
+
+    }
+    
+    func infoButtonTapped() {
+        print("here")
+        infoView.displayView(onView: view)
 
     }
     
