@@ -19,66 +19,85 @@ class FirstViewController: UIViewController {
 
     @IBOutlet var collectionView: UICollectionView!
     
-//    @IBOutlet weak var GoogleBannerView: GADBannerView!
+    @IBOutlet var infoButton: UIButton!
+    
+    @IBOutlet weak var GoogleBannerView: GADBannerView!
 
     var dataValues: [Double] = []
-    let btcPrices = BtcPrices()
+    var btcPrices = BtcPrices()
     let numberFormatter = NumberFormatter()
     
     var currentBtcPrice: Double = 0.0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
         if currentReachabilityStatus == .notReachable {
-            print("There is no internet connetion AAAAA")
+//            print("There is no internet connetion AAAAA")
+            let alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
+            alert.show()
         }
         else {
-            print("User is connected")
+//            print("User is connected")
         }
         
-        // Do any additional setup after loading the view, typically from a nib.
-        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
-        self.numberFormatter.locale = Locale.init(identifier: "en_IN")
-
-        self.getCurrentBtcPrice()
-        self.populatePrices()
-        
-        collectionView.dataSource = btcPrices
+//        self.loadData()
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-       
-//        GoogleBannerView.adUnitID = "ca-app-pub-5797975753570133/6060905008"
-//        GoogleBannerView.rootViewController = self
-//        
-//        let request = GADRequest()
-//        request.testDevices = [kGADSimulatorID]
-//
-//        GoogleBannerView.load(request)
+        
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let width = UIScreen.main.bounds.width
-        //        layout.sectionInset = UIEdgeInsets(top: width/6, left: 5, bottom: 0, right: 5)
-        layout.itemSize = CGSize(width: width / 4, height: width / 6)
+//        let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
+//        print(self.collectionView.contentSize)
+//        print(height)
+        layout.itemSize = CGSize(width: width/3, height: width/5)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.headerReferenceSize = CGSize(width: width, height: width/6)
-        collectionView.collectionViewLayout = layout
+        self.collectionView.collectionViewLayout = layout
 
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+        // Do any additional setup after loading the view, typically from a nib.
+        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
+        self.numberFormatter.locale = Locale.init(identifier: "en_IN")
+        
+        GoogleBannerView.adUnitID = "ca-app-pub-5797975753570133/6060905008"
+        GoogleBannerView.rootViewController = self
+        
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID, "4ea243399569ee090d038a5f50f2bed7"]
+        
+        GoogleBannerView.load(request)
+
+        
+        self.loadData()
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadData() {
+        
+//        self.btcPrices.empty()
+//        self.dataValues = []
+        
+        self.getCurrentBtcPrice()
+        self.populatePrices()
+        
+        self.collectionView.dataSource = btcPrices
+
     }
     
     //Calls this function when the tap is recognized.
@@ -122,9 +141,9 @@ class FirstViewController: UIViewController {
                 }
             }
         }
-        else {
-            print("emptybaby")
-        }
+//        else {
+//            print("empty")
+//        }
     }
     
     func updateCurrentBtcPrice(_ value: Double) {
@@ -162,7 +181,10 @@ class FirstViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
+                self.btcPriceLabel.textColor = UIColor.white
+                self.btcPriceLabel.adjustsFontSizeToFitWidth = true
                 self.timespan.text = "(24h)"
+                self.timespan.textColor = UIColor.white
             }
         }
         task.resume()
@@ -172,9 +194,13 @@ class FirstViewController: UIViewController {
     func getHistoricalBtcPrices(_ currentBtcPrice: Double) {
         let current_date = Date()
         let yesterday_date = Calendar.current.date(byAdding: .day, value: -1, to: current_date)!
+        // sometimes takes time for source website to update closing price of day before (probably due to time difference)
+        let day_before_yesterday_date = Calendar.current.date(byAdding: .day, value: -2, to: current_date)!
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let yesterday = formatter.string(from: yesterday_date)
+        let day_before_yesterday = formatter.string(from: day_before_yesterday_date)
+
         
         let url = URL(string: "http://api.coindesk.com/v1/bpi/historical/close.json?currency=INR")
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
@@ -189,26 +215,25 @@ class FirstViewController: UIViewController {
             
             let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
             let inrPrice = json?["bpi"] as? [String: Any]
-            let yesterdayBtcPrice = inrPrice?[yesterday] as? Double
-            
+            let yesterdayBtcPrice = inrPrice?[yesterday] as? Double ?? inrPrice?[day_before_yesterday] as? Double
             let change = currentBtcPrice - yesterdayBtcPrice!
             let percentage = change/yesterdayBtcPrice! * 100
             let roundedPercentage = Double(round(100*percentage)/100)
             DispatchQueue.main.async {
                 if roundedPercentage > 0 {
-                    self.btcChange.text = "+\(roundedPercentage) %"
+                    self.btcChange.text = "+\(roundedPercentage)%"
                 }
                 else {
-                    self.btcChange.text = "\(roundedPercentage) %"
+                    self.btcChange.text = "\(roundedPercentage)%"
                 }
                 self.btcChange.layer.masksToBounds = true
                 self.btcChange.layer.cornerRadius = 8
                 self.btcChange.textColor = UIColor.white
                 if roundedPercentage < 0 {
-                    self.btcChange.backgroundColor = UIColor.red
+                    self.btcChange.backgroundColor = self.hexStringToUIColor(hex: "#e74c3c")
                 }
                 else if roundedPercentage > 0 {
-                    self.btcChange.backgroundColor = UIColor.green
+                    self.btcChange.backgroundColor = self.hexStringToUIColor(hex: "#2ecc71")
                 }
                 
             }
@@ -392,6 +417,27 @@ class FirstViewController: UIViewController {
 
     }
     
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.characters.count) != 6) {
+            return UIColor.gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
     
 }
 

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import GoogleMobileAds
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Initialize the Google Mobile Ads SDK.
         // Sample AdMob app ID: ca-app-pub-3940256099942544~1458002511
-//        GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
 
         return true
     }
@@ -41,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//        FirstViewController.loadData(<#T##FirstViewController#>)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

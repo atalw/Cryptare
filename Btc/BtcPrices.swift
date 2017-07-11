@@ -16,13 +16,19 @@ class BtcPrices: NSObject {
     }
     
     func getItems() -> [String] {
-        return self.items
+        return items
     }
     
     func updateItems(_ element: String, index: Int) {
-        self.items[index] = element
+        items[index] = element
     }
     
+    func empty() {
+        print("here")
+        print(items)
+        items.removeAll(keepingCapacity: false)
+        print(items)
+    }
 }
 
 extension BtcPrices: UICollectionViewDataSource {
@@ -37,16 +43,18 @@ extension BtcPrices: UICollectionViewDataSource {
         cell.myButton.setTitle(item, for: .normal)
         cell.myButton.titleLabel?.adjustsFontSizeToFitWidth = true
         cell.myButton.isEnabled = false
-        cell.myButton.setTitleColor(UIColor.black, for: .normal)
-        cell.myButton.backgroundColor = UIColor.white
+        cell.myButton.setTitleColor(UIColor.white, for: .normal)
+        cell.myButton.backgroundColor = hexStringToUIColor(hex: "#3498db")
+
+//        cell.myButton.backgroundColor = nil
         
         if item == "Zebpay" || item == "Unocoin" || item == "Localbitcoins" || item == "Coinsecure" {
             cell.myButton.isEnabled = true
             //            cell.myButton.setTitleColor(UIColor.blue, for: .normal)
             cell.myButton.setTitleColor(UIColor.white, for: .normal)
-            cell.myButton.backgroundColor = hexStringToUIColor(hex: "#5790E2")
+            cell.myButton.backgroundColor = hexStringToUIColor(hex: "#2980b9")
             cell.myButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-            cell.myButton.layer.cornerRadius = 8
+//            cell.myButton.layer.cornerRadius = 8
         }
         
         return cell
@@ -61,6 +69,10 @@ extension BtcPrices: UICollectionViewDataSource {
             headerView.siteLabel.text = "Site"
             headerView.buyLabel.text = "Buy"
             headerView.sellLabel.text = "Sell"
+            
+//            headerView.siteLabel.layer.addBorder(edge: UIRectEdge.right, color: hexStringToUIColor(hex: "#d35400"), thickness: 2)
+//            headerView.buyLabel.layer.addBorder(edge: UIRectEdge.right, color: hexStringToUIColor(hex: "#d35400"), thickness: 2)
+            
             return headerView
         default:
             assert(false, "Unexpected element kind")
@@ -131,6 +143,35 @@ extension BtcPrices: UICollectionViewDataSource {
     }
 }
 
+extension CALayer {
+    
+    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat) {
+        
+        let border = CALayer()
+        
+        switch edge {
+        case UIRectEdge.top:
+            border.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: thickness)
+            break
+        case UIRectEdge.bottom:
+            border.frame = CGRect(x: 0, y: self.frame.height - thickness, width: self.frame.width, height: thickness)
+            break
+        case UIRectEdge.left:
+            border.frame = CGRect(x: 0, y: 0, width: thickness, height: self.frame.height)
+            break
+        case UIRectEdge.right:
+            border.frame = CGRect(x: self.frame.width - thickness, y: 0, width: thickness, height: self.frame.height)
+            break
+        default:
+            break
+        }
+        
+        border.backgroundColor = color.cgColor;
+        
+        self.addSublayer(border)
+    }
+    
+}
 
 
 
