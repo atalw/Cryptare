@@ -30,11 +30,11 @@ class FirstViewController: UIViewController {
     
     var currentBtcPrice: Double = 0.0
     
-    /// Overlayview that is being displayed when the user saves a car to the garage
-    lazy var infoView: InfoView = {
-        let infoView = InfoView()
-        return infoView
-    }()
+            var infoView: InfoView = {
+                let infoView = InfoView()
+                return infoView
+            }()
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -110,7 +110,9 @@ class FirstViewController: UIViewController {
     
     func infoButtonTapped() {
         print("here")
-        infoView.displayView(onView: view)
+        let infoView = InfoView()
+
+        infoView.displayView(overlayView: view)
 
     }
     
