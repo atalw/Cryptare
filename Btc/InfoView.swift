@@ -12,14 +12,16 @@ class InfoView: UIView {
     
     // Our custom view from the XIB file
     @IBOutlet var view: UIView!
-
+    //    @IBOutlet weak var closeButton: UIButton!
+    
     /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+     // Only override draw() if you perform custom drawing.
+     // An empty implementation adversely affects performance during animation.
+     override func draw(_ rect: CGRect) {
+     // Drawing code
+     }
+     */
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -33,11 +35,11 @@ class InfoView: UIView {
         setupView()
     }
     
-     func setupView() {
+    func setupView() {
         Bundle.main.loadNibNamed("InfoView", owner: self, options: nil)
         view.frame = UIScreen.main.bounds
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.alpha = 0.0
+        view.isUserInteractionEnabled = true
         addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -50,7 +52,9 @@ class InfoView: UIView {
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.alpha = 1.0
         })
-        
     }
     
+    @IBAction func dismissInfoView(_ sender: Any) {
+        self.isHidden = true
+    }
 }

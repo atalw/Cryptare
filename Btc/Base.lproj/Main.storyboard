@@ -225,7 +225,7 @@
                                     <outlet property="delegate" destination="9pv-A4-QxB" id="KSV-Ch-gRO"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YtO-PV-W2f" customClass="InfoView" customModule="Btc" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YtO-PV-W2f" customClass="InfoView" customModule="Btc" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="65" width="375" height="602"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -260,6 +260,7 @@
                         <outlet property="btcPriceLabel" destination="nQs-vr-lLV" id="Ohd-Km-2DJ"/>
                         <outlet property="collectionView" destination="uw7-Wg-iYe" id="9qd-UN-BVc"/>
                         <outlet property="infoButton" destination="X24-SZ-qDo" id="Fk6-m9-tOq"/>
+                        <outlet property="infoView" destination="YtO-PV-W2f" id="IM5-Tc-um8"/>
                         <outlet property="timespan" destination="wfw-aI-HHZ" id="VQv-yM-vih"/>
                     </connections>
                 </viewController>

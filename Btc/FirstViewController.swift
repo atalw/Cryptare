@@ -16,39 +16,33 @@ class FirstViewController: UIViewController {
     @IBOutlet var timespan: UILabel!
     
     @IBOutlet var btcAmount: UITextField!
-
+    
     @IBOutlet var collectionView: UICollectionView!
     
     @IBOutlet var infoButton: UIButton!
-//    @IBOutlet var infoView: UIView!
+    @IBOutlet var infoView: UIView!
     
     @IBOutlet weak var GoogleBannerView: GADBannerView!
-
+    
     var dataValues: [Double] = []
     var btcPrices = BtcPrices()
     let numberFormatter = NumberFormatter()
     
     var currentBtcPrice: Double = 0.0
     
-            var infoView: InfoView = {
-                let infoView = InfoView()
-                return infoView
-            }()
-
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if currentReachabilityStatus == .notReachable {
-//            print("There is no internet connetion AAAAA")
+            //            print("There is no internet connetion AAAAA")
             let alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
             alert.show()
         }
         else {
-//            print("User is connected")
+            //            print("User is connected")
         }
         
-//        self.loadData()
+        //        self.loadData()
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
@@ -57,11 +51,12 @@ class FirstViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
+        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let width = UIScreen.main.bounds.width
-//        let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
-//        print(self.collectionView.contentSize)
-//        print(height)
+        //        let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
+        //        print(self.collectionView.contentSize)
+        //        print(height)
         layout.itemSize = CGSize(width: width/3, height: width/5)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
@@ -69,11 +64,12 @@ class FirstViewController: UIViewController {
         self.collectionView.collectionViewLayout = layout
         
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+        
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         // Do any additional setup after loading the view, typically from a nib.
         self.numberFormatter.numberStyle = NumberFormatter.Style.currency
         self.numberFormatter.locale = Locale.init(identifier: "en_IN")
@@ -85,7 +81,7 @@ class FirstViewController: UIViewController {
         request.testDevices = [kGADSimulatorID, "4ea243399569ee090d038a5f50f2bed7"]
         
         GoogleBannerView.load(request)
-
+        
         
         self.loadData()
         
@@ -97,23 +93,16 @@ class FirstViewController: UIViewController {
     }
     
     func loadData() {
-        
-//        self.btcPrices.empty()
-//        self.dataValues = []
-        
+        //        self.btcPrices.empty()
+        //        self.dataValues = []
         self.getCurrentBtcPrice()
         self.populatePrices()
         
         self.collectionView.dataSource = btcPrices
-
     }
     
     func infoButtonTapped() {
-        print("here")
-        let infoView = InfoView()
-
-        infoView.displayView(overlayView: view)
-
+        self.infoView.isHidden = false
     }
     
     //Calls this function when the tap is recognized.
@@ -125,21 +114,21 @@ class FirstViewController: UIViewController {
     func textFieldDidChange(_ textField: UITextField) {
         let text = textField.text
         if let value = Double(text!) {
-            if value > 100 {
+            if value > 200 {
                 textField.text = "Aukat"
             }
             else if value > 0 {
                 let updatedValue = self.currentBtcPrice*value
                 self.updateCurrentBtcPrice(updatedValue)
                 
-//                for index in self.btcPrices.
+                //                for index in self.btcPrices.
                 // think of way to update buy and sell values
                 var count = 3
                 var dataValuesIndex = 0
                 for (index, _) in self.btcPrices.getItems().enumerated() {
                     if count <= 2  && count > 0 {
-//                        print(element)
-//                        let cost = self.getNumberFromCommaString(element)
+                        //                        print(element)
+                        //                        let cost = self.getNumberFromCommaString(element)
                         let cost = self.dataValues[dataValuesIndex]
                         dataValuesIndex += 1
                         let updatedValue = cost * value
@@ -157,9 +146,9 @@ class FirstViewController: UIViewController {
                 }
             }
         }
-//        else {
-//            print("empty")
-//        }
+        //        else {
+        //            print("empty")
+        //        }
     }
     
     func updateCurrentBtcPrice(_ value: Double) {
@@ -216,7 +205,7 @@ class FirstViewController: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd"
         let yesterday = formatter.string(from: yesterday_date)
         let day_before_yesterday = formatter.string(from: day_before_yesterday_date)
-
+        
         
         let url = URL(string: "http://api.coindesk.com/v1/bpi/historical/close.json?currency=INR")
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
@@ -255,9 +244,9 @@ class FirstViewController: UIViewController {
             }
         }
         task.resume()
-
+        
     }
-
+    
     // populate exchange buy and sell prices
     func populatePrices() {
         self.zebpayPrice()
@@ -288,7 +277,7 @@ class FirstViewController: UIViewController {
             
             let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: zebpayBuyPrice!))
             let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: zebpaySellPrice!))
-                        
+            
             self.btcPrices.add("Zebpay")
             self.btcPrices.add(formattedBuyPrice!)
             self.btcPrices.add(formattedSellPrice!)
@@ -389,7 +378,7 @@ class FirstViewController: UIViewController {
                 
             }
             sellTask.resume()
-
+            
             
         }
         task.resume()
@@ -430,7 +419,7 @@ class FirstViewController: UIViewController {
             
         }
         task.resume()
-
+        
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
