@@ -20,6 +20,7 @@ class FirstViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     
     @IBOutlet var infoButton: UIButton!
+    
     @IBOutlet var infoView: UIView!
     
     @IBOutlet weak var GoogleBannerView: GADBannerView!
@@ -30,19 +31,15 @@ class FirstViewController: UIViewController {
     
     var currentBtcPrice: Double = 0.0
     
+    @IBAction func refreshButton(_ sender: Any) {
+//        self.btcPriceLabel.reloadInputViews()
+        self.getCurrentBtcPrice()
+        self.loadData()
+        self.collectionView.reloadData()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if currentReachabilityStatus == .notReachable {
-            //            print("There is no internet connetion AAAAA")
-            let alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
-            alert.show()
-        }
-        else {
-            //            print("User is connected")
-        }
-        
-        //        self.loadData()
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
@@ -67,6 +64,25 @@ class FirstViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if currentReachabilityStatus == .notReachable {
+            //            let alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
+            
+            let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
+            //            self.present(alert, animated: true){}
+            present(alert, animated: true, completion: nil)
+            print("here")
+            //            alert.show()
+        }
+        else {
+            //            print("User is connected")
+        }
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,7 +98,6 @@ class FirstViewController: UIViewController {
         
         GoogleBannerView.load(request)
         
-        
         self.loadData()
         
     }
@@ -93,16 +108,27 @@ class FirstViewController: UIViewController {
     }
     
     func loadData() {
-        //        self.btcPrices.empty()
-        //        self.dataValues = []
+        self.btcPrices.empty()
+        self.dataValues = []
+        
         self.getCurrentBtcPrice()
         self.populatePrices()
+        
+        self.btcAmount.text = "1"
         
         self.collectionView.dataSource = btcPrices
     }
     
     func infoButtonTapped() {
-        self.infoView.isHidden = false
+    
+        UIView.transition(with: view, duration: 0.7, options: .transitionFlipFromRight, animations: { _ in
+            self.infoView.isHidden = false
+        }, completion: nil)
+
+//        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+//            self.infoView.isHidden = false
+//        })
+        
     }
     
     //Calls this function when the tap is recognized.
@@ -183,6 +209,7 @@ class FirstViewController: UIViewController {
             let price = Double(priceWithoutComma!)
             self.currentBtcPrice = price!
             self.getHistoricalBtcPrices(price!)
+            // store current btc price in global var
             
             DispatchQueue.main.async {
                 self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
@@ -397,21 +424,31 @@ class FirstViewController: UIViewController {
             }
             
             let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-            let message = json?["message"] as? [String: Any]
-            var csBuyPrice = message?["ask"] as? Double
-            var csSellPrice = message?["lastPrice"] as? Double
-            csBuyPrice = csBuyPrice!/100
-            csSellPrice = csSellPrice!/100
-            
-            self.dataValues.append(csBuyPrice!)
-            self.dataValues.append(csSellPrice!)
-            
-            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: csBuyPrice!))
-            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: csSellPrice!))
-            
-            self.btcPrices.add("Coinsecure")
-            self.btcPrices.add(formattedBuyPrice!)
-            self.btcPrices.add(formattedSellPrice!)
+            let success = json?["success"] as? Bool
+
+            if success! {
+                let message = json?["message"] as? [String: Any]
+                var csBuyPrice = message?["ask"] as? Double
+                var csSellPrice = message?["lastPrice"] as? Double
+                csBuyPrice = csBuyPrice!/100
+                csSellPrice = csSellPrice!/100
+                
+                self.dataValues.append(csBuyPrice!)
+                self.dataValues.append(csSellPrice!)
+                
+                let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: csBuyPrice!))
+                let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: csSellPrice!))
+                
+                self.btcPrices.add("Coinsecure")
+                self.btcPrices.add(formattedBuyPrice!)
+                self.btcPrices.add(formattedSellPrice!)
+                
+            }
+            else {
+                self.btcPrices.add("Coinsecure")
+                self.btcPrices.add("NA")
+                self.btcPrices.add("NA")
+            }
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()

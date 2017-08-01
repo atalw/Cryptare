@@ -18,27 +18,168 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="INFO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJo-YJ-q6f">
-                    <rect key="frame" x="141" y="29" width="93" height="48"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7tf-4v-i97">
-                    <rect key="frame" x="135" y="318" width="104" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                    <state key="normal" title="Close">
-                        <color key="titleColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3t-3E-1Gn">
+                    <rect key="frame" x="16" y="5" width="34" height="30"/>
+                    <state key="normal" title="Back"/>
                     <connections>
-                        <action selector="dismissInfoView:" destination="-1" eventType="touchUpInside" id="u14-5O-9c2"/>
+                        <action selector="dismissInfoView:" destination="-1" eventType="touchUpInside" id="uoK-wA-hyC"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What does this app do?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jpH-Av-Eoe">
+                    <rect key="frame" x="16" y="50" width="201" height="23"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Compare prices of Indian bitcoin exchanges in real time to always make the best purchases." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XrT-xH-fXc">
+                    <rect key="frame" x="16" y="73" width="343" height="50"/>
+                    <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="emv-fv-biX"/>
+                    </constraints>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where do we get the data from?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-wN-oh5">
+                    <rect key="frame" x="16" y="133" width="274" height="23"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Real time values are fetched from the exchanges to get the current market buy and sell price. " textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azD-nl-gZI">
+                    <rect key="frame" x="16" y="156" width="343" height="50"/>
+                    <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="SnB-ah-CJX"/>
+                    </constraints>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Why should I use this app?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpi-qY-ZBl">
+                    <rect key="frame" x="16" y="216" width="228" height="23"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="The links provided to the various exchanges are affiliate links. " textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n3s-Fw-QcN">
+                    <rect key="frame" x="16" y="239" width="343" height="50"/>
+                    <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="qbc-4n-EYw"/>
+                    </constraints>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Get bitcoins worth ₹100 free on your first bitcoin buy or sell" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKV-mS-Tqc">
+                    <rect key="frame" x="16" y="322" width="343" height="50"/>
+                    <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="trb-Nj-QTt"/>
+                    </constraints>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zebpay:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45b-wL-JsO">
+                    <rect key="frame" x="16" y="299" width="70" height="23"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <color key="textColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unocoin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6NL-ij-IGJ">
+                    <rect key="frame" x="16" y="382" width="76" height="23"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <color key="textColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Localbitcoin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pw3-Ma-Fxm">
+                    <rect key="frame" x="16" y="465" width="108" height="23"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <color key="textColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Get bitcoins worth ₹200 free on your first bitcoin transaction" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="89b-Ee-BTZ">
+                    <rect key="frame" x="16" y="405" width="343" height="50"/>
+                    <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="oT8-Vj-zM1"/>
+                    </constraints>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Buy bitcoins with multiple payment methods, including physical payments from a person near you" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jgv-FP-loy">
+                    <rect key="frame" x="16" y="488" width="343" height="59"/>
+                    <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="59" id="Dnd-vR-tb7"/>
+                    </constraints>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="One of India's first online real-time bitcoin exchanges" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1e-Iz-Nrq">
+                    <rect key="frame" x="16" y="580" width="343" height="50"/>
+                    <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="hiP-Rk-FdP"/>
+                    </constraints>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coinsecure:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HmX-Tp-0As">
+                    <rect key="frame" x="16" y="557" width="102" height="23"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <color key="textColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.50417380136986301" colorSpace="calibratedRGB"/>
-            <point key="canvasLocation" x="-84.5" y="79.5"/>
+            <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="XrT-xH-fXc" firstAttribute="leading" secondItem="jpH-Av-Eoe" secondAttribute="leading" id="2Zi-XV-KPr"/>
+                <constraint firstItem="Pw3-Ma-Fxm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="3c7-oU-dqf"/>
+                <constraint firstItem="jpH-Av-Eoe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="6KD-8h-67h"/>
+                <constraint firstItem="FKV-mS-Tqc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="70r-jS-ypU"/>
+                <constraint firstItem="45b-wL-JsO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="F75-GV-WAD"/>
+                <constraint firstItem="jpH-Av-Eoe" firstAttribute="top" secondItem="K3t-3E-1Gn" secondAttribute="bottom" constant="15" id="FN6-m8-rFQ"/>
+                <constraint firstItem="HmX-Tp-0As" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Gqh-g2-3b3"/>
+                <constraint firstItem="6NL-ij-IGJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Iej-ij-yr2"/>
+                <constraint firstAttribute="trailing" secondItem="X1e-Iz-Nrq" secondAttribute="trailing" constant="16" id="KXF-CN-mLJ"/>
+                <constraint firstItem="X1e-Iz-Nrq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Kw5-RL-O49"/>
+                <constraint firstItem="azD-nl-gZI" firstAttribute="top" secondItem="f4U-wN-oh5" secondAttribute="bottom" id="NGW-jE-qjv"/>
+                <constraint firstAttribute="trailing" secondItem="89b-Ee-BTZ" secondAttribute="trailing" constant="16" id="Onm-vT-lwO"/>
+                <constraint firstAttribute="trailing" secondItem="XrT-xH-fXc" secondAttribute="trailing" constant="16" id="TEs-l5-QIy"/>
+                <constraint firstItem="X1e-Iz-Nrq" firstAttribute="top" secondItem="HmX-Tp-0As" secondAttribute="bottom" id="ThO-FS-fik"/>
+                <constraint firstItem="n3s-Fw-QcN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Wbd-gW-XND"/>
+                <constraint firstItem="XrT-xH-fXc" firstAttribute="top" secondItem="jpH-Av-Eoe" secondAttribute="bottom" id="Wpg-O7-Vbp"/>
+                <constraint firstItem="Pw3-Ma-Fxm" firstAttribute="top" secondItem="89b-Ee-BTZ" secondAttribute="bottom" constant="10" id="YJb-5k-zHB"/>
+                <constraint firstItem="f4U-wN-oh5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Zle-Yf-dmc"/>
+                <constraint firstAttribute="trailing" secondItem="azD-nl-gZI" secondAttribute="trailing" constant="16" id="aJ4-4J-c5z"/>
+                <constraint firstItem="rpi-qY-ZBl" firstAttribute="top" secondItem="azD-nl-gZI" secondAttribute="bottom" constant="10" id="aXO-bX-Pte"/>
+                <constraint firstItem="K3t-3E-1Gn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="asX-gC-x8b"/>
+                <constraint firstItem="azD-nl-gZI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="cPZ-KQ-bdY"/>
+                <constraint firstItem="K3t-3E-1Gn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="dES-ju-4yg"/>
+                <constraint firstItem="89b-Ee-BTZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="ecJ-1R-ZwQ"/>
+                <constraint firstItem="45b-wL-JsO" firstAttribute="top" secondItem="n3s-Fw-QcN" secondAttribute="bottom" constant="10" id="hxZ-CC-Nfv"/>
+                <constraint firstItem="XrT-xH-fXc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="iDf-1S-kcx"/>
+                <constraint firstItem="n3s-Fw-QcN" firstAttribute="top" secondItem="rpi-qY-ZBl" secondAttribute="bottom" id="kGE-zH-IVl"/>
+                <constraint firstAttribute="trailing" secondItem="n3s-Fw-QcN" secondAttribute="trailing" constant="16" id="l8t-Je-dRX"/>
+                <constraint firstAttribute="trailing" secondItem="jgv-FP-loy" secondAttribute="trailing" constant="16" id="mgL-pw-Tzk"/>
+                <constraint firstItem="jgv-FP-loy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="nsL-8b-owG"/>
+                <constraint firstItem="jgv-FP-loy" firstAttribute="top" secondItem="Pw3-Ma-Fxm" secondAttribute="bottom" id="oSi-nG-PDB"/>
+                <constraint firstItem="f4U-wN-oh5" firstAttribute="top" secondItem="XrT-xH-fXc" secondAttribute="bottom" constant="10" id="rrm-W3-6R0"/>
+                <constraint firstAttribute="trailing" secondItem="FKV-mS-Tqc" secondAttribute="trailing" constant="16" id="sur-eV-qB3"/>
+                <constraint firstItem="HmX-Tp-0As" firstAttribute="top" secondItem="jgv-FP-loy" secondAttribute="bottom" constant="10" id="tdp-H6-5W0"/>
+                <constraint firstItem="89b-Ee-BTZ" firstAttribute="top" secondItem="6NL-ij-IGJ" secondAttribute="bottom" id="uRV-rN-Bqu"/>
+                <constraint firstItem="FKV-mS-Tqc" firstAttribute="top" secondItem="45b-wL-JsO" secondAttribute="bottom" id="uSz-kk-yfj"/>
+                <constraint firstItem="6NL-ij-IGJ" firstAttribute="top" secondItem="FKV-mS-Tqc" secondAttribute="bottom" constant="10" id="xVh-SW-SwK"/>
+                <constraint firstItem="rpi-qY-ZBl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="yfe-Si-2k4"/>
+            </constraints>
+            <point key="canvasLocation" x="-180.5" y="88.5"/>
         </view>
     </objects>
 </document>

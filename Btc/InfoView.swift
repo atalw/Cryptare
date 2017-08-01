@@ -37,24 +37,17 @@ class InfoView: UIView {
     
     func setupView() {
         Bundle.main.loadNibNamed("InfoView", owner: self, options: nil)
-        view.frame = UIScreen.main.bounds
+//        view.frame = UIScreen.main.bounds
+        view.frame = self.bounds
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.isUserInteractionEnabled = true
+//        view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    func displayView(overlayView: UIView) {
-        self.alpha = 0.0
-        overlayView.addSubview(self)
-        
-        // display the view
-        UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            self.alpha = 1.0
-        })
     }
     
     @IBAction func dismissInfoView(_ sender: Any) {
-        self.isHidden = true
+        UIView.transition(with: self, duration: 0.5, options: .transitionCrossDissolve, animations: { _ in
+            self.isHidden = true
+        }, completion: nil)
     }
 }
