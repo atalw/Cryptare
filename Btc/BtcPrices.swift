@@ -44,7 +44,7 @@ extension BtcPrices: UICollectionViewDataSource {
         cell.myButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         cell.myButton.backgroundColor = hexStringToUIColor(hex: "#3498db")
         
-        if item == "Zebpay" || item == "Unocoin" || item == "Localbitcoins" || item == "Coinsecure" {
+        if item == "Zebpay" || item == "Unocoin" || item == "Localbitcoins" || item == "Coinsecure" || item == "Remitano" || item == "BitBay"{
             cell.myButton.isEnabled = true
             //            cell.myButton.setTitleColor(UIColor.blue, for: .normal)
             cell.myButton.setTitleColor(UIColor.white, for: .normal)
@@ -71,8 +71,11 @@ extension BtcPrices: UICollectionViewDataSource {
             
             return headerView
         default:
-            assert(false, "Unexpected element kind")
+//            assert(false, "Unexpected element kind")
+            fatalError("Unexpected element kind")
         }
+        
+        
     }
     
     func buttonAction(sender: UIButton!) {
@@ -115,6 +118,23 @@ extension BtcPrices: UICollectionViewDataSource {
                 UIApplication.shared.openURL(url as URL)
                 } }
         }
+        else if title == "Remitano" {
+            if let url = NSURL(string: "https://remitano.com/in?ref=atalw"){ if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            } else {
+                // Fallback on earlier versions
+                UIApplication.shared.openURL(url as URL)
+                } }
+        }
+        else if title == "BitBay" {
+            if let url = NSURL(string: "https://www.bitbay.net/"){ if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            } else {
+                // Fallback on earlier versions
+                UIApplication.shared.openURL(url as URL)
+                } }
+        }
+
     }
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
