@@ -34,34 +34,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-//        self.indiaButton.setBackgroundColor(color: UIColor.white, forState: .selected)
-//        self.worldwideButton.setBackgroundColor(color: UIColor.white, forState: .selected)
-        
-//        self.indiaButton.layer.cornerRadius = 5
-//        self.worldwideButton.layer.cornerRadius = 5
-        
-//        self.indiaButton.layer.borderWidth = 1
-//        self.indiaButton.layer.borderColor = UIColor.white.cgColor
-//        self.indiaButton.layer.masksToBounds = true
-        
-//        self.indiaButton.setButtonBorder(color: UIColor.white, forState: .selected)
-//        self.worldwideButton.setButtonBorder(color: UIColor.white, forState: .selected)
-//
-//        self.indiaButton.setButtonBorder(color: UIColor.clear, forState: .normal)
-//        self.worldwideButton.setButtonBorder(color: UIColor.clear, forState: .normal)
-        
-//        self.indiaButton.setBackgroundColor(color: UIColor.clear, forState: .normal)
-//        self.worldwideButton.setBackgroundColor(color: UIColor.clear, forState: .normal)
         
         self.indiaButton.isSelected = true
         self.worldwideButton.isSelected = false
         
         self.indiaButton.setTitleColor(UIColor.white, for: .selected)
         self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
-        
-        self.indiaButton.contentMode = .center
-        self.worldwideButton.contentMode = .center
-        
+
         self.getNews()
         
         self.indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
@@ -160,6 +139,27 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         if time < 24 {
             cell.pubDate.text = "\(intTime)h ago"
         }
+        else if time >= 24 && time < 48 {
+            cell.pubDate.text = "1 day ago"
+        }
+        else if time >= 48 && time < 72 {
+            cell.pubDate.text = "2 days ago"
+        }
+        else if time >= 72 && time < 96 {
+            cell.pubDate.text = "3 days ago"
+        }
+        else if time >= 96 && time < 120 {
+            cell.pubDate.text = "4 days ago"
+        }
+        else if time >= 120 && time < 144 {
+            cell.pubDate.text = "5 days ago"
+        }
+        else if time >= 144 && time < 168 {
+            cell.pubDate.text = "6 days ago"
+        }
+        else if time >= 168 && time < 336 {
+            cell.pubDate.text = "1 week ago"
+        }
         else {
             let dateString = entry.pubDate.description
             let dateFormatter = DateFormatter()
@@ -176,33 +176,33 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
 
 }
 
-extension UIButton {
-    
-    func setBackgroundColor(color: UIColor, forState: UIControlState) {
-        
-        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
-        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
-        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
-//        UIGraphicsGetCurrentContext()!.radi
-        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.setBackgroundImage(colorImage, for: forState)
-    }
-    
-    func setButtonBorder(color: UIColor, forState: UIControlState) {
-        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
-        let context = UIGraphicsGetCurrentContext();
-        
-        context?.setStrokeColor(color.cgColor)
-        context?.setLineWidth(1);
-        context?.stroke(CGRect(x: 0, y: 0, width: 1, height: 1))
-//        context?.
-        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.setBackgroundImage(colorImage, for: forState)
-    
-    }
-}
+//extension UIButton {
+//    
+//    func setBackgroundColor(color: UIColor, forState: UIControlState) {
+//        
+//        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+//        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
+//        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+////        UIGraphicsGetCurrentContext()!.radi
+//        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        self.setBackgroundImage(colorImage, for: forState)
+//    }
+//    
+//    func setButtonBorder(color: UIColor, forState: UIControlState) {
+//        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+//        let context = UIGraphicsGetCurrentContext();
+//        
+//        context?.setStrokeColor(color.cgColor)
+//        context?.setLineWidth(1);
+//        context?.stroke(CGRect(x: 0, y: 0, width: 1, height: 1))
+////        context?.
+//        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        self.setBackgroundImage(colorImage, for: forState)
+//    
+//    }
+//}
 

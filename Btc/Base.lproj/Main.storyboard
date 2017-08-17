@@ -44,7 +44,7 @@
                                                             </connections>
                                                         </barButtonItem>
                                                         <barButtonItem key="rightBarButtonItem" id="qi1-Xr-hsu">
-                                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="X24-SZ-qDo">
+                                                            <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="X24-SZ-qDo">
                                                                 <rect key="frame" x="329" y="-2" width="30" height="48"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
@@ -281,7 +281,7 @@
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="YtO-PV-W2f" secondAttribute="bottom" id="vmT-2M-f6l"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Markets" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Markets" image="icons8-Coins-50" selectedImage="icons8-Coins Filled-50" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -328,7 +328,7 @@
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" id="Xw9-GT-cVV">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VYX-g6-59p">
+                                            <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VYX-g6-59p">
                                                 <rect key="frame" x="329" y="-2" width="30" height="48"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
@@ -353,22 +353,22 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zO-iD-AF8">
-                                            <rect key="frame" x="20" y="-0.5" width="40" height="40"/>
+                                            <rect key="frame" x="20" y="0.0" width="40" height="39"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="40" id="tL0-NL-AVA"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name=".AppleColorEmojiUI" family=".Apple Color Emoji UI" pointSize="22"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <color key="tintColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <state key="normal" title="🇮🇳">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                         </button>
                                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L5B-bo-MHf">
-                                            <rect key="frame" x="75" y="-0.5" width="40" height="40"/>
+                                            <rect key="frame" x="75" y="0.0" width="40" height="39"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="40" id="EcB-gG-kkG"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name=".AppleColorEmojiUI" family=".Apple Color Emoji UI" pointSize="22"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <color key="tintColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <state key="normal" title="🌎">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -389,7 +389,7 @@
                                         <rect key="frame" x="0.0" y="66" width="375" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KNm-io-X6m" id="a6L-pX-c7T">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="64.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83m-O7-cJk">
@@ -438,7 +438,7 @@
                             <constraint firstItem="bVe-QR-bXp" firstAttribute="top" secondItem="diy-p9-MJl" secondAttribute="bottom" id="kfK-wu-SEs"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="News" image="second" id="kdq-BT-h99"/>
+                    <tabBarItem key="tabBarItem" title="News" image="icons8-News-50" selectedImage="icons8-News Filled-50" id="kdq-BT-h99"/>
                     <connections>
                         <outlet property="indiaButton" destination="4zO-iD-AF8" id="gkf-Yv-zIr"/>
                         <outlet property="tableView" destination="bVe-QR-bXp" id="5RM-eJ-0Cc"/>
@@ -477,7 +477,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="icons8-Coins Filled-50" width="25" height="25"/>
+        <image name="icons8-Coins-50" width="25" height="25"/>
+        <image name="icons8-News Filled-50" width="25" height="25"/>
+        <image name="icons8-News-50" width="25" height="25"/>
     </resources>
 </document>
