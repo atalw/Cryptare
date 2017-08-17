@@ -20,42 +20,76 @@ public enum NetworkResponseStatus {
 class SecondViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    
     var allNewsData : [NewsData] = [];
     
     @IBAction func refreshButton(_ sender: Any) {
-        self.allNewsData = []
-        self.tableView.reloadData()
-        self.getRSSFeedResponse(path: "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us") { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
-            for item in (rssFeed?.items)! {
-                var newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                self.allNewsData.append(newsData)
-            }
-            self.tableView.dataSource = self
-            self.tableView.delegate = self
-            self.tableView.reloadData()
-        }
+        self.getNews()
     }
-
+    
+    @IBOutlet weak var indiaButton: UIButton!
+    @IBOutlet weak var worldwideButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.getRSSFeedResponse(path: "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us") { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
-            for item in (rssFeed?.items)! {
-                var newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                self.allNewsData.append(newsData)
-            }
-            self.tableView.dataSource = self
-            self.tableView.delegate = self
-            self.tableView.reloadData()
-        }
+//        self.indiaButton.setBackgroundColor(color: UIColor.white, forState: .selected)
+//        self.worldwideButton.setBackgroundColor(color: UIColor.white, forState: .selected)
         
+//        self.indiaButton.layer.cornerRadius = 5
+//        self.worldwideButton.layer.cornerRadius = 5
+        
+//        self.indiaButton.layer.borderWidth = 1
+//        self.indiaButton.layer.borderColor = UIColor.white.cgColor
+//        self.indiaButton.layer.masksToBounds = true
+        
+//        self.indiaButton.setButtonBorder(color: UIColor.white, forState: .selected)
+//        self.worldwideButton.setButtonBorder(color: UIColor.white, forState: .selected)
+//
+//        self.indiaButton.setButtonBorder(color: UIColor.clear, forState: .normal)
+//        self.worldwideButton.setButtonBorder(color: UIColor.clear, forState: .normal)
+        
+//        self.indiaButton.setBackgroundColor(color: UIColor.clear, forState: .normal)
+//        self.worldwideButton.setBackgroundColor(color: UIColor.clear, forState: .normal)
+        
+        self.indiaButton.isSelected = true
+        self.worldwideButton.isSelected = false
+        
+        self.indiaButton.setTitleColor(UIColor.white, for: .selected)
+        self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
+        
+        self.indiaButton.contentMode = .center
+        self.worldwideButton.contentMode = .center
+        
+        self.getNews()
+        
+        self.indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
+        self.worldwideButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
+
+
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
 
     }
     
+    func newsButtonTapped() {
+        self.indiaButton.isSelected = !self.indiaButton.isSelected
+        self.worldwideButton.isSelected = !self.worldwideButton.isSelected
+        self.getNews()
+    }
+    
+    func getNews() {
+        self.allNewsData = []
+        self.tableView.reloadData()
+        if (self.indiaButton.isSelected) {
+            self.getIndiaNews()
+        }
+        else if (self.worldwideButton.isSelected) {
+            self.getWorldwideNews()
+        }
+
+    }
     func appMovedToBackground() {
         if let row = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: row, animated: false)
@@ -66,6 +100,32 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func getIndiaNews() {
+        self.getRSSFeedResponse(path: "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us") { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
+            for item in (rssFeed?.items)! {
+                let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                self.allNewsData.append(newsData)
+            }
+            self.tableView.dataSource = self
+            self.tableView.delegate = self
+            self.tableView.reloadData()
+        }
+    }
+    
+    func getWorldwideNews() {
+        self.getRSSFeedResponse(path: "https://news.google.com/news/rss/search/section/q/bitcoin/bitcoin?hl=en&ned=us") { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
+            for item in (rssFeed?.items)! {
+                let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                self.allNewsData.append(newsData)
+            }
+            self.tableView.dataSource = self
+            self.tableView.delegate = self
+            self.tableView.reloadData()
+        }
+    }
+    
+    
 
     
     public func getRSSFeedResponse(path: String, completionHandler: @escaping (_ response: RSSFeed?,_ status: NetworkResponseStatus) -> Void) {
@@ -114,5 +174,35 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
 
+}
+
+extension UIButton {
+    
+    func setBackgroundColor(color: UIColor, forState: UIControlState) {
+        
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
+        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+//        UIGraphicsGetCurrentContext()!.radi
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.setBackgroundImage(colorImage, for: forState)
+    }
+    
+    func setButtonBorder(color: UIColor, forState: UIControlState) {
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        let context = UIGraphicsGetCurrentContext();
+        
+        context?.setStrokeColor(color.cgColor)
+        context?.setLineWidth(1);
+        context?.stroke(CGRect(x: 0, y: 0, width: 1, height: 1))
+//        context?.
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.setBackgroundImage(colorImage, for: forState)
+    
+    }
 }
 
