@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import SwiftyJSON
 
 class FirstViewController: UIViewController {
     
@@ -115,7 +116,7 @@ class FirstViewController: UIViewController {
 //        self.populatePrices()
         self.populatePrices { (success) -> Void in
             if (success) {
-                let when = DispatchTime.now() + 2
+                let when = DispatchTime.now() + 4
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.newPrices()
                 }
@@ -214,16 +215,12 @@ class FirstViewController: UIViewController {
                 print("Data is empty")
                 return
             }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                let inrPrice = json?["bpi"] as? [String: Any]
-                let inr = inrPrice?["INR"] as? [String: Any]
-                let priceString = inr?["rate"] as? String
-                let priceWithoutComma = priceString?.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
-                let price = Double(priceWithoutComma!)
+            let json = JSON(data: data)
+            if let priceString = json["bpi"]["INR"]["rate"].string {
+                let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
+                let price = Double(priceWithoutComma)
                 self.currentBtcPrice = price!
                 self.getHistoricalBtcPrices(price!)
-                
                 DispatchQueue.main.async {
                     self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
                     self.btcPriceLabel.textColor = UIColor.white
@@ -232,7 +229,9 @@ class FirstViewController: UIViewController {
                     self.timespan.textColor = UIColor.white
                 }
             }
-            catch {}
+            else {
+                print(json["bpi"]["INR"]["rate"].error!)
+            }
         }
         task.resume()
     }
@@ -300,6 +299,7 @@ class FirstViewController: UIViewController {
         self.localbitcoinsPrice()
         self.coinsecurePrice()
         self.unocoinPrice()
+        self.pocketBitsPrice()
         completion(true)
     }
 
@@ -320,30 +320,30 @@ class FirstViewController: UIViewController {
                 print("Data is empty")
                 return
             }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                let zebpayBuyPrice = json?["buy"] as? Double
-                let zebpaySellPrice = json?["sell"] as? Double
-                
-                self.dataValues.append(zebpayBuyPrice!)
-                self.dataValues.append(zebpaySellPrice!)
-                
-                let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: zebpayBuyPrice!))
-                let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: zebpaySellPrice!))
-                
-                self.btcPrices.add("Zebpay")
-                self.btcPrices.add(formattedBuyPrice!)
-                self.btcPrices.add(formattedSellPrice!)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+            let json = JSON(data: data)
+            if let zebpayBuyPrice = json["buy"].double {
+                if let zebpaySellPrice = json["sell"].double {
+                    self.dataValues.append(zebpayBuyPrice)
+                    self.dataValues.append(zebpaySellPrice)
+                    
+                    let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: zebpayBuyPrice))
+                    let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: zebpaySellPrice))
+                    
+                    self.btcPrices.add("Zebpay")
+                    self.btcPrices.add(formattedBuyPrice!)
+                    self.btcPrices.add(formattedSellPrice!)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
                 }
-            }
-            catch {
-                print("Error parsing")
+                else {
+                    print(json["buy"].error!)
+                }
             }
         }
         task.resume()
     }
+    
     // get unocoin buy and sell prices
     func unocoinPrice() {
         //        let urlBuy = URL(string: "https://www.unocoin.com/trade.php?buy")
@@ -429,54 +429,50 @@ class FirstViewController: UIViewController {
                 return
             }
             
-            let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-            
-            let localBuyPrice = json?["data"] as? [String: Any]
-            let x = localBuyPrice?["ad_list"] as? [[String: Any]]
-            let y = x?[0]["data"] as? [String: Any]
-            let z = y?["temp_price"] as! NSString
-            tempBuy = z.doubleValue
-            
-            self.dataValues.append(tempBuy)
-            
-            let sellUrl = URL(string: "https://localbitcoins.com/sell-bitcoins-online/INR/.json")
-            let sellTask = URLSession.shared.dataTask(with: sellUrl!) { data, response, error in
-                guard error == nil else {
-                    print(error!)
-                    return
+            let json = JSON(data: data)
+            if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
+                tempBuy = Double(z)!
+                
+                self.dataValues.append(tempBuy)
+                
+                let sellUrl = URL(string: "https://localbitcoins.com/sell-bitcoins-online/INR/.json")
+                let sellTask = URLSession.shared.dataTask(with: sellUrl!) { data, response, error in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    guard let data = data else {
+                        print("Data is empty")
+                        return
+                    }
+                    
+                    let json = JSON(data: data)
+                    if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
+                        let tempSell = Double(z)!
+                        
+                        self.dataValues.append(tempSell)
+                        
+                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tempBuy))
+                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tempSell))
+                        
+                        self.btcPrices.add("Localbitcoins")
+                        self.btcPrices.add(formattedBuyPrice!)
+                        self.btcPrices.add(formattedSellPrice!)
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadData()
+                        }
+                    }
+                    else {
+                        
+                    }
                 }
-                guard let data = data else {
-                    print("Data is empty")
-                    return
-                }
-                
-                let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                
-                let localBuyPrice = json?["data"] as? [String: Any]
-                let x = localBuyPrice?["ad_list"] as? [[String: Any]]
-                let y = x?[0]["data"] as? [String: Any]
-                let z = y?["temp_price"] as! NSString
-                let tempSell = z.doubleValue
-                
-                self.dataValues.append(tempSell)
-                
-                let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tempBuy))
-                let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tempSell))
-                
-                self.btcPrices.add("Localbitcoins")
-                self.btcPrices.add(formattedBuyPrice!)
-                self.btcPrices.add(formattedSellPrice!)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+                sellTask.resume()
                 
             }
-            sellTask.resume()
-            
-            
         }
         task.resume()
     }
+
     // get coinsecure buy and sell prices
     func coinsecurePrice() {
         let url = URL(string: "https://api.coinsecure.in/v1/exchange/ticker")
@@ -490,44 +486,74 @@ class FirstViewController: UIViewController {
                 return
             }
             
-            let json = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-            let success = json?["success"] as? Bool
-
-            if success! {
-                let message = json?["message"] as? [String: Any]
-                var csBuyPrice = message?["ask"] as? Double
-                var csSellPrice = message?["lastPrice"] as? Double
-                csBuyPrice = csBuyPrice!/100
-                csSellPrice = csSellPrice!/100
-                
-                self.dataValues.append(csBuyPrice!)
-                self.dataValues.append(csSellPrice!)
-                
-                let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: csBuyPrice!))
-                let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: csSellPrice!))
-                
-                self.btcPrices.add("Coinsecure")
-                self.btcPrices.add(formattedBuyPrice!)
-                self.btcPrices.add(formattedSellPrice!)
-                
+            let json = JSON(data: data)
+            if var csBuyPrice = json["message"]["ask"].double {
+                if var csSellPrice = json["message"]["lastPrice"].double {
+                    csBuyPrice = csBuyPrice/100
+                    csSellPrice = csSellPrice/100
+                    
+                    self.dataValues.append(csBuyPrice)
+                    self.dataValues.append(csSellPrice)
+                    
+                    let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: csBuyPrice))
+                    let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: csSellPrice))
+                    
+                    self.btcPrices.add("Coinsecure")
+                    self.btcPrices.add(formattedBuyPrice!)
+                    self.btcPrices.add(formattedSellPrice!)
+                    
+                }
+                else {
+                    
+                }
             }
             else {
-                self.dataValues.append(-1)
-                self.dataValues.append(-1)
                 
-                self.btcPrices.add("Coinsecure")
-                self.btcPrices.add("NA")
-                self.btcPrices.add("NA")
             }
-            
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
             
         }
         task.resume()
-        
     }
+    
+    // get zebpay buy and sell prices
+    func pocketBitsPrice() {
+        let url = URL(string: "https://www.pocketbits.in/Index/getBalanceRates")
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            let json = JSON(data: data)
+            if let pocketBitsBuyPrice = json["rates"]["BTC_BuyingRate"].double {
+                if let pocketBitsSellPrice = json["rates"]["BTC_SellingRate"].double {
+                    self.dataValues.append(pocketBitsBuyPrice)
+                    self.dataValues.append(pocketBitsSellPrice)
+                    
+                    let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: pocketBitsBuyPrice))
+                    let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: pocketBitsSellPrice))
+                    
+                    self.btcPrices.add("PocketBits")
+                    self.btcPrices.add(formattedBuyPrice!)
+                    self.btcPrices.add(formattedSellPrice!)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                }
+                else {
+                    print(json["buy"].error!)
+                }
+            }
+        }
+        task.resume()
+    }
+
     
 //    // get remitano buy and sell prices
 //    func remitanoPrice() {
