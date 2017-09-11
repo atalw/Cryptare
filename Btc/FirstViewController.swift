@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMobileAds
+//import GoogleMobileAds
 import SwiftyJSON
 
 class FirstViewController: UIViewController {
@@ -24,7 +24,7 @@ class FirstViewController: UIViewController {
     
     @IBOutlet var infoView: UIView!
     
-    @IBOutlet weak var GoogleBannerView: GADBannerView!
+//    @IBOutlet weak var GoogleBannerView: GADBannerView!
     
     var dataValues: [Double] = []
     var btcPrices = BtcPrices()
@@ -91,13 +91,13 @@ class FirstViewController: UIViewController {
         self.numberFormatter.numberStyle = NumberFormatter.Style.currency
         self.numberFormatter.locale = Locale.init(identifier: "en_IN")
         
-        GoogleBannerView.adUnitID = "ca-app-pub-5797975753570133/6060905008"
-        GoogleBannerView.rootViewController = self
-        
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID, "4ea243399569ee090d038a5f50f2bed7"]
-        
-        GoogleBannerView.load(request)
+//        GoogleBannerView.adUnitID = "ca-app-pub-5797975753570133/6060905008"
+//        GoogleBannerView.rootViewController = self
+//        
+//        let request = GADRequest()
+//        request.testDevices = [kGADSimulatorID, "4ea243399569ee090d038a5f50f2bed7"]
+//        
+//        GoogleBannerView.load(request)
         
         self.loadData()
         
