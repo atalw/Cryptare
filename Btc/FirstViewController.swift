@@ -138,9 +138,9 @@ class FirstViewController: UIViewController {
     
     func infoButtonTapped() {
     
-        UIView.transition(with: view, duration: 0.7, options: .transitionFlipFromRight, animations: { _ in
-            self.infoView.isHidden = false
-        }, completion: nil)
+//        UIView.transition(with: view, duration: 0.7, options: .transitionFlipFromRight, animations: { _ in
+//            self.infoView.isHidden = false
+//        }, completion: nil)
 
 //        UIView.animate(withDuration: 0.3, animations: { () -> Void in
 //            self.infoView.isHidden = false
