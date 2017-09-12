@@ -35,8 +35,6 @@
 		8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
 		86A5BC4F1F0CF2AA00D58FCA /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
-		86B20F811F15179C00B6ADDD /* InfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B20F801F15179C00B6ADDD /* InfoView.xib */; };
-		86B20F831F15180E00B6ADDD /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F821F15180E00B6ADDD /* InfoView.swift */; };
 		86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
 		86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
 		AF7CED9851FD5955FC0C80B2 /* Pods_BtcUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */; };
@@ -96,8 +94,6 @@
 		8643625A1F67D7DE00883792 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		86B20F801F15179C00B6ADDD /* InfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoView.xib; sourceTree = "<group>"; };
-		86B20F821F15180E00B6ADDD /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNewsTableViewCell.swift; sourceTree = "<group>"; };
 		86E31CCA1F41D77900445B08 /* NewsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
 		89C3E03A9A5500274E40B35C /* Pods-BtcTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,24 +181,13 @@
 		8634746D1F08262000E7EB86 /* Btc */ = {
 			isa = PBXGroup;
 			children = (
-				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
-				863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */,
-				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
-				863474701F08262000E7EB86 /* MarketViewController.swift */,
-				863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */,
-				863474721F08262000E7EB86 /* NewsViewController.swift */,
-				8634749E1F082E7000E7EB86 /* BtcPrices.swift */,
-				864362561F66F9DF00883792 /* DashboardViewController.swift */,
-				863474741F08262000E7EB86 /* Main.storyboard */,
-				8643625A1F67D7DE00883792 /* GraphViewController.swift */,
 				864362581F67ADF100883792 /* MainViewController.swift */,
-				86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */,
-				86E31CCA1F41D77900445B08 /* NewsData.swift */,
-				863474771F08262000E7EB86 /* Assets.xcassets */,
-				863474791F08262000E7EB86 /* LaunchScreen.storyboard */,
-				8634747C1F08262000E7EB86 /* Info.plist */,
-				86B20F801F15179C00B6ADDD /* InfoView.xib */,
-				86B20F821F15180E00B6ADDD /* InfoView.swift */,
+				863474741F08262000E7EB86 /* Main.storyboard */,
+				864362601F6805BD00883792 /* Dashboard */,
+				864362611F6805CA00883792 /* Graph */,
+				8643625C1F6803B400883792 /* Market */,
+				8643625D1F6803CF00883792 /* News */,
+				8643625E1F68044500883792 /* Helper Files */,
 			);
 			path = Btc;
 			sourceTree = "<group>";
@@ -243,6 +228,55 @@
 				EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8643625C1F6803B400883792 /* Market */ = {
+			isa = PBXGroup;
+			children = (
+				863474701F08262000E7EB86 /* MarketViewController.swift */,
+				863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */,
+				863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */,
+				8634749E1F082E7000E7EB86 /* BtcPrices.swift */,
+			);
+			name = Market;
+			sourceTree = "<group>";
+		};
+		8643625D1F6803CF00883792 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				863474721F08262000E7EB86 /* NewsViewController.swift */,
+				86E31CCA1F41D77900445B08 /* NewsData.swift */,
+				86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
+		8643625E1F68044500883792 /* Helper Files */ = {
+			isa = PBXGroup;
+			children = (
+				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
+				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
+				863474771F08262000E7EB86 /* Assets.xcassets */,
+				863474791F08262000E7EB86 /* LaunchScreen.storyboard */,
+				8634747C1F08262000E7EB86 /* Info.plist */,
+			);
+			name = "Helper Files";
+			sourceTree = "<group>";
+		};
+		864362601F6805BD00883792 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				864362561F66F9DF00883792 /* DashboardViewController.swift */,
+			);
+			name = Dashboard;
+			sourceTree = "<group>";
+		};
+		864362611F6805CA00883792 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				8643625A1F67D7DE00883792 /* GraphViewController.swift */,
+			);
+			name = Graph;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -362,7 +396,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86B20F811F15179C00B6ADDD /* InfoView.xib in Resources */,
 				8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */,
 				863474781F08262000E7EB86 /* Assets.xcassets in Resources */,
 				863474761F08262000E7EB86 /* Main.storyboard in Resources */,
@@ -528,7 +561,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86B20F831F15180E00B6ADDD /* InfoView.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,

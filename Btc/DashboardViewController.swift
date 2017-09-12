@@ -20,13 +20,8 @@ class DashboardViewController: UIViewController {
 
     let numberFormatter = NumberFormatter()
 
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        view.addGestureRecognizer(tap)
     }
     
     //Calls this function when the tap is recognized.
@@ -188,14 +183,18 @@ class DashboardViewController: UIViewController {
 
     
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        let destinationViewController = segue.destination
+        if let graphController = destinationViewController as? GraphViewController {
+            graphController.btcPrice = self.btcPriceLabel.text!
+            graphController.btcPriceChange = self.btcChange.text!
+        }
     }
-    */
 
 }

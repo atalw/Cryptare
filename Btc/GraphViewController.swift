@@ -11,6 +11,12 @@ import ScrollableGraphView
 
 class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
     
+    @IBOutlet weak var currentBtcPriceLabel: UILabel!
+    @IBOutlet weak var btcPriceChangeLabel: UILabel!
+    
+    var btcPrice = "0"
+    var btcPriceChange = "0"
+    
 //    @IBOutlet var graphView: ScrollableGraphView!
     @IBOutlet weak var graphView: ScrollableGraphView!
     
@@ -24,7 +30,9 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
             self.plotOneData = success
         }  )
 
-
+        self.currentBtcPriceLabel.text = btcPrice
+        self.btcPriceChangeLabel.text = btcPriceChange
+        
         // Do any additional setup after loading the view.
         graphView.dataSource = self
         setupGraph(graphView: graphView)
@@ -163,6 +171,7 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
                     }
                     completion(plotData)
                 }
+                
             }
             catch {
                 print("Error")

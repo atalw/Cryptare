@@ -14,13 +14,14 @@
         <scene sceneID="N1I-yT-GYU">
             <objects>
                 <navigationController id="ZXQ-jk-jwn" customClass="MainViewController" customModule="Btc" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="0rE-UO-O11">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="0rE-UO-O11">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.27450980392156865" green="0.38823529411764707" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="barTintColor" red="0.20392156862745098" green="0.28627450980392155" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         </textAttributes>
                     </navigationBar>
                     <connections>
@@ -43,32 +44,32 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Bnj-0R-ZFu">
-                                <rect key="frame" x="16" y="0.0" width="343" height="603"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="NRx-pp-Fn1">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rP9-ZN-LL7">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="147.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="143.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC0-ub-yoY">
-                                                <rect key="frame" x="78.5" y="0.0" width="186.5" height="107"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                                <rect key="frame" x="92" y="0.0" width="191.5" height="105"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="41"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="btcPrice"/>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="aYV-mu-G47">
-                                                <rect key="frame" x="121.5" y="107" width="100" height="40.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="aYV-mu-G47">
+                                                <rect key="frame" x="137.5" y="105" width="100" height="38.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-00.00%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FVz-6K-Pk6">
-                                                        <rect key="frame" x="0.0" y="0.0" width="62" height="40.5"/>
+                                                        <rect key="frame" x="0.0" y="10" width="62" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(24h)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TvY-Bq-v8X">
-                                                        <rect key="frame" x="67" y="0.0" width="33" height="40.5"/>
+                                                        <rect key="frame" x="67" y="12" width="33" height="14.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
@@ -83,51 +84,64 @@
                                                 </userDefinedRuntimeAttributes>
                                             </stackView>
                                         </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CIb-Jo-Pda">
-                                        <rect key="frame" x="130.5" y="167.5" width="82" height="107"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Graph"/>
+                                        <rect key="frame" x="0.0" y="153.5" width="375" height="143"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
+                                        <state key="normal" title="Graph">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
                                         <connections>
-                                            <segue destination="a1l-aA-2Bc" kind="show" id="q7h-yK-31B"/>
+                                            <action selector="graphButton:" destination="JnF-gM-BRh" eventType="touchUpInside" id="B2e-pC-Wqx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnG-Mi-gNh">
-                                        <rect key="frame" x="0.0" y="294.5" width="343" height="107.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Markets"/>
+                                        <rect key="frame" x="0.0" y="306.5" width="375" height="143.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
+                                        <state key="normal" title="Markets">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="marketTitle"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <segue destination="9pv-A4-QxB" kind="show" id="vhv-P9-PhA"/>
+                                            <segue destination="9pv-A4-QxB" kind="show" id="jWg-OY-9A8"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXn-wk-Dfd">
-                                        <rect key="frame" x="0.0" y="422" width="343" height="181"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="News"/>
+                                        <rect key="frame" x="0.0" y="460" width="375" height="143"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
+                                        <state key="normal" title="News">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
                                         <connections>
-                                            <segue destination="n4V-Dn-KKM" kind="show" id="RYw-Q5-Juu"/>
+                                            <segue destination="n4V-Dn-KKM" kind="show" id="oNG-z5-I9O"/>
                                         </connections>
                                     </button>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="gnG-Mi-gNh" secondAttribute="trailing" id="0vk-hX-crM"/>
-                                    <constraint firstItem="rP9-ZN-LL7" firstAttribute="leading" secondItem="Bnj-0R-ZFu" secondAttribute="leading" id="B1C-Lg-EBV"/>
-                                    <constraint firstItem="PXn-wk-Dfd" firstAttribute="leading" secondItem="Bnj-0R-ZFu" secondAttribute="leading" id="cIw-Vq-OqQ"/>
-                                    <constraint firstItem="gnG-Mi-gNh" firstAttribute="leading" secondItem="Bnj-0R-ZFu" secondAttribute="leading" id="feX-AJ-AbF"/>
-                                    <constraint firstAttribute="trailing" secondItem="rP9-ZN-LL7" secondAttribute="trailing" id="u0l-hN-EQT"/>
-                                    <constraint firstAttribute="trailing" secondItem="PXn-wk-Dfd" secondAttribute="trailing" id="zKZ-pR-VbV"/>
+                                    <constraint firstItem="rP9-ZN-LL7" firstAttribute="leading" secondItem="NRx-pp-Fn1" secondAttribute="leading" id="HSq-oj-tr6"/>
+                                    <constraint firstAttribute="trailing" secondItem="gnG-Mi-gNh" secondAttribute="trailing" id="Hv6-AT-Fmt"/>
+                                    <constraint firstAttribute="trailing" secondItem="PXn-wk-Dfd" secondAttribute="trailing" id="I4K-ds-LLI"/>
+                                    <constraint firstAttribute="trailing" secondItem="rP9-ZN-LL7" secondAttribute="trailing" id="KF1-hF-43T"/>
+                                    <constraint firstItem="gnG-Mi-gNh" firstAttribute="leading" secondItem="NRx-pp-Fn1" secondAttribute="leading" id="LRs-HS-4AW"/>
+                                    <constraint firstItem="CIb-Jo-Pda" firstAttribute="leading" secondItem="NRx-pp-Fn1" secondAttribute="leading" id="dbp-fS-zhk"/>
+                                    <constraint firstAttribute="trailing" secondItem="CIb-Jo-Pda" secondAttribute="trailing" id="fnk-A3-L4K"/>
+                                    <constraint firstItem="PXn-wk-Dfd" firstAttribute="leading" secondItem="NRx-pp-Fn1" secondAttribute="leading" id="zbJ-g9-8Ht"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Bnj-0R-ZFu" firstAttribute="leading" secondItem="INA-rc-all" secondAttribute="leadingMargin" id="2mB-fZ-QfI"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Bnj-0R-ZFu" secondAttribute="trailing" id="GCm-aU-g2b"/>
-                            <constraint firstItem="tAd-cj-S3a" firstAttribute="top" secondItem="Bnj-0R-ZFu" secondAttribute="bottom" id="mgL-nW-aGM"/>
-                            <constraint firstItem="Bnj-0R-ZFu" firstAttribute="top" secondItem="WU4-x6-XE8" secondAttribute="bottom" id="vv4-oh-8Ub"/>
+                            <constraint firstItem="NRx-pp-Fn1" firstAttribute="leading" secondItem="INA-rc-all" secondAttribute="leading" id="8Nh-hx-ZIu"/>
+                            <constraint firstAttribute="trailing" secondItem="NRx-pp-Fn1" secondAttribute="trailing" id="P98-6v-7X9"/>
+                            <constraint firstAttribute="bottom" secondItem="NRx-pp-Fn1" secondAttribute="bottom" id="rt0-eB-Fh8"/>
+                            <constraint firstItem="NRx-pp-Fn1" firstAttribute="top" secondItem="WU4-x6-XE8" secondAttribute="bottom" id="us1-ip-d7u"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Dashboard" id="OJs-py-bGq"/>
@@ -139,7 +153,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QPc-Cg-eFA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="589.60000000000002" y="-1399.2503748125939"/>
+            <point key="canvasLocation" x="589.60000000000002" y="-1400.1499250374814"/>
         </scene>
         <!--Markets-->
         <scene sceneID="hNz-n2-bh7">
@@ -157,24 +171,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MfO-gY-nvK">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="194"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="194.5"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ho0-U6-SBc">
-                                                <rect key="frame" x="172.5" y="0.0" width="30" height="74"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <state key="normal" title="?">
-                                                    <color key="titleColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroModifierString" value="translate(0, 500)"/>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <segue destination="Qmc-dS-nUH" kind="show" id="PTw-V3-vjl"/>
-                                                </connections>
-                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQs-vr-lLV">
-                                                <rect key="frame" x="94.5" y="74" width="186.5" height="74"/>
+                                                <rect key="frame" x="94.5" y="0.0" width="186.5" height="74"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -183,22 +183,22 @@
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="OJF-2P-oni">
-                                                <rect key="frame" x="137.5" y="148" width="100" height="0.0"/>
+                                                <rect key="frame" x="137.5" y="74" width="100" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="Uzi-lX-1ei"/>
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kxE-u8-RyM">
-                                                <rect key="frame" x="137.5" y="148" width="100" height="46"/>
+                                                <rect key="frame" x="137.5" y="74" width="100" height="46.5"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HHH-93-kR6">
-                                                        <rect key="frame" x="0.0" y="16" width="67.5" height="30"/>
+                                                        <rect key="frame" x="0.0" y="16.5" width="67.5" height="30"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BTC" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ec-RK-yTJ">
-                                                        <rect key="frame" x="72.5" y="29" width="27.5" height="17"/>
+                                                        <rect key="frame" x="72.5" y="29.5" width="27.5" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
@@ -211,13 +211,27 @@
                                                     <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="timeSpan"/>
                                                 </userDefinedRuntimeAttributes>
                                             </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ho0-U6-SBc">
+                                                <rect key="frame" x="172.5" y="120.5" width="30" height="74"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="?">
+                                                    <color key="titleColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroModifierString" value="translate(0, 500)"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="Qmc-dS-nUH" kind="show" id="PTw-V3-vjl"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ou7-O8-Edf">
-                                        <rect key="frame" x="0.0" y="214" width="375" height="389"/>
+                                        <rect key="frame" x="0.0" y="214.5" width="375" height="388.5"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uw7-Wg-iYe">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="389"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="388.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="k1R-Ur-J5b">
@@ -357,11 +371,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Zzg-t3-uWn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="KfK-EM-MCd">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SlV-aI-cTJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375.5" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375.5" height="647"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HSI-i7-ZiP">
                                         <rect key="frame" x="94.5" y="0.0" width="186.5" height="76"/>
@@ -399,7 +413,7 @@
                                         </subviews>
                                     </stackView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dg4-wC-slf" customClass="ScrollableGraphView" customModule="ScrollableGraphView">
-                                        <rect key="frame" x="0.0" y="76" width="375.5" height="527"/>
+                                        <rect key="frame" x="0.0" y="76" width="375.5" height="571"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="backgroundFillColor">
                                                 <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -424,6 +438,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btcPriceChangeLabel" destination="fbJ-bp-fjB" id="rNh-dE-Ql7"/>
+                        <outlet property="currentBtcPriceLabel" destination="hGD-Rz-ULb" id="h6m-mr-IAW"/>
                         <outlet property="graphView" destination="dg4-wC-slf" id="UTz-sh-hsk"/>
                     </connections>
                 </viewController>
@@ -450,14 +466,14 @@
                                         <rect key="frame" x="0.0" y="0.0" width="311" height="86"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What does this app do?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt5-BQ-xeT">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="16.5"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Analyse the prices of the exchanges and then tap on the link to jump directly to the website" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgL-sI-2Hi">
-                                                <rect key="frame" x="0.0" y="23" width="311" height="63"/>
+                                                <rect key="frame" x="0.0" y="16.5" width="311" height="69.5"/>
                                                 <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -469,14 +485,14 @@
                                         <rect key="frame" x="0.0" y="86" width="311" height="86.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where do we get the data from?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MjL-UU-h86">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="17"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Real-time values are fetched from the exchanges to get the current market buy and sell price" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfy-Fy-NjF">
-                                                <rect key="frame" x="0.0" y="23" width="311" height="63.5"/>
+                                                <rect key="frame" x="0.0" y="17" width="311" height="69.5"/>
                                                 <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -488,14 +504,14 @@
                                         <rect key="frame" x="0.0" y="172.5" width="311" height="86"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How should I use this app?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yog-dV-s9l">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="16.5"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="It compares the current prices of Indian bitcoin exchanges" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pkc-jU-YIh">
-                                                <rect key="frame" x="0.0" y="23" width="311" height="63"/>
+                                                <rect key="frame" x="0.0" y="16.5" width="311" height="69.5"/>
                                                 <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -507,14 +523,14 @@
                                         <rect key="frame" x="0.0" y="258.5" width="311" height="86"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Localbitcoin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2oP-U9-bUB">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="17"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Get bitcoins worth ₹200 free on your first bitcoin buy or sell transaction" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfV-CF-78x">
-                                                <rect key="frame" x="0.0" y="23" width="311" height="63"/>
+                                                <rect key="frame" x="0.0" y="17" width="311" height="69"/>
                                                 <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -526,14 +542,14 @@
                                         <rect key="frame" x="0.0" y="344.5" width="311" height="86"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coinsecure:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g37-ny-s7q">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="16.5"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Buy bitcoins with multiple payment methods, including physical payments from a person near you" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23N-ma-KIy">
-                                                <rect key="frame" x="0.0" y="23" width="311" height="63"/>
+                                                <rect key="frame" x="0.0" y="16.5" width="311" height="69.5"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -545,14 +561,14 @@
                                         <rect key="frame" x="0.0" y="430.5" width="311" height="86.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unocoin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Lj-Io-Vey">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="17"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="One of India's first online real-time bitcoin exchanges" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xf-pA-1Ja">
-                                                <rect key="frame" x="0.0" y="23" width="311" height="63.5"/>
+                                                <rect key="frame" x="0.0" y="17" width="311" height="69.5"/>
                                                 <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -564,14 +580,14 @@
                                         <rect key="frame" x="0.0" y="517" width="311" height="86"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zebpay:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPY-AQ-3n5">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="16.5"/>
                                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Get bitcoins worth ₹100 free on your first bitcoin buy or sell transaction" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bc-oI-60b">
-                                                <rect key="frame" x="0.0" y="23" width="311" height="63"/>
+                                                <rect key="frame" x="0.0" y="16.5" width="311" height="69.5"/>
                                                 <color key="backgroundColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
