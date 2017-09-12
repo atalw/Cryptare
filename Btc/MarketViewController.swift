@@ -16,9 +16,11 @@ class MarketViewController: UIViewController {
     @IBOutlet var btcPriceLabel: UILabel!
     @IBOutlet var btcAmount: UITextField!
     @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var infoButton: UIButton!
+    @IBOutlet var infoButton: UIBarButtonItem!
     
 //    @IBOutlet weak var GoogleBannerView: GADBannerView!
+    
+    var currentBtcPriceString = "0"
     
     var dataValues: [Double] = []
     var btcPrices = BtcPrices()
@@ -27,7 +29,8 @@ class MarketViewController: UIViewController {
     var currentBtcPrice: Double = 0.0
     
     @IBAction func refreshButton(_ sender: Any) {
-        self.getCurrentBtcPrice()
+        self.btcPriceLabel.text = currentBtcPriceString
+//        self.getCurrentBtcPrice()
         self.loadData()
         self.collectionView.reloadData()
     }
@@ -97,7 +100,8 @@ class MarketViewController: UIViewController {
         self.btcPrices.empty()
         self.dataValues = []
         
-        self.getCurrentBtcPrice()
+//        self.getCurrentBtcPrice()
+        self.btcPriceLabel.text = self.currentBtcPriceString
 //        self.populatePrices()
         self.populatePrices { (success) -> Void in
             if (success) {
@@ -164,35 +168,34 @@ class MarketViewController: UIViewController {
     }
     
     // get current actual price of bitcoin
-    func getCurrentBtcPrice() {
-        let url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/INR.json")
-        
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            let json = JSON(data: data)
-            if let priceString = json["bpi"]["INR"]["rate"].string {
-                let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
-                let price = Double(priceWithoutComma)
-                self.currentBtcPrice = price!
-                DispatchQueue.main.async {
-                    self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
-                    self.btcPriceLabel.textColor = UIColor.white
-                    self.btcPriceLabel.adjustsFontSizeToFitWidth = true
-                }
-            }
-            else {
-                print(json["bpi"]["INR"]["rate"].error!)
-            }
-        }
-        task.resume()
-    }
+//    func getCurrentBtcPrice() {
+//        let url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/INR.json")
+//        
+//        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+//            guard error == nil else {
+//                print(error!)
+//                return
+//            }
+//            guard let data = data else {
+//                print("Data is empty")
+//                return
+//            }
+//            let json = JSON(data: data)
+//            if let priceString = json["bpi"]["INR"]["rate"].string {
+//                let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
+//                let price = Double(priceWithoutComma)
+//                self.currentBtcPrice = price!
+//                DispatchQueue.main.async {
+//                    self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
+//                    self.btcPriceLabel.adjustsFontSizeToFitWidth = true
+//                }
+//            }
+//            else {
+//                print(json["bpi"]["INR"]["rate"].error!)
+//            }
+//        }
+//        task.resume()
+//    }
     
     // populate exchange buy and sell prices
     func populatePrices(completion: (_ success: Bool) -> Void) {
@@ -519,7 +522,6 @@ class MarketViewController: UIViewController {
         self.btcPrices.add("BitBay")
         self.btcPrices.add("Coming Soon")
         self.btcPrices.add("Coming Soon")
-        
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()

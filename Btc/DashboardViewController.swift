@@ -17,7 +17,8 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var timespan: UILabel!
     
     var currentBtcPrice: Double = 0.0
-
+    var btcChangeColour: UIColor = UIColor.gray
+    
     let numberFormatter = NumberFormatter()
 
     override func viewWillAppear(_ animated: Bool) {
@@ -138,9 +139,11 @@ class DashboardViewController: UIViewController {
                     self.btcChange.textColor = UIColor.white
                     if roundedPercentage < 0 {
                         self.btcChange.backgroundColor = self.hexStringToUIColor(hex: "#e74c3c")
+                        self.btcChangeColour = self.hexStringToUIColor(hex: "#e74c3c")
                     }
                     else if roundedPercentage > 0 {
                         self.btcChange.backgroundColor = self.hexStringToUIColor(hex: "#2ecc71")
+                        self.btcChangeColour = self.hexStringToUIColor(hex: "#2ecc71")
                     }
                     
                 }
@@ -194,6 +197,11 @@ class DashboardViewController: UIViewController {
         if let graphController = destinationViewController as? GraphViewController {
             graphController.btcPrice = self.btcPriceLabel.text!
             graphController.btcPriceChange = self.btcChange.text!
+            graphController.btcChangeColour = self.btcChangeColour
+        }
+        else if let marketController = destinationViewController as? MarketViewController {
+            marketController.currentBtcPriceString = self.btcPriceLabel.text!
+            marketController.currentBtcPrice = self.currentBtcPrice
         }
     }
 

@@ -16,13 +16,14 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
     
     var btcPrice = "0"
     var btcPriceChange = "0"
+    var btcChangeColour : UIColor = UIColor.gray
     
 //    @IBOutlet var graphView: ScrollableGraphView!
     @IBOutlet weak var graphView: ScrollableGraphView!
     
     var numberOfItems = 30
-    lazy var plotOneData: [Double] = []
-//    lazy var plotOneData: [Double] =
+    var plotOneData: [Double] = [] {didSet { setupGraph(graphView: graphView)}}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,6 +33,7 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
 
         self.currentBtcPriceLabel.text = btcPrice
         self.btcPriceChangeLabel.text = btcPriceChange
+        self.btcPriceChangeLabel.backgroundColor = self.btcChangeColour
         
         // Do any additional setup after loading the view.
         graphView.dataSource = self
