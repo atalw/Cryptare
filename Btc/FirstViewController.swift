@@ -9,20 +9,14 @@
 import UIKit
 //import GoogleMobileAds
 import SwiftyJSON
+import Hero
 
 class FirstViewController: UIViewController {
     
     @IBOutlet var btcPriceLabel: UILabel!
-    @IBOutlet var btcChange: UILabel!
-    @IBOutlet var timespan: UILabel!
-    
     @IBOutlet var btcAmount: UITextField!
-    
     @IBOutlet var collectionView: UICollectionView!
-    
     @IBOutlet var infoButton: UIButton!
-    
-    @IBOutlet var infoView: UIView!
     
 //    @IBOutlet weak var GoogleBannerView: GADBannerView!
     
@@ -33,7 +27,6 @@ class FirstViewController: UIViewController {
     var currentBtcPrice: Double = 0.0
     
     @IBAction func refreshButton(_ sender: Any) {
-//        self.btcPriceLabel.reloadInputViews()
         self.getCurrentBtcPrice()
         self.loadData()
         self.collectionView.reloadData()
@@ -61,27 +54,17 @@ class FirstViewController: UIViewController {
         layout.headerReferenceSize = CGSize(width: width, height: width/6)
         self.collectionView.collectionViewLayout = layout
         
-        infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if currentReachabilityStatus == .notReachable {
-            //            let alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
-            
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
-            //            self.present(alert, animated: true){}
             present(alert, animated: true, completion: nil)
             print("here")
-            //            alert.show()
         }
-        else {
-            //            print("User is connected")
-        }
-
     }
     
     override func viewDidLoad() {
@@ -90,6 +73,8 @@ class FirstViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.numberFormatter.numberStyle = NumberFormatter.Style.currency
         self.numberFormatter.locale = Locale.init(identifier: "en_IN")
+        
+        self.isHeroEnabled = true
         
 //        GoogleBannerView.adUnitID = "ca-app-pub-5797975753570133/6060905008"
 //        GoogleBannerView.rootViewController = self
@@ -122,30 +107,9 @@ class FirstViewController: UIViewController {
                 }
             }
         }
-//        self.newPrices { (success) -> Void in
-//            if (success) {
-//                let when = DispatchTime.now() + 2
-//                DispatchQueue.main.asyncAfter(deadline: when) {
-//                    self.populatePrices()
-//                }
-//            }
-//        }
-        
         self.btcAmount.text = "1"
         
         self.collectionView.dataSource = btcPrices
-    }
-    
-    func infoButtonTapped() {
-    
-//        UIView.transition(with: view, duration: 0.7, options: .transitionFlipFromRight, animations: { _ in
-//            self.infoView.isHidden = false
-//        }, completion: nil)
-
-//        UIView.animate(withDuration: 0.3, animations: { () -> Void in
-//            self.infoView.isHidden = false
-//        })
-        
     }
     
     //Calls this function when the tap is recognized.
@@ -187,9 +151,6 @@ class FirstViewController: UIViewController {
                 }
             }
         }
-        //        else {
-        //            print("empty")
-        //        }
     }
     
     func updateCurrentBtcPrice(_ value: Double) {
@@ -220,13 +181,10 @@ class FirstViewController: UIViewController {
                 let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
                 let price = Double(priceWithoutComma)
                 self.currentBtcPrice = price!
-                self.getHistoricalBtcPrices(price!)
                 DispatchQueue.main.async {
                     self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
                     self.btcPriceLabel.textColor = UIColor.white
                     self.btcPriceLabel.adjustsFontSizeToFitWidth = true
-                    self.timespan.text = "(24h)"
-                    self.timespan.textColor = UIColor.white
                 }
             }
             else {
@@ -234,63 +192,6 @@ class FirstViewController: UIViewController {
             }
         }
         task.resume()
-    }
-    
-    // used to calculate percentage change over 24h period (add functionality to change timespan)
-    func getHistoricalBtcPrices(_ currentBtcPrice: Double) {
-        let current_date = Date()
-        let yesterday_date = Calendar.current.date(byAdding: .day, value: -1, to: current_date)!
-        // sometimes takes time for source website to update closing price of day before (probably due to time difference)
-        let day_before_yesterday_date = Calendar.current.date(byAdding: .day, value: -2, to: current_date)!
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let yesterday = formatter.string(from: yesterday_date)
-        let day_before_yesterday = formatter.string(from: day_before_yesterday_date)
-        
-        
-        let url = URL(string: "http://api.coindesk.com/v1/bpi/historical/close.json?currency=INR")
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                let inrPrice = json?["bpi"] as? [String: Any]
-                let yesterdayBtcPrice = inrPrice?[yesterday] as? Double ?? inrPrice?[day_before_yesterday] as? Double
-                let change = currentBtcPrice - yesterdayBtcPrice!
-                let percentage = change/yesterdayBtcPrice! * 100
-                let roundedPercentage = Double(round(100*percentage)/100)
-                DispatchQueue.main.async {
-                    if roundedPercentage > 0 {
-                        self.btcChange.text = "+\(roundedPercentage)%"
-                    }
-                    else {
-                        self.btcChange.text = "\(roundedPercentage)%"
-                    }
-                    self.btcChange.layer.masksToBounds = true
-                    self.btcChange.layer.cornerRadius = 8
-                    self.btcChange.textColor = UIColor.white
-                    if roundedPercentage < 0 {
-                        self.btcChange.backgroundColor = self.hexStringToUIColor(hex: "#e74c3c")
-                    }
-                    else if roundedPercentage > 0 {
-                        self.btcChange.backgroundColor = self.hexStringToUIColor(hex: "#2ecc71")
-                    }
-                    
-                }
-
-            }
-            catch {
-                print("Error")
-            }
-                    }
-        task.resume()
-        
     }
     
     // populate exchange buy and sell prices

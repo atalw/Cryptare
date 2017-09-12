@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import Hero
 
 class DashboardViewController: UIViewController {
     
