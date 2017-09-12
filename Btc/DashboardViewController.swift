@@ -16,8 +16,6 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var btcChange: UILabel!
     @IBOutlet weak var timespan: UILabel!
     
-    @IBOutlet weak var btcAmount: UITextField!
-    
     var currentBtcPrice: Double = 0.0
 
     let numberFormatter = NumberFormatter()
@@ -25,9 +23,6 @@ class DashboardViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -76,8 +71,6 @@ class DashboardViewController: UIViewController {
     
     func loadData() {
         self.getCurrentBtcPrice()
-        self.btcAmount.text = "1"
-        
     }
     
     // get current actual price of bitcoin
@@ -111,20 +104,6 @@ class DashboardViewController: UIViewController {
             }
         }
         task.resume()
-    }
-
-    
-    func textFieldDidChange(_ textField: UITextField) {
-        let text = textField.text
-        if let value = Double(text!) {
-            if value > 200 {
-                textField.text = "Aukat"
-            }
-            else if value > 0 {
-                let updatedValue = self.currentBtcPrice*value
-                self.updateCurrentBtcPrice(updatedValue)
-            }
-        }
     }
 
     func updateCurrentBtcPrice(_ value: Double) {

@@ -10,6 +10,7 @@ import UIKit
 
 import Alamofire
 import AlamofireRSSParser
+import Hero
 
 public enum NetworkResponseStatus {
     case success
