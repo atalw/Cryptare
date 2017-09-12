@@ -78,7 +78,7 @@ extension BtcPrices: UICollectionViewDataSource {
         
     }
     
-    func buttonAction(sender: UIButton!) {
+    @objc func buttonAction(sender: UIButton!) {
         
         let title = sender.title(for: .normal)
         

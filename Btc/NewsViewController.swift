@@ -53,7 +53,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     }
     
-    func newsButtonTapped() {
+    @objc func newsButtonTapped() {
         self.indiaButton.isSelected = !self.indiaButton.isSelected
         self.worldwideButton.isSelected = !self.worldwideButton.isSelected
         self.getNews()
@@ -70,7 +70,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
 
     }
-    func appMovedToBackground() {
+    @objc func appMovedToBackground() {
         if let row = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: row, animated: false)
         }

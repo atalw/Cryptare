@@ -51,6 +51,12 @@ class DashboardViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.numberFormatter.numberStyle = NumberFormatter.Style.currency
         self.numberFormatter.locale = Locale.init(identifier: "en_IN")
+        
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     override func didReceiveMemoryWarning() {

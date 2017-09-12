@@ -17,6 +17,7 @@ class MainViewController: UINavigationController {
         // Do any additional setup after loading the view.
         self.isHeroEnabled = true
         self.heroNavigationAnimationType = .fade
+        
     }
 
     override func didReceiveMemoryWarning() {
