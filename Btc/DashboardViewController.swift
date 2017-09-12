@@ -39,17 +39,10 @@ class DashboardViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if currentReachabilityStatus == .notReachable {
-            //            let alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
-            
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
             //            self.present(alert, animated: true){}
             present(alert, animated: true, completion: nil)
-            print("here")
-            //            alert.show()
-        }
-        else {
-            //            print("User is connected")
         }
         
         self.loadData()
@@ -89,7 +82,6 @@ class DashboardViewController: UIViewController {
             let json = JSON(data: data)
             if let priceString = json["bpi"]["INR"]["rate"].string {
                 let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
-                print(priceString)
                 let price = Double(priceWithoutComma)
                 self.currentBtcPrice = price!
                 self.getHistoricalBtcPrices(price!)

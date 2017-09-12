@@ -15,10 +15,15 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet weak var graphView: ScrollableGraphView!
     
     var numberOfItems = 30
-    lazy var plotOneData: [Double] = self.generateRandomData(self.numberOfItems, max: 100, shouldIncludeOutliers: false)
-
+    lazy var plotOneData: [Double] = []
+//    lazy var plotOneData: [Double] =
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.getAllTimeBtcData(completion: { success in
+            self.plotOneData = success
+        }  )
+
 
         // Do any additional setup after loading the view.
         graphView.dataSource = self
@@ -57,7 +62,7 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
     }
     
     func numberOfPoints() -> Int {
-        return numberOfItems
+        return plotOneData.count
     }
     
     // Helper Functions
@@ -70,14 +75,14 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
         let linePlot = LinePlot(identifier: "one")
         
         linePlot.lineWidth = 1
-        linePlot.lineColor = self.hexStringToUIColor(hex: "#777777")
+        linePlot.lineColor = self.hexStringToUIColor(hex: "#ffffff")
         linePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
         
         linePlot.shouldFill = true
         linePlot.fillType = ScrollableGraphViewFillType.gradient
         linePlot.fillGradientType = ScrollableGraphViewGradientType.linear
-        linePlot.fillGradientStartColor = self.hexStringToUIColor(hex: "#555555")
-        linePlot.fillGradientEndColor = self.hexStringToUIColor(hex: "#444444")
+        linePlot.fillGradientStartColor = self.hexStringToUIColor(hex: "#ffffff")
+        linePlot.fillGradientEndColor = self.hexStringToUIColor(hex: "#555555")
         
         linePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
         
@@ -91,8 +96,8 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
         let referenceLines = ReferenceLines()
         
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.referenceLineColor = UIColor.black.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.black
         
 //        referenceLines.positionType = .absolute
         // Reference lines will be shown at these values on the y-axis.
@@ -102,7 +107,7 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         // Setup the graph
-        graphView.backgroundFillColor = self.hexStringToUIColor(hex: "#333333")
+//        graphView.backgroundFillColor = self.hexStringToUIColor(hex: "#333333")
 //        graphView.dataPointSpacing = 80
 //        
 //        graphView.shouldAnimateOnStartup = true
@@ -111,6 +116,9 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
 //        
 //        graphView.rangeMax = 50
         
+        
+        graphView.shouldAdaptRange = true
+
         // Add everything to the graph.
         graphView.addReferenceLines(referenceLines: referenceLines)
         graphView.addPlot(plot: linePlot)
@@ -133,6 +141,37 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
         }
         return data
     }
+    
+    func getAllTimeBtcData(completion: @escaping (_ success: [Double]) -> ()) {
+        var plotData = [Double]()
+        
+        let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=2011-01-01&end=2017-09-01")
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+                if let inrPrice = json?["bpi"] as? [String: Double] {
+                    for (_, price) in inrPrice {
+                        plotData.append(price)
+                    }
+                    completion(plotData)
+                }
+            }
+            catch {
+                print("Error")
+            }
+        }
+        task.resume()
+    }
+    
+    
     
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

@@ -360,18 +360,67 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dg4-wC-slf" customClass="ScrollableGraphView" customModule="ScrollableGraphView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SlV-aI-cTJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375.5" height="603"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HSI-i7-ZiP">
+                                        <rect key="frame" x="94.5" y="0.0" width="186.5" height="76"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGD-Rz-ULb">
+                                                <rect key="frame" x="0.0" y="0.0" width="186.5" height="48"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="btcPrice"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wcD-Jh-psU">
+                                                <rect key="frame" x="49" y="58" width="89" height="18"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-00.00%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbJ-bp-fjB">
+                                                        <rect key="frame" x="0.0" y="0.0" width="58.5" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(24h)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGb-H6-A6h">
+                                                        <rect key="frame" x="58.5" y="0.0" width="30.5" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <size key="shadowOffset" width="0.0" height="0.0"/>
+                                                    </label>
+                                                </subviews>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="timeSpan"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dg4-wC-slf" customClass="ScrollableGraphView" customModule="ScrollableGraphView">
+                                        <rect key="frame" x="0.0" y="76" width="375.5" height="527"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundFillColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </scrollView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="pNk-Wv-qYQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="dg4-wC-slf" secondAttribute="bottom" id="Jyc-70-894"/>
+                                    <constraint firstAttribute="trailing" secondItem="dg4-wC-slf" secondAttribute="trailing" id="d5y-aU-NAT"/>
+                                    <constraint firstItem="dg4-wC-slf" firstAttribute="leading" secondItem="SlV-aI-cTJ" secondAttribute="leading" id="rI7-ly-S06"/>
+                                    <constraint firstItem="dg4-wC-slf" firstAttribute="top" secondItem="HSI-i7-ZiP" secondAttribute="bottom" id="snZ-rh-xrG"/>
                                 </constraints>
-                            </scrollView>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="dg4-wC-slf" firstAttribute="leading" secondItem="KfK-EM-MCd" secondAttribute="leading" id="a49-QS-kaF"/>
-                            <constraint firstAttribute="trailing" secondItem="dg4-wC-slf" secondAttribute="trailing" id="hmW-o8-QTB"/>
-                            <constraint firstItem="dg4-wC-slf" firstAttribute="top" secondItem="WA6-q1-vJn" secondAttribute="bottom" id="kFG-Th-Cm5"/>
+                            <constraint firstItem="Zzg-t3-uWn" firstAttribute="top" secondItem="SlV-aI-cTJ" secondAttribute="bottom" id="0Fb-0m-nU0"/>
+                            <constraint firstItem="SlV-aI-cTJ" firstAttribute="leading" secondItem="KfK-EM-MCd" secondAttribute="leading" id="106-0k-fGt"/>
+                            <constraint firstItem="SlV-aI-cTJ" firstAttribute="top" secondItem="WA6-q1-vJn" secondAttribute="bottom" id="5ze-mO-k1Q"/>
+                            <constraint firstAttribute="trailing" secondItem="SlV-aI-cTJ" secondAttribute="trailing" id="AXH-yj-2RE"/>
                         </constraints>
                     </view>
                     <connections>
