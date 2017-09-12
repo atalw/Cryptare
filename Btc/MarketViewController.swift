@@ -11,7 +11,7 @@ import UIKit
 import SwiftyJSON
 import Hero
 
-class FirstViewController: UIViewController {
+class MarketViewController: UIViewController {
     
     @IBOutlet var btcPriceLabel: UILabel!
     @IBOutlet var btcAmount: UITextField!

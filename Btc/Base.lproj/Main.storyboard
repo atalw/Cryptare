@@ -144,7 +144,7 @@
         <!--Markets-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController title="Markets" id="9pv-A4-QxB" customClass="FirstViewController" customModule="Btc" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Markets" id="9pv-A4-QxB" customClass="MarketViewController" customModule="Btc" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -198,7 +198,7 @@
                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BTC" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ec-RK-yTJ">
-                                                        <rect key="frame" x="72.5" y="46" width="27.5" height="0.0"/>
+                                                        <rect key="frame" x="72.5" y="29" width="27.5" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
@@ -598,7 +598,7 @@
         <!--News-->
         <scene sceneID="nQn-Fr-mVK">
             <objects>
-                <viewController title="News" id="n4V-Dn-KKM" customClass="SecondViewController" customModule="Btc" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="News" id="n4V-Dn-KKM" customClass="NewsViewController" customModule="Btc" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4lI-2k-Ywy"/>
                         <viewControllerLayoutGuide type="bottom" id="UhY-0V-new"/>

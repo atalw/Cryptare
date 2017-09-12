@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		71FC540B4AA8883F1B40DE9D /* Pods_Btc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644FCEA4336E786DD955E594 /* Pods_Btc.framework */; };
 		7A7C244BA027D9F18FDBA49F /* Pods_BtcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */; };
-		863474711F08262000E7EB86 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474701F08262000E7EB86 /* FirstViewController.swift */; };
-		863474731F08262000E7EB86 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* SecondViewController.swift */; };
+		863474711F08262000E7EB86 /* MarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474701F08262000E7EB86 /* MarketViewController.swift */; };
+		863474731F08262000E7EB86 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
 		863474761F08262000E7EB86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
 		863474781F08262000E7EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 863474771F08262000E7EB86 /* Assets.xcassets */; };
 		8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474791F08262000E7EB86 /* LaunchScreen.storyboard */; };
@@ -65,8 +65,8 @@
 		5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BtcTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		644FCEA4336E786DD955E594 /* Pods_Btc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Btc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8634746B1F08262000E7EB86 /* Btc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Btc.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		863474701F08262000E7EB86 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		863474721F08262000E7EB86 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		863474701F08262000E7EB86 /* MarketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewController.swift; sourceTree = "<group>"; };
+		863474721F08262000E7EB86 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		863474751F08262000E7EB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		863474771F08262000E7EB86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8634747A1F08262000E7EB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -188,9 +188,9 @@
 				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
 				863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */,
 				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
-				863474701F08262000E7EB86 /* FirstViewController.swift */,
+				863474701F08262000E7EB86 /* MarketViewController.swift */,
 				863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */,
-				863474721F08262000E7EB86 /* SecondViewController.swift */,
+				863474721F08262000E7EB86 /* NewsViewController.swift */,
 				8634749E1F082E7000E7EB86 /* BtcPrices.swift */,
 				864362561F66F9DF00883792 /* DashboardViewController.swift */,
 				863474741F08262000E7EB86 /* Main.storyboard */,
@@ -530,7 +530,7 @@
 			files = (
 				86B20F831F15180E00B6ADDD /* InfoView.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
-				863474731F08262000E7EB86 /* SecondViewController.swift in Sources */,
+				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
@@ -540,7 +540,7 @@
 				8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */,
 				864362571F66F9E000883792 /* DashboardViewController.swift in Sources */,
 				863474A31F0BB11E00E7EB86 /* AppDelegate.swift in Sources */,
-				863474711F08262000E7EB86 /* FirstViewController.swift in Sources */,
+				863474711F08262000E7EB86 /* MarketViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

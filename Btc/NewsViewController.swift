@@ -18,7 +18,7 @@ public enum NetworkResponseStatus {
 }
 
 
-class SecondViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
