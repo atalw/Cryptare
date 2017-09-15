@@ -21,6 +21,9 @@ class DashboardViewController: UIViewController {
     
     let numberFormatter = NumberFormatter()
 
+    @IBAction func refreshButtonAction(_ sender: Any) {
+        self.loadData()
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }

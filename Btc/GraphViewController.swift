@@ -7,9 +7,54 @@
 //
 
 import UIKit
-import ScrollableGraphView
+import Charts
+import SwiftyJSON
 
-class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
+class GraphViewController: UIViewController  {
+    
+    let dateFormatter = DateFormatter()
+    let todaysDate = Date()
+    
+    @IBAction func rangeSegmentedControl(_ sender: Any) {
+        let index = (sender as? UISegmentedControl)?.selectedSegmentIndex
+        
+        var startDate: Date = self.todaysDate
+        let endDate: Date = self.todaysDate
+        let endDateString = dateFormatter.string(from: endDate)
+        var url: URL!
+        
+        if index == 0 { // day
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=2017-09-01&end=2017-09-08")!
+        }
+        else if index == 1 { // week
+            startDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
+            let startDateString = dateFormatter.string(from: startDate)
+            
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
+
+        }
+        else if index == 2 { // month
+            startDate = Calendar.current.date(byAdding: .month, value: -1, to: todaysDate)!
+            let startDateString = dateFormatter.string(from: startDate)
+            
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
+
+        }
+        else if index == 3 { // year
+            startDate = Calendar.current.date(byAdding: .year, value: -1, to: todaysDate)!
+            let startDateString = dateFormatter.string(from: startDate)
+            
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
+            
+        }
+        
+        self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
+            if (success) {
+                let (labels, values) = self.orderBtcPriceData(startDate: startDate, endDate: endDate, btcPriceData: btcPriceData)
+                self.initializeChart(labels: labels, values: values)
+            }
+        }  )
+    }
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
     @IBOutlet weak var btcPriceChangeLabel: UILabel!
@@ -18,33 +63,91 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
     var btcPriceChange = "0"
     var btcChangeColour : UIColor = UIColor.gray
     
-//    @IBOutlet var graphView: ScrollableGraphView!
-    @IBOutlet weak var graphView: ScrollableGraphView!
-    
-    var numberOfItems = 30
-    var plotOneData: [Double] = [] {didSet { setupGraph(graphView: graphView)}}
+    @IBOutlet weak var chart: LineChartView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.getAllTimeBtcData(completion: { success in
-            self.plotOneData = success
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let todaysDateString = dateFormatter.string(from: todaysDate)
+        let lastWeekDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
+        let lastWeekDateString = dateFormatter.string(from: lastWeekDate)
+        
+        self.getAllTimeBtcData(url: URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(lastWeekDateString)&end=\(todaysDateString)")!, completion: { success, btcPriceData in
+            if (success) {
+                let (labels, values) = self.orderBtcPriceData(startDate: lastWeekDate, endDate: self.todaysDate, btcPriceData: btcPriceData)
+                self.initializeChart(labels: labels, values: values)
+            }
         }  )
-
+        
         self.currentBtcPriceLabel.text = btcPrice
         self.btcPriceChangeLabel.text = btcPriceChange
         self.btcPriceChangeLabel.backgroundColor = self.btcChangeColour
+        self.btcPriceChangeLabel.layer.masksToBounds = true
+        self.btcPriceChangeLabel.layer.cornerRadius = 8
         
-        // Do any additional setup after loading the view.
-        graphView.dataSource = self
-        setupGraph(graphView: graphView)
+//        chart.delegate = self
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // order dictionary btc data according to date
+    func orderBtcPriceData(startDate: Date, endDate: Date, btcPriceData: [String:Double]) -> ([String], [Double]) {
+        var labels : [String] = []
+        var values : [Double] = []
+        
+        var tempDate = startDate
+        
+        while tempDate <= endDate {
+            let tempDateString = self.dateFormatter.string(from: tempDate)
+            if let price = btcPriceData[tempDateString] {
+                labels.append(tempDateString)
+                values.append(price)
+            }
+            tempDate = Calendar.current.date(byAdding: .day, value: 1, to: tempDate)!
+        }
+        
+        return (labels, values)
+    }
+    
+    func initializeChart(labels: [String], values: [Double]) {
+
+        var lineChartEntry = [ChartDataEntry]()
+        
+        for i in 0..<values.count {
+            let data = ChartDataEntry(x: Double(i), y: values[i])
+            lineChartEntry.append(data)
+        }
+        
+        let line1 = LineChartDataSet(values: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
+        
+        line1.colors = [UIColor.blue] //Sets the colour to blue
+        line1.drawCirclesEnabled = false
+        
+        let lineChartData = LineChartData() //This is the object that will be added to the chart
+        
+        lineChartData.addDataSet(line1) //Adds the line to the dataSet
+        lineChartData.setDrawValues(false)
+        
+        
+        chart.rightAxis.enabled = false
+        chart.xAxis.labelPosition = .bottom
+//        chart.setScaleEnabled(false)
+        chart.pinchZoomEnabled = true
+        
+        
+        chart.data = lineChartData //finally - it adds the chart data to the chart and causes an update
+        
+        chart.resetZoom()
+        chart.resetViewPortOffsets()
+        
+        chart.data?.notifyDataChanged()
+//        chart.notifyDataSetChanged()
+//        chart.invalidateIntrinsicContentSize()
+        chart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
+    }    
 
     /*
     // MARK: - Navigation
@@ -55,91 +158,14 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
         // Pass the selected object to the new view controller.
     }
     */
-    // ScrollableGraphViewDataSource
-    // #############################
-    
-    func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
-        switch(plot.identifier) {
-        case "one":
-            return plotOneData[pointIndex]
-        default:
-            return 0
-        }
-    }
-    
-    func label(atIndex pointIndex: Int) -> String {
-        return "FEB \(pointIndex)"
-    }
-    
-    func numberOfPoints() -> Int {
-        return plotOneData.count
-    }
     
     // Helper Functions
     // ################
     
-    // When using Interface Builder, only add the plots and reference lines in code.
-    func setupGraph(graphView: ScrollableGraphView) {
-        
-        // Setup the line plot.
-        let linePlot = LinePlot(identifier: "one")
-        
-        linePlot.lineWidth = 1
-        linePlot.lineColor = self.hexStringToUIColor(hex: "#ffffff")
-        linePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
-        
-        linePlot.shouldFill = true
-        linePlot.fillType = ScrollableGraphViewFillType.gradient
-        linePlot.fillGradientType = ScrollableGraphViewGradientType.linear
-        linePlot.fillGradientStartColor = self.hexStringToUIColor(hex: "#ffffff")
-        linePlot.fillGradientEndColor = self.hexStringToUIColor(hex: "#555555")
-        
-        linePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-        
-        let dotPlot = DotPlot(identifier: "darkLineDot") // Add dots as well.
-        dotPlot.dataPointSize = 2
-        dotPlot.dataPointFillColor = UIColor.white
-        
-        dotPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-        
-        // Setup the reference lines.
-        let referenceLines = ReferenceLines()
-        
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.black.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.black
-        
-//        referenceLines.positionType = .absolute
-        // Reference lines will be shown at these values on the y-axis.
-//        referenceLines.absolutePositions = [10, 20, 25, 30]
-//        referenceLines.includeMinMax = false
-        
-        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
-        
-        // Setup the graph
-//        graphView.backgroundFillColor = self.hexStringToUIColor(hex: "#333333")
-//        graphView.dataPointSpacing = 80
-//        
-//        graphView.shouldAnimateOnStartup = true
-//        graphView.shouldAdaptRange = true
-//        graphView.shouldRangeAlwaysStartAtZero = true
-//        
-//        graphView.rangeMax = 50
-        
-        
-        graphView.shouldAdaptRange = true
-
-        // Add everything to the graph.
-        graphView.addReferenceLines(referenceLines: referenceLines)
-        graphView.addPlot(plot: linePlot)
-        graphView.addPlot(plot: dotPlot)
-    
-    }
-    
-    private func generateRandomData(_ numberOfItems: Int, max: Double, shouldIncludeOutliers: Bool = true) -> [Double] {
-        var data = [Double]()
+    private func generateRandomData(_ numberOfItems: Int, max: Double, shouldIncludeOutliers: Bool = true) -> [Float] {
+        var data = [Float]()
         for _ in 0 ..< numberOfItems {
-            var randomNumber = Double(arc4random()).truncatingRemainder(dividingBy: max)
+            var randomNumber = Float(arc4random()).truncatingRemainder(dividingBy: Float(max))
             
             if(shouldIncludeOutliers) {
                 if(arc4random() % 100 < 10) {
@@ -152,11 +178,12 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
         return data
     }
     
-    func getAllTimeBtcData(completion: @escaping (_ success: [Double]) -> ()) {
+    func getAllTimeBtcData(url: URL, completion: @escaping (_ success : Bool, _ btcPriceData: [String: Double]) -> ()) {
         var plotData = [Double]()
+        var btcPriceData = [String: Double]()
         
-        let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=2011-01-01&end=2017-09-01")
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+        let url = url
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print(error!)
                 return
@@ -166,13 +193,30 @@ class GraphViewController: UIViewController, ScrollableGraphViewDataSource {
                 return
             }
             do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                if let inrPrice = json?["bpi"] as? [String: Double] {
-                    for (_, price) in inrPrice {
+//                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+                let prices = JSON(data: data)["bpi"].dictionary
+                for (date, subJson):(String, JSON) in prices! {
+                    // store data in dictionary and then sort data according to date because you should not rely on the order of JSON response
+//                    print(prices![date])
+//                    print(subJson.double)
+                    if let price = subJson.double {
                         plotData.append(price)
+                        btcPriceData[date] = price
                     }
-                    completion(plotData)
+                    
                 }
+                DispatchQueue.main.async {
+                    completion(true, btcPriceData)
+                }
+//                if let inrPrice = json?["bpi"] as? [String: Double] {
+//                    print(inrPrice)
+//                    for (_, price) in inrPrice {
+//                        plotData.append(price)
+//                    }
+//                    DispatchQueue.main.async {
+//                        completion(true, plotData)
+//                    }
+//                }
                 
             }
             catch {

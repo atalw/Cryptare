@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '9.0'
 
 target 'Btc' do
 # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -8,9 +8,11 @@ use_frameworks!
 # Pods for Btc
 pod 'Hero'
 pod 'Alamofire', '~> 4.4'
-pod "AlamofireRSSParser"
+pod 'AlamofireRSSParser'
 pod 'SwiftyJSON'
 pod 'ScrollableGraphView'
+pod 'SwiftChart'
+pod 'Charts', :git => 'https://github.com/danielgindi/Charts.git', :branch => 'swift4'
 
 target 'BtcTests' do
 inherit! :search_paths

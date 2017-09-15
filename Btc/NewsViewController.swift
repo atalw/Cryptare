@@ -34,13 +34,11 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        self.indiaButton.setTitleColor(UIColor.white, for: .selected)
+        self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
         
         self.indiaButton.isSelected = true
         self.worldwideButton.isSelected = false
-        
-        self.indiaButton.setTitleColor(UIColor.white, for: .selected)
-        self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
 
         self.getNews()
         
