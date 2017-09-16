@@ -6,12 +6,10 @@ target 'Btc' do
 use_frameworks!
 
 # Pods for Btc
-pod 'Hero'
+pod 'Hero', :git => 'https://github.com/lkzhao/Hero.git'
 pod 'Alamofire', '~> 4.4'
 pod 'AlamofireRSSParser'
 pod 'SwiftyJSON'
-pod 'ScrollableGraphView'
-pod 'SwiftChart'
 pod 'Charts', :git => 'https://github.com/danielgindi/Charts.git', :branch => 'swift4'
 
 target 'BtcTests' do

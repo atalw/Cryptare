@@ -12,6 +12,11 @@ import SwiftyJSON
 
 class GraphViewController: UIViewController  {
     
+    @IBOutlet weak var currentBtcPriceLabel: UILabel!
+    @IBOutlet weak var btcPriceChangeLabel: UILabel!
+    @IBOutlet weak var timeSpan: UILabel!
+    @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
+    
     let dateFormatter = DateFormatter()
     let todaysDate = Date()
     
@@ -23,41 +28,39 @@ class GraphViewController: UIViewController  {
         let endDateString = dateFormatter.string(from: endDate)
         var url: URL!
         
-        if index == 0 { // day
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=2017-09-01&end=2017-09-08")!
-        }
-        else if index == 1 { // week
+//        if index == 0 { // day
+//            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=2017-09-01&end=2017-09-08")!
+//        }
+        if index == 0 { // week
             startDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
             url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
-
+            self.timeSpan.text = "(1 week)"
         }
-        else if index == 2 { // month
+        else if index == 1 { // month
             startDate = Calendar.current.date(byAdding: .month, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
             url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
-
-        }
-        else if index == 3 { // year
+            self.timeSpan.text = "(1 month)"
+        }        else if index == 2 { // year
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
             url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
-            
+            self.timeSpan.text = "(1 year)"
         }
-        
         self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
             if (success) {
                 let (labels, values) = self.orderBtcPriceData(startDate: startDate, endDate: endDate, btcPriceData: btcPriceData)
                 self.initializeChart(labels: labels, values: values)
+                self.updatePriceChange(startPrice: values[0], endPrice: values[values.count-1])
             }
         }  )
     }
     
-    @IBOutlet weak var currentBtcPriceLabel: UILabel!
-    @IBOutlet weak var btcPriceChangeLabel: UILabel!
+    
     
     var btcPrice = "0"
     var btcPriceChange = "0"
@@ -69,16 +72,9 @@ class GraphViewController: UIViewController  {
         super.viewDidLoad()
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
-        let todaysDateString = dateFormatter.string(from: todaysDate)
-        let lastWeekDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
-        let lastWeekDateString = dateFormatter.string(from: lastWeekDate)
         
-        self.getAllTimeBtcData(url: URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(lastWeekDateString)&end=\(todaysDateString)")!, completion: { success, btcPriceData in
-            if (success) {
-                let (labels, values) = self.orderBtcPriceData(startDate: lastWeekDate, endDate: self.todaysDate, btcPriceData: btcPriceData)
-                self.initializeChart(labels: labels, values: values)
-            }
-        }  )
+        rangeSegmentControlObject.selectedSegmentIndex = 1
+        rangeSegmentControlObject.sendActions(for: .valueChanged)
         
         self.currentBtcPriceLabel.text = btcPrice
         self.btcPriceChangeLabel.text = btcPriceChange
@@ -86,7 +82,6 @@ class GraphViewController: UIViewController  {
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
         
-//        chart.delegate = self
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -121,10 +116,21 @@ class GraphViewController: UIViewController  {
             lineChartEntry.append(data)
         }
         
-        let line1 = LineChartDataSet(values: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
+        let line1 = LineChartDataSet(values: lineChartEntry, label: "Price") //Here we convert lineChartEntry to a LineChartDataSet
         
-        line1.colors = [UIColor.blue] //Sets the colour to blue
+        let lineColor = self.hexStringToUIColor(hex: "2980B9")
+        line1.colors = [lineColor] //Sets the colour to blue
+//        line1.colors = ChartColorTemplates.liberty()
         line1.drawCirclesEnabled = false
+        line1.fillAlpha = 1
+        line1.lineWidth = 1.5
+        line1.mode = .cubicBezier
+        
+        let gradientColors = [lineColor.cgColor, UIColor.white.cgColor] as CFArray // Colors of the gradient
+        let colorLocations:[CGFloat] = [1.0, 0] // Positioning of the gradient
+        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations) // Gradient Object
+        line1.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0) // Set the Gradient
+        line1.drawFilledEnabled = true // Draw the Gradient
         
         let lineChartData = LineChartData() //This is the object that will be added to the chart
         
@@ -136,7 +142,9 @@ class GraphViewController: UIViewController  {
         chart.xAxis.labelPosition = .bottom
 //        chart.setScaleEnabled(false)
         chart.pinchZoomEnabled = true
-        
+        chart.xAxis.drawGridLinesEnabled = false
+        chart.legend.enabled = false
+        chart.chartDescription?.text = ""
         
         chart.data = lineChartData //finally - it adds the chart data to the chart and causes an update
         
@@ -144,10 +152,7 @@ class GraphViewController: UIViewController  {
         chart.resetViewPortOffsets()
         
         chart.data?.notifyDataChanged()
-//        chart.notifyDataSetChanged()
-//        chart.invalidateIntrinsicContentSize()
-        chart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
-    }    
+    }
 
     /*
     // MARK: - Navigation
@@ -158,25 +163,6 @@ class GraphViewController: UIViewController  {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    // Helper Functions
-    // ################
-    
-    private func generateRandomData(_ numberOfItems: Int, max: Double, shouldIncludeOutliers: Bool = true) -> [Float] {
-        var data = [Float]()
-        for _ in 0 ..< numberOfItems {
-            var randomNumber = Float(arc4random()).truncatingRemainder(dividingBy: Float(max))
-            
-            if(shouldIncludeOutliers) {
-                if(arc4random() % 100 < 10) {
-                    randomNumber *= 3
-                }
-            }
-            
-            data.append(randomNumber)
-        }
-        return data
-    }
     
     func getAllTimeBtcData(url: URL, completion: @escaping (_ success : Bool, _ btcPriceData: [String: Double]) -> ()) {
         var plotData = [Double]()
@@ -193,31 +179,17 @@ class GraphViewController: UIViewController  {
                 return
             }
             do {
-//                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
                 let prices = JSON(data: data)["bpi"].dictionary
                 for (date, subJson):(String, JSON) in prices! {
                     // store data in dictionary and then sort data according to date because you should not rely on the order of JSON response
-//                    print(prices![date])
-//                    print(subJson.double)
                     if let price = subJson.double {
                         plotData.append(price)
                         btcPriceData[date] = price
                     }
-                    
                 }
                 DispatchQueue.main.async {
                     completion(true, btcPriceData)
                 }
-//                if let inrPrice = json?["bpi"] as? [String: Double] {
-//                    print(inrPrice)
-//                    for (_, price) in inrPrice {
-//                        plotData.append(price)
-//                    }
-//                    DispatchQueue.main.async {
-//                        completion(true, plotData)
-//                    }
-//                }
-                
             }
             catch {
                 print("Error")
@@ -226,6 +198,25 @@ class GraphViewController: UIViewController  {
         task.resume()
     }
     
+    func updatePriceChange(startPrice: Double, endPrice: Double) {
+        let change = endPrice - startPrice
+        let percentage = change/startPrice * 100
+        let roundedPercentage = Double(round(100*percentage)/100)
+        DispatchQueue.main.async {
+            if roundedPercentage > 0 {
+                self.btcPriceChangeLabel.text = "+\(roundedPercentage)%  "
+                self.btcPriceChangeLabel.backgroundColor = self.hexStringToUIColor(hex: "#2ecc71")
+            }
+            else if roundedPercentage < 0 {
+                self.btcPriceChangeLabel.text = "\(roundedPercentage)%  "
+                self.btcPriceChangeLabel.backgroundColor = self.hexStringToUIColor(hex: "#e74c3c")
+            }
+            else if roundedPercentage == 0 {
+                self.btcPriceChangeLabel.text = "\(roundedPercentage)%  "
+                self.btcPriceChangeLabel.backgroundColor = self.hexStringToUIColor(hex: "#e74c3c")
+            }
+        }
+    }
     
     
     func hexStringToUIColor (hex:String) -> UIColor {
