@@ -20,6 +20,9 @@ public enum NetworkResponseStatus {
 
 class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    let defaults = UserDefaults.standard
+    var selectedCountry: String!
+    
     @IBOutlet weak var tableView: UITableView!
     
     var allNewsData : [NewsData] = [];
@@ -34,6 +37,16 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        
+        if self.selectedCountry == "india" {
+            self.indiaButton.setTitle("🇮🇳", for: .normal)
+        }
+        else if self.selectedCountry == "usa" {
+            self.indiaButton.setTitle("🇺🇸", for: .normal)
+        }
+        
         self.indiaButton.setTitleColor(UIColor.white, for: .selected)
         self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
         
@@ -80,7 +93,15 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func getIndiaNews() {
-        self.getRSSFeedResponse(path: "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us") { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
+        var url: String! = "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us"
+        
+        if self.selectedCountry == "india" {
+            url = "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us"
+        }
+        else if self.selectedCountry == "usa" {
+            url = "https://news.google.com/news/rss/search/section/q/bitcoin%20usa/bitcoin%20usa?hl=en&ned=us"
+        }
+        self.getRSSFeedResponse(path: url) { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
             for item in (rssFeed?.items)! {
                 let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
                 self.allNewsData.append(newsData)
