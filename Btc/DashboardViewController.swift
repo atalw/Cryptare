@@ -16,6 +16,9 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var btcChange: UILabel!
     @IBOutlet weak var timespan: UILabel!
     
+    let defaults = UserDefaults.standard
+    var selectedCountry: String!
+    
     var currentBtcPrice: Double = 0.0
     var btcChangeColour: UIColor = UIColor.gray
     
@@ -52,13 +55,21 @@ class DashboardViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
-        self.numberFormatter.locale = Locale.init(identifier: "en_IN")
         
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         } else {
             // Fallback on earlier versions
+        }
+        
+        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        
+        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
+        if selectedCountry == "india" {
+            self.numberFormatter.locale = Locale.init(identifier: "en_IN")
+        }
+        else if selectedCountry == "usa" {
+            self.numberFormatter.locale = Locale.init(identifier: "en_US")
         }
     }
 
@@ -73,7 +84,13 @@ class DashboardViewController: UIViewController {
     
     // get current actual price of bitcoin
     func getCurrentBtcPrice() {
-        let url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/INR.json")
+        var url: URL!
+        if self.selectedCountry == "india" {
+            url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/INR.json")
+        }
+        else if self.selectedCountry == "usa" {
+            url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/USD.json")
+        }
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
@@ -85,20 +102,39 @@ class DashboardViewController: UIViewController {
                 return
             }
             let json = JSON(data: data)
-            if let priceString = json["bpi"]["INR"]["rate"].string {
-                let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
-                let price = Double(priceWithoutComma)
-                self.currentBtcPrice = price!
-                self.getHistoricalBtcPrices(price!)
-                DispatchQueue.main.async {
-                    self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
-                    self.btcPriceLabel.adjustsFontSizeToFitWidth = true
-                    self.timespan.text = "(24h)"
+            if self.selectedCountry == "india" {
+                if let priceString = json["bpi"]["INR"]["rate"].string {
+                    let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
+                    let price = Double(priceWithoutComma)
+                    self.currentBtcPrice = price!
+                    self.getHistoricalBtcPrices(price!)
+                    DispatchQueue.main.async {
+                        self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
+                        self.btcPriceLabel.adjustsFontSizeToFitWidth = true
+                        self.timespan.text = "(24h)"
+                    }
+                }
+                else {
+                    print(json["bpi"]["INR"]["rate"].error!)
                 }
             }
-            else {
-                print(json["bpi"]["INR"]["rate"].error!)
+            else if self.selectedCountry == "usa" {
+                if let priceString = json["bpi"]["USD"]["rate"].string {
+                    let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
+                    let price = Double(priceWithoutComma)
+                    self.currentBtcPrice = price!
+                    self.getHistoricalBtcPrices(price!)
+                    DispatchQueue.main.async {
+                        self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
+                        self.btcPriceLabel.adjustsFontSizeToFitWidth = true
+                        self.timespan.text = "(24h)"
+                    }
+                }
+                else {
+                    print(json["bpi"]["USD"]["rate"].error!)
+                }
             }
+            
         }
         task.resume()
     }

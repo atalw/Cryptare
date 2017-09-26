@@ -13,6 +13,8 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
     var tableViewController : countryTableViewController!
     @IBOutlet weak var nextButton: UIButton!
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,7 +40,12 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
+        if indexPath.row == 0 {
+            self.defaults.set("india", forKey: "selectedCountry")
+        }
+        else if indexPath.row == 1 {
+            self.defaults.set("usa", forKey: "selectedCountry")
+        }
         self.nextButton.isEnabled = true
     }
 }
