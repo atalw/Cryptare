@@ -17,6 +17,10 @@ class GraphViewController: UIViewController  {
     @IBOutlet weak var timeSpan: UILabel!
     @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
     
+    let defaults = UserDefaults.standard
+    var selectedCountry: String!
+    var currency: String! = "INR" // set default value to INR
+
     let dateFormatter = DateFormatter()
     let todaysDate = Date()
     
@@ -35,20 +39,20 @@ class GraphViewController: UIViewController  {
             startDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
             self.timeSpan.text = "(1 week)"
         }
         else if index == 1 { // month
             startDate = Calendar.current.date(byAdding: .month, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
             self.timeSpan.text = "(1 month)"
         }        else if index == 2 { // year
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
             self.timeSpan.text = "(1 year)"
         }
         self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
@@ -70,6 +74,15 @@ class GraphViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        
+        if self.selectedCountry == "india" {
+            currency = "INR"
+        }
+        else if self.selectedCountry == "usa" {
+            currency = "USD"
+        }
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
         

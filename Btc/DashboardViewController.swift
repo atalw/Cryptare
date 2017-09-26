@@ -154,8 +154,14 @@ class DashboardViewController: UIViewController {
         let yesterday = formatter.string(from: yesterday_date)
         let day_before_yesterday = formatter.string(from: day_before_yesterday_date)
         
+        var url: URL!
+        if self.selectedCountry == "india" {
+            url = URL(string: "http://api.coindesk.com/v1/bpi/historical/close.json?currency=INR")
+        }
+        else if self.selectedCountry == "usa" {
+            url = URL(string: "http://api.coindesk.com/v1/bpi/historical/close.json?currency=USD")
+        }
         
-        let url = URL(string: "http://api.coindesk.com/v1/bpi/historical/close.json?currency=INR")
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
                 print(error!)
@@ -199,12 +205,6 @@ class DashboardViewController: UIViewController {
             }
         }
         task.resume()
-    }
-    
-    func getNumberFromCommaString(_ stringNumber: String) -> Double {
-        let numberWithoutComma = stringNumber.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
-        let numberWithoutSymbol = numberWithoutComma.replacingOccurrences(of: "₹ ", with: "", options: NSString.CompareOptions.literal, range: nil)
-        return Double(numberWithoutSymbol)!
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
