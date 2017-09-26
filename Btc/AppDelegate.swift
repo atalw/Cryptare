@@ -13,14 +13,20 @@ import GoogleMobileAds
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         // Initialize the Google Mobile Ads SDK.
         // Sample AdMob app ID: ca-app-pub-3940256099942544~1458002511
-        GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
+//        GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
+            let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
+            window?.rootViewController = rootViewController
+        }
 
         return true
     }
