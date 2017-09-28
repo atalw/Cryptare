@@ -33,6 +33,12 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBOutlet weak var indiaButton: UIButton!
     @IBOutlet weak var worldwideButton: UIButton!
+    
+    #if LITE_VERSION
+        @IBAction func upgradeButton(_ sender: Any) {
+            UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/app/id1266256984")!)
+        }
+    #endif
 
     override func viewDidLoad() {
         super.viewDidLoad()

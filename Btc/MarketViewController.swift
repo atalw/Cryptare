@@ -19,6 +19,12 @@ class MarketViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var infoButton: UIBarButtonItem!
     
+    #if LITE_VERSION
+    @IBAction func upgradeButton(_ sender: Any) {
+        UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/app/id1266256984")!)
+    }
+    #endif
+    
     let defaults = UserDefaults.standard
     var selectedCountry: String!
     
