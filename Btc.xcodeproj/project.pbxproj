@@ -11,7 +11,6 @@
 		7A7C244BA027D9F18FDBA49F /* Pods_BtcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */; };
 		863474711F08262000E7EB86 /* MarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474701F08262000E7EB86 /* MarketViewController.swift */; };
 		863474731F08262000E7EB86 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
-		863474761F08262000E7EB86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
 		863474781F08262000E7EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 863474771F08262000E7EB86 /* Assets.xcassets */; };
 		8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474791F08262000E7EB86 /* LaunchScreen.storyboard */; };
 		863474861F08262000E7EB86 /* BtcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474851F08262000E7EB86 /* BtcTests.swift */; };
@@ -34,6 +33,35 @@
 		864362591F67ADF100883792 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
 		8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
 		868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
+		868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
+		868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
+		868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
+		868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
+		868F1A801F7D301E0093402A /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
+		868F1A811F7D301E0093402A /* CollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */; };
+		868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
+		868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
+		868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */; };
+		868F1A851F7D301E0093402A /* BtcPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634749E1F082E7000E7EB86 /* BtcPrices.swift */; };
+		868F1A861F7D301E0093402A /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362561F66F9DF00883792 /* DashboardViewController.swift */; };
+		868F1A871F7D301E0093402A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A21F0BB11E00E7EB86 /* AppDelegate.swift */; };
+		868F1A881F7D301E0093402A /* MarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474701F08262000E7EB86 /* MarketViewController.swift */; };
+		868F1A8A1F7D301E0093402A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B81F0CE54900E7EB86 /* CoreGraphics.framework */; };
+		868F1A8B1F7D301E0093402A /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */; };
+		868F1A8C1F7D301E0093402A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B91F0CE54900E7EB86 /* CoreTelephony.framework */; };
+		868F1A8D1F7D301E0093402A /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BA1F0CE54900E7EB86 /* EventKit.framework */; };
+		868F1A8E1F7D301E0093402A /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BB1F0CE54900E7EB86 /* EventKitUI.framework */; };
+		868F1A8F1F7D301E0093402A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BC1F0CE54900E7EB86 /* MessageUI.framework */; };
+		868F1A901F7D301E0093402A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BD1F0CE54900E7EB86 /* StoreKit.framework */; };
+		868F1A911F7D301E0093402A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */; };
+		868F1A921F7D301E0093402A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B61F0CE51E00E7EB86 /* AVFoundation.framework */; };
+		868F1A931F7D301E0093402A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B41F0CE51A00E7EB86 /* AudioToolbox.framework */; };
+		868F1A941F7D301E0093402A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B21F0CE50F00E7EB86 /* AdSupport.framework */; };
+		868F1A951F7D301E0093402A /* Pods_Btc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644FCEA4336E786DD955E594 /* Pods_Btc.framework */; };
+		868F1A971F7D301E0093402A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474791F08262000E7EB86 /* LaunchScreen.storyboard */; };
+		868F1A981F7D301E0093402A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 863474771F08262000E7EB86 /* Assets.xcassets */; };
+		868F1AA21F7D3AF90093402A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
+		868F1AA31F7D3B040093402A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
 		86A5BC4F1F0CF2AA00D58FCA /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
@@ -94,6 +122,8 @@
 		864362581F67ADF100883792 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8643625A1F67D7DE00883792 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
+		868F1A9F1F7D301E0093402A /* CryptareLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptareLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		868F1AA01F7D301E0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Btc copy-Info.plist"; path = "/Users/atalw/Documents/dev/ios/Btc/Btc copy-Info.plist"; sourceTree = "<absolute>"; };
 		86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNewsTableViewCell.swift; sourceTree = "<group>"; };
@@ -141,6 +171,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		868F1A891F7D301E0093402A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				868F1A8A1F7D301E0093402A /* CoreGraphics.framework in Frameworks */,
+				868F1A8B1F7D301E0093402A /* GoogleMobileAds.framework in Frameworks */,
+				868F1A8C1F7D301E0093402A /* CoreTelephony.framework in Frameworks */,
+				868F1A8D1F7D301E0093402A /* EventKit.framework in Frameworks */,
+				868F1A8E1F7D301E0093402A /* EventKitUI.framework in Frameworks */,
+				868F1A8F1F7D301E0093402A /* MessageUI.framework in Frameworks */,
+				868F1A901F7D301E0093402A /* StoreKit.framework in Frameworks */,
+				868F1A911F7D301E0093402A /* SystemConfiguration.framework in Frameworks */,
+				868F1A921F7D301E0093402A /* AVFoundation.framework in Frameworks */,
+				868F1A931F7D301E0093402A /* AudioToolbox.framework in Frameworks */,
+				868F1A941F7D301E0093402A /* AdSupport.framework in Frameworks */,
+				868F1A951F7D301E0093402A /* Pods_Btc.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -167,6 +216,7 @@
 				8634746C1F08262000E7EB86 /* Products */,
 				863474A81F0CDD6C00E7EB86 /* Frameworks */,
 				60581993A32294FA37D7B5F4 /* Pods */,
+				868F1AA01F7D301E0093402A /* Btc copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +226,7 @@
 				8634746B1F08262000E7EB86 /* Btc.app */,
 				863474811F08262000E7EB86 /* BtcTests.xctest */,
 				8634748C1F08262000E7EB86 /* BtcUITests.xctest */,
+				868F1A9F1F7D301E0093402A /* CryptareLite.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -347,6 +398,26 @@
 			productReference = 8634748C1F08262000E7EB86 /* BtcUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		868F1A791F7D301E0093402A /* CryptareLite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 868F1A9C1F7D301E0093402A /* Build configuration list for PBXNativeTarget "CryptareLite" */;
+			buildPhases = (
+				868F1A7A1F7D301E0093402A /* [CP] Check Pods Manifest.lock */,
+				868F1A7B1F7D301E0093402A /* Sources */,
+				868F1A891F7D301E0093402A /* Frameworks */,
+				868F1A961F7D301E0093402A /* Resources */,
+				868F1A9A1F7D301E0093402A /* [CP] Embed Pods Frameworks */,
+				868F1A9B1F7D301E0093402A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CryptareLite;
+			productName = Btc;
+			productReference = 868F1A9F1F7D301E0093402A /* CryptareLite.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -374,6 +445,9 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 8634746A1F08262000E7EB86;
 					};
+					868F1A791F7D301E0093402A = {
+						DevelopmentTeam = J724CNLQL9;
+					};
 				};
 			};
 			buildConfigurationList = 863474661F08262000E7EB86 /* Build configuration list for PBXProject "Btc" */;
@@ -392,6 +466,7 @@
 				8634746A1F08262000E7EB86 /* Btc */,
 				863474801F08262000E7EB86 /* BtcTests */,
 				8634748B1F08262000E7EB86 /* BtcUITests */,
+				868F1A791F7D301E0093402A /* CryptareLite */,
 			);
 		};
 /* End PBXProject section */
@@ -401,9 +476,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				868F1AA21F7D3AF90093402A /* Main.storyboard in Resources */,
 				8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */,
 				863474781F08262000E7EB86 /* Assets.xcassets in Resources */,
-				863474761F08262000E7EB86 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +493,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		868F1A961F7D301E0093402A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				868F1AA31F7D3B040093402A /* Main.storyboard in Resources */,
+				868F1A971F7D301E0093402A /* LaunchScreen.storyboard in Resources */,
+				868F1A981F7D301E0093402A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +608,65 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		868F1A7A1F7D301E0093402A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Btc-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		868F1A9A1F7D301E0093402A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Btc/Pods-Btc-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Btc/Pods-Btc-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		868F1A9B1F7D301E0093402A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Btc/Pods-Btc-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A8B0F0DA981FE1745DC0EE44 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -615,6 +759,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				863474911F08262000E7EB86 /* BtcUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		868F1A7B1F7D301E0093402A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */,
+				868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */,
+				868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */,
+				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
+				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
+				868F1A811F7D301E0093402A /* CollectionViewHeader.swift in Sources */,
+				868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */,
+				868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */,
+				868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */,
+				868F1A851F7D301E0093402A /* BtcPrices.swift in Sources */,
+				868F1A861F7D301E0093402A /* DashboardViewController.swift in Sources */,
+				868F1A871F7D301E0093402A /* AppDelegate.swift in Sources */,
+				868F1A881F7D301E0093402A /* MarketViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,6 +940,7 @@
 				INFOPLIST_FILE = Btc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DPRO_VERSION\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atalwar.Cryptare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -799,6 +964,7 @@
 				INFOPLIST_FILE = Btc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DPRO_VERSION\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atalwar.Cryptare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -868,6 +1034,54 @@
 			};
 			name = Release;
 		};
+		868F1A9D1F7D301E0093402A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1C8EF9BC432776A6C337788 /* Pods-Btc.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = J724CNLQL9;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "Btc copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DLITE_VERSION\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.atalwar.CryptareLite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		868F1A9E1F7D301E0093402A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B64B84B0672733503D899FF /* Pods-Btc.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = J724CNLQL9;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "Btc copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DLITE_VERSION\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.atalwar.CryptareLite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -903,6 +1117,15 @@
 			buildConfigurations = (
 				8634749C1F08262000E7EB86 /* Debug */,
 				8634749D1F08262000E7EB86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		868F1A9C1F7D301E0093402A /* Build configuration list for PBXNativeTarget "CryptareLite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				868F1A9D1F7D301E0093402A /* Debug */,
+				868F1A9E1F7D301E0093402A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

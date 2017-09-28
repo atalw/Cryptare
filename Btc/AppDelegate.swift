@@ -23,10 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
-            let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
-            window?.rootViewController = rootViewController
-        }
+//        if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
+//            let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
+//            window?.rootViewController = rootViewController
+//        }
 
         return true
     }

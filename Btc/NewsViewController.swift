@@ -102,10 +102,25 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
             url = "https://news.google.com/news/rss/search/section/q/bitcoin%20usa/bitcoin%20usa?hl=en&ned=us"
         }
         self.getRSSFeedResponse(path: url) { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
-            for item in (rssFeed?.items)! {
-                let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                self.allNewsData.append(newsData)
-            }
+            
+            #if PRO_VERSION
+                for item in (rssFeed?.items)! {
+                    let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                    self.allNewsData.append(newsData)
+                }
+            #endif
+        
+            #if LITE_VERSION
+                for index in 0..<5 {
+                    if let item = rssFeed?.items[index] {
+                        let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                        self.allNewsData.append(newsData)
+                    }
+                }
+                let updateNewsCell = NewsData(title: "Upgrade to view more of the latest news", pubDate: Date(), link: "https://itunes.apple.com/app/id1266256984")
+                self.allNewsData.append(updateNewsCell)
+            #endif
+            
             self.tableView.dataSource = self
             self.tableView.delegate = self
             self.tableView.reloadData()
@@ -114,10 +129,24 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func getWorldwideNews() {
         self.getRSSFeedResponse(path: "https://news.google.com/news/rss/search/section/q/bitcoin/bitcoin?hl=en&ned=us") { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
-            for item in (rssFeed?.items)! {
-                let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                self.allNewsData.append(newsData)
-            }
+            #if PRO_VERSION
+                for item in (rssFeed?.items)! {
+                    let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                    self.allNewsData.append(newsData)
+                }
+            #endif
+            
+            #if LITE_VERSION
+                for index in 0..<5 {
+                    if let item = rssFeed?.items[index] {
+                        let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                        self.allNewsData.append(newsData)
+                    }
+                }
+                let updateNewsCell = NewsData(title: "Upgrade to view more of the latest news", pubDate: Date(), link: "https://itunes.apple.com/app/id1266256984")
+                self.allNewsData.append(updateNewsCell)
+            #endif
+            
             self.tableView.dataSource = self
             self.tableView.delegate = self
             self.tableView.reloadData()
