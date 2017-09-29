@@ -44,7 +44,7 @@ extension BtcPrices: UICollectionViewDataSource {
         cell.myButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         cell.myButton.backgroundColor = hexStringToUIColor(hex: "#3498db")
         
-        if item == "Zebpay" || item == "Unocoin" || item == "Localbitcoins" || item == "Coinsecure" || item == "PocketBits" || item == "Remitano" || item == "BitBay" || item == "Coinbase" || item == "Kraken" {
+        if item == "Zebpay" || item == "Unocoin" || item == "Localbitcoins" || item == "Coinsecure" || item == "PocketBits" || item == "Remitano" || item == "BitBay" || item == "Coinbase" || item == "Kraken" || item == "Poloniex" {
             cell.myButton.isEnabled = true
             //            cell.myButton.setTitleColor(UIColor.blue, for: .normal)
             cell.myButton.setTitleColor(UIColor.white, for: .normal)
@@ -152,6 +152,14 @@ extension BtcPrices: UICollectionViewDataSource {
                 } }
         }
         else if title == "Kraken" {
+            if let url = NSURL(string: "https://www.kraken.com/"){ if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            } else {
+                // Fallback on earlier versions
+                UIApplication.shared.openURL(url as URL)
+                } }
+        }
+        else if title == "Poloniex" {
             if let url = NSURL(string: "https://www.kraken.com/"){ if #available(iOS 10.0, *) {
                 UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
             } else {

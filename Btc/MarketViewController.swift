@@ -231,6 +231,7 @@ class MarketViewController: UIViewController {
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
                 self.krakenPrice()
+                self.poloniexPrice()
             }
         #endif
         
@@ -697,6 +698,43 @@ class MarketViewController: UIViewController {
                         let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
                         
                         self.btcPrices.add("Kraken")
+                        self.btcPrices.add(formattedBuyPrice!)
+                        self.btcPrices.add(formattedSellPrice!)
+                    }
+                    
+                }
+                
+            }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+        task.resume()
+    }
+    
+    // problem - verification page on api call prevents access
+    func poloniexPrice() {
+        let url = URL(string: "https://poloniex.com/public?command=returnTicker")
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            let json = JSON(data: data)
+            if let pBuyPriceString = json["USDT_BTC"]["lowestAsk"].string {
+                if let pSellPriceString = json["USDT_BTC"]["highestBid"].string {
+                    if let buyPrice = Double(pBuyPriceString), let sellPrice = Double(pSellPriceString) {
+                        self.dataValues.append(buyPrice)
+                        self.dataValues.append(sellPrice)
+                        
+                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
+                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
+                        
+                        self.btcPrices.add("Poloniex")
                         self.btcPrices.add(formattedBuyPrice!)
                         self.btcPrices.add(formattedSellPrice!)
                     }
