@@ -230,6 +230,7 @@ class MarketViewController: UIViewController {
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
+                self.krakenPrice()
             }
         #endif
         
@@ -240,6 +241,7 @@ class MarketViewController: UIViewController {
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
+                self.krakenPrice()
             }
         #endif
         
@@ -672,6 +674,42 @@ class MarketViewController: UIViewController {
         buyTask.resume()
     }
 
+    func krakenPrice() {
+        let url = URL(string: "https://api.kraken.com/0/public/Ticker?pair=xbtusd")
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            
+            let json = JSON(data: data)
+            if let krakenBuyPriceString = json["result"]["XXBTZUSD"]["a"][0].string {
+                if let krakenSellPriceString = json["result"]["XXBTZUSD"]["b"][0].string {
+                    if let buyPrice = Double(krakenBuyPriceString), let sellPrice = Double(krakenSellPriceString) {
+                        self.dataValues.append(buyPrice)
+                        self.dataValues.append(sellPrice)
+                        
+                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
+                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
+                        
+                        self.btcPrices.add("Kraken")
+                        self.btcPrices.add(formattedBuyPrice!)
+                        self.btcPrices.add(formattedSellPrice!)
+                    }
+                    
+                }
+                
+            }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+        task.resume()
+    }
     
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
