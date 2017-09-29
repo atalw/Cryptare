@@ -221,29 +221,50 @@ class MarketViewController: UIViewController {
     // populate exchange buy and sell prices
     func populatePrices(completion: (_ success: Bool) -> Void) {
         #if PRO_VERSION
-            self.zebpayPrice()
-            self.localbitcoinsPrice()
-            self.coinsecurePrice()
-            self.unocoinPrice()
-            self.pocketBitsPrice()
+            if self.selectedCountry == "india" {
+                self.zebpayPrice()
+                self.localbitcoinsPrice()
+                self.coinsecurePrice()
+                self.unocoinPrice()
+                self.pocketBitsPrice()
+            }
+            else if self.selectedCountry == "usa" {
+                self.coinbasePrice()
+            }
         #endif
         
         #if LITE_VERSION
-            self.zebpayPrice()
-            self.coinsecurePrice()
+            if self.selectedCountry == "india" {
+                elf.zebpayPrice()
+                self.coinsecurePrice()
+            }
+            else if self.selectedCountry == "usa" {
+                self.coinbasePrice()
+            }
         #endif
+        
         completion(true)
     }
 
     func newPrices() {
         #if PRO_VERSION
-            self.bitbayPrice()
-            self.reminatoPrice()
+            if self.selectedCountry == "india" {
+                self.bitbayPrice()
+                self.reminatoPrice()
+            }
+            else if self.selectedCountry == "usa" {
+                
+            }
         #endif
         
         #if LITE_VERSION
-            self.localbitcoinsPrice()
-            self.pocketBitsPrice()
+            if self.selectedCountry == "india" {
+                self.localbitcoinsPrice()
+                self.pocketBitsPrice()
+            }
+            else if self.selectedCountry == "usa" {
+                
+            }
         #endif
     }
     
@@ -595,6 +616,60 @@ class MarketViewController: UIViewController {
             self.collectionView.reloadData()
         }
         
+    }
+    
+    func coinbasePrice() {
+        var cbBuyPrice: Double!, cbSellPrice: Double!
+        let url = URL(string: "https://api.coinbase.com/v2/prices/BTC-USD/buy")
+        let buyTask = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            
+            let json = JSON(data: data)
+            if let cbBuyPriceString = json["data"]["amount"].string {
+                if let price = Double(cbBuyPriceString) {
+                    cbBuyPrice = price
+                }
+            }
+            let sellUrl = URL(string: "https://api.coinbase.com/v2/prices/BTC-USD/sell")
+            let sellTask = URLSession.shared.dataTask(with: sellUrl!) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                
+                let json = JSON(data: data)
+                if let cbSellPriceString = json["data"]["amount"].string {
+                    if let price = Double(cbSellPriceString) {
+                        cbSellPrice = price
+                        self.dataValues.append(cbBuyPrice)
+                        self.dataValues.append(cbSellPrice)
+                        
+                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: cbBuyPrice))
+                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: cbSellPrice))
+                        
+                        self.btcPrices.add("Coinbase")
+                        self.btcPrices.add(formattedBuyPrice!)
+                        self.btcPrices.add(formattedSellPrice!)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            sellTask.resume()
+        }
+        buyTask.resume()
     }
 
     
