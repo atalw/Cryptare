@@ -232,17 +232,23 @@ class MarketViewController: UIViewController {
                 self.coinbasePrice()
                 self.krakenPrice()
                 self.poloniexPrice()
+                self.localbitcoinsUSAPrice()
+                self.geminiPrice()
+                self.bitfinexPrice()
             }
         #endif
         
         #if LITE_VERSION
             if self.selectedCountry == "india" {
-                elf.zebpayPrice()
+                self.zebpayPrice()
                 self.coinsecurePrice()
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
                 self.krakenPrice()
+                self.localbitcoinsUSAPrice()
+                self.geminiPrice()
+                self.bitfinexPrice()
             }
         #endif
         
@@ -747,6 +753,183 @@ class MarketViewController: UIViewController {
             }
         }
         task.resume()
+    }
+    
+    func localbitcoinsUSAPrice() {
+        
+        #if PRO_VERSION
+            let url = URL(string: "https://localbitcoins.com/buy-bitcoins-online/USD/.json")
+            var tempBuy: Double = 0.0
+            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                
+                let json = JSON(data: data)
+                if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
+                    tempBuy = Double(z)!
+                    
+                    self.dataValues.append(tempBuy)
+                    
+                    let sellUrl = URL(string: "https://localbitcoins.com/sell-bitcoins-online/usd/c/bank-transfers/.json")
+                    let sellTask = URLSession.shared.dataTask(with: sellUrl!) { data, response, error in
+                        guard error == nil else {
+                            print(error!)
+                            return
+                        }
+                        guard let data = data else {
+                            print("Data is empty")
+                            return
+                        }
+                        
+                        let json = JSON(data: data)
+                        if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
+                            let tempSell = Double(z)!
+                            
+                            self.dataValues.append(tempSell)
+                            
+                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tempBuy))
+                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tempSell))
+                            
+                            self.btcPrices.add("Localbitcoins")
+                            self.btcPrices.add(formattedBuyPrice!)
+                            self.btcPrices.add(formattedSellPrice!)
+                            DispatchQueue.main.async {
+                                self.collectionView.reloadData()
+                            }
+                        }
+                        else {
+                            
+                        }
+                    }
+                    sellTask.resume()
+                    
+                }
+            }
+            task.resume()
+        #endif
+        
+        #if LITE_VERSION
+            self.dataValues.append(-1)
+            self.dataValues.append(-1)
+            
+            self.btcPrices.add("Localbitcoins")
+            self.btcPrices.add("Upgrade")
+            self.btcPrices.add("Required")
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        #endif
+    }
+    
+    func geminiPrice() {
+        
+        #if PRO_VERSION
+            let url = URL(string: "https://api.gemini.com/v1/pubticker/btcusd")
+            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                let json = JSON(data: data)
+                if let gBuyPriceString = json["ask"].string {
+                    if let gSellPriceString = json["bid"].string {
+                        if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
+                            self.dataValues.append(buyPrice)
+                            self.dataValues.append(sellPrice)
+                            
+                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
+                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
+                            
+                            self.btcPrices.add("Gemini")
+                            self.btcPrices.add(formattedBuyPrice!)
+                            self.btcPrices.add(formattedSellPrice!)
+                        }
+                        
+                    }
+                    
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            task.resume()
+        #endif
+        
+        #if LITE_VERSION
+            self.dataValues.append(-1)
+            self.dataValues.append(-1)
+            
+            self.btcPrices.add("Gemini")
+            self.btcPrices.add("Upgrade")
+            self.btcPrices.add("Required")
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        #endif
+    }
+    
+    func bitfinexPrice() {
+        
+        #if PRO_VERSION
+            let url = URL(string: "https://api.bitfinex.com/v1/pubticker/btcusd")
+            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                let json = JSON(data: data)
+                if let gBuyPriceString = json["ask"].string {
+                    if let gSellPriceString = json["bid"].string {
+                        if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
+                            self.dataValues.append(buyPrice)
+                            self.dataValues.append(sellPrice)
+                            
+                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
+                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
+                            
+                            self.btcPrices.add("Bitfinex")
+                            self.btcPrices.add(formattedBuyPrice!)
+                            self.btcPrices.add(formattedSellPrice!)
+                        }
+                        
+                    }
+                    
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            task.resume()
+        #endif
+        
+        #if LITE_VERSION
+            self.dataValues.append(-1)
+            self.dataValues.append(-1)
+            
+            self.btcPrices.add("Bitfinex")
+            self.btcPrices.add("Upgrade")
+            self.btcPrices.add("Required")
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        #endif
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
