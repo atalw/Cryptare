@@ -227,6 +227,7 @@ class MarketViewController: UIViewController {
                 self.coinsecurePrice()
                 self.unocoinPrice()
                 self.pocketBitsPrice()
+                self.throughbitPrice()
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
@@ -243,6 +244,7 @@ class MarketViewController: UIViewController {
             if self.selectedCountry == "india" {
                 self.zebpayPrice()
                 self.coinsecurePrice()
+                self.throughbitPrice()
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
@@ -506,7 +508,6 @@ class MarketViewController: UIViewController {
     
     // get zebpay buy and sell prices
     func pocketBitsPrice() {
-        
         #if PRO_VERSION
             let url = URL(string: "https://www.pocketbits.in/Index/getBalanceRates")
             let task = URLSession.shared.dataTask(with: url!) { data, response, error in
@@ -547,6 +548,61 @@ class MarketViewController: UIViewController {
             self.dataValues.append(-1)
             
             self.btcPrices.add("PocketBits")
+            self.btcPrices.add("Upgrade")
+            self.btcPrices.add("Required")
+            
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        #endif
+    }
+    
+    func throughbitPrice() {
+        #if PRO_VERSION
+            let url = URL(string: "https://www.throughbit.com/tbit_ci/index.php/cryptoprice/type/btc/inr")
+            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                let json = JSON(data: data)
+                if let tBuyPriceString = json["data"]["price"][0]["buy_price"].string {
+                    if let tSellPriceString = json["data"]["price"][0]["sell_price"].string {
+                        if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
+                            print(tBuyPrice)
+                            self.dataValues.append(tBuyPrice)
+                            self.dataValues.append(tSellPrice)
+                            
+                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tBuyPrice))
+                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tSellPrice))
+                            
+                            self.btcPrices.add("Throughbit")
+                            self.btcPrices.add(formattedBuyPrice!)
+                            self.btcPrices.add(formattedSellPrice!)
+                            DispatchQueue.main.async {
+                                self.collectionView.reloadData()
+                            }
+                        }
+                        
+                    }
+                    else {
+                        print(json["buy"].error!)
+                    }
+                }
+            }
+            task.resume()
+        #endif
+        
+        #if LITE_VERSION
+            self.dataValues.append(-1)
+            self.dataValues.append(-1)
+            
+            self.btcPrices.add("Throughbit")
             self.btcPrices.add("Upgrade")
             self.btcPrices.add("Required")
             
