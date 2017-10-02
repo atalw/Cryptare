@@ -1058,6 +1058,3 @@ class MarketViewController: UIViewController {
     }
     
 }
-
-// Throughbit api url
-// https://www.throughbit.com/tbit_ci/index.php/cryptoprice/type/btc/inr

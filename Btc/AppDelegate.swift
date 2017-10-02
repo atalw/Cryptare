@@ -21,18 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Sample AdMob app ID: ca-app-pub-3940256099942544~1458002511
 //        GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
         
-//        #if PRO_VERSION
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        #endif
-//
-//        #if LITE_VERSION
-//            let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
-//        #endif
-//
-//        if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
-//            let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
-//            window?.rootViewController = rootViewController
-//        }
+        #if PRO_VERSION
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        #endif
+
+        #if LITE_VERSION
+            let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
+        #endif
+
+        if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
+            let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
+            window?.rootViewController = rootViewController
+       }
 
         return true
     }

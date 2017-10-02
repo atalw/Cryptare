@@ -15,10 +15,17 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var btcPriceLabel: UILabel!
     @IBOutlet weak var btcChange: UILabel!
     @IBOutlet weak var timespan: UILabel!
+    @IBOutlet weak var lastUpdated: UILabel!
+    
+    @IBOutlet weak var marketsButton: UIButton!
+    @IBOutlet weak var newsButton: UIButton!
+    @IBOutlet weak var graphButton: UIButton!
     
     let defaults = UserDefaults.standard
     var selectedCountry: String!
-    
+  
+    let formatter = DateFormatter()
+
     var currentBtcPrice: Double = 0.0
     var btcChangeColour: UIColor = UIColor.gray
     
@@ -71,6 +78,19 @@ class DashboardViewController: UIViewController {
         else if selectedCountry == "usa" {
             self.numberFormatter.locale = Locale.init(identifier: "en_US")
         }
+        
+        marketsButton.layer.masksToBounds = false
+        marketsButton.layer.shadowOpacity = 0.2
+        marketsButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        
+        newsButton.layer.masksToBounds = false
+        newsButton.layer.shadowOpacity = 0.2
+        newsButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        
+        graphButton.layer.masksToBounds = false
+        graphButton.layer.shadowOpacity = 0.2
+        graphButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+//        marketsButton.layer.shadowRadius = 2
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,6 +132,8 @@ class DashboardViewController: UIViewController {
                         self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
                         self.btcPriceLabel.adjustsFontSizeToFitWidth = true
                         self.timespan.text = "(24h)"
+                        self.formatter.dateFormat = "h:mm a"
+                        self.lastUpdated.text = self.formatter.string(from: Date())
                     }
                 }
                 else {
@@ -128,6 +150,8 @@ class DashboardViewController: UIViewController {
                         self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
                         self.btcPriceLabel.adjustsFontSizeToFitWidth = true
                         self.timespan.text = "(24h)"
+                        self.formatter.dateFormat = "h:mm a"
+                        self.lastUpdated.text = self.formatter.string(from: Date())
                     }
                 }
                 else {
@@ -149,8 +173,7 @@ class DashboardViewController: UIViewController {
         let yesterday_date = Calendar.current.date(byAdding: .day, value: -1, to: current_date)!
         // sometimes takes time for source website to update closing price of day before (probably due to time difference)
         let day_before_yesterday_date = Calendar.current.date(byAdding: .day, value: -2, to: current_date)!
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        self.formatter.dateFormat = "yyyy-MM-dd"
         let yesterday = formatter.string(from: yesterday_date)
         let day_before_yesterday = formatter.string(from: day_before_yesterday_date)
         
