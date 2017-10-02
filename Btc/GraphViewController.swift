@@ -204,9 +204,6 @@ class GraphViewController: UIViewController  {
                     completion(true, btcPriceData)
                 }
             }
-            catch {
-                print("Error")
-            }
         }
         task.resume()
     }
