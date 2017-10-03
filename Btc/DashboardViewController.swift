@@ -17,9 +17,9 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var timespan: UILabel!
     @IBOutlet weak var lastUpdated: UILabel!
     
-    @IBOutlet weak var marketsButton: UIButton!
-    @IBOutlet weak var newsButton: UIButton!
-    @IBOutlet weak var graphButton: UIButton!
+    @IBOutlet weak var graphButton: GradientView!
+    @IBOutlet weak var marketsButton: GradientView!
+    @IBOutlet weak var newsButton: GradientView!
     
     let defaults = UserDefaults.standard
     var selectedCountry: String!
@@ -79,18 +79,15 @@ class DashboardViewController: UIViewController {
             self.numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         
-        marketsButton.layer.masksToBounds = false
-        marketsButton.layer.shadowOpacity = 0.2
-        marketsButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        graphButton.colourOne = UIColor.init(hex: "#56ab2f")
+        graphButton.colourTwo = UIColor.init(hex: "#a8e063")
         
-        newsButton.layer.masksToBounds = false
-        newsButton.layer.shadowOpacity = 0.2
-        newsButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        marketsButton.colourOne = UIColor.init(hex: "#2F80ED")
+        marketsButton.colourTwo = UIColor.init(hex: "#56CCF2")
         
-        graphButton.layer.masksToBounds = false
-        graphButton.layer.shadowOpacity = 0.2
-        graphButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-//        marketsButton.layer.shadowRadius = 2
+        newsButton.colourOne = UIColor.init(hex: "#fc4a1a")
+        newsButton.colourTwo = UIColor.init(hex: "#f7b733")
+
     }
 
     override func didReceiveMemoryWarning() {

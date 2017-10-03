@@ -143,7 +143,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
             #endif
             
             #if LITE_VERSION
-                for index in 0..<10 {
+                for index in 0..<10  {
                     if let item = rssFeed?.items[index] {
                         let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
                         self.allNewsData.append(newsData)
