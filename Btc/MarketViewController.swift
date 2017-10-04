@@ -11,13 +11,15 @@ import UIKit
 import SwiftyJSON
 import Hero
 
-class MarketViewController: UIViewController {
+class MarketViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
     @IBOutlet var btcPriceLabel: UILabel!
     @IBOutlet var btcAmount: UITextField!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var infoButton: UIBarButtonItem!
+    
+    @IBOutlet weak var tableView: UITableView!
     
     #if LITE_VERSION
     @IBAction func upgradeButton(_ sender: Any) {
@@ -34,6 +36,7 @@ class MarketViewController: UIViewController {
     
     var dataValues: [Double] = []
     var btcPrices = BtcPrices()
+    var markets: [Market] = []
     let numberFormatter = NumberFormatter()
     
     var currentBtcPrice: Double = 0.0
@@ -42,7 +45,7 @@ class MarketViewController: UIViewController {
         self.btcPriceLabel.text = currentBtcPriceString
 //        self.getCurrentBtcPrice()
         self.loadData()
-        self.collectionView.reloadData()
+        self.tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,16 +59,16 @@ class MarketViewController: UIViewController {
         view.addGestureRecognizer(tap)
         
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        let width = UIScreen.main.bounds.width
-        //        let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
-        //        print(self.collectionView.contentSize)
-        //        print(height)
-        layout.itemSize = CGSize(width: width/3, height: width/5)
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        layout.headerReferenceSize = CGSize(width: width, height: width/6)
-        self.collectionView.collectionViewLayout = layout
+//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        let width = UIScreen.main.bounds.width
+//        //        let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
+//        //        print(self.collectionView.contentSize)
+//        //        print(height)
+//        layout.itemSize = CGSize(width: width/3, height: width/5)
+//        layout.minimumInteritemSpacing = 0
+//        layout.minimumLineSpacing = 0
+//        layout.headerReferenceSize = CGSize(width: width, height: width/6)
+//        self.collectionView.collectionViewLayout = layout
         
     }
     
@@ -96,8 +99,44 @@ class MarketViewController: UIViewController {
         
         self.isHeroEnabled = true
         
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
         self.loadData()
         
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.markets.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let market = self.markets[indexPath.row]
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
+        cell!.siteLabel?.setTitle(market.title, for: .normal)
+        #if PRO_VERSION
+            if market.buyPrice == -1 {
+                cell!.buyLabel?.text = "Coming"
+                cell!.sellLabel?.text = "Soon"
+            }
+            else {
+                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
+                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
+            }
+        #endif
+        #if LITE_VERSION
+            if market.buyPrice == -1 {
+                cell!.buyLabel?.text = "Upgrade"
+                cell!.sellLabel?.text = "Required"
+            }
+            else {
+                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
+                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
+            }
+            
+        #endif
+        
+        return cell!
     }
     
     override func didReceiveMemoryWarning() {
@@ -126,7 +165,7 @@ class MarketViewController: UIViewController {
         }
         self.btcAmount.text = "1"
         
-        self.collectionView.dataSource = btcPrices
+//        self.collectionView.dataSource = btcPrices
     }
     
     //Calls this function when the tap is recognized.
@@ -181,7 +220,7 @@ class MarketViewController: UIViewController {
                 self.zebpayPrice()
                 self.localbitcoinsPrice()
                 self.coinsecurePrice()
-                self.unocoinPrice()
+//                self.unocoinPrice()
                 self.pocketBitsPrice()
                 self.throughbitPrice()
             }
@@ -251,17 +290,11 @@ class MarketViewController: UIViewController {
             let json = JSON(data: data)
             if let zebpayBuyPrice = json["buy"].double {
                 if let zebpaySellPrice = json["sell"].double {
-                    self.dataValues.append(zebpayBuyPrice)
-                    self.dataValues.append(zebpaySellPrice)
                     
-                    let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: zebpayBuyPrice))
-                    let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: zebpaySellPrice))
+                    self.markets.append(Market(title: "Zebpay", buyPrice: zebpaySellPrice, sellPrice: zebpayBuyPrice))
                     
-                    self.btcPrices.add("Zebpay")
-                    self.btcPrices.add(formattedBuyPrice!)
-                    self.btcPrices.add(formattedSellPrice!)
                     DispatchQueue.main.async {
-                        self.collectionView.reloadData()
+                        self.tableView.reloadData()
                     }
                 }
                 else {
@@ -375,21 +408,16 @@ class MarketViewController: UIViewController {
                             print("Data is empty")
                             return
                         }
-                        
                         let json = JSON(data: data)
                         if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
                             let tempSell = Double(z)!
                             
                             self.dataValues.append(tempSell)
                             
-                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tempBuy))
-                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tempSell))
+                            self.markets.append(Market(title: "LocalBitcoins", buyPrice: tempBuy, sellPrice: tempSell))
                             
-                            self.btcPrices.add("Localbitcoins")
-                            self.btcPrices.add(formattedBuyPrice!)
-                            self.btcPrices.add(formattedSellPrice!)
                             DispatchQueue.main.async {
-                                self.collectionView.reloadData()
+                                self.tableView.reloadData()
                             }
                         }
                         else {
@@ -397,22 +425,16 @@ class MarketViewController: UIViewController {
                         }
                     }
                     sellTask.resume()
-                    
                 }
             }
             task.resume()
         #endif
         
         #if LITE_VERSION
-            self.dataValues.append(-1)
-            self.dataValues.append(-1)
-            
-            self.btcPrices.add("Localbitcoins")
-            self.btcPrices.add("Upgrade")
-            self.btcPrices.add("Required")
+            self.markets.append(Market(title: "LocalBitcoins", buyPrice: -1, sellPrice: -1))
             
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         #endif
     }
@@ -429,35 +451,19 @@ class MarketViewController: UIViewController {
                 print("Data is empty")
                 return
             }
-            
             let json = JSON(data: data)
             if var csBuyPrice = json["message"]["ask"].double {
                 if var csSellPrice = json["message"]["lastPrice"].double {
                     csBuyPrice = csBuyPrice/100
                     csSellPrice = csSellPrice/100
                     
-                    self.dataValues.append(csBuyPrice)
-                    self.dataValues.append(csSellPrice)
+                    self.markets.append(Market(title: "Coinsecure", buyPrice: csBuyPrice, sellPrice: csSellPrice))
                     
-                    let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: csBuyPrice))
-                    let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: csSellPrice))
-                    
-                    self.btcPrices.add("Coinsecure")
-                    self.btcPrices.add(formattedBuyPrice!)
-                    self.btcPrices.add(formattedSellPrice!)
-                    
-                }
-                else {
-                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
             }
-            else {
-                
-            }
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-            
         }
         task.resume()
     }
@@ -478,21 +484,12 @@ class MarketViewController: UIViewController {
                 let json = JSON(data: data)
                 if let pocketBitsBuyPrice = json["rates"]["BTC_BuyingRate"].double {
                     if let pocketBitsSellPrice = json["rates"]["BTC_SellingRate"].double {
-                        self.dataValues.append(pocketBitsBuyPrice)
-                        self.dataValues.append(pocketBitsSellPrice)
                         
-                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: pocketBitsBuyPrice))
-                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: pocketBitsSellPrice))
+                        self.markets.append(Market(title: "PocketBits", buyPrice: pocketBitsBuyPrice, sellPrice: pocketBitsSellPrice))
                         
-                        self.btcPrices.add("PocketBits")
-                        self.btcPrices.add(formattedBuyPrice!)
-                        self.btcPrices.add(formattedSellPrice!)
                         DispatchQueue.main.async {
-                            self.collectionView.reloadData()
+                            self.tableView.reloadData()
                         }
-                    }
-                    else {
-                        print(json["buy"].error!)
                     }
                 }
             }
@@ -500,16 +497,11 @@ class MarketViewController: UIViewController {
         #endif
         
         #if LITE_VERSION
-            self.dataValues.append(-1)
-            self.dataValues.append(-1)
             
-            self.btcPrices.add("PocketBits")
-            self.btcPrices.add("Upgrade")
-            self.btcPrices.add("Required")
-            
-            
+            self.markets.append(Market(title: "PocketBits", buyPrice: -1, sellPrice: -1))
+
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         #endif
     }
@@ -530,24 +522,14 @@ class MarketViewController: UIViewController {
                 if let tBuyPriceString = json["data"]["price"][0]["buy_price"].string {
                     if let tSellPriceString = json["data"]["price"][0]["sell_price"].string {
                         if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
-                            print(tBuyPrice)
-                            self.dataValues.append(tBuyPrice)
-                            self.dataValues.append(tSellPrice)
                             
-                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tBuyPrice))
-                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tSellPrice))
-                            
-                            self.btcPrices.add("Throughbit")
-                            self.btcPrices.add(formattedBuyPrice!)
-                            self.btcPrices.add(formattedSellPrice!)
+                            self.markets.append(Market(title: "Throughbit", buyPrice: tBuyPrice, sellPrice: tSellPrice))
+
                             DispatchQueue.main.async {
-                                self.collectionView.reloadData()
+                                self.tableView.reloadData()
                             }
                         }
                         
-                    }
-                    else {
-                        print(json["buy"].error!)
                     }
                 }
             }
@@ -555,16 +537,11 @@ class MarketViewController: UIViewController {
         #endif
         
         #if LITE_VERSION
-            self.dataValues.append(-1)
-            self.dataValues.append(-1)
             
-            self.btcPrices.add("Throughbit")
-            self.btcPrices.add("Upgrade")
-            self.btcPrices.add("Required")
-            
-            
+            self.markets.append(Market(title: "Throughbit", buyPrice: -1, sellPrice: -1))
+
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         #endif
     }
@@ -611,31 +588,20 @@ class MarketViewController: UIViewController {
 
     func reminatoPrice() {
         
-        self.dataValues.append(-1)
-        self.dataValues.append(-1)
-        
-        self.btcPrices.add("Remitano")
-        self.btcPrices.add("Coming Soon")
-        self.btcPrices.add("Coming Soon")
-        
-        
+        self.markets.append(Market(title: "Remitano", buyPrice: -1, sellPrice: -1))
+
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
         
     }
     
     func bitbayPrice() {
         
-        self.dataValues.append(-1)
-        self.dataValues.append(-1)
-        
-        self.btcPrices.add("BitBay")
-        self.btcPrices.add("Coming Soon")
-        self.btcPrices.add("Coming Soon")
-        
+        self.markets.append(Market(title: "BitBay", buyPrice: -1, sellPrice: -1))
+
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
         
     }
@@ -672,21 +638,12 @@ class MarketViewController: UIViewController {
                 
                 let json = JSON(data: data)
                 if let cbSellPriceString = json["data"]["amount"].string {
-                    if let price = Double(cbSellPriceString) {
-                        cbSellPrice = price
-                        self.dataValues.append(cbBuyPrice)
-                        self.dataValues.append(cbSellPrice)
-                        
-                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: cbBuyPrice))
-                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: cbSellPrice))
-                        
-                        self.btcPrices.add("Coinbase")
-                        self.btcPrices.add(formattedBuyPrice!)
-                        self.btcPrices.add(formattedSellPrice!)
+                    if let cbSellPrice = Double(cbSellPriceString) {
+                        self.markets.append(Market(title: "Coinbase", buyPrice: cbBuyPrice, sellPrice: cbSellPrice))
                     }
                 }
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
             sellTask.resume()
@@ -710,22 +667,14 @@ class MarketViewController: UIViewController {
             if let krakenBuyPriceString = json["result"]["XXBTZUSD"]["a"][0].string {
                 if let krakenSellPriceString = json["result"]["XXBTZUSD"]["b"][0].string {
                     if let buyPrice = Double(krakenBuyPriceString), let sellPrice = Double(krakenSellPriceString) {
-                        self.dataValues.append(buyPrice)
-                        self.dataValues.append(sellPrice)
-                        
-                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
-                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
-                        
-                        self.btcPrices.add("Kraken")
-                        self.btcPrices.add(formattedBuyPrice!)
-                        self.btcPrices.add(formattedSellPrice!)
+                        self.markets.append(Market(title: "Kraken", buyPrice: buyPrice, sellPrice: sellPrice))
                     }
                     
                 }
                 
             }
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         }
         task.resume()
@@ -747,22 +696,15 @@ class MarketViewController: UIViewController {
             if let pBuyPriceString = json["USDT_BTC"]["lowestAsk"].string {
                 if let pSellPriceString = json["USDT_BTC"]["highestBid"].string {
                     if let buyPrice = Double(pBuyPriceString), let sellPrice = Double(pSellPriceString) {
-                        self.dataValues.append(buyPrice)
-                        self.dataValues.append(sellPrice)
                         
-                        let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
-                        let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
-                        
-                        self.btcPrices.add("Poloniex")
-                        self.btcPrices.add(formattedBuyPrice!)
-                        self.btcPrices.add(formattedSellPrice!)
+                        self.markets.append(Market(title: "Poloniex", buyPrice: buyPrice, sellPrice: sellPrice))
+
                     }
                     
                 }
-                
             }
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         }
         task.resume()
@@ -803,16 +745,10 @@ class MarketViewController: UIViewController {
                         if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
                             let tempSell = Double(z)!
                             
-                            self.dataValues.append(tempSell)
-                            
-                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: tempBuy))
-                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: tempSell))
-                            
-                            self.btcPrices.add("Localbitcoins")
-                            self.btcPrices.add(formattedBuyPrice!)
-                            self.btcPrices.add(formattedSellPrice!)
+                            self.markets.append(Market(title: "Localbitcoins", buyPrice: tempBuy, sellPrice: tempSell))
+
                             DispatchQueue.main.async {
-                                self.collectionView.reloadData()
+                                self.tableView.reloadData()
                             }
                         }
                         else {
@@ -856,37 +792,24 @@ class MarketViewController: UIViewController {
                 if let gBuyPriceString = json["ask"].string {
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
-                            self.dataValues.append(buyPrice)
-                            self.dataValues.append(sellPrice)
-                            
-                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
-                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
-                            
-                            self.btcPrices.add("Gemini")
-                            self.btcPrices.add(formattedBuyPrice!)
-                            self.btcPrices.add(formattedSellPrice!)
+                            self.markets.append(Market(title: "Gemini", buyPrice: buyPrice, sellPrice: sellPrice))
                         }
                         
                     }
                     
                 }
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
             task.resume()
         #endif
         
         #if LITE_VERSION
-            self.dataValues.append(-1)
-            self.dataValues.append(-1)
-            
-            self.btcPrices.add("Gemini")
-            self.btcPrices.add("Upgrade")
-            self.btcPrices.add("Required")
-            
+            self.markets.append(Market(title: "Gemini", buyPrice: -1, sellPrice: -1))
+
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         #endif
     }
@@ -908,35 +831,23 @@ class MarketViewController: UIViewController {
                 if let gBuyPriceString = json["ask"].string {
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
-                            self.dataValues.append(buyPrice)
-                            self.dataValues.append(sellPrice)
-                            
-                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
-                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
-                            
-                            self.btcPrices.add("Bitfinex")
-                            self.btcPrices.add(formattedBuyPrice!)
-                            self.btcPrices.add(formattedSellPrice!)
+                            self.markets.append(Market(title: "Bitfinex", buyPrice: buyPrice, sellPrice: sellPrice))
+
                         }
                     }
                 }
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
             task.resume()
         #endif
         
         #if LITE_VERSION
-            self.dataValues.append(-1)
-            self.dataValues.append(-1)
-            
-            self.btcPrices.add("Bitfinex")
-            self.btcPrices.add("Upgrade")
-            self.btcPrices.add("Required")
-            
+            self.markets.append(Market(title: "Bitfinex", buyPrice: -1, sellPrice: -1))
+
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         #endif
     }
@@ -958,35 +869,23 @@ class MarketViewController: UIViewController {
                 if let gBuyPriceString = json["ask"].string {
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
-                            self.dataValues.append(buyPrice)
-                            self.dataValues.append(sellPrice)
-                            
-                            let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: buyPrice))
-                            let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: sellPrice))
-                            
-                            self.btcPrices.add("Bitstamp")
-                            self.btcPrices.add(formattedBuyPrice!)
-                            self.btcPrices.add(formattedSellPrice!)
+                            self.markets.append(Market(title: "Bitstamp", buyPrice: buyPrice, sellPrice: sellPrice))
+
                         }
                     }
                 }
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
             task.resume()
         #endif
         
         #if LITE_VERSION
-            self.dataValues.append(-1)
-            self.dataValues.append(-1)
-            
-            self.btcPrices.add("Bitstamp")
-            self.btcPrices.add("Upgrade")
-            self.btcPrices.add("Required")
-            
+            self.markets.append(Market(title: "Bitstamp", buyPrice: -1, sellPrice: -1))
+
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
         #endif
     }
