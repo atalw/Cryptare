@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import GoogleMobileAds
 import SwiftyJSON
 import Hero
 
@@ -29,8 +28,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     let defaults = UserDefaults.standard
     var selectedCountry: String!
-    
-//    @IBOutlet weak var GoogleBannerView: GADBannerView!
     
     var currentBtcPriceString = "0"
     
