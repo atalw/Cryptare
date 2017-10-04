@@ -13,63 +13,96 @@ import SwiftyJSON
 class GraphViewController: UIViewController  {
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
+    @IBOutlet weak var lastUpdated: UILabel!
     @IBOutlet weak var btcPriceChangeLabel: UILabel!
     @IBOutlet weak var timeSpan: UILabel!
     @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
     
+    var parentControler: DashboardViewController!
+    
     let defaults = UserDefaults.standard
+    let dateFormatter = DateFormatter()
+    let numberFormatter = NumberFormatter()
+    
     var selectedCountry: String!
     var currency: String! = "INR" // set default value to INR
-
-    let dateFormatter = DateFormatter()
     let todaysDate = Date()
-    
+
+
     @IBAction func rangeSegmentedControl(_ sender: Any) {
-        let index = (sender as? UISegmentedControl)?.selectedSegmentIndex
-        
+        if let index = (sender as? UISegmentedControl)?.selectedSegmentIndex {
+            getChartData(timeSpan: index)
+            if index == 0 { // day
+                self.timeSpan.text = "(1 day)"
+            }
+            else if index == 1 { // week
+                self.timeSpan.text = "(1 week)"
+            }
+            else if index == 2 { // month
+                self.timeSpan.text = "(1 month)"
+            }
+            else if index == 3 { // year
+                self.timeSpan.text = "(1 year)"
+            }
+        }
+    }
+    
+    func getChartData(timeSpan: Int) {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+
         var startDate: Date = self.todaysDate
         let endDate: Date = self.todaysDate
         let endDateString = dateFormatter.string(from: endDate)
         var url: URL!
         
-//        if index == 0 { // day
-//            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=INR&start=2017-09-01&end=2017-09-08")!
-//        }
-        if index == 0 { // week
+        if timeSpan == 0 {
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&for=yesterday")!
+        }
+        else if timeSpan == 1 { // week
             startDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
             url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
-            self.timeSpan.text = "(1 week)"
         }
-        else if index == 1 { // month
+        else if timeSpan == 2 { // month
             startDate = Calendar.current.date(byAdding: .month, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
             url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
-            self.timeSpan.text = "(1 month)"
-        }        else if index == 2 { // year
+        }
+        else if timeSpan == 3 { // year
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
             url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
-            self.timeSpan.text = "(1 year)"
         }
+        
         self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
             if (success) {
-                let (labels, values) = self.orderBtcPriceData(startDate: startDate, endDate: endDate, btcPriceData: btcPriceData)
+                var (labels, values) = self.orderBtcPriceData(startDate: startDate, endDate: endDate, btcPriceData: btcPriceData)
+                if timeSpan == 0 {
+                    values.append(self.currentBtcPrice)
+                    labels.append(endDateString)
+                    self.updatePriceChange(startPrice: values[0], endPrice: values[1])
+                }
+                else {
+                    self.updatePriceChange(startPrice: values[0], endPrice: values[values.count-1])
+                }
                 self.initializeChart(labels: labels, values: values)
-                self.updatePriceChange(startPrice: values[0], endPrice: values[values.count-1])
             }
         }  )
     }
     
-    
-    
     var btcPrice = "0"
     var btcPriceChange = "0"
     var btcChangeColour : UIColor = UIColor.gray
-    
+    var currentBtcPrice: Double! {
+        didSet {
+            self.loadData()
+            self.parentControler.currentBtcPrice = currentBtcPrice
+            self.parentControler.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: currentBtcPrice))
+        }
+    }
     @IBOutlet weak var chart: LineChartView!
     
     override func viewDidLoad() {
@@ -85,13 +118,17 @@ class GraphViewController: UIViewController  {
         }
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
+        numberFormatter.numberStyle = .currency
+
+        if selectedCountry == "india" {
+            numberFormatter.locale = Locale.init(identifier: "en_IN")
+        }
+        else if selectedCountry == "usa" {
+            numberFormatter.locale = Locale.init(identifier: "en_US")
+        }
+        self.getCurrentBtcPrice()
+        self.rangeSegmentControlObject.selectedSegmentIndex = 0
         
-        rangeSegmentControlObject.selectedSegmentIndex = 1
-        rangeSegmentControlObject.sendActions(for: .valueChanged)
-        
-        self.currentBtcPriceLabel.text = btcPrice
-        self.btcPriceChangeLabel.text = btcPriceChange
-        self.btcPriceChangeLabel.backgroundColor = self.btcChangeColour
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
         
@@ -101,8 +138,50 @@ class GraphViewController: UIViewController  {
         // Dispose of any resources that can be recreated.
     }
     
+    func loadData() {
+        DispatchQueue.main.async {
+            self.getChartData(timeSpan: self.rangeSegmentControlObject.selectedSegmentIndex)
+        }
+    }
+    
+    
+    // get current actual price of bitcoin
+    func getCurrentBtcPrice() {
+        var url: URL!
+        url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/\(self.currency!).json")
+        
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            let json = JSON(data: data)
+            if let price = json["bpi"][self.currency]["rate_float"].double {
+                self.currentBtcPrice = price
+                DispatchQueue.main.async {
+                    self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price))
+                    self.currentBtcPriceLabel.adjustsFontSizeToFitWidth = true
+                    self.dateFormatter.dateFormat = "h:mm a"
+                    self.lastUpdated.text = self.dateFormatter.string(from: Date())
+                }
+            }
+            else {
+                print(json["bpi"][self.currency]["rate_float"].error!)
+            }
+        }
+        task.resume()
+    }
+    
     // order dictionary btc data according to date
     func orderBtcPriceData(startDate: Date, endDate: Date, btcPriceData: [String:Double]) -> ([String], [Double]) {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        if btcPriceData.count == 1 {
+            return ([(btcPriceData.first?.key)!], [(btcPriceData.first?.value)!])
+        }
         var labels : [String] = []
         var values : [Double] = []
         
@@ -131,7 +210,7 @@ class GraphViewController: UIViewController  {
         
         let line1 = LineChartDataSet(values: lineChartEntry, label: "Price") //Here we convert lineChartEntry to a LineChartDataSet
         
-        let lineColor = self.hexStringToUIColor(hex: "2980B9")
+        let lineColor = UIColor.init(hex: "2980B9")
         line1.colors = [lineColor] //Sets the colour to blue
 //        line1.colors = ChartColorTemplates.liberty()
         line1.drawCirclesEnabled = false
@@ -167,16 +246,6 @@ class GraphViewController: UIViewController  {
         chart.data?.notifyDataChanged()
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     func getAllTimeBtcData(url: URL, completion: @escaping (_ success : Bool, _ btcPriceData: [String: Double]) -> ()) {
         var plotData = [Double]()
         var btcPriceData = [String: Double]()
@@ -215,41 +284,20 @@ class GraphViewController: UIViewController  {
         DispatchQueue.main.async {
             if roundedPercentage > 0 {
                 self.btcPriceChangeLabel.text = "+\(roundedPercentage)%  "
-                self.btcPriceChangeLabel.backgroundColor = self.hexStringToUIColor(hex: "#2ecc71")
+                self.btcPriceChangeLabel.backgroundColor = UIColor.init(hex: "#2ecc71")
             }
             else if roundedPercentage < 0 {
                 self.btcPriceChangeLabel.text = "\(roundedPercentage)%  "
-                self.btcPriceChangeLabel.backgroundColor = self.hexStringToUIColor(hex: "#e74c3c")
+                self.btcPriceChangeLabel.backgroundColor = UIColor.init(hex: "#e74c3c")
             }
             else if roundedPercentage == 0 {
                 self.btcPriceChangeLabel.text = "\(roundedPercentage)%  "
-                self.btcPriceChangeLabel.backgroundColor = self.hexStringToUIColor(hex: "#e74c3c")
+                self.btcPriceChangeLabel.backgroundColor = UIColor.init(hex: "#e74c3c")
             }
         }
     }
     
-    
-    func hexStringToUIColor (hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        
-        if (cString.hasPrefix("#")) {
-            cString.remove(at: cString.startIndex)
-        }
-        
-        if ((cString.characters.count) != 6) {
-            return UIColor.gray
-        }
-        
-        var rgbValue:UInt32 = 0
-        Scanner(string: cString).scanHexInt32(&rgbValue)
-        
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
+    func reloadData() {
+        self.getCurrentBtcPrice()
     }
-
-
 }

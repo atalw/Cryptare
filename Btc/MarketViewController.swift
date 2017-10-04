@@ -96,14 +96,6 @@ class MarketViewController: UIViewController {
         
         self.isHeroEnabled = true
         
-//        GoogleBannerView.adUnitID = "ca-app-pub-5797975753570133/6060905008"
-//        GoogleBannerView.rootViewController = self
-//        
-//        let request = GADRequest()
-//        request.testDevices = [kGADSimulatorID, "4ea243399569ee090d038a5f50f2bed7"]
-//        
-//        GoogleBannerView.load(request)
-        
         self.loadData()
         
     }
@@ -181,42 +173,6 @@ class MarketViewController: UIViewController {
     func updateCurrentBtcPrice(_ value: Double) {
         self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: value))
     }
-    
-    func getNumberFromCommaString(_ stringNumber: String) -> Double {
-        let numberWithoutComma = stringNumber.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
-        let numberWithoutSymbol = numberWithoutComma.replacingOccurrences(of: "₹ ", with: "", options: NSString.CompareOptions.literal, range: nil)
-        return Double(numberWithoutSymbol)!
-    }
-    
-    // get current actual price of bitcoin
-//    func getCurrentBtcPrice() {
-//        let url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/INR.json")
-//        
-//        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-//            guard error == nil else {
-//                print(error!)
-//                return
-//            }
-//            guard let data = data else {
-//                print("Data is empty")
-//                return
-//            }
-//            let json = JSON(data: data)
-//            if let priceString = json["bpi"]["INR"]["rate"].string {
-//                let priceWithoutComma = priceString.replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range:nil)
-//                let price = Double(priceWithoutComma)
-//                self.currentBtcPrice = price!
-//                DispatchQueue.main.async {
-//                    self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price!))
-//                    self.btcPriceLabel.adjustsFontSizeToFitWidth = true
-//                }
-//            }
-//            else {
-//                print(json["bpi"]["INR"]["rate"].error!)
-//            }
-//        }
-//        task.resume()
-//    }
     
     // populate exchange buy and sell prices
     func populatePrices(completion: (_ success: Bool) -> Void) {
