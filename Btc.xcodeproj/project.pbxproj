@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15DFE81E344F47F5A759C997 /* Pods_Cryptare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BB410863D3FDD24A42599 /* Pods_Cryptare.framework */; };
 		71FC540B4AA8883F1B40DE9D /* Pods_Btc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644FCEA4336E786DD955E594 /* Pods_Btc.framework */; };
 		7A7C244BA027D9F18FDBA49F /* Pods_BtcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */; };
 		8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAAD1F83C824003733E8 /* GradientView.swift */; };
@@ -67,9 +68,11 @@
 		868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868F1AA41F7D3EEB0093402A /* MainLite.storyboard */; };
 		86A5BC4F1F0CF2AA00D58FCA /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A5BC4E1F0CF2AA00D58FCA /* GoogleMobileAds.framework */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
+		86BD6F961F84019600C4B0CA /* Pods_Btc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644FCEA4336E786DD955E594 /* Pods_Btc.framework */; };
 		86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
 		86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
 		AF7CED9851FD5955FC0C80B2 /* Pods_BtcUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */; };
+		C19708534AD600CCA4EDE5A8 /* Pods_Cryptare_CryptareLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1945DE35159704AE01952E0D /* Pods_Cryptare_CryptareLite.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,13 +94,16 @@
 
 /* Begin PBXFileReference section */
 		0E0AC803835C127A6D059E30 /* Pods-Btc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Btc.release.xcconfig"; path = "Pods/Target Support Files/Pods-Btc/Pods-Btc.release.xcconfig"; sourceTree = "<group>"; };
+		1945DE35159704AE01952E0D /* Pods_Cryptare_CryptareLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cryptare_CryptareLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		463EE106F5CD862D7D291E64 /* Pods-Cryptare-CryptareLite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cryptare-CryptareLite.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cryptare-CryptareLite/Pods-Cryptare-CryptareLite.release.xcconfig"; sourceTree = "<group>"; };
 		4643726C838D7B730E341055 /* Pods-BtcUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BtcUITests/Pods-BtcUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		54C87E315B99D4F1EB0E7670 /* Pods-Cryptare-CryptareLite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cryptare-CryptareLite.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cryptare-CryptareLite/Pods-Cryptare-CryptareLite.debug.xcconfig"; sourceTree = "<group>"; };
 		5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BtcTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		644FCEA4336E786DD955E594 /* Pods_Btc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Btc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74798DE924C07F8DEE656B0E /* Pods-Btc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Btc.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Btc/Pods-Btc.debug.xcconfig"; sourceTree = "<group>"; };
 		8602BAAD1F83C824003733E8 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
-		8634746B1F08262000E7EB86 /* Btc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Btc.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8634746B1F08262000E7EB86 /* Cryptare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cryptare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		863474701F08262000E7EB86 /* MarketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewController.swift; sourceTree = "<group>"; };
 		863474721F08262000E7EB86 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		863474751F08262000E7EB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -139,7 +145,10 @@
 		89C3E03A9A5500274E40B35C /* Pods-BtcTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93D9E17B6A5E6D4DE3E9D96F /* Pods-BtcUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcUITests/Pods-BtcUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B865ADC4331AD635123F4BA3 /* Pods-BtcTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.release.xcconfig"; sourceTree = "<group>"; };
+		D5347ECE0D982E7812EB9F39 /* Pods-Cryptare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cryptare.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cryptare/Pods-Cryptare.release.xcconfig"; sourceTree = "<group>"; };
+		D68A21A47030A35D2F326E63 /* Pods-Cryptare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cryptare.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cryptare/Pods-Cryptare.debug.xcconfig"; sourceTree = "<group>"; };
 		EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BtcUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F91BB410863D3FDD24A42599 /* Pods_Cryptare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cryptare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +168,7 @@
 				863474B51F0CE51A00E7EB86 /* AudioToolbox.framework in Frameworks */,
 				863474B31F0CE50F00E7EB86 /* AdSupport.framework in Frameworks */,
 				71FC540B4AA8883F1B40DE9D /* Pods_Btc.framework in Frameworks */,
+				15DFE81E344F47F5A759C997 /* Pods_Cryptare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +196,7 @@
 				868F1A8B1F7D301E0093402A /* GoogleMobileAds.framework in Frameworks */,
 				868F1A8C1F7D301E0093402A /* CoreTelephony.framework in Frameworks */,
 				868F1A8D1F7D301E0093402A /* EventKit.framework in Frameworks */,
+				86BD6F961F84019600C4B0CA /* Pods_Btc.framework in Frameworks */,
 				868F1A8E1F7D301E0093402A /* EventKitUI.framework in Frameworks */,
 				868F1A8F1F7D301E0093402A /* MessageUI.framework in Frameworks */,
 				868F1A901F7D301E0093402A /* StoreKit.framework in Frameworks */,
@@ -193,6 +204,7 @@
 				868F1A921F7D301E0093402A /* AVFoundation.framework in Frameworks */,
 				868F1A931F7D301E0093402A /* AudioToolbox.framework in Frameworks */,
 				868F1A941F7D301E0093402A /* AdSupport.framework in Frameworks */,
+				C19708534AD600CCA4EDE5A8 /* Pods_Cryptare_CryptareLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +221,10 @@
 				93D9E17B6A5E6D4DE3E9D96F /* Pods-BtcUITests.release.xcconfig */,
 				74798DE924C07F8DEE656B0E /* Pods-Btc.debug.xcconfig */,
 				0E0AC803835C127A6D059E30 /* Pods-Btc.release.xcconfig */,
+				D68A21A47030A35D2F326E63 /* Pods-Cryptare.debug.xcconfig */,
+				D5347ECE0D982E7812EB9F39 /* Pods-Cryptare.release.xcconfig */,
+				54C87E315B99D4F1EB0E7670 /* Pods-Cryptare-CryptareLite.debug.xcconfig */,
+				463EE106F5CD862D7D291E64 /* Pods-Cryptare-CryptareLite.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -230,7 +246,7 @@
 		8634746C1F08262000E7EB86 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8634746B1F08262000E7EB86 /* Btc.app */,
+				8634746B1F08262000E7EB86 /* Cryptare.app */,
 				863474811F08262000E7EB86 /* BtcTests.xctest */,
 				8634748C1F08262000E7EB86 /* BtcUITests.xctest */,
 				868F1A9F1F7D301E0093402A /* CryptareLite.app */,
@@ -288,6 +304,8 @@
 				644FCEA4336E786DD955E594 /* Pods_Btc.framework */,
 				5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */,
 				EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */,
+				F91BB410863D3FDD24A42599 /* Pods_Cryptare.framework */,
+				1945DE35159704AE01952E0D /* Pods_Cryptare_CryptareLite.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -346,9 +364,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8634746A1F08262000E7EB86 /* Btc */ = {
+		8634746A1F08262000E7EB86 /* Cryptare */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 863474951F08262000E7EB86 /* Build configuration list for PBXNativeTarget "Btc" */;
+			buildConfigurationList = 863474951F08262000E7EB86 /* Build configuration list for PBXNativeTarget "Cryptare" */;
 			buildPhases = (
 				568B2CFD8158D03DFDBF769E /* [CP] Check Pods Manifest.lock */,
 				863474671F08262000E7EB86 /* Sources */,
@@ -361,9 +379,9 @@
 			);
 			dependencies = (
 			);
-			name = Btc;
+			name = Cryptare;
 			productName = Btc;
-			productReference = 8634746B1F08262000E7EB86 /* Btc.app */;
+			productReference = 8634746B1F08262000E7EB86 /* Cryptare.app */;
 			productType = "com.apple.product-type.application";
 		};
 		863474801F08262000E7EB86 /* BtcTests */ = {
@@ -412,9 +430,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 868F1A9C1F7D301E0093402A /* Build configuration list for PBXNativeTarget "CryptareLite" */;
 			buildPhases = (
+				66591833C03C2A69ABE261E3 /* [CP] Check Pods Manifest.lock */,
 				868F1A7B1F7D301E0093402A /* Sources */,
 				868F1A891F7D301E0093402A /* Frameworks */,
 				868F1A961F7D301E0093402A /* Resources */,
+				8631593F4F6CA668B9F55225 /* [CP] Embed Pods Frameworks */,
+				BEADF5F75B86C018BF1A32DD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -470,7 +491,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8634746A1F08262000E7EB86 /* Btc */,
+				8634746A1F08262000E7EB86 /* Cryptare */,
 				863474801F08262000E7EB86 /* BtcTests */,
 				8634748B1F08262000E7EB86 /* BtcUITests */,
 				868F1A791F7D301E0093402A /* CryptareLite */,
@@ -528,7 +549,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Btc/Pods-Btc-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare/Pods-Cryptare-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2E21ACBBA98B85C70D394900 /* [CP] Check Pods Manifest.lock */ = {
@@ -560,7 +581,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Btc-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Cryptare-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -580,6 +601,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BtcUITests/Pods-BtcUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66591833C03C2A69ABE261E3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Cryptare-CryptareLite-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		72F3BD688A4A5BB18E00729B /* [CP] Copy Pods Resources */ = {
@@ -615,13 +654,13 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A8B0F0DA981FE1745DC0EE44 /* [CP] Embed Pods Frameworks */ = {
+		8631593F4F6CA668B9F55225 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Btc/Pods-Btc-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare-CryptareLite/Pods-Cryptare-CryptareLite-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
@@ -638,7 +677,48 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Btc/Pods-Btc-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare-CryptareLite/Pods-Cryptare-CryptareLite-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A8B0F0DA981FE1745DC0EE44 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare/Pods-Cryptare-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare/Pods-Cryptare-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BEADF5F75B86C018BF1A32DD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare-CryptareLite/Pods-Cryptare-CryptareLite-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CFE71ADDFB46B5EE79C53C97 /* [CP] Embed Pods Frameworks */ = {
@@ -739,12 +819,12 @@
 /* Begin PBXTargetDependency section */
 		863474831F08262000E7EB86 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8634746A1F08262000E7EB86 /* Btc */;
+			target = 8634746A1F08262000E7EB86 /* Cryptare */;
 			targetProxy = 863474821F08262000E7EB86 /* PBXContainerItemProxy */;
 		};
 		8634748E1F08262000E7EB86 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8634746A1F08262000E7EB86 /* Btc */;
+			target = 8634746A1F08262000E7EB86 /* Cryptare */;
 			targetProxy = 8634748D1F08262000E7EB86 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -878,7 +958,7 @@
 		};
 		863474961F08262000E7EB86 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74798DE924C07F8DEE656B0E /* Pods-Btc.debug.xcconfig */;
+			baseConfigurationReference = D68A21A47030A35D2F326E63 /* Pods-Cryptare.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -902,7 +982,7 @@
 		};
 		863474971F08262000E7EB86 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E0AC803835C127A6D059E30 /* Pods-Btc.release.xcconfig */;
+			baseConfigurationReference = D5347ECE0D982E7812EB9F39 /* Pods-Cryptare.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -988,6 +1068,7 @@
 		};
 		868F1A9D1F7D301E0093402A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54C87E315B99D4F1EB0E7670 /* Pods-Cryptare-CryptareLite.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1011,6 +1092,7 @@
 		};
 		868F1A9E1F7D301E0093402A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463EE106F5CD862D7D291E64 /* Pods-Cryptare-CryptareLite.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1044,7 +1126,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		863474951F08262000E7EB86 /* Build configuration list for PBXNativeTarget "Btc" */ = {
+		863474951F08262000E7EB86 /* Build configuration list for PBXNativeTarget "Cryptare" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				863474961F08262000E7EB86 /* Debug */,
