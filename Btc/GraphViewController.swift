@@ -215,14 +215,14 @@ class GraphViewController: UIViewController  {
 //        line1.colors = ChartColorTemplates.liberty()
         line1.drawCirclesEnabled = false
         line1.fillAlpha = 1
-        line1.lineWidth = 1.5
+        line1.lineWidth = 3
         line1.mode = .cubicBezier
         
         let gradientColors = [lineColor.cgColor, UIColor.white.cgColor] as CFArray // Colors of the gradient
         let colorLocations:[CGFloat] = [1.0, 0] // Positioning of the gradient
         let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations) // Gradient Object
         line1.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0) // Set the Gradient
-        line1.drawFilledEnabled = true // Draw the Gradient
+        line1.drawFilledEnabled = false // Draw the Gradient
         
         let lineChartData = LineChartData() //This is the object that will be added to the chart
         
@@ -231,12 +231,15 @@ class GraphViewController: UIViewController  {
         
         
         chart.rightAxis.enabled = false
+        chart.xAxis.drawLabelsEnabled = false
         chart.xAxis.labelPosition = .bottom
 //        chart.setScaleEnabled(false)
         chart.pinchZoomEnabled = true
         chart.xAxis.drawGridLinesEnabled = false
         chart.legend.enabled = false
         chart.chartDescription?.text = ""
+        chart.leftAxis.enabled = false
+        chart.xAxis.enabled = false
         
         chart.data = lineChartData //finally - it adds the chart data to the chart and causes an update
         
