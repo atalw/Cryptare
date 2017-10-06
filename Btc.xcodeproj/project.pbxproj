@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		15DFE81E344F47F5A759C997 /* Pods_Cryptare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BB410863D3FDD24A42599 /* Pods_Cryptare.framework */; };
-		71FC540B4AA8883F1B40DE9D /* Pods_Btc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644FCEA4336E786DD955E594 /* Pods_Btc.framework */; };
 		7A7C244BA027D9F18FDBA49F /* Pods_BtcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */; };
 		8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAAD1F83C824003733E8 /* GradientView.swift */; };
 		8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAAD1F83C824003733E8 /* GradientView.swift */; };
@@ -66,7 +65,6 @@
 		868F1AA21F7D3AF90093402A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
 		868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868F1AA41F7D3EEB0093402A /* MainLite.storyboard */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
-		86BD6F961F84019600C4B0CA /* Pods_Btc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644FCEA4336E786DD955E594 /* Pods_Btc.framework */; };
 		86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
 		86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
 		86BD6F9B1F85236100C4B0CA /* MarketsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */; };
@@ -172,7 +170,6 @@
 				863474B71F0CE51E00E7EB86 /* AVFoundation.framework in Frameworks */,
 				863474B51F0CE51A00E7EB86 /* AudioToolbox.framework in Frameworks */,
 				863474B31F0CE50F00E7EB86 /* AdSupport.framework in Frameworks */,
-				71FC540B4AA8883F1B40DE9D /* Pods_Btc.framework in Frameworks */,
 				15DFE81E344F47F5A759C997 /* Pods_Cryptare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,7 +197,6 @@
 				868F1A8A1F7D301E0093402A /* CoreGraphics.framework in Frameworks */,
 				868F1A8C1F7D301E0093402A /* CoreTelephony.framework in Frameworks */,
 				868F1A8D1F7D301E0093402A /* EventKit.framework in Frameworks */,
-				86BD6F961F84019600C4B0CA /* Pods_Btc.framework in Frameworks */,
 				868F1A8E1F7D301E0093402A /* EventKitUI.framework in Frameworks */,
 				868F1A8F1F7D301E0093402A /* MessageUI.framework in Frameworks */,
 				868F1A901F7D301E0093402A /* StoreKit.framework in Frameworks */,
@@ -977,10 +973,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Btc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1001,10 +994,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Btc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
