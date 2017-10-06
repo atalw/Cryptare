@@ -369,32 +369,27 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kwh-Sh-w34" customClass="GradientView" customModule="Cryptare" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="50"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="i6r-jb-iV6">
+                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="i6r-jb-iV6">
                                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Site" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K82-f0-jIL">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="129.5" height="50"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="111" height="50"/>
                                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="bWr-bA-U6B">
-                                                                        <rect key="frame" x="134.5" y="0.0" width="208.5" height="50"/>
-                                                                        <subviews>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JSD-YQ-lNH">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="104.5" height="50"/>
-                                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                                                <nil key="textColor"/>
-                                                                                <nil key="highlightedColor"/>
-                                                                            </label>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Nw-Bv-0Ra">
-                                                                                <rect key="frame" x="104.5" y="0.0" width="104" height="50"/>
-                                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                                                <nil key="textColor"/>
-                                                                                <nil key="highlightedColor"/>
-                                                                            </label>
-                                                                        </subviews>
-                                                                    </stackView>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JSD-YQ-lNH">
+                                                                        <rect key="frame" x="116" y="0.0" width="111" height="50"/>
+                                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Nw-Bv-0Ra">
+                                                                        <rect key="frame" x="232" y="0.0" width="111" height="50"/>
+                                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
                                                                 </subviews>
                                                             </stackView>
                                                         </subviews>
@@ -431,36 +426,28 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZp-ys-zle" customClass="GradientView" customModule="Cryptare" customModuleProvider="target">
                                                                     <rect key="frame" x="16" y="0.0" width="343" height="50"/>
                                                                     <subviews>
-                                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1pf-bo-JHV">
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1pf-bo-JHV">
                                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
                                                                             <subviews>
-                                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyP-pq-2lb" customClass="CustomUIButton" customModule="Cryptare" customModuleProvider="target">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="129.5" height="50"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="width" constant="129.5" id="F3T-lZ-J59"/>
-                                                                                    </constraints>
+                                                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="748" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyP-pq-2lb" customClass="CustomUIButton" customModule="Cryptare" customModuleProvider="target">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="111" height="50"/>
                                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                                     <state key="normal" title="Button">
                                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     </state>
                                                                                 </button>
-                                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1GE-Qh-xPJ">
-                                                                                    <rect key="frame" x="134.5" y="0.0" width="208.5" height="50"/>
-                                                                                    <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0yQ-30-6dp">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="104.5" height="50"/>
-                                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                                                            <nil key="textColor"/>
-                                                                                            <nil key="highlightedColor"/>
-                                                                                        </label>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OfL-QV-mEE">
-                                                                                            <rect key="frame" x="104.5" y="0.0" width="104" height="50"/>
-                                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                                                            <nil key="textColor"/>
-                                                                                            <nil key="highlightedColor"/>
-                                                                                        </label>
-                                                                                    </subviews>
-                                                                                </stackView>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0yQ-30-6dp">
+                                                                                    <rect key="frame" x="116" y="0.0" width="111" height="50"/>
+                                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                                    <nil key="textColor"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OfL-QV-mEE">
+                                                                                    <rect key="frame" x="232" y="0.0" width="111" height="50"/>
+                                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                                    <nil key="textColor"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
                                                                             </subviews>
                                                                         </stackView>
                                                                     </subviews>
