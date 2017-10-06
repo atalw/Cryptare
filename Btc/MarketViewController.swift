@@ -249,7 +249,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if self.selectedCountry == "india" {
                 self.zebpayPrice()
                 self.coinsecurePrice()
-                self.throughbitPrice()
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
@@ -276,6 +275,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if self.selectedCountry == "india" {
                 self.localbitcoinsPrice()
                 self.pocketBitsPrice()
+                self.throughbitPrice()
             }
             else if self.selectedCountry == "usa" {
                 self.geminiPrice()
@@ -489,7 +489,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            
             self.markets.append(Market(title: "PocketBits", buyPrice: -1, sellPrice: -1))
         #endif
     }
@@ -521,7 +520,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            
             self.markets.append(Market(title: "Throughbit", buyPrice: -1, sellPrice: -1))
         #endif
     }
