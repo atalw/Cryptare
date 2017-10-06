@@ -15,7 +15,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet var btcPriceLabel: UILabel!
     @IBOutlet var btcAmount: UITextField!
-    @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var infoButton: UIBarButtonItem!
     
     @IBOutlet weak var tableView: UITableView!
@@ -42,7 +41,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
-//        self.getCurrentBtcPrice()
         self.loadData()
         self.tableView.reloadData()
     }
@@ -52,23 +50,9 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
-        
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         view.addGestureRecognizer(tap)
-        
-        
-//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        let width = UIScreen.main.bounds.width
-//        //        let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
-//        //        print(self.collectionView.contentSize)
-//        //        print(height)
-//        layout.itemSize = CGSize(width: width/3, height: width/5)
-//        layout.minimumInteritemSpacing = 0
-//        layout.minimumLineSpacing = 0
-//        layout.headerReferenceSize = CGSize(width: width, height: width/6)
-//        self.collectionView.collectionViewLayout = layout
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -224,9 +208,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                         continue
                     }
                     count -= 1
-                }
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
                 }
             }
         }
@@ -385,9 +366,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 self.btcPrices.add("Unocoin")
                 self.btcPrices.add(formattedBuyPrice!)
                 self.btcPrices.add(formattedSellPrice!)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
             }
             catch {
 //                print(data)
@@ -588,7 +566,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func coinbasePrice() {
-        var cbBuyPrice: Double!, cbSellPrice: Double!
+        var cbBuyPrice: Double!
         let url = URL(string: "https://api.coinbase.com/v2/prices/BTC-USD/buy")
         let buyTask = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {

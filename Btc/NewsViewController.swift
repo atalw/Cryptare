@@ -20,19 +20,20 @@ public enum NetworkResponseStatus {
 
 class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    let defaults = UserDefaults.standard
-    var selectedCountry: String!
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var indiaButton: UIButton!
+    @IBOutlet weak var worldwideButton: UIButton!
     
+    let defaults = UserDefaults.standard
+    var selectedCountry: String!
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var allNewsData : [NewsData] = [];
+
     
     @IBAction func refreshButton(_ sender: Any) {
         self.getNews()
     }
-    
-    @IBOutlet weak var indiaButton: UIButton!
-    @IBOutlet weak var worldwideButton: UIButton!
     
     #if LITE_VERSION
         @IBAction func upgradeButton(_ sender: Any) {
@@ -42,7 +43,9 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
@@ -58,6 +61,11 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         self.indiaButton.isSelected = true
         self.worldwideButton.isSelected = false
+        
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
 
         self.getNews()
         
@@ -67,7 +75,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
-
     }
     
     @objc func newsButtonTapped() {
@@ -79,6 +86,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func getNews() {
         self.allNewsData = []
         self.tableView.reloadData()
+        self.activityIndicator.startAnimating()
+
         if (self.indiaButton.isSelected) {
             self.getIndiaNews()
         }
@@ -127,8 +136,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.allNewsData.append(updateNewsCell)
             #endif
             
-            self.tableView.dataSource = self
-            self.tableView.delegate = self
+            self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
         }
     }
@@ -153,8 +161,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.allNewsData.append(updateNewsCell)
             #endif
             
-            self.tableView.dataSource = self
-            self.tableView.delegate = self
+            self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
         }
     }
