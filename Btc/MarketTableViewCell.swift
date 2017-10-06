@@ -10,7 +10,7 @@ import UIKit
 
 class MarketTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var siteLabel: UIButton!
+    @IBOutlet weak var siteLabel: CustomUIButton!
     @IBOutlet weak var buyLabel: UILabel!
     @IBOutlet weak var sellLabel: UILabel!
     

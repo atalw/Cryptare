@@ -112,15 +112,29 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    @objc func handleButton(sender: CustomUIButton!) {
+        if let link = sender.url {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(link, options: [:], completionHandler: nil)
+            } else {
+                // Fallback on earlier versions
+                UIApplication.shared.openURL(link)
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.markets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+       
         let market = self.markets[indexPath.row]
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
         cell!.siteLabel?.setTitle(market.title, for: .normal)
-        print(market.siteLink)
+        cell!.siteLabel.url = market.siteLink
+        cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+        
         #if PRO_VERSION
             if market.buyPrice == -1 {
                 cell!.buyLabel?.text = "Coming"
@@ -152,8 +166,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func loadData() {
-//        self.btcPrices.empty()
-//        self.dataValues = []
         self.markets.removeAll()
         self.activityIndicator.startAnimating()
         
@@ -422,7 +434,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                             
                             self.dataValues.append(tempSell)
                             
-                            self.markets.append(Market(title: "LocalBitcoins", buyPrice: tempBuy, sellPrice: tempSell))
+                            self.markets.append(Market(title: "LocalBitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: tempBuy, sellPrice: tempSell))
                             
                         }
                         else {
@@ -482,7 +494,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 if let pocketBitsBuyPrice = json["rates"]["BTC_BuyingRate"].double {
                     if let pocketBitsSellPrice = json["rates"]["BTC_SellingRate"].double {
                         
-                        self.markets.append(Market(title: "PocketBits", buyPrice: pocketBitsBuyPrice, sellPrice: pocketBitsSellPrice))
+                        self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: pocketBitsBuyPrice, sellPrice: pocketBitsSellPrice))
                     }
                 }
             }
