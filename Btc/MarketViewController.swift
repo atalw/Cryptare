@@ -38,6 +38,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     var currentBtcPrice: Double = 0.0
     
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
 //        self.getCurrentBtcPrice()
@@ -78,6 +80,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             present(alert, animated: true, completion: nil)
             print("here")
         }
+        
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
     
     override func viewDidLoad() {
@@ -98,6 +106,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.tableFooterView = UIView()
         
         self.loadData()
         
@@ -142,8 +151,10 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func loadData() {
-        self.btcPrices.empty()
-        self.dataValues = []
+//        self.btcPrices.empty()
+//        self.dataValues = []
+        self.markets.removeAll()
+        self.activityIndicator.startAnimating()
         
         self.btcPriceLabel.text = self.currentBtcPriceString
 
@@ -157,6 +168,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 #endif
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.newPrices()
+                    self.activityIndicator.stopAnimating()
+                    self.tableView.reloadData()
                 }
             }
         }
@@ -291,7 +304,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     self.markets.append(Market(title: "Zebpay", buyPrice: zebpaySellPrice, sellPrice: zebpayBuyPrice))
                     
                     DispatchQueue.main.async {
-                        self.tableView.reloadData()
+//                        self.tableView.reloadData()
                     }
                 }
                 else {
@@ -414,7 +427,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                             self.markets.append(Market(title: "LocalBitcoins", buyPrice: tempBuy, sellPrice: tempSell))
                             
                             DispatchQueue.main.async {
-                                self.tableView.reloadData()
+//                                self.tableView.reloadData()
                             }
                         }
                         else {
@@ -431,7 +444,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             self.markets.append(Market(title: "LocalBitcoins", buyPrice: -1, sellPrice: -1))
             
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
             }
         #endif
     }
@@ -457,7 +470,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     self.markets.append(Market(title: "Coinsecure", buyPrice: csBuyPrice, sellPrice: csSellPrice))
                     
                     DispatchQueue.main.async {
-                        self.tableView.reloadData()
+//                        self.tableView.reloadData()
                     }
                 }
             }
@@ -485,7 +498,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                         self.markets.append(Market(title: "PocketBits", buyPrice: pocketBitsBuyPrice, sellPrice: pocketBitsSellPrice))
                         
                         DispatchQueue.main.async {
-                            self.tableView.reloadData()
+//                            self.tableView.reloadData()
                         }
                     }
                 }
@@ -523,7 +536,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                             self.markets.append(Market(title: "Throughbit", buyPrice: tBuyPrice, sellPrice: tSellPrice))
 
                             DispatchQueue.main.async {
-                                self.tableView.reloadData()
+                                //self.tableView.reloadData()
                             }
                         }
                         
@@ -538,7 +551,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             self.markets.append(Market(title: "Throughbit", buyPrice: -1, sellPrice: -1))
 
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
             }
         #endif
     }
@@ -588,7 +601,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         self.markets.append(Market(title: "Remitano", buyPrice: -1, sellPrice: -1))
 
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
         }
         
     }
@@ -598,7 +611,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         self.markets.append(Market(title: "BitBay", buyPrice: -1, sellPrice: -1))
 
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
         }
         
     }
@@ -640,7 +653,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
                 }
             }
             sellTask.resume()
@@ -671,7 +684,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
             }
         }
         task.resume()
@@ -701,7 +714,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
             }
         }
         task.resume()
@@ -745,7 +758,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                             self.markets.append(Market(title: "Localbitcoins", buyPrice: tempBuy, sellPrice: tempSell))
 
                             DispatchQueue.main.async {
-                                self.tableView.reloadData()
+                                //self.tableView.reloadData()
                             }
                         }
                         else {
@@ -796,7 +809,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
                 }
             }
             task.resume()
@@ -806,7 +819,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             self.markets.append(Market(title: "Gemini", buyPrice: -1, sellPrice: -1))
 
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
             }
         #endif
     }
@@ -834,7 +847,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
                 }
             }
             task.resume()
@@ -844,7 +857,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             self.markets.append(Market(title: "Bitfinex", buyPrice: -1, sellPrice: -1))
 
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
             }
         #endif
     }
@@ -872,7 +885,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
                 }
             }
             task.resume()
@@ -882,7 +895,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             self.markets.append(Market(title: "Bitstamp", buyPrice: -1, sellPrice: -1))
 
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
             }
         #endif
     }

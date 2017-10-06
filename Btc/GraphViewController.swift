@@ -27,7 +27,18 @@ class GraphViewController: UIViewController  {
     var selectedCountry: String!
     var currency: String! = "INR" // set default value to INR
     let todaysDate = Date()
-
+    
+    var btcPrice = "0"
+    var btcPriceChange = "0"
+    var btcChangeColour : UIColor = UIColor.gray
+    var currentBtcPrice: Double! {
+        didSet {
+            self.loadData()
+            self.parentControler.currentBtcPrice = currentBtcPrice
+            self.parentControler.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: currentBtcPrice))
+        }
+    }
+    @IBOutlet weak var chart: LineChartView!
 
     @IBAction func rangeSegmentedControl(_ sender: Any) {
         if let index = (sender as? UISegmentedControl)?.selectedSegmentIndex {
@@ -45,6 +56,39 @@ class GraphViewController: UIViewController  {
                 self.timeSpan.text = "(1 year)"
             }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        
+        if self.selectedCountry == "india" {
+            currency = "INR"
+        }
+        else if self.selectedCountry == "usa" {
+            currency = "USD"
+        }
+        
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        numberFormatter.numberStyle = .currency
+        
+        if selectedCountry == "india" {
+            numberFormatter.locale = Locale.init(identifier: "en_IN")
+        }
+        else if selectedCountry == "usa" {
+            numberFormatter.locale = Locale.init(identifier: "en_US")
+        }
+        self.getCurrentBtcPrice()
+        self.rangeSegmentControlObject.selectedSegmentIndex = 1
+        
+        self.btcPriceChangeLabel.layer.masksToBounds = true
+        self.btcPriceChangeLabel.layer.cornerRadius = 8
+        
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func getChartData(timeSpan: Int) {
@@ -91,51 +135,6 @@ class GraphViewController: UIViewController  {
                 self.initializeChart(labels: labels, values: values)
             }
         }  )
-    }
-    
-    var btcPrice = "0"
-    var btcPriceChange = "0"
-    var btcChangeColour : UIColor = UIColor.gray
-    var currentBtcPrice: Double! {
-        didSet {
-            self.loadData()
-            self.parentControler.currentBtcPrice = currentBtcPrice
-            self.parentControler.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: currentBtcPrice))
-        }
-    }
-    @IBOutlet weak var chart: LineChartView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
-        
-        if self.selectedCountry == "india" {
-            currency = "INR"
-        }
-        else if self.selectedCountry == "usa" {
-            currency = "USD"
-        }
-        
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-        numberFormatter.numberStyle = .currency
-
-        if selectedCountry == "india" {
-            numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if selectedCountry == "usa" {
-            numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
-        self.getCurrentBtcPrice()
-        self.rangeSegmentControlObject.selectedSegmentIndex = 0
-        
-        self.btcPriceChangeLabel.layer.masksToBounds = true
-        self.btcPriceChangeLabel.layer.cornerRadius = 8
-        
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func loadData() {
