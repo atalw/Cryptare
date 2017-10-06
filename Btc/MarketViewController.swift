@@ -120,6 +120,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         let market = self.markets[indexPath.row]
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
         cell!.siteLabel?.setTitle(market.title, for: .normal)
+        print(market.siteLink)
         #if PRO_VERSION
             if market.buyPrice == -1 {
                 cell!.buyLabel?.text = "Coming"
@@ -301,7 +302,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if let zebpayBuyPrice = json["buy"].double {
                 if let zebpaySellPrice = json["sell"].double {
                     
-                    self.markets.append(Market(title: "Zebpay", buyPrice: zebpaySellPrice, sellPrice: zebpayBuyPrice))
+                    self.markets.append(Market(title: "Zebpay", siteLink: URL(string: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal"), buyPrice: zebpaySellPrice, sellPrice: zebpayBuyPrice))
                     
                 }
                 else {
@@ -346,7 +347,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         //            }
         //        }
         //        taskSell.resume()
-
+//https://www.unocoin.com/?referrerid=301527
         
         let url = URL(string: "https://www.unocoin.com/trade.php?all")
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
@@ -435,7 +436,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            self.markets.append(Market(title: "LocalBitcoins", buyPrice: -1, sellPrice: -1))
+            self.markets.append(Market(title: "LocalBitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: -1, sellPrice: -1))
         #endif
     }
 
@@ -457,7 +458,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     csBuyPrice = csBuyPrice/100
                     csSellPrice = csSellPrice/100
                     
-                    self.markets.append(Market(title: "Coinsecure", buyPrice: csBuyPrice, sellPrice: csSellPrice))
+                    self.markets.append(Market(title: "Coinsecure", siteLink: URL(string: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM"), buyPrice: csBuyPrice, sellPrice: csSellPrice))
                 }
             }
         }
@@ -489,7 +490,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            self.markets.append(Market(title: "PocketBits", buyPrice: -1, sellPrice: -1))
+            self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: -1, sellPrice: -1))
         #endif
     }
     
@@ -510,7 +511,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     if let tSellPriceString = json["data"]["price"][0]["sell_price"].string {
                         if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
                             
-                            self.markets.append(Market(title: "Throughbit", buyPrice: tBuyPrice, sellPrice: tSellPrice))
+                            self.markets.append(Market(title: "Throughbit", siteLink: URL(string: "https://www.throughbit.com/"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
                         }
                         
                     }
@@ -520,7 +521,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            self.markets.append(Market(title: "Throughbit", buyPrice: -1, sellPrice: -1))
+            self.markets.append(Market(title: "Throughbit", siteLink: URL(string: "https://www.throughbit.com/"), buyPrice: -1, sellPrice: -1))
         #endif
     }
 
@@ -566,12 +567,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
 
     func reminatoPrice() {
         
-        self.markets.append(Market(title: "Remitano", buyPrice: -1, sellPrice: -1))
+        self.markets.append(Market(title: "Remitano", siteLink: URL(string: "https://remitano.com/in?ref=atalw"), buyPrice: -1, sellPrice: -1))
     }
     
     func bitbayPrice() {
         
-        self.markets.append(Market(title: "BitBay", buyPrice: -1, sellPrice: -1))
+        self.markets.append(Market(title: "BitBay", siteLink: URL(string: "https://auth.bitbay.net/ref/atalw"), buyPrice: -1, sellPrice: -1))
     }
     
     func coinbasePrice() {
@@ -607,7 +608,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 let json = JSON(data: data)
                 if let cbSellPriceString = json["data"]["amount"].string {
                     if let cbSellPrice = Double(cbSellPriceString) {
-                        self.markets.append(Market(title: "Coinbase", buyPrice: cbBuyPrice, sellPrice: cbSellPrice))
+                        self.markets.append(Market(title: "Coinbase", siteLink: URL(string: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b"), buyPrice: cbBuyPrice, sellPrice: cbSellPrice))
                     }
                 }
             }
@@ -632,7 +633,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if let krakenBuyPriceString = json["result"]["XXBTZUSD"]["a"][0].string {
                 if let krakenSellPriceString = json["result"]["XXBTZUSD"]["b"][0].string {
                     if let buyPrice = Double(krakenBuyPriceString), let sellPrice = Double(krakenSellPriceString) {
-                        self.markets.append(Market(title: "Kraken", buyPrice: buyPrice, sellPrice: sellPrice))
+                        self.markets.append(Market(title: "Kraken", siteLink: URL(string: "https://www.kraken.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
                     }
                     
                 }
@@ -658,8 +659,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if let pBuyPriceString = json["USDT_BTC"]["lowestAsk"].string {
                 if let pSellPriceString = json["USDT_BTC"]["highestBid"].string {
                     if let buyPrice = Double(pBuyPriceString), let sellPrice = Double(pSellPriceString) {
-                        
-                        self.markets.append(Market(title: "Poloniex", buyPrice: buyPrice, sellPrice: sellPrice))
+                        // change to poloniex URL
+                        self.markets.append(Market(title: "Poloniex", siteLink: URL(string: "https://www.kraken.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
 
                     }
                     
@@ -704,7 +705,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                         if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
                             let tempSell = Double(z)!
                             
-                            self.markets.append(Market(title: "Localbitcoins", buyPrice: tempBuy, sellPrice: tempSell))
+                            self.markets.append(Market(title: "Localbitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: tempBuy, sellPrice: tempSell))
                         }
                         else {
                             
@@ -747,7 +748,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 if let gBuyPriceString = json["ask"].string {
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
-                            self.markets.append(Market(title: "Gemini", buyPrice: buyPrice, sellPrice: sellPrice))
+                            self.markets.append(Market(title: "Gemini", siteLink: URL(string: "https://gemini.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
                         }
                         
                     }
@@ -758,7 +759,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            self.markets.append(Market(title: "Gemini", buyPrice: -1, sellPrice: -1))
+            self.markets.append(Market(title: "Gemini", siteLink: URL(string: "https://gemini.com/"), buyPrice: -1, sellPrice: -1))
         #endif
     }
     
@@ -779,7 +780,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 if let gBuyPriceString = json["ask"].string {
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
-                            self.markets.append(Market(title: "Bitfinex", buyPrice: buyPrice, sellPrice: sellPrice))
+                            self.markets.append(Market(title: "Bitfinex", siteLink: URL(string: "https://www.bitfinex.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
 
                         }
                     }
@@ -789,7 +790,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            self.markets.append(Market(title: "Bitfinex", buyPrice: -1, sellPrice: -1))
+            self.markets.append(Market(title: "Bitfinex", siteLink: URL(string: "https://www.bitfinex.com/"), buyPrice: -1, sellPrice: -1))
         #endif
     }
     
@@ -810,7 +811,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 if let gBuyPriceString = json["ask"].string {
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
-                            self.markets.append(Market(title: "Bitstamp", buyPrice: buyPrice, sellPrice: sellPrice))
+                            self.markets.append(Market(title: "Bitstamp", siteLink: URL(string: "https://www.bitstamp.net/"), buyPrice: buyPrice, sellPrice: sellPrice))
 
                         }
                     }
@@ -820,7 +821,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         #endif
         
         #if LITE_VERSION
-            self.markets.append(Market(title: "Bitstamp", buyPrice: -1, sellPrice: -1))
+            self.markets.append(Market(title: "Bitstamp", siteLink: URL(string: "https://www.bitstamp.net/"), buyPrice: -1, sellPrice: -1))
         #endif
     }
     

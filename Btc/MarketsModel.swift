@@ -10,11 +10,13 @@ import Foundation
 
 class Market {
     var title: String!
+    var siteLink: URL!
     var buyPrice: Double!
     var sellPrice: Double!
     
-    init(title: String, buyPrice: Double, sellPrice: Double) {
+    init(title: String, siteLink: URL!, buyPrice: Double, sellPrice: Double) {
         self.title = title
+        self.siteLink = siteLink
         self.sellPrice = sellPrice
         self.buyPrice = buyPrice
     }
