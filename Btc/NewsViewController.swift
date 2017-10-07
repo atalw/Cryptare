@@ -24,12 +24,14 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var indiaButton: UIButton!
     @IBOutlet weak var worldwideButton: UIButton!
+    @IBOutlet weak var sortPopularityButton: UIButton!
+    @IBOutlet weak var sortDateButton: UIButton!
     
     let defaults = UserDefaults.standard
     var selectedCountry: String!
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var allNewsData : [NewsData] = [];
-
+    var sortedNewsData : [NewsData] = [];
     
     @IBAction func refreshButton(_ sender: Any) {
         self.getNews()
@@ -62,6 +64,13 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.indiaButton.isSelected = true
         self.worldwideButton.isSelected = false
         
+        self.sortPopularityButton.layer.cornerRadius = 5
+        self.sortDateButton.layer.cornerRadius = 5
+        self.sortPopularityButton.backgroundColor = UIColor.lightGray
+
+        self.sortPopularityButton.isSelected = true
+        self.sortDateButton.isSelected = false
+        
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
@@ -72,15 +81,35 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
         self.worldwideButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
 
+        self.sortPopularityButton.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+        self.sortDateButton.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+
 
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
     }
     
     @objc func newsButtonTapped() {
-        self.indiaButton.isSelected = !self.indiaButton.isSelected
-        self.worldwideButton.isSelected = !self.worldwideButton.isSelected
-        self.getNews()
+        indiaButton.isSelected = !self.indiaButton.isSelected
+        worldwideButton.isSelected = !self.worldwideButton.isSelected
+        getNews()
+    }
+    
+    @objc func sortButtonTapped() {
+        activityIndicator.startAnimating()
+        sortPopularityButton.isSelected = !self.sortPopularityButton.isSelected
+        sortDateButton.isSelected = !self.sortDateButton.isSelected
+        if sortPopularityButton.isSelected {
+            sortPopularityButton.backgroundColor = UIColor.lightGray
+            sortDateButton.backgroundColor = UIColor.white
+        }
+        else if sortDateButton.isSelected {
+            sortDateButton.backgroundColor = UIColor.lightGray
+            sortPopularityButton.backgroundColor = UIColor.white
+        }
+        activityIndicator.stopAnimating()
+        tableView.reloadData()
+        tableView.setContentOffset(CGPoint.zero, animated: true)
     }
     
     func getNews() {
@@ -136,8 +165,10 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.allNewsData.append(updateNewsCell)
             #endif
             
+            self.sortedNewsData = self.sortNewsDataByDate(newsData: self.allNewsData)
             self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
+            self.tableView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
     
@@ -161,12 +192,17 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.allNewsData.append(updateNewsCell)
             #endif
             
+            self.sortedNewsData = self.sortNewsDataByDate(newsData: self.allNewsData)
             self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
+            self.tableView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
     
-    
+    func sortNewsDataByDate(newsData: [NewsData]) -> [NewsData] {
+        let sortedData = newsData
+        return sortedData.sorted(by: {$0.pubDate.compare($1.pubDate) == .orderedDescending})
+    }
 
     
     public func getRSSFeedResponse(path: String, completionHandler: @escaping (_ response: RSSFeed?,_ status: NetworkResponseStatus) -> Void) {
@@ -192,7 +228,13 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath) as! CustomNewsTableViewCell
-        let entry = allNewsData[indexPath.row]
+        var entry: NewsData!
+        if sortPopularityButton.isSelected {
+            entry = allNewsData[indexPath.row]
+        }
+        else {
+            entry = sortedNewsData[indexPath.row]
+        }
         cell.title.text = entry.title
         
         let timeInMilliSeconds = entry.pubDate.timeIntervalSinceNow
@@ -237,34 +279,3 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
 }
-
-//extension UIButton {
-//    
-//    func setBackgroundColor(color: UIColor, forState: UIControlState) {
-//        
-//        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
-//        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
-//        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
-////        UIGraphicsGetCurrentContext()!.radi
-//        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        self.setBackgroundImage(colorImage, for: forState)
-//    }
-//    
-//    func setButtonBorder(color: UIColor, forState: UIControlState) {
-//        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
-//        let context = UIGraphicsGetCurrentContext();
-//        
-//        context?.setStrokeColor(color.cgColor)
-//        context?.setLineWidth(1);
-//        context?.stroke(CGRect(x: 0, y: 0, width: 1, height: 1))
-////        context?.
-//        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        self.setBackgroundImage(colorImage, for: forState)
-//    
-//    }
-//}
-
