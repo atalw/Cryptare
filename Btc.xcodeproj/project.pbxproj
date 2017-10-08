@@ -74,6 +74,7 @@
 		86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
 		86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
 		86FA4DF81F8A41140030FD07 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86FA4DF61F8A31C00030FD07 /* GoogleService-Info.plist */; };
+		86FA4DFA1F8A54EC0030FD07 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86FA4DF91F8A54E40030FD07 /* GoogleService-Info.plist */; };
 		AF7CED9851FD5955FC0C80B2 /* Pods_BtcUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */; };
 		C19708534AD600CCA4EDE5A8 /* Pods_Cryptare_CryptareLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1945DE35159704AE01952E0D /* Pods_Cryptare_CryptareLite.framework */; };
 /* End PBXBuildFile section */
@@ -149,6 +150,8 @@
 		86E31CCA1F41D77900445B08 /* NewsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
 		86FA4DF61F8A31C00030FD07 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cryptare.entitlements; sourceTree = "<group>"; };
+		86FA4DF91F8A54E40030FD07 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		86FA4DFB1F8A55A30030FD07 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		89C3E03A9A5500274E40B35C /* Pods-BtcTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93D9E17B6A5E6D4DE3E9D96F /* Pods-BtcUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcUITests/Pods-BtcUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B865ADC4331AD635123F4BA3 /* Pods-BtcTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -235,6 +238,7 @@
 		863474621F08262000E7EB86 = {
 			isa = PBXGroup;
 			children = (
+				86FA4DFB1F8A55A30030FD07 /* CryptareLite.entitlements */,
 				86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */,
 				86FA4DF61F8A31C00030FD07 /* GoogleService-Info.plist */,
 				868F1AA61F7D42CA0093402A /* Btc copy-Info.plist */,
@@ -341,6 +345,7 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				86FA4DF91F8A54E40030FD07 /* GoogleService-Info.plist */,
 				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
 				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
 				863474771F08262000E7EB86 /* Assets.xcassets */,
@@ -487,6 +492,11 @@
 					};
 					868F1A791F7D301E0093402A = {
 						DevelopmentTeam = J724CNLQL9;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -542,6 +552,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */,
+				86FA4DFA1F8A54EC0030FD07 /* GoogleService-Info.plist in Resources */,
 				868F1A971F7D301E0093402A /* LaunchScreen.storyboard in Resources */,
 				868F1A981F7D301E0093402A /* Assets.xcassets in Resources */,
 			);
@@ -1099,6 +1110,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = CryptareLite.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
@@ -1123,6 +1135,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = CryptareLite.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;

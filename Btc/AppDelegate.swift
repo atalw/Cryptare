@@ -18,27 +18,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        if #available(iOS 10.0, *) {
+            
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
+                if error != nil {
+                    // error
+                }
+                else {
+                    UNUserNotificationCenter.current().delegate = self
+                    Messaging.messaging().delegate = self
+                }
+            })
+            application.registerForRemoteNotifications()
+            FirebaseApp.configure()
+            
+        } else {
+            // Fallback on earlier versions
+        }
+        
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if #available(iOS 10.0, *) {
-                
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
-                    if error != nil {
-                        // error
-                    }
-                    else {
-                        UNUserNotificationCenter.current().delegate = self
-                        Messaging.messaging().delegate = self
-                    }
-                })
-                application.registerForRemoteNotifications()
-                FirebaseApp.configure()
-
-            } else {
-                // Fallback on earlier versions
-            }
         #endif
-    
         
         #if LITE_VERSION
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
