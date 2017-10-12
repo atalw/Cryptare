@@ -11,6 +11,8 @@ pod 'Alamofire', '~> 4.4'
 pod 'AlamofireRSSParser'
 pod 'SwiftyJSON'
 pod 'Charts', :git => 'https://github.com/danielgindi/Charts.git', :branch => 'swift4'
+pod 'Firebase/Core'
+pod 'Firebase/Messaging'
 
 target 'CryptareLite' do
     use_frameworks!

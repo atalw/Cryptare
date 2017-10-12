@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Firebase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
     
@@ -18,18 +20,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        #endif
+            if #available(iOS 10.0, *) {
+                
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
+                    if error != nil {
+                        // error
+                    }
+                    else {
+                        UNUserNotificationCenter.current().delegate = self
+                        Messaging.messaging().delegate = self
+                    }
+                })
+                application.registerForRemoteNotifications()
+                FirebaseApp.configure()
 
+            } else {
+                // Fallback on earlier versions
+            }
+        #endif
+    
+        
         #if LITE_VERSION
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
-
+        
         if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
             let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
             window?.rootViewController = rootViewController
-       }
+        }
 
         return true
+    }
+    
+    func connectToFCM() {
+        Messaging.messaging().shouldEstablishDirectChannel = true
+    }
+    
+    func disconnectFromFCM() {
+        Messaging.messaging().shouldEstablishDirectChannel = false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -40,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        disconnectFromFCM()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -49,12 +78,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 //        FirstViewController.loadData(<#T##FirstViewController#>)
+        connectToFCM()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        let newToken = InstanceID.instanceID().token()
+        connectToFCM()
+    }
 
 }
 
