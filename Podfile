@@ -13,6 +13,7 @@ pod 'SwiftyJSON'
 pod 'Charts', :git => 'https://github.com/danielgindi/Charts.git', :branch => 'swift4'
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
+pod 'Firebase/Database'
 
 target 'CryptareLite' do
     use_frameworks!
@@ -22,6 +23,9 @@ target 'CryptareLite' do
     pod 'AlamofireRSSParser'
     pod 'SwiftyJSON'
     pod 'Charts', :git => 'https://github.com/danielgindi/Charts.git', :branch => 'swift4'
+    pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
+    pod 'Firebase/Database'
 end
 
 target 'BtcTests' do

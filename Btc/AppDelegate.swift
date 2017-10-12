@@ -8,12 +8,14 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
+    var ref: DatabaseReference!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -33,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 })
                 application.registerForRemoteNotifications()
                 FirebaseApp.configure()
+                ref = Database.database().reference()
 
             } else {
                 // Fallback on earlier versions
@@ -79,13 +82,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 //        FirstViewController.loadData(<#T##FirstViewController#>)
         connectToFCM()
+        
+        let fcmToken = Messaging.messaging().fcmToken
+        
+        //Retrieve lists of items or listen for additions to a list of items.
+        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+        //The listener is passed a snapshot containing the new child's data.
+        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            let enumerator = snapshot.children
+            
+            while let child = enumerator.nextObject() as? DataSnapshot {
+                if child.value as? String == fcmToken {
+                    print("exists")
+                    return;
+                }
+            }
+            print("here")
+            let newChild = self.ref.child("user_ids").childByAutoId()
+            newChild.setValue(Messaging.messaging().fcmToken)
+
+        })
+        
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        let newToken = InstanceID.instanceID().token()
+        print("Firebase registration token: \(fcmToken)")
+//        let newToken = InstanceID.instanceID().token()
         connectToFCM()
     }
 
