@@ -224,8 +224,8 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
         line1.drawFilledEnabled = false // Draw the Gradient
         
         line1.highlightEnabled = true
-        line1.highlightColor = UIColor.black
-        line1.highlightLineWidth = 1.5
+        line1.highlightColor = UIColor.black.withAlphaComponent(0.4)
+        line1.highlightLineWidth = 1
         line1.setDrawHighlightIndicators(true)
         line1.drawHorizontalHighlightIndicatorEnabled = false
         
@@ -247,14 +247,15 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
         chart.data = lineChartData //finally - it adds the chart data to the chart and causes an update
         
         // popup value on highlight
-        let marker: BalloonMarker = BalloonMarker(color: UIColor.init(hex: "2980B9").withAlphaComponent(0.7), font: UIFont(name: "Helvetica", size: 12)!, textColor: UIColor.black, insets: UIEdgeInsets(top: 7.0, left: 7.0, bottom: 7.0, right: 7.0))
-        marker.minimumSize = CGSize(width: 50, height: 35.0)
+        let marker: BalloonMarker = BalloonMarker(color: UIColor.init(hex: "2980B9"), font: UIFont.systemFont(ofSize: 11), textColor: UIColor.white, insets: UIEdgeInsets(top: 3, left: 5, bottom: 3, right: 5))
+        marker.minimumSize = CGSize(width: 50, height: 30)
         chart.marker = marker
         
         // reset chart zoom
         chart.fitScreen()
         // reset highlight value
         chart.highlightValue(nil)
+        chart.setExtraOffsets(left: 30, top: 0, right: 30, bottom: 0)
 
         chart.data?.notifyDataChanged()
     }
@@ -315,7 +316,7 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        print(entry)
+//        print(entry)
     }
     
 }
