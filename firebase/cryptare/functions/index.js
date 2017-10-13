@@ -2,14 +2,14 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 admin.initializeApp(functions.config().firebase);
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-exports.helloWorld = functions.https.onRequest((request, response) => {
-	response.send("Hello from Firebase!");
-});
-
 exports.btcPriceNotification = functions.https.onRequest((req, res) => {
+
+	const key = req.query.key;
+
+	if (key != functions.config().btcpricenotif.key) {
+		res.status(403).send("Wrong API key");
+		return;
+	}
 	const ref = admin.database().ref();
 	const devices = []
 
@@ -20,7 +20,6 @@ exports.btcPriceNotification = functions.https.onRequest((req, res) => {
 		});
 		return devices;
 	}).then(devices => {
-		console.log(devices)
 
 		const payload = {
 			notification: {
