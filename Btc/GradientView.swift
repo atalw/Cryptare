@@ -10,7 +10,7 @@ import UIKit
 
 class GradientView: UIView {
     
-    var colourOne: UIColor! = UIColor.init(hex: "#ECE9E6"), colourTwo: UIColor! = UIColor.init(hex: "#FFFFFF")
+    var colourOne: UIColor! = UIColor.init(hex: "#FBFAFA"), colourTwo: UIColor! = UIColor.init(hex: "#FFFFFF")
 
     /*
     // Only override draw() if you perform custom drawing.
