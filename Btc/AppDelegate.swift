@@ -36,7 +36,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 application.registerForRemoteNotifications()
                 FirebaseApp.configure()
                 ref = Database.database().reference()
-
+                
+                let fcmToken = Messaging.messaging().fcmToken
+                
+                //Retrieve lists of items or listen for additions to a list of items.
+                //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+                //The listener is passed a snapshot containing the new child's data.
+                ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+                    let enumerator = snapshot.children
+                    
+                    while let child = enumerator.nextObject() as? DataSnapshot {
+                        if child.value as? String == fcmToken {
+                            print("exists")
+                            return;
+                        }
+                    }
+                    let newChild = self.ref.child("user_ids").childByAutoId()
+                    newChild.setValue(Messaging.messaging().fcmToken)
+                    
+                })
             } else {
                 // Fallback on earlier versions
             }
@@ -82,27 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 //        FirstViewController.loadData(<#T##FirstViewController#>)
         connectToFCM()
-        
-        let fcmToken = Messaging.messaging().fcmToken
-        
-        //Retrieve lists of items or listen for additions to a list of items.
-        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
-        //The listener is passed a snapshot containing the new child's data.
-        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-            let enumerator = snapshot.children
-            
-            while let child = enumerator.nextObject() as? DataSnapshot {
-                if child.value as? String == fcmToken {
-                    print("exists")
-                    return;
-                }
-            }
-            print("here")
-            let newChild = self.ref.child("user_ids").childByAutoId()
-            newChild.setValue(Messaging.messaging().fcmToken)
-
-        })
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -110,8 +108,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
-//        let newToken = InstanceID.instanceID().token()
         connectToFCM()
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("registered")
+        Messaging.messaging().subscribe(toTopic: "/topics/general")
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    }
+    
+    @available(iOS 10.0, *)
+    // display notification even if in app
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(.alert)
     }
 
 }

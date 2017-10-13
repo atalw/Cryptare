@@ -24,12 +24,17 @@ exports.btcPriceNotification = functions.https.onRequest((req, res) => {
 
 		const payload = {
 			notification: {
-				title: 'Cryptare',
 				body: 'Check out the Bitcoin Price! 😲',
+				sound: 'default',
+				badge: '1'
 			}
 		};
 
-		return admin.messaging().sendToDevice(devices, payload).then(() => {
+		var options = {
+			priority: "high",
+			timeToLive: 60 * 60 * 24 * 7
+		};
+		return admin.messaging().sendToDevice(devices, payload, options).then(() => {
 			res.send("Successfully sent message");
 		}).catch(error => {
 			res.send(error);
