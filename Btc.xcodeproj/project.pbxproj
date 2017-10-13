@@ -13,6 +13,7 @@
 		8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAAD1F83C824003733E8 /* GradientView.swift */; };
 		8602BAB71F83D217003733E8 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */; };
 		8602BAB81F83D217003733E8 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */; };
+		861FA0CF1F912E360044BBAE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 861FA0CE1F912E120044BBAE /* GoogleService-Info.plist */; };
 		863474711F08262000E7EB86 /* MarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474701F08262000E7EB86 /* MarketViewController.swift */; };
 		863474731F08262000E7EB86 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
 		863474781F08262000E7EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 863474771F08262000E7EB86 /* Assets.xcassets */; };
@@ -106,6 +107,7 @@
 		74798DE924C07F8DEE656B0E /* Pods-Btc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Btc.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Btc/Pods-Btc.debug.xcconfig"; sourceTree = "<group>"; };
 		8602BAAD1F83C824003733E8 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		861FA0CE1F912E120044BBAE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8634746B1F08262000E7EB86 /* Cryptare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cryptare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		863474701F08262000E7EB86 /* MarketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewController.swift; sourceTree = "<group>"; };
 		863474721F08262000E7EB86 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
@@ -136,11 +138,12 @@
 		864362561F66F9DF00883792 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		864362581F67ADF100883792 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8643625A1F67D7DE00883792 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
 		868F1A9F1F7D301E0093402A /* CryptareLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptareLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		868F1AA01F7D301E0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Btc copy-Info.plist"; path = "/Users/atalw/Documents/dev/ios/Btc/Btc/Btc copy-Info.plist"; sourceTree = "<absolute>"; };
 		868F1AA41F7D3EEB0093402A /* MainLite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainLite.storyboard; sourceTree = "<group>"; };
-		868F1AA61F7D42CA0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Btc copy-Info.plist"; sourceTree = "<group>"; };
+		868F1AA61F7D42CA0093402A /* InfoLite.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoLite.plist; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
@@ -235,9 +238,10 @@
 		863474621F08262000E7EB86 = {
 			isa = PBXGroup;
 			children = (
+				865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */,
 				86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */,
 				86FA4DF61F8A31C00030FD07 /* GoogleService-Info.plist */,
-				868F1AA61F7D42CA0093402A /* Btc copy-Info.plist */,
+				868F1AA61F7D42CA0093402A /* InfoLite.plist */,
 				8634746D1F08262000E7EB86 /* Btc */,
 				863474841F08262000E7EB86 /* BtcTests */,
 				8634748F1F08262000E7EB86 /* BtcUITests */,
@@ -341,6 +345,7 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				861FA0CE1F912E120044BBAE /* GoogleService-Info.plist */,
 				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
 				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
 				863474771F08262000E7EB86 /* Assets.xcassets */,
@@ -487,6 +492,11 @@
 					};
 					868F1A791F7D301E0093402A = {
 						DevelopmentTeam = J724CNLQL9;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -542,6 +552,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */,
+				861FA0CF1F912E360044BBAE /* GoogleService-Info.plist in Resources */,
 				868F1A971F7D301E0093402A /* LaunchScreen.storyboard in Resources */,
 				868F1A981F7D301E0093402A /* Assets.xcassets in Resources */,
 			);
@@ -1010,6 +1021,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1032,6 +1044,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1103,6 +1116,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = CryptareLite.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
@@ -1110,7 +1124,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Btc copy-Info.plist";
+				INFOPLIST_FILE = InfoLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DLITE_VERSION\"";
@@ -1118,6 +1132,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1127,6 +1142,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = CryptareLite.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
@@ -1134,7 +1150,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Btc copy-Info.plist";
+				INFOPLIST_FILE = InfoLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DLITE_VERSION\"";
@@ -1142,6 +1158,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

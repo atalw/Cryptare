@@ -20,44 +20,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
+                if error != nil {}
+                else {
+                    UNUserNotificationCenter.current().delegate = self
+                    Messaging.messaging().delegate = self
+                }
+            })
+            application.registerForRemoteNotifications()
+
+            #if PRO_VERSION
+                setUpFirebase()
+            #endif
+            #if LITE_VERSION
+                setUpFirebaseLite()
+            #endif
+        } else {
+            // Fallback on earlier versions
+        }
+        
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if #available(iOS 10.0, *) {
-                
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
-                    if error != nil {
-                        // error
-                    }
-                    else {
-                        UNUserNotificationCenter.current().delegate = self
-                        Messaging.messaging().delegate = self
-                    }
-                })
-                application.registerForRemoteNotifications()
-                FirebaseApp.configure()
-                ref = Database.database().reference()
-                
-                let fcmToken = Messaging.messaging().fcmToken
-                
-                //Retrieve lists of items or listen for additions to a list of items.
-                //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
-                //The listener is passed a snapshot containing the new child's data.
-                ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-                    let enumerator = snapshot.children
-                    
-                    while let child = enumerator.nextObject() as? DataSnapshot {
-                        if child.value as? String == fcmToken {
-                            print("exists")
-                            return;
-                        }
-                    }
-                    let newChild = self.ref.child("user_ids").childByAutoId()
-                    newChild.setValue(Messaging.messaging().fcmToken)
-                    
-                })
-            } else {
-                // Fallback on earlier versions
-            }
         #endif
     
         
@@ -71,6 +55,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
         return true
+    }
+    
+    func setUpFirebase() {
+        FirebaseApp.configure()
+        ref = Database.database().reference().child("user_ids")
+        
+        let fcmToken = Messaging.messaging().fcmToken
+        
+        //Retrieve lists of items or listen for additions to a list of items.
+        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+        //The listener is passed a snapshot containing the new child's data.
+        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            let enumerator = snapshot.children
+            
+            while let child = enumerator.nextObject() as? DataSnapshot {
+                if child.value as? String == fcmToken {
+                    print("exists")
+                    return;
+                }
+            }
+            let newChild = self.ref.child("users").childByAutoId()
+            newChild.setValue(Messaging.messaging().fcmToken)
+        })
+    }
+    
+    func setUpFirebaseLite() {
+        print("here")
+        FirebaseApp.configure()
+        print("here2")
+        ref = Database.database().reference().child("user_ids_lite")
+        
+        let fcmToken = Messaging.messaging().fcmToken
+        print(fcmToken)
+        
+        //Retrieve lists of items or listen for additions to a list of items.
+        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+        //The listener is passed a snapshot containing the new child's data.
+        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            let enumerator = snapshot.children
+
+            while let child = enumerator.nextObject() as? DataSnapshot {
+                if child.value as? String == fcmToken {
+                    print("exists")
+                    return;
+                }
+            }
+            let newChild = self.ref.child("users").childByAutoId()
+            newChild.setValue(Messaging.messaging().fcmToken)
+        })
     }
     
     func connectToFCM() {
