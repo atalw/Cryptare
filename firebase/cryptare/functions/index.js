@@ -23,7 +23,7 @@ exports.btcPriceNotification = functions.https.onRequest((req, res) => {
 
 		const payload = {
 			notification: {
-				body: 'Check out the Bitcoin Price! 😲',
+				body: 'Check out the Bitcoin Price! 😲🤑',
 				sound: 'default',
 				badge: '1'
 			}
@@ -62,7 +62,7 @@ exports.btcPriceNotificationLite = functions.https.onRequest((req, res) => {
 
 		const payload = {
 			notification: {
-				body: 'Check out the Bitcoin Price! 😲',
+				body: 'Check out the Bitcoin Price! 😲🤑',
 				sound: 'default',
 				badge: '1'
 			}
