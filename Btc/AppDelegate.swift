@@ -29,17 +29,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             })
             application.registerForRemoteNotifications()
-
+            FirebaseApp.configure()
+            
+            // assign correct row title for pro
+            var rowTitle: String!
             #if PRO_VERSION
-                setUpFirebase()
+                rowTitle = "user_ids"
             #endif
             #if LITE_VERSION
-                setUpFirebaseLite()
+                rowTitle = "user_ids_lite"
             #endif
+            
+            setupFirebase(rowTitle: rowTitle)
         } else {
             // Fallback on earlier versions
         }
-        
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
         #endif
@@ -57,34 +61,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
-    func setUpFirebase() {
-        FirebaseApp.configure()
-        ref = Database.database().reference().child("user_ids")
-        
-        let fcmToken = Messaging.messaging().fcmToken
-        
-        //Retrieve lists of items or listen for additions to a list of items.
-        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
-        //The listener is passed a snapshot containing the new child's data.
-        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-            let enumerator = snapshot.children
-            
-            while let child = enumerator.nextObject() as? DataSnapshot {
-                if child.value as? String == fcmToken {
-                    print("exists")
-                    return;
-                }
-            }
-            let newChild = self.ref.child("users").childByAutoId()
-            newChild.setValue(Messaging.messaging().fcmToken)
-        })
-    }
-    
-    func setUpFirebaseLite() {
-        print("here")
-        FirebaseApp.configure()
-        print("here2")
-        ref = Database.database().reference().child("user_ids_lite")
+    func setupFirebase(rowTitle: String) {
+        ref = Database.database().reference().child(rowTitle)
         
         let fcmToken = Messaging.messaging().fcmToken
         print(fcmToken)
@@ -94,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //The listener is passed a snapshot containing the new child's data.
         ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             let enumerator = snapshot.children
-
+            
             while let child = enumerator.nextObject() as? DataSnapshot {
                 if child.value as? String == fcmToken {
                     print("exists")
