@@ -36,8 +36,6 @@
 		864362571F66F9E000883792 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362561F66F9DF00883792 /* DashboardViewController.swift */; };
 		864362591F67ADF100883792 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
 		8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
-		865B73B71F90824000F222C6 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B73B61F90824000F222C6 /* BalloonMarker.swift */; };
-		865B73B81F90824000F222C6 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B73B61F90824000F222C6 /* BalloonMarker.swift */; };
 		868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
 		868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
@@ -66,6 +64,10 @@
 		868F1A981F7D301E0093402A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 863474771F08262000E7EB86 /* Assets.xcassets */; };
 		868F1AA21F7D3AF90093402A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
 		868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868F1AA41F7D3EEB0093402A /* MainLite.storyboard */; };
+		86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
+		86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
+		86AC1F291F913DB00079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F281F913DA70079F013 /* GoogleService-Info.plist */; };
+		86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
 		86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
@@ -137,18 +139,22 @@
 		864362561F66F9DF00883792 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		864362581F67ADF100883792 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8643625A1F67D7DE00883792 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
-		865B73B61F90824000F222C6 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
+		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
 		868F1A9F1F7D301E0093402A /* CryptareLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptareLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		868F1AA01F7D301E0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Btc copy-Info.plist"; path = "/Users/atalw/Documents/dev/ios/Btc/Btc/Btc copy-Info.plist"; sourceTree = "<absolute>"; };
 		868F1AA41F7D3EEB0093402A /* MainLite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainLite.storyboard; sourceTree = "<group>"; };
-		868F1AA61F7D42CA0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Btc copy-Info.plist"; sourceTree = "<group>"; };
+		868F1AA61F7D42CA0093402A /* InfoLite.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoLite.plist; sourceTree = "<group>"; };
+		86AC1F251F9137B60079F013 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
+		86AC1F281F913DA70079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
 		86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIButton.swift; sourceTree = "<group>"; };
 		86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNewsTableViewCell.swift; sourceTree = "<group>"; };
 		86E31CCA1F41D77900445B08 /* NewsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
+		86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cryptare.entitlements; sourceTree = "<group>"; };
 		89C3E03A9A5500274E40B35C /* Pods-BtcTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93D9E17B6A5E6D4DE3E9D96F /* Pods-BtcUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcUITests/Pods-BtcUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B865ADC4331AD635123F4BA3 /* Pods-BtcTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -235,7 +241,10 @@
 		863474621F08262000E7EB86 = {
 			isa = PBXGroup;
 			children = (
-				868F1AA61F7D42CA0093402A /* Btc copy-Info.plist */,
+				865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */,
+				86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */,
+				868F1AA61F7D42CA0093402A /* InfoLite.plist */,
+				86AC1F281F913DA70079F013 /* GoogleService-Info.plist */,
 				8634746D1F08262000E7EB86 /* Btc */,
 				863474841F08262000E7EB86 /* BtcTests */,
 				8634748F1F08262000E7EB86 /* BtcUITests */,
@@ -339,6 +348,7 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */,
 				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
 				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
 				863474771F08262000E7EB86 /* Assets.xcassets */,
@@ -362,7 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				8643625A1F67D7DE00883792 /* GraphViewController.swift */,
-				865B73B61F90824000F222C6 /* BalloonMarker.swift */,
+				86AC1F251F9137B60079F013 /* BalloonMarker.swift */,
 			);
 			name = Graph;
 			sourceTree = "<group>";
@@ -466,6 +476,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = J724CNLQL9;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					863474801F08262000E7EB86 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -481,6 +496,11 @@
 					};
 					868F1A791F7D301E0093402A = {
 						DevelopmentTeam = J724CNLQL9;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -511,6 +531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				868F1AA21F7D3AF90093402A /* Main.storyboard in Resources */,
+				86AC1F291F913DB00079F013 /* GoogleService-Info.plist in Resources */,
 				8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */,
 				863474781F08262000E7EB86 /* Assets.xcassets in Resources */,
 			);
@@ -535,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */,
+				86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */,
 				868F1A971F7D301E0093402A /* LaunchScreen.storyboard in Resources */,
 				868F1A981F7D301E0093402A /* Assets.xcassets in Resources */,
 			);
@@ -670,16 +692,24 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -696,16 +726,24 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -772,7 +810,7 @@
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
 				863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */,
-				865B73B71F90824000F222C6 /* BalloonMarker.swift in Sources */,
+				86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */,
 				8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */,
 				863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */,
@@ -814,7 +852,7 @@
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
 				868F1A811F7D301E0093402A /* CollectionViewHeader.swift in Sources */,
-				865B73B81F90824000F222C6 /* BalloonMarker.swift in Sources */,
+				86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */,
 				868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */,
 				868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */,
@@ -976,6 +1014,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Cryptare.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
@@ -988,6 +1027,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -997,6 +1037,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Cryptare.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
@@ -1009,6 +1050,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1080,6 +1122,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = CryptareLite.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
@@ -1087,7 +1130,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Btc copy-Info.plist";
+				INFOPLIST_FILE = InfoLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DLITE_VERSION\"";
@@ -1095,6 +1138,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1104,6 +1148,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconLite;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = CryptareLite.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J724CNLQL9;
 				ENABLE_BITCODE = NO;
@@ -1111,7 +1156,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Btc copy-Info.plist";
+				INFOPLIST_FILE = InfoLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DLITE_VERSION\"";
@@ -1119,6 +1164,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

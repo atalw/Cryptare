@@ -125,7 +125,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cwH-Yy-ym1">
                                                         <rect key="frame" x="0.0" y="0.0" width="163.5" height="50"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnG-Mi-gNh" customClass="GradientButton" customModule="Cryptare" customModuleProvider="target">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnG-Mi-gNh">
                                                                 <rect key="frame" x="0.0" y="0.0" width="163.5" height="50"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
@@ -852,9 +852,6 @@
                                                                 <state key="normal" title="🇮🇳">
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </state>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroModifierString" value="translate(-500, 0)"/>
-                                                                </userDefinedRuntimeAttributes>
                                                             </button>
                                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L5B-bo-MHf">
                                                                 <rect key="frame" x="94" y="0.0" width="93.5" height="38"/>
@@ -863,11 +860,11 @@
                                                                 <state key="normal" title="🌎">
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </state>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroModifierString" value="translate(500, 0)"/>
-                                                                </userDefinedRuntimeAttributes>
                                                             </button>
                                                         </subviews>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="heroModifierString" value="translate(-400,0)"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kXT-NN-mQL">
                                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="38"/>
@@ -905,6 +902,9 @@
                                                                 </state>
                                                             </button>
                                                         </subviews>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="heroModifierString" value="translate(400,0)"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </stackView>
                                                 </subviews>
                                             </stackView>

@@ -7,29 +7,111 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
+    var ref: DatabaseReference!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
+                if error != nil {}
+                else {
+                    UNUserNotificationCenter.current().delegate = self
+                    Messaging.messaging().delegate = self
+                }
+            })
+            application.registerForRemoteNotifications()
+
+            #if PRO_VERSION
+                setUpFirebase()
+            #endif
+            #if LITE_VERSION
+                setUpFirebaseLite()
+            #endif
+        } else {
+            // Fallback on earlier versions
+        }
+        
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
         #endif
-
+    
+        
         #if LITE_VERSION
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
-
+        
         if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
             let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
             window?.rootViewController = rootViewController
-       }
+        }
 
         return true
+    }
+    
+    func setUpFirebase() {
+        FirebaseApp.configure()
+        ref = Database.database().reference().child("user_ids")
+        
+        let fcmToken = Messaging.messaging().fcmToken
+        
+        //Retrieve lists of items or listen for additions to a list of items.
+        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+        //The listener is passed a snapshot containing the new child's data.
+        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            let enumerator = snapshot.children
+            
+            while let child = enumerator.nextObject() as? DataSnapshot {
+                if child.value as? String == fcmToken {
+                    print("exists")
+                    return;
+                }
+            }
+            let newChild = self.ref.child("users").childByAutoId()
+            newChild.setValue(Messaging.messaging().fcmToken)
+        })
+    }
+    
+    func setUpFirebaseLite() {
+        print("here")
+        FirebaseApp.configure()
+        print("here2")
+        ref = Database.database().reference().child("user_ids_lite")
+        
+        let fcmToken = Messaging.messaging().fcmToken
+        print(fcmToken)
+        
+        //Retrieve lists of items or listen for additions to a list of items.
+        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+        //The listener is passed a snapshot containing the new child's data.
+        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            let enumerator = snapshot.children
+
+            while let child = enumerator.nextObject() as? DataSnapshot {
+                if child.value as? String == fcmToken {
+                    print("exists")
+                    return;
+                }
+            }
+            let newChild = self.ref.child("users").childByAutoId()
+            newChild.setValue(Messaging.messaging().fcmToken)
+        })
+    }
+    
+    func connectToFCM() {
+        Messaging.messaging().shouldEstablishDirectChannel = true
+    }
+    
+    func disconnectFromFCM() {
+        Messaging.messaging().shouldEstablishDirectChannel = false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -40,6 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        disconnectFromFCM()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -49,12 +132,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 //        FirstViewController.loadData(<#T##FirstViewController#>)
+        connectToFCM()
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+        connectToFCM()
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("registered")
+        Messaging.messaging().subscribe(toTopic: "/topics/general")
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    }
+    
+    @available(iOS 10.0, *)
+    // display notification even if in app
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(.alert)
+    }
 
 }
 
