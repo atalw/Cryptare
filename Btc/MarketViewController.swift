@@ -224,7 +224,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 self.zebpayPrice()
                 self.localbitcoinsPrice()
                 self.coinsecurePrice()
-//                self.unocoinPrice()
+                self.unocoinPrice()
                 self.pocketBitsPrice()
                 self.throughbitPrice()
             }
@@ -243,6 +243,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if self.selectedCountry == "india" {
                 self.zebpayPrice()
                 self.coinsecurePrice()
+                self.unocoinPrice()
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
@@ -308,42 +309,13 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     // get unocoin buy and sell prices
     func unocoinPrice() {
-        //        let urlBuy = URL(string: "https://www.unocoin.com/trade.php?buy")
-        //        let taskBuy = URLSession.shared.dataTask(with: urlBuy!) { data, response, error in
-        //            guard error == nil else {
-        //                print(error!)
-        //                return
-        //            }
-        //            guard let data = data else {
-        //                print("Data is empty")
-        //                return
-        //            }
-        //            print(data)
-        //            let buyData = String(data: data, encoding: String.Encoding.utf8)
-        ////            let encodedData =
-        ////            let buyData = try! JSONSerialization.jsonObject(with: ) as? Double
-        //            print(buyData)
-        //
-        //
-        //        }
-        //        taskBuy.resume()
-        
-        //        let urlSell = URL(string: "https://www.unocoin.com/trade.php?sell")
-        //        let taskSell = URLSession.shared.dataTask(with: urlSell!) { data, response, error in
-        //            guard error == nil else {
-        //                print(error!)
-        //                return
-        //            }
-        //            guard let data = data else {
-        //                print("Data is empty")
-        //                return
-        //            }
-        //        }
-        //        taskSell.resume()
-//https://www.unocoin.com/?referrerid=301527
-        
         let url = URL(string: "https://www.unocoin.com/trade.php?all")
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+        var mutableURLRequest = NSMutableURLRequest(url: url!)
+        mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+
+//        mutableURLRequest.addValue("<#T##value: String##String#>", forHTTPHeaderField: "Authorization: Bearer ")
+        let task = URLSession.shared.dataTask(with: mutableURLRequest as URLRequest) { data, response, error in
             guard error == nil else {
                 print(error!)
                 return
@@ -352,23 +324,15 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 print("Data is empty")
                 return
             }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                let unocoinBuyPrice = json?["buy"] as? Double
-                let unocoinSellPrice = json?["sell"] as? Double
-                
-                self.dataValues.append(unocoinBuyPrice!)
-                self.dataValues.append(unocoinSellPrice!)
-                
-                let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: unocoinBuyPrice!))
-                let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: unocoinSellPrice!))
-                
-                self.btcPrices.add("Unocoin")
-                self.btcPrices.add(formattedBuyPrice!)
-                self.btcPrices.add(formattedSellPrice!)
-            }
-            catch {
-//                print(data)
+            print("outside")
+
+            let json = JSON(data: data)
+            print(json)
+            if let buyPrice = json["buy"].int {
+                print("here")
+                if let sellPrice = json["sell"].int {
+                    self.markets.append(Market(title: "Unocoin", siteLink: URL(string: "https://www.unocoin.com/?referrerid=301527"), buyPrice: Double(buyPrice), sellPrice: Double(sellPrice)))
+                }
             }
         }
         task.resume()
