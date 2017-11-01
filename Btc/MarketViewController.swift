@@ -17,6 +17,9 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var btcAmount: UITextField!
     @IBOutlet var infoButton: UIBarButtonItem!
     
+    @IBOutlet weak var buySortButton: UIButton!
+    @IBOutlet weak var sellSortButton: UIButton!
+    
     @IBOutlet weak var tableView: UITableView!
     
     #if LITE_VERSION
@@ -38,6 +41,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     var currentBtcPrice: Double = 0.0
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    var buySortButtonCounter = 0
+    var sellSortButtonCounter = 0
+    
+    let buyTitleArray = ["Buy", "Buy ▲", "Buy ▼"]
+    let sellTitleArray = ["Sell", "Sell ▲", "Sell ▼"]
     
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
@@ -88,6 +97,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.isHeroEnabled = true
         
+        buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        self.buySortButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
+        
+        sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        self.sellSortButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
@@ -96,6 +111,39 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    @objc func buySortButtonTapped() {
+        buySortButtonCounter = (buySortButtonCounter + 1) % buyTitleArray.count
+        if buySortButtonCounter == 0 {
+            buySortButtonCounter = 1
+        }
+        if buySortButtonCounter == 1 {
+            self.markets.sort(by: {$0.buyPrice < $1.buyPrice})
+        }
+        else if buySortButtonCounter == 2 {
+            self.markets.sort(by: {$0.buyPrice > $1.buyPrice})
+        }
+        buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        sellSortButtonCounter = 0
+        sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        tableView.reloadData()
+    }
+    
+    @objc func sellSortButtonTapped() {
+        sellSortButtonCounter = (sellSortButtonCounter + 1) % sellTitleArray.count
+        if sellSortButtonCounter == 0 {
+            sellSortButtonCounter = 1
+        }
+        if sellSortButtonCounter == 1 {
+            self.markets.sort(by: {$0.sellPrice < $1.sellPrice})
+        }
+        else if sellSortButtonCounter == 2 {
+            self.markets.sort(by: {$0.sellPrice > $1.sellPrice})
+        }
+        sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        buySortButtonCounter = 0
+        buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        tableView.reloadData()
+    }
     @objc func handleButton(sender: CustomUIButton!) {
         if let link = sender.url {
             if #available(iOS 10.0, *) {
