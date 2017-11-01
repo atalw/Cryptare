@@ -212,8 +212,10 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     let when = DispatchTime.now() + 2
                 #endif
                 DispatchQueue.main.asyncAfter(deadline: when) {
-                    self.newPrices()
+//                    self.newPrices()
                     self.activityIndicator.stopAnimating()
+                    // Default to ascending Buy prices
+                    self.buySortButton.sendActions(for: .touchUpInside)
                     self.tableView.reloadData()
                 }
             }
