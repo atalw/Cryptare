@@ -218,9 +218,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     let when = DispatchTime.now() + 2
                 #endif
                 DispatchQueue.main.asyncAfter(deadline: when) {
-//                    self.newPrices()
+                    #if LITE_VERSION
+                        self.newPrices()
+                    #endif
                     self.activityIndicator.stopAnimating()
                     // Default to ascending Buy prices
+                    self.buySortButtonCounter = 0
                     self.buySortButton.sendActions(for: .touchUpInside)
                 }
             }
@@ -245,24 +248,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             else if value > 0 {
                 let updatedValue = self.currentBtcPrice*value
                 self.updateCurrentBtcPrice(updatedValue)
-                
-//                var count = 3
-//                var dataValuesIndex = 0
-//                for (index, _) in self.btcPrices.getItems().enumerated() {
-//                    if count <= 2  && count > 0 {
-//                        let cost = self.dataValues[dataValuesIndex]
-//                        dataValuesIndex += 1
-//                        if cost >= 0 {
-//                            let updatedValue = cost * value
-//                            let updatedValueString = self.numberFormatter.string(from: NSNumber(value: updatedValue))
-//                            self.btcPrices.updateItems(updatedValueString!, index: index)
-//                        }
-//                    }
-//                    else if count == 0 {
-//                        count = 2
-//                        continue
-//                    }
-//                    count -= 1
                 
                 for index in 0..<self.copyMarkets.count {
                     self.markets[index].buyPrice = self.copyMarkets[index].0 * value
