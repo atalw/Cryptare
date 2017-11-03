@@ -51,7 +51,7 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                 <state key="normal" title="Next"/>
                                 <connections>
-                                    <segue destination="ZXQ-jk-jwn" kind="show" id="qCG-Ct-ILZ"/>
+                                    <action selector="nextButtonTapped:" destination="QBu-mH-Hb4" eventType="touchUpInside" id="Dal-ZA-PHu"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -98,7 +98,7 @@
         <!--Dashboard-->
         <scene sceneID="JXI-gk-1tc">
             <objects>
-                <viewController id="JnF-gM-BRh" customClass="DashboardViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DashboardViewController" id="JnF-gM-BRh" customClass="DashboardViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WU4-x6-XE8"/>
                         <viewControllerLayoutGuide type="bottom" id="tAd-cj-S3a"/>
@@ -273,7 +273,7 @@
         <!--Markets-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController title="Markets" id="9pv-A4-QxB" customClass="MarketViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MarketViewController" title="Markets" id="9pv-A4-QxB" customClass="MarketViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -831,7 +831,7 @@
         <!--News-->
         <scene sceneID="nQn-Fr-mVK">
             <objects>
-                <viewController title="News" automaticallyAdjustsScrollViewInsets="NO" id="n4V-Dn-KKM" customClass="NewsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewsViewController" title="News" automaticallyAdjustsScrollViewInsets="NO" id="n4V-Dn-KKM" customClass="NewsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4lI-2k-Ywy"/>
                         <viewControllerLayoutGuide type="bottom" id="UhY-0V-new"/>
@@ -1262,6 +1262,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ae-aR-ZRB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1589.5999999999999" y="-1629.5352323838083"/>
+        </scene>
+        <!--Left View Controller-->
+        <scene sceneID="Mju-TQ-BCk">
+            <objects>
+                <viewController storyboardIdentifier="LeftViewController" id="a8M-Sm-aNb" customClass="LeftViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nbm-8H-gzP"/>
+                        <viewControllerLayoutGuide type="bottom" id="5U3-CE-wZs"/>
+                    </layoutGuides>
+                    <view key="view" alpha="0.89999997615814209" contentMode="scaleToFill" id="KjI-uC-lrT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4po-BW-yoV">
+                                <rect key="frame" x="0.0" y="160" width="600" height="440"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="a8M-Sm-aNb" id="dz1-IQ-8jX"/>
+                                    <outlet property="delegate" destination="a8M-Sm-aNb" id="N4d-QA-8G9"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.97254901959999995" blue="0.91372549020000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4po-BW-yoV" firstAttribute="leading" secondItem="KjI-uC-lrT" secondAttribute="leading" id="6BN-lW-ZJN"/>
+                            <constraint firstItem="5U3-CE-wZs" firstAttribute="top" secondItem="4po-BW-yoV" secondAttribute="bottom" id="An1-9V-Hdo"/>
+                            <constraint firstAttribute="trailing" secondItem="4po-BW-yoV" secondAttribute="trailing" id="MLc-qi-92A"/>
+                            <constraint firstItem="4po-BW-yoV" firstAttribute="top" secondItem="KjI-uC-lrT" secondAttribute="top" constant="160" id="sBq-wQ-9IU"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="tableView" destination="4po-BW-yoV" id="pbd-U0-8ZZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DFV-qp-5mj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-442" y="125"/>
         </scene>
     </scenes>
     <resources>

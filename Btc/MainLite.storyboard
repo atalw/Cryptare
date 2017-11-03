@@ -52,7 +52,7 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                 <state key="normal" title="Next"/>
                                 <connections>
-                                    <segue destination="ZXQ-jk-jwn" kind="show" id="qCG-Ct-ILZ"/>
+                                    <action selector="nextButtonTapped:" destination="QBu-mH-Hb4" eventType="touchUpInside" id="PHf-6J-EAP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -449,7 +449,7 @@
         <!--Markets-->
         <scene sceneID="wjU-eS-6xf">
             <objects>
-                <viewController title="Markets" id="Exj-96-rOz" customClass="MarketViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MarketViewController" title="Markets" id="Exj-96-rOz" customClass="MarketViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NBz-Vn-btJ"/>
                         <viewControllerLayoutGuide type="bottom" id="n3y-4N-UFK"/>
@@ -734,7 +734,7 @@
         <!--News-->
         <scene sceneID="7dy-2f-2Dq">
             <objects>
-                <viewController title="News" automaticallyAdjustsScrollViewInsets="NO" id="GxF-dF-vHz" customClass="NewsViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewsViewController" title="News" automaticallyAdjustsScrollViewInsets="NO" id="GxF-dF-vHz" customClass="NewsViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z9C-Nf-ygg"/>
                         <viewControllerLayoutGuide type="bottom" id="ayZ-T9-Ezm"/>
@@ -1137,7 +1137,7 @@
         <!--Dashboard-->
         <scene sceneID="vyw-E5-Hka">
             <objects>
-                <viewController id="Fy7-yj-8a6" customClass="DashboardViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DashboardViewController" id="Fy7-yj-8a6" customClass="DashboardViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="x9M-0c-c9d"/>
                         <viewControllerLayoutGuide type="bottom" id="X51-yk-gbm"/>
@@ -1309,6 +1309,47 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MGk-wB-33I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="583" y="-1628"/>
+        </scene>
+        <!--Left View Controller-->
+        <scene sceneID="BYB-M3-fre">
+            <objects>
+                <viewController storyboardIdentifier="LeftViewController" id="AKX-3M-W4X" customClass="LeftViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KyX-wd-VWK"/>
+                        <viewControllerLayoutGuide type="bottom" id="S4K-aH-nRb"/>
+                    </layoutGuides>
+                    <view key="view" alpha="0.89999997615814209" contentMode="scaleToFill" id="VFB-DF-6aK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rSm-GY-vwz">
+                                <rect key="frame" x="0.0" y="160" width="600" height="440"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="AKX-3M-W4X" id="vI3-bQ-VOg"/>
+                                    <outlet property="delegate" destination="AKX-3M-W4X" id="AaM-vz-LqJ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.97254901959999995" blue="0.91372549020000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="rSm-GY-vwz" secondAttribute="trailing" id="XI4-3D-Vnm"/>
+                            <constraint firstItem="rSm-GY-vwz" firstAttribute="leading" secondItem="VFB-DF-6aK" secondAttribute="leading" id="bOf-DO-isU"/>
+                            <constraint firstItem="rSm-GY-vwz" firstAttribute="top" secondItem="VFB-DF-6aK" secondAttribute="top" constant="160" id="hzt-xr-Ksa"/>
+                            <constraint firstItem="S4K-aH-nRb" firstAttribute="top" secondItem="rSm-GY-vwz" secondAttribute="bottom" id="jlP-XB-4pC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="nbI-b9-ulb"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="tableView" destination="rSm-GY-vwz" id="H4y-Y8-RiC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cfd-WB-fgF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-442" y="125"/>
         </scene>
     </scenes>
     <resources>

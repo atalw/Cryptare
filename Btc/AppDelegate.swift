@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import UserNotifications
+import SlideMenuControllerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -43,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
         #endif
-    
         
         #if LITE_VERSION
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
@@ -53,8 +53,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
             window?.rootViewController = rootViewController
         }
+        
+        self.createMenuView(storyboard: storyboard)
 
         return true
+    }
+    
+    func createMenuView(storyboard: UIStoryboard) {
+        let dashboardViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
+        let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
+        
+        let nvc: UINavigationController = UINavigationController(rootViewController: dashboardViewController)
+        
+        leftViewController.mainViewController = nvc
+        
+        let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
+        self.window?.rootViewController = slideMenuController
+        slideMenuController.delegate = dashboardViewController as SlideMenuControllerDelegate
+        self.window?.makeKeyAndVisible()
     }
     
     func setUpFirebase() {

@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Hero
+import SlideMenuControllerSwift
 
 class DashboardViewController: UIViewController {
     
@@ -53,6 +54,9 @@ class DashboardViewController: UIViewController {
         
         newsButton.colourOne = UIColor.init(hex: "#fc4a1a")
         newsButton.colourTwo = UIColor.init(hex: "#f7b733")
+        
+        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+
 
     }
 
@@ -84,3 +88,40 @@ class DashboardViewController: UIViewController {
     }
 
 }
+
+extension DashboardViewController : SlideMenuControllerDelegate {
+    
+    func leftWillOpen() {
+        print("SlideMenuControllerDelegate: leftWillOpen")
+    }
+    
+    func leftDidOpen() {
+        print("SlideMenuControllerDelegate: leftDidOpen")
+    }
+    
+    func leftWillClose() {
+        print("SlideMenuControllerDelegate: leftWillClose")
+    }
+    
+    func leftDidClose() {
+        print("SlideMenuControllerDelegate: leftDidClose")
+    }
+    
+    func rightWillOpen() {
+        print("SlideMenuControllerDelegate: rightWillOpen")
+    }
+    
+    func rightDidOpen() {
+        print("SlideMenuControllerDelegate: rightDidOpen")
+    }
+    
+    func rightWillClose() {
+        print("SlideMenuControllerDelegate: rightWillClose")
+    }
+    
+    func rightDidClose() {
+        print("SlideMenuControllerDelegate: rightDidClose")
+    }
+}
+
+
