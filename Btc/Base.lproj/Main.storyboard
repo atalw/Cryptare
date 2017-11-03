@@ -111,22 +111,22 @@
                                 <rect key="frame" x="16" y="80" width="343" height="577"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0s2-JY-QRM">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="468.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="518.5"/>
                                         <connections>
                                             <segue destination="kug-KB-86y" kind="embed" id="tkm-fc-4dX"/>
                                         </connections>
                                     </containerView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ws7-uG-YEL">
-                                        <rect key="frame" x="0.0" y="484.5" width="343" height="50"/>
+                                        <rect key="frame" x="0.0" y="534.5" width="343" height="0.0"/>
                                         <subviews>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riF-bG-g7f" customClass="GradientView" customModule="Cryptare" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="0.0"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cwH-Yy-ym1">
-                                                        <rect key="frame" x="0.0" y="0.0" width="163.5" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="163.5" height="0.0"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnG-Mi-gNh">
-                                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="50"/>
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnG-Mi-gNh">
+                                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="0.0"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="90" id="Dxx-0c-h0r"/>
@@ -173,13 +173,13 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNk-Qs-UBZ" customClass="GradientView" customModule="Cryptare" customModuleProvider="target">
-                                                <rect key="frame" x="179.5" y="0.0" width="163.5" height="50"/>
+                                                <rect key="frame" x="179.5" y="0.0" width="163.5" height="0.0"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tuz-wG-9Gb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="163.5" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="163.5" height="0.0"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXn-wk-Dfd">
-                                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="50"/>
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXn-wk-Dfd">
+                                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="0.0"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                                 <state key="normal" title="News">
@@ -1084,11 +1084,11 @@
                         <viewControllerLayoutGuide type="bottom" id="D4G-Wv-oPc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LXn-eo-UlR">
-                        <rect key="frame" x="0.0" y="0.0" width="343" height="468.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="518.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="6rV-RD-nzq">
-                                <rect key="frame" x="0.0" y="0.0" width="343" height="468.5"/>
+                                <rect key="frame" x="0.0" y="20" width="343" height="498.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lqv-Ah-Kbn" customClass="GradientView" customModule="Cryptare" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="95"/>
@@ -1150,10 +1150,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfH-yg-1mb" customClass="GradientView" customModule="Cryptare" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="111" width="343" height="357.5"/>
+                                        <rect key="frame" x="0.0" y="111" width="343" height="387.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="oNI-cF-aq9">
-                                                <rect key="frame" x="0.0" y="10" width="343" height="347.5"/>
+                                                <rect key="frame" x="0.0" y="10" width="343" height="377.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="J59-Jp-acS">
                                                         <rect key="frame" x="124" y="0.0" width="95" height="40"/>
@@ -1200,7 +1200,7 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Bo-nE-7qd" customClass="LineChartView" customModule="Charts">
-                                                        <rect key="frame" x="0.0" y="90" width="343" height="257.5"/>
+                                                        <rect key="frame" x="0.0" y="90" width="343" height="287.5"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
                                                 </subviews>
