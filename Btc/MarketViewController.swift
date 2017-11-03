@@ -282,6 +282,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 self.geminiPrice()
                 self.bitfinexPrice()
                 self.bitstampPrice()
+                self.bittrexPrice()
             }
         #endif
         
@@ -323,6 +324,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 self.geminiPrice()
                 self.bitfinexPrice()
                 self.bitstampPrice()
+                self.bittrexPrice()
             }
         #endif
     }
@@ -456,8 +458,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 return
             }
             let json = JSON(data: data)
-            if var csBuyPrice = json["message"]["ask"].double {
-                if var csSellPrice = json["message"]["lastPrice"].double {
+            if var csBuyPrice = json["message"]["bid"].double {
+                if var csSellPrice = json["message"]["ask"].double {
                     csBuyPrice = csBuyPrice/100
                     csSellPrice = csSellPrice/100
                     
@@ -546,8 +548,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     return
                 }
                 let json = JSON(data: data)
-                if let tBuyPriceString = json["stats"]["BTC"]["lowest_ask"].string {
-                    if let tSellPriceString = json["stats"]["BTC"]["highest_bid"].string {
+                if let tBuyPriceString = json["stats"]["BTC"]["highest_bid"].string {
+                    if let tSellPriceString = json["stats"]["BTC"]["lowest_ask"].string {
                         if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
                             
                             self.markets.append(Market(title: "Koinex", siteLink: URL(string: "https://koinex.in/?ref=8271af"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
@@ -794,8 +796,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     return
                 }
                 let json = JSON(data: data)
-                if let gBuyPriceString = json["ask"].string {
-                    if let gSellPriceString = json["bid"].string {
+                if let gBuyPriceString = json["bid"].string {
+                    if let gSellPriceString = json["ask"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
                             self.markets.append(Market(title: "Gemini", siteLink: URL(string: "https://gemini.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
                             self.copyMarkets.append((buyPrice, sellPrice))
@@ -828,8 +830,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     return
                 }
                 let json = JSON(data: data)
-                if let gBuyPriceString = json["ask"].string {
-                    if let gSellPriceString = json["bid"].string {
+                if let gBuyPriceString = json["bid"].string {
+                    if let gSellPriceString = json["ask"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
                             self.markets.append(Market(title: "Bitfinex", siteLink: URL(string: "https://www.bitfinex.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
                             self.copyMarkets.append((buyPrice, sellPrice))
@@ -865,10 +867,41 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
                             self.markets.append(Market(title: "Bitstamp", siteLink: URL(string: "https://www.bitstamp.net/"), buyPrice: buyPrice, sellPrice: sellPrice))
                             self.copyMarkets.append((buyPrice, sellPrice))
-
                         }
                     }
                 }
+            }
+            task.resume()
+        #endif
+        
+        #if LITE_VERSION
+            self.markets.append(Market(title: "Bitstamp", siteLink: URL(string: "https://www.bitstamp.net/"), buyPrice: -1, sellPrice: -1))
+        #endif
+    }
+    
+    func bittrexPrice() {
+        
+        #if PRO_VERSION
+            let url = URL(string: "https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC")
+            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                let json = JSON(data: data)
+                if json["success"].bool == true {
+                    if let buyPrice = json["result"]["Bid"].double {
+                        if let sellPrice = json["result"]["Ask"].double {
+                            self.markets.append(Market(title: "Bittrex", siteLink: URL(string: "https://bittrex.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
+                            self.copyMarkets.append((buyPrice, sellPrice))
+                        }
+                    }
+                }
+                
             }
             task.resume()
         #endif
