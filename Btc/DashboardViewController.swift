@@ -75,8 +75,11 @@ class DashboardViewController: UIViewController {
         }
         else if let marketController = destinationViewController as? MarketViewController {
             print(self.currentBtcPrice)
-            marketController.currentBtcPriceString = self.currentBtcPriceString
-            marketController.currentBtcPrice = self.currentBtcPrice
+            if self.currentBtcPriceString != nil || self.currentBtcPrice != nil {
+                marketController.currentBtcPriceString = self.currentBtcPriceString
+                marketController.currentBtcPrice = self.currentBtcPrice
+            }
+            
         }
     }
 

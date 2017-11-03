@@ -17,6 +17,9 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var btcAmount: UITextField!
     @IBOutlet var infoButton: UIBarButtonItem!
     
+    @IBOutlet weak var buySortButton: UIButton!
+    @IBOutlet weak var sellSortButton: UIButton!
+    
     @IBOutlet weak var tableView: UITableView!
     
     #if LITE_VERSION
@@ -33,11 +36,18 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     var dataValues: [Double] = []
     var btcPrices = BtcPrices()
     var markets: [Market] = []
+    var copyMarkets: [(Double, Double)] = []
     let numberFormatter = NumberFormatter()
     
     var currentBtcPrice: Double = 0.0
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    var buySortButtonCounter = 0
+    var sellSortButtonCounter = 0
+    
+    let buyTitleArray = ["Buy", "Buy ▲", "Buy ▼"]
+    let sellTitleArray = ["Sell", "Sell ▲", "Sell ▼"]
     
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
@@ -88,6 +98,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.isHeroEnabled = true
         
+        buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        self.buySortButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
+        
+        sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        self.sellSortButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
@@ -96,6 +112,43 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    @objc func buySortButtonTapped() {
+        buySortButtonCounter = (buySortButtonCounter + 1) % buyTitleArray.count
+        if buySortButtonCounter == 0 {
+            buySortButtonCounter = 1
+        }
+        if buySortButtonCounter == 1 {
+            self.markets.sort(by: {$0.buyPrice < $1.buyPrice})
+            self.copyMarkets.sort(by: {$0.0 < $1.0})
+        }
+        else if buySortButtonCounter == 2 {
+            self.markets.sort(by: {$0.buyPrice > $1.buyPrice})
+            self.copyMarkets.sort(by: {$0.0 > $1.0})
+        }
+        buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        sellSortButtonCounter = 0
+        sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        tableView.reloadData()
+    }
+    
+    @objc func sellSortButtonTapped() {
+        sellSortButtonCounter = (sellSortButtonCounter + 1) % sellTitleArray.count
+        if sellSortButtonCounter == 0 {
+            sellSortButtonCounter = 1
+        }
+        if sellSortButtonCounter == 1 {
+            self.markets.sort(by: {$0.sellPrice < $1.sellPrice})
+            self.copyMarkets.sort(by: {$0.1 < $1.1})
+        }
+        else if sellSortButtonCounter == 2 {
+            self.markets.sort(by: {$0.sellPrice > $1.sellPrice})
+            self.copyMarkets.sort(by: {$0.1 > $1.1})
+        }
+        sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        buySortButtonCounter = 0
+        buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        tableView.reloadData()
+    }
     @objc func handleButton(sender: CustomUIButton!) {
         if let link = sender.url {
             if #available(iOS 10.0, *) {
@@ -151,6 +204,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     func loadData() {
         self.markets.removeAll()
+        self.copyMarkets.removeAll()
         self.activityIndicator.startAnimating()
         
         self.btcPriceLabel.text = self.currentBtcPriceString
@@ -164,9 +218,13 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     let when = DispatchTime.now() + 2
                 #endif
                 DispatchQueue.main.asyncAfter(deadline: when) {
-                    self.newPrices()
+                    #if LITE_VERSION
+                        self.newPrices()
+                    #endif
                     self.activityIndicator.stopAnimating()
-                    self.tableView.reloadData()
+                    // Default to ascending Buy prices
+                    self.buySortButtonCounter = 0
+                    self.buySortButton.sendActions(for: .touchUpInside)
                 }
             }
         }
@@ -191,25 +249,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 let updatedValue = self.currentBtcPrice*value
                 self.updateCurrentBtcPrice(updatedValue)
                 
-                var count = 3
-                var dataValuesIndex = 0
-                for (index, _) in self.btcPrices.getItems().enumerated() {
-                    if count <= 2  && count > 0 {
-                        let cost = self.dataValues[dataValuesIndex]
-                        dataValuesIndex += 1
-                        if cost >= 0 {
-                            let updatedValue = cost * value
-                            let updatedValueString = self.numberFormatter.string(from: NSNumber(value: updatedValue))
-                            self.btcPrices.updateItems(updatedValueString!, index: index)
-                        }
-                    }
-                    else if count == 0 {
-                        count = 2
-                        continue
-                    }
-                    count -= 1
+                for index in 0..<self.copyMarkets.count {
+                    self.markets[index].buyPrice = self.copyMarkets[index].0 * value
+                    self.markets[index].sellPrice = self.copyMarkets[index].1 * value
                 }
             }
+            self.tableView.reloadData()
         }
     }
     
@@ -224,9 +269,10 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 self.zebpayPrice()
                 self.localbitcoinsPrice()
                 self.coinsecurePrice()
-//                self.unocoinPrice()
+                self.unocoinPrice()
                 self.pocketBitsPrice()
                 self.throughbitPrice()
+                self.koinexPrice()
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
@@ -243,6 +289,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if self.selectedCountry == "india" {
                 self.zebpayPrice()
                 self.coinsecurePrice()
+                self.unocoinPrice()
+                self.koinexPrice()
             }
             else if self.selectedCountry == "usa" {
                 self.coinbasePrice()
@@ -295,8 +343,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             if let zebpayBuyPrice = json["buy"].double {
                 if let zebpaySellPrice = json["sell"].double {
                     
-                    self.markets.append(Market(title: "Zebpay", siteLink: URL(string: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal"), buyPrice: zebpaySellPrice, sellPrice: zebpayBuyPrice))
-                    
+                    self.markets.append(Market(title: "Zebpay", siteLink: URL(string: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal"), buyPrice: zebpayBuyPrice, sellPrice: zebpaySellPrice))
+                    self.copyMarkets.append((zebpayBuyPrice, zebpaySellPrice))
                 }
                 else {
                     print(json["buy"].error!)
@@ -308,42 +356,13 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     // get unocoin buy and sell prices
     func unocoinPrice() {
-        //        let urlBuy = URL(string: "https://www.unocoin.com/trade.php?buy")
-        //        let taskBuy = URLSession.shared.dataTask(with: urlBuy!) { data, response, error in
-        //            guard error == nil else {
-        //                print(error!)
-        //                return
-        //            }
-        //            guard let data = data else {
-        //                print("Data is empty")
-        //                return
-        //            }
-        //            print(data)
-        //            let buyData = String(data: data, encoding: String.Encoding.utf8)
-        ////            let encodedData =
-        ////            let buyData = try! JSONSerialization.jsonObject(with: ) as? Double
-        //            print(buyData)
-        //
-        //
-        //        }
-        //        taskBuy.resume()
-        
-        //        let urlSell = URL(string: "https://www.unocoin.com/trade.php?sell")
-        //        let taskSell = URLSession.shared.dataTask(with: urlSell!) { data, response, error in
-        //            guard error == nil else {
-        //                print(error!)
-        //                return
-        //            }
-        //            guard let data = data else {
-        //                print("Data is empty")
-        //                return
-        //            }
-        //        }
-        //        taskSell.resume()
-//https://www.unocoin.com/?referrerid=301527
-        
         let url = URL(string: "https://www.unocoin.com/trade.php?all")
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+        var mutableURLRequest = NSMutableURLRequest(url: url!)
+        mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+
+//        mutableURLRequest.addValue("<#T##value: String##String#>", forHTTPHeaderField: "Authorization: Bearer ")
+        let task = URLSession.shared.dataTask(with: mutableURLRequest as URLRequest) { data, response, error in
             guard error == nil else {
                 print(error!)
                 return
@@ -352,23 +371,16 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 print("Data is empty")
                 return
             }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-                let unocoinBuyPrice = json?["buy"] as? Double
-                let unocoinSellPrice = json?["sell"] as? Double
-                
-                self.dataValues.append(unocoinBuyPrice!)
-                self.dataValues.append(unocoinSellPrice!)
-                
-                let formattedBuyPrice = self.numberFormatter.string(from: NSNumber(value: unocoinBuyPrice!))
-                let formattedSellPrice = self.numberFormatter.string(from: NSNumber(value: unocoinSellPrice!))
-                
-                self.btcPrices.add("Unocoin")
-                self.btcPrices.add(formattedBuyPrice!)
-                self.btcPrices.add(formattedSellPrice!)
-            }
-            catch {
-//                print(data)
+            print("outside")
+
+            let json = JSON(data: data)
+            print(json)
+            if let buyPrice = json["buy"].int {
+                print("here")
+                if let sellPrice = json["sell"].int {
+                    self.markets.append(Market(title: "Unocoin", siteLink: URL(string: "https://www.unocoin.com/?referrerid=301527"), buyPrice: Double(buyPrice), sellPrice: Double(sellPrice)))
+                    self.copyMarkets.append((Double(buyPrice), Double(sellPrice)))
+                }
             }
         }
         task.resume()
@@ -414,6 +426,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                             
                             self.markets.append(Market(title: "LocalBitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: tempBuy, sellPrice: tempSell))
                             
+                            self.copyMarkets.append((tempBuy, tempSell))
                         }
                         else {
                             
@@ -449,6 +462,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     csSellPrice = csSellPrice/100
                     
                     self.markets.append(Market(title: "Coinsecure", siteLink: URL(string: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM"), buyPrice: csBuyPrice, sellPrice: csSellPrice))
+                    self.copyMarkets.append((csBuyPrice, csSellPrice))
+
                 }
             }
         }
@@ -473,6 +488,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     if let pocketBitsSellPrice = json["rates"]["BTC_SellingRate"].double {
                         
                         self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: pocketBitsBuyPrice, sellPrice: pocketBitsSellPrice))
+                        self.copyMarkets.append((pocketBitsBuyPrice, pocketBitsSellPrice))
+
                     }
                 }
             }
@@ -502,6 +519,40 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                         if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
                             
                             self.markets.append(Market(title: "Throughbit", siteLink: URL(string: "https://www.throughbit.com/"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
+                             self.copyMarkets.append((tBuyPrice, tSellPrice))
+                        }
+                        
+                    }
+                }
+            }
+            task.resume()
+        #endif
+        
+        #if LITE_VERSION
+            self.markets.append(Market(title: "Throughbit", siteLink: URL(string: "https://www.throughbit.com/"), buyPrice: -1, sellPrice: -1))
+        #endif
+    }
+    
+    func koinexPrice() {
+        #if PRO_VERSION
+            let url = URL(string: "https://koinex.in/api/ticker")
+            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                guard let data = data else {
+                    print("Data is empty")
+                    return
+                }
+                let json = JSON(data: data)
+                if let tBuyPriceString = json["stats"]["BTC"]["lowest_ask"].string {
+                    if let tSellPriceString = json["stats"]["BTC"]["highest_bid"].string {
+                        if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
+                            
+                            self.markets.append(Market(title: "Koinex", siteLink: URL(string: "https://koinex.in/?ref=8271af"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
+                            self.copyMarkets.append((tBuyPrice, tSellPrice))
+
                         }
                         
                     }
@@ -599,6 +650,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 if let cbSellPriceString = json["data"]["amount"].string {
                     if let cbSellPrice = Double(cbSellPriceString) {
                         self.markets.append(Market(title: "Coinbase", siteLink: URL(string: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b"), buyPrice: cbBuyPrice, sellPrice: cbSellPrice))
+                        self.copyMarkets.append((cbBuyPrice, cbSellPrice))
+
                     }
                 }
             }
@@ -624,6 +677,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 if let krakenSellPriceString = json["result"]["XXBTZUSD"]["b"][0].string {
                     if let buyPrice = Double(krakenBuyPriceString), let sellPrice = Double(krakenSellPriceString) {
                         self.markets.append(Market(title: "Kraken", siteLink: URL(string: "https://www.kraken.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
+                        self.copyMarkets.append((buyPrice, sellPrice))
+
                     }
                     
                 }
@@ -651,6 +706,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     if let buyPrice = Double(pBuyPriceString), let sellPrice = Double(pSellPriceString) {
                         // change to poloniex URL
                         self.markets.append(Market(title: "Poloniex", siteLink: URL(string: "https://www.kraken.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
+                        self.copyMarkets.append((buyPrice, sellPrice))
+
 
                     }
                     
@@ -696,6 +753,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                             let tempSell = Double(z)!
                             
                             self.markets.append(Market(title: "Localbitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: tempBuy, sellPrice: tempSell))
+                            self.copyMarkets.append((tempBuy, tempSell))
+
                         }
                         else {
                             
@@ -739,6 +798,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
                             self.markets.append(Market(title: "Gemini", siteLink: URL(string: "https://gemini.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
+                            self.copyMarkets.append((buyPrice, sellPrice))
+
                         }
                         
                     }
@@ -771,6 +832,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
                             self.markets.append(Market(title: "Bitfinex", siteLink: URL(string: "https://www.bitfinex.com/"), buyPrice: buyPrice, sellPrice: sellPrice))
+                            self.copyMarkets.append((buyPrice, sellPrice))
 
                         }
                     }
@@ -802,6 +864,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     if let gSellPriceString = json["bid"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
                             self.markets.append(Market(title: "Bitstamp", siteLink: URL(string: "https://www.bitstamp.net/"), buyPrice: buyPrice, sellPrice: sellPrice))
+                            self.copyMarkets.append((buyPrice, sellPrice))
 
                         }
                     }

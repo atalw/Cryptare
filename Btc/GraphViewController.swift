@@ -10,7 +10,7 @@ import UIKit
 import Charts
 import SwiftyJSON
 
-class GraphViewController: UIViewController  {
+class GraphViewController: UIViewController, ChartViewDelegate  {
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
     @IBOutlet weak var lastUpdated: UILabel!
@@ -60,7 +60,7 @@ class GraphViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.chart.delegate = self
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
         if self.selectedCountry == "india" {
@@ -199,7 +199,7 @@ class GraphViewController: UIViewController  {
     }
     
     func initializeChart(labels: [String], values: [Double]) {
-
+        
         var lineChartEntry = [ChartDataEntry]()
         
         for i in 0..<values.count {
@@ -223,16 +223,20 @@ class GraphViewController: UIViewController  {
         line1.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0) // Set the Gradient
         line1.drawFilledEnabled = false // Draw the Gradient
         
+        line1.highlightEnabled = true
+        line1.highlightColor = UIColor.black.withAlphaComponent(0.4)
+        line1.highlightLineWidth = 1
+        line1.setDrawHighlightIndicators(true)
+        line1.drawHorizontalHighlightIndicatorEnabled = false
+        
         let lineChartData = LineChartData() //This is the object that will be added to the chart
         
         lineChartData.addDataSet(line1) //Adds the line to the dataSet
         lineChartData.setDrawValues(false)
         
-        
         chart.rightAxis.enabled = false
         chart.xAxis.drawLabelsEnabled = false
         chart.xAxis.labelPosition = .bottom
-//        chart.setScaleEnabled(false)
         chart.pinchZoomEnabled = true
         chart.xAxis.drawGridLinesEnabled = false
         chart.legend.enabled = false
@@ -242,9 +246,17 @@ class GraphViewController: UIViewController  {
         
         chart.data = lineChartData //finally - it adds the chart data to the chart and causes an update
         
-        chart.resetZoom()
-        chart.resetViewPortOffsets()
+        // popup value on highlight
+        let marker: BalloonMarker = BalloonMarker(color: UIColor.init(hex: "2980B9"), font: UIFont.systemFont(ofSize: 11), textColor: UIColor.white, insets: UIEdgeInsets(top: 3, left: 5, bottom: 3, right: 5))
+        marker.minimumSize = CGSize(width: 50, height: 30)
+        chart.marker = marker
         
+        // reset chart zoom
+        chart.fitScreen()
+        // reset highlight value
+        chart.highlightValue(nil)
+        chart.setExtraOffsets(left: 30, top: 0, right: 30, bottom: 0)
+
         chart.data?.notifyDataChanged()
     }
 
@@ -302,4 +314,11 @@ class GraphViewController: UIViewController  {
     func reloadData() {
         self.getCurrentBtcPrice()
     }
+    
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+//        print(entry)
+    }
+    
 }
+
+
