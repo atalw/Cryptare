@@ -44,11 +44,6 @@ class DashboardViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        } else {
-            // Fallback on earlier versions
-        }
         marketsButton.colourOne = UIColor.init(hex: "#2F80ED")
         marketsButton.colourTwo = UIColor.init(hex: "#56CCF2")
         
@@ -56,8 +51,6 @@ class DashboardViewController: UIViewController {
         newsButton.colourTwo = UIColor.init(hex: "#f7b733")
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
-
-
     }
 
     override func didReceiveMemoryWarning() {

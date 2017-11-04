@@ -65,7 +65,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let nvc: UINavigationController = UINavigationController(rootViewController: dashboardViewController)
         
-        leftViewController.mainViewController = nvc
+        leftViewController.dashboardViewController = nvc
+        
+        SlideMenuOptions.contentViewDrag = true
+        SlideMenuOptions.contentViewScale = 1
+        SlideMenuOptions.animationDuration = 0.2
+        SlideMenuOptions.contentViewOpacity = 0.1
+        SlideMenuOptions.leftViewWidth = 290.0
         
         let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
         self.window?.rootViewController = slideMenuController

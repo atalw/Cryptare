@@ -110,6 +110,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.loadData()
         
+        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+
     }
     
     @objc func buySortButtonTapped() {

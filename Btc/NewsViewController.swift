@@ -87,6 +87,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+        
+        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     }
     
     @objc func newsButtonTapped() {

@@ -20,8 +20,8 @@ protocol LeftMenuProtocol : class {
 class LeftViewController : UIViewController, LeftMenuProtocol {
     
     @IBOutlet weak var tableView: UITableView!
-    var menus = ["Main", "Markets", "News"]
-    var mainViewController: UIViewController!
+    var menus = ["Dashboard", "Markets", "News"]
+    var dashboardViewController: UIViewController!
     var marketViewController: UIViewController!
     var newsViewController: UIViewController!
     
@@ -43,15 +43,15 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         #if LITE_VERSION
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
-        let mainViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
-        self.mainViewController = UINavigationController(rootViewController: mainViewController)
+        let dashboardViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
+        self.dashboardViewController = UINavigationController(rootViewController: dashboardViewController)
         let marketViewController = storyboard.instantiateViewController(withIdentifier: "MarketViewController") as! MarketViewController
         self.marketViewController = UINavigationController(rootViewController: marketViewController)
         
         let newsViewController = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
         self.newsViewController = UINavigationController(rootViewController: newsViewController)
         
-//        self.tableView.registerCellClass(BaseTableViewCell.self)
+        self.tableView.registerCellClass(LeftNavigationTableViewCell.self)
         
 //        self.imageHeaderView = ImageHeaderView.loadNib()
 //        self.view.addSubview(self.imageHeaderView)
@@ -70,7 +70,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     func changeViewController(_ menu: LeftMenu) {
         switch menu {
         case .main:
-            self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
+            self.slideMenuController()?.changeMainViewController(self.dashboardViewController, close: true)
         case .markets:
             self.slideMenuController()?.changeMainViewController(self.marketViewController, close: true)
         case .news:
@@ -114,14 +114,38 @@ extension LeftViewController : UITableViewDataSource {
         if let menu = LeftMenu(rawValue: indexPath.row) {
             switch menu {
             case .main, .markets, .news:
-//                let cell = BaseTableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: BaseTableViewCell.identifier)
-//                cell.setData(menus[indexPath.row])
-//                return cell
-                print("here")
+                let cell = tableView.dequeueReusableCell(withIdentifier: "navigationCell", for: indexPath) as! LeftNavigationTableViewCell
+                cell.setData(menus[indexPath.row])
+                return cell
             }
         }
         return UITableViewCell()
     }
     
     
+}
+
+public extension UITableView {
+    
+    func registerCellClass(_ cellClass: AnyClass) {
+        let identifier = String.className(cellClass)
+        self.register(cellClass, forCellReuseIdentifier: identifier)
+    }
+    
+    func registerCellNib(_ cellClass: AnyClass) {
+        let identifier = String.className(cellClass)
+        let nib = UINib(nibName: identifier, bundle: nil)
+        self.register(nib, forCellReuseIdentifier: identifier)
+    }
+    
+    func registerHeaderFooterViewClass(_ viewClass: AnyClass) {
+        let identifier = String.className(viewClass)
+        self.register(viewClass, forHeaderFooterViewReuseIdentifier: identifier)
+    }
+    
+    func registerHeaderFooterViewNib(_ viewClass: AnyClass) {
+        let identifier = String.className(viewClass)
+        let nib = UINib(nibName: identifier, bundle: nil)
+        self.register(nib, forHeaderFooterViewReuseIdentifier: identifier)
+    }
 }
