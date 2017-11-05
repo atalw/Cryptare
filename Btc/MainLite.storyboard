@@ -1325,7 +1325,7 @@
         <!--Left View Controller-->
         <scene sceneID="M3q-T5-C3u">
             <objects>
-                <viewController storyboardIdentifier="LeftViewController" id="XHU-DE-cMs" customClass="LeftViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LeftViewController" id="XHU-DE-cMs" customClass="LeftViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nqH-WN-bFS"/>
                         <viewControllerLayoutGuide type="bottom" id="Lac-gc-vXF"/>
@@ -1339,7 +1339,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="navigationCell" id="58F-bl-tCs" customClass="LeftNavigationTableViewCell" customModule="Cryptare" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="navigationCell" id="58F-bl-tCs" customClass="LeftNavigationTableViewCell" customModule="CryptareLite" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="290" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="58F-bl-tCs" id="Of7-eK-2pQ">
@@ -1377,8 +1377,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="background" destination="x0C-vg-BrA" id="X0I-z4-6qL"/>
-                                            <outlet property="titleLabel" destination="ite-TX-w9D" id="Wbu-Ac-v1i"/>
+                                            <outlet property="background" destination="x0C-vg-BrA" id="kNJ-GN-Wx7"/>
+                                            <outlet property="titleLabel" destination="ite-TX-w9D" id="uKm-1j-cNO"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

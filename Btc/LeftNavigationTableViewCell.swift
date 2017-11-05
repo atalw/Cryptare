@@ -13,26 +13,15 @@ class LeftNavigationTableViewCell: UITableViewCell {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     
-    class var identifier: String { return String.className(self) }
-    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
     }
     
     open override func awakeFromNib() {
-    }
-    
-    open func setup() {
-    }
-    
-    open class func height() -> CGFloat {
-        return 48
     }
     
     open func setData(_ data: Any?) {
@@ -62,19 +51,5 @@ class LeftNavigationTableViewCell: UITableViewCell {
             self.background.backgroundColor = UIColor.white
             self.titleLabel.textColor = UIColor.black
         }
-    }
-}
-
-extension String {
-    static func className(_ aClass: AnyClass) -> String {
-        return NSStringFromClass(aClass).components(separatedBy: ".").last!
-    }
-    
-    func substring(_ from: Int) -> String {
-        return self.substring(from: self.characters.index(self.startIndex, offsetBy: from))
-    }
-    
-    var length: Int {
-        return self.characters.count
     }
 }
