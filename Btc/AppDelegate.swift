@@ -50,12 +50,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         #endif
         
         if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
-            let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
-            window?.rootViewController = rootViewController
+            self.createMenuView(storyboard: storyboard)
         }
         
-        self.createMenuView(storyboard: storyboard)
-
         return true
     }
     
