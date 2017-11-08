@@ -11,6 +11,7 @@ enum LeftMenu: Int {
     case dashboard = 0
     case markets
     case news
+    case settings
 }
 
 protocol LeftMenuProtocol : class {
@@ -20,10 +21,11 @@ protocol LeftMenuProtocol : class {
 class LeftViewController : UIViewController, LeftMenuProtocol {
     
     @IBOutlet weak var tableView: UITableView!
-    var menus = ["Dashboard", "Markets", "News"]
+    var menus = ["Dashboard", "Markets", "News", "Settings"]
     var dashboardViewController: UIViewController!
     var marketViewController: UIViewController!
     var newsViewController: UIViewController!
+    var settingsViewController: UIViewController!
     
 //    var imageHeaderView: ImageHeaderView!
     
@@ -51,6 +53,9 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         let newsViewController = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
         self.newsViewController = UINavigationController(rootViewController: newsViewController)
         
+        let settingsViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+        self.settingsViewController = UINavigationController(rootViewController: settingsViewController)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,6 +75,8 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
             self.slideMenuController()?.changeMainViewController(self.marketViewController, close: true)
         case .news:
             self.slideMenuController()?.changeMainViewController(self.newsViewController, close: true)
+        case .settings:
+            self.slideMenuController()?.changeMainViewController(self.settingsViewController, close: true)
         }
     }
 }
@@ -78,7 +85,7 @@ extension LeftViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if let menu = LeftMenu(rawValue: indexPath.row) {
             switch menu {
-            case .dashboard, .markets, .news:
+            case .dashboard, .markets, .news, .settings:
                 return 50
             }
         }
@@ -108,7 +115,7 @@ extension LeftViewController : UITableViewDataSource {
         
         if let menu = LeftMenu(rawValue: indexPath.row) {
             switch menu {
-            case .dashboard, .markets, .news:
+            case .dashboard, .markets, .news, .settings:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "navigationCell", for: indexPath) as! LeftNavigationTableViewCell
                 cell.setData(menus[indexPath.row])
                 return cell
