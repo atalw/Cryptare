@@ -16,6 +16,10 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var yAxisSwitch: UISwitch!
     @IBOutlet weak var yAxisGridLinesSwitch: UISwitch!
     
+    @IBOutlet weak var linearModeButton: UIButton!
+    @IBOutlet weak var smoothModeButton: UIButton!
+    @IBOutlet weak var steppedModeButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +36,20 @@ class SettingsViewController: UITableViewController {
         
         if !yAxisSwitch.isOn {
             yAxisGridLinesSwitch.isEnabled = false
+        }
+        
+        linearModeButton.layer.cornerRadius = 5
+        smoothModeButton.layer.cornerRadius = 5
+        steppedModeButton.layer.cornerRadius = 5
+        
+        if ChartSettings.chartMode == .linear {
+            linearSelected()
+        }
+        else if ChartSettings.chartMode == .cubicBezier {
+            smoothSelected()
+        }
+        else if ChartSettings.chartMode == .stepped {
+            steppedSelected()
         }
         
         xAxisSwitch.addTarget(self, action: #selector(xAxisChange), for: .valueChanged)
@@ -86,11 +104,56 @@ class SettingsViewController: UITableViewController {
         }
     }
 
+    @IBAction func linearButtonTapped(_ sender: Any) {
+        linearSelected()
+        ChartSettings.chartMode = .linear
+    }
+    
+    @IBAction func smoothButtonTapped(_ sender: Any) {
+        smoothSelected()
+        ChartSettings.chartMode = .cubicBezier
+    }
+    
+    @IBAction func steppedButtonTapped(_ sender: Any) {
+        steppedSelected()
+        ChartSettings.chartMode = .stepped
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    func linearSelected() {
+        linearModeButton.isSelected = true
+        smoothModeButton.isSelected = false
+        steppedModeButton.isSelected = false
+        
+        linearModeButton.backgroundColor = UIColor.lightGray
+        smoothModeButton.backgroundColor = UIColor.white
+        steppedModeButton.backgroundColor = UIColor.white
+    }
+    
+    func smoothSelected() {
+        linearModeButton.isSelected = false
+        smoothModeButton.isSelected = true
+        steppedModeButton.isSelected = false
+        
+        linearModeButton.backgroundColor = UIColor.white
+        smoothModeButton.backgroundColor = UIColor.lightGray
+        steppedModeButton.backgroundColor = UIColor.white
+        
+    }
+    
+    func steppedSelected() {
+        linearModeButton.isSelected = false
+        smoothModeButton.isSelected = false
+        steppedModeButton.isSelected = true
+        
+        linearModeButton.backgroundColor = UIColor.white
+        smoothModeButton.backgroundColor = UIColor.white
+        steppedModeButton.backgroundColor = UIColor.lightGray
+    }
 
     /*
     // MARK: - Navigation

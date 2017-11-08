@@ -231,6 +231,71 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ucV-9N-cwg">
+                                        <rect key="frame" x="0.0" y="426.5" width="375" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ucV-9N-cwg" id="5Ho-rw-kud">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cZF-ih-0nd">
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="45"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Line mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPJ-wx-e2T">
+                                                            <rect key="frame" x="0.0" y="12.5" width="193" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jMR-TA-OI7">
+                                                            <rect key="frame" x="193" y="9.5" width="150" height="26"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Wl-T1-qh7">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="26"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <state key="normal" title="Linear">
+                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="linearButtonTapped:" destination="S82-LZ-v1f" eventType="touchUpInside" id="Mv7-C9-29l"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Twz-Xe-0dC">
+                                                                    <rect key="frame" x="50" y="0.0" width="50" height="26"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <state key="normal" title="Smooth">
+                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="smoothButtonTapped:" destination="S82-LZ-v1f" eventType="touchUpInside" id="efJ-tC-RuA"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q0s-T1-Sgu">
+                                                                    <rect key="frame" x="100" y="0.0" width="50" height="26"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <state key="normal" title="Stepped">
+                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="steppedButtonTapped:" destination="S82-LZ-v1f" eventType="touchUpInside" id="8C2-1g-hTq"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="150" id="AYd-kV-Hhy"/>
+                                                            </constraints>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="cZF-ih-0nd" secondAttribute="trailing" constant="16" id="1Wa-r5-QfN"/>
+                                                <constraint firstItem="cZF-ih-0nd" firstAttribute="top" secondItem="5Ho-rw-kud" secondAttribute="top" id="gMT-Qh-tQc"/>
+                                                <constraint firstItem="cZF-ih-0nd" firstAttribute="leading" secondItem="5Ho-rw-kud" secondAttribute="leading" constant="16" id="pNN-HJ-W3d"/>
+                                                <constraint firstAttribute="bottom" secondItem="cZF-ih-0nd" secondAttribute="bottom" id="pt1-fW-wrc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -240,6 +305,9 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="linearModeButton" destination="5Wl-T1-qh7" id="CbY-MA-YRl"/>
+                        <outlet property="smoothModeButton" destination="Twz-Xe-0dC" id="VKx-8o-Wb0"/>
+                        <outlet property="steppedModeButton" destination="q0s-T1-Sgu" id="OZe-Eu-IWK"/>
                         <outlet property="xAxisGridLinesSwitch" destination="Oqe-K7-CBq" id="P62-Ro-aD2"/>
                         <outlet property="xAxisSwitch" destination="8xJ-33-cCq" id="slg-1e-Ftv"/>
                         <outlet property="yAxisGridLinesSwitch" destination="CpR-z9-sBq" id="r17-RO-QCO"/>
