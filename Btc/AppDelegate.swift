@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         SlideMenuOptions.contentViewScale = 1
         SlideMenuOptions.animationDuration = 0.2
         SlideMenuOptions.contentViewOpacity = 0.1
-        SlideMenuOptions.leftViewWidth = 290.0
+        SlideMenuOptions.leftViewWidth = 220
         
         let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
         self.window?.rootViewController = slideMenuController
