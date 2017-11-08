@@ -17,10 +17,11 @@ struct GlobalValues {
 
 struct ChartSettings {
     static var xAxis: Bool! = false
-    static var xAxisGridLinesEnabled: Bool! = true
+    static var xAxisGridLinesEnabled: Bool! = false
     
     static var yAxis: Bool! = false
-    
+    static var yAxisGridLinesEnabled: Bool! = false
+
     static var chartMode: LineChartDataSet.Mode! = .cubicBezier
 }
 
@@ -249,6 +250,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         chart.rightAxis.enabled = false
         chart.leftAxis.enabled = ChartSettings.yAxis
+        chart.leftAxis.drawGridLinesEnabled = ChartSettings.yAxisGridLinesEnabled
         
         chart.xAxis.enabled = ChartSettings.xAxis
         chart.xAxis.drawLabelsEnabled = true
