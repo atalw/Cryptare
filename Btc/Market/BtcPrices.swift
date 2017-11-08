@@ -57,27 +57,6 @@ extension BtcPrices: UICollectionViewDataSource {
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        switch kind {
-        case UICollectionElementKindSectionHeader:
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! CollectionViewHeader
-            headerView.siteLabel.text = "Site"
-            headerView.buyLabel.text = "Buy"
-            headerView.sellLabel.text = "Sell"
-            
-//            headerView.siteLabel.layer.addBorder(edge: UIRectEdge.right, color: hexStringToUIColor(hex: "#d35400"), thickness: 2)
-//            headerView.buyLabel.layer.addBorder(edge: UIRectEdge.right, color: hexStringToUIColor(hex: "#d35400"), thickness: 2)
-            
-            return headerView
-        default:
-//            assert(false, "Unexpected element kind")
-            fatalError("Unexpected element kind")
-        }
-        
-        
-    }
-    
     @objc func buttonAction(sender: UIButton!) {
         
         let title = sender.title(for: .normal)

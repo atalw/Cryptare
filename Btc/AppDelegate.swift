@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import UserNotifications
+import SlideMenuControllerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -29,40 +30,80 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             })
             application.registerForRemoteNotifications()
-            FirebaseApp.configure()
-            
-            // assign correct row title for pro
-            var rowTitle: String!
+
             #if PRO_VERSION
-                rowTitle = "user_ids"
+                setUpFirebase()
             #endif
             #if LITE_VERSION
-                rowTitle = "user_ids_lite"
+                setUpFirebaseLite()
             #endif
-            
-            setupFirebase(rowTitle: rowTitle)
         } else {
             // Fallback on earlier versions
         }
+        
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
         #endif
-    
         
         #if LITE_VERSION
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
         
         if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
-            let rootViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
-            window?.rootViewController = rootViewController
+            self.createMenuView(storyboard: storyboard)
         }
-
+        
         return true
     }
     
-    func setupFirebase(rowTitle: String) {
-        ref = Database.database().reference().child(rowTitle)
+    func createMenuView(storyboard: UIStoryboard) {
+        let dashboardViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
+        let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
+        
+        let nvc: UINavigationController = UINavigationController(rootViewController: dashboardViewController)
+        
+        leftViewController.dashboardViewController = nvc
+        
+        SlideMenuOptions.contentViewDrag = true
+        SlideMenuOptions.contentViewScale = 1
+        SlideMenuOptions.animationDuration = 0.2
+        SlideMenuOptions.contentViewOpacity = 0.1
+        SlideMenuOptions.leftViewWidth = 290.0
+        
+        let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
+        self.window?.rootViewController = slideMenuController
+        slideMenuController.delegate = dashboardViewController as SlideMenuControllerDelegate
+        self.window?.makeKeyAndVisible()
+    }
+    
+    func setUpFirebase() {
+        FirebaseApp.configure()
+        ref = Database.database().reference().child("user_ids")
+        
+        let fcmToken = Messaging.messaging().fcmToken
+        
+        //Retrieve lists of items or listen for additions to a list of items.
+        //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+        //The listener is passed a snapshot containing the new child's data.
+        ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            let enumerator = snapshot.children
+            
+            while let child = enumerator.nextObject() as? DataSnapshot {
+                if child.value as? String == fcmToken {
+                    print("exists")
+                    return;
+                }
+            }
+            let newChild = self.ref.child("users").childByAutoId()
+            newChild.setValue(Messaging.messaging().fcmToken)
+        })
+    }
+    
+    func setUpFirebaseLite() {
+        print("here")
+        FirebaseApp.configure()
+        print("here2")
+        ref = Database.database().reference().child("user_ids_lite")
         
         let fcmToken = Messaging.messaging().fcmToken
         print(fcmToken)
@@ -72,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //The listener is passed a snapshot containing the new child's data.
         ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             let enumerator = snapshot.children
-            
+
             while let child = enumerator.nextObject() as? DataSnapshot {
                 if child.value as? String == fcmToken {
                     print("exists")

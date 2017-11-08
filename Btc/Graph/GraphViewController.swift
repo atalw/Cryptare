@@ -10,7 +10,16 @@ import UIKit
 import Charts
 import SwiftyJSON
 
-class GraphViewController: UIViewController, ChartViewDelegate  {
+struct GlobalValues {
+    static var currentBtcPrice: Double!
+    static var currentBtcPriceString: String!
+}
+
+struct ChartSettings {
+    static var legendEnabled: Bool! = false
+}
+
+class GraphViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
     @IBOutlet weak var lastUpdated: UILabel!
@@ -33,9 +42,7 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
     var btcChangeColour : UIColor = UIColor.gray
     var currentBtcPrice: Double! {
         didSet {
-            self.loadData()
-            self.parentControler.currentBtcPrice = currentBtcPrice
-            self.parentControler.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: currentBtcPrice))
+            self.loadChartData()
         }
     }
     @IBOutlet weak var chart: LineChartView!
@@ -80,11 +87,11 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         self.getCurrentBtcPrice()
+
         self.rangeSegmentControlObject.selectedSegmentIndex = 1
         
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -137,12 +144,11 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
         }  )
     }
     
-    func loadData() {
+    func loadChartData() {
         DispatchQueue.main.async {
             self.getChartData(timeSpan: self.rangeSegmentControlObject.selectedSegmentIndex)
         }
     }
-    
     
     // get current actual price of bitcoin
     func getCurrentBtcPrice() {
@@ -171,6 +177,8 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
             else {
                 print(json["bpi"][self.currency]["rate_float"].error!)
             }
+            GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
+            GlobalValues.currentBtcPrice = self.currentBtcPrice
         }
         task.resume()
     }
@@ -239,7 +247,7 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
         chart.xAxis.labelPosition = .bottom
         chart.pinchZoomEnabled = true
         chart.xAxis.drawGridLinesEnabled = false
-        chart.legend.enabled = false
+        chart.legend.enabled = ChartSettings.legendEnabled
         chart.chartDescription?.text = ""
         chart.leftAxis.enabled = false
         chart.xAxis.enabled = false
@@ -320,5 +328,3 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
     }
     
 }
-
-

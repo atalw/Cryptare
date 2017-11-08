@@ -22,7 +22,6 @@
 		8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634749E1F082E7000E7EB86 /* BtcPrices.swift */; };
 		863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */; };
 		863474A31F0BB11E00E7EB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A21F0BB11E00E7EB86 /* AppDelegate.swift */; };
-		863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */; };
 		863474B31F0CE50F00E7EB86 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B21F0CE50F00E7EB86 /* AdSupport.framework */; };
 		863474B51F0CE51A00E7EB86 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B41F0CE51A00E7EB86 /* AudioToolbox.framework */; };
 		863474B71F0CE51E00E7EB86 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B61F0CE51E00E7EB86 /* AVFoundation.framework */; };
@@ -33,16 +32,18 @@
 		863474C31F0CE54900E7EB86 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BC1F0CE54900E7EB86 /* MessageUI.framework */; };
 		863474C41F0CE54900E7EB86 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BD1F0CE54900E7EB86 /* StoreKit.framework */; };
 		863474C51F0CE54900E7EB86 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */; };
+		86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */; };
+		86401C4D1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */; };
 		864362571F66F9E000883792 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362561F66F9DF00883792 /* DashboardViewController.swift */; };
 		864362591F67ADF100883792 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
 		8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
+		864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
 		868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
 		868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
 		868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
 		868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
 		868F1A801F7D301E0093402A /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
-		868F1A811F7D301E0093402A /* CollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */; };
 		868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
 		868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
 		868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */; };
@@ -64,10 +65,13 @@
 		868F1A981F7D301E0093402A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 863474771F08262000E7EB86 /* Assets.xcassets */; };
 		868F1AA21F7D3AF90093402A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863474741F08262000E7EB86 /* Main.storyboard */; };
 		868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868F1AA41F7D3EEB0093402A /* MainLite.storyboard */; };
+		869BFA121FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
+		869BFA131FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
 		86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
 		86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
 		86AC1F291F913DB00079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F281F913DA70079F013 /* GoogleService-Info.plist */; };
 		86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */; };
+		86AFB1001FACBCF000AB6DFC /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
 		86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
@@ -125,7 +129,6 @@
 		8634749E1F082E7000E7EB86 /* BtcPrices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BtcPrices.swift; sourceTree = "<group>"; };
 		863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
 		863474A21F0BB11E00E7EB86 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewHeader.swift; path = ../CollectionViewHeader.swift; sourceTree = "<group>"; };
 		863474B21F0CE50F00E7EB86 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		863474B41F0CE51A00E7EB86 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		863474B61F0CE51E00E7EB86 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -136,15 +139,18 @@
 		863474BC1F0CE54900E7EB86 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		863474BD1F0CE54900E7EB86 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftNavigationTableViewCell.swift; sourceTree = "<group>"; };
 		864362561F66F9DF00883792 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		864362581F67ADF100883792 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8643625A1F67D7DE00883792 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		864F53271FAC9F0600BC852F /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
 		868F1A9F1F7D301E0093402A /* CryptareLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptareLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		868F1AA01F7D301E0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Btc copy-Info.plist"; path = "/Users/atalw/Documents/dev/ios/Btc/Btc/Btc copy-Info.plist"; sourceTree = "<absolute>"; };
 		868F1AA41F7D3EEB0093402A /* MainLite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainLite.storyboard; sourceTree = "<group>"; };
 		868F1AA61F7D42CA0093402A /* InfoLite.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoLite.plist; sourceTree = "<group>"; };
+		869BFA111FB3135B00625A64 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		86AC1F251F9137B60079F013 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		86AC1F281F913DA70079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -268,6 +274,8 @@
 		8634746D1F08262000E7EB86 /* Btc */ = {
 			isa = PBXGroup;
 			children = (
+				86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */,
+				864F53271FAC9F0600BC852F /* LeftViewController.swift */,
 				868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */,
 				864362581F67ADF100883792 /* MainViewController.swift */,
 				863474741F08262000E7EB86 /* Main.storyboard */,
@@ -276,6 +284,7 @@
 				864362611F6805CA00883792 /* Graph */,
 				8643625C1F6803B400883792 /* Market */,
 				8643625D1F6803CF00883792 /* News */,
+				869BFA101FB3132100625A64 /* Settings */,
 				8643625E1F68044500883792 /* Helper Files */,
 			);
 			path = Btc;
@@ -325,14 +334,13 @@
 			isa = PBXGroup;
 			children = (
 				863474701F08262000E7EB86 /* MarketViewController.swift */,
-				863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */,
 				863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */,
 				8634749E1F082E7000E7EB86 /* BtcPrices.swift */,
 				86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */,
 				86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */,
 				86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */,
 			);
-			name = Market;
+			path = Market;
 			sourceTree = "<group>";
 		};
 		8643625D1F6803CF00883792 /* News */ = {
@@ -342,7 +350,7 @@
 				86E31CCA1F41D77900445B08 /* NewsData.swift */,
 				86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */,
 			);
-			name = News;
+			path = News;
 			sourceTree = "<group>";
 		};
 		8643625E1F68044500883792 /* Helper Files */ = {
@@ -365,7 +373,7 @@
 			children = (
 				864362561F66F9DF00883792 /* DashboardViewController.swift */,
 			);
-			name = Dashboard;
+			path = Dashboard;
 			sourceTree = "<group>";
 		};
 		864362611F6805CA00883792 /* Graph */ = {
@@ -374,7 +382,15 @@
 				8643625A1F67D7DE00883792 /* GraphViewController.swift */,
 				86AC1F251F9137B60079F013 /* BalloonMarker.swift */,
 			);
-			name = Graph;
+			path = Graph;
+			sourceTree = "<group>";
+		};
+		869BFA101FB3132100625A64 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				869BFA111FB3135B00625A64 /* SettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -695,6 +711,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -707,6 +724,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -729,6 +747,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -741,6 +760,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -806,15 +826,17 @@
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
 				86BD6F9E1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */,
+				86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
-				863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */,
 				86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */,
 				8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */,
 				863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */,
+				869BFA121FB3135B00625A64 /* SettingsViewController.swift in Sources */,
 				86BD6F9B1F85236100C4B0CA /* MarketsModel.swift in Sources */,
+				864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */,
 				8602BAB71F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
 				86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */,
 				8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */,
@@ -848,13 +870,15 @@
 				868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */,
 				86BD6F9F1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */,
+				86401C4D1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */,
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
-				868F1A811F7D301E0093402A /* CollectionViewHeader.swift in Sources */,
 				86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */,
 				868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */,
+				86AFB1001FACBCF000AB6DFC /* LeftViewController.swift in Sources */,
+				869BFA131FB3135B00625A64 /* SettingsViewController.swift in Sources */,
 				868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */,
 				86BD6F9C1F85236100C4B0CA /* MarketsModel.swift in Sources */,
 				8602BAB81F83D217003733E8 /* UIColor+Extensions.swift in Sources */,

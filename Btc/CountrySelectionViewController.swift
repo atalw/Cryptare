@@ -15,6 +15,21 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
     
     let defaults = UserDefaults.standard
     
+    @IBAction func nextButtonTapped(_ sender: Any) {
+        
+        #if PRO_VERSION
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        #endif
+        
+        #if LITE_VERSION
+            let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
+        #endif
+        DispatchQueue.main.async {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.createMenuView(storyboard: storyboard)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

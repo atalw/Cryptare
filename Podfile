@@ -14,6 +14,7 @@ pod 'Charts', :git => 'https://github.com/danielgindi/Charts.git', :branch => 's
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
 pod 'Firebase/Database'
+pod 'SlideMenuControllerSwift', :git => 'https://github.com/dekatotoro/SlideMenuControllerSwift', :branch => 'swift4'
 
 target 'CryptareLite' do
     use_frameworks!
@@ -26,6 +27,8 @@ target 'CryptareLite' do
     pod 'Firebase/Core'
     pod 'Firebase/Messaging'
     pod 'Firebase/Database'
+    pod 'SlideMenuControllerSwift', :git => 'https://github.com/dekatotoro/SlideMenuControllerSwift', :branch => 'swift4'
+
 end
 
 target 'BtcTests' do
