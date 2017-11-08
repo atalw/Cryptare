@@ -10,7 +10,12 @@ import UIKit
 import Charts
 import SwiftyJSON
 
-class GraphViewController: UIViewController, ChartViewDelegate  {
+struct GlobalValues {
+    static var currentBtcPrice: Double!
+    static var currentBtcPriceString: String!
+}
+
+class GraphViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
     @IBOutlet weak var lastUpdated: UILabel!
@@ -80,11 +85,11 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         self.getCurrentBtcPrice()
+
         self.rangeSegmentControlObject.selectedSegmentIndex = 1
         
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -171,6 +176,8 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
             else {
                 print(json["bpi"][self.currency]["rate_float"].error!)
             }
+            GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
+            GlobalValues.currentBtcPrice = self.currentBtcPrice
         }
         task.resume()
     }
@@ -320,5 +327,3 @@ class GraphViewController: UIViewController, ChartViewDelegate  {
     }
     
 }
-
-

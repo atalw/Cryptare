@@ -58,11 +58,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        self.loadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,15 +71,16 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             print("here")
         }
         
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
@@ -108,7 +105,10 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
         
-        self.loadData()
+        activityIndicator.center = self.tableView.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        self.tableView.addSubview(activityIndicator)
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -151,6 +151,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
         tableView.reloadData()
     }
+    
     @objc func handleButton(sender: CustomUIButton!) {
         if let link = sender.url {
             if #available(iOS 10.0, *) {
@@ -207,7 +208,11 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     func loadData() {
         self.markets.removeAll()
         self.copyMarkets.removeAll()
+        self.tableView.reloadData()
         self.activityIndicator.startAnimating()
+        
+        self.currentBtcPrice = GlobalValues.currentBtcPrice
+        self.currentBtcPriceString = GlobalValues.currentBtcPriceString
         
         self.btcPriceLabel.text = self.currentBtcPriceString
 
@@ -231,8 +236,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             }
         }
         self.btcAmount.text = "1"
-        
-//        self.collectionView.dataSource = btcPrices
     }
     
     //Calls this function when the tap is recognized.
