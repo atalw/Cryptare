@@ -57,6 +57,8 @@ class SettingsViewController: UITableViewController {
 
         yAxisSwitch.addTarget(self, action: #selector(yAxisChange), for: .valueChanged)
         yAxisGridLinesSwitch.addTarget(self, action: #selector(yAxisGridLinesChange), for: .valueChanged)
+        
+        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
     }
     
