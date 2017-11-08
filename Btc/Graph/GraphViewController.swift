@@ -19,7 +19,7 @@ struct ChartSettings {
     static var xAxis: Bool! = false
     static var xAxisGridLinesEnabled: Bool! = true
     
-    static var leftAxis: Bool! = false
+    static var yAxis: Bool! = false
     
     static var chartMode: LineChartDataSet.Mode! = .cubicBezier
 }
@@ -248,7 +248,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         lineChartData.setDrawValues(false)
         
         chart.rightAxis.enabled = false
-        chart.leftAxis.enabled = ChartSettings.leftAxis
+        chart.leftAxis.enabled = ChartSettings.yAxis
         
         chart.xAxis.enabled = ChartSettings.xAxis
         chart.xAxis.drawLabelsEnabled = true
@@ -270,7 +270,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         chart.fitScreen()
         // reset highlight value
         chart.highlightValue(nil)
-        if ChartSettings.leftAxis {
+        if ChartSettings.yAxis {
             chart.setExtraOffsets(left: 5, top: 0, right: 10, bottom: 0)
         }
         else {
