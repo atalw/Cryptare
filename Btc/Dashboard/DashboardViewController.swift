@@ -17,8 +17,6 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var newsButton: GradientView!
     
     var graphController: GraphViewController! // child view controller
-    var currentBtcPrice: Double = 0.0
-    var currentBtcPriceString: String!
 
     @IBAction func refreshButtonAction(_ sender: Any) {
         graphController.reloadData()
@@ -70,14 +68,6 @@ class DashboardViewController: UIViewController {
             graphController.parentControler = self
             self.graphController = graphController
         }
-        else if let marketController = destinationViewController as? MarketViewController {
-            print(self.currentBtcPrice)
-            if self.currentBtcPriceString != nil || self.currentBtcPrice != nil {
-                marketController.currentBtcPriceString = self.currentBtcPriceString
-                marketController.currentBtcPrice = self.currentBtcPrice
-            }
-            
-        }
     }
 
 }
@@ -85,35 +75,35 @@ class DashboardViewController: UIViewController {
 extension DashboardViewController : SlideMenuControllerDelegate {
     
     func leftWillOpen() {
-        print("SlideMenuControllerDelegate: leftWillOpen")
+//        print("SlideMenuControllerDelegate: leftWillOpen")
     }
     
     func leftDidOpen() {
-        print("SlideMenuControllerDelegate: leftDidOpen")
+//        print("SlideMenuControllerDelegate: leftDidOpen")
     }
     
     func leftWillClose() {
-        print("SlideMenuControllerDelegate: leftWillClose")
+//        print("SlideMenuControllerDelegate: leftWillClose")
     }
     
     func leftDidClose() {
-        print("SlideMenuControllerDelegate: leftDidClose")
+//        print("SlideMenuControllerDelegate: leftDidClose")
     }
     
     func rightWillOpen() {
-        print("SlideMenuControllerDelegate: rightWillOpen")
+//        print("SlideMenuControllerDelegate: rightWillOpen")
     }
     
     func rightDidOpen() {
-        print("SlideMenuControllerDelegate: rightDidOpen")
+//        print("SlideMenuControllerDelegate: rightDidOpen")
     }
     
     func rightWillClose() {
-        print("SlideMenuControllerDelegate: rightWillClose")
+//        print("SlideMenuControllerDelegate: rightWillClose")
     }
     
     func rightDidClose() {
-        print("SlideMenuControllerDelegate: rightDidClose")
+//        print("SlideMenuControllerDelegate: rightDidClose")
     }
 }
 

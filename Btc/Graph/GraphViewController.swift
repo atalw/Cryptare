@@ -15,6 +15,10 @@ struct GlobalValues {
     static var currentBtcPriceString: String!
 }
 
+struct ChartSettings {
+    static var legendEnabled: Bool! = false
+}
+
 class GraphViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
@@ -38,9 +42,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var btcChangeColour : UIColor = UIColor.gray
     var currentBtcPrice: Double! {
         didSet {
-            self.loadData()
-            self.parentControler.currentBtcPrice = currentBtcPrice
-            self.parentControler.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: currentBtcPrice))
+            self.loadChartData()
         }
     }
     @IBOutlet weak var chart: LineChartView!
@@ -142,12 +144,11 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         }  )
     }
     
-    func loadData() {
+    func loadChartData() {
         DispatchQueue.main.async {
             self.getChartData(timeSpan: self.rangeSegmentControlObject.selectedSegmentIndex)
         }
     }
-    
     
     // get current actual price of bitcoin
     func getCurrentBtcPrice() {
@@ -246,7 +247,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         chart.xAxis.labelPosition = .bottom
         chart.pinchZoomEnabled = true
         chart.xAxis.drawGridLinesEnabled = false
-        chart.legend.enabled = false
+        chart.legend.enabled = ChartSettings.legendEnabled
         chart.chartDescription?.text = ""
         chart.leftAxis.enabled = false
         chart.xAxis.enabled = false

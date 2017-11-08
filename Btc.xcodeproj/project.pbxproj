@@ -22,7 +22,6 @@
 		8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634749E1F082E7000E7EB86 /* BtcPrices.swift */; };
 		863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */; };
 		863474A31F0BB11E00E7EB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A21F0BB11E00E7EB86 /* AppDelegate.swift */; };
-		863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */; };
 		863474B31F0CE50F00E7EB86 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B21F0CE50F00E7EB86 /* AdSupport.framework */; };
 		863474B51F0CE51A00E7EB86 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B41F0CE51A00E7EB86 /* AudioToolbox.framework */; };
 		863474B71F0CE51E00E7EB86 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B61F0CE51E00E7EB86 /* AVFoundation.framework */; };
@@ -45,7 +44,6 @@
 		868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
 		868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
 		868F1A801F7D301E0093402A /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
-		868F1A811F7D301E0093402A /* CollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */; };
 		868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
 		868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
 		868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */; };
@@ -131,7 +129,6 @@
 		8634749E1F082E7000E7EB86 /* BtcPrices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BtcPrices.swift; sourceTree = "<group>"; };
 		863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
 		863474A21F0BB11E00E7EB86 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewHeader.swift; path = ../CollectionViewHeader.swift; sourceTree = "<group>"; };
 		863474B21F0CE50F00E7EB86 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		863474B41F0CE51A00E7EB86 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		863474B61F0CE51E00E7EB86 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -337,14 +334,13 @@
 			isa = PBXGroup;
 			children = (
 				863474701F08262000E7EB86 /* MarketViewController.swift */,
-				863474A61F0BCCCD00E7EB86 /* CollectionViewHeader.swift */,
 				863474A01F0BB02800E7EB86 /* MyCollectionViewCell.swift */,
 				8634749E1F082E7000E7EB86 /* BtcPrices.swift */,
 				86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */,
 				86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */,
 				86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */,
 			);
-			name = Market;
+			path = Market;
 			sourceTree = "<group>";
 		};
 		8643625D1F6803CF00883792 /* News */ = {
@@ -354,7 +350,7 @@
 				86E31CCA1F41D77900445B08 /* NewsData.swift */,
 				86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */,
 			);
-			name = News;
+			path = News;
 			sourceTree = "<group>";
 		};
 		8643625E1F68044500883792 /* Helper Files */ = {
@@ -377,7 +373,7 @@
 			children = (
 				864362561F66F9DF00883792 /* DashboardViewController.swift */,
 			);
-			name = Dashboard;
+			path = Dashboard;
 			sourceTree = "<group>";
 		};
 		864362611F6805CA00883792 /* Graph */ = {
@@ -386,7 +382,7 @@
 				8643625A1F67D7DE00883792 /* GraphViewController.swift */,
 				86AC1F251F9137B60079F013 /* BalloonMarker.swift */,
 			);
-			name = Graph;
+			path = Graph;
 			sourceTree = "<group>";
 		};
 		869BFA101FB3132100625A64 /* Settings */ = {
@@ -834,7 +830,6 @@
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
-				863474A71F0BCCCD00E7EB86 /* CollectionViewHeader.swift in Sources */,
 				86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */,
 				8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */,
@@ -879,7 +874,6 @@
 				868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */,
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
-				868F1A811F7D301E0093402A /* CollectionViewHeader.swift in Sources */,
 				86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */,
 				868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */,
