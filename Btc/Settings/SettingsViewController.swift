@@ -24,39 +24,25 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        xAxisSwitch.isOn = ChartSettings.xAxis
-        xAxisGridLinesSwitch.isOn = ChartSettings.xAxisGridLinesEnabled
-        
-        if !xAxisSwitch.isOn {
-            xAxisGridLinesSwitch.isEnabled = false
-        }
-        
-        yAxisSwitch.isOn = ChartSettings.yAxis
-        yAxisGridLinesSwitch.isOn = ChartSettings.yAxisGridLinesEnabled
-        
-        if !yAxisSwitch.isOn {
-            yAxisGridLinesSwitch.isEnabled = false
-        }
-        
         linearModeButton.layer.cornerRadius = 5
         smoothModeButton.layer.cornerRadius = 5
         steppedModeButton.layer.cornerRadius = 5
         
-        if ChartSettings.chartMode == .linear {
-            linearSelected()
-        }
-        else if ChartSettings.chartMode == .cubicBezier {
-            smoothSelected()
-        }
-        else if ChartSettings.chartMode == .stepped {
-            steppedSelected()
-        }
+        linearModeButton.setTitleColor(UIColor.black, for: .normal)
+        smoothModeButton.setTitleColor(UIColor.black, for: .normal)
+        steppedModeButton.setTitleColor(UIColor.black, for: .normal)
+        
+        linearModeButton.setTitleColor(UIColor.white, for: .selected)
+        smoothModeButton.setTitleColor(UIColor.white, for: .selected)
+        steppedModeButton.setTitleColor(UIColor.white, for: .selected)
         
         xAxisSwitch.addTarget(self, action: #selector(xAxisChange), for: .valueChanged)
         xAxisGridLinesSwitch.addTarget(self, action: #selector(xAxisGridLinesChange), for: .valueChanged)
 
         yAxisSwitch.addTarget(self, action: #selector(yAxisChange), for: .valueChanged)
         yAxisGridLinesSwitch.addTarget(self, action: #selector(yAxisGridLinesChange), for: .valueChanged)
+        
+        loadChartSettings()
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -157,6 +143,47 @@ class SettingsViewController: UITableViewController {
         steppedModeButton.backgroundColor = UIColor.lightGray
     }
 
+    @IBAction func chartResetDefaults(_ sender: Any) {
+        ChartSettings.chartMode = ChartSettingsDefault.chartMode
+        
+        ChartSettings.xAxis = ChartSettingsDefault.xAxis
+        ChartSettings.xAxisGridLinesEnabled = ChartSettingsDefault.xAxisGridLinesEnabled
+        
+        ChartSettings.yAxis = ChartSettingsDefault.yAxis
+        ChartSettings.yAxisGridLinesEnabled = ChartSettingsDefault.yAxisGridLinesEnabled
+        
+        loadChartSettings()
+    }
+    
+    func loadChartSettings() {
+        // chart mode
+        if ChartSettings.chartMode == .linear {
+            linearSelected()
+        }
+        else if ChartSettings.chartMode == .cubicBezier {
+            smoothSelected()
+        }
+        else if ChartSettings.chartMode == .stepped {
+            steppedSelected()
+        }
+        
+        // x-axis
+        xAxisSwitch.setOn(ChartSettings.xAxis, animated: true)
+        xAxisGridLinesSwitch.setOn(ChartSettings.xAxisGridLinesEnabled, animated: true)
+        
+        if !xAxisSwitch.isOn {
+            xAxisGridLinesSwitch.isEnabled = false
+        }
+        
+        // y-axis
+        yAxisSwitch.setOn(ChartSettings.yAxis, animated: true)
+        yAxisGridLinesSwitch.setOn(ChartSettings.yAxisGridLinesEnabled, animated: true)
+        
+        if !yAxisSwitch.isOn {
+            yAxisGridLinesSwitch.isEnabled = false
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

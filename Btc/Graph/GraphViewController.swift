@@ -25,6 +25,16 @@ struct ChartSettings {
     static var chartMode: LineChartDataSet.Mode! = .cubicBezier
 }
 
+struct ChartSettingsDefault {
+    static let chartMode: LineChartDataSet.Mode! = .cubicBezier
+    
+    static let xAxis: Bool! = false
+    static let xAxisGridLinesEnabled: Bool! = false
+    
+    static let yAxis: Bool! = false
+    static let yAxisGridLinesEnabled: Bool! = false
+}
+
 class GraphViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
