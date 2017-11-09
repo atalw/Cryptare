@@ -76,9 +76,20 @@ class SettingsViewController: UITableViewController {
         
         ascendingSort.setTitleColor(UIColor.white, for: .selected)
         descendingSort.setTitleColor(UIColor.white, for: .selected)
+        
+        // news
+        popularitySort.layer.cornerRadius = 5
+        dateSort.layer.cornerRadius = 5
+        
+        popularitySort.setTitleColor(UIColor.black, for: .normal)
+        dateSort.setTitleColor(UIColor.black, for: .normal)
+        
+        popularitySort.setTitleColor(UIColor.white, for: .selected)
+        dateSort.setTitleColor(UIColor.white, for: .selected)
                 
         loadChartSettings()
         loadMarketSettings()
+        loadNewsSettings()
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -314,6 +325,46 @@ class SettingsViewController: UITableViewController {
             defaults.set("descending", forKey: "marketOrder")
         }
     }
+    
+    func loadNewsSettings() {
+        let newsSort = defaults.string(forKey: "newsSort")
+        
+        if newsSort == "popularity" {
+            popularitySort.isSelected = true
+            dateSort.isSelected = false
+            
+            popularitySort.backgroundColor = UIColor.lightGray
+            dateSort.backgroundColor = UIColor.white
+        }
+        else if newsSort == "date" {
+            popularitySort.isSelected = false
+            dateSort.isSelected = true
+            
+            popularitySort.backgroundColor = UIColor.white
+            dateSort.backgroundColor = UIColor.lightGray
+        }
+    }
+    @IBAction func newsSortButtonTapped(_ sender: Any) {
+        if (sender as! UIButton).isEqual(popularitySort) {
+            popularitySort.isSelected = true
+            dateSort.isSelected = false
+            
+            popularitySort.backgroundColor = UIColor.lightGray
+            dateSort.backgroundColor = UIColor.white
+            
+            defaults.set("popularity", forKey: "newsSort")
+        }
+        else if (sender as! UIButton).isEqual(dateSort) {
+            popularitySort.isSelected = false
+            dateSort.isSelected = true
+            
+            popularitySort.backgroundColor = UIColor.white
+            dateSort.backgroundColor = UIColor.lightGray
+            
+            defaults.set("date", forKey: "newsSort")
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
         
+        // chart settings
         if !defaults.bool(forKey: "chartSettingsExist") {
             defaults.set("smooth", forKey: "chartMode")
             
@@ -63,12 +64,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             defaults.set(true, forKey: "chartSettingsExist")
         }
-        
+     
+        // market settings
         if !defaults.bool(forKey: "marketSettingsExist") {
             defaults.set("buy", forKey: "marketSort")
             defaults.set("ascending", forKey: "marketOrder")
             
             defaults.set(true, forKey: "marketSettingsExist")
+        }
+        
+        // news settings
+        if !defaults.bool(forKey: "newsSettingsExist") {
+            defaults.set("popularity", forKey: "newsSort")
+            
+            defaults.set(true, forKey: "newsSettingsExist")
         }
         
         if defaults.string(forKey: "selectedCountry") != nil {
