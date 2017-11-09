@@ -38,8 +38,8 @@ class SettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        //chart
         linearModeButton.layer.cornerRadius = 5
         smoothModeButton.layer.cornerRadius = 5
         steppedModeButton.layer.cornerRadius = 5
@@ -58,7 +58,27 @@ class SettingsViewController: UITableViewController {
         yAxisSwitch.addTarget(self, action: #selector(yAxisChange), for: .valueChanged)
         yAxisGridLinesSwitch.addTarget(self, action: #selector(yAxisGridLinesChange), for: .valueChanged)
         
+        // markets
+        buySort.layer.cornerRadius = 5
+        sellSort.layer.cornerRadius = 5
+        
+        buySort.setTitleColor(UIColor.black, for: .normal)
+        sellSort.setTitleColor(UIColor.black, for: .normal)
+        
+        sellSort.setTitleColor(UIColor.white, for: .selected)
+        buySort.setTitleColor(UIColor.white, for: .selected)
+        
+        ascendingSort.layer.cornerRadius = 5
+        descendingSort.layer.cornerRadius = 5
+        
+        ascendingSort.setTitleColor(UIColor.black, for: .normal)
+        descendingSort.setTitleColor(UIColor.black, for: .normal)
+        
+        ascendingSort.setTitleColor(UIColor.white, for: .selected)
+        descendingSort.setTitleColor(UIColor.white, for: .selected)
+                
         loadChartSettings()
+        loadMarketSettings()
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -221,6 +241,79 @@ class SettingsViewController: UITableViewController {
         }
     }
     
+    func loadMarketSettings() {
+        if defaults.string(forKey: "marketSort") == "buy" {
+            buySort.isSelected = true
+            sellSort.isSelected = false
+            
+            buySort.backgroundColor = UIColor.lightGray
+            sellSort.backgroundColor = UIColor.white
+        }
+        else if defaults.string(forKey: "marketSort") == "sell" {
+            buySort.isSelected = false
+            sellSort.isSelected = true
+            
+            buySort.backgroundColor = UIColor.white
+            sellSort.backgroundColor = UIColor.lightGray
+        }
+        
+        if defaults.string(forKey: "marketOrder") == "ascending" {
+            ascendingSort.isSelected = true
+            descendingSort.isSelected = false
+            
+            ascendingSort.backgroundColor = UIColor.lightGray
+            descendingSort.backgroundColor = UIColor.white
+        }
+        else if defaults.string(forKey: "marketOrder") == "descending" {
+            ascendingSort.isSelected = false
+            descendingSort.isSelected = true
+            
+            ascendingSort.backgroundColor = UIColor.white
+            descendingSort.backgroundColor = UIColor.lightGray
+        }
+    }
+    
+    @IBAction func marketSortButtonTapped(_ sender: Any) {
+        if (sender as! UIButton).isEqual(buySort) {
+            buySort.isSelected = true
+            sellSort.isSelected = false
+            
+            buySort.backgroundColor = UIColor.lightGray
+            sellSort.backgroundColor = UIColor.white
+            
+            defaults.set("buy", forKey: "marketSort")
+        }
+        else if (sender as! UIButton).isEqual(sellSort) {
+            buySort.isSelected = false
+            sellSort.isSelected = true
+            
+            buySort.backgroundColor = UIColor.white
+            sellSort.backgroundColor = UIColor.lightGray
+            
+            defaults.set("sell", forKey: "marketSort")
+        }
+    }
+    
+    @IBAction func marketOrderButtonTapped(_ sender: Any) {
+        if (sender as! UIButton).isEqual(ascendingSort) {
+            ascendingSort.isSelected = true
+            descendingSort.isSelected = false
+            
+            ascendingSort.backgroundColor = UIColor.lightGray
+            descendingSort.backgroundColor = UIColor.white
+            
+            defaults.set("ascending", forKey: "marketOrder")
+        }
+        else if (sender as! UIButton).isEqual(descendingSort) {
+            ascendingSort.isSelected = false
+            descendingSort.isSelected = true
+            
+            ascendingSort.backgroundColor = UIColor.white
+            descendingSort.backgroundColor = UIColor.lightGray
+            
+            defaults.set("descending", forKey: "marketOrder")
+        }
+    }
     /*
     // MARK: - Navigation
 

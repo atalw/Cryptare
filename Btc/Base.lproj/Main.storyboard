@@ -325,6 +325,9 @@
                                                                     <state key="normal" title="Buy">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="marketSortButtonTapped:" destination="S82-LZ-v1f" eventType="touchUpInside" id="QaF-Xf-mJU"/>
+                                                                    </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xoc-Nu-Obb">
                                                                     <rect key="frame" x="75" y="0.0" width="75" height="29"/>
@@ -332,6 +335,9 @@
                                                                     <state key="normal" title="Sell">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="marketSortButtonTapped:" destination="S82-LZ-v1f" eventType="touchUpInside" id="gIi-0p-tNH"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                             <constraints>
@@ -374,6 +380,9 @@
                                                                     <state key="normal" title="Ascending">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="marketOrderButtonTapped:" destination="S82-LZ-v1f" eventType="touchUpInside" id="GMI-d8-z6b"/>
+                                                                    </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dc0-yr-f3S">
                                                                     <rect key="frame" x="85" y="0.0" width="85" height="28"/>
@@ -381,6 +390,9 @@
                                                                     <state key="normal" title="Descending">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="marketOrderButtonTapped:" destination="S82-LZ-v1f" eventType="touchUpInside" id="xZW-qU-A79"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                             <constraints>

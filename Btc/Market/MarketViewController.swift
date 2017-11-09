@@ -230,12 +230,38 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     #endif
                     self.activityIndicator.stopAnimating()
                     // Default to ascending Buy prices
-                    self.buySortButtonCounter = 0
-                    self.buySortButton.sendActions(for: .touchUpInside)
+                    self.defaultSort()
                 }
             }
         }
         self.btcAmount.text = "1"
+    }
+    
+    func defaultSort() {
+        let marketSort = defaults.string(forKey: "marketSort")
+        let marketOrder = defaults.string(forKey: "marketOrder")
+        
+        self.buySortButtonCounter = 0
+        self.sellSortButtonCounter = 0
+        
+        if marketSort == "buy" {
+            if marketOrder == "ascending" {
+                self.buySortButton.sendActions(for: .touchUpInside)
+            }
+            else if marketOrder == "descending" {
+                self.buySortButton.sendActions(for: .touchUpInside)
+                self.buySortButton.sendActions(for: .touchUpInside)
+            }
+        }
+        else if marketSort == "sell" {
+            if marketOrder == "ascending" {
+                self.sellSortButton.sendActions(for: .touchUpInside)
+            }
+            else if marketOrder == "descending" {
+                self.sellSortButton.sendActions(for: .touchUpInside)
+                self.sellSortButton.sendActions(for: .touchUpInside)
+            }
+        }
     }
     
     //Calls this function when the tap is recognized.

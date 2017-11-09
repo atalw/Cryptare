@@ -64,6 +64,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             defaults.set(true, forKey: "chartSettingsExist")
         }
         
+        if !defaults.bool(forKey: "marketSettingsExist") {
+            defaults.set("buy", forKey: "marketSort")
+            defaults.set("ascending", forKey: "marketOrder")
+            
+            defaults.set(true, forKey: "marketSettingsExist")
+        }
+        
         if defaults.string(forKey: "selectedCountry") != nil {
             self.createMenuView(storyboard: storyboard)
         }
