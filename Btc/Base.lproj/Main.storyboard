@@ -317,19 +317,19 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Eb3-JC-goA">
-                                                            <rect key="frame" x="193" y="7.5" width="150" height="30"/>
+                                                            <rect key="frame" x="193" y="8" width="150" height="29"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILD-dT-CyQ">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="30"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                    <state key="normal" title="India">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="29"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <state key="normal" title="Buy">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xoc-Nu-Obb">
-                                                                    <rect key="frame" x="75" y="0.0" width="75" height="30"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                    <state key="normal" title="USA">
+                                                                    <rect key="frame" x="75" y="0.0" width="75" height="29"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <state key="normal" title="Sell">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
@@ -349,12 +349,61 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Gim-xb-Q8d">
+                                        <rect key="frame" x="0.0" y="426.5" width="375" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gim-xb-Q8d" id="IiI-wj-shV">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5GK-1l-L59">
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="45"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default order" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DJh-l0-SbE">
+                                                            <rect key="frame" x="0.0" y="12.5" width="173" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ziX-Ad-E1c">
+                                                            <rect key="frame" x="173" y="8.5" width="170" height="28"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7aY-Cw-0gs">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="85" height="28"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <state key="normal" title="Ascending">
+                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dc0-yr-f3S">
+                                                                    <rect key="frame" x="85" y="0.0" width="85" height="28"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <state key="normal" title="Descending">
+                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="170" id="L6v-hC-law"/>
+                                                            </constraints>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="5GK-1l-L59" firstAttribute="top" secondItem="IiI-wj-shV" secondAttribute="top" id="9LK-tD-ZWh"/>
+                                                <constraint firstItem="5GK-1l-L59" firstAttribute="leading" secondItem="IiI-wj-shV" secondAttribute="leading" constant="16" id="Amm-9O-I4g"/>
+                                                <constraint firstAttribute="bottom" secondItem="5GK-1l-L59" secondAttribute="bottom" id="H5m-l3-gMj"/>
+                                                <constraint firstAttribute="trailing" secondItem="5GK-1l-L59" secondAttribute="trailing" constant="16" id="HZ3-j9-KZJ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="News 📰" id="VuN-8v-WlF">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="XIb-UN-PXo">
-                                        <rect key="frame" x="0.0" y="482.5" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="527.5" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XIb-UN-PXo" id="4S9-XB-0aq">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -407,7 +456,7 @@
                             <tableViewSection headerTitle="Country 🌏" id="4pM-3m-Voz">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="uGD-wz-uPc">
-                                        <rect key="frame" x="0.0" y="583.5" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="628.5" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uGD-wz-uPc" id="CVf-fl-5hC">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -465,7 +514,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="3Af-DA-HDA"/>
                     <connections>
+                        <outlet property="ascendingSort" destination="7aY-Cw-0gs" id="ovR-dG-80H"/>
+                        <outlet property="buySort" destination="ILD-dT-CyQ" id="8Ph-Qk-kLS"/>
+                        <outlet property="dateSort" destination="90M-2m-Gnx" id="11b-B7-zfK"/>
+                        <outlet property="descendingSort" destination="dc0-yr-f3S" id="vgv-xA-yjg"/>
                         <outlet property="linearModeButton" destination="5Wl-T1-qh7" id="CbY-MA-YRl"/>
+                        <outlet property="popularitySort" destination="8fN-Cp-GxN" id="vsI-gi-4wU"/>
+                        <outlet property="sellSort" destination="xoc-Nu-Obb" id="7sh-PN-P28"/>
                         <outlet property="smoothModeButton" destination="Twz-Xe-0dC" id="VKx-8o-Wb0"/>
                         <outlet property="steppedModeButton" destination="q0s-T1-Sgu" id="OZe-Eu-IWK"/>
                         <outlet property="xAxisGridLinesSwitch" destination="Oqe-K7-CBq" id="P62-Ro-aD2"/>

@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import Charts
 
 class SettingsViewController: UITableViewController {
+    
+    let defaults = UserDefaults.standard
+    
+    // charts
+    @IBOutlet weak var linearModeButton: UIButton!
+    @IBOutlet weak var smoothModeButton: UIButton!
+    @IBOutlet weak var steppedModeButton: UIButton!
 
     @IBOutlet weak var xAxisSwitch: UISwitch!
     @IBOutlet weak var xAxisGridLinesSwitch: UISwitch!
@@ -16,9 +24,17 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var yAxisSwitch: UISwitch!
     @IBOutlet weak var yAxisGridLinesSwitch: UISwitch!
     
-    @IBOutlet weak var linearModeButton: UIButton!
-    @IBOutlet weak var smoothModeButton: UIButton!
-    @IBOutlet weak var steppedModeButton: UIButton!
+    // markets
+    @IBOutlet weak var buySort: UIButton!
+    @IBOutlet weak var sellSort: UIButton!
+    @IBOutlet weak var ascendingSort: UIButton!
+    @IBOutlet weak var descendingSort: UIButton!
+    
+    // news
+    @IBOutlet weak var popularitySort: UIButton!
+    @IBOutlet weak var dateSort: UIButton!
+    
+    // country
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,10 +69,12 @@ class SettingsViewController: UITableViewController {
         if state {
             ChartSettings.xAxis = true
             xAxisGridLinesSwitch.isEnabled = true
+            defaults.set(true, forKey: "xAxis")
         }
         else {
             ChartSettings.xAxis = false
             xAxisGridLinesSwitch.isEnabled = false
+            defaults.set(false, forKey: "xAxis")
         }
     }
     
@@ -64,9 +82,11 @@ class SettingsViewController: UITableViewController {
         let state = xAxisGridLinesSwitch.isOn
         if state {
             ChartSettings.xAxisGridLinesEnabled = true
+            defaults.set(true, forKey: "xAxisGridLinesEnabled")
         }
         else {
             ChartSettings.xAxisGridLinesEnabled = false
+            defaults.set(false, forKey: "xAxisGridLinesEnabled")
         }
     }
     
@@ -75,10 +95,12 @@ class SettingsViewController: UITableViewController {
         if state {
             ChartSettings.yAxis = true
             yAxisGridLinesSwitch.isEnabled = true
+            defaults.set(true, forKey: "yAxis")
         }
         else {
             ChartSettings.yAxis = false
             yAxisGridLinesSwitch.isEnabled = false
+            defaults.set(false, forKey: "yAxis")
         }
     }
     
@@ -86,25 +108,30 @@ class SettingsViewController: UITableViewController {
         let state = yAxisGridLinesSwitch.isOn
         if state {
             ChartSettings.yAxisGridLinesEnabled = true
+            defaults.set(true, forKey: "yAxisGridLinesEnabled")
         }
         else {
             ChartSettings.yAxisGridLinesEnabled = false
+            defaults.set(false, forKey: "yAxisGridLinesEnabled")
         }
     }
 
     @IBAction func linearButtonTapped(_ sender: Any) {
         linearSelected()
-        ChartSettings.chartMode = .linear
+        ChartSettings.chartMode = "linear"
+        defaults.set("linear", forKey: "chartMode")
     }
     
     @IBAction func smoothButtonTapped(_ sender: Any) {
         smoothSelected()
-        ChartSettings.chartMode = .cubicBezier
+        ChartSettings.chartMode = "smooth"
+        defaults.set("smooth", forKey: "chartMode")
     }
     
     @IBAction func steppedButtonTapped(_ sender: Any) {
         steppedSelected()
-        ChartSettings.chartMode = .stepped
+        ChartSettings.chartMode = "stepped"
+        defaults.set("stepped", forKey: "chartMode")
     }
     
     override func didReceiveMemoryWarning() {
@@ -120,6 +147,7 @@ class SettingsViewController: UITableViewController {
         linearModeButton.backgroundColor = UIColor.lightGray
         smoothModeButton.backgroundColor = UIColor.white
         steppedModeButton.backgroundColor = UIColor.white
+        
     }
     
     func smoothSelected() {
@@ -141,6 +169,7 @@ class SettingsViewController: UITableViewController {
         linearModeButton.backgroundColor = UIColor.white
         smoothModeButton.backgroundColor = UIColor.white
         steppedModeButton.backgroundColor = UIColor.lightGray
+        
     }
 
     @IBAction func chartResetDefaults(_ sender: Any) {
@@ -152,18 +181,26 @@ class SettingsViewController: UITableViewController {
         ChartSettings.yAxis = ChartSettingsDefault.yAxis
         ChartSettings.yAxisGridLinesEnabled = ChartSettingsDefault.yAxisGridLinesEnabled
         
+        defaults.set(ChartSettingsDefault.chartMode, forKey: "chartMode")
+        
+        defaults.set(ChartSettingsDefault.xAxis, forKey: "xAxis")
+        defaults.set(ChartSettingsDefault.xAxisGridLinesEnabled, forKey: "xAxisGridLinesEnabled")
+        
+        defaults.set(ChartSettingsDefault.yAxis, forKey: "yAxis")
+        defaults.set(ChartSettingsDefault.yAxisGridLinesEnabled, forKey: "yAxisGridLinesEnabled")
+        
         loadChartSettings()
     }
     
     func loadChartSettings() {
         // chart mode
-        if ChartSettings.chartMode == .linear {
+        if ChartSettings.chartMode == "linear" {
             linearSelected()
         }
-        else if ChartSettings.chartMode == .cubicBezier {
+        else if ChartSettings.chartMode == "smooth" {
             smoothSelected()
         }
-        else if ChartSettings.chartMode == .stepped {
+        else if ChartSettings.chartMode == "stepped" {
             steppedSelected()
         }
         

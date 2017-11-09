@@ -11,12 +11,15 @@ import Firebase
 import FirebaseDatabase
 import UserNotifications
 import SlideMenuControllerSwift
+import Charts
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
     var ref: DatabaseReference!
+    let defaults = UserDefaults.standard
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -49,7 +52,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
         
-        if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
+        if !defaults.bool(forKey: "chartSettingsExist") {
+            defaults.set("smooth", forKey: "chartMode")
+            
+            defaults.set(ChartSettingsDefault.xAxis, forKey: "xAxis")
+            defaults.set(ChartSettingsDefault.xAxisGridLinesEnabled, forKey: "xAxisGridLinesEnabled")
+
+            defaults.set(ChartSettingsDefault.yAxis, forKey: "yAxis")
+            defaults.set(ChartSettingsDefault.yAxisGridLinesEnabled, forKey: "yAxisGridLinesEnabled")
+            
+            defaults.set(true, forKey: "chartSettingsExist")
+        }
+        
+        if defaults.string(forKey: "selectedCountry") != nil {
             self.createMenuView(storyboard: storyboard)
         }
         

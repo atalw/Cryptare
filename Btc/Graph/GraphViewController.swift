@@ -10,23 +10,23 @@ import UIKit
 import Charts
 import SwiftyJSON
 
-struct GlobalValues {
+public struct GlobalValues {
     static var currentBtcPrice: Double!
     static var currentBtcPriceString: String!
 }
 
-struct ChartSettings {
-    static var xAxis: Bool! = false
-    static var xAxisGridLinesEnabled: Bool! = false
+public struct ChartSettings {
+    static var chartMode: String! = UserDefaults.standard.string(forKey: "chartMode")
     
-    static var yAxis: Bool! = false
-    static var yAxisGridLinesEnabled: Bool! = false
-
-    static var chartMode: LineChartDataSet.Mode! = .cubicBezier
+    static var xAxis: Bool! = UserDefaults.standard.bool(forKey: "xAxis")
+    static var xAxisGridLinesEnabled: Bool! = UserDefaults.standard.bool(forKey: "xAxisGridLinesEnabled")
+    
+    static var yAxis: Bool! = UserDefaults.standard.bool(forKey: "yAxis")
+    static var yAxisGridLinesEnabled: Bool! = UserDefaults.standard.bool(forKey: "yAxisGridLinesEnabled")
 }
 
-struct ChartSettingsDefault {
-    static let chartMode: LineChartDataSet.Mode! = .cubicBezier
+public struct ChartSettingsDefault {
+    static let chartMode: String! = "smooth"
     
     static let xAxis: Bool! = false
     static let xAxisGridLinesEnabled: Bool! = false
@@ -108,6 +108,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -239,7 +240,15 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         line1.drawCirclesEnabled = false
         line1.fillAlpha = 1
         line1.lineWidth = 3
-        line1.mode = ChartSettings.chartMode
+        if ChartSettings.chartMode == "linear" {
+            line1.mode = .linear
+        }
+        else if ChartSettings.chartMode == "smooth" {
+            line1.mode = .cubicBezier
+        }
+        else if ChartSettings.chartMode == "stepped" {
+            line1.mode = .stepped
+        }
         
         let gradientColors = [lineColor.cgColor, UIColor.white.cgColor] as CFArray // Colors of the gradient
         let colorLocations:[CGFloat] = [1.0, 0] // Positioning of the gradient
