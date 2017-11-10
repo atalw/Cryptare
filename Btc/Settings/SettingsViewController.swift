@@ -34,7 +34,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var popularitySort: UIButton!
     @IBOutlet weak var dateSort: UIButton!
     
-    // country
+    // footer
+    @IBOutlet weak var appVersionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,10 +87,15 @@ class SettingsViewController: UITableViewController {
         
         popularitySort.setTitleColor(UIColor.white, for: .selected)
         dateSort.setTitleColor(UIColor.white, for: .selected)
-                
+        
+        // social
+//        twitterCell.se
+        
         loadChartSettings()
         loadMarketSettings()
         loadNewsSettings()
+        
+        appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -357,6 +363,19 @@ class SettingsViewController: UITableViewController {
             dateSort.backgroundColor = UIColor.lightGray
             
             defaults.set("date", forKey: "newsSort")
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 4 { // social
+            if indexPath.row == 0 { //twitter
+                let url = URL(string: "https://twitter.com/cryptare")
+                UIApplication.shared.openURL(url!)
+            }
+            else if indexPath.row == 1 {
+                let url = URL(string: "http://reddit.com/r/bitcoin")
+                UIApplication.shared.openURL(url!)
+            }
         }
     }
     
