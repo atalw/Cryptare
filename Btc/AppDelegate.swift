@@ -81,6 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         if defaults.string(forKey: "selectedCountry") != nil {
+            if defaults.string(forKey: "selectedCountry") == "india" {
+                GlobalValues.currency = "INR"
+            }
+            else if defaults.string(forKey: "selectedCountry") == "usa" {
+                GlobalValues.currency = "USD"
+            }
             self.createMenuView(storyboard: storyboard)
         }
         

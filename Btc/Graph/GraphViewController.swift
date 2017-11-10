@@ -11,6 +11,7 @@ import Charts
 import SwiftyJSON
 
 public struct GlobalValues {
+    static var currency: String!
     static var currentBtcPrice: Double!
     static var currentBtcPriceString: String!
 }
@@ -50,7 +51,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     let numberFormatter = NumberFormatter()
     
     var selectedCountry: String!
-    var currency: String! = "INR" // set default value to INR
     let todaysDate = Date()
     
     var btcPrice = "0"
@@ -86,20 +86,13 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         self.chart.delegate = self
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
-        if self.selectedCountry == "india" {
-            currency = "INR"
-        }
-        else if self.selectedCountry == "usa" {
-            currency = "USD"
-        }
-        
         dateFormatter.dateFormat = "YYYY-MM-dd"
         numberFormatter.numberStyle = .currency
         
-        if selectedCountry == "india" {
+        if GlobalValues.currency == "INR" {
             numberFormatter.locale = Locale.init(identifier: "en_IN")
         }
-        else if selectedCountry == "usa" {
+        else if GlobalValues.currency == "USD" {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         self.getCurrentBtcPrice()
@@ -124,25 +117,25 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         var url: URL!
         
         if timeSpan == 0 {
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&for=yesterday")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&for=yesterday")!
         }
         else if timeSpan == 1 { // week
             startDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
         }
         else if timeSpan == 2 { // month
             startDate = Calendar.current.date(byAdding: .month, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
         }
         else if timeSpan == 3 { // year
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
         }
         
         self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
@@ -170,7 +163,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     // get current actual price of bitcoin
     func getCurrentBtcPrice() {
         var url: URL!
-        url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/\(self.currency!).json")
+        url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/\(GlobalValues.currency!).json")
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
@@ -182,7 +175,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 return
             }
             let json = JSON(data: data)
-            if let price = json["bpi"][self.currency]["rate_float"].double {
+            if let price = json["bpi"][GlobalValues.currency]["rate_float"].double {
                 self.currentBtcPrice = price
                 DispatchQueue.main.async {
                     self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price))
@@ -192,7 +185,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 }
             }
             else {
-                print(json["bpi"][self.currency]["rate_float"].error!)
+                print(json["bpi"][GlobalValues.currency]["rate_float"].error!)
             }
             GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
             GlobalValues.currentBtcPrice = self.currentBtcPrice

@@ -20,7 +20,6 @@ public enum NetworkResponseStatus {
 
 class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var indiaButton: UIButton!
     @IBOutlet weak var worldwideButton: UIButton!
@@ -46,15 +45,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getNews()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
         if self.selectedCountry == "india" {
@@ -63,6 +53,15 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         else if self.selectedCountry == "usa" {
             self.indiaButton.setTitle("🇺🇸", for: .normal)
         }
+        
+        getNews()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         
         self.indiaButton.setTitleColor(UIColor.white, for: .selected)
         self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
@@ -80,8 +79,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         view.addSubview(activityIndicator)
-
-        self.getNews()
         
         self.indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
         self.worldwideButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)

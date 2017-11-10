@@ -57,11 +57,15 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             self.defaults.set("india", forKey: "selectedCountry")
+            GlobalValues.currency = "INR"
         }
         else if indexPath.row == 1 {
             self.defaults.set("usa", forKey: "selectedCountry")
+            GlobalValues.currency = "USD"
         }
-        self.nextButton.isEnabled = true
+        if nextButton != nil {
+            self.nextButton.isEnabled = true
+        }
     }
 }
 
