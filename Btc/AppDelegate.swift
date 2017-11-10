@@ -11,12 +11,15 @@ import Firebase
 import FirebaseDatabase
 import UserNotifications
 import SlideMenuControllerSwift
+import Charts
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
     var ref: DatabaseReference!
+    let defaults = UserDefaults.standard
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -49,7 +52,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
         
-        if UserDefaults.standard.string(forKey: "selectedCountry") != nil {
+        // chart settings
+        if !defaults.bool(forKey: "chartSettingsExist") {
+            defaults.set("smooth", forKey: "chartMode")
+            
+            defaults.set(ChartSettingsDefault.xAxis, forKey: "xAxis")
+            defaults.set(ChartSettingsDefault.xAxisGridLinesEnabled, forKey: "xAxisGridLinesEnabled")
+
+            defaults.set(ChartSettingsDefault.yAxis, forKey: "yAxis")
+            defaults.set(ChartSettingsDefault.yAxisGridLinesEnabled, forKey: "yAxisGridLinesEnabled")
+            
+            defaults.set(true, forKey: "chartSettingsExist")
+        }
+     
+        // market settings
+        if !defaults.bool(forKey: "marketSettingsExist") {
+            defaults.set("buy", forKey: "marketSort")
+            defaults.set("ascending", forKey: "marketOrder")
+            
+            defaults.set(true, forKey: "marketSettingsExist")
+        }
+        
+        // news settings
+        if !defaults.bool(forKey: "newsSettingsExist") {
+            defaults.set("popularity", forKey: "newsSort")
+            
+            defaults.set(true, forKey: "newsSettingsExist")
+        }
+        
+        if defaults.string(forKey: "selectedCountry") != nil {
+            if defaults.string(forKey: "selectedCountry") == "india" {
+                GlobalValues.currency = "INR"
+            }
+            else if defaults.string(forKey: "selectedCountry") == "usa" {
+                GlobalValues.currency = "USD"
+            }
             self.createMenuView(storyboard: storyboard)
         }
         
@@ -68,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         SlideMenuOptions.contentViewScale = 1
         SlideMenuOptions.animationDuration = 0.2
         SlideMenuOptions.contentViewOpacity = 0.1
-        SlideMenuOptions.leftViewWidth = 290.0
+        SlideMenuOptions.leftViewWidth = 220
         
         let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
         self.window?.rootViewController = slideMenuController

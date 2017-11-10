@@ -10,13 +10,30 @@ import UIKit
 import Charts
 import SwiftyJSON
 
-struct GlobalValues {
+public struct GlobalValues {
+    static var currency: String!
     static var currentBtcPrice: Double!
     static var currentBtcPriceString: String!
 }
 
-struct ChartSettings {
-    static var legendEnabled: Bool! = false
+public struct ChartSettings {
+    static var chartMode: String! = UserDefaults.standard.string(forKey: "chartMode")
+    
+    static var xAxis: Bool! = UserDefaults.standard.bool(forKey: "xAxis")
+    static var xAxisGridLinesEnabled: Bool! = UserDefaults.standard.bool(forKey: "xAxisGridLinesEnabled")
+    
+    static var yAxis: Bool! = UserDefaults.standard.bool(forKey: "yAxis")
+    static var yAxisGridLinesEnabled: Bool! = UserDefaults.standard.bool(forKey: "yAxisGridLinesEnabled")
+}
+
+public struct ChartSettingsDefault {
+    static let chartMode: String! = "smooth"
+    
+    static let xAxis: Bool! = false
+    static let xAxisGridLinesEnabled: Bool! = false
+    
+    static let yAxis: Bool! = false
+    static let yAxisGridLinesEnabled: Bool! = false
 }
 
 class GraphViewController: UIViewController, ChartViewDelegate {
@@ -34,7 +51,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     let numberFormatter = NumberFormatter()
     
     var selectedCountry: String!
-    var currency: String! = "INR" // set default value to INR
     let todaysDate = Date()
     
     var btcPrice = "0"
@@ -70,20 +86,13 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         self.chart.delegate = self
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
-        if self.selectedCountry == "india" {
-            currency = "INR"
-        }
-        else if self.selectedCountry == "usa" {
-            currency = "USD"
-        }
-        
         dateFormatter.dateFormat = "YYYY-MM-dd"
         numberFormatter.numberStyle = .currency
         
-        if selectedCountry == "india" {
+        if GlobalValues.currency == "INR" {
             numberFormatter.locale = Locale.init(identifier: "en_IN")
         }
-        else if selectedCountry == "usa" {
+        else if GlobalValues.currency == "USD" {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         self.getCurrentBtcPrice()
@@ -92,6 +101,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -107,25 +117,25 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         var url: URL!
         
         if timeSpan == 0 {
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&for=yesterday")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&for=yesterday")!
         }
         else if timeSpan == 1 { // week
             startDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
         }
         else if timeSpan == 2 { // month
             startDate = Calendar.current.date(byAdding: .month, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
         }
         else if timeSpan == 3 { // year
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: todaysDate)!
             let startDateString = dateFormatter.string(from: startDate)
             
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(currency!)&start=\(startDateString)&end=\(endDateString)")!
+            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
         }
         
         self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
@@ -153,7 +163,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     // get current actual price of bitcoin
     func getCurrentBtcPrice() {
         var url: URL!
-        url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/\(self.currency!).json")
+        url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/\(GlobalValues.currency!).json")
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
@@ -165,7 +175,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 return
             }
             let json = JSON(data: data)
-            if let price = json["bpi"][self.currency]["rate_float"].double {
+            if let price = json["bpi"][GlobalValues.currency]["rate_float"].double {
                 self.currentBtcPrice = price
                 DispatchQueue.main.async {
                     self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price))
@@ -175,7 +185,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 }
             }
             else {
-                print(json["bpi"][self.currency]["rate_float"].error!)
+                print(json["bpi"][GlobalValues.currency]["rate_float"].error!)
             }
             GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
             GlobalValues.currentBtcPrice = self.currentBtcPrice
@@ -223,7 +233,15 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         line1.drawCirclesEnabled = false
         line1.fillAlpha = 1
         line1.lineWidth = 3
-        line1.mode = .cubicBezier
+        if ChartSettings.chartMode == "linear" {
+            line1.mode = .linear
+        }
+        else if ChartSettings.chartMode == "smooth" {
+            line1.mode = .cubicBezier
+        }
+        else if ChartSettings.chartMode == "stepped" {
+            line1.mode = .stepped
+        }
         
         let gradientColors = [lineColor.cgColor, UIColor.white.cgColor] as CFArray // Colors of the gradient
         let colorLocations:[CGFloat] = [1.0, 0] // Positioning of the gradient
@@ -243,14 +261,17 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         lineChartData.setDrawValues(false)
         
         chart.rightAxis.enabled = false
-        chart.xAxis.drawLabelsEnabled = false
+        chart.leftAxis.enabled = ChartSettings.yAxis
+        chart.leftAxis.drawGridLinesEnabled = ChartSettings.yAxisGridLinesEnabled
+        
+        chart.xAxis.enabled = ChartSettings.xAxis
+        chart.xAxis.drawLabelsEnabled = true
         chart.xAxis.labelPosition = .bottom
+        chart.xAxis.drawGridLinesEnabled = ChartSettings.xAxisGridLinesEnabled
+
         chart.pinchZoomEnabled = true
-        chart.xAxis.drawGridLinesEnabled = false
-        chart.legend.enabled = ChartSettings.legendEnabled
+        chart.legend.enabled = false
         chart.chartDescription?.text = ""
-        chart.leftAxis.enabled = false
-        chart.xAxis.enabled = false
         
         chart.data = lineChartData //finally - it adds the chart data to the chart and causes an update
         
@@ -263,7 +284,12 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         chart.fitScreen()
         // reset highlight value
         chart.highlightValue(nil)
-        chart.setExtraOffsets(left: 30, top: 0, right: 30, bottom: 0)
+        if ChartSettings.yAxis {
+            chart.setExtraOffsets(left: 5, top: 0, right: 10, bottom: 0)
+        }
+        else {
+            chart.setExtraOffsets(left: 30, top: 0, right: 30, bottom: 0)
+        }
 
         chart.data?.notifyDataChanged()
     }

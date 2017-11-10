@@ -20,7 +20,6 @@ public enum NetworkResponseStatus {
 
 class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var indiaButton: UIButton!
     @IBOutlet weak var worldwideButton: UIButton!
@@ -42,12 +41,9 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
             UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/app/id1266256984")!)
         }
     #endif
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
@@ -58,6 +54,15 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.indiaButton.setTitle("🇺🇸", for: .normal)
         }
         
+        getNews()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        
         self.indiaButton.setTitleColor(UIColor.white, for: .selected)
         self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
         
@@ -66,7 +71,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         self.sortPopularityButton.layer.cornerRadius = 5
         self.sortDateButton.layer.cornerRadius = 5
-        self.sortPopularityButton.backgroundColor = UIColor.lightGray
 
         self.sortPopularityButton.isSelected = true
         self.sortDateButton.isSelected = false
@@ -75,15 +79,12 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         view.addSubview(activityIndicator)
-
-        self.getNews()
         
         self.indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
         self.worldwideButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
 
-        self.sortPopularityButton.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-        self.sortDateButton.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-
+        self.sortPopularityButton.addTarget(self, action: #selector(sortPopularityButtonTapped), for: .touchUpInside)
+        self.sortDateButton.addTarget(self, action: #selector(sortDateButtonTapped), for: .touchUpInside)
 
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
@@ -97,18 +98,29 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         getNews()
     }
     
-    @objc func sortButtonTapped() {
+    @objc func sortPopularityButtonTapped() {
         activityIndicator.startAnimating()
-        sortPopularityButton.isSelected = !self.sortPopularityButton.isSelected
-        sortDateButton.isSelected = !self.sortDateButton.isSelected
-        if sortPopularityButton.isSelected {
-            sortPopularityButton.backgroundColor = UIColor.lightGray
-            sortDateButton.backgroundColor = UIColor.white
-        }
-        else if sortDateButton.isSelected {
-            sortDateButton.backgroundColor = UIColor.lightGray
-            sortPopularityButton.backgroundColor = UIColor.white
-        }
+        
+        sortPopularityButton.isSelected = true
+        sortDateButton.isSelected = false
+        
+        sortPopularityButton.backgroundColor = UIColor.lightGray
+        sortDateButton.backgroundColor = UIColor.white
+        
+        activityIndicator.stopAnimating()
+        tableView.reloadData()
+        tableView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
+    @objc func sortDateButtonTapped() {
+        activityIndicator.startAnimating()
+        
+        sortPopularityButton.isSelected = false
+        sortDateButton.isSelected = true
+        
+        sortDateButton.backgroundColor = UIColor.lightGray
+        sortPopularityButton.backgroundColor = UIColor.white
+        
         activityIndicator.stopAnimating()
         tableView.reloadData()
         tableView.setContentOffset(CGPoint.zero, animated: true)
@@ -118,6 +130,13 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.allNewsData = []
         self.tableView.reloadData()
         self.activityIndicator.startAnimating()
+        
+        if defaults.string(forKey: "newsSort") == "popularity" {
+            sortPopularityButton.sendActions(for: .touchUpInside)
+        }
+        else {
+            sortDateButton.sendActions(for: .touchUpInside)
+        }
 
         if (self.indiaButton.isSelected) {
             self.getIndiaNews()

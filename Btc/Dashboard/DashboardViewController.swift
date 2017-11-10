@@ -34,7 +34,7 @@ class DashboardViewController: UIViewController {
             //            self.present(alert, animated: true){}
             present(alert, animated: true, completion: nil)
         }
-
+        graphController.reloadData()
     }
 
     override func viewDidLoad() {
