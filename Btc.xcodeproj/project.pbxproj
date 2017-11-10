@@ -67,6 +67,8 @@
 		868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868F1AA41F7D3EEB0093402A /* MainLite.storyboard */; };
 		869BFA121FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
 		869BFA131FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
+		86A713921FB5F3ED003DA98C /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A713911FB5F3ED003DA98C /* PortfolioTableViewController.swift */; };
+		86A713931FB5F3ED003DA98C /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A713911FB5F3ED003DA98C /* PortfolioTableViewController.swift */; };
 		86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
 		86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
 		86AC1F291F913DB00079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F281F913DA70079F013 /* GoogleService-Info.plist */; };
@@ -151,6 +153,7 @@
 		868F1AA41F7D3EEB0093402A /* MainLite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainLite.storyboard; sourceTree = "<group>"; };
 		868F1AA61F7D42CA0093402A /* InfoLite.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoLite.plist; sourceTree = "<group>"; };
 		869BFA111FB3135B00625A64 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		86A713911FB5F3ED003DA98C /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
 		86AC1F251F9137B60079F013 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		86AC1F281F913DA70079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -281,7 +284,7 @@
 				863474741F08262000E7EB86 /* Main.storyboard */,
 				868F1AA41F7D3EEB0093402A /* MainLite.storyboard */,
 				864362601F6805BD00883792 /* Dashboard */,
-				864362611F6805CA00883792 /* Graph */,
+				86A713901FB5F339003DA98C /* Portfolio */,
 				8643625C1F6803B400883792 /* Market */,
 				8643625D1F6803CF00883792 /* News */,
 				869BFA101FB3132100625A64 /* Settings */,
@@ -372,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				864362561F66F9DF00883792 /* DashboardViewController.swift */,
+				864362611F6805CA00883792 /* Graph */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -391,6 +395,14 @@
 				869BFA111FB3135B00625A64 /* SettingsViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		86A713901FB5F339003DA98C /* Portfolio */ = {
+			isa = PBXGroup;
+			children = (
+				86A713911FB5F3ED003DA98C /* PortfolioTableViewController.swift */,
+			);
+			path = Portfolio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -830,6 +842,7 @@
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
+				86A713921FB5F3ED003DA98C /* PortfolioTableViewController.swift in Sources */,
 				86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */,
 				8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */,
@@ -874,6 +887,7 @@
 				868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */,
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
+				86A713931FB5F3ED003DA98C /* PortfolioTableViewController.swift in Sources */,
 				86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */,
 				868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */,

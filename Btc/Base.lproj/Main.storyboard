@@ -535,6 +535,35 @@
             </objects>
             <point key="canvasLocation" x="246" y="5"/>
         </scene>
+        <!--Portfolio-->
+        <scene sceneID="5OQ-fv-8tu">
+            <objects>
+                <tableViewController storyboardIdentifier="PortfolioTableViewController" id="VFg-zm-M95" customClass="PortfolioTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="rPj-zV-PKa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="hbg-EC-bUq">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hbg-EC-bUq" id="bQN-nS-V7j">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="VFg-zm-M95" id="3fp-pv-KwF"/>
+                            <outlet property="delegate" destination="VFg-zm-M95" id="TYc-Vn-hk4"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Portfolio" id="haq-Ul-FlC"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q9Q-M7-3uG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="246" y="761"/>
+        </scene>
         <!--Dashboard-->
         <scene sceneID="JXI-gk-1tc">
             <objects>
