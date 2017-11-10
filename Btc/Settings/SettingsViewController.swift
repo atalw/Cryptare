@@ -165,11 +165,6 @@ class SettingsViewController: UITableViewController {
         defaults.set("stepped", forKey: "chartMode")
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func linearSelected() {
         linearModeButton.isSelected = true
         smoothModeButton.isSelected = false
