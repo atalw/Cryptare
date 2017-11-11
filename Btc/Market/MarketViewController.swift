@@ -593,10 +593,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             }
             task.resume()
         #endif
-        
-        #if LITE_VERSION
-            self.markets.append(Market(title: "Throughbit", siteLink: URL(string: "https://www.throughbit.com/"), buyPrice: -1, sellPrice: -1))
-        #endif
     }
 
     
