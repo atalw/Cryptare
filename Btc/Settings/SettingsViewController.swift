@@ -95,7 +95,13 @@ class SettingsViewController: UITableViewController {
         loadMarketSettings()
         loadNewsSettings()
         
-        appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
+        #if PRO_VERSION
+            appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
+        #endif
+        
+        #if LITE_VERSION
+            appVersionLabel?.text = " CryptareLite v\(Bundle.appVersion)"
+        #endif
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
