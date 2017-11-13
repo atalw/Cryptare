@@ -10,23 +10,23 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class PortfolioTableViewController: UITableViewController {
+class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegate {
+    
     
     let dateFormatter = DateFormatter()
     var portfolioEntries: [PortfolioEntryModel] = []
     var btcPrice: Double!
+    
+    private var portfolioEntryModel: PortfolioEntryModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         dateFormatter.dateFormat = "YYYY-MM-dd"
+        
 
         getBtcCurrentValue { (success) -> Void in
             if success {
-                self.initalizePortfolioEntries { (success) -> Void in
-                    if success {
-                        self.tableView.reloadData()
-                    }
-                }
+                self.initalizePortfolioEntries()
             }
         }
 
@@ -137,12 +137,23 @@ class PortfolioTableViewController: UITableViewController {
         })
     }
     
-    func initalizePortfolioEntries(completion: @escaping (_ success: Bool) -> Void) {
-        let port = PortfolioEntryModel(amountOfBitcoin: 0.123, dateOfPurchase: dateFormatter.date(from: "2017-11-11"), currentBtcPrice: self.btcPrice)
-        port.calculateCostFromDate { [weak self] (success) -> Void in
-            port.calculateChange()
-            self?.portfolioEntries.append(port)
-            completion(true)
-        }
+    func initalizePortfolioEntries() {
+        self.portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.1, dateOfPurchase: self.dateFormatter.date(from: "2017-11-11"), currentBtcPrice: self.btcPrice)
+        self.portfolioEntryModel.delegate = self
+        
+        self.portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 1.2, dateOfPurchase: self.dateFormatter.date(from: "2016-11-11"), currentBtcPrice: self.btcPrice)
+        self.portfolioEntryModel.delegate = self
+    }
+}
+
+extension PortfolioTableViewController {
+    func didCalculateCostFromDate(data: Double) {
+        print(data)
+    }
+    
+    func dataLoaded(portfolio: PortfolioEntryModel) {
+        print("dataLoaded")
+        self.portfolioEntries.append(portfolio)
+        self.tableView.reloadData()
     }
 }

@@ -12,10 +12,11 @@ import SwiftyJSON
 
 class PortfolioEntryModel {
     
+    weak var delegate: PortfolioEntryDelegate?
+    
     var amountOfBitcoin: Double!
     var cost: Double!
     var dateOfPurchase: Date!
-    
     var currentValue: Double!
     var isProfit: Bool!
     var percentageChange: Double!
@@ -29,15 +30,17 @@ class PortfolioEntryModel {
         self.amountOfBitcoin = amountOfBitcoin
         self.dateOfPurchase = dateOfPurchase
         self.currentValue = currentBtcPrice * amountOfBitcoin
-        
-        
+        calculateCostFromDate { (success) -> Void in
+            self.calculateChange()
+            self.delegate?.dataLoaded(portfolio: self)
+        }
     }
     
     func calculateCostFromDate(completion: @escaping (_ success: Bool) -> Void) {
         let dateOfPurchaseString = dateFormatter.string(from: dateOfPurchase)
-        
+
         let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(dateOfPurchaseString)&end=\(dateOfPurchaseString)")!
-        
+
         Alamofire.request(url).responseJSON(completionHandler: { response in
 
             let json = JSON(data: response.data!)
@@ -49,7 +52,6 @@ class PortfolioEntryModel {
     }
     
     func calculateChange() {
-        
         print(cost)
         print(currentValue)
         
