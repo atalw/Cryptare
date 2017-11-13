@@ -14,6 +14,8 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     
     
     let dateFormatter = DateFormatter()
+    let numberFormatter = NumberFormatter()
+    
     var portfolioEntries: [PortfolioEntryModel] = []
     var btcPrice: Double!
     
@@ -22,6 +24,13 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         dateFormatter.dateFormat = "YYYY-MM-dd"
+        numberFormatter.numberStyle = .currency
+        if GlobalValues.currency == "INR" {
+            numberFormatter.locale = Locale.init(identifier: "en_IN")
+        }
+        else if GlobalValues.currency == "GBP" {
+            numberFormatter.locale = Locale.init(identifier: "en_US")
+        }
         
 
         getBtcCurrentValue { (success) -> Void in
@@ -64,20 +73,25 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         let portfolio = portfolioEntries[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath) as! PortfolioTableViewCell
         cell.amountOfBitcoinLabel?.text = String(portfolio.amountOfBitcoin)
+        cell.amountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
         if let cost = portfolio.cost {
-            cell.costLabel?.text = String(cost)
+            cell.costLabel?.text = numberFormatter.string(from: NSNumber(value: cost))
+            cell.costLabel.adjustsFontSizeToFitWidth = true
         }
         if let date = portfolio.dateOfPurchase {
             cell.dateOfPurchaseLabel?.text = dateFormatter.string(from: date)
+            cell.dateOfPurchaseLabel.adjustsFontSizeToFitWidth = true
         }
         if let percentageChange = portfolio.percentageChange {
             cell.percentageChange?.text = String(percentageChange)
         }
         if let currentvalue = portfolio.currentValue {
-            cell.currentValueLabel?.text = String(currentvalue)
+            cell.currentValueLabel?.text = numberFormatter.string(from: NSNumber(value: currentvalue))
+            cell.currentValueLabel.adjustsFontSizeToFitWidth = true
         }
         if let priceChange = portfolio.priceChange {
-            cell.priceChangeLabel?.text = String(priceChange)
+            cell.priceChangeLabel?.text = numberFormatter.string(from: NSNumber(value: priceChange))
+            cell.priceChangeLabel.adjustsFontSizeToFitWidth = true
         }
 
         return cell
@@ -144,6 +158,9 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         self.portfolioEntryModel.delegate = self
         
         self.portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 1.2, dateOfPurchase: self.dateFormatter.date(from: "2016-11-11"), currentBtcPrice: self.btcPrice)
+        self.portfolioEntryModel.delegate = self
+        
+        self.portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.36886742, dateOfPurchase: self.dateFormatter.date(from: "2017-09-13"), currentBtcPrice: self.btcPrice)
         self.portfolioEntryModel.delegate = self
     }
 }
