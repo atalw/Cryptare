@@ -37,6 +37,10 @@
 		864362571F66F9E000883792 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362561F66F9DF00883792 /* DashboardViewController.swift */; };
 		864362591F67ADF100883792 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
 		8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
+		86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */; };
+		86492AAB1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */; };
+		86492AAD1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */; };
+		86492AAE1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */; };
 		864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
 		8661F5D11FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
 		8661F5D21FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
@@ -147,6 +151,8 @@
 		864362561F66F9DF00883792 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		864362581F67ADF100883792 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8643625A1F67D7DE00883792 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEntryModel.swift; sourceTree = "<group>"; };
+		86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		864F53271FAC9F0600BC852F /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
@@ -397,6 +403,8 @@
 			isa = PBXGroup;
 			children = (
 				8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */,
+				86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */,
+				86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -838,12 +846,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86492AAD1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */,
 				8661F5D11FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
 				86BD6F9E1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */,
 				86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
+				86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
@@ -884,12 +894,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86492AAE1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */,
 				8661F5D21FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */,
 				868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */,
 				868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */,
 				86BD6F9F1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */,
 				86401C4D1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
+				86492AAB1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
 				868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */,
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,

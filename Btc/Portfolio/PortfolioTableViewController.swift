@@ -7,17 +7,35 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class PortfolioTableViewController: UITableViewController {
+    
+    let dateFormatter = DateFormatter()
+    var portfolioEntries: [PortfolioEntryModel] = []
+    var btcPrice: Double!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+
+        getBtcCurrentValue { (success) -> Void in
+            if success {
+                self.initalizePortfolioEntries { (success) -> Void in
+                    if success {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     }
@@ -36,18 +54,33 @@ class PortfolioTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return portfolioEntries.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        let portfolio = portfolioEntries[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath) as! PortfolioTableViewCell
+        cell.amountOfBitcoinLabel?.text = String(portfolio.amountOfBitcoin)
+        if let cost = portfolio.cost {
+            cell.costLabel?.text = String(cost)
+        }
+        if let date = portfolio.dateOfPurchase {
+            cell.dateOfPurchaseLabel?.text = String(describing: date)
+        }
+        if let percentageChange = portfolio.percentageChange {
+            cell.percentageChange?.text = String(percentageChange)
+        }
+        if let currentvalue = portfolio.currentValue {
+            cell.currentValueLabel?.text = String(currentvalue)
+        }
+        if let priceChange = portfolio.priceChange {
+            cell.priceChangeLabel?.text = String(priceChange)
+        }
 
         return cell
     }
-    */
+ 
 
     /*
     // Override to support conditional editing of the table view.
@@ -94,4 +127,22 @@ class PortfolioTableViewController: UITableViewController {
     }
     */
 
+    func getBtcCurrentValue(completion: @escaping (_ success: Bool) -> Void) {
+        Alamofire.request("https://api.coindesk.com/v1/bpi/currentprice/\(GlobalValues.currency!).json").responseJSON(completionHandler: { response in
+            let json = JSON(data: response.data!)
+            if let price = json["bpi"][GlobalValues.currency!]["rate_float"].double {
+                self.btcPrice = price
+                completion(true)
+            }
+        })
+    }
+    
+    func initalizePortfolioEntries(completion: @escaping (_ success: Bool) -> Void) {
+        let port = PortfolioEntryModel(amountOfBitcoin: 0.123, dateOfPurchase: dateFormatter.date(from: "2017-11-11"), currentBtcPrice: self.btcPrice)
+        port.calculateCostFromDate { [weak self] (success) -> Void in
+            port.calculateChange()
+            self?.portfolioEntries.append(port)
+            completion(true)
+        }
+    }
 }
