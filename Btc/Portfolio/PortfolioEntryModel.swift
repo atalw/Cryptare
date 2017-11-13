@@ -62,7 +62,7 @@ class PortfolioEntryModel {
             isProfit = true
         }
         let change = currentValue - cost
-        let percentageChange = (change / currentValue) * 100
+        let percentageChange = (change / cost) * 100
         let roundedPercentage = Double(round(100*percentageChange)/100)
         
         print(change)

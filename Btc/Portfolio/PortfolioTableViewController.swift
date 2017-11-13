@@ -59,6 +59,8 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        dateFormatter.dateFormat = "dd/MM/YY"
+
         let portfolio = portfolioEntries[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath) as! PortfolioTableViewCell
         cell.amountOfBitcoinLabel?.text = String(portfolio.amountOfBitcoin)
@@ -66,7 +68,7 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
             cell.costLabel?.text = String(cost)
         }
         if let date = portfolio.dateOfPurchase {
-            cell.dateOfPurchaseLabel?.text = String(describing: date)
+            cell.dateOfPurchaseLabel?.text = dateFormatter.string(from: date)
         }
         if let percentageChange = portfolio.percentageChange {
             cell.percentageChange?.text = String(percentageChange)
