@@ -55,6 +55,7 @@ enum BulletinDataSource {
      */
     static func makeTextFieldPage() -> TextFieldBulletinPage {
         let page = TextFieldBulletinPage()
+
         page.dismissalHandler = { item in
             NotificationCenter.default.post(name: .SetupDidComplete, object: item)
         }

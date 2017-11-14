@@ -17,6 +17,7 @@ class PortfolioEntryModel {
     var amountOfBitcoin: Double!
     var cost: Double!
     var dateOfPurchase: Date!
+    var currentBtcPrice: Double!
     var currentValue: Double!
     var percentageChange: Double!
     var priceChange: Double!
@@ -28,27 +29,41 @@ class PortfolioEntryModel {
         
         self.amountOfBitcoin = amountOfBitcoin
         self.dateOfPurchase = dateOfPurchase
+        self.currentBtcPrice = currentBtcPrice
         self.currentValue = currentBtcPrice * amountOfBitcoin
         calculateCostFromDate { (success) -> Void in
             self.calculateChange()
+            print("done")
             self.delegate?.dataLoaded(portfolioEntry: self)
         }
     }
     
     func calculateCostFromDate(completion: @escaping (_ success: Bool) -> Void) {
         let dateOfPurchaseString = dateFormatter.string(from: dateOfPurchase)
-
-        let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(dateOfPurchaseString)&end=\(dateOfPurchaseString)")!
-
-        Alamofire.request(url).responseJSON(completionHandler: { response in
-
-            let json = JSON(data: response.data!)
-            if let price = json["bpi"][dateOfPurchaseString].double {
-                self.cost = price * self.amountOfBitcoin
-                print("cost \(self.cost!)")
-                completion(true)
-            }
-        })
+        let todaysDateString = dateFormatter.string(from: Date())
+        
+        print(dateOfPurchaseString)
+        print(todaysDateString)
+        
+        if dateOfPurchaseString == todaysDateString {
+            print("here")
+            cost = currentBtcPrice * amountOfBitcoin
+            print(cost)
+            completion(true)
+        }
+        else {
+            let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(dateOfPurchaseString)&end=\(dateOfPurchaseString)")!
+            
+            Alamofire.request(url).responseJSON(completionHandler: { response in
+                
+                let json = JSON(data: response.data!)
+                if let price = json["bpi"][dateOfPurchaseString].double {
+                    self.cost = price * self.amountOfBitcoin
+                    completion(true)
+                }
+            })
+        }
+        
     }
     
     func calculateChange() {
@@ -57,5 +72,6 @@ class PortfolioEntryModel {
         let roundedPercentage = Double(round(100*percentageChange)/100)
         self.priceChange = change
         self.percentageChange = roundedPercentage
+        print(change)
     }
 }

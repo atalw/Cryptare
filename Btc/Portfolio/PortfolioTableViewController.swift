@@ -45,8 +45,9 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
         numberFormatter.numberStyle = .currency
         if GlobalValues.currency == "INR" {
             numberFormatter.locale = Locale.init(identifier: "en_IN")
@@ -100,8 +101,37 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     }
     
     @objc func textFieldEntered(notification: Notification) {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+
         print("text: \(notification.userInfo?["dateOfPurchase"] as? String) \(notification.userInfo?["amountOfBitcoin"] as? String)")
         
+        var amountOfBitcoin = Double(notification.userInfo?["amountOfBitcoin"] as! String)
+        var dateOfPurchase = dateFormatter.date(from: notification.userInfo?["dateOfPurchase"] as! String)
+        
+        addPortfolioEntry(amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
+        
+    }
+    
+    func addPortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
+        print(amountOfBitcoin)
+        print(dateOfPurchase)
+        
+        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice)
+
+        if dateOfPurchase.daysBetweenDate(toDate: Date()) == 0 {
+            print("its equal")
+            totalPortfolioValue = totalPortfolioValue + portfolioEntryModel.cost!
+            totalAmountOfBitcoin = totalAmountOfBitcoin + portfolioEntryModel.amountOfBitcoin
+            // calling this function here is hacky but
+            // a completion handler for portfolio initialization function
+            // does not work
+            setTotalPortfolioValues()
+            portfolioEntries.append(portfolioEntryModel)
+            tableView.reloadData()
+        }
+        else {
+            portfolioEntryModel.delegate = self
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -253,5 +283,12 @@ extension PortfolioTableViewController {
         setTotalPortfolioValues()
         portfolioEntries.append(portfolioEntry)
         tableView.reloadData()
+    }
+}
+
+extension Date {
+    func daysBetweenDate(toDate: Date) -> Int {
+        let components = Calendar.current.dateComponents([.day], from: self, to: toDate)
+        return components.day ?? 0
     }
 }
