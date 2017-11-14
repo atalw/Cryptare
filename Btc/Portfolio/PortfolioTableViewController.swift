@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import BulletinBoard
 
 class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegate {
     
@@ -27,10 +28,25 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     @IBOutlet weak var totalPriceChangeLabel: UILabel!
     
     private var portfolioEntryModel: PortfolioEntryModel!
+    
+    @IBAction func addPortfolioAction(_ sender: Any) {
+        showBulletin()
+    }
+    
+    /// The current background style.
+    var currentBackground = (name: "Dark", style: BulletinBackgroundViewStyle.dimmed)
+    
+    lazy var bulletinManager: BulletinManager = {
+        
+        let rootItem: BulletinItem = BulletinDataSource.makeIntroPage()
+        return BulletinManager(rootItem: rootItem)
+        
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-            dateFormatter.dateFormat = "YYYY-MM-dd"
+
+        dateFormatter.dateFormat = "YYYY-MM-dd"
         numberFormatter.numberStyle = .currency
         if GlobalValues.currency == "INR" {
             numberFormatter.locale = Locale.init(identifier: "en_IN")
@@ -57,8 +73,37 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+        
+        // Register notification observers
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setupDidComplete), name: .SetupDidComplete, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldEntered(notification:)), name: .TextFieldEntered, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    /**
+     * Displays the bulletin.
+     */
+    
+    func showBulletin() {
+        bulletinManager.backgroundViewStyle = currentBackground.style
+        bulletinManager.prepare()
+        bulletinManager.presentBulletin(above: self)
     }
 
+    @objc func setupDidComplete() {
+//        BulletinDataSource.userDidCompleteSetup = true
+    }
+    
+    @objc func textFieldEntered(notification: Notification) {
+        print("text: \(notification.userInfo?["dateOfPurchase"] as? String) \(notification.userInfo?["amountOfBitcoin"] as? String)")
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -202,7 +247,7 @@ extension PortfolioTableViewController {
         print("dataLoaded")
         totalPortfolioValue = totalPortfolioValue + portfolioEntry.cost!
         totalAmountOfBitcoin = totalAmountOfBitcoin + portfolioEntry.amountOfBitcoin
-        // calling this here is a bit hacky but
+        // calling this function here is hacky but
         // a completion handler for portfolio initialization function
         // does not work
         setTotalPortfolioValues()

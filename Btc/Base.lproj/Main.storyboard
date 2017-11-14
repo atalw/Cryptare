@@ -887,7 +887,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Portfolio" id="haq-Ul-FlC">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="RDk-Ao-y7i"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="RDk-Ao-y7i">
+                            <connections>
+                                <action selector="addPortfolioAction:" destination="VFg-zm-M95" id="mC4-08-myt"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="totalPercentageLabel" destination="Bwm-bD-o0C" id="cLg-DG-lpK"/>
