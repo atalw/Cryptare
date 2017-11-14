@@ -18,7 +18,6 @@ class PortfolioEntryModel {
     var cost: Double!
     var dateOfPurchase: Date!
     var currentValue: Double!
-    var isProfit: Bool!
     var percentageChange: Double!
     var priceChange: Double!
     
@@ -32,7 +31,7 @@ class PortfolioEntryModel {
         self.currentValue = currentBtcPrice * amountOfBitcoin
         calculateCostFromDate { (success) -> Void in
             self.calculateChange()
-            self.delegate?.dataLoaded(portfolio: self)
+            self.delegate?.dataLoaded(portfolioEntry: self)
         }
     }
     
@@ -46,29 +45,17 @@ class PortfolioEntryModel {
             let json = JSON(data: response.data!)
             if let price = json["bpi"][dateOfPurchaseString].double {
                 self.cost = price * self.amountOfBitcoin
+                print("cost \(self.cost!)")
                 completion(true)
             }
         })
     }
     
     func calculateChange() {
-        print(cost)
-        print(currentValue)
-        
-        if cost > currentValue {
-            isProfit = false
-        }
-        else {
-            isProfit = true
-        }
         let change = currentValue - cost
         let percentageChange = (change / cost) * 100
         let roundedPercentage = Double(round(100*percentageChange)/100)
-        
-        print(change)
-        print(percentageChange)
         self.priceChange = change
         self.percentageChange = roundedPercentage
-        
     }
 }

@@ -12,18 +12,25 @@ import SwiftyJSON
 
 class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegate {
     
-    
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
     
     var portfolioEntries: [PortfolioEntryModel] = []
     var btcPrice: Double!
+    var totalPortfolioValue: Double! = 0.0
+    var totalAmountOfBitcoin: Double! = 0.0
+    
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
+    @IBOutlet weak var totalPortfolioLabel: UILabel!
+    @IBOutlet weak var totalPercentageLabel: UILabel!
+    @IBOutlet weak var totalPriceChangeLabel: UILabel!
     
     private var portfolioEntryModel: PortfolioEntryModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+            dateFormatter.dateFormat = "YYYY-MM-dd"
         numberFormatter.numberStyle = .currency
         if GlobalValues.currency == "INR" {
             numberFormatter.locale = Locale.init(identifier: "en_IN")
@@ -31,12 +38,15 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         else if GlobalValues.currency == "GBP" {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
-        
-
+        totalPortfolioLabel.adjustsFontSizeToFitWidth = true
+        activityIndicator.startAnimating()
+        activityIndicator.addSubview(view)
         getBtcCurrentValue { (success) -> Void in
             if success {
                 self.initalizePortfolioEntries()
             }
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.hidesWhenStopped = true
         }
 
         // Uncomment the following line to preserve selection between presentations
@@ -63,6 +73,7 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print("\(portfolioEntries.count) countttttt")
         return portfolioEntries.count
     }
 
@@ -83,7 +94,7 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
             cell.dateOfPurchaseLabel.adjustsFontSizeToFitWidth = true
         }
         if let percentageChange = portfolio.percentageChange {
-            cell.percentageChange?.text = String(percentageChange)
+            cell.percentageChange?.text = "\(percentageChange)%"
         }
         if let currentvalue = portfolio.currentValue {
             cell.currentValueLabel?.text = numberFormatter.string(from: NSNumber(value: currentvalue))
@@ -154,15 +165,32 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     }
     
     func initalizePortfolioEntries() {
-        self.portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.1, dateOfPurchase: self.dateFormatter.date(from: "2017-11-11"), currentBtcPrice: self.btcPrice)
-        self.portfolioEntryModel.delegate = self
+//        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.1, dateOfPurchase: self.dateFormatter.date(from: "2017-11-11"), currentBtcPrice: self.btcPrice)
+//        portfolioEntryModel.delegate = self
+
+//        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 1.2, dateOfPurchase: self.dateFormatter.date(from: "2016-11-11"), currentBtcPrice: self.btcPrice)
+//        portfolioEntryModel.delegate = self
         
-        self.portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 1.2, dateOfPurchase: self.dateFormatter.date(from: "2016-11-11"), currentBtcPrice: self.btcPrice)
-        self.portfolioEntryModel.delegate = self
+        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.36886742, dateOfPurchase: self.dateFormatter.date(from: "2017-09-13"), currentBtcPrice: self.btcPrice)
+        portfolioEntryModel.delegate = self
         
-        self.portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.36886742, dateOfPurchase: self.dateFormatter.date(from: "2017-09-13"), currentBtcPrice: self.btcPrice)
-        self.portfolioEntryModel.delegate = self
+        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.05287515, dateOfPurchase: self.dateFormatter.date(from: "2017-08-12"), currentBtcPrice: self.btcPrice)
+        portfolioEntryModel.delegate = self
+        
+        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.02789696, dateOfPurchase: self.dateFormatter.date(from: "2016-10-23"), currentBtcPrice: self.btcPrice)
+        portfolioEntryModel.delegate = self
+        
     }
+    
+    func setTotalPortfolioValues() {
+        totalPortfolioLabel.text = numberFormatter.string(from: NSNumber(value: totalPortfolioValue))
+        let change = (btcPrice*totalAmountOfBitcoin) - totalPortfolioValue
+        let percentageChange = (change / totalPortfolioValue) * 100
+        let roundedPercentage  = Double(round(100*percentageChange)/100)
+        totalPercentageLabel.text = "\(roundedPercentage)%"
+        totalPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: change))
+    }
+    
 }
 
 extension PortfolioTableViewController {
@@ -170,9 +198,15 @@ extension PortfolioTableViewController {
         print(data)
     }
     
-    func dataLoaded(portfolio: PortfolioEntryModel) {
+    func dataLoaded(portfolioEntry: PortfolioEntryModel) {
         print("dataLoaded")
-        self.portfolioEntries.append(portfolio)
-        self.tableView.reloadData()
+        totalPortfolioValue = totalPortfolioValue + portfolioEntry.cost!
+        totalAmountOfBitcoin = totalAmountOfBitcoin + portfolioEntry.amountOfBitcoin
+        // calling this here is a bit hacky but
+        // a completion handler for portfolio initialization function
+        // does not work
+        setTotalPortfolioValues()
+        portfolioEntries.append(portfolioEntry)
+        tableView.reloadData()
     }
 }
