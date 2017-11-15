@@ -24,15 +24,25 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     fileprivate var errorLabel: UILabel?
     fileprivate var amountOfBitcoin: UITextField?
     fileprivate var dateOfPurchase: UITextField?
+    fileprivate var picker = UIDatePicker()
+    fileprivate var toolbar = UIToolbar()
+    fileprivate var done: UIBarButtonItem!
+    fileprivate var addButton: ContainerView<HighlightButton>?
+
+//    fileprivate
 
     func tearDown() {
         errorLabel = nil
         amountOfBitcoin = nil
         dateOfPurchase = nil
+//        picker = nil
+//        toolbar = nil
+        
     }
 
     func makeArrangedSubviews() -> [UIView] {
         var arrangedSubviews = [UIView]()
+        createDatePicker()
 
         let titleLabel = interfaceFactory.makeTitleLabel(reading: "TextField example")
         arrangedSubviews.append(titleLabel)
@@ -46,13 +56,23 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         amountOfBitcoin!.delegate = self
         amountOfBitcoin!.borderStyle = .roundedRect
         amountOfBitcoin!.returnKeyType = .done
+        amountOfBitcoin!.keyboardType = UIKeyboardType.decimalPad
         arrangedSubviews.append(amountOfBitcoin!)
         
         dateOfPurchase = UITextField()
         dateOfPurchase!.delegate = self
         dateOfPurchase!.borderStyle = .roundedRect
         dateOfPurchase!.returnKeyType = .done
+        dateOfPurchase!.inputView = picker
+        dateOfPurchase!.inputAccessoryView = toolbar
         arrangedSubviews.append(dateOfPurchase!)
+        
+        addButton = interfaceFactory.makeActionButton(title: "Add")
+        arrangedSubviews.append(addButton!)
+        
+        addButton?.contentView.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        
+        addButton?.contentView.isEnabled = false
 
         // since there isn't a method similar to "viewDidAppear" for BulletinItems,
         // we're using a workaround open the keyboard after a certain amount of time has elapsed
@@ -62,9 +82,40 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
 
         return arrangedSubviews
     }
+    
+    func createDatePicker() {
+        toolbar.sizeToFit()
+        
+        done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+        toolbar.setItems([done], animated: true)
+        
+        picker.datePickerMode = .date
+    }
+    
+    @objc private func addButtonTapped() {
+        NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
+        actionHandler?(self)
+    }
 }
 
 extension TextFieldBulletinPage: UITextFieldDelegate {
+
+    @objc func donePressed() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let dateString = dateFormatter.string(from: picker.date)
+        
+        dateOfPurchase!.text = dateString
+        
+        dateOfPurchase?.endEditing(true)
+        
+        if isInputValid(text: amountOfBitcoin?.text) {
+            addButton?.contentView.isEnabled = true
+        }
+    }
+    
+   
+    
     func isInputValid(text: String?) -> Bool {
         // some logic here to verify input
 
@@ -77,16 +128,25 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if isInputValid(text: amountOfBitcoin?.text) && isInputValid(text: dateOfPurchase?.text){
-            textField.resignFirstResponder()
-            NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
-            actionHandler?(self)
-            return true
-
-        } else {
-            errorLabel?.text = "You must enter some text to continue."
-            textField.backgroundColor = .red
-            return false
+//        if isInputValid(text: amountOfBitcoin?.text) && isInputValid(text: dateOfPurchase?.text){
+//            textField.resignFirstResponder()
+//            NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
+//            actionHandler?(self)
+//            return true
+//
+//        } else {
+//            errorLabel?.text = "You must enter some text to continue."
+//            textField.backgroundColor = .red
+//            return false
+//        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if !isInputValid(text: textField.text) {
+            addButton?.contentView.isEnabled = false
         }
     }
+    
+    
 }
