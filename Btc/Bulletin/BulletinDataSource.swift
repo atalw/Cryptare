@@ -55,6 +55,8 @@ enum BulletinDataSource {
      */
     static func makeTextFieldPage() -> TextFieldBulletinPage {
         let page = TextFieldBulletinPage()
+        
+//        page.descriptionText = "Enter the amount of Bitcoin and the date of purchase"
 
         page.dismissalHandler = { item in
             NotificationCenter.default.post(name: .SetupDidComplete, object: item)

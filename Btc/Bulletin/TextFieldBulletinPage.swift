@@ -17,7 +17,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     var isDismissable: Bool = true
     var dismissalHandler: ((BulletinItem) -> Void)?
     var nextItem: BulletinItem?
-
+    
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
 
@@ -28,6 +28,8 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     fileprivate var toolbar = UIToolbar()
     fileprivate var done: UIBarButtonItem!
     fileprivate var addButton: ContainerView<HighlightButton>?
+    
+    public var descriptionText: String!
 
 //    fileprivate
 
@@ -44,20 +46,54 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         var arrangedSubviews = [UIView]()
         createDatePicker()
 
-        let titleLabel = interfaceFactory.makeTitleLabel(reading: "TextField example")
+        let titleLabel = interfaceFactory.makeTitleLabel(reading: "Add Portfolio")
         arrangedSubviews.append(titleLabel)
+        
+        // Description Label
+        
+        if let descriptionText = self.descriptionText {
+            
+            let descriptionLabel = interfaceFactory.makeDescriptionLabel(isCompact: false)
+            descriptionLabel.text = descriptionText
+            arrangedSubviews.append(descriptionLabel)
+            
+        }
 
         errorLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
         errorLabel!.text = ""
         errorLabel!.textColor = .red
         arrangedSubviews.append(errorLabel!)
+        
+        let firstFieldStack = self.makeGroupStack()
+        arrangedSubviews.append(firstFieldStack)
+        
+        let firstRowTitle = UILabel()
+        firstRowTitle.numberOfLines = 1
+        firstRowTitle.textAlignment = .left
+        firstRowTitle.adjustsFontSizeToFitWidth = true
+        firstRowTitle.font = UIFont.systemFont(ofSize: 18)
+        firstRowTitle.text = "Amount of Bitcoin"
+        firstRowTitle.isAccessibilityElement = false
+        firstFieldStack.addArrangedSubview(firstRowTitle)
 
         amountOfBitcoin = UITextField()
         amountOfBitcoin!.delegate = self
         amountOfBitcoin!.borderStyle = .roundedRect
         amountOfBitcoin!.returnKeyType = .done
         amountOfBitcoin!.keyboardType = UIKeyboardType.decimalPad
-        arrangedSubviews.append(amountOfBitcoin!)
+        firstFieldStack.addArrangedSubview(amountOfBitcoin!)
+        
+        let secondFieldStack = self.makeGroupStack()
+        arrangedSubviews.append(secondFieldStack)
+        
+        let secondRowtitle = UILabel()
+        secondRowtitle.numberOfLines = 1
+        secondRowtitle.textAlignment = .left
+        secondRowtitle.adjustsFontSizeToFitWidth = true
+        secondRowtitle.font = UIFont.systemFont(ofSize: 18)
+        secondRowtitle.text = "Date of purchase"
+        secondRowtitle.isAccessibilityElement = false
+        secondFieldStack.addArrangedSubview(secondRowtitle)
         
         dateOfPurchase = UITextField()
         dateOfPurchase!.delegate = self
@@ -65,7 +101,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         dateOfPurchase!.returnKeyType = .done
         dateOfPurchase!.inputView = picker
         dateOfPurchase!.inputAccessoryView = toolbar
-        arrangedSubviews.append(dateOfPurchase!)
+        secondFieldStack.addArrangedSubview(dateOfPurchase!)
         
         addButton = interfaceFactory.makeActionButton(title: "Add")
         arrangedSubviews.append(addButton!)
@@ -96,6 +132,18 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
         actionHandler?(self)
     }
+    
+    public func makeGroupStack() -> UIStackView {
+        
+        let buttonsStack = UIStackView()
+        buttonsStack.axis = .vertical
+        buttonsStack.alignment = .fill
+        buttonsStack.distribution = .fill
+        buttonsStack.spacing = 5
+        return buttonsStack
+        
+    }
+
 }
 
 extension TextFieldBulletinPage: UITextFieldDelegate {

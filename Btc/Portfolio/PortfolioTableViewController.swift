@@ -38,7 +38,7 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     
     lazy var bulletinManager: BulletinManager = {
         
-        let rootItem: BulletinItem = BulletinDataSource.makeIntroPage()
+        let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage()
         return BulletinManager(rootItem: rootItem)
         
     }()
