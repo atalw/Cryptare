@@ -13,6 +13,8 @@ import BulletinBoard
 
 class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegate {
     
+    let defaults = UserDefaults.standard
+    
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
     
@@ -26,8 +28,6 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     @IBOutlet weak var totalPortfolioLabel: UILabel!
     @IBOutlet weak var totalPercentageLabel: UILabel!
     @IBOutlet weak var totalPriceChangeLabel: UILabel!
-    
-    private var portfolioEntryModel: PortfolioEntryModel!
     
     @IBAction func addPortfolioAction(_ sender: Any) {
         showBulletin()
@@ -103,35 +103,44 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     @objc func textFieldEntered(notification: Notification) {
         dateFormatter.dateFormat = "YYYY-MM-dd"
 
-        print("text: \(notification.userInfo?["dateOfPurchase"] as? String) \(notification.userInfo?["amountOfBitcoin"] as? String)")
+        let amountOfBitcoin = Double(notification.userInfo?["amountOfBitcoin"] as! String)
+        let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["dateOfPurchase"] as! String)
         
-        var amountOfBitcoin = Double(notification.userInfo?["amountOfBitcoin"] as! String)
-        var dateOfPurchase = dateFormatter.date(from: notification.userInfo?["dateOfPurchase"] as! String)
-        
-        addPortfolioEntry(amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
+        if amountOfBitcoin != nil && dateOfPurchase != nil {
+            addPortfolioEntry(amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
+        }
         
     }
     
     func addPortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
-        print(amountOfBitcoin)
-        print(dateOfPurchase)
+        PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+        savePortfolioEntry(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
+    }
+    
+    func savePortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
         
-        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice)
-
-        if dateOfPurchase.daysBetweenDate(toDate: Date()) == 0 {
-            print("its equal")
-            totalPortfolioValue = totalPortfolioValue + portfolioEntryModel.cost!
-            totalAmountOfBitcoin = totalAmountOfBitcoin + portfolioEntryModel.amountOfBitcoin
-            // calling this function here is hacky but
-            // a completion handler for portfolio initialization function
-            // does not work
-            setTotalPortfolioValues()
-            portfolioEntries.append(portfolioEntryModel)
-            tableView.reloadData()
+        if var data = defaults.data(forKey: "portfolioEntries") {
+            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [Int:Any]] {
+                let dateString = dateFormatter.string(from: dateOfPurchase)
+                portfolioEntries["\(portfolioEntries.count)"] = [0: amountOfBitcoin as Any, 1: dateString as Any]
+                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                defaults.set(newData, forKey: "portfolioEntries")
+            }
         }
         else {
-            portfolioEntryModel.delegate = self
+            let dateString = dateFormatter.string(from: dateOfPurchase)
+            var portfolioEntries: [String:(Double,String)] = [:]
+            portfolioEntries["0"] = (amountOfBitcoin, dateString)
+            let data = valueToData(portfolioEntries)
+            defaults.set(data, forKey: "portfolioEntries")
         }
+    }
+    
+    func valueToData(_ value: [String: (Double, String)]) -> Data {
+        var converted = value.mapValues { (value) -> [Int:Any] in
+            return [0: value.0, 1: value.1]
+        }
+        return NSKeyedArchiver.archivedData(withRootObject: converted)
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,13 +151,10 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        print("\(portfolioEntries.count) countttttt")
         return portfolioEntries.count
     }
 
@@ -240,21 +246,19 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     }
     
     func initalizePortfolioEntries() {
-//        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.1, dateOfPurchase: self.dateFormatter.date(from: "2017-11-11"), currentBtcPrice: self.btcPrice)
-//        portfolioEntryModel.delegate = self
-
-//        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 1.2, dateOfPurchase: self.dateFormatter.date(from: "2016-11-11"), currentBtcPrice: self.btcPrice)
-//        portfolioEntryModel.delegate = self
+//        defaults.removeObject(forKey: "portfolioEntries")
         
-        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.36886742, dateOfPurchase: self.dateFormatter.date(from: "2017-09-13"), currentBtcPrice: self.btcPrice)
-        portfolioEntryModel.delegate = self
-        
-        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.05287515, dateOfPurchase: self.dateFormatter.date(from: "2017-08-12"), currentBtcPrice: self.btcPrice)
-        portfolioEntryModel.delegate = self
-        
-        portfolioEntryModel = PortfolioEntryModel(amountOfBitcoin: 0.02789696, dateOfPurchase: self.dateFormatter.date(from: "2016-10-23"), currentBtcPrice: self.btcPrice)
-        portfolioEntryModel.delegate = self
-        
+        if var data = defaults.data(forKey: "portfolioEntries") {
+            let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [Int:Any]]
+            for index in 0..<(portfolioEntries?.count ?? 0) {
+                let firstElement = portfolioEntries!["\(index)"]![0] as? Double
+                let secondElement = portfolioEntries!["\(index)"]![1]
+                print(type(of: secondElement))
+                if let amountOfBitcoin =  firstElement, let dateOfPurchase = dateFormatter.date(from: secondElement as! String) {
+                    PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+                }
+            }
+        }
     }
     
     func setTotalPortfolioValues() {
@@ -277,9 +281,6 @@ extension PortfolioTableViewController {
         print("dataLoaded")
         totalPortfolioValue = totalPortfolioValue + portfolioEntry.cost!
         totalAmountOfBitcoin = totalAmountOfBitcoin + portfolioEntry.amountOfBitcoin
-        // calling this function here is hacky but
-        // a completion handler for portfolio initialization function
-        // does not work
         setTotalPortfolioValues()
         portfolioEntries.append(portfolioEntry)
         tableView.reloadData()

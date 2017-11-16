@@ -24,9 +24,9 @@ class PortfolioEntryModel {
     
     let dateFormatter = DateFormatter()
     
-    init(amountOfBitcoin: Double, dateOfPurchase: Date!, currentBtcPrice: Double!) {
+    init(amountOfBitcoin: Double, dateOfPurchase: Date!, currentBtcPrice: Double!, delegate: PortfolioEntryDelegate) {
         dateFormatter.dateFormat = "YYYY-MM-dd"
-        
+        self.delegate = delegate
         self.amountOfBitcoin = amountOfBitcoin
         self.dateOfPurchase = dateOfPurchase
         self.currentBtcPrice = currentBtcPrice
@@ -42,8 +42,8 @@ class PortfolioEntryModel {
         let dateOfPurchaseString = dateFormatter.string(from: dateOfPurchase)
         let todaysDateString = dateFormatter.string(from: Date())
         
-        print(dateOfPurchaseString)
-        print(todaysDateString)
+//        print(dateOfPurchaseString)
+//        print(todaysDateString)
         
         if dateOfPurchaseString == todaysDateString {
             print("here")
