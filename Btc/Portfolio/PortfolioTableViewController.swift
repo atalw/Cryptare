@@ -13,6 +13,11 @@ import BulletinBoard
 
 class PortfolioTableViewController: UITableViewController {
     
+    // MARK: - Constants
+    
+    let portfolioEntriesConstant = "portfolioEntries"
+    let portfolioCellConstant = "portfolioCell"
+    
     // MARK: - Variable initalization
     
     let defaults = UserDefaults.standard
@@ -109,7 +114,7 @@ class PortfolioTableViewController: UITableViewController {
         dateFormatter.dateFormat = "dd/MM/YY"
 
         let portfolio = portfolioEntries[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioCell", for: indexPath) as! PortfolioTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: portfolioCellConstant, for: indexPath) as! PortfolioTableViewCell
         cell.amountOfBitcoinLabel?.text = String(portfolio.amountOfBitcoin)
         cell.amountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
         if let cost = portfolio.cost {
@@ -186,7 +191,7 @@ class PortfolioTableViewController: UITableViewController {
     func initalizePortfolioEntries() {
         //        defaults.removeObject(forKey: "portfolioEntries")
         
-        if var data = defaults.data(forKey: "portfolioEntries") {
+        if var data = defaults.data(forKey: portfolioEntriesConstant) {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [Int:Any]]
             for index in 0..<(portfolioEntries?.count ?? 0) {
                 let firstElement = portfolioEntries!["\(index)"]![0] as? Double
@@ -218,12 +223,12 @@ class PortfolioTableViewController: UITableViewController {
     
     func savePortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
         
-        if var data = defaults.data(forKey: "portfolioEntries") {
+        if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [Int:Any]] {
                 let dateString = dateFormatter.string(from: dateOfPurchase)
                 portfolioEntries["\(portfolioEntries.count)"] = [0: amountOfBitcoin as Any, 1: dateString as Any]
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: "portfolioEntries")
+                defaults.set(newData, forKey: portfolioEntriesConstant)
             }
         }
         else {
@@ -231,7 +236,7 @@ class PortfolioTableViewController: UITableViewController {
             var portfolioEntries: [String:(Double,String)] = [:]
             portfolioEntries["0"] = (amountOfBitcoin, dateString)
             let data = valueToData(portfolioEntries)
-            defaults.set(data, forKey: "portfolioEntries")
+            defaults.set(data, forKey: portfolioEntriesConstant)
         }
     }
     
