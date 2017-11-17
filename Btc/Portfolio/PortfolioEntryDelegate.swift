@@ -10,7 +10,5 @@ import Foundation
 
 protocol PortfolioEntryDelegate: class {
     
-    func didCalculateCostFromDate(data: Double)
-    
     func dataLoaded(portfolioEntry: PortfolioEntryModel)
 }

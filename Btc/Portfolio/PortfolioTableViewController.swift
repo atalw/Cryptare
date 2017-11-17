@@ -11,7 +11,9 @@ import Alamofire
 import SwiftyJSON
 import BulletinBoard
 
-class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegate {
+class PortfolioTableViewController: UITableViewController {
+    
+    // MARK: - Variable initalization
     
     let defaults = UserDefaults.standard
     
@@ -25,13 +27,7 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
     
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
-    @IBOutlet weak var totalPortfolioLabel: UILabel!
-    @IBOutlet weak var totalPercentageLabel: UILabel!
-    @IBOutlet weak var totalPriceChangeLabel: UILabel!
-    
-    @IBAction func addPortfolioAction(_ sender: Any) {
-        showBulletin()
-    }
+    // MARK: - Bulletin variables
     
     /// The current background style.
     var currentBackground = (name: "Dark", style: BulletinBackgroundViewStyle.dimmed)
@@ -43,6 +39,18 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         
     }()
 
+    // MARK: - IBOutlets
+
+    @IBOutlet weak var totalPortfolioLabel: UILabel!
+    @IBOutlet weak var totalPercentageLabel: UILabel!
+    @IBOutlet weak var totalPriceChangeLabel: UILabel!
+    
+    @IBAction func addPortfolioAction(_ sender: Any) {
+        showBulletin()
+    }
+    
+    // MARK: - UI Outlets
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dateFormatter.dateFormat = "YYYY-MM-dd"
@@ -86,68 +94,6 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         NotificationCenter.default.removeObserver(self)
     }
     
-    /**
-     * Displays the bulletin.
-     */
-    
-    func showBulletin() {
-        bulletinManager.backgroundViewStyle = currentBackground.style
-        bulletinManager.prepare()
-        bulletinManager.presentBulletin(above: self)
-    }
-
-    @objc func setupDidComplete() {
-//        BulletinDataSource.userDidCompleteSetup = true
-    }
-    
-    @objc func textFieldEntered(notification: Notification) {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-
-        let amountOfBitcoin = Double(notification.userInfo?["amountOfBitcoin"] as! String)
-        let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["dateOfPurchase"] as! String)
-        
-        if amountOfBitcoin != nil && dateOfPurchase != nil {
-            addPortfolioEntry(amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
-        }
-        
-    }
-    
-    func addPortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
-        PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
-        savePortfolioEntry(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
-    }
-    
-    func savePortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
-        
-        if var data = defaults.data(forKey: "portfolioEntries") {
-            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [Int:Any]] {
-                let dateString = dateFormatter.string(from: dateOfPurchase)
-                portfolioEntries["\(portfolioEntries.count)"] = [0: amountOfBitcoin as Any, 1: dateString as Any]
-                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: "portfolioEntries")
-            }
-        }
-        else {
-            let dateString = dateFormatter.string(from: dateOfPurchase)
-            var portfolioEntries: [String:(Double,String)] = [:]
-            portfolioEntries["0"] = (amountOfBitcoin, dateString)
-            let data = valueToData(portfolioEntries)
-            defaults.set(data, forKey: "portfolioEntries")
-        }
-    }
-    
-    func valueToData(_ value: [String: (Double, String)]) -> Data {
-        var converted = value.mapValues { (value) -> [Int:Any] in
-            return [0: value.0, 1: value.1]
-        }
-        return NSKeyedArchiver.archivedData(withRootObject: converted)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -234,19 +180,11 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         // Pass the selected object to the new view controller.
     }
     */
-
-    func getBtcCurrentValue(completion: @escaping (_ success: Bool) -> Void) {
-        Alamofire.request("https://api.coindesk.com/v1/bpi/currentprice/\(GlobalValues.currency!).json").responseJSON(completionHandler: { response in
-            let json = JSON(data: response.data!)
-            if let price = json["bpi"][GlobalValues.currency!]["rate_float"].double {
-                self.btcPrice = price
-                completion(true)
-            }
-        })
-    }
     
+    // MARK: - Portfolio functions
+
     func initalizePortfolioEntries() {
-//        defaults.removeObject(forKey: "portfolioEntries")
+        //        defaults.removeObject(forKey: "portfolioEntries")
         
         if var data = defaults.data(forKey: "portfolioEntries") {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [Int:Any]]
@@ -261,6 +199,75 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         }
     }
     
+    @objc func textFieldEntered(notification: Notification) {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        
+        let amountOfBitcoin = Double(notification.userInfo?["amountOfBitcoin"] as! String)
+        let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["dateOfPurchase"] as! String)
+        
+        if amountOfBitcoin != nil && dateOfPurchase != nil {
+            addPortfolioEntry(amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
+        }
+        
+    }
+    
+    func addPortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
+        PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+        savePortfolioEntry(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
+    }
+    
+    func savePortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
+        
+        if var data = defaults.data(forKey: "portfolioEntries") {
+            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [Int:Any]] {
+                let dateString = dateFormatter.string(from: dateOfPurchase)
+                portfolioEntries["\(portfolioEntries.count)"] = [0: amountOfBitcoin as Any, 1: dateString as Any]
+                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                defaults.set(newData, forKey: "portfolioEntries")
+            }
+        }
+        else {
+            let dateString = dateFormatter.string(from: dateOfPurchase)
+            var portfolioEntries: [String:(Double,String)] = [:]
+            portfolioEntries["0"] = (amountOfBitcoin, dateString)
+            let data = valueToData(portfolioEntries)
+            defaults.set(data, forKey: "portfolioEntries")
+        }
+    }
+    
+    func valueToData(_ value: [String: (Double, String)]) -> Data {
+        var converted = value.mapValues { (value) -> [Int:Any] in
+            return [0: value.0, 1: value.1]
+        }
+        return NSKeyedArchiver.archivedData(withRootObject: converted)
+    }
+    
+    /**
+     * Displays the bulletin.
+     */
+    
+    func showBulletin() {
+        bulletinManager.backgroundViewStyle = currentBackground.style
+        bulletinManager.prepare()
+        bulletinManager.presentBulletin(above: self)
+    }
+    
+    @objc func setupDidComplete() {
+        //        BulletinDataSource.userDidCompleteSetup = true
+    }
+
+    func getBtcCurrentValue(completion: @escaping (_ success: Bool) -> Void) {
+        Alamofire.request("https://api.coindesk.com/v1/bpi/currentprice/\(GlobalValues.currency!).json").responseJSON(completionHandler: { response in
+            let json = JSON(data: response.data!)
+            if let price = json["bpi"][GlobalValues.currency!]["rate_float"].double {
+                self.btcPrice = price
+                completion(true)
+            }
+        })
+    }
+    
+    // MARK: - Total Portfolio functions
+    
     func setTotalPortfolioValues() {
         totalPortfolioLabel.text = numberFormatter.string(from: NSNumber(value: totalPortfolioValue))
         let change = (btcPrice*totalAmountOfBitcoin) - totalPortfolioValue
@@ -269,16 +276,11 @@ class PortfolioTableViewController: UITableViewController, PortfolioEntryDelegat
         totalPercentageLabel.text = "\(roundedPercentage)%"
         totalPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: change))
     }
-    
 }
 
-extension PortfolioTableViewController {
-    func didCalculateCostFromDate(data: Double) {
-        print(data)
-    }
+extension PortfolioTableViewController: PortfolioEntryDelegate {
     
     func dataLoaded(portfolioEntry: PortfolioEntryModel) {
-        print("dataLoaded")
         totalPortfolioValue = totalPortfolioValue + portfolioEntry.cost!
         totalAmountOfBitcoin = totalAmountOfBitcoin + portfolioEntry.amountOfBitcoin
         setTotalPortfolioValues()
