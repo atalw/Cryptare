@@ -17,6 +17,8 @@ class PortfolioTableViewController: UITableViewController {
     
     let portfolioEntriesConstant = "portfolioEntries"
     let portfolioCellConstant = "portfolioCell"
+    let greenColour = UIColor.init(hex: "#2ecc71")
+    let redColour = UIColor.init(hex: "#e74c3c")
     
     // MARK: - Variable initalization
     
@@ -27,7 +29,8 @@ class PortfolioTableViewController: UITableViewController {
     
     var portfolioEntries: [PortfolioEntryModel] = []
     var btcPrice: Double!
-    var totalPortfolioValue: Double! = 0.0
+    var currentPortfolioValue: Double! = 0.0
+    var totalInvested: Double! = 0.0
     var totalAmountOfBitcoin: Double! = 0.0
     
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -46,9 +49,11 @@ class PortfolioTableViewController: UITableViewController {
 
     // MARK: - IBOutlets
 
-    @IBOutlet weak var totalPortfolioLabel: UILabel!
     @IBOutlet weak var totalPercentageLabel: UILabel!
     @IBOutlet weak var totalPriceChangeLabel: UILabel!
+    @IBOutlet weak var currentPortfolioValueLabel: UILabel!
+    @IBOutlet weak var totalInvestedLabel: UILabel!
+    @IBOutlet weak var totalAmountOfBitcoinLabel: UILabel!
     
     @IBAction func addPortfolioAction(_ sender: Any) {
         showBulletin()
@@ -68,7 +73,12 @@ class PortfolioTableViewController: UITableViewController {
         else if GlobalValues.currency == "USD" {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
-        totalPortfolioLabel.adjustsFontSizeToFitWidth = true
+        currentPortfolioValueLabel.adjustsFontSizeToFitWidth = true
+        totalInvestedLabel.adjustsFontSizeToFitWidth = true
+        totalPercentageLabel.adjustsFontSizeToFitWidth = true
+        totalPriceChangeLabel.adjustsFontSizeToFitWidth = true
+        totalAmountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
+
         activityIndicator.startAnimating()
         activityIndicator.addSubview(view)
         getBtcCurrentValue { (success) -> Void in
@@ -127,6 +137,18 @@ class PortfolioTableViewController: UITableViewController {
         }
         if let percentageChange = portfolio.percentageChange {
             cell.percentageChange?.text = "\(percentageChange)%"
+            cell.percentageChange.adjustsFontSizeToFitWidth = true
+            if percentageChange > 0 {
+                cell.percentageChange.textColor = greenColour
+            }
+            else if percentageChange == 0 {
+                cell.percentageChange.textColor = UIColor.black
+            }
+            else {
+                cell.percentageChange.textColor = redColour
+
+            }
+            
         }
         if let currentvalue = portfolio.currentValue {
             cell.currentValueLabel?.text = numberFormatter.string(from: NSNumber(value: currentvalue))
@@ -152,6 +174,18 @@ class PortfolioTableViewController: UITableViewController {
         }
         
         return [delete]
+    }
+    
+    func tableEmptyMessage() {
+        let messageLabel = UILabel()
+        messageLabel.text = "Add a portfolio"
+        messageLabel.textColor = UIColor.black
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center
+        messageLabel.sizeToFit()
+        
+        tableView.backgroundView = messageLabel;
+        tableView.backgroundView?.backgroundColor = UIColor.groupTableViewBackground
     }
  
 
@@ -206,13 +240,18 @@ class PortfolioTableViewController: UITableViewController {
 //        defaults.removeObject(forKey: "portfolioEntries")
         
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
-            let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]]
-
-            for index in 0..<(portfolioEntries?.count ?? 0) {
-                let firstElement = portfolioEntries![index][0] as? Double
-                let secondElement = portfolioEntries![index][1] as? String
-                if let amountOfBitcoin =  firstElement, let dateOfPurchase = dateFormatter.date(from: secondElement as! String) {
-                    PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+            let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
+            if portfolioEntries.count == 0 {
+                tableEmptyMessage()
+                setTotalPortfolioValues()
+            }
+            else {
+                for index in 0..<portfolioEntries.count {
+                    let firstElement = portfolioEntries[index][0] as? Double
+                    let secondElement = portfolioEntries[index][1] as? String
+                    if let amountOfBitcoin =  firstElement, let dateOfPurchase = dateFormatter.date(from: secondElement as! String) {
+                        PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+                    }
                 }
             }
         }
@@ -231,6 +270,7 @@ class PortfolioTableViewController: UITableViewController {
     }
     
     func addPortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
+        tableView.backgroundView = nil
         PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
         savePortfolioEntry(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
     }
@@ -259,16 +299,17 @@ class PortfolioTableViewController: UITableViewController {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 let dateString = dateFormatter.string(from: portfolioEntry.dateOfPurchase)
                 for index in 0..<portfolioEntries.count {
-                    
                     if let amountOfBitcoin = portfolioEntries[index][0] as? Double, let date = portfolioEntries[index][1] as? String {
                         if amountOfBitcoin == portfolioEntry.amountOfBitcoin && dateString == date {
                             portfolioEntries.remove(at: index)
-                            subtractTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost)
+                            subtractTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
                             break
                         }
                     }
                 }
-                
+                if portfolioEntries.count == 0 {
+                    tableEmptyMessage()
+                }
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: portfolioEntriesConstant)
             }
@@ -308,25 +349,44 @@ class PortfolioTableViewController: UITableViewController {
     
     // MARK: - Total Portfolio functions
     
-    func addTotalPortfolioValues(amountOfBitcoin: Double, cost: Double) {
-        totalPortfolioValue = totalPortfolioValue + cost
+    func addTotalPortfolioValues(amountOfBitcoin: Double, cost: Double, currentValue: Double) {
+        currentPortfolioValue = currentPortfolioValue + currentValue
+        totalInvested = totalInvested + cost
         totalAmountOfBitcoin = totalAmountOfBitcoin + amountOfBitcoin
         setTotalPortfolioValues()
     }
     
-    func subtractTotalPortfolioValues(amountOfBitcoin: Double, cost: Double) {
-        totalPortfolioValue = totalPortfolioValue - cost
+    func subtractTotalPortfolioValues(amountOfBitcoin: Double, cost: Double, currentValue: Double) {
+        currentPortfolioValue = currentPortfolioValue - currentValue
+        totalInvested = totalInvested - cost
         totalAmountOfBitcoin = totalAmountOfBitcoin - amountOfBitcoin
         setTotalPortfolioValues()
     }
     
     func setTotalPortfolioValues() {
-        totalPortfolioLabel.text = numberFormatter.string(from: NSNumber(value: totalPortfolioValue))
-        let change = (btcPrice*totalAmountOfBitcoin) - totalPortfolioValue
-        let percentageChange = (change / totalPortfolioValue) * 100
-        let roundedPercentage  = Double(round(100*percentageChange)/100)
+        currentPortfolioValueLabel.text = numberFormatter.string(from: NSNumber(value: currentPortfolioValue))
+        totalInvestedLabel.text = numberFormatter.string(from: NSNumber(value: totalInvested))
+        let change = currentPortfolioValue - totalInvested
+        let percentageChange = (change / totalInvested) * 100
+        var roundedPercentage  = Double(round(100*percentageChange)/100)
+        if roundedPercentage.isNaN {
+            roundedPercentage = 0
+        }
         totalPercentageLabel.text = "\(roundedPercentage)%"
+        
         totalPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: change))
+        let roundedAmountOfBitcoin = Double(round(1000*totalAmountOfBitcoin!)/1000)
+        totalAmountOfBitcoinLabel.text = "\(roundedAmountOfBitcoin) BTC"
+        
+        if roundedPercentage > 0 {
+            totalPercentageLabel.textColor = greenColour
+        }
+        else if roundedPercentage == 0 {
+            totalPercentageLabel.textColor = UIColor.black
+        }
+        else {
+            totalPercentageLabel.textColor = redColour
+        }
     }
     
 }
@@ -334,7 +394,7 @@ class PortfolioTableViewController: UITableViewController {
 extension PortfolioTableViewController: PortfolioEntryDelegate {
     
     func dataLoaded(portfolioEntry: PortfolioEntryModel) {
-        addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost)
+        addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         portfolioEntries.append(portfolioEntry)
         tableView.reloadData()
     }

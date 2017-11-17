@@ -18,6 +18,9 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     var dismissalHandler: ((BulletinItem) -> Void)?
     var nextItem: BulletinItem?
     
+    let dateFormatter = DateFormatter()
+    
+    
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
 
@@ -31,8 +34,6 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     
     public var descriptionText: String!
 
-//    fileprivate
-
     func tearDown() {
         errorLabel = nil
         amountOfBitcoin = nil
@@ -43,6 +44,8 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     }
 
     func makeArrangedSubviews() -> [UIView] {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        
         var arrangedSubviews = [UIView]()
         createDatePicker()
 
@@ -123,9 +126,13 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         toolbar.sizeToFit()
         
         done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
-        toolbar.setItems([done], animated: true)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+
+        toolbar.setItems([flexibleSpace, done], animated: false)
         
         picker.datePickerMode = .date
+        picker.maximumDate = Date()
+        picker.minimumDate = dateFormatter.date(from: "2009-1-1")
     }
     
     @objc private func addButtonTapped() {
@@ -149,8 +156,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
 extension TextFieldBulletinPage: UITextFieldDelegate {
 
     @objc func donePressed() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        
         let dateString = dateFormatter.string(from: picker.date)
         
         dateOfPurchase!.text = dateString
@@ -161,8 +167,6 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
             addButton?.contentView.isEnabled = true
         }
     }
-    
-   
     
     func isInputValid(text: String?) -> Bool {
         // some logic here to verify input
