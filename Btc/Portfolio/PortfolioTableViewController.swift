@@ -50,6 +50,7 @@ class PortfolioTableViewController: UITableViewController {
     // MARK: - IBOutlets
 
     @IBOutlet weak var totalPercentageLabel: UILabel!
+    @IBOutlet weak var totalPercentageView: UIView!
     @IBOutlet weak var totalPriceChangeLabel: UILabel!
     @IBOutlet weak var currentPortfolioValueLabel: UILabel!
     @IBOutlet weak var totalInvestedLabel: UILabel!
@@ -379,13 +380,14 @@ class PortfolioTableViewController: UITableViewController {
         totalAmountOfBitcoinLabel.text = "\(roundedAmountOfBitcoin) BTC"
         
         if roundedPercentage > 0 {
-            totalPercentageLabel.textColor = greenColour
+            totalPercentageView.backgroundColor = greenColour
         }
         else if roundedPercentage == 0 {
-            totalPercentageLabel.textColor = UIColor.black
+            totalPercentageView.backgroundColor = UIColor.lightGray
         }
         else {
-            totalPercentageLabel.textColor = redColour
+            totalPercentageView.backgroundColor = redColour
+
         }
     }
     
