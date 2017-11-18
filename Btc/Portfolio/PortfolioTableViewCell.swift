@@ -16,6 +16,7 @@ class PortfolioTableViewCell: UITableViewCell {
     @IBOutlet weak var percentageChange: UILabel!
     @IBOutlet weak var currentValueLabel: UILabel!
     @IBOutlet weak var priceChangeLabel: UILabel!
+    @IBOutlet weak var percentageChangeView: UIView!
     
     
     override func awakeFromNib() {

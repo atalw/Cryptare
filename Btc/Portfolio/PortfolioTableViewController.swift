@@ -54,7 +54,7 @@ class PortfolioTableViewController: UITableViewController {
     @IBOutlet weak var currentPortfolioValueLabel: UILabel!
     @IBOutlet weak var totalInvestedLabel: UILabel!
     @IBOutlet weak var totalAmountOfBitcoinLabel: UILabel!
-    
+
     @IBAction func addPortfolioAction(_ sender: Any) {
         showBulletin()
     }
@@ -139,13 +139,13 @@ class PortfolioTableViewController: UITableViewController {
             cell.percentageChange?.text = "\(percentageChange)%"
             cell.percentageChange.adjustsFontSizeToFitWidth = true
             if percentageChange > 0 {
-                cell.percentageChange.textColor = greenColour
+                cell.percentageChangeView.backgroundColor = greenColour
             }
             else if percentageChange == 0 {
-                cell.percentageChange.textColor = UIColor.black
+                cell.percentageChangeView.backgroundColor = UIColor.lightGray
             }
             else {
-                cell.percentageChange.textColor = redColour
+                cell.percentageChangeView.backgroundColor = redColour
 
             }
             
