@@ -49,7 +49,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         let dashboardViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
         self.dashboardViewController = UINavigationController(rootViewController: dashboardViewController)
         
-        let portfolioViewController = storyboard.instantiateViewController(withIdentifier: "PortfolioTableViewController") as! PortfolioTableViewController
+        let portfolioViewController = storyboard.instantiateViewController(withIdentifier: "PortfolioViewController") as! PortfolioViewController
         self.portfolioViewController = UINavigationController(rootViewController: portfolioViewController)
         
         let marketViewController = storyboard.instantiateViewController(withIdentifier: "MarketViewController") as! MarketViewController
