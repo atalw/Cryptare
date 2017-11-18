@@ -46,6 +46,10 @@
 		864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
 		8650C5721FC051270078FD02 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5711FC051270078FD02 /* PortfolioViewController.swift */; };
 		8650C5731FC051270078FD02 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5711FC051270078FD02 /* PortfolioViewController.swift */; };
+		8650C5751FC073DF0078FD02 /* SortDropDownViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */; };
+		8650C5761FC073DF0078FD02 /* SortDropDownViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */; };
+		8650C5791FC07C460078FD02 /* SortDropDownViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5781FC07C460078FD02 /* SortDropDownViews.swift */; };
+		8650C57A1FC07C460078FD02 /* SortDropDownViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5781FC07C460078FD02 /* SortDropDownViews.swift */; };
 		8661F5D11FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
 		8661F5D21FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
 		868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
@@ -168,6 +172,8 @@
 		86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEntryDelegate.swift; sourceTree = "<group>"; };
 		864F53271FAC9F0600BC852F /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		8650C5711FC051270078FD02 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
+		8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SortDropDownViews.xib; sourceTree = "<group>"; };
+		8650C5781FC07C460078FD02 /* SortDropDownViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDropDownViews.swift; sourceTree = "<group>"; };
 		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
@@ -418,14 +424,24 @@
 			path = Graph;
 			sourceTree = "<group>";
 		};
+		8650C5771FC07BE80078FD02 /* SortDropDown */ = {
+			isa = PBXGroup;
+			children = (
+				8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */,
+				8650C5781FC07C460078FD02 /* SortDropDownViews.swift */,
+			);
+			path = SortDropDown;
+			sourceTree = "<group>";
+		};
 		8661F5CF1FB5F78E00D6F365 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				8650C5771FC07BE80078FD02 /* SortDropDown */,
+				8650C5711FC051270078FD02 /* PortfolioViewController.swift */,
 				8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */,
 				86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */,
 				86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */,
 				86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */,
-				8650C5711FC051270078FD02 /* PortfolioViewController.swift */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -606,6 +622,7 @@
 				86AC1F291F913DB00079F013 /* GoogleService-Info.plist in Resources */,
 				8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */,
 				863474781F08262000E7EB86 /* Assets.xcassets in Resources */,
+				8650C5751FC073DF0078FD02 /* SortDropDownViews.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,6 +648,7 @@
 				86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */,
 				868F1A971F7D301E0093402A /* LaunchScreen.storyboard in Resources */,
 				868F1A981F7D301E0093402A /* Assets.xcassets in Resources */,
+				8650C5761FC073DF0078FD02 /* SortDropDownViews.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,6 +788,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -784,6 +803,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -808,6 +828,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -822,6 +843,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -903,6 +925,7 @@
 				869BFA121FB3135B00625A64 /* SettingsViewController.swift in Sources */,
 				86E1381E1FBB152300C5D3ED /* BulletinDataSource.swift in Sources */,
 				86BD6F9B1F85236100C4B0CA /* MarketsModel.swift in Sources */,
+				8650C5791FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */,
 				8602BAB71F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
 				86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */,
@@ -957,6 +980,7 @@
 				869BFA131FB3135B00625A64 /* SettingsViewController.swift in Sources */,
 				86E1381F1FBB152300C5D3ED /* BulletinDataSource.swift in Sources */,
 				868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */,
+				8650C57A1FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				86BD6F9C1F85236100C4B0CA /* MarketsModel.swift in Sources */,
 				8602BAB81F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
 				86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */,

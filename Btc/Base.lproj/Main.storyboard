@@ -773,44 +773,9 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vc6-m0-LaZ">
                                         <rect key="frame" x="0.0" y="150" width="375" height="40"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YCl-Ww-pcF">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UB-iu-uyZ">
-                                                        <rect key="frame" x="0.0" y="5" width="62.5" height="30"/>
-                                                        <state key="normal" title="BTC"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="leh-Kr-BzW">
-                                                        <rect key="frame" x="62.5" y="5" width="62.5" height="30"/>
-                                                        <state key="normal" title="Cost"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jsW-uT-3H5">
-                                                        <rect key="frame" x="125" y="5" width="62.5" height="30"/>
-                                                        <state key="normal" title="Date"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ifr-ah-BGD">
-                                                        <rect key="frame" x="187.5" y="5" width="62.5" height="30"/>
-                                                        <state key="normal" title="Percentage"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ias-lP-y6C">
-                                                        <rect key="frame" x="250" y="5" width="62.5" height="30"/>
-                                                        <state key="normal" title="Current value"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dv2-JZ-wve">
-                                                        <rect key="frame" x="312.5" y="5" width="62.5" height="30"/>
-                                                        <state key="normal" title="Change"/>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="DQs-UZ-pDG"/>
-                                            <constraint firstAttribute="bottom" secondItem="YCl-Ww-pcF" secondAttribute="bottom" id="bqm-pu-t95"/>
-                                            <constraint firstAttribute="trailing" secondItem="YCl-Ww-pcF" secondAttribute="trailing" id="cIo-EG-FGi"/>
-                                            <constraint firstItem="YCl-Ww-pcF" firstAttribute="leading" secondItem="Vc6-m0-LaZ" secondAttribute="leading" id="nPz-lA-WdE"/>
-                                            <constraint firstItem="YCl-Ww-pcF" firstAttribute="top" secondItem="Vc6-m0-LaZ" secondAttribute="top" id="qFq-bW-FhR"/>
                                         </constraints>
                                     </view>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SWK-Nx-IQH">
@@ -847,6 +812,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="currentPortfolioValueLabel" destination="rfi-3k-lCh" id="6De-pW-j8h"/>
+                        <outlet property="sortView" destination="Vc6-m0-LaZ" id="7L1-ln-nK1"/>
                         <outlet property="totalAmountOfBitcoinLabel" destination="67o-xF-8F0" id="NWd-fe-gF4"/>
                         <outlet property="totalInvestedLabel" destination="U6m-CW-5QP" id="J6D-iH-Pwl"/>
                         <outlet property="totalPercentageLabel" destination="Bwm-bD-o0C" id="TTU-mf-Oy4"/>

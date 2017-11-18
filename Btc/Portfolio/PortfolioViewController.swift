@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YNDropDownMenu
 
 class PortfolioViewController: UIViewController {
     
@@ -21,6 +22,8 @@ class PortfolioViewController: UIViewController {
     var totalInvested: Double! = 0.0
     var totalAmountOfBitcoin: Double! = 0.0
     
+    var sortDropDownView: YNDropDownMenu!
+    
     // MARK: - IBOutlets
     
     @IBOutlet weak var totalPercentageLabel: UILabel!
@@ -29,7 +32,8 @@ class PortfolioViewController: UIViewController {
     @IBOutlet weak var currentPortfolioValueLabel: UILabel!
     @IBOutlet weak var totalInvestedLabel: UILabel!
     @IBOutlet weak var totalAmountOfBitcoinLabel: UILabel!
-
+    @IBOutlet weak var sortView: UIView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,10 +53,47 @@ class PortfolioViewController: UIViewController {
         totalPercentageLabel.adjustsFontSizeToFitWidth = true
         totalPriceChangeLabel.adjustsFontSizeToFitWidth = true
         totalAmountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
+        
+        
+        
 
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let sortDropDownViews = Bundle.main.loadNibNamed("SortDropDownViews", owner: nil, options: nil) as? [UIView]
+        
+        if let _sortDropDownViews = sortDropDownViews {
+            // Inherit YNDropDownView if you want to hideMenu in your dropDownViews
+            //            let frame = sortView.convert(sortView.bounds, to: self.view)
+            let sortDropDownView = YNDropDownMenu(frame: CGRect(x: 0, y: sortView.bounds.origin.y, width: UIScreen.main.bounds.size.width, height: 40), dropDownViews: _sortDropDownViews, dropDownViewTitles: ["Bitcoin", "Date", "Money", "Change"])
+            let FFA409 = UIColor.init(red: 255/255, green: 164/255, blue: 9/255, alpha: 1.0)
+            
+            //            view.setImageWhen(normal: UIImage(named: "arrow_nor"), selected: UIImage(named: "arrow_sel"), disabled: UIImage(named: "arrow_dim"))
+            
+            sortDropDownView.setLabelColorWhen(normal: .black, selected: FFA409, disabled: .gray)
+            
+            sortDropDownView.setLabelFontWhen(normal: .systemFont(ofSize: 12), selected: .boldSystemFont(ofSize: 12), disabled: .systemFont(ofSize: 12))
+            
+            sortDropDownView.backgroundBlurEnabled = true
+            sortDropDownView.bottomLine.isHidden = false
+            // Add custom blurEffectView
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .black
+            sortDropDownView.blurEffectView = backgroundView
+            sortDropDownView.blurEffectViewAlpha = 0.7
+            
+            // Open and Hide Menu
+            sortDropDownView.alwaysSelected(at: 0)
+            sortDropDownView.setBackgroundColor(color: UIColor.white)
+            
+//            self.view.addSubview(sortDropDownView)
+        }
+    }
+    
     @IBAction func addPortfolioAction(_ sender: Any) {
         portfolioTableController.showBulletin()
     }
