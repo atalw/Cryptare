@@ -34,7 +34,8 @@ class PortfolioViewController: UIViewController {
     @IBOutlet weak var totalAmountOfBitcoinLabel: UILabel!
     @IBOutlet weak var sortView: UIView!
     
-
+    @IBOutlet weak var mainStackView: UIStackView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,9 +54,6 @@ class PortfolioViewController: UIViewController {
         totalPercentageLabel.adjustsFontSizeToFitWidth = true
         totalPriceChangeLabel.adjustsFontSizeToFitWidth = true
         totalAmountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
-        
-        
-        
 
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -64,33 +62,41 @@ class PortfolioViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         let sortDropDownViews = Bundle.main.loadNibNamed("SortDropDownViews", owner: nil, options: nil) as? [UIView]
+        
+        var sortDropDownMenu: YNDropDownMenu!
         
         if let _sortDropDownViews = sortDropDownViews {
             // Inherit YNDropDownView if you want to hideMenu in your dropDownViews
-            //            let frame = sortView.convert(sortView.bounds, to: self.view)
-            let sortDropDownView = YNDropDownMenu(frame: CGRect(x: 0, y: sortView.bounds.origin.y, width: UIScreen.main.bounds.size.width, height: 40), dropDownViews: _sortDropDownViews, dropDownViewTitles: ["Bitcoin", "Date", "Money", "Change"])
+            sortDropDownMenu = YNDropDownMenu(frame: CGRect(x: 0, y: sortView.frame.minY, width: UIScreen.main.bounds.size.width, height: 40), dropDownViews: _sortDropDownViews, dropDownViewTitles: ["Amount", "Date", "Money", "Change"])
             let FFA409 = UIColor.init(red: 255/255, green: 164/255, blue: 9/255, alpha: 1.0)
             
             //            view.setImageWhen(normal: UIImage(named: "arrow_nor"), selected: UIImage(named: "arrow_sel"), disabled: UIImage(named: "arrow_dim"))
             
-            sortDropDownView.setLabelColorWhen(normal: .black, selected: FFA409, disabled: .gray)
+            sortDropDownMenu.setLabelColorWhen(normal: .black, selected: FFA409, disabled: .gray)
             
-            sortDropDownView.setLabelFontWhen(normal: .systemFont(ofSize: 12), selected: .boldSystemFont(ofSize: 12), disabled: .systemFont(ofSize: 12))
+            sortDropDownMenu.setLabelFontWhen(normal: .systemFont(ofSize: 12), selected: .boldSystemFont(ofSize: 12), disabled: .systemFont(ofSize: 12))
             
-            sortDropDownView.backgroundBlurEnabled = true
-            sortDropDownView.bottomLine.isHidden = false
+            sortDropDownMenu.backgroundBlurEnabled = true
+            sortDropDownMenu.bottomLine.isHidden = false
             // Add custom blurEffectView
             let backgroundView = UIView()
             backgroundView.backgroundColor = .black
-            sortDropDownView.blurEffectView = backgroundView
-            sortDropDownView.blurEffectViewAlpha = 0.7
+            sortDropDownMenu.blurEffectView = backgroundView
+            sortDropDownMenu.blurEffectViewAlpha = 0.7
             
             // Open and Hide Menu
-            sortDropDownView.alwaysSelected(at: 0)
-            sortDropDownView.setBackgroundColor(color: UIColor.white)
+            sortDropDownMenu.normalSelected(at: 0)
+            sortDropDownMenu.setBackgroundColor(color: UIColor.white)
             
-//            self.view.addSubview(sortDropDownView)
+            // important - add to stack view to correctly place drop down view in view
+            self.mainStackView.addSubview(sortDropDownView)
         }
     }
     
