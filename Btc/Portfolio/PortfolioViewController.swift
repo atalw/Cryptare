@@ -96,7 +96,7 @@ class PortfolioViewController: UIViewController {
             sortDropDownMenu.setBackgroundColor(color: UIColor.white)
             
             // important - add to stack view to correctly place drop down view in view
-            self.mainStackView.addSubview(sortDropDownView)
+            self.mainStackView.addSubview(sortDropDownMenu)
         }
     }
     
