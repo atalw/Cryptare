@@ -79,6 +79,20 @@ enum BulletinDataSource {
 //        }
 //    }
     
+    static func makeSellPortfolioPage() -> SellPortfolioBulletinPage {
+        let page = SellPortfolioBulletinPage()
+        
+        page.dismissalHandler = { item in
+            NotificationCenter.default.post(name: .SetupDidComplete, object: item)
+        }
+        
+        page.actionHandler = { item in
+            item.manager?.dismissBulletin(animated: true)
+        }
+        
+        return page
+    }
+    
 }
 
 // MARK: - Notifications

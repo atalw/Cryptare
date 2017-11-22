@@ -1,7 +1,10 @@
-/**
- *  BulletinBoard
- *  Copyright (c) 2017 Alexis Aubry. Licensed under the MIT license.
- */
+//
+//  SellPortfolioBulletinPage.swift
+//  Btc
+//
+//  Created by Akshit Talwar on 22/11/2017.
+//  Copyright © 2017 atalw. All rights reserved.
+//
 
 import UIKit
 import BulletinBoard
@@ -12,7 +15,7 @@ import BulletinBoard
  * This item demonstrates how to create a bulletin item with a textfield and how it will behave when the keyboard is visible.
  */
 
-class TextFieldBulletinPage: NSObject, BulletinItem {
+class SellPortfolioBulletinPage: NSObject, BulletinItem {
     var manager: BulletinManager?
     var isDismissable: Bool = true
     var dismissalHandler: ((BulletinItem) -> Void)?
@@ -23,7 +26,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
-
+    
     fileprivate var errorLabel: UILabel?
     fileprivate var amountOfBitcoin: UITextField?
     fileprivate var dateOfPurchase: UITextField?
@@ -34,7 +37,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     fileprivate var addButton: ContainerView<HighlightButton>?
     
     public var descriptionText: String!
-
+    
     func tearDown() {
         errorLabel = nil
         amountOfBitcoin = nil
@@ -42,14 +45,14 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         done = nil
         addButton = nil
     }
-
+    
     func makeArrangedSubviews() -> [UIView] {
         dateFormatter.dateFormat = "YYYY-MM-dd"
         
         var arrangedSubviews = [UIView]()
         createDatePicker()
-
-        let titleLabel = interfaceFactory.makeTitleLabel(reading: "Add Portfolio")
+        
+        let titleLabel = interfaceFactory.makeTitleLabel(reading: "Sell Portfolio")
         arrangedSubviews.append(titleLabel)
         
         // Description Label
@@ -61,7 +64,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
             arrangedSubviews.append(descriptionLabel)
             
         }
-
+        
         errorLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
         errorLabel!.text = ""
         errorLabel!.textColor = .red
@@ -78,7 +81,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         firstRowTitle.text = "Amount of Bitcoin"
         firstRowTitle.isAccessibilityElement = false
         firstFieldStack.addArrangedSubview(firstRowTitle)
-
+        
         amountOfBitcoin = UITextField()
         amountOfBitcoin!.delegate = self
         amountOfBitcoin!.borderStyle = .roundedRect
@@ -94,7 +97,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         secondRowtitle.textAlignment = .left
         secondRowtitle.adjustsFontSizeToFitWidth = true
         secondRowtitle.font = UIFont.systemFont(ofSize: 18)
-        secondRowtitle.text = "Date of purchase"
+        secondRowtitle.text = "Date of sale"
         secondRowtitle.isAccessibilityElement = false
         secondFieldStack.addArrangedSubview(secondRowtitle)
         
@@ -112,13 +115,13 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         addButton?.contentView.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
         addButton?.contentView.isEnabled = false
-
+        
         // since there isn't a method similar to "viewDidAppear" for BulletinItems,
         // we're using a workaround open the keyboard after a certain amount of time has elapsed
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) { [weak self] in
             self?.amountOfBitcoin?.becomeFirstResponder()
         }
-
+        
         return arrangedSubviews
     }
     
@@ -127,7 +130,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         
         done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-
+        
         toolbar.setItems([flexibleSpace, done], animated: false)
         
         picker.datePickerMode = .date
@@ -136,7 +139,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     }
     
     @objc private func addButtonTapped() {
-        NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["type": "buy", "amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": date])
+        NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["type": "sell", "amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": date])
         actionHandler?(self)
     }
     
@@ -150,11 +153,11 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         return buttonsStack
         
     }
-
+    
 }
 
-extension TextFieldBulletinPage: UITextFieldDelegate {
-
+extension SellPortfolioBulletinPage: UITextFieldDelegate {
+    
     @objc func donePressed() {
         dateFormatter.dateFormat = "MMM dd,yyyy"
         let dateString = dateFormatter.string(from: picker.date)
@@ -172,27 +175,27 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
     
     func isInputValid(text: String?) -> Bool {
         // some logic here to verify input
-
+        
         if text != nil && !text!.isEmpty {
             // return true to continue to the next bulletin item
             return true
         }
-
+        
         return false
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if isInputValid(text: amountOfBitcoin?.text) && isInputValid(text: dateOfPurchase?.text){
-//            textField.resignFirstResponder()
-//            NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
-//            actionHandler?(self)
-//            return true
-//
-//        } else {
-//            errorLabel?.text = "You must enter some text to continue."
-//            textField.backgroundColor = .red
-//            return false
-//        }
+        //        if isInputValid(text: amountOfBitcoin?.text) && isInputValid(text: dateOfPurchase?.text){
+        //            textField.resignFirstResponder()
+        //            NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
+        //            actionHandler?(self)
+        //            return true
+        //
+        //        } else {
+        //            errorLabel?.text = "You must enter some text to continue."
+        //            textField.backgroundColor = .red
+        //            return false
+        //        }
         return true
     }
     
@@ -204,3 +207,4 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
     
     
 }
+
