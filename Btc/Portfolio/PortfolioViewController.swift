@@ -36,6 +36,17 @@ class PortfolioViewController: UIViewController {
     
     @IBOutlet weak var mainStackView: UIStackView!
     
+    @IBAction func addPortfolioAction(_ sender: Any) {
+        portfolioTableController.showAddBuyBulletin()
+    }
+    @IBAction func addBuyPortflioAction(_ sender: Any) {
+        portfolioTableController.showAddBuyBulletin()
+    }
+    @IBAction func addSellPortfolioAction(_ sender: Any) {
+       portfolioTableController.showAddSellBulletin()
+    }
+    // MARK: - VC Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,9 +111,7 @@ class PortfolioViewController: UIViewController {
         }
     }
     
-    @IBAction func addPortfolioAction(_ sender: Any) {
-        portfolioTableController.showBulletin()
-    }
+    
     
     // MARK: - Total Portfolio functions
     
@@ -117,6 +126,18 @@ class PortfolioViewController: UIViewController {
         currentPortfolioValue = currentPortfolioValue - currentValue
         totalInvested = totalInvested - cost
         totalAmountOfBitcoin = totalAmountOfBitcoin - amountOfBitcoin
+        setTotalPortfolioValues()
+    }
+    
+    func addSellTotalPortfolioValues(amountOfBitcoin: Double, cost: Double, currentValue: Double) {
+        currentPortfolioValue = currentPortfolioValue - currentValue
+        totalAmountOfBitcoin = totalAmountOfBitcoin - amountOfBitcoin
+        setTotalPortfolioValues()
+    }
+    
+    func subtractSellTotalPortfolioValues(amountOfBitcoin: Double, cost: Double, currentValue: Double) {
+        currentPortfolioValue = currentPortfolioValue + currentValue
+        totalAmountOfBitcoin = totalAmountOfBitcoin + amountOfBitcoin
         setTotalPortfolioValues()
     }
     

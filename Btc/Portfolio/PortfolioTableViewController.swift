@@ -106,20 +106,37 @@ class PortfolioTableViewController: UITableViewController {
         dateFormatter.dateFormat = "dd/MM/YY"
 
         let portfolio = portfolioEntries[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: portfolioCellConstant, for: indexPath) as! PortfolioTableViewCell
-        cell.amountOfBitcoinLabel?.text = String(portfolio.amountOfBitcoin)
+        var cell: PortfolioTableViewCell
+        if portfolio.type == "buy" {
+            cell = tableView.dequeueReusableCell(withIdentifier: portfolioCellConstant, for: indexPath) as! PortfolioTableViewCell
+        }
+        else  {
+            cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSellCell", for: indexPath) as! PortfolioTableViewCell
+        }
+        
+        
+        cell.amountOfBitcoinLabel.text = String(portfolio.amountOfBitcoin)
         cell.amountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
+        if portfolio.type == "buy" {
+            cell.amountOfBitcoinLabel.textColor = greenColour
+        }
+        else if portfolio.type == "sell" {
+            cell.amountOfBitcoinLabel.textColor = redColour
+        }
+        
         if let cost = portfolio.cost {
             cell.costLabel?.text = numberFormatter.string(from: NSNumber(value: cost))
-            cell.costLabel.adjustsFontSizeToFitWidth = true
+            cell.costLabel?.adjustsFontSizeToFitWidth = true
         }
+        
         if let date = portfolio.dateOfPurchase {
             cell.dateOfPurchaseLabel?.text = dateFormatter.string(from: date)
-            cell.dateOfPurchaseLabel.adjustsFontSizeToFitWidth = true
+            cell.dateOfPurchaseLabel?.adjustsFontSizeToFitWidth = true
         }
+        
         if let percentageChange = portfolio.percentageChange {
             cell.percentageChange?.text = "\(percentageChange)%"
-            cell.percentageChange.adjustsFontSizeToFitWidth = true
+            cell.percentageChange?.adjustsFontSizeToFitWidth = true
             if percentageChange > 0 {
                 cell.percentageChangeView.backgroundColor = greenColour
             }
@@ -128,17 +145,17 @@ class PortfolioTableViewController: UITableViewController {
             }
             else {
                 cell.percentageChangeView.backgroundColor = redColour
-
             }
-            
         }
+        
         if let currentvalue = portfolio.currentValue {
             cell.currentValueLabel?.text = numberFormatter.string(from: NSNumber(value: currentvalue))
-            cell.currentValueLabel.adjustsFontSizeToFitWidth = true
+            cell.currentValueLabel?.adjustsFontSizeToFitWidth = true
         }
+        
         if let priceChange = portfolio.priceChange {
             cell.priceChangeLabel?.text = numberFormatter.string(from: NSNumber(value: priceChange))
-            cell.priceChangeLabel.adjustsFontSizeToFitWidth = true
+            cell.priceChangeLabel?.adjustsFontSizeToFitWidth = true
         }
 
         return cell
@@ -229,10 +246,12 @@ class PortfolioTableViewController: UITableViewController {
             }
             else {
                 for index in 0..<portfolioEntries.count {
-                    let firstElement = portfolioEntries[index][0] as? Double
-                    let secondElement = portfolioEntries[index][1] as? String
-                    if let amountOfBitcoin =  firstElement, let dateOfPurchase = dateFormatter.date(from: secondElement as! String) {
-                        PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+                    let firstElement = portfolioEntries[index][0] as? String
+                    let secondElement = portfolioEntries[index][1] as? Double
+                    let thirdElement = portfolioEntries[index][2] as? String
+
+                    if let type = firstElement, let amountOfBitcoin =  secondElement, let dateOfPurchase = dateFormatter.date(from: thirdElement as! String) {
+                        PortfolioEntryModel(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
                     }
                 }
             }
@@ -241,35 +260,34 @@ class PortfolioTableViewController: UITableViewController {
     
     @objc func textFieldEntered(notification: Notification) {
         dateFormatter.dateFormat = "YYYY-MM-dd"
-        
+        let type = notification.userInfo?["type"] as! String
         let amountOfBitcoin = Double(notification.userInfo?["amountOfBitcoin"] as! String)
         let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["dateOfPurchase"] as! String)
-        
         if amountOfBitcoin != nil && dateOfPurchase != nil {
-            addPortfolioEntry(amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
+            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
         }
-        
     }
     
-    func addPortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
+    func addPortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date) {
         tableView.backgroundView = nil
-        PortfolioEntryModel(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
-        savePortfolioEntry(amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
+        PortfolioEntryModel(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+        savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
     }
     
-    func savePortfolioEntry(amountOfBitcoin: Double, dateOfPurchase: Date) {
+    
+    func savePortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date) {
         let dateString = dateFormatter.string(from: dateOfPurchase)
 
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                portfolioEntries.append([0: amountOfBitcoin as Any, 1: dateString as Any])
+                portfolioEntries.append([0: type as Any, 1: amountOfBitcoin as Any, 2: dateString as Any])
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: portfolioEntriesConstant)
             }
         }
         else {
             var portfolioEntries: [[Int:Any]] = []
-            portfolioEntries.append([0: amountOfBitcoin as Any, 1: dateString as Any])
+            portfolioEntries.append([0: type as Any, 1: amountOfBitcoin as Any, 2: dateString as Any])
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
             defaults.set(newData, forKey: portfolioEntriesConstant)
         }
@@ -281,10 +299,15 @@ class PortfolioTableViewController: UITableViewController {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 let dateString = dateFormatter.string(from: portfolioEntry.dateOfPurchase)
                 for index in 0..<portfolioEntries.count {
-                    if let amountOfBitcoin = portfolioEntries[index][0] as? Double, let date = portfolioEntries[index][1] as? String {
-                        if amountOfBitcoin == portfolioEntry.amountOfBitcoin && dateString == date {
+                    if let type = portfolioEntries[index][0] as? String, let amountOfBitcoin = portfolioEntries[index][1] as? Double, let date = portfolioEntries[index][2] as? String {
+                        if type == portfolioEntry.type && amountOfBitcoin == portfolioEntry.amountOfBitcoin && dateString == date {
                             portfolioEntries.remove(at: index)
-                            parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+                            if type == "buy" {
+                                parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+                            }
+                            else {
+                                parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+                            }
                             break
                         }
                     }
@@ -298,18 +321,32 @@ class PortfolioTableViewController: UITableViewController {
         }
     }
     
-    func valueToData(_ value: [String: (Double, String)]) -> Data {
-        var converted = value.mapValues { (value) -> [Int:Any] in
-            return [0: value.0, 1: value.1]
-        }
-        return NSKeyedArchiver.archivedData(withRootObject: converted)
-    }
+//    func valueToData(_ value: [String: (Double, String)]) -> Data {
+//        var converted = value.mapValues { (value) -> [Int:Any] in
+//            return [0: value.0, 1: value.1]
+//        }
+//        return NSKeyedArchiver.archivedData(withRootObject: converted)
+//    }
     
     /**
      * Displays the bulletin.
      */
     
-    func showBulletin() {
+    func showAddBuyBulletin() {
+        bulletinManager = {
+            let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage()
+            return BulletinManager(rootItem: rootItem)
+        }()
+        bulletinManager.backgroundViewStyle = currentBackground.style
+        bulletinManager.prepare()
+        bulletinManager.presentBulletin(above: self)
+    }
+    
+    func showAddSellBulletin() {
+        bulletinManager = {
+            let rootItem: BulletinItem = BulletinDataSource.makeSellPortfolioPage()
+            return BulletinManager(rootItem: rootItem)
+        }()
         bulletinManager.backgroundViewStyle = currentBackground.style
         bulletinManager.prepare()
         bulletinManager.presentBulletin(above: self)
@@ -336,7 +373,15 @@ class PortfolioTableViewController: UITableViewController {
 extension PortfolioTableViewController: PortfolioEntryDelegate {
     
     func dataLoaded(portfolioEntry: PortfolioEntryModel) {
-        parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+        if portfolioEntry.type == "buy" {
+            parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+        }
+        else if portfolioEntry.type == "sell" {
+            // change portfolio entry profit/loss based on total invested rn
+            let pChange = portfolioEntry.currentValue / (parentController.totalInvested * portfolioEntry.amountOfBitcoin) * 100
+            portfolioEntry.percentageChange = Double(round(100*pChange)/100)
+            parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+        }
         portfolioEntries.append(portfolioEntry)
         tableView.reloadData()
     }
