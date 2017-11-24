@@ -25,13 +25,12 @@ class PortfolioViewController: UIViewController {
     var sortDropDownView: YNDropDownMenu!
     
     // MARK: - IBOutlets
-    
-    @IBOutlet weak var totalPercentageLabel: UILabel!
-    @IBOutlet weak var totalPercentageView: UIView!
-    @IBOutlet weak var totalPriceChangeLabel: UILabel!
     @IBOutlet weak var currentPortfolioValueLabel: UILabel!
     @IBOutlet weak var totalInvestedLabel: UILabel!
     @IBOutlet weak var totalAmountOfBitcoinLabel: UILabel!
+    @IBOutlet weak var totalPriceChangeLabel: UILabel!
+    @IBOutlet weak var totalPercentageLabel: UILabel!
+    @IBOutlet weak var totalPercentageView: UIView!
     @IBOutlet weak var sortView: UIView!
     
     @IBOutlet weak var mainStackView: UIStackView!
