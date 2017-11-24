@@ -650,7 +650,7 @@
                                                 <rect key="frame" x="0.0" y="455" width="343" height="80"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBZ-1D-DOK">
-                                                        <rect key="frame" x="16" y="0.0" width="311" height="48"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
                                                         <state key="normal" title="Upgrade">
@@ -669,9 +669,9 @@
                                                 <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="YBZ-1D-DOK" secondAttribute="bottom" constant="32" id="4wB-3H-LON"/>
-                                                    <constraint firstItem="YBZ-1D-DOK" firstAttribute="leading" secondItem="aYp-o1-SPw" secondAttribute="leading" constant="16" id="8rk-gR-nkx"/>
+                                                    <constraint firstItem="YBZ-1D-DOK" firstAttribute="leading" secondItem="aYp-o1-SPw" secondAttribute="leading" id="8rk-gR-nkx"/>
                                                     <constraint firstItem="YBZ-1D-DOK" firstAttribute="top" secondItem="aYp-o1-SPw" secondAttribute="top" id="REF-XR-P2H"/>
-                                                    <constraint firstAttribute="trailing" secondItem="YBZ-1D-DOK" secondAttribute="trailing" constant="16" id="Xeo-5X-LjR"/>
+                                                    <constraint firstAttribute="trailing" secondItem="YBZ-1D-DOK" secondAttribute="trailing" id="Xeo-5X-LjR"/>
                                                     <constraint firstAttribute="height" constant="80" id="gco-cA-0TS"/>
                                                 </constraints>
                                             </view>
@@ -1906,7 +1906,7 @@
         <!--Portfolio-->
         <scene sceneID="YFS-1U-fzM">
             <objects>
-                <viewController storyboardIdentifier="PortfolioViewController" id="PeU-Nt-N68" customClass="PortfolioViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PortfolioViewController" id="PeU-Nt-N68" customClass="PortfolioViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xG9-Dd-LLK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2176,7 +2176,7 @@
         <!--Portfolio Table View Controller-->
         <scene sceneID="iN1-k6-NgO">
             <objects>
-                <tableViewController storyboardIdentifier="PortfolioTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="64M-PX-CcV" customClass="PortfolioTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PortfolioTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="64M-PX-CcV" customClass="PortfolioTableViewController" customModule="CryptareLite" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="VSG-RT-F0L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="447"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2187,7 +2187,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="portfolioCell" rowHeight="125" id="aYV-pB-Qh0" customClass="PortfolioTableViewCell" customModule="Cryptare" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="portfolioCell" rowHeight="125" id="aYV-pB-Qh0" customClass="PortfolioTableViewCell" customModule="CryptareLite" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="56.5" width="375" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aYV-pB-Qh0" id="a4Z-1a-UOi">
@@ -2394,7 +2394,7 @@
                                     <outlet property="priceChangeLabel" destination="9dZ-kj-Que" id="YWE-Hh-I3C"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="portfolioSellCell" rowHeight="90" id="Fgi-kW-ugh" customClass="PortfolioTableViewCell" customModule="Cryptare" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="portfolioSellCell" rowHeight="90" id="Fgi-kW-ugh" customClass="PortfolioTableViewCell" customModule="CryptareLite" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="181.5" width="375" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fgi-kW-ugh" id="L8I-3r-YK9">
