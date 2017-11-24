@@ -156,7 +156,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
 extension TextFieldBulletinPage: UITextFieldDelegate {
 
     @objc func donePressed() {
-        dateFormatter.dateFormat = "MMM dd,yyyy"
+        dateFormatter.dateFormat = "MMM dd, yyyy"
         let dateString = dateFormatter.string(from: picker.date)
         dateOfPurchase!.text = dateString
         

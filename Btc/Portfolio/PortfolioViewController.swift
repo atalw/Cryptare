@@ -65,6 +65,8 @@ class PortfolioViewController: UIViewController {
         totalPercentageLabel.adjustsFontSizeToFitWidth = true
         totalPriceChangeLabel.adjustsFontSizeToFitWidth = true
         totalAmountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
+        
+        setTotalPortfolioValues()
 
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -107,7 +109,7 @@ class PortfolioViewController: UIViewController {
             sortDropDownMenu.setBackgroundColor(color: UIColor.white)
             
             // important - add to stack view to correctly place drop down view in view
-            self.mainStackView.addSubview(sortDropDownMenu)
+//            self.mainStackView.addSubview(sortDropDownMenu)
         }
     }
     

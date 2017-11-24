@@ -63,16 +63,8 @@ class PortfolioTableViewController: UITableViewController {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         
-
-        activityIndicator.startAnimating()
         activityIndicator.addSubview(view)
-        getBtcCurrentValue { (success) -> Void in
-            if success {
-                self.initalizePortfolioEntries()
-            }
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.hidesWhenStopped = true
-        }
+        self.activityIndicator.hidesWhenStopped = true
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -85,6 +77,17 @@ class PortfolioTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(setupDidComplete), name: .SetupDidComplete, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldEntered(notification:)), name: .TextFieldEntered, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        activityIndicator.startAnimating()
+        getBtcCurrentValue { (success) -> Void in
+            if success {
+                self.initalizePortfolioEntries()
+            }
+            self.activityIndicator.stopAnimating()
+        }
     }
     
     deinit {
@@ -176,6 +179,7 @@ class PortfolioTableViewController: UITableViewController {
     }
     
     func tableEmptyMessage() {
+        print("empty")
         let messageLabel = UILabel()
         messageLabel.text = "Add a portfolio"
         messageLabel.textColor = UIColor.black
@@ -240,9 +244,9 @@ class PortfolioTableViewController: UITableViewController {
         
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
+            print(portfolioEntries.count)
             if portfolioEntries.count == 0 {
                 tableEmptyMessage()
-                parentController.setTotalPortfolioValues()
             }
             else {
                 for index in 0..<portfolioEntries.count {
@@ -255,6 +259,9 @@ class PortfolioTableViewController: UITableViewController {
                     }
                 }
             }
+        }
+        else {
+            tableEmptyMessage()
         }
     }
     
@@ -377,10 +384,6 @@ extension PortfolioTableViewController: PortfolioEntryDelegate {
             parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         }
         else if portfolioEntry.type == "sell" {
-//            // change portfolio entry profit/loss based on total invested rn
-//            let pChange = portfolioEntry.currentValue / (parentController.totalInvested * portfolioEntry.amountOfBitcoin) * 100
-//            let pChange = portfolioEntry.currentValue /
-//            portfolioEntry.percentageChange = Double(round(100*pChange)/100)
             parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         }
         portfolioEntries.append(portfolioEntry)
