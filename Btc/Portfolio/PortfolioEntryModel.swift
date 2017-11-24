@@ -36,20 +36,17 @@ class PortfolioEntryModel {
         self.currentValue = currentBtcPrice * amountOfBitcoin
         calculateCostFromDate { (success) -> Void in
             self.calculateChange()
-            print("done")
             self.delegate?.dataLoaded(portfolioEntry: self)
         }
     }
+    
+    
     
     func calculateCostFromDate(completion: @escaping (_ success: Bool) -> Void) {
         let dateOfPurchaseString = dateFormatter.string(from: dateOfPurchase)
         let todaysDateString = dateFormatter.string(from: Date())
         
-//        print(dateOfPurchaseString)
-//        print(todaysDateString)
-        
         if dateOfPurchaseString == todaysDateString {
-            print("here")
             cost = currentBtcPrice * amountOfBitcoin
             print(cost)
             completion(true)

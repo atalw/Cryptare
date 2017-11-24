@@ -138,13 +138,13 @@ class PortfolioTableViewController: UITableViewController {
             cell.percentageChange?.text = "\(percentageChange)%"
             cell.percentageChange?.adjustsFontSizeToFitWidth = true
             if percentageChange > 0 {
-                cell.percentageChangeView.backgroundColor = greenColour
+                cell.percentageChangeView?.backgroundColor = greenColour
             }
             else if percentageChange == 0 {
-                cell.percentageChangeView.backgroundColor = UIColor.lightGray
+                cell.percentageChangeView?.backgroundColor = UIColor.lightGray
             }
             else {
-                cell.percentageChangeView.backgroundColor = redColour
+                cell.percentageChangeView?.backgroundColor = redColour
             }
         }
         
@@ -249,7 +249,7 @@ class PortfolioTableViewController: UITableViewController {
                     let firstElement = portfolioEntries[index][0] as? String
                     let secondElement = portfolioEntries[index][1] as? Double
                     let thirdElement = portfolioEntries[index][2] as? String
-
+                    
                     if let type = firstElement, let amountOfBitcoin =  secondElement, let dateOfPurchase = dateFormatter.date(from: thirdElement as! String) {
                         PortfolioEntryModel(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
                     }
@@ -274,7 +274,7 @@ class PortfolioTableViewController: UITableViewController {
         savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
     }
     
-    
+    // append portfolio entry to userdefaults stored portfolios, else create new data entry
     func savePortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date) {
         let dateString = dateFormatter.string(from: dateOfPurchase)
 
@@ -377,9 +377,10 @@ extension PortfolioTableViewController: PortfolioEntryDelegate {
             parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         }
         else if portfolioEntry.type == "sell" {
-            // change portfolio entry profit/loss based on total invested rn
-            let pChange = portfolioEntry.currentValue / (parentController.totalInvested * portfolioEntry.amountOfBitcoin) * 100
-            portfolioEntry.percentageChange = Double(round(100*pChange)/100)
+//            // change portfolio entry profit/loss based on total invested rn
+//            let pChange = portfolioEntry.currentValue / (parentController.totalInvested * portfolioEntry.amountOfBitcoin) * 100
+//            let pChange = portfolioEntry.currentValue /
+//            portfolioEntry.percentageChange = Double(round(100*pChange)/100)
             parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         }
         portfolioEntries.append(portfolioEntry)

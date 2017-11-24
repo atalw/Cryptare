@@ -132,11 +132,13 @@ class PortfolioViewController: UIViewController {
     func addSellTotalPortfolioValues(amountOfBitcoin: Double, cost: Double, currentValue: Double) {
         currentPortfolioValue = currentPortfolioValue - currentValue
         totalAmountOfBitcoin = totalAmountOfBitcoin - amountOfBitcoin
+        totalInvested = totalInvested - cost
         setTotalPortfolioValues()
     }
     
     func subtractSellTotalPortfolioValues(amountOfBitcoin: Double, cost: Double, currentValue: Double) {
         currentPortfolioValue = currentPortfolioValue + currentValue
+        totalInvested = totalInvested + cost
         totalAmountOfBitcoin = totalAmountOfBitcoin + amountOfBitcoin
         setTotalPortfolioValues()
     }
@@ -144,8 +146,9 @@ class PortfolioViewController: UIViewController {
     func setTotalPortfolioValues() {
         currentPortfolioValueLabel.text = numberFormatter.string(from: NSNumber(value: currentPortfolioValue))
         totalInvestedLabel.text = numberFormatter.string(from: NSNumber(value: totalInvested))
+        let absTotalInvested = abs(totalInvested)
         let change = currentPortfolioValue - totalInvested
-        let percentageChange = (change / totalInvested) * 100
+        let percentageChange = (change / absTotalInvested) * 100
         var roundedPercentage  = Double(round(100*percentageChange)/100)
         if roundedPercentage.isNaN {
             roundedPercentage = 0
