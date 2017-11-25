@@ -437,7 +437,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="kzR-ht-HJm">
-                                <rect key="frame" x="16" y="36" width="343" height="659"/>
+                                <rect key="frame" x="16" y="36" width="343" height="615"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H2s-rF-3g7" customClass="GradientView" customModule="CryptareLite" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="108"/>
@@ -515,7 +515,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="LHc-x4-UpS">
-                                        <rect key="frame" x="0.0" y="124" width="343" height="535"/>
+                                        <rect key="frame" x="0.0" y="124" width="343" height="491"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OrU-0O-eAI">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
@@ -572,10 +572,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Xk-hO-zVD" customClass="GradientView" customModule="CryptareLite" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="66" width="343" height="373"/>
+                                                <rect key="frame" x="0.0" y="66" width="343" height="425"/>
                                                 <subviews>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="55" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tcj-5y-m2I">
-                                                        <rect key="frame" x="0.0" y="16" width="343" height="341"/>
+                                                        <rect key="frame" x="0.0" y="16" width="343" height="393"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <prototypes>
                                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="HYa-p2-dx4" customClass="MarketTableViewCell" customModule="CryptareLite" customModuleProvider="target">
@@ -646,8 +646,8 @@
                                                     <constraint firstAttribute="trailing" secondItem="tcj-5y-m2I" secondAttribute="trailing" id="tpj-N5-x8Z"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYp-o1-SPw">
-                                                <rect key="frame" x="0.0" y="455" width="343" height="80"/>
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYp-o1-SPw">
+                                                <rect key="frame" x="0.0" y="491" width="343" height="80"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBZ-1D-DOK">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
@@ -696,7 +696,7 @@
                         <constraints>
                             <constraint firstItem="kzR-ht-HJm" firstAttribute="top" secondItem="Zgb-Te-M5L" secondAttribute="top" constant="16" id="2xU-pt-5ky"/>
                             <constraint firstItem="Zgb-Te-M5L" firstAttribute="trailing" secondItem="kzR-ht-HJm" secondAttribute="trailing" constant="16" id="6f3-Sr-GRV"/>
-                            <constraint firstItem="Zgb-Te-M5L" firstAttribute="bottom" secondItem="kzR-ht-HJm" secondAttribute="bottom" constant="-28" id="PJZ-gX-A5V"/>
+                            <constraint firstItem="Zgb-Te-M5L" firstAttribute="bottom" secondItem="kzR-ht-HJm" secondAttribute="bottom" constant="16" id="PJZ-gX-A5V"/>
                             <constraint firstItem="kzR-ht-HJm" firstAttribute="leading" secondItem="Zgb-Te-M5L" secondAttribute="leading" constant="16" id="WGS-1e-t4Q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Zgb-Te-M5L"/>
@@ -821,7 +821,7 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9wy-Yl-XEn">
-                                        <rect key="frame" x="0.0" y="38" width="375" height="529"/>
+                                        <rect key="frame" x="0.0" y="38" width="375" height="609"/>
                                         <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="separatorColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="sectionIndexColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -842,7 +842,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wde-U2-43T">
-                                                            <rect key="frame" x="281" y="24.5" width="77" height="16"/>
+                                                            <rect key="frame" x="281" y="24.5" width="84" height="16"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -869,8 +869,8 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgF-dM-xrh">
-                                        <rect key="frame" x="0.0" y="567" width="375" height="80"/>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgF-dM-xrh">
+                                        <rect key="frame" x="0.0" y="647" width="375" height="80"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZO9-2t-byZ">
                                                 <rect key="frame" x="16" y="16" width="343" height="48"/>
