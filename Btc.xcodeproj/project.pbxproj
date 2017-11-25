@@ -37,7 +37,19 @@
 		864362571F66F9E000883792 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362561F66F9DF00883792 /* DashboardViewController.swift */; };
 		864362591F67ADF100883792 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864362581F67ADF100883792 /* MainViewController.swift */; };
 		8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8643625A1F67D7DE00883792 /* GraphViewController.swift */; };
+		86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */; };
+		86492AAB1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */; };
+		86492AAD1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */; };
+		86492AAE1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */; };
+		86492AB01FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */; };
+		86492AB11FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */; };
 		864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
+		8650C5721FC051270078FD02 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5711FC051270078FD02 /* PortfolioViewController.swift */; };
+		8650C5731FC051270078FD02 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5711FC051270078FD02 /* PortfolioViewController.swift */; };
+		8650C5751FC073DF0078FD02 /* SortDropDownViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */; };
+		8650C5761FC073DF0078FD02 /* SortDropDownViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */; };
+		8650C5791FC07C460078FD02 /* SortDropDownViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5781FC07C460078FD02 /* SortDropDownViews.swift */; };
+		8650C57A1FC07C460078FD02 /* SortDropDownViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5781FC07C460078FD02 /* SortDropDownViews.swift */; };
 		8661F5D11FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
 		8661F5D21FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
 		868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
@@ -76,6 +88,8 @@
 		86AC1F291F913DB00079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F281F913DA70079F013 /* GoogleService-Info.plist */; };
 		86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */; };
 		86AFB1001FACBCF000AB6DFC /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
+		86B0D7F01FC57126002CE499 /* SellPortfolioBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B0D7EF1FC57126002CE499 /* SellPortfolioBulletinPage.swift */; };
+		86B0D7F11FC57126002CE499 /* SellPortfolioBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B0D7EF1FC57126002CE499 /* SellPortfolioBulletinPage.swift */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
 		86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
@@ -83,6 +97,14 @@
 		86BD6F9C1F85236100C4B0CA /* MarketsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */; };
 		86BD6F9E1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */; };
 		86BD6F9F1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */; };
+		86E1381E1FBB152300C5D3ED /* BulletinDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E1381D1FBB152300C5D3ED /* BulletinDataSource.swift */; };
+		86E1381F1FBB152300C5D3ED /* BulletinDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E1381D1FBB152300C5D3ED /* BulletinDataSource.swift */; };
+		86E1382B1FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E138231FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift */; };
+		86E1382C1FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E138231FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift */; };
+		86E1382D1FBB155D00C5D3ED /* TextFieldBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E138241FBB155D00C5D3ED /* TextFieldBulletinPage.swift */; };
+		86E1382E1FBB155D00C5D3ED /* TextFieldBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E138241FBB155D00C5D3ED /* TextFieldBulletinPage.swift */; };
+		86E138391FBB214D00C5D3ED /* FeedbackGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E138381FBB214D00C5D3ED /* FeedbackGenerators.swift */; };
+		86E1383A1FBB214D00C5D3ED /* FeedbackGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E138381FBB214D00C5D3ED /* FeedbackGenerators.swift */; };
 		86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
 		86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
 		AF7CED9851FD5955FC0C80B2 /* Pods_BtcUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */; };
@@ -147,7 +169,13 @@
 		864362561F66F9DF00883792 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		864362581F67ADF100883792 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8643625A1F67D7DE00883792 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEntryModel.swift; sourceTree = "<group>"; };
+		86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
+		86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEntryDelegate.swift; sourceTree = "<group>"; };
 		864F53271FAC9F0600BC852F /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
+		8650C5711FC051270078FD02 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
+		8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SortDropDownViews.xib; sourceTree = "<group>"; };
+		8650C5781FC07C460078FD02 /* SortDropDownViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDropDownViews.swift; sourceTree = "<group>"; };
 		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
@@ -160,10 +188,15 @@
 		86AC1F251F9137B60079F013 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		86AC1F281F913DA70079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		86B0D7EF1FC57126002CE499 /* SellPortfolioBulletinPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellPortfolioBulletinPage.swift; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
 		86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIButton.swift; sourceTree = "<group>"; };
+		86E1381D1FBB152300C5D3ED /* BulletinDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinDataSource.swift; sourceTree = "<group>"; };
+		86E138231FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackPageBulletinItem.swift; sourceTree = "<group>"; };
+		86E138241FBB155D00C5D3ED /* TextFieldBulletinPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldBulletinPage.swift; sourceTree = "<group>"; };
+		86E138381FBB214D00C5D3ED /* FeedbackGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackGenerators.swift; sourceTree = "<group>"; };
 		86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNewsTableViewCell.swift; sourceTree = "<group>"; };
 		86E31CCA1F41D77900445B08 /* NewsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
 		86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cryptare.entitlements; sourceTree = "<group>"; };
@@ -289,6 +322,7 @@
 				864362601F6805BD00883792 /* Dashboard */,
 				864362611F6805CA00883792 /* Graph */,
 				8661F5CF1FB5F78E00D6F365 /* Portfolio */,
+				86E1381C1FBB150C00C5D3ED /* Bulletin */,
 				8643625C1F6803B400883792 /* Market */,
 				8643625D1F6803CF00883792 /* News */,
 				869BFA101FB3132100625A64 /* Settings */,
@@ -393,10 +427,24 @@
 			path = Graph;
 			sourceTree = "<group>";
 		};
+		8650C5771FC07BE80078FD02 /* SortDropDown */ = {
+			isa = PBXGroup;
+			children = (
+				8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */,
+				8650C5781FC07C460078FD02 /* SortDropDownViews.swift */,
+			);
+			path = SortDropDown;
+			sourceTree = "<group>";
+		};
 		8661F5CF1FB5F78E00D6F365 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				8650C5771FC07BE80078FD02 /* SortDropDown */,
+				8650C5711FC051270078FD02 /* PortfolioViewController.swift */,
 				8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */,
+				86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */,
+				86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */,
+				86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -407,6 +455,18 @@
 				869BFA111FB3135B00625A64 /* SettingsViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		86E1381C1FBB150C00C5D3ED /* Bulletin */ = {
+			isa = PBXGroup;
+			children = (
+				86E138381FBB214D00C5D3ED /* FeedbackGenerators.swift */,
+				86E138231FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift */,
+				86E138241FBB155D00C5D3ED /* TextFieldBulletinPage.swift */,
+				86E1381D1FBB152300C5D3ED /* BulletinDataSource.swift */,
+				86B0D7EF1FC57126002CE499 /* SellPortfolioBulletinPage.swift */,
+			);
+			path = Bulletin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -566,6 +626,7 @@
 				86AC1F291F913DB00079F013 /* GoogleService-Info.plist in Resources */,
 				8634747B1F08262000E7EB86 /* LaunchScreen.storyboard in Resources */,
 				863474781F08262000E7EB86 /* Assets.xcassets in Resources */,
+				8650C5751FC073DF0078FD02 /* SortDropDownViews.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +652,7 @@
 				86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */,
 				868F1A971F7D301E0093402A /* LaunchScreen.storyboard in Resources */,
 				868F1A981F7D301E0093402A /* Assets.xcassets in Resources */,
+				8650C5761FC073DF0078FD02 /* SortDropDownViews.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,12 +785,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare-CryptareLite/Pods-Cryptare-CryptareLite-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
+				"${BUILT_PRODUCTS_DIR}/BulletinBoard/BulletinBoard.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -736,12 +800,14 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BulletinBoard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -759,12 +825,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Cryptare/Pods-Cryptare-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
+				"${BUILT_PRODUCTS_DIR}/BulletinBoard/BulletinBoard.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -772,12 +840,14 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BulletinBoard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -838,25 +908,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86492AAD1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */,
 				8661F5D11FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
 				86BD6F9E1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */,
 				86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
+				86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
+				86492AB01FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
+				8650C5721FC051270078FD02 /* PortfolioViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
 				86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */,
 				8643625B1F67D7DE00883792 /* GraphViewController.swift in Sources */,
 				863474A11F0BB02800E7EB86 /* MyCollectionViewCell.swift in Sources */,
+				86E138391FBB214D00C5D3ED /* FeedbackGenerators.swift in Sources */,
 				869BFA121FB3135B00625A64 /* SettingsViewController.swift in Sources */,
+				86E1381E1FBB152300C5D3ED /* BulletinDataSource.swift in Sources */,
 				86BD6F9B1F85236100C4B0CA /* MarketsModel.swift in Sources */,
+				8650C5791FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */,
 				8602BAB71F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
+				86B0D7F01FC57126002CE499 /* SellPortfolioBulletinPage.swift in Sources */,
 				86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */,
+				86E1382B1FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift in Sources */,
 				8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */,
+				86E1382D1FBB155D00C5D3ED /* TextFieldBulletinPage.swift in Sources */,
 				864362571F66F9E000883792 /* DashboardViewController.swift in Sources */,
 				86A713871FB5DAAF003DA98C /* Bundle.swift in Sources */,
 				863474A31F0BB11E00E7EB86 /* AppDelegate.swift in Sources */,
@@ -884,25 +964,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86492AAE1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */,
 				8661F5D21FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */,
 				868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */,
 				868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */,
 				86BD6F9F1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */,
 				86401C4D1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
+				86492AAB1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
+				86492AB11FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */,
 				868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */,
+				8650C5731FC051270078FD02 /* PortfolioViewController.swift in Sources */,
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
 				86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */,
 				868F1A831F7D301E0093402A /* GraphViewController.swift in Sources */,
 				86AFB1001FACBCF000AB6DFC /* LeftViewController.swift in Sources */,
+				86E1383A1FBB214D00C5D3ED /* FeedbackGenerators.swift in Sources */,
 				869BFA131FB3135B00625A64 /* SettingsViewController.swift in Sources */,
+				86E1381F1FBB152300C5D3ED /* BulletinDataSource.swift in Sources */,
 				868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */,
+				8650C57A1FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				86BD6F9C1F85236100C4B0CA /* MarketsModel.swift in Sources */,
 				8602BAB81F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
+				86B0D7F11FC57126002CE499 /* SellPortfolioBulletinPage.swift in Sources */,
 				86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */,
+				86E1382C1FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift in Sources */,
 				868F1A851F7D301E0093402A /* BtcPrices.swift in Sources */,
+				86E1382E1FBB155D00C5D3ED /* TextFieldBulletinPage.swift in Sources */,
 				868F1A861F7D301E0093402A /* DashboardViewController.swift in Sources */,
 				86A713881FB5DAAF003DA98C /* Bundle.swift in Sources */,
 				868F1A871F7D301E0093402A /* AppDelegate.swift in Sources */,
