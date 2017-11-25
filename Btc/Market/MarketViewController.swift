@@ -300,7 +300,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 self.zebpayPrice()
                 self.localbitcoinsPrice()
                 self.coinsecurePrice()
-                self.unocoinPrice()
+//                self.unocoinPrice()
                 self.pocketBitsPrice()
                 self.throughbitPrice()
                 self.koinexPrice()
@@ -567,32 +567,30 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func koinexPrice() {
-        #if PRO_VERSION
-            let url = URL(string: "https://koinex.in/api/ticker")
-            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                guard let data = data else {
-                    print("Data is empty")
-                    return
-                }
-                let json = JSON(data: data)
-                if let tBuyPriceString = json["stats"]["BTC"]["highest_bid"].string {
-                    if let tSellPriceString = json["stats"]["BTC"]["lowest_ask"].string {
-                        if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
-                            
-                            self.markets.append(Market(title: "Koinex", siteLink: URL(string: "https://koinex.in/?ref=8271af"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
-                            self.copyMarkets.append((tBuyPrice, tSellPrice))
-
-                        }
+        let url = URL(string: "https://koinex.in/api/ticker")
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            let json = JSON(data: data)
+            if let tBuyPriceString = json["stats"]["BTC"]["highest_bid"].string {
+                if let tSellPriceString = json["stats"]["BTC"]["lowest_ask"].string {
+                    if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
+                        
+                        self.markets.append(Market(title: "Koinex", siteLink: URL(string: "https://koinex.in/?ref=8271af"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
+                        self.copyMarkets.append((tBuyPrice, tSellPrice))
                         
                     }
+                    
                 }
             }
-            task.resume()
-        #endif
+        }
+        task.resume()
     }
 
     
