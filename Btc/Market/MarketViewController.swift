@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Hero
+import Firebase
 
 class MarketViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -49,39 +50,18 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     let buyTitleArray = ["Buy", "Buy ▲", "Buy ▼"]
     let sellTitleArray = ["Sell", "Sell ▲", "Sell ▼"]
     
+    // MARK: Firebase database references
+    
+    var zebpayRef: DatabaseReference!
+    var localbitcoinsRef: DatabaseReference!
+    var coinsecureRef: DatabaseReference!
+    var pocketBitsRef: DatabaseReference!
+    var koinexRef: DatabaseReference!
+    
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
         self.loadData()
         self.tableView.reloadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
-        
-        // Do any additional setup after loading the view, typically from a nib.
-        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
-        if selectedCountry == "india" {
-            self.numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if selectedCountry == "usa" {
-            self.numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if currentReachabilityStatus == .notReachable {
-            let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
-            present(alert, animated: true, completion: nil)
-            print("here")
-        }
-        
-        self.loadData()
     }
     
     override func viewDidLoad() {
@@ -111,7 +91,140 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.addSubview(activityIndicator)
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+        
+        zebpayRef = Database.database().reference().child("zebpay_price")
+        localbitcoinsRef = Database.database().reference().child("localbitcoins_price_\(GlobalValues.currency!)")
+        coinsecureRef = Database.database().reference().child("coinsecure_price")
+        pocketBitsRef = Database.database().reference().child("pocketbits_price")
+        koinexRef = Database.database().reference().child("koinex_price")
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        
+        // Do any additional setup after loading the view, typically from a nib.
+        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
+        if selectedCountry == "india" {
+            self.numberFormatter.locale = Locale.init(identifier: "en_IN")
+        }
+        else if selectedCountry == "usa" {
+            self.numberFormatter.locale = Locale.init(identifier: "en_US")
+        }
+        
+        zebpayRef.observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: AnyObject] {
+                let currentBuyPrice = dict["buyPrice"] as! Double
+                let currentSellPrice = dict["sellPrice"] as! Double
+                
+                if let index = self.markets.index(where: {$0.title == "Zebpay"}) {
+                    self.markets[index].buyPrice = currentBuyPrice
+                    self.markets[index].sellPrice = currentSellPrice
+                    print(currentSellPrice)
+                    print("sell")
+                    // update other array
+                    self.tableView.reloadData()
+                    self.reSort()
+
+                }
+            }
+        })
+        
+        localbitcoinsRef.observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: AnyObject] {
+                let currentBuyPrice = dict["buyPrice"] as! Double
+                let currentSellPrice = dict["sellPrice"] as! Double
+                
+                if let index = self.markets.index(where: {$0.title == "LocalBitcoins"}) {
+                    self.markets[index].buyPrice = currentBuyPrice
+                    self.markets[index].sellPrice = currentSellPrice
+                    print(currentSellPrice)
+                    print("sellLocal")
+                    // update other array
+                    self.tableView.reloadData()
+                    self.reSort()
+
+                }
+            }
+        })
+        
+        coinsecureRef.observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: AnyObject] {
+                let currentBuyPrice = dict["buyPrice"] as! Double
+                let currentSellPrice = dict["sellPrice"] as! Double
+                
+                if let index = self.markets.index(where: {$0.title == "Coinsecure"}) {
+                    self.markets[index].buyPrice = currentBuyPrice
+                    self.markets[index].sellPrice = currentSellPrice
+                    print(currentSellPrice)
+                    print("sellLocal")
+                    // update other array
+                    self.tableView.reloadData()
+                    self.reSort()
+
+                }
+            }
+        })
+        
+        pocketBitsRef.observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: AnyObject] {
+                let currentBuyPrice = dict["buyPrice"] as! Double
+                let currentSellPrice = dict["sellPrice"] as! Double
+                
+                if let index = self.markets.index(where: {$0.title == "PocketBits"}) {
+                    self.markets[index].buyPrice = currentBuyPrice
+                    self.markets[index].sellPrice = currentSellPrice
+                    print(currentSellPrice)
+                    print("sellPocketbits")
+                    // update other array
+                    self.tableView.reloadData()
+                    self.reSort()
+
+                }
+            }
+        })
+        
+        koinexRef.observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: AnyObject] {
+                let currentBuyPrice = dict["buyPrice"] as! Double
+                let currentSellPrice = dict["sellPrice"] as! Double
+                
+                if let index = self.markets.index(where: {$0.title == "Koinex"}) {
+                    self.markets[index].buyPrice = currentBuyPrice
+                    self.markets[index].sellPrice = currentSellPrice
+                    print(currentSellPrice)
+                    print("sellKoines")
+                    // update other array
+                    self.tableView.reloadData()
+                    self.reSort()
+                }
+            }
+        })
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if currentReachabilityStatus == .notReachable {
+            let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
+            present(alert, animated: true, completion: nil)
+            print("here")
+        }
+        
+        self.loadData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        zebpayRef.removeAllObservers()
+        localbitcoinsRef.removeAllObservers()
+        pocketBitsRef.removeAllObservers()
+        coinsecureRef.removeAllObservers()
+        koinexRef.removeAllObservers()
     }
     
     @objc func buySortButtonTapped() {
@@ -209,31 +322,34 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         self.markets.removeAll()
         self.copyMarkets.removeAll()
         self.tableView.reloadData()
-        self.activityIndicator.startAnimating()
+//        self.activityIndicator.startAnimating()
         
         self.currentBtcPrice = GlobalValues.currentBtcPrice
         self.currentBtcPriceString = GlobalValues.currentBtcPriceString
         
         self.btcPriceLabel.text = self.currentBtcPriceString
 
-        self.populatePrices { (success) -> Void in
-            if (success) {
-                #if PRO_VERSION
-                    let when = DispatchTime.now() + 4
-                #endif
-                #if LITE_VERSION
-                    let when = DispatchTime.now() + 2
-                #endif
-                DispatchQueue.main.asyncAfter(deadline: when) {
-                    #if LITE_VERSION
-                        self.newPrices()
-                    #endif
-                    self.activityIndicator.stopAnimating()
-                    // Default to ascending Buy prices
-                    self.defaultSort()
-                }
-            }
-        }
+//        self.populatePrices { (success) -> Void in
+//            if (success) {
+//                #if PRO_VERSION
+//                    let when = DispatchTime.now() + 4
+//                #endif
+//                #if LITE_VERSION
+//                    let when = DispatchTime.now() + 2
+//                #endif
+//                DispatchQueue.main.asyncAfter(deadline: when) {
+//                    #if LITE_VERSION
+//                        self.newPrices()
+//                    #endif
+//                    self.activityIndicator.stopAnimating()
+//                    // Default to ascending Buy prices
+//                    self.defaultSort()
+//                }
+//            }
+//        }
+        
+        self.populateTable()
+        self.defaultSort()
         self.btcAmount.text = "1"
     }
     
@@ -260,6 +376,33 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             else if marketOrder == "descending" {
                 self.sellSortButton.sendActions(for: .touchUpInside)
                 self.sellSortButton.sendActions(for: .touchUpInside)
+            }
+        }
+    }
+    
+    func reSort() {
+        let buySortButtonCounter = self.buySortButtonCounter
+        let sellSortButtonCounter =  self.sellSortButtonCounter
+        
+        self.buySortButtonCounter = 0
+        self.sellSortButtonCounter = 0
+        
+        if buySortButtonCounter == 0 {
+            if sellSortButtonCounter == 1 {
+                self.sellSortButton.sendActions(for: .touchUpInside)
+            }
+            else if sellSortButtonCounter == 2 {
+                self.sellSortButton.sendActions(for: .touchUpInside)
+                self.sellSortButton.sendActions(for: .touchUpInside)
+            }
+        }
+        else if sellSortButtonCounter == 0 {
+            if buySortButtonCounter == 1 {
+                self.buySortButton.sendActions(for: .touchUpInside)
+            }
+            else if buySortButtonCounter == 2 {
+                self.buySortButton.sendActions(for: .touchUpInside)
+                self.buySortButton.sendActions(for: .touchUpInside)
             }
         }
     }
@@ -293,6 +436,44 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: value))
     }
     
+    func populateTable() {
+        #if PRO_VERSION
+            if self.selectedCountry == "india" {
+                self.zebpayPrice()
+                self.localbitcoinsPrice()
+                self.coinsecurePrice()
+                //                self.unocoinPrice()
+                self.pocketBitsPrice()
+                //                self.throughbitPrice()
+                self.koinexPrice()
+            }
+            else if self.selectedCountry == "usa" {
+                self.coinbasePrice()
+                self.krakenPrice()
+                self.poloniexPrice()
+                self.localbitcoinsUSAPrice()
+                self.geminiPrice()
+                self.bitfinexPrice()
+                self.bitstampPrice()
+                self.bittrexPrice()
+            }
+        #endif
+        
+        #if LITE_VERSION
+            if self.selectedCountry == "india" {
+                self.zebpayPrice()
+                self.coinsecurePrice()
+                self.unocoinPrice()
+                self.koinexPrice()
+            }
+            else if self.selectedCountry == "usa" {
+                self.coinbasePrice()
+                self.krakenPrice()
+                self.localbitcoinsUSAPrice()
+            }
+        #endif
+    }
+    
     // populate exchange buy and sell prices
     func populatePrices(completion: (_ success: Bool) -> Void) {
         #if PRO_VERSION
@@ -302,7 +483,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 self.coinsecurePrice()
 //                self.unocoinPrice()
                 self.pocketBitsPrice()
-                self.throughbitPrice()
+//                self.throughbitPrice()
                 self.koinexPrice()
             }
             else if self.selectedCountry == "usa" {
@@ -362,29 +543,31 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     // get zebpay buy and sell prices
     func zebpayPrice() {
-        let url = URL(string: "https://api.zebpay.com/api/v1/ticker?currencyCode=INR")
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            let json = JSON(data: data)
-            if let zebpayBuyPrice = json["buy"].double {
-                if let zebpaySellPrice = json["sell"].double {
-                    
-                    self.markets.append(Market(title: "Zebpay", siteLink: URL(string: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal"), buyPrice: zebpayBuyPrice, sellPrice: zebpaySellPrice))
-                    self.copyMarkets.append((zebpayBuyPrice, zebpaySellPrice))
-                }
-                else {
-                    print(json["buy"].error!)
-                }
-            }
-        }
-        task.resume()
+//        let url = URL(string: "https://api.zebpay.com/api/v1/ticker?currencyCode=INR")
+//        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+//            guard error == nil else {
+//                print(error!)
+//                return
+//            }
+//            guard let data = data else {
+//                print("Data is empty")
+//                return
+//            }
+//            let json = JSON(data: data)
+//            if let zebpayBuyPrice = json["buy"].double {
+//                if let zebpaySellPrice = json["sell"].double {
+//
+//                    self.markets.append(Market(title: "Zebpay", siteLink: URL(string: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal"), buyPrice: zebpayBuyPrice, sellPrice: zebpaySellPrice))
+//                    self.copyMarkets.append((zebpayBuyPrice, zebpaySellPrice))
+//                }
+//                else {
+//                    print(json["buy"].error!)
+//                }
+//            }
+//        }
+//        task.resume()
+        
+         self.markets.append(Market(title: "Zebpay", siteLink: URL(string: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal"), buyPrice: 0, sellPrice: 0))
     }
     
     // get unocoin buy and sell prices
@@ -422,116 +605,123 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     // get localbitcoin buy and sell prices
     func localbitcoinsPrice() {
         
-        #if PRO_VERSION
-            let url = URL(string: "https://localbitcoins.com/buy-bitcoins-online/INR/.json")
-            var tempBuy: Double = 0.0
-            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                guard let data = data else {
-                    print("Data is empty")
-                    return
-                }
-                
-                let json = JSON(data: data)
-                if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
-                    tempBuy = Double(z)!
-                    
-                    self.dataValues.append(tempBuy)
-                    
-                    let sellUrl = URL(string: "https://localbitcoins.com/sell-bitcoins-online/INR/.json")
-                    let sellTask = URLSession.shared.dataTask(with: sellUrl!) { data, response, error in
-                        guard error == nil else {
-                            print(error!)
-                            return
-                        }
-                        guard let data = data else {
-                            print("Data is empty")
-                            return
-                        }
-                        let json = JSON(data: data)
-                        if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
-                            let tempSell = Double(z)!
-                            
-                            self.dataValues.append(tempSell)
-                            
-                            self.markets.append(Market(title: "LocalBitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: tempBuy, sellPrice: tempSell))
-                            
-                            self.copyMarkets.append((tempBuy, tempSell))
-                        }
-                        else {
-                            
-                        }
-                    }
-                    sellTask.resume()
-                }
-            }
-            task.resume()
-        #endif
+//        #if PRO_VERSION
+//            let url = URL(string: "https://localbitcoins.com/buy-bitcoins-online/INR/.json")
+//            var tempBuy: Double = 0.0
+//            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+//                guard error == nil else {
+//                    print(error!)
+//                    return
+//                }
+//                guard let data = data else {
+//                    print("Data is empty")
+//                    return
+//                }
+//
+//                let json = JSON(data: data)
+//                if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
+//                    tempBuy = Double(z)!
+//
+//                    self.dataValues.append(tempBuy)
+//
+//                    let sellUrl = URL(string: "https://localbitcoins.com/sell-bitcoins-online/INR/.json")
+//                    let sellTask = URLSession.shared.dataTask(with: sellUrl!) { data, response, error in
+//                        guard error == nil else {
+//                            print(error!)
+//                            return
+//                        }
+//                        guard let data = data else {
+//                            print("Data is empty")
+//                            return
+//                        }
+//                        let json = JSON(data: data)
+//                        if let z = json["data"]["ad_list"][0]["data"]["temp_price"].string {
+//                            let tempSell = Double(z)!
+//
+//                            self.dataValues.append(tempSell)
+//
+//                            self.markets.append(Market(title: "LocalBitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: tempBuy, sellPrice: tempSell))
+//
+//                            self.copyMarkets.append((tempBuy, tempSell))
+//                        }
+//                        else {
+//
+//                        }
+//                    }
+//                    sellTask.resume()
+//                }
+//            }
+//            task.resume()
+//        #endif
         
         #if LITE_VERSION
             self.markets.append(Market(title: "LocalBitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: -1, sellPrice: -1))
         #endif
+        
+         self.markets.append(Market(title: "LocalBitcoins", siteLink: URL(string: "https://localbitcoins.com/?ch=cynk"), buyPrice: 0, sellPrice: 0))
     }
 
     // get coinsecure buy and sell prices
     func coinsecurePrice() {
-        let url = URL(string: "https://api.coinsecure.in/v1/exchange/ticker")
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            let json = JSON(data: data)
-            if var csBuyPrice = json["message"]["bid"].double {
-                if var csSellPrice = json["message"]["ask"].double {
-                    csBuyPrice = csBuyPrice/100
-                    csSellPrice = csSellPrice/100
-                    
-                    self.markets.append(Market(title: "Coinsecure", siteLink: URL(string: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM"), buyPrice: csBuyPrice, sellPrice: csSellPrice))
-                    self.copyMarkets.append((csBuyPrice, csSellPrice))
+//        let url = URL(string: "https://api.coinsecure.in/v1/exchange/ticker")
+//        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+//            guard error == nil else {
+//                print(error!)
+//                return
+//            }
+//            guard let data = data else {
+//                print("Data is empty")
+//                return
+//            }
+//            let json = JSON(data: data)
+//            if var csBuyPrice = json["message"]["bid"].double {
+//                if var csSellPrice = json["message"]["ask"].double {
+//                    csBuyPrice = csBuyPrice/100
+//                    csSellPrice = csSellPrice/100
+//
+//                    self.markets.append(Market(title: "Coinsecure", siteLink: URL(string: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM"), buyPrice: csBuyPrice, sellPrice: csSellPrice))
+//                    self.copyMarkets.append((csBuyPrice, csSellPrice))
+//
+//                }
+//            }
+//        }
+//        task.resume()
+        
+        self.markets.append(Market(title: "Coinsecure", siteLink: URL(string: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM"), buyPrice: 0, sellPrice: 0))
 
-                }
-            }
-        }
-        task.resume()
     }
     
     // get zebpay buy and sell prices
     func pocketBitsPrice() {
-        #if PRO_VERSION
-            let url = URL(string: "https://www.pocketbits.in/Index/getBalanceRates")
-            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                guard let data = data else {
-                    print("Data is empty")
-                    return
-                }
-                let json = JSON(data: data)
-                if let pocketBitsBuyPrice = json["rates"]["BTC_BuyingRate"].double {
-                    if let pocketBitsSellPrice = json["rates"]["BTC_SellingRate"].double {
-                        
-                        self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: pocketBitsBuyPrice, sellPrice: pocketBitsSellPrice))
-                        self.copyMarkets.append((pocketBitsBuyPrice, pocketBitsSellPrice))
-
-                    }
-                }
-            }
-            task.resume()
-        #endif
+//        #if PRO_VERSION
+//            let url = URL(string: "https://www.pocketbits.in/Index/getBalanceRates")
+//            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+//                guard error == nil else {
+//                    print(error!)
+//                    return
+//                }
+//                guard let data = data else {
+//                    print("Data is empty")
+//                    return
+//                }
+//                let json = JSON(data: data)
+//                if let pocketBitsBuyPrice = json["rates"]["BTC_BuyingRate"].double {
+//                    if let pocketBitsSellPrice = json["rates"]["BTC_SellingRate"].double {
+//
+//                        self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: pocketBitsBuyPrice, sellPrice: pocketBitsSellPrice))
+//                        self.copyMarkets.append((pocketBitsBuyPrice, pocketBitsSellPrice))
+//
+//                    }
+//                }
+//            }
+//            task.resume()
+//        #endif
+//
+//        #if LITE_VERSION
+//            self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: -1, sellPrice: -1))
+//        #endif
         
-        #if LITE_VERSION
-            self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: -1, sellPrice: -1))
-        #endif
+        self.markets.append(Market(title: "PocketBits", siteLink: URL(string: "https://www.pocketbits.in/"), buyPrice: 0, sellPrice: 0))
     }
     
     func throughbitPrice() {
@@ -567,30 +757,32 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func koinexPrice() {
-        let url = URL(string: "https://koinex.in/api/ticker")
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            let json = JSON(data: data)
-            if let tBuyPriceString = json["stats"]["BTC"]["highest_bid"].string {
-                if let tSellPriceString = json["stats"]["BTC"]["lowest_ask"].string {
-                    if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
-                        
-                        self.markets.append(Market(title: "Koinex", siteLink: URL(string: "https://koinex.in/?ref=8271af"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
-                        self.copyMarkets.append((tBuyPrice, tSellPrice))
-                        
-                    }
-                    
-                }
-            }
-        }
-        task.resume()
+//        let url = URL(string: "https://koinex.in/api/ticker")
+//        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+//            guard error == nil else {
+//                print(error!)
+//                return
+//            }
+//            guard let data = data else {
+//                print("Data is empty")
+//                return
+//            }
+//            let json = JSON(data: data)
+//            if let tBuyPriceString = json["stats"]["BTC"]["highest_bid"].string {
+//                if let tSellPriceString = json["stats"]["BTC"]["lowest_ask"].string {
+//                    if let tBuyPrice = Double(tBuyPriceString), let tSellPrice = Double(tSellPriceString) {
+//
+//                        self.markets.append(Market(title: "Koinex", siteLink: URL(string: "https://koinex.in/?ref=8271af"), buyPrice: tBuyPrice, sellPrice: tSellPrice))
+//                        self.copyMarkets.append((tBuyPrice, tSellPrice))
+//
+//                    }
+//
+//                }
+//            }
+//        }
+//        task.resume()
+        
+        self.markets.append(Market(title: "Koinex", siteLink: URL(string: "https://koinex.in/?ref=8271af"), buyPrice: 0, sellPrice: 0))
     }
 
     

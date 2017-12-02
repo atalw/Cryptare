@@ -64,7 +64,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var btcChangeColour : UIColor = UIColor.gray
     var currentBtcPrice: Double! {
         didSet {
-            self.loadChartData()
+//            self.loadChartData()fi
         }
     }
     
@@ -114,8 +114,9 @@ class GraphViewController: UIViewController, ChartViewDelegate {
 
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
-
-        ref = Database.database().reference().child("current_btc_price_INR")
+        
+        let tableTitle = "current_btc_price_\(GlobalValues.currency!)"
+        ref = Database.database().reference().child(tableTitle)
         
     }
     
@@ -367,6 +368,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         var btcPriceData = [String: Double]()
         
         let url = url
+        print(url)
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print(error!)
