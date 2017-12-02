@@ -887,8 +887,8 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                     return
                 }
                 let json = JSON(data: data)
-                if let gBuyPriceString = json["ask"].string {
-                    if let gSellPriceString = json["bid"].string {
+                if let gBuyPriceString = json["bid"].string {
+                    if let gSellPriceString = json["ask"].string {
                         if let buyPrice = Double(gBuyPriceString), let sellPrice = Double(gSellPriceString) {
                             self.markets.append(Market(title: "Bitstamp", siteLink: URL(string: "https://www.bitstamp.net/"), buyPrice: buyPrice, sellPrice: sellPrice))
                             self.copyMarkets.append((buyPrice, sellPrice))

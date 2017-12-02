@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import SwiftyJSON
+import Firebase
 
 public struct GlobalValues {
     static var currency: String!
@@ -38,6 +39,11 @@ public struct ChartSettingsDefault {
 
 class GraphViewController: UIViewController, ChartViewDelegate {
     
+    let greenColour = UIColor.init(hex: "#2ecc71")
+    let redColour = UIColor.init(hex: "#e74c3c")
+    
+    var ref: DatabaseReference!
+    
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
     @IBOutlet weak var lastUpdated: UILabel!
     @IBOutlet weak var btcPriceChangeLabel: UILabel!
@@ -61,6 +67,8 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             self.loadChartData()
         }
     }
+    
+    var btcPriceCollectedData: [Double: Double] = [:]
     @IBOutlet weak var chart: LineChartView!
 
     @IBAction func rangeSegmentedControl(_ sender: Any) {
@@ -77,6 +85,9 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             }
             else if index == 3 { // year
                 self.timeSpan.text = "(1 year)"
+            }
+            else if index == 4 { // year
+                self.timeSpan.text = "1 whatever"
             }
         }
     }
@@ -99,10 +110,51 @@ class GraphViewController: UIViewController, ChartViewDelegate {
 
         self.rangeSegmentControlObject.selectedSegmentIndex = 1
         
+        self.currentBtcPriceLabel.adjustsFontSizeToFitWidth = true
+
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
+
+        ref = Database.database().reference().child("current_btc_price_INR")
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        ref.observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String : AnyObject] {
+                let oldBtcPrice = self.currentBtcPrice ?? 0
+                self.currentBtcPrice = dict["price"] as! Double
+                let unixTime = dict["timestamp"] as! Double
+                print(self.currentBtcPrice)
+                self.btcPriceCollectedData[unixTime] = self.currentBtcPrice
+                var colour: UIColor
+                
+                if self.currentBtcPrice > oldBtcPrice {
+                   colour = self.greenColour
+                }
+                else if self.currentBtcPrice < oldBtcPrice {
+                    colour = self.redColour
+                }
+                else {
+                    colour = UIColor.black
+                }
+                DispatchQueue.main.async {
+                    self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
+                    self.currentBtcPriceLabel.textColor = colour
+                    self.dateFormatter.dateFormat = "h:mm a"
+                    self.lastUpdated.text = self.dateFormatter.string(from: Date())
+                }
+            }
+        })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        ref.removeAllObservers()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -136,6 +188,19 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             let startDateString = dateFormatter.string(from: startDate)
             
             url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
+        }
+        else if timeSpan == 4 {
+            let labels = Array(self.btcPriceCollectedData.keys)
+            var values: [Double] = []
+            for label in labels {
+                values.append(self.btcPriceCollectedData[label]!)
+            }
+            var asd: [String] = []
+            for label in labels {
+                asd.append(String(label))
+            }
+            self.initializeChart(labels: asd, values: values)
+            return
         }
         
         self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
