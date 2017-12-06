@@ -30,27 +30,25 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     #endif
     
     let defaults = UserDefaults.standard
+    let numberFormatter = NumberFormatter()
+
     var selectedCountry: String!
     
     var currentBtcPriceString = "0"
-    
-    var dataValues: [Double] = []
-    var btcPrices = BtcPrices()
-    var markets: [Market] = []
-    var copyMarkets: [(Double, Double)] = []
-    let numberFormatter = NumberFormatter()
-    
-    var textFieldValue = 1.0
-    
     var currentBtcPrice: Double = 0.0
-    
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    
+
+    var textFieldValue = 1.0
+
     var buySortButtonCounter = 0
     var sellSortButtonCounter = 0
     
     let buyTitleArray = ["Buy", "Buy ▲", "Buy ▼"]
     let sellTitleArray = ["Sell", "Sell ▲", "Sell ▼"]
+    
+    var markets: [Market] = []
+    var copyMarkets: [(Double, Double)] = []
+    
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
     // MARK: Firebase database references
     
@@ -60,6 +58,14 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     var pocketBitsRef: DatabaseReference!
     var koinexRef: DatabaseReference!
     
+    var coinbaseRef: DatabaseReference!
+    var krakenRef: DatabaseReference!
+    var poloniexRef: DatabaseReference!
+    var geminiRef: DatabaseReference!
+    var bitfinexRef: DatabaseReference!
+    var bitstampRef: DatabaseReference!
+    var bittrexRef: DatabaseReference!
+
     var databaseReference: DatabaseReference!
     
     @IBAction func refreshButton(_ sender: Any) {
@@ -98,11 +104,23 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
         databaseReference = Database.database().reference()
         
-        zebpayRef = databaseReference.child("zebpay")
-        localbitcoinsRef = databaseReference.child("localbitcoins_BTC_\(GlobalValues.currency!)")
-        coinsecureRef = databaseReference.child("coinsecure")
-        pocketBitsRef = databaseReference.child("pocketbits")
-        koinexRef = databaseReference.child("koinex_BTC_INR")
+        if self.defaults.string(forKey: "selectedCountry") == "india" {
+            zebpayRef = databaseReference.child("zebpay")
+            localbitcoinsRef = databaseReference.child("localbitcoins_BTC_\(GlobalValues.currency!)")
+            coinsecureRef = databaseReference.child("coinsecure")
+            pocketBitsRef = databaseReference.child("pocketbits")
+            koinexRef = databaseReference.child("koinex_BTC_INR")
+        }
+        else if self.defaults.string(forKey: "selectedCountry") == "usa" {
+            coinbaseRef = databaseReference.child("coinbase_BTC_USD")
+            krakenRef = databaseReference.child("kraken_BTC_USD")
+            localbitcoinsRef = databaseReference.child("localbitcoins_BTC_USD")
+//            poloniexRef = databaseReference.child("")
+            geminiRef = databaseReference.child("gemini_BTC_USD")
+            bitfinexRef = databaseReference.child("bitfinex_BTC_USD")
+            bitstampRef = databaseReference.child("bitstamp_BTC_USD")
+//            bittrexRef = databaseReference.child("")
+        }
         
 
     }
@@ -121,38 +139,77 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
         textFieldValue = 1.0
         
-        zebpayRef.observe(.childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: AnyObject] {
-                self.updateFirebaseObservedData(dict: dict, title: "Zebpay")
-            }
-        })
+        if selectedCountry == "india" {
+            zebpayRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Zebpay")
+                }
+            })
+            
+            localbitcoinsRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
+                }
+            })
+            
+            coinsecureRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Coinsecure")
+                }
+            })
+            
+            pocketBitsRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "PocketBits")
+                }
+            })
+            
+            koinexRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Koinex")
+                }
+            })
+        }
         
-        localbitcoinsRef.observe(.childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: AnyObject] {
-                self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
-            }
-        })
+        else if selectedCountry == "usa" {
+            coinbaseRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Coinbase")
+                }
+            })
+            
+            localbitcoinsRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
+                }
+            })
+            
+            krakenRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Kraken")
+                }
+            })
+            geminiRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Gemini")
+                }
+            })
+            bitfinexRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Bitfinex")
+                }
+            })
+            bitstampRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Bitstamp")
+                }
+            })
+        }
         
-        coinsecureRef.observe(.childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: AnyObject] {
-                self.updateFirebaseObservedData(dict: dict, title: "Coinsecure")
-            }
-        })
-        
-        pocketBitsRef.observe(.childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: AnyObject] {
-                self.updateFirebaseObservedData(dict: dict, title: "PocketBits")
-            }
-        })
-        
-        koinexRef.observe(.childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: AnyObject] {
-                self.updateFirebaseObservedData(dict: dict, title: "Koinex")
-            }
-        })
     }
     
     func updateFirebaseObservedData(dict: [String: AnyObject], title: String) {
+        
         let currentBuyPrice = dict["buy_price"] as! Double
         let currentSellPrice = dict["sell_price"] as! Double
         
@@ -184,11 +241,22 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        zebpayRef.removeAllObservers()
-        localbitcoinsRef.removeAllObservers()
-        pocketBitsRef.removeAllObservers()
-        coinsecureRef.removeAllObservers()
-        koinexRef.removeAllObservers()
+        if selectedCountry == "india" {
+            zebpayRef.removeAllObservers()
+            localbitcoinsRef.removeAllObservers()
+            pocketBitsRef.removeAllObservers()
+            coinsecureRef.removeAllObservers()
+            koinexRef.removeAllObservers()
+        }
+        else if selectedCountry == "usa" {
+            coinbaseRef.removeAllObservers()
+            localbitcoinsRef.removeAllObservers()
+            krakenRef.removeAllObservers()
+            geminiRef.removeAllObservers()
+            bitfinexRef.removeAllObservers()
+            bitstampRef.removeAllObservers()
+        }
+        
     }
     
     @objc func buySortButtonTapped() {
@@ -410,7 +478,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
 
             
             // Poloniex
-            addExchangeToTable(title: "Poloniex", url: "https://poloniex.com/")
+//            addExchangeToTable(title: "Poloniex", url: "https://poloniex.com/")
 
             
             // LocalBitcoins
@@ -430,7 +498,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
 
             
             // Bittrex
-            addExchangeToTable(title: "Bittrex", url: "https://bittrex.com/")
+//            addExchangeToTable(title: "Bittrex", url: "https://bittrex.com/")
 
         }
         
