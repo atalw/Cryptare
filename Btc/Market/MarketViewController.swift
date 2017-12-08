@@ -57,6 +57,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     var coinsecureRef: DatabaseReference!
     var pocketBitsRef: DatabaseReference!
     var koinexRef: DatabaseReference!
+    var throughbitRef: DatabaseReference!
     
     var coinbaseRef: DatabaseReference!
     var krakenRef: DatabaseReference!
@@ -110,6 +111,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             coinsecureRef = databaseReference.child("coinsecure")
             pocketBitsRef = databaseReference.child("pocketbits")
             koinexRef = databaseReference.child("koinex_BTC_INR")
+            throughbitRef = databaseReference.child("throughbit_BTC_INR")
         }
         else if self.defaults.string(forKey: "selectedCountry") == "usa" {
             coinbaseRef = databaseReference.child("coinbase_BTC_USD")
@@ -167,6 +169,12 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             koinexRef.observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Koinex")
+                }
+            })
+            
+            throughbitRef.observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Throughbit")
                 }
             })
         }
@@ -247,6 +255,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             pocketBitsRef.removeAllObservers()
             coinsecureRef.removeAllObservers()
             koinexRef.removeAllObservers()
+            throughbitRef.removeAllObservers()
         }
         else if selectedCountry == "usa" {
             coinbaseRef.removeAllObservers()
@@ -465,7 +474,7 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             addExchangeToTable(title: "PocketBits", url: "https://www.pocketbits.in/")
             
             // Throughbit
-//            addExchangeToTable(title: "Throughbit", url: "https://www.throughbit.com/")
+            addExchangeToTable(title: "Throughbit", url: "https://www.throughbit.com/")
             
         }
         else if self.selectedCountry == "usa" {
