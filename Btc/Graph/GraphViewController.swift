@@ -128,7 +128,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 let oldBtcPrice = self.currentBtcPrice ?? 0
                 self.currentBtcPrice = dict["price"] as! Double
                 let unixTime = dict["timestamp"] as! Double
-                print(self.currentBtcPrice)
                 self.btcPriceCollectedData[unixTime] = self.currentBtcPrice
                 var colour: UIColor
                 
@@ -148,7 +147,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                     self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
                     self.currentBtcPriceLabel.textColor = colour
                     self.dateFormatter.dateFormat = "h:mm a"
-                    self.lastUpdated.text = self.dateFormatter.string(from: Date())
+                    self.lastUpdated.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
                 }
             }
         })
