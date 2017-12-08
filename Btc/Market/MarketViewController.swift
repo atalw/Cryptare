@@ -11,7 +11,7 @@ import SwiftyJSON
 import Hero
 import Firebase
 
-class MarketViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MarketViewController: UIViewController {
     
     
     @IBOutlet var btcPriceLabel: UILabel!
@@ -69,11 +69,20 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
 
     var databaseReference: DatabaseReference!
     
+    let greenColour = UIColor.init(hex: "#2ecc71")
+    let redColour = UIColor.init(hex: "#e74c3c")
+    
+    var changedCell = 0
+    var newBuyPriceIsGreater: Bool? = true
+    var newSellPriceIsGreater: Bool? = true
+    
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
         self.loadData()
         self.tableView.reloadData()
     }
+    
+    // MARK: VC Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -216,24 +225,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-    func updateFirebaseObservedData(dict: [String: AnyObject], title: String) {
-        
-        let currentBuyPrice = dict["buy_price"] as! Double
-        let currentSellPrice = dict["sell_price"] as! Double
-        
-        if let index = self.markets.index(where: {$0.title == title}) {
-            self.markets[index].buyPrice = currentBuyPrice * self.textFieldValue
-            self.markets[index].sellPrice = currentSellPrice * self.textFieldValue
-            
-            // update other array
-            self.copyMarkets[index].0 = currentBuyPrice
-            self.copyMarkets[index].1 = currentSellPrice
-            
-            self.tableView.reloadData()
-            self.reSort()
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -267,6 +258,54 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
     }
+    
+    // MARK: Firebase helper functions
+    
+    func updateFirebaseObservedData(dict: [String: AnyObject], title: String) {
+        
+        let currentBuyPrice = dict["buy_price"] as! Double
+        let currentSellPrice = dict["sell_price"] as! Double
+        
+        if let index = self.markets.index(where: {$0.title == title}) {
+            
+            let oldBuyPrice = self.copyMarkets[index].0
+            let oldSellPrice = self.copyMarkets[index].1
+            
+            self.markets[index].buyPrice = currentBuyPrice * self.textFieldValue
+            self.markets[index].sellPrice = currentSellPrice * self.textFieldValue
+            
+            // update other array
+            self.copyMarkets[index].0 = currentBuyPrice
+            self.copyMarkets[index].1 = currentSellPrice
+            
+            if oldBuyPrice < currentBuyPrice {
+                newBuyPriceIsGreater = true
+            }
+            else if oldBuyPrice > currentBuyPrice {
+                newBuyPriceIsGreater = false
+            }
+            else {
+                newBuyPriceIsGreater = nil
+            }
+            
+            if oldSellPrice < currentSellPrice {
+                newSellPriceIsGreater = true
+            }
+            else if oldSellPrice > currentSellPrice {
+                newSellPriceIsGreater = false
+            }
+            else {
+                newSellPriceIsGreater = nil
+            }
+            
+            changedCell = index
+            
+            self.tableView.reloadData()
+            self.reSort()
+        }
+    }
+    
+    // MARK: Table Sort functions
     
     @objc func buySortButtonTapped() {
         buySortButtonCounter = (buySortButtonCounter + 1) % buyTitleArray.count
@@ -315,58 +354,6 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
                 UIApplication.shared.openURL(link)
             }
         }
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.markets.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
-        let market = self.markets[indexPath.row]
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
-        cell!.siteLabel?.setTitle(market.title, for: .normal)
-        cell!.siteLabel.url = market.siteLink
-        cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
-        
-        #if PRO_VERSION
-            if market.buyPrice == -1 {
-                cell!.buyLabel?.text = "Coming"
-                cell!.sellLabel?.text = "Soon"
-            }
-            else {
-                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
-                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
-            }
-        #endif
-        #if LITE_VERSION
-            if market.buyPrice == -1 {
-                cell!.buyLabel?.text = "Upgrade"
-                cell!.sellLabel?.text = "Required"
-            }
-            else {
-                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
-                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
-            }
-            
-        #endif
-        
-        return cell!
-    }
-    
-    func loadData() {
-        self.markets.removeAll()
-        self.copyMarkets.removeAll()
-        self.tableView.reloadData()
-        
-        self.currentBtcPrice = GlobalValues.currentBtcPrice
-        self.currentBtcPriceString = GlobalValues.currentBtcPriceString
-        
-        self.btcPriceLabel.text = self.currentBtcPriceString
-
-        self.populateTable()
-        self.defaultSort()
-        self.btcAmount.text = "1"
     }
     
     func defaultSort() {
@@ -422,6 +409,25 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
             }
         }
     }
+    
+    
+    
+    func loadData() {
+        self.markets.removeAll()
+        self.copyMarkets.removeAll()
+        self.tableView.reloadData()
+        
+        self.currentBtcPrice = GlobalValues.currentBtcPrice
+        self.currentBtcPriceString = GlobalValues.currentBtcPriceString
+        
+        self.btcPriceLabel.text = self.currentBtcPriceString
+
+        self.populateTable()
+        self.defaultSort()
+        self.btcAmount.text = "1"
+    }
+    
+    
     
     //Calls this function when the tap is recognized.
     @objc func dismissKeyboard() {
@@ -519,26 +525,89 @@ class MarketViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     
-    func hexStringToUIColor (hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        
-        if (cString.hasPrefix("#")) {
-            cString.remove(at: cString.startIndex)
-        }
-        
-        if ((cString.characters.count) != 6) {
-            return UIColor.gray
-        }
-        
-        var rgbValue:UInt32 = 0
-        Scanner(string: cString).scanHexInt32(&rgbValue)
-        
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
+    func flashBuyPriceLabel(cell: MarketTableViewCell, colour: UIColor) {
+        UILabel.transition(with: (cell.buyLabel)!, duration: 0.1, options: .transitionCrossDissolve, animations: {
+            cell.buyLabel?.textColor = colour
+        }, completion: {finished -> () in
+            if finished {
+                UILabel.transition(with: cell.buyLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                    cell.buyLabel?.textColor = UIColor.black
+                }, completion: nil)
+            }
+        })
+    }
+    
+    func flashSellPriceLabel(cell: MarketTableViewCell, colour: UIColor) {
+        UILabel.transition(with: (cell.sellLabel)!, duration: 0.1, options: .transitionCrossDissolve, animations: {
+            cell.sellLabel?.textColor = colour
+        }, completion: {finished -> () in
+            if finished {
+                UILabel.transition(with: cell.sellLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                    cell.sellLabel?.textColor = UIColor.black
+                }, completion: nil)
+            }
+        })
     }
     
 }
+
+extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.markets.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let market = self.markets[indexPath.row]
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
+        cell!.siteLabel?.setTitle(market.title, for: .normal)
+        cell!.siteLabel.url = market.siteLink
+        cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+        
+        #if PRO_VERSION
+            if market.buyPrice == -1 {
+                cell!.buyLabel?.text = "Coming"
+                cell!.sellLabel?.text = "Soon"
+            }
+            else {
+                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
+                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
+                
+                if (indexPath.row == changedCell) {
+                    
+                    if newBuyPriceIsGreater != nil && newBuyPriceIsGreater! {
+                        flashBuyPriceLabel(cell: cell!, colour: greenColour)
+                    }
+                    else if newBuyPriceIsGreater == false {
+                        flashBuyPriceLabel(cell: cell!, colour: redColour)
+                    }
+                    
+                    if newSellPriceIsGreater != nil && newSellPriceIsGreater! {
+                        flashSellPriceLabel(cell: cell!, colour: greenColour)
+                    }
+                    else if newSellPriceIsGreater == false {
+                        flashSellPriceLabel(cell: cell!, colour: redColour)
+                    }
+                    changedCell = -1
+                }
+               
+            }
+        #endif
+        #if LITE_VERSION
+            if market.buyPrice == -1 {
+                cell!.buyLabel?.text = "Upgrade"
+                cell!.sellLabel?.text = "Required"
+            }
+            else {
+                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
+                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
+            }
+            
+        #endif
+        
+        return cell!
+    }
+
+}
+
