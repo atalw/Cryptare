@@ -52,6 +52,8 @@ class MarketViewController: UIViewController {
     
     // MARK: Firebase database references
     
+    var currentBtcRef: DatabaseReference!
+    
     var zebpayRef: DatabaseReference!
     var localbitcoinsRef: DatabaseReference!
     var coinsecureRef: DatabaseReference!
@@ -72,7 +74,7 @@ class MarketViewController: UIViewController {
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
     
-    var changedCell = 0
+    var changedCell = -1
     var newBuyPriceIsGreater: Bool? = true
     var newSellPriceIsGreater: Bool? = true
     
@@ -148,40 +150,81 @@ class MarketViewController: UIViewController {
             self.numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         
+        // for current bitcoin price
+        let tableTitle = "current_btc_price_\(GlobalValues.currency!)"
+        currentBtcRef = Database.database().reference().child(tableTitle)
+        
+        currentBtcRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String : AnyObject] {
+                let oldBtcPrice = self.currentBtcPrice
+                self.currentBtcPrice = dict["price"] as! Double
+                let unixTime = dict["timestamp"] as! Double
+                var colour: UIColor
+                
+                if self.currentBtcPrice > oldBtcPrice {
+                    colour = self.greenColour
+                }
+                else if self.currentBtcPrice < oldBtcPrice {
+                    colour = self.redColour
+                }
+                else {
+                    colour = UIColor.black
+                }
+                
+                GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
+                GlobalValues.currentBtcPrice = self.currentBtcPrice
+                DispatchQueue.main.async {
+                    self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice * self.textFieldValue))
+                    
+                    UILabel.transition(with: self.btcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
+                        self.btcPriceLabel.textColor = colour
+                    }, completion: { finished in
+                        UILabel.transition(with: self.btcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                            self.btcPriceLabel.textColor = UIColor.black
+                        }, completion: nil)
+                    })
+                    
+//                    self.dateFormatter.dateFormat = "h:mm a"
+//                    self.lastUpdated.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
+                }
+            }
+        })
+        
+        
         textFieldValue = 1.0
         
         if selectedCountry == "india" {
-            zebpayRef.observe(.childAdded, with: {(snapshot) -> Void in
+            zebpayRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Zebpay")
                 }
             })
             
-            localbitcoinsRef.observe(.childAdded, with: {(snapshot) -> Void in
+            localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
                 }
             })
             
-            coinsecureRef.observe(.childAdded, with: {(snapshot) -> Void in
+            coinsecureRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Coinsecure")
                 }
             })
             
-            pocketBitsRef.observe(.childAdded, with: {(snapshot) -> Void in
+            pocketBitsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "PocketBits")
                 }
             })
             
-            koinexRef.observe(.childAdded, with: {(snapshot) -> Void in
+            koinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Koinex")
                 }
             })
             
-            throughbitRef.observe(.childAdded, with: {(snapshot) -> Void in
+            throughbitRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Throughbit")
                 }
@@ -189,34 +232,34 @@ class MarketViewController: UIViewController {
         }
         
         else if selectedCountry == "usa" {
-            coinbaseRef.observe(.childAdded, with: {(snapshot) -> Void in
+            coinbaseRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Coinbase")
                 }
             })
             
-            localbitcoinsRef.observe(.childAdded, with: {(snapshot) -> Void in
+            localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
                 }
             })
             
-            krakenRef.observe(.childAdded, with: {(snapshot) -> Void in
+            krakenRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Kraken")
                 }
             })
-            geminiRef.observe(.childAdded, with: {(snapshot) -> Void in
+            geminiRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Gemini")
                 }
             })
-            bitfinexRef.observe(.childAdded, with: {(snapshot) -> Void in
+            bitfinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Bitfinex")
                 }
             })
-            bitstampRef.observe(.childAdded, with: {(snapshot) -> Void in
+            bitstampRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Bitstamp")
                 }
@@ -240,6 +283,9 @@ class MarketViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        currentBtcRef.removeAllObservers()
+        
         if selectedCountry == "india" {
             zebpayRef.removeAllObservers()
             localbitcoinsRef.removeAllObservers()
@@ -280,9 +326,11 @@ class MarketViewController: UIViewController {
             
             if oldBuyPrice < currentBuyPrice {
                 newBuyPriceIsGreater = true
+                changedCell = index
             }
             else if oldBuyPrice > currentBuyPrice {
                 newBuyPriceIsGreater = false
+                changedCell = index
             }
             else {
                 newBuyPriceIsGreater = nil
@@ -290,15 +338,16 @@ class MarketViewController: UIViewController {
             
             if oldSellPrice < currentSellPrice {
                 newSellPriceIsGreater = true
+                changedCell = index
             }
             else if oldSellPrice > currentSellPrice {
                 newSellPriceIsGreater = false
+                changedCell = index
             }
             else {
                 newSellPriceIsGreater = nil
             }
             
-            changedCell = index
             
             self.tableView.reloadData()
             self.reSort()
@@ -417,10 +466,10 @@ class MarketViewController: UIViewController {
         self.copyMarkets.removeAll()
         self.tableView.reloadData()
         
-        self.currentBtcPrice = GlobalValues.currentBtcPrice
-        self.currentBtcPriceString = GlobalValues.currentBtcPriceString
+//        self.currentBtcPrice = GlobalValues.currentBtcPrice
+//        self.currentBtcPriceString = GlobalValues.currentBtcPriceString
         
-        self.btcPriceLabel.text = self.currentBtcPriceString
+//        self.btcPriceLabel.text = self.currentBtcPriceString
 
         self.populateTable()
         self.defaultSort()
@@ -526,26 +575,22 @@ class MarketViewController: UIViewController {
 
     
     func flashBuyPriceLabel(cell: MarketTableViewCell, colour: UIColor) {
-        UILabel.transition(with: (cell.buyLabel)!, duration: 0.1, options: .transitionCrossDissolve, animations: {
+        UILabel.transition(with: cell.buyLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
             cell.buyLabel?.textColor = colour
-        }, completion: {finished -> () in
-            if finished {
-                UILabel.transition(with: cell.buyLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                    cell.buyLabel?.textColor = UIColor.black
-                }, completion: nil)
-            }
+        }, completion: { finished in
+            UILabel.transition(with: cell.buyLabel, duration: 1.0, options: .transitionCrossDissolve, animations: {
+                cell.buyLabel?.textColor = UIColor.black
+            }, completion: nil)
         })
     }
     
     func flashSellPriceLabel(cell: MarketTableViewCell, colour: UIColor) {
-        UILabel.transition(with: (cell.sellLabel)!, duration: 0.1, options: .transitionCrossDissolve, animations: {
+        UILabel.transition(with: cell.sellLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
             cell.sellLabel?.textColor = colour
-        }, completion: {finished -> () in
-            if finished {
-                UILabel.transition(with: cell.sellLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                    cell.sellLabel?.textColor = UIColor.black
-                }, completion: nil)
-            }
+        }, completion: { finished in
+            UILabel.transition(with: cell.sellLabel, duration: 1.0, options: .transitionCrossDissolve, animations: {
+                cell.sellLabel?.textColor = UIColor.black
+            }, completion: nil)
         })
     }
     
@@ -574,21 +619,26 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
                 cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
                 cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
                 
-                if (indexPath.row == changedCell) {
+                if indexPath.row == changedCell {
+                    print("here")
+                    if newBuyPriceIsGreater != nil {
+                        if newBuyPriceIsGreater! {
+                            flashBuyPriceLabel(cell: cell!, colour: greenColour)
+                        }
+                        else if !newBuyPriceIsGreater! {
+                            flashBuyPriceLabel(cell: cell!, colour: redColour)
+                        }
+                    }
                     
-                    if newBuyPriceIsGreater != nil && newBuyPriceIsGreater! {
-                        flashBuyPriceLabel(cell: cell!, colour: greenColour)
-                    }
-                    else if newBuyPriceIsGreater == false {
-                        flashBuyPriceLabel(cell: cell!, colour: redColour)
+                    if newSellPriceIsGreater != nil {
+                        if newSellPriceIsGreater! {
+                            flashSellPriceLabel(cell: cell!, colour: greenColour)
+                        }
+                        else if !newSellPriceIsGreater! {
+                            flashSellPriceLabel(cell: cell!, colour: redColour)
+                        }
                     }
                     
-                    if newSellPriceIsGreater != nil && newSellPriceIsGreater! {
-                        flashSellPriceLabel(cell: cell!, colour: greenColour)
-                    }
-                    else if newSellPriceIsGreater == false {
-                        flashSellPriceLabel(cell: cell!, colour: redColour)
-                    }
                     changedCell = -1
                 }
                

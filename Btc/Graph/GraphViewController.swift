@@ -127,7 +127,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         self.loadChartData()
         
-        ref.observe(.childAdded, with: {(snapshot) -> Void in
+        ref.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String : AnyObject] {
                 let oldBtcPrice = self.currentBtcPrice ?? 0
                 self.currentBtcPrice = dict["price"] as! Double
@@ -150,21 +150,19 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 DispatchQueue.main.async {
                     self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
 //                    self.currentBtcPriceLabel.textColor = UIColor.white
-                    self.currentBtcPriceView.backgroundColor = colour
+//                    self.currentBtcPriceView.backgroundColor = colour
                     
-                    UIView.animate(withDuration: 1.5, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
-                        self.currentBtcPriceView.backgroundColor = UIColor.white
-                    }, completion: nil)
+//                    UIView.animate(withDuration: 1.5, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+//                        self.currentBtcPriceView.backgroundColor = UIColor.white
+//                    }, completion: nil)
                     
                     
                     UILabel.transition(with: self.currentBtcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
-                        self.currentBtcPriceLabel.textColor = UIColor.white
-                    }, completion: {finished -> () in
-                        if finished {
-                            UILabel.transition(with: self.currentBtcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                                self.currentBtcPriceLabel.textColor = UIColor.black
-                            }, completion: nil)
-                        }
+                        self.currentBtcPriceLabel.textColor = colour
+                    }, completion: { finished in
+                        UILabel.transition(with: self.currentBtcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                            self.currentBtcPriceLabel.textColor = UIColor.black
+                        }, completion: nil)
                     })
 
                     self.dateFormatter.dateFormat = "h:mm a"
