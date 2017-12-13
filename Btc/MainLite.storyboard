@@ -635,6 +635,63 @@
                                                                     <outlet property="siteLabel" destination="ZYg-2l-ljR" id="JD4-Z5-Pfl"/>
                                                                 </connections>
                                                             </tableViewCell>
+                                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liteCell" id="LSf-8D-o1C" customClass="MarketTableViewCell" customModule="CryptareLite" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="83" width="343" height="55"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LSf-8D-o1C" id="WFf-j8-4AO">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="55"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                    <subviews>
+                                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z7h-Sa-mwF">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="55"/>
+                                                                            <subviews>
+                                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="YWR-N6-02S">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="55"/>
+                                                                                    <subviews>
+                                                                                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="748" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="478-mZ-yZA" customClass="CustomUIButton" customModule="CryptareLite" customModuleProvider="target">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="111" height="55"/>
+                                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                                            <state key="normal" title="Button">
+                                                                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                            </state>
+                                                                                        </button>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upgrade" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IO4-jS-vIu">
+                                                                                            <rect key="frame" x="116" y="0.0" width="111" height="55"/>
+                                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                                            <nil key="textColor"/>
+                                                                                            <nil key="highlightedColor"/>
+                                                                                        </label>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Required" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWi-Kh-cxO">
+                                                                                            <rect key="frame" x="232" y="0.0" width="111" height="55"/>
+                                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                                            <nil key="textColor"/>
+                                                                                            <nil key="highlightedColor"/>
+                                                                                        </label>
+                                                                                    </subviews>
+                                                                                </stackView>
+                                                                            </subviews>
+                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="trailing" secondItem="YWR-N6-02S" secondAttribute="trailing" id="HY3-0l-Aq7"/>
+                                                                                <constraint firstItem="YWR-N6-02S" firstAttribute="leading" secondItem="Z7h-Sa-mwF" secondAttribute="leading" id="QhD-T5-hnL"/>
+                                                                                <constraint firstItem="YWR-N6-02S" firstAttribute="top" secondItem="Z7h-Sa-mwF" secondAttribute="top" id="RCR-Kd-G1h"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="YWR-N6-02S" secondAttribute="bottom" id="ny8-AX-fbc"/>
+                                                                            </constraints>
+                                                                        </view>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="Z7h-Sa-mwF" firstAttribute="top" secondItem="WFf-j8-4AO" secondAttribute="top" id="EoZ-ko-ew2"/>
+                                                                        <constraint firstItem="Z7h-Sa-mwF" firstAttribute="leading" secondItem="WFf-j8-4AO" secondAttribute="leading" id="W8m-qa-IMX"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="Z7h-Sa-mwF" secondAttribute="bottom" id="ZQD-Qi-qkL"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="Z7h-Sa-mwF" secondAttribute="trailing" id="eCz-27-iY6"/>
+                                                                    </constraints>
+                                                                </tableViewCellContentView>
+                                                                <connections>
+                                                                    <outlet property="buyLabel" destination="IO4-jS-vIu" id="HJ9-RT-beJ"/>
+                                                                    <outlet property="sellLabel" destination="HWi-Kh-cxO" id="JKg-ag-WQq"/>
+                                                                    <outlet property="siteLabel" destination="478-mZ-yZA" id="ja5-rf-nJC"/>
+                                                                </connections>
+                                                            </tableViewCell>
                                                         </prototypes>
                                                     </tableView>
                                                 </subviews>

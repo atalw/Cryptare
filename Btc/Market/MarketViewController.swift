@@ -46,6 +46,7 @@ class MarketViewController: UIViewController {
     let sellTitleArray = ["Sell", "Sell ▲", "Sell ▼"]
     
     var markets: [Market] = []
+    var liteMarkets : [(String, String)] = []
     var copyMarkets: [(Double, Double)] = []
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -194,15 +195,10 @@ class MarketViewController: UIViewController {
         textFieldValue = 1.0
         
         if selectedCountry == "india" {
+            
             zebpayRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Zebpay")
-                }
-            })
-            
-            localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
                 }
             })
             
@@ -212,26 +208,39 @@ class MarketViewController: UIViewController {
                 }
             })
             
-            pocketBitsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "PocketBits")
-                }
-            })
-            
             koinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Koinex")
                 }
             })
             
-            throughbitRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Throughbit")
-                }
-            })
+            #if PR0_VERSION
+                
+                localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
+                    }
+                })
+                
+                pocketBitsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: "PocketBits")
+                    }
+                })
+                
+                throughbitRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: "Throughbit")
+                    }
+                })
+            #endif
+            
+           
+            
         }
         
         else if selectedCountry == "usa" {
+            
             coinbaseRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
                     self.updateFirebaseObservedData(dict: dict, title: "Coinbase")
@@ -249,21 +258,25 @@ class MarketViewController: UIViewController {
                     self.updateFirebaseObservedData(dict: dict, title: "Kraken")
                 }
             })
-            geminiRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Gemini")
-                }
-            })
-            bitfinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Bitfinex")
-                }
-            })
-            bitstampRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Bitstamp")
-                }
-            })
+            
+            #if PR0_VERSION
+                geminiRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: "Gemini")
+                    }
+                })
+                bitfinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: "Bitfinex")
+                    }
+                })
+                bitstampRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: "Bitstamp")
+                    }
+                })
+            #endif
+            
         }
         
     }
@@ -510,14 +523,9 @@ class MarketViewController: UIViewController {
     
     func populateTable() {
         if self.selectedCountry == "india" {
+            
             // Zebpay
             addExchangeToTable(title: "Zebpay", url: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal")
-            
-            // Unocoin
-//            addExchangeToTable(title: "Unocoin", url: "https://www.unocoin.com/?referrerid=301527")
-            
-            // LocalBitcoins
-            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk")
             
             //Coinsecure
             addExchangeToTable(title: "Coinsecure", url: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM")
@@ -525,45 +533,64 @@ class MarketViewController: UIViewController {
             // Koinex
             addExchangeToTable(title: "Koinex", url: "https://koinex.in/?ref=8271af")
             
-            // PocketBits
-            addExchangeToTable(title: "PocketBits", url: "https://www.pocketbits.in/")
+            #if PRO_VERSION
+                
+                // Unocoin
+                //            addExchangeToTable(title: "Unocoin", url: "https://www.unocoin.com/?referrerid=301527")
+                
+                // LocalBitcoins
+                addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk")
+                
+                // PocketBits
+                addExchangeToTable(title: "PocketBits", url: "https://www.pocketbits.in/")
+                
+                // Throughbit
+                addExchangeToTable(title: "Throughbit", url: "https://www.throughbit.com/")
+            #endif
             
-            // Throughbit
-            addExchangeToTable(title: "Throughbit", url: "https://www.throughbit.com/")
+            #if LITE_VERSION
+                liteMarkets = [("LocalBitcoins", "https://localbitcoins.com/?ch=cynk"), ("PocketBits", "https://www.pocketbits.in/"), ("Throughbit", "https://www.throughbit.com/")]
+            #endif
+            
             
         }
         else if self.selectedCountry == "usa" {
+            
             // Coinbase
             addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b")
-
             
             // Kraken
             addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/")
-
-            
-            // Poloniex
-//            addExchangeToTable(title: "Poloniex", url: "https://poloniex.com/")
-
             
             // LocalBitcoins
             addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk")
-
             
-            // Gemini
-            addExchangeToTable(title: "Gemini", url: "https://gemini.com/")
+            #if PRO_VERSION
+                
+                // Poloniex
+                //            addExchangeToTable(title: "Poloniex", url: "https://poloniex.com/")
+                
+                // Gemini
+                addExchangeToTable(title: "Gemini", url: "https://gemini.com/")
+                
+                
+                // Bitfinex
+                addExchangeToTable(title: "Bitfinex", url: "https://www.bitfinex.com/")
+                
+                
+                // Bitstamp
+                addExchangeToTable(title: "Bitstamp", url: "https://www.bitstamp.net/")
+                
+                
+                // Bittrex
+                //            addExchangeToTable(title: "Bittrex", url: "https://bittrex.com/")
 
+            #endif
             
-            // Bitfinex
-            addExchangeToTable(title: "Bitfinex", url: "https://www.bitfinex.com/")
-
-            
-            // Bitstamp
-            addExchangeToTable(title: "Bitstamp", url: "https://www.bitstamp.net/")
-
-            
-            // Bittrex
-//            addExchangeToTable(title: "Bittrex", url: "https://bittrex.com/")
-
+            #if LITE_VERSION
+                liteMarkets = [("Poloniex", "https://poloniex.com/"), ("Gemini", "https://gemini.com/"), ("Bitfinex", "https://www.bitfinex.com/"), ("Bitstamp", "https://www.bitstamp.net/"), ("Bittrex", "https://bittrex.com/")]
+            #endif
+           
         }
         
     }
@@ -599,10 +626,21 @@ class MarketViewController: UIViewController {
 extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.markets.count
+        return self.markets.count + self.liteMarkets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        #if LITE_VERSION
+            if indexPath.row >= self.markets.count {
+                let liteCell = self.tableView.dequeueReusableCell(withIdentifier: "liteCell") as? MarketTableViewCell!
+                let index = indexPath.row - self.markets.count
+                liteCell!.siteLabel?.setTitle(liteMarkets[index].0, for: .normal)
+                liteCell!.siteLabel.url = URL(string: liteMarkets[index].1)
+                liteCell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+                return liteCell!
+            }
+        #endif
         
         let market = self.markets[indexPath.row]
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
@@ -610,51 +648,33 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
         cell!.siteLabel.url = market.siteLink
         cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
         
-        #if PRO_VERSION
-            if market.buyPrice == -1 {
-                cell!.buyLabel?.text = "Coming"
-                cell!.sellLabel?.text = "Soon"
-            }
-            else {
-                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
-                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
-                
-                if indexPath.row == changedCell {
-                    print("here")
-                    if newBuyPriceIsGreater != nil {
-                        if newBuyPriceIsGreater! {
-                            flashBuyPriceLabel(cell: cell!, colour: greenColour)
-                        }
-                        else if !newBuyPriceIsGreater! {
-                            flashBuyPriceLabel(cell: cell!, colour: redColour)
-                        }
-                    }
-                    
-                    if newSellPriceIsGreater != nil {
-                        if newSellPriceIsGreater! {
-                            flashSellPriceLabel(cell: cell!, colour: greenColour)
-                        }
-                        else if !newSellPriceIsGreater! {
-                            flashSellPriceLabel(cell: cell!, colour: redColour)
-                        }
-                    }
-                    
-                    changedCell = -1
+        cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
+        cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
+        
+        if indexPath.row == changedCell {
+            print("here")
+            if newBuyPriceIsGreater != nil {
+                if newBuyPriceIsGreater! {
+                    flashBuyPriceLabel(cell: cell!, colour: greenColour)
                 }
-               
-            }
-        #endif
-        #if LITE_VERSION
-            if market.buyPrice == -1 {
-                cell!.buyLabel?.text = "Upgrade"
-                cell!.sellLabel?.text = "Required"
-            }
-            else {
-                cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
-                cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
+                else if !newBuyPriceIsGreater! {
+                    flashBuyPriceLabel(cell: cell!, colour: redColour)
+                }
             }
             
-        #endif
+            if newSellPriceIsGreater != nil {
+                if newSellPriceIsGreater! {
+                    flashSellPriceLabel(cell: cell!, colour: greenColour)
+                }
+                else if !newSellPriceIsGreater! {
+                    flashSellPriceLabel(cell: cell!, colour: redColour)
+                }
+            }
+            
+            changedCell = -1
+        }
+        
+       
         
         return cell!
     }
