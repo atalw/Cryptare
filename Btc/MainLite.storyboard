@@ -440,16 +440,16 @@
                                 <rect key="frame" x="16" y="36" width="343" height="615"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H2s-rF-3g7" customClass="GradientView" customModule="CryptareLite" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="108"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="95"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="deH-yA-L5H">
-                                                <rect key="frame" x="0.0" y="10" width="343" height="88"/>
+                                                <rect key="frame" x="0.0" y="10" width="343" height="75"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xje-Xv-526">
-                                                        <rect key="frame" x="21.5" y="0.0" width="300" height="50"/>
+                                                        <rect key="frame" x="21.5" y="0.0" width="300" height="37"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlJ-aD-cKb">
-                                                                <rect key="frame" x="0.0" y="6.5" width="250" height="37"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="300" height="37"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="31"/>
                                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -457,27 +457,13 @@
                                                                     <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="btcPrice"/>
                                                                 </userDefinedRuntimeAttributes>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tb1-vp-XIp">
-                                                                <rect key="frame" x="250" y="0.0" width="50" height="50"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="50" id="816-u1-0hO"/>
-                                                                    <constraint firstAttribute="width" constant="50" id="jc0-hm-4HX"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                <state key="normal" image="icons8-Replay-50">
-                                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                                </state>
-                                                                <connections>
-                                                                    <action selector="refreshButton:" destination="Exj-96-rOz" eventType="touchUpInside" id="0hC-0N-92S"/>
-                                                                </connections>
-                                                            </button>
                                                         </subviews>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="300" id="HlW-ys-ZmK"/>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="aVG-XX-xIb">
-                                                        <rect key="frame" x="121.5" y="55" width="100" height="33"/>
+                                                        <rect key="frame" x="121.5" y="42" width="100" height="33"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Iid-ZZ-Z11">
                                                                 <rect key="frame" x="0.0" y="0.0" width="67.5" height="33"/>
@@ -515,7 +501,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="LHc-x4-UpS">
-                                        <rect key="frame" x="0.0" y="124" width="343" height="491"/>
+                                        <rect key="frame" x="0.0" y="111" width="343" height="504"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OrU-0O-eAI">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
@@ -572,10 +558,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Xk-hO-zVD" customClass="GradientView" customModule="CryptareLite" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="66" width="343" height="425"/>
+                                                <rect key="frame" x="0.0" y="66" width="343" height="438"/>
                                                 <subviews>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="55" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tcj-5y-m2I">
-                                                        <rect key="frame" x="0.0" y="16" width="343" height="393"/>
+                                                        <rect key="frame" x="0.0" y="16" width="343" height="406"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <prototypes>
                                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="HYa-p2-dx4" customClass="MarketTableViewCell" customModule="CryptareLite" customModuleProvider="target">
@@ -704,7 +690,7 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYp-o1-SPw">
-                                                <rect key="frame" x="0.0" y="491" width="343" height="80"/>
+                                                <rect key="frame" x="0.0" y="504" width="343" height="80"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBZ-1D-DOK">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
@@ -1318,14 +1304,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HLl-ND-Jj5"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Dashboard" id="SJw-PW-GFe">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="YQV-WB-JUJ">
-                            <color key="tintColor" red="0.20484405759999999" green="0.28485706449999998" blue="0.36804154519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="refreshButtonAction:" destination="Fy7-yj-8a6" id="CvD-JG-JXf"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Dashboard" id="SJw-PW-GFe"/>
                     <connections>
                         <outlet property="marketsButton" destination="MMe-E3-G3m" id="Zfb-kD-h7O"/>
                         <outlet property="newsButton" destination="z3B-tY-tC2" id="L8l-HS-qSj"/>
@@ -2607,6 +2586,5 @@
     <resources>
         <image name="icons8-Coins Filled-50" width="25" height="25"/>
         <image name="icons8-Coins-50" width="25" height="25"/>
-        <image name="icons8-Replay-50" width="25" height="25"/>
     </resources>
 </document>
