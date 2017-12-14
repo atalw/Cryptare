@@ -214,7 +214,7 @@ class MarketViewController: UIViewController {
                 }
             })
             
-            #if PR0_VERSION
+            #if PRO_VERSION
                 
                 localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                     if let dict = snapshot.value as? [String: AnyObject] {
@@ -234,8 +234,6 @@ class MarketViewController: UIViewController {
                     }
                 })
             #endif
-            
-           
             
         }
         
@@ -259,7 +257,7 @@ class MarketViewController: UIViewController {
                 }
             })
             
-            #if PR0_VERSION
+            #if PRO_VERSION
                 geminiRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                     if let dict = snapshot.value as? [String: AnyObject] {
                         self.updateFirebaseObservedData(dict: dict, title: "Gemini")
