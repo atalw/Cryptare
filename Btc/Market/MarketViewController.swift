@@ -71,6 +71,7 @@ class MarketViewController: UIViewController {
     var bittrexRef: DatabaseReference!
 
     var databaseReference: DatabaseReference!
+    let databaseTitles = ["Zebpay": "zebpay", "LocalBitcoins": "localbitcoins_BTC_\(GlobalValues.currency)", "Coinsecure": "coinsecure", "PocketBits": "pocketbits", "Koinex": "koinex_BTC_INR", "Throughbit": "throughbit_BTC_INR"]
     
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
@@ -78,6 +79,8 @@ class MarketViewController: UIViewController {
     var changedCell = -1
     var newBuyPriceIsGreater: Bool? = true
     var newSellPriceIsGreater: Bool? = true
+    
+    var selectedMarket: String!
     
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
@@ -91,8 +94,8 @@ class MarketViewController: UIViewController {
         super.viewDidLoad()
         
         //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+//        view.addGestureRecognizer(tap)
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
@@ -672,9 +675,21 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             changedCell = -1
         }
         
-       
-        
         return cell!
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let destinationViewController = segue.destination
+        if let marketDetailController = destinationViewController as? MarketDetailViewController {
+            if let index = tableView.indexPathForSelectedRow?.row {
+                if let title = self.markets[index].title {
+                    marketDetailController.market = title
+                    marketDetailController.databaseChildTitle = self.databaseTitles[title]
+                }
+            }
+        }
+        
     }
 
 }
