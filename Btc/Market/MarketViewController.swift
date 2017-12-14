@@ -235,8 +235,6 @@ class MarketViewController: UIViewController {
                 })
             #endif
             
-           
-            
         }
         
         else if selectedCountry == "usa" {
