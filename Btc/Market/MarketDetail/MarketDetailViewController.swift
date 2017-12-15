@@ -18,6 +18,8 @@ class MarketDetailViewController: UIViewController {
     var market: String!
     var databaseChildTitle: String!
     var ref: DatabaseReference!
+    var marketDescription: String!
+    var links: [String] = []
     
     // MARK: IBOutlets\
     
@@ -25,6 +27,7 @@ class MarketDetailViewController: UIViewController {
     @IBOutlet weak var buyPriceLabel: UILabel!
     @IBOutlet weak var sellPriceLabel: UILabel!
     @IBOutlet weak var volumeLabel: UILabel!
+    @IBOutlet weak var marketDescriptionLabel: UILabel!
     
     @IBOutlet weak var chart: LineChartView!
 
@@ -45,6 +48,8 @@ class MarketDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        navigationItem.title = market
         
         let selectedCountry = self.defaults.string(forKey: "selectedCountry")
         self.numberFormatter.numberStyle = NumberFormatter.Style.currency
@@ -89,10 +94,13 @@ class MarketDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.buyPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: currentBuyPrice))
                     self.sellPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: currentSellPrice))
-                    self.volumeLabel.text = "\(currentVolume)"
+                    let formattedVolume = Double(round(10000*currentVolume)/10000)
+                    self.volumeLabel.text = "₿ \(formattedVolume)"
                 }
             }
         })
+        
+        marketDescriptionLabel.text = marketDescription
     }
     
     override func viewDidDisappear(_ animated: Bool) {
