@@ -43,11 +43,15 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     let redColour = UIColor.init(hex: "#e74c3c")
     
     var ref: DatabaseReference!
+    var ltcRef: DatabaseReference!
     
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
     @IBOutlet weak var currentBtcPriceView: UIView!
     @IBOutlet weak var lastUpdated: UILabel!
 
+    @IBOutlet weak var currentLTCPriceLabel: UILabel!
+    @IBOutlet weak var lastUpdateLTCLabel: UILabel!
+    
     @IBOutlet weak var btcPriceChangeLabel: UILabel!
     @IBOutlet weak var timeSpan: UILabel!
     @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
@@ -69,6 +73,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
 //            self.loadChartData()fi
         }
     }
+    var currentLtcPrice: Double! = 0
     
     var btcPriceCollectedData: [Double: Double] = [:]
     @IBOutlet weak var chart: LineChartView!
@@ -117,8 +122,11 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
         
-        let tableTitle = "current_btc_price_\(GlobalValues.currency!)"
+        var tableTitle = "current_BTC_price_\(GlobalValues.currency!)"
         ref = Database.database().reference().child(tableTitle)
+        
+        tableTitle = "current_LTC_price_\(GlobalValues.currency!)"
+        ltcRef = Database.database().reference().child(tableTitle)
         
     }
     
@@ -149,13 +157,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 GlobalValues.currentBtcPrice = self.currentBtcPrice
                 DispatchQueue.main.async {
                     self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
-//                    self.currentBtcPriceLabel.textColor = UIColor.white
-//                    self.currentBtcPriceView.backgroundColor = colour
-                    
-//                    UIView.animate(withDuration: 1.5, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
-//                        self.currentBtcPriceView.backgroundColor = UIColor.white
-//                    }, completion: nil)
-                    
                     
                     UILabel.transition(with: self.currentBtcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
                         self.currentBtcPriceLabel.textColor = colour
@@ -170,11 +171,49 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 }
             }
         })
+        
+//        ltcRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+//            if let dict = snapshot.value as? [String : AnyObject] {
+//                let oldLtcPrice = self.currentLtcPrice ?? 0
+//                self.currentLtcPrice = dict["price"] as! Double
+//                let unixTime = dict["timestamp"] as! Double
+////                self.btcPriceCollectedData[unixTime] = self.currentBtcPrice
+//                var colour: UIColor
+//
+//                if self.currentLtcPrice > oldLtcPrice {
+//                    colour = self.greenColour
+//                }
+//                else if self.currentLtcPrice < oldLtcPrice {
+//                    colour = self.redColour
+//                }
+//                else {
+//                    colour = UIColor.black
+//                }
+//
+////                GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
+////                GlobalValues.currentBtcPrice = self.currentBtcPrice
+//                DispatchQueue.main.async {
+//                    self.currentLTCPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentLtcPrice))
+//
+//                    UILabel.transition(with: self.currentLTCPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
+//                        self.currentLTCPriceLabel.textColor = colour
+//                    }, completion: { finished in
+//                        UILabel.transition(with: self.currentLTCPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+//                            self.currentLTCPriceLabel.textColor = UIColor.black
+//                        }, completion: nil)
+//                    })
+//
+//                    self.dateFormatter.dateFormat = "h:mm a"
+//                    self.lastUpdateLTCLabel.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
+//                }
+//            }
+//        })
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         ref.removeAllObservers()
+        ltcRef.removeAllObservers()
     }
     
     override func didReceiveMemoryWarning() {

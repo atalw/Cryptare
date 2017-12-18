@@ -139,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func setUpFirebaseLite() {
         print("here")
         FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
         print("here2")
         ref = Database.database().reference().child("user_ids_lite")
         
