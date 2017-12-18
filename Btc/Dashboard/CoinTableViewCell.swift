@@ -10,6 +10,13 @@ import UIKit
 
 class CoinTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var coinSymbolImage: UIImageView!
+    @IBOutlet weak var coinSymbolLabel: UILabel!
+    @IBOutlet weak var coinCurrentValueLabel: UILabel!
+    @IBOutlet weak var coinTimestampLabel: UILabel!
+    @IBOutlet weak var coinPercentageChangeLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
