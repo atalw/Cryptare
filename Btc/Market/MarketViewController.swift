@@ -71,6 +71,7 @@ class MarketViewController: UIViewController {
     var bittrexRef: DatabaseReference!
 
     var databaseReference: DatabaseReference!
+    let databaseTitles = ["Zebpay": "zebpay", "LocalBitcoins": "localbitcoins_BTC_\(GlobalValues.currency)", "Coinsecure": "coinsecure", "PocketBits": "pocketbits", "Koinex": "koinex_BTC_INR", "Throughbit": "throughbit_BTC_INR"]
     
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
@@ -78,6 +79,8 @@ class MarketViewController: UIViewController {
     var changedCell = -1
     var newBuyPriceIsGreater: Bool? = true
     var newSellPriceIsGreater: Bool? = true
+    
+    var selectedMarket: String!
     
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentBtcPriceString
@@ -91,8 +94,8 @@ class MarketViewController: UIViewController {
         super.viewDidLoad()
         
         //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+//        view.addGestureRecognizer(tap)
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
@@ -523,13 +526,20 @@ class MarketViewController: UIViewController {
         if self.selectedCountry == "india" {
             
             // Zebpay
-            addExchangeToTable(title: "Zebpay", url: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal")
+            let zebpayDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non congue risus. Proin sagittis erat ut est accumsan, nec lobortis urna dignissim. Praesent ac mauris nisl. Maecenas in magna molestie, consequat erat quis, eleifend orci. Quisque ornare eu ligula eu porttitor. Mauris tempus enim sit amet risus molestie aliquet. Phasellus cursus ex venenatis tellus eleifend, ut pretium ipsum pulvinar. Suspendisse commodo scelerisque vestibulum. Vivamus maximus dignissim purus nec pharetra."
+            let zebpayLinks = ["https://www.zebpay.com/", "https://twitter.com/zebpay", "https://www.facebook.com/zebpay/"]
+            
+            addExchangeToTable(title: "Zebpay", url: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal", description: zebpayDescription, links: zebpayLinks)
             
             //Coinsecure
-            addExchangeToTable(title: "Coinsecure", url: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM")
+            let coinsecureDescription = ""
+            let coinsecureLinks = ["", "", ""]
+            addExchangeToTable(title: "Coinsecure", url: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM", description: coinsecureDescription, links: coinsecureLinks)
             
             // Koinex
-            addExchangeToTable(title: "Koinex", url: "https://koinex.in/?ref=8271af")
+            let koinexDescription = ""
+            let koinexLinks = ["", "", ""]
+            addExchangeToTable(title: "Koinex", url: "https://koinex.in/?ref=8271af", description: koinexDescription, links: koinexLinks)
             
             #if PRO_VERSION
                 
@@ -537,13 +547,19 @@ class MarketViewController: UIViewController {
                 //            addExchangeToTable(title: "Unocoin", url: "https://www.unocoin.com/?referrerid=301527")
                 
                 // LocalBitcoins
-                addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk")
+                let localbitcoinsDescription = ""
+                let localbitcoinsLinks = ["", "", ""]
+                addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
                 
                 // PocketBits
-                addExchangeToTable(title: "PocketBits", url: "https://www.pocketbits.in/")
+                let pocketbitsDescription = ""
+                let pocketbitsLinks = ["", "", ""]
+                addExchangeToTable(title: "PocketBits", url: "https://www.pocketbits.in/", description: pocketbitsDescription, links: pocketbitsLinks)
                 
                 // Throughbit
-                addExchangeToTable(title: "Throughbit", url: "https://www.throughbit.com/")
+                let throughbitDescription = ""
+                let throughbitLinks = ["", "", ""]
+                addExchangeToTable(title: "Throughbit", url: "https://www.throughbit.com/", description: throughbitDescription, links: throughbitLinks)
             #endif
             
             #if LITE_VERSION
@@ -555,13 +571,19 @@ class MarketViewController: UIViewController {
         else if self.selectedCountry == "usa" {
             
             // Coinbase
-            addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b")
+            let coinbaseDescription = ""
+            let coinbaseLinks = ["", "", ""]
+            addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b", description: coinbaseDescription, links: coinbaseLinks)
             
             // Kraken
-            addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/")
+            let krakenDescription = ""
+            let krakenLinks = ["", "", ""]
+            addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/", description: krakenDescription, links: krakenLinks)
             
             // LocalBitcoins
-            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk")
+            let localbitcoinsDescription = ""
+            let localbitcoinsLinks = ["", "", ""]
+            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
             
             #if PRO_VERSION
                 
@@ -569,15 +591,21 @@ class MarketViewController: UIViewController {
                 //            addExchangeToTable(title: "Poloniex", url: "https://poloniex.com/")
                 
                 // Gemini
-                addExchangeToTable(title: "Gemini", url: "https://gemini.com/")
+                let geminiDescription = ""
+                let geminiLinks = ["", "", ""]
+                addExchangeToTable(title: "Gemini", url: "https://gemini.com/", description: geminiDescription, links: geminiLinks)
                 
                 
                 // Bitfinex
-                addExchangeToTable(title: "Bitfinex", url: "https://www.bitfinex.com/")
+                let bitfinexDescription = ""
+                let bitfinexLinks = ["", "", ""]
+                addExchangeToTable(title: "Bitfinex", url: "https://www.bitfinex.com/", description: bitfinexDescription, links: bitfinexLinks)
                 
                 
                 // Bitstamp
-                addExchangeToTable(title: "Bitstamp", url: "https://www.bitstamp.net/")
+                let bitstampDescription = ""
+                let bitstampLinks = ["", "", ""]
+                addExchangeToTable(title: "Bitstamp", url: "https://www.bitstamp.net/", description: bitstampDescription, links: bitstampLinks)
                 
                 
                 // Bittrex
@@ -593,8 +621,8 @@ class MarketViewController: UIViewController {
         
     }
     
-    func addExchangeToTable(title: String, url: String) {
-        self.markets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0))
+    func addExchangeToTable(title: String, url: String, description: String, links: [String]) {
+        self.markets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
         self.copyMarkets.append((0, 0))
     }
 
@@ -672,9 +700,23 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             changedCell = -1
         }
         
-       
-        
         return cell!
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let destinationViewController = segue.destination
+        if let marketDetailController = destinationViewController as? MarketDetailViewController {
+            if let index = tableView.indexPathForSelectedRow?.row {
+                if let title = self.markets[index].title {
+                    marketDetailController.market = title
+                    marketDetailController.databaseChildTitle = self.databaseTitles[title]
+                    marketDetailController.marketDescription = self.markets[index].description
+                    marketDetailController.links = self.markets[index].links
+                }
+            }
+        }
+        
     }
 
 }
