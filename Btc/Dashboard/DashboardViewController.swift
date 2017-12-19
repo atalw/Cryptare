@@ -51,7 +51,7 @@ class DashboardViewController: UIViewController {
         databaseRef = Database.database().reference()
         
         listOfCoins = databaseRef.child("coins")
-        listOfCoins.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+        listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String: AnyObject] {
                 let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
                 for index in 0..<sortedDict.count {
@@ -101,6 +101,7 @@ class DashboardViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         databaseRef.removeAllObservers()
+        listOfCoins.removeAllObservers()
         
         for coinRef in coinRefs {
             coinRef.removeAllObservers()
@@ -184,6 +185,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         cell!.coinRank.adjustsFontSizeToFitWidth = true
         
         cell!.coinSymbolLabel.text = coin
+        cell!.coinSymbolLabel.adjustsFontSizeToFitWidth = true
         
         cell!.coinSymbolImage.image = UIImage(named: coin.lowercased())
         cell!.coinSymbolImage.contentMode = .scaleAspectFit

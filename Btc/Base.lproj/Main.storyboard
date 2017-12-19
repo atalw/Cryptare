@@ -1278,7 +1278,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MH5-PF-20d">
-                                                            <rect key="frame" x="5" y="5" width="300" height="50"/>
+                                                            <rect key="frame" x="0.0" y="5" width="310" height="50"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5a4-5r-5OW">
                                                                     <rect key="frame" x="0.0" y="0.0" width="18" height="50"/>
@@ -1307,16 +1307,16 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" horizontalCompressionResistancePriority="752" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="VTd-bJ-QkY">
-                                                                    <rect key="frame" x="70" y="0.0" width="140" height="50"/>
+                                                                    <rect key="frame" x="70" y="0.0" width="150" height="50"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="753" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6t-x2-fLS">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="140" height="36.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="150" height="36.5"/>
                                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="wal-Nt-ort">
-                                                                            <rect key="frame" x="0.0" y="36.5" width="140" height="13.5"/>
+                                                                            <rect key="frame" x="0.0" y="36.5" width="150" height="13.5"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last updated:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BWL-Q0-gmj">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="75" height="13.5"/>
@@ -1328,7 +1328,7 @@
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4U-E4-Hvi">
-                                                                                    <rect key="frame" x="75" y="0.0" width="65" height="13.5"/>
+                                                                                    <rect key="frame" x="75" y="0.0" width="75" height="13.5"/>
                                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
@@ -1338,7 +1338,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTb-lP-A18">
-                                                                    <rect key="frame" x="220" y="0.0" width="80" height="50"/>
+                                                                    <rect key="frame" x="230" y="0.0" width="80" height="50"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="80" id="WGO-Wq-rie"/>
                                                                     </constraints>
@@ -1354,9 +1354,9 @@
                                                         </stackView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="MH5-PF-20d" secondAttribute="trailing" constant="5" id="6Xb-4o-KCD"/>
+                                                        <constraint firstAttribute="trailing" secondItem="MH5-PF-20d" secondAttribute="trailing" id="6Xb-4o-KCD"/>
                                                         <constraint firstItem="MH5-PF-20d" firstAttribute="top" secondItem="hmE-I5-Bdg" secondAttribute="top" constant="5" id="80Y-4w-Cwv"/>
-                                                        <constraint firstItem="MH5-PF-20d" firstAttribute="leading" secondItem="hmE-I5-Bdg" secondAttribute="leading" constant="5" id="p7C-nY-esB"/>
+                                                        <constraint firstItem="MH5-PF-20d" firstAttribute="leading" secondItem="hmE-I5-Bdg" secondAttribute="leading" id="p7C-nY-esB"/>
                                                         <constraint firstAttribute="bottom" secondItem="MH5-PF-20d" secondAttribute="bottom" constant="5" id="s8j-y4-NSd"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
