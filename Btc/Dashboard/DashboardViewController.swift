@@ -11,42 +11,33 @@ import SwiftyJSON
 import Hero
 import SlideMenuControllerSwift
 import Firebase
+import Alamofire
 
 class DashboardViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
     
-    let coins = ["BTC", "LTC", "ETH", "XRP"]
+    var coins: [String] = []
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
     
     var graphController: GraphViewController! // child view controller
     
-    var currentBtcPrice: Double!
-    var currentLtcPrice: Double!
-    var currentEthPrice: Double!
-    
     var coinData: [String: [String: Any]] = [:]
+    var changedRow = 0
     
     @IBOutlet weak var tableView: UITableView!
     
     var databaseRef: DatabaseReference!
+    var listOfCoins: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
-
+    
     @IBAction func refreshButtonAction(_ sender: Any) {
         graphController.reloadData()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        for coin in coins {
-            coinData[coin] = [:]
-            coinData[coin]!["currentPrice"] = 0.0
-            coinData[coin]!["timestamp"] = 0.0
-            coinData[coin]!["volume24hrs"] = 0.0
-            coinData[coin]!["percentageChange24hrs"] = 0.0
-        }
         
         let currency = GlobalValues.currency!
         
@@ -59,10 +50,16 @@ class DashboardViewController: UIViewController {
         
         databaseRef = Database.database().reference()
         
-        for coin in coins {
-            coinRefs.append(databaseRef.child("current_\(coin)_price_\(currency)"))
-        }
-        
+        listOfCoins = databaseRef.child("coins")
+        listOfCoins.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: AnyObject] {
+                let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
+                for index in 0..<sortedDict.count {
+                    self.coins.append(sortedDict[index].key)
+                }
+                self.setupCoinRefs()
+            }
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,15 +73,7 @@ class DashboardViewController: UIViewController {
         }
 //        graphController.reloadData()
         
-        for coinRef in coinRefs {
-            coinRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String : AnyObject] {
-                    let index = self.coinRefs.index(of: coinRef)
-                    let coin = self.coins[index!]
-                    self.updateCoinDataStructure(coin: coin, dict: dict)
-                }
-            })
-        }
+        
     }
 
     override func viewDidLoad() {
@@ -133,20 +122,52 @@ class DashboardViewController: UIViewController {
     }
     
     func updateCoinDataStructure(coin: String, dict: [String: Any]) {
+        self.coinData[coin]!["rank"] = dict["rank"]
+
+        let currencyData = dict[GlobalValues.currency!] as? [String: Any]
         if self.coinData[coin]!["oldPrice"] == nil {
             self.coinData[coin]!["oldPrice"] = 0.0
         }
         else {
             self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
         }
-        
-        self.coinData[coin]!["currentPrice"] = dict["price"] as! Double
-        self.coinData[coin]!["volume24hrs"] = dict["vol_24hrs_\(GlobalValues.currency)!"]
-        self.coinData[coin]!["percentageChange24hrs"] = dict["percentage_change_24h"] as! Double
-        self.coinData[coin]!["timestamp"] = dict["timestamp"] as! Double
+        self.coinData[coin]!["currentPrice"] = currencyData!["price"] as! Double
+        self.coinData[coin]!["volume24hrs"] = currencyData!["vol_24hrs_currency"]
+        let percentage = currencyData!["change_24hrs_percent"] as! Double
+        let roundedPercentage = Double(round(1000*percentage)/1000)
+        self.coinData[coin]!["percentageChange24hrs"] = roundedPercentage
+        self.coinData[coin]!["timestamp"] = currencyData!["timestamp"] as! Double
         self.tableView.reloadData()
     }
-
+    
+    func setupCoinRefs() {
+        for coin in self.coins {
+            self.coinData[coin] = [:]
+            self.coinData[coin]!["rank"] = 0
+            self.coinData[coin]!["currentPrice"] = 0.0
+            self.coinData[coin]!["timestamp"] = 0.0
+            self.coinData[coin]!["volume24hrs"] = 0.0
+            self.coinData[coin]!["percentageChange24hrs"] = 0.0
+        }
+        
+        for coin in self.coins {
+            self.coinRefs.append(self.databaseRef.child(coin))
+        }
+        
+        for coinRef in self.coinRefs {
+            coinRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String : AnyObject] {
+                    let index = self.coinRefs.index(of: coinRef)
+                    let coin = self.coins[index!]
+                    if coin != "MIOTA" {
+                        self.changedRow = index!
+                        self.updateCoinDataStructure(coin: coin, dict: dict)
+                    }
+                }
+            })
+        }
+    }
+    
 }
 
 extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
@@ -156,11 +177,10 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("here")
-        
         let coin = coins[indexPath.row]
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
         
+        cell!.coinRank.text = "\(self.coinData[coin]!["rank"]!)"
         cell!.coinSymbolLabel.text = coin
         cell!.coinSymbolImage.image = UIImage(named: coin.lowercased())
         cell!.coinSymbolImage.contentMode = .scaleAspectFit
@@ -179,14 +199,18 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             colour = UIColor.black
         }
         cell!.coinCurrentValueLabel.text = self.numberFormatter.string(from: NSNumber(value: currentPrice))
+        if changedRow == indexPath.row {
+            UILabel.transition(with:  cell!.coinCurrentValueLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
+                cell!.coinCurrentValueLabel.textColor = colour
+            }, completion: { finished in
+                UILabel.transition(with:  cell!.coinCurrentValueLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                    cell!.coinCurrentValueLabel.textColor = UIColor.black
+                }, completion: nil)
+            })
+            
+            changedRow = -1
+        }
         
-        UILabel.transition(with:  cell!.coinCurrentValueLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
-             cell!.coinCurrentValueLabel.textColor = colour
-        }, completion: { finished in
-            UILabel.transition(with:  cell!.coinCurrentValueLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                 cell!.coinCurrentValueLabel.textColor = UIColor.black
-            }, completion: nil)
-        })
         
         self.dateFormatter.dateFormat = "h:mm a"
         let timestamp = self.coinData[coin]?["timestamp"] as! Double

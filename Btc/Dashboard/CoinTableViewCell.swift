@@ -10,6 +10,7 @@ import UIKit
 
 class CoinTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var coinRank: UILabel!
     @IBOutlet weak var coinSymbolImage: UIImageView!
     @IBOutlet weak var coinSymbolLabel: UILabel!
     @IBOutlet weak var coinCurrentValueLabel: UILabel!
