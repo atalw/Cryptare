@@ -55,7 +55,9 @@ class DashboardViewController: UIViewController {
             if let dict = snapshot.value as? [String: AnyObject] {
                 let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
                 for index in 0..<sortedDict.count {
-                    self.coins.append(sortedDict[index].key)
+                    if sortedDict[index].key != "MIOTA" {
+                        self.coins.append(sortedDict[index].key)
+                    }
                 }
                 self.setupCoinRefs()
             }
@@ -159,10 +161,8 @@ class DashboardViewController: UIViewController {
                 if let dict = snapshot.value as? [String : AnyObject] {
                     let index = self.coinRefs.index(of: coinRef)
                     let coin = self.coins[index!]
-                    if coin != "MIOTA" {
-                        self.changedRow = index!
-                        self.updateCoinDataStructure(coin: coin, dict: dict)
-                    }
+                    self.changedRow = index!
+                    self.updateCoinDataStructure(coin: coin, dict: dict)
                 }
             })
         }
@@ -181,7 +181,10 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
         
         cell!.coinRank.text = "\(self.coinData[coin]!["rank"]!)"
+        cell!.coinRank.adjustsFontSizeToFitWidth = true
+        
         cell!.coinSymbolLabel.text = coin
+        
         cell!.coinSymbolImage.image = UIImage(named: coin.lowercased())
         cell!.coinSymbolImage.contentMode = .scaleAspectFit
         
