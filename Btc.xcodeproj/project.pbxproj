@@ -325,16 +325,12 @@
 		8634746D1F08262000E7EB86 /* Btc */ = {
 			isa = PBXGroup;
 			children = (
-				86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */,
-				864F53271FAC9F0600BC852F /* LeftViewController.swift */,
-				868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */,
-				864362581F67ADF100883792 /* MainViewController.swift */,
 				863474741F08262000E7EB86 /* Main.storyboard */,
 				868F1AA41F7D3EEB0093402A /* MainLite.storyboard */,
+				864362581F67ADF100883792 /* MainViewController.swift */,
+				865361FF1FEBC29C00D49B05 /* Navigation */,
 				864362601F6805BD00883792 /* Dashboard */,
-				864362611F6805CA00883792 /* Graph */,
 				8661F5CF1FB5F78E00D6F365 /* Portfolio */,
-				86E1381C1FBB150C00C5D3ED /* Bulletin */,
 				8643625C1F6803B400883792 /* Market */,
 				8643625D1F6803CF00883792 /* News */,
 				869BFA101FB3132100625A64 /* Settings */,
@@ -421,6 +417,7 @@
 				86A713861FB5DAAF003DA98C /* Bundle.swift */,
 			);
 			name = "Helper Files";
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		864362601F6805BD00883792 /* Dashboard */ = {
@@ -428,6 +425,7 @@
 			children = (
 				864362561F66F9DF00883792 /* DashboardViewController.swift */,
 				8656E3A91FE7BC6F000EB58E /* CoinTableViewCell.swift */,
+				864362611F6805CA00883792 /* Graph */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -450,9 +448,19 @@
 			path = SortDropDown;
 			sourceTree = "<group>";
 		};
+		865361FF1FEBC29C00D49B05 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */,
+				864F53271FAC9F0600BC852F /* LeftViewController.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		8661F5CF1FB5F78E00D6F365 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				86E1381C1FBB150C00C5D3ED /* Bulletin */,
 				8650C5771FC07BE80078FD02 /* SortDropDown */,
 				8650C5711FC051270078FD02 /* PortfolioViewController.swift */,
 				8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */,
@@ -469,6 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				869BFA111FB3135B00625A64 /* SettingsViewController.swift */,
+				868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
