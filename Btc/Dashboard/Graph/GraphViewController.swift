@@ -19,13 +19,12 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var ref: DatabaseReference!
     var ltcRef: DatabaseReference!
     
+    var databaseTableTitle: String!
+    
     @IBOutlet weak var currentBtcPriceLabel: UILabel!
     @IBOutlet weak var currentBtcPriceView: UIView!
     @IBOutlet weak var lastUpdated: UILabel!
 
-    @IBOutlet weak var currentLTCPriceLabel: UILabel!
-    @IBOutlet weak var lastUpdateLTCLabel: UILabel!
-    
     @IBOutlet weak var btcPriceChangeLabel: UILabel!
     @IBOutlet weak var timeSpan: UILabel!
     @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
@@ -42,12 +41,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var btcPrice = "0"
     var btcPriceChange = "0"
     var btcChangeColour : UIColor = UIColor.gray
-    var currentBtcPrice: Double! {
-        didSet {
-//            self.loadChartData()fi
-        }
-    }
-    var currentLtcPrice: Double! = 0
+    var currentBtcPrice: Double! = 0.0
     
     var btcPriceCollectedData: [Double: Double] = [:]
     @IBOutlet weak var chart: LineChartView!
@@ -96,11 +90,8 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         self.btcPriceChangeLabel.layer.masksToBounds = true
         self.btcPriceChangeLabel.layer.cornerRadius = 8
         
-        var tableTitle = "current_BTC_price_\(GlobalValues.currency!)"
-        ref = Database.database().reference().child(tableTitle)
-        
-        tableTitle = "current_LTC_price_\(GlobalValues.currency!)"
-        ltcRef = Database.database().reference().child(tableTitle)
+        print(databaseTableTitle)
+        ref = Database.database().reference().child(databaseTableTitle)
         
     }
     
@@ -111,9 +102,10 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         ref.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String : AnyObject] {
+                let currencyData = dict[GlobalValues.currency!] as? [String: Any]
                 let oldBtcPrice = self.currentBtcPrice ?? 0
-                self.currentBtcPrice = dict["price"] as! Double
-                let unixTime = dict["timestamp"] as! Double
+                self.currentBtcPrice = currencyData!["price"] as! Double
+                let unixTime = currencyData!["timestamp"] as! Double
                 self.btcPriceCollectedData[unixTime] = self.currentBtcPrice
                 var colour: UIColor
                 
@@ -146,48 +138,15 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             }
         })
         
-//        ltcRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-//            if let dict = snapshot.value as? [String : AnyObject] {
-//                let oldLtcPrice = self.currentLtcPrice ?? 0
-//                self.currentLtcPrice = dict["price"] as! Double
-//                let unixTime = dict["timestamp"] as! Double
-////                self.btcPriceCollectedData[unixTime] = self.currentBtcPrice
-//                var colour: UIColor
-//
-//                if self.currentLtcPrice > oldLtcPrice {
-//                    colour = self.greenColour
-//                }
-//                else if self.currentLtcPrice < oldLtcPrice {
-//                    colour = self.redColour
-//                }
-//                else {
-//                    colour = UIColor.black
-//                }
-//
-////                GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
-////                GlobalValues.currentBtcPrice = self.currentBtcPrice
-//                DispatchQueue.main.async {
-//                    self.currentLTCPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentLtcPrice))
-//
-//                    UILabel.transition(with: self.currentLTCPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
-//                        self.currentLTCPriceLabel.textColor = colour
-//                    }, completion: { finished in
-//                        UILabel.transition(with: self.currentLTCPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-//                            self.currentLTCPriceLabel.textColor = UIColor.black
-//                        }, completion: nil)
-//                    })
-//
-//                    self.dateFormatter.dateFormat = "h:mm a"
-//                    self.lastUpdateLTCLabel.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
-//                }
-//            }
-//        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        ref.removeAllObservers()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        ref.removeAllObservers()
-        ltcRef.removeAllObservers()
     }
     
     override func didReceiveMemoryWarning() {
@@ -259,39 +218,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             self.getChartData(timeSpan: self.rangeSegmentControlObject.selectedSegmentIndex)
         }
     }
-    
-//    // get current actual price of bitcoin
-//    func getCurrentBtcPrice() {
-//        var url: URL!
-//        url = URL(string: "https://api.coindesk.com/v1/bpi/currentprice/\(GlobalValues.currency!).json")
-//
-//        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-//            guard error == nil else {
-//                print(error!)
-//                return
-//            }
-//            guard let data = data else {
-//                print("Data is empty")
-//                return
-//            }
-//            let json = JSON(data: data)
-//            if let price = json["bpi"][GlobalValues.currency]["rate_float"].double {
-//                self.currentBtcPrice = price
-//                DispatchQueue.main.async {
-//                    self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: price))
-//                    self.currentBtcPriceLabel.adjustsFontSizeToFitWidth = true
-//                    self.dateFormatter.dateFormat = "h:mm a"
-//                    self.lastUpdated.text = self.dateFormatter.string(from: Date())
-//                }
-//            }
-//            else {
-//                print(json["bpi"][GlobalValues.currency]["rate_float"].error!)
-//            }
-//            GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
-//            GlobalValues.currentBtcPrice = self.currentBtcPrice
-//        }
-//        task.resume()
-//    }
     
     // order dictionary btc data according to date
     func orderBtcPriceData(startDate: Date, endDate: Date, btcPriceData: [String:Double]) -> ([String], [Double]) {

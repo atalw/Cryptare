@@ -19,7 +19,7 @@ class DashboardViewController: UIViewController {
     let numberFormatter = NumberFormatter()
     
     var coins: [String] = []
-    let greenColour = UIColor.init(hex: "#2ecc71")
+    let greenColour = UIColor.init(hex: "#35CC4B")
     let redColour = UIColor.init(hex: "#e74c3c")
     
     var graphController: GraphViewController! // child view controller
@@ -124,25 +124,6 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func updateCoinDataStructure(coin: String, dict: [String: Any]) {
-        self.coinData[coin]!["rank"] = dict["rank"]
-
-        let currencyData = dict[GlobalValues.currency!] as? [String: Any]
-        if self.coinData[coin]!["oldPrice"] == nil {
-            self.coinData[coin]!["oldPrice"] = 0.0
-        }
-        else {
-            self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
-        }
-        self.coinData[coin]!["currentPrice"] = currencyData!["price"] as! Double
-        self.coinData[coin]!["volume24hrs"] = currencyData!["vol_24hrs_currency"]
-        let percentage = currencyData!["change_24hrs_percent"] as! Double
-        let roundedPercentage = Double(round(1000*percentage)/1000)
-        self.coinData[coin]!["percentageChange24hrs"] = roundedPercentage
-        self.coinData[coin]!["timestamp"] = currencyData!["timestamp"] as! Double
-        self.tableView.reloadData()
-    }
-    
     func setupCoinRefs() {
         for coin in self.coins {
             self.coinData[coin] = [:]
@@ -151,6 +132,7 @@ class DashboardViewController: UIViewController {
             self.coinData[coin]!["timestamp"] = 0.0
             self.coinData[coin]!["volume24hrs"] = 0.0
             self.coinData[coin]!["percentageChange24hrs"] = 0.0
+            self.coinData[coin]!["priceChange24hrs"] = 0.0
         }
         
         for coin in self.coins {
@@ -167,6 +149,26 @@ class DashboardViewController: UIViewController {
                 }
             })
         }
+    }
+    
+    func updateCoinDataStructure(coin: String, dict: [String: Any]) {
+        self.coinData[coin]!["rank"] = dict["rank"]
+
+        let currencyData = dict[GlobalValues.currency!] as? [String: Any]
+        if self.coinData[coin]!["oldPrice"] == nil {
+            self.coinData[coin]!["oldPrice"] = 0.0
+        }
+        else {
+            self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
+        }
+        self.coinData[coin]!["currentPrice"] = currencyData!["price"] as! Double
+        self.coinData[coin]!["volume24hrs"] = currencyData!["vol_24hrs_currency"]
+        let percentage = currencyData!["change_24hrs_percent"] as! Double
+        let roundedPercentage = Double(round(1000*percentage)/1000)
+        self.coinData[coin]!["percentageChange24hrs"] = roundedPercentage
+        self.coinData[coin]!["priceChange24hrs"] = currencyData!["change_24hrs_fiat"] as! Double
+        self.coinData[coin]!["timestamp"] = currencyData!["timestamp"] as! Double
+        self.tableView.reloadData()
     }
     
 }
@@ -226,15 +228,29 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         
         if percentageChange > 0 {
             cell!.coinPercentageChangeLabel.textColor = greenColour
+            colour = greenColour
         }
         else if percentageChange < 0 {
              cell!.coinPercentageChangeLabel.textColor = redColour
+            colour = redColour
         }
         else {
              cell!.coinPercentageChangeLabel.textColor = UIColor.black
+            colour = UIColor.black
         }
         
+        let priceChange = self.coinData[coin]?["priceChange24hrs"] as! Double
+        cell!.coinPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
+        cell!.coinPriceChangeLabel.adjustsFontSizeToFitWidth = true
+        cell!.coinPriceChangeLabel.textColor = colour
+        
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let targetViewController = storyboard?.instantiateViewController(withIdentifier: "graphViewController") as! GraphViewController
+        targetViewController.databaseTableTitle = self.coins[indexPath.row]
+        self.navigationController?.pushViewController(targetViewController, animated: true)
     }
     
 }

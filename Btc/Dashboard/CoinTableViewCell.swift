@@ -16,6 +16,7 @@ class CoinTableViewCell: UITableViewCell {
     @IBOutlet weak var coinCurrentValueLabel: UILabel!
     @IBOutlet weak var coinTimestampLabel: UILabel!
     @IBOutlet weak var coinPercentageChangeLabel: UILabel!
+    @IBOutlet weak var coinPriceChangeLabel: UILabel!
     
     
     override func awakeFromNib() {
