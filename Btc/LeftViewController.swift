@@ -24,7 +24,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     @IBOutlet weak var tableView: UITableView!
     var menus = ["Dashboard", "Portfolio", "Markets", "News", "Settings"]
     var dashboardViewController: UIViewController!
-    var portfolioViewController: UIViewController!
+    var portfolioSummaryViewController: UIViewController!
     var marketViewController: UIViewController!
     var newsViewController: UIViewController!
     var settingsViewController: UIViewController!
@@ -49,8 +49,8 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         let dashboardViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
         self.dashboardViewController = UINavigationController(rootViewController: dashboardViewController)
         
-        let portfolioViewController = storyboard.instantiateViewController(withIdentifier: "PortfolioViewController") as! PortfolioViewController
-        self.portfolioViewController = UINavigationController(rootViewController: portfolioViewController)
+        let portfolioSummaryViewController = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
+        self.portfolioSummaryViewController = UINavigationController(rootViewController: portfolioSummaryViewController)
         
         let marketViewController = storyboard.instantiateViewController(withIdentifier: "MarketViewController") as! MarketViewController
         self.marketViewController = UINavigationController(rootViewController: marketViewController)
@@ -77,7 +77,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         case .dashboard:
             self.slideMenuController()?.changeMainViewController(self.dashboardViewController, close: true)
         case .portfolio:
-            self.slideMenuController()?.changeMainViewController(self.portfolioViewController, close: true)
+            self.slideMenuController()?.changeMainViewController(self.portfolioSummaryViewController, close: true)
         case .markets:
             self.slideMenuController()?.changeMainViewController(self.marketViewController, close: true)
         case .news:

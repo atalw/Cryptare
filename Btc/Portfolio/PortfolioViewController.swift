@@ -67,8 +67,6 @@ class PortfolioViewController: UIViewController {
         
         setTotalPortfolioValues()
 
-        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
