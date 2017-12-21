@@ -115,6 +115,8 @@
 		86FBF1C71FE28B160056A5BA /* MarketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FBF1C51FE28B150056A5BA /* MarketDetailViewController.swift */; };
 		86FC11BA1FEBC6A50094B82F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FC11B91FEBC6A40094B82F /* LaunchScreen.storyboard */; };
 		86FC11BB1FEBC6A50094B82F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FC11B91FEBC6A40094B82F /* LaunchScreen.storyboard */; };
+		86FC11BD1FEBC9C70094B82F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC11BC1FEBC9C60094B82F /* Constants.swift */; };
+		86FC11BE1FEBC9C70094B82F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC11BC1FEBC9C60094B82F /* Constants.swift */; };
 		AF7CED9851FD5955FC0C80B2 /* Pods_BtcUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD6CDB53E71F0A9B9F76713 /* Pods_BtcUITests.framework */; };
 		C19708534AD600CCA4EDE5A8 /* Pods_Cryptare_CryptareLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1945DE35159704AE01952E0D /* Pods_Cryptare_CryptareLite.framework */; };
 /* End PBXBuildFile section */
@@ -212,6 +214,7 @@
 		86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cryptare.entitlements; sourceTree = "<group>"; };
 		86FBF1C51FE28B150056A5BA /* MarketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewController.swift; sourceTree = "<group>"; };
 		86FC11B91FEBC6A40094B82F /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		86FC11BC1FEBC9C60094B82F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		89C3E03A9A5500274E40B35C /* Pods-BtcTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93D9E17B6A5E6D4DE3E9D96F /* Pods-BtcUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcUITests/Pods-BtcUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B865ADC4331AD635123F4BA3 /* Pods-BtcTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtcTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BtcTests/Pods-BtcTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -415,6 +418,7 @@
 				8602BAAD1F83C824003733E8 /* GradientView.swift */,
 				8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */,
 				86A713861FB5DAAF003DA98C /* Bundle.swift */,
+				86FC11BC1FEBC9C60094B82F /* Constants.swift */,
 			);
 			name = "Helper Files";
 			path = Helpers;
@@ -942,6 +946,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86492AAD1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */,
+				86FC11BD1FEBC9C70094B82F /* Constants.swift in Sources */,
 				8661F5D11FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
@@ -1002,6 +1007,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86492AAE1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */,
+				86FC11BE1FEBC9C70094B82F /* Constants.swift in Sources */,
 				8661F5D21FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */,
 				868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */,
 				868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */,
