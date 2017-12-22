@@ -7,11 +7,8 @@
 //
 
 import UIKit
-import SwiftyJSON
-import Hero
 import SlideMenuControllerSwift
 import Firebase
-import Alamofire
 
 class DashboardViewController: UIViewController {
     
@@ -54,6 +51,8 @@ class DashboardViewController: UIViewController {
         listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String: AnyObject] {
                 let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
+                self.coins = []
+                print("lsitofcoins")
                 for index in 0..<sortedDict.count {
                     if sortedDict[index].key != "MIOTA" && sortedDict[index].key != "VET" {
                         self.coins.append(sortedDict[index].key)
@@ -106,8 +105,9 @@ class DashboardViewController: UIViewController {
         for coinRef in coinRefs {
             coinRef.removeAllObservers()
         }
-        
+        coins = []
         coinRefs = []
+        coinData = [:]
     }
 
     // MARK: - Navigation
@@ -125,6 +125,8 @@ class DashboardViewController: UIViewController {
     }
     
     func setupCoinRefs() {
+        let currency = GlobalValues.currency!
+        print(currency)
         for coin in self.coins {
             self.coinData[coin] = [:]
             self.coinData[coin]!["rank"] = 0
@@ -140,7 +142,16 @@ class DashboardViewController: UIViewController {
         }
         
         for coinRef in self.coinRefs {
-            coinRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+            coinRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String : AnyObject] {
+                    let index = self.coinRefs.index(of: coinRef)
+                    let coin = self.coins[index!]
+                    self.changedRow = index!
+                    self.updateCoinDataStructure(coin: coin, dict: dict)
+                }
+            })
+            
+            coinRef.observe(.childChanged, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String : AnyObject] {
                     let index = self.coinRefs.index(of: coinRef)
                     let coin = self.coins[index!]
@@ -152,9 +163,12 @@ class DashboardViewController: UIViewController {
     }
     
     func updateCoinDataStructure(coin: String, dict: [String: Any]) {
-        self.coinData[coin]!["rank"] = dict["rank"]
+        self.coinData[coin]!["rank"] = dict["rank"] as! Int
+//        self.coinData[coin]!["rank"] = self.coins.index(of: coin)
 
+//        print(dict["price"])
         let currencyData = dict[GlobalValues.currency!] as? [String: Any]
+
         if self.coinData[coin]!["oldPrice"] == nil {
             self.coinData[coin]!["oldPrice"] = 0.0
         }

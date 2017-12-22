@@ -34,6 +34,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
+    var currency: String! = ""
     
     var selectedCountry: String!
     let todaysDate = Date()
@@ -44,25 +45,34 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var currentBtcPrice: Double! = 0.0
     
     var btcPriceCollectedData: [Double: Double] = [:]
-    @IBOutlet weak var chart: LineChartView!
+    @IBOutlet weak var chart: CandleStickChartView!
 
     @IBAction func rangeSegmentedControl(_ sender: Any) {
         if let index = (sender as? UISegmentedControl)?.selectedSegmentIndex {
             getChartData(timeSpan: index)
             if index == 0 { // day
-                self.timeSpan.text = "(1 day)"
+                self.timeSpan.text = "(1 hour)"
             }
             else if index == 1 { // week
-                self.timeSpan.text = "(1 week)"
+                self.timeSpan.text = "(3 hours)"
             }
             else if index == 2 { // month
-                self.timeSpan.text = "(1 month)"
+                self.timeSpan.text = "(12 hours)"
             }
             else if index == 3 { // year
-                self.timeSpan.text = "(1 year)"
+                self.timeSpan.text = "(1 day)"
             }
             else if index == 4 { // year
-                self.timeSpan.text = "1 whatever"
+                self.timeSpan.text = "(1 week)"
+            }
+            else if index == 5 { // year
+                self.timeSpan.text = "(1 month)"
+            }
+            else if index == 6 { // year
+                self.timeSpan.text = "(6 months)"
+            }
+            else if index == 7 { // year
+                self.timeSpan.text = "(1 year)"
             }
         }
     }
@@ -83,7 +93,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         }
 //        self.getCurrentBtcPrice()
 
-        self.rangeSegmentControlObject.selectedSegmentIndex = 1
+        self.rangeSegmentControlObject.selectedSegmentIndex = 0
         
         self.currentBtcPriceLabel.adjustsFontSizeToFitWidth = true
 
@@ -97,6 +107,23 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        currency = GlobalValues.currency!
+        
+        self.chart.rightAxis.enabled = false
+        self.chart.leftAxis.enabled = ChartSettings.yAxis
+        self.chart.leftAxis.drawGridLinesEnabled = ChartSettings.yAxisGridLinesEnabled
+        
+        self.chart.xAxis.enabled = ChartSettings.xAxis
+        self.chart.xAxis.drawLabelsEnabled = true
+        self.chart.xAxis.labelPosition = .bottom
+        self.chart.xAxis.drawGridLinesEnabled = ChartSettings.xAxisGridLinesEnabled
+        
+        self.chart.pinchZoomEnabled = true
+        self.chart.legend.enabled = false
+        self.chart.chartDescription?.enabled = false
+        
+        self.chart.autoScaleMinMaxEnabled = true
         
         self.loadChartData()
         
@@ -162,55 +189,94 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         let endDateString = dateFormatter.string(from: endDate)
         var url: URL!
         
-        if timeSpan == 0 {
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&for=yesterday")!
+        if timeSpan == 0 { // 1 hour
+            let urlString = "https://min-api.cryptocompare.com/data/histominute?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=60&aggregrate=30"
+            url = URL(string: urlString)!
         }
-        else if timeSpan == 1 { // week
-            startDate = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: todaysDate)!
-            let startDateString = dateFormatter.string(from: startDate)
-            
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
+        else if timeSpan == 1 { // 6 hours
+            let urlString = "https://min-api.cryptocompare.com/data/histominute?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=180"
+            url = URL(string: urlString)!
         }
-        else if timeSpan == 2 { // month
-            startDate = Calendar.current.date(byAdding: .month, value: -1, to: todaysDate)!
-            let startDateString = dateFormatter.string(from: startDate)
-            
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
+        else if timeSpan == 2 { // 12 hours
+            let urlString = "https://min-api.cryptocompare.com/data/histohour?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=12"
+            url = URL(string: urlString)!
         }
-        else if timeSpan == 3 { // year
-            startDate = Calendar.current.date(byAdding: .year, value: -1, to: todaysDate)!
-            let startDateString = dateFormatter.string(from: startDate)
-            
-            url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(startDateString)&end=\(endDateString)")!
+        else if timeSpan == 3 { // 1 day
+            let urlString = "https://min-api.cryptocompare.com/data/histohour?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=24"
+            url = URL(string: urlString)!
         }
-        else if timeSpan == 4 {
-            let labels = Array(self.btcPriceCollectedData.keys)
-            var values: [Double] = []
-            for label in labels {
-                values.append(self.btcPriceCollectedData[label]!)
-            }
-            var asd: [String] = []
-            for label in labels {
-                asd.append(String(label))
-            }
-            self.initializeChart(labels: asd, values: values)
-            return
+        else if timeSpan == 4 { // 1 week
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=7"
+            url = URL(string: urlString)!
+        }
+        else if timeSpan == 5 { // 1 month
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=30"
+            url = URL(string: urlString)!
+        }
+        else if timeSpan == 6 { // 6 months
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=180"
+            url = URL(string: urlString)!
+        }
+        else if timeSpan == 7 { // 1 year
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=365"
+            url = URL(string: urlString)!
         }
         
-        self.getAllTimeBtcData(url: url, completion: { success, btcPriceData in
-            if (success) {
-                var (labels, values) = self.orderBtcPriceData(startDate: startDate, endDate: endDate, btcPriceData: btcPriceData)
-                if timeSpan == 0 {
-                    values.append(self.currentBtcPrice)
-                    labels.append(endDateString)
-                    self.updatePriceChange(startPrice: values[0], endPrice: values[1])
-                }
-                else {
-                    self.updatePriceChange(startPrice: values[0], endPrice: values[values.count-1])
-                }
-                self.initializeChart(labels: labels, values: values)
+        getHourlyHistorialData(url: url, completion: { success, chartData in
+            if success {
+                let set1 = CandleChartDataSet(values: chartData, label: "Data Set")
+                set1.axisDependency = .left
+                set1.setColor(UIColor(white: 80/255, alpha: 1))
+                set1.drawIconsEnabled = false
+                set1.shadowColor = .lightGray
+                set1.shadowWidth = 1
+                set1.decreasingColor = self.redColour
+                set1.decreasingFilled = true
+                set1.increasingColor = self.greenColour
+                set1.increasingFilled = true
+                set1.neutralColor = .blue
+                
+                set1.drawValuesEnabled = false
+                
+                let data = CandleChartData(dataSet: set1)
+                self.chart.data = data
             }
-        }  )
+        })
+        return
+    }
+    
+    func getHourlyHistorialData(url: URL, completion: @escaping (_ success : Bool, _ chartData: [CandleChartDataEntry]) -> ()) {
+        
+        var chartData: [CandleChartDataEntry] = []
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                print(error!)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            do {
+                let prices = JSON(data: data)["Data"].arrayValue
+                var index = 1
+                for hour in prices {
+                    let time = hour["time"].double
+                    let high = hour["high"].double
+                    let low = hour["low"].double
+                    let open = hour["open"].double
+                    let close = hour["close"].double
+                    chartData.append(CandleChartDataEntry(x: Double(index), shadowH: high!, shadowL: low!, open: open!, close: close!))
+                    index = index + 1
+                }
+                
+                DispatchQueue.main.async {
+                    completion(true, chartData)
+                }
+            }
+        }
+        task.resume()
+        
     }
     
     func loadChartData() {
@@ -320,38 +386,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         chart.data?.notifyDataChanged()
     }
 
-    func getAllTimeBtcData(url: URL, completion: @escaping (_ success : Bool, _ btcPriceData: [String: Double]) -> ()) {
-        var plotData = [Double]()
-        var btcPriceData = [String: Double]()
-        
-        let url = url
-        print(url)
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            do {
-                let prices = JSON(data: data)["bpi"].dictionary
-                for (date, subJson):(String, JSON) in prices! {
-                    // store data in dictionary and then sort data according to date because you should not rely on the order of JSON response
-                    if let price = subJson.double {
-                        plotData.append(price)
-                        btcPriceData[date] = price
-                    }
-                }
-                DispatchQueue.main.async {
-                    completion(true, btcPriceData)
-                }
-            }
-        }
-        task.resume()
-    }
-    
     func updatePriceChange(startPrice: Double, endPrice: Double) {
         let change = endPrice - startPrice
         let percentage = change/startPrice * 100

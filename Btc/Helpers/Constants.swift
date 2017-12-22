@@ -27,9 +27,9 @@ public struct ChartSettings {
 public struct ChartSettingsDefault {
     static let chartMode: String! = "smooth"
     
-    static let xAxis: Bool! = false
-    static let xAxisGridLinesEnabled: Bool! = false
+    static let xAxis: Bool! = true
+    static let xAxisGridLinesEnabled: Bool! = true
     
-    static let yAxis: Bool! = false
-    static let yAxisGridLinesEnabled: Bool! = false
+    static let yAxis: Bool! = true
+    static let yAxisGridLinesEnabled: Bool! = true
 }
