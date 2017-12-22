@@ -39,9 +39,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var selectedCountry: String!
     let todaysDate = Date()
     
-    var btcPrice = "0"
-    var btcPriceChange = "0"
-    var btcChangeColour : UIColor = UIColor.gray
     var currentBtcPrice: Double! = 0.0
     
     var btcPriceCollectedData: [Double: Double] = [:]
@@ -50,30 +47,30 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     @IBAction func rangeSegmentedControl(_ sender: Any) {
         if let index = (sender as? UISegmentedControl)?.selectedSegmentIndex {
             getChartData(timeSpan: index)
-            if index == 0 { // day
-                self.timeSpan.text = "(1 hour)"
-            }
-            else if index == 1 { // week
-                self.timeSpan.text = "(3 hours)"
-            }
-            else if index == 2 { // month
-                self.timeSpan.text = "(12 hours)"
-            }
-            else if index == 3 { // year
-                self.timeSpan.text = "(1 day)"
-            }
-            else if index == 4 { // year
-                self.timeSpan.text = "(1 week)"
-            }
-            else if index == 5 { // year
-                self.timeSpan.text = "(1 month)"
-            }
-            else if index == 6 { // year
-                self.timeSpan.text = "(6 months)"
-            }
-            else if index == 7 { // year
-                self.timeSpan.text = "(1 year)"
-            }
+//            if index == 0 { // day
+//                self.timeSpan.text = "(1 hour)"
+//            }
+//            else if index == 1 { // week
+//                self.timeSpan.text = "(3 hours)"
+//            }
+//            else if index == 2 { // month
+//                self.timeSpan.text = "(12 hours)"
+//            }
+//            else if index == 3 { // year
+//                self.timeSpan.text = "(1 day)"
+//            }
+//            else if index == 4 { // year
+//                self.timeSpan.text = "(1 week)"
+//            }
+//            else if index == 5 { // year
+//                self.timeSpan.text = "(1 month)"
+//            }
+//            else if index == 6 { // year
+//                self.timeSpan.text = "(6 months)"
+//            }
+//            else if index == 7 { // year
+//                self.timeSpan.text = "(1 year)"
+//            }
         }
     }
     
@@ -160,7 +157,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                     })
 
                     self.dateFormatter.dateFormat = "h:mm a"
-                    self.lastUpdated.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
+//                    self.lastUpdated.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
                 }
             }
         })
@@ -182,11 +179,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     }
     
     func getChartData(timeSpan: Int) {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-
-        var startDate: Date = self.todaysDate
-        let endDate: Date = self.todaysDate
-        let endDateString = dateFormatter.string(from: endDate)
         var url: URL!
         
         if timeSpan == 0 { // 1 hour
@@ -386,26 +378,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         chart.data?.notifyDataChanged()
     }
 
-    func updatePriceChange(startPrice: Double, endPrice: Double) {
-        let change = endPrice - startPrice
-        let percentage = change/startPrice * 100
-        let roundedPercentage = Double(round(100*percentage)/100)
-        DispatchQueue.main.async {
-            if roundedPercentage > 0 {
-                self.btcPriceChangeLabel.text = "+\(roundedPercentage)%  "
-                self.btcPriceChangeLabel.backgroundColor = UIColor.init(hex: "#2ecc71")
-            }
-            else if roundedPercentage < 0 {
-                self.btcPriceChangeLabel.text = "\(roundedPercentage)%  "
-                self.btcPriceChangeLabel.backgroundColor = UIColor.init(hex: "#e74c3c")
-            }
-            else if roundedPercentage == 0 {
-                self.btcPriceChangeLabel.text = "\(roundedPercentage)%  "
-                self.btcPriceChangeLabel.backgroundColor = UIColor.init(hex: "#e74c3c")
-            }
-        }
-    }
-    
     func reloadData() {
 //        self.getCurrentBtcPrice()
     }

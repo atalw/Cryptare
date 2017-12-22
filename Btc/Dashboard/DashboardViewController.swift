@@ -48,19 +48,7 @@ class DashboardViewController: UIViewController {
         databaseRef = Database.database().reference()
         
         listOfCoins = databaseRef.child("coins")
-        listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: AnyObject] {
-                let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
-                self.coins = []
-                print("lsitofcoins")
-                for index in 0..<sortedDict.count {
-                    if sortedDict[index].key != "MIOTA" && sortedDict[index].key != "VET" {
-                        self.coins.append(sortedDict[index].key)
-                    }
-                }
-                self.setupCoinRefs()
-            }
-        })
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,7 +62,19 @@ class DashboardViewController: UIViewController {
         }
 //        graphController.reloadData()
         
-        
+        listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: AnyObject] {
+                let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
+                self.coins = []
+                print("lsitofcoins")
+                for index in 0..<sortedDict.count {
+                    if sortedDict[index].key != "MIOTA" && sortedDict[index].key != "VET" {
+                        self.coins.append(sortedDict[index].key)
+                    }
+                }
+                self.setupCoinRefs()
+            }
+        })
     }
 
     override func viewDidLoad() {
