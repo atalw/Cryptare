@@ -153,10 +153,11 @@ class DashboardViewController: UIViewController {
             
             coinRef.observe(.childChanged, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String : AnyObject] {
-                    let index = self.coinRefs.index(of: coinRef)
-                    let coin = self.coins[index!]
-                    self.changedRow = index!
-                    self.updateCoinDataStructure(coin: coin, dict: dict)
+                    if let index = self.coinRefs.index(of: coinRef) {
+                        let coin = self.coins[index]
+                        self.changedRow = index
+                        self.updateCoinDataStructure(coin: coin, dict: dict)
+                    }
                 }
             })
         }

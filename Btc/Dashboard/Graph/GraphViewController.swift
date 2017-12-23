@@ -21,13 +21,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     
     var databaseTableTitle: String!
     
-    @IBOutlet weak var currentBtcPriceLabel: UILabel!
-    @IBOutlet weak var currentBtcPriceView: UIView!
-    @IBOutlet weak var lastUpdated: UILabel!
-
-    @IBOutlet weak var btcPriceChangeLabel: UILabel!
-    @IBOutlet weak var timeSpan: UILabel!
-    @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
     
     var parentControler: DashboardViewController!
     
@@ -39,11 +32,34 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var selectedCountry: String!
     let todaysDate = Date()
     
-    var currentBtcPrice: Double! = 0.0
+    var currentPrice: Double! = 0.0
     
-    var btcPriceCollectedData: [Double: Double] = [:]
-    @IBOutlet weak var chart: CandleStickChartView!
+    var coinData: [String: Any] = [:]
 
+    
+    @IBOutlet weak var rankLabel: UILabel!
+    @IBOutlet weak var coinLogo: UIImageView!
+    @IBOutlet weak var coinSymbolLabel: UILabel!
+    @IBOutlet weak var currentPriceLabel: UILabel!
+    @IBOutlet weak var lastUpdatedLabel: UILabel!
+    @IBOutlet weak var percentageChangeLabel: UILabel!
+    @IBOutlet weak var priceChangeLabel: UILabel!
+    
+    @IBOutlet weak var high24hrsLabel: UILabel!
+    @IBOutlet weak var low24hrsLabel: UILabel!
+    @IBOutlet weak var lastTradedMarketLabel: UILabel!
+    
+    @IBOutlet weak var volume24hrsCoinLabel: UILabel!
+    @IBOutlet weak var volume24hrsFiatLabel: UILabel!
+    @IBOutlet weak var lastTradedVolumeLabel: UILabel!
+    
+    @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
+    
+    @IBOutlet weak var chart: CandleStickChartView!
+    
+    @IBOutlet weak var coinSupplyLabel: UILabel!
+    @IBOutlet weak var marketCapLabel: UILabel!
+    
     @IBAction func rangeSegmentedControl(_ sender: Any) {
         if let index = (sender as? UISegmentedControl)?.selectedSegmentIndex {
             getChartData(timeSpan: index)
@@ -88,16 +104,25 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         else if GlobalValues.currency == "USD" {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
-//        self.getCurrentBtcPrice()
+        
+        coinSymbolLabel.adjustsFontSizeToFitWidth = true
+        currentPriceLabel.adjustsFontSizeToFitWidth = true
+        lastUpdatedLabel.adjustsFontSizeToFitWidth = true
+        percentageChangeLabel.adjustsFontSizeToFitWidth = true
+        priceChangeLabel.adjustsFontSizeToFitWidth = true
+        high24hrsLabel.adjustsFontSizeToFitWidth = true
+        low24hrsLabel.adjustsFontSizeToFitWidth = true
+        lastTradedVolumeLabel.adjustsFontSizeToFitWidth = true
+        volume24hrsCoinLabel.adjustsFontSizeToFitWidth = true
+        volume24hrsFiatLabel.adjustsFontSizeToFitWidth = true
+        lastTradedVolumeLabel.adjustsFontSizeToFitWidth = true
+        coinSupplyLabel.adjustsFontSizeToFitWidth = true
+        marketCapLabel.adjustsFontSizeToFitWidth = true
 
         self.rangeSegmentControlObject.selectedSegmentIndex = 0
         
-        self.currentBtcPriceLabel.adjustsFontSizeToFitWidth = true
-
-        self.btcPriceChangeLabel.layer.masksToBounds = true
-        self.btcPriceChangeLabel.layer.cornerRadius = 8
+        currentPriceLabel.adjustsFontSizeToFitWidth = true
         
-        print(databaseTableTitle)
         ref = Database.database().reference().child(databaseTableTitle)
         
     }
@@ -126,42 +151,20 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         ref.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String : AnyObject] {
-                let currencyData = dict[GlobalValues.currency!] as? [String: Any]
-                let oldBtcPrice = self.currentBtcPrice ?? 0
-                self.currentBtcPrice = currencyData!["price"] as! Double
-                let unixTime = currencyData!["timestamp"] as! Double
-                self.btcPriceCollectedData[unixTime] = self.currentBtcPrice
-                var colour: UIColor
-                
-                if self.currentBtcPrice > oldBtcPrice {
-                   colour = self.greenColour
-                }
-                else if self.currentBtcPrice < oldBtcPrice {
-                    colour = self.redColour
-                }
-                else {
-                    colour = UIColor.black
-                }
-                
-                GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
-                GlobalValues.currentBtcPrice = self.currentBtcPrice
-                DispatchQueue.main.async {
-                    self.currentBtcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
-                    
-                    UILabel.transition(with: self.currentBtcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
-                        self.currentBtcPriceLabel.textColor = colour
-                    }, completion: { finished in
-                        UILabel.transition(with: self.currentBtcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                            self.currentBtcPriceLabel.textColor = UIColor.black
-                        }, completion: nil)
-                    })
-
-                    self.dateFormatter.dateFormat = "h:mm a"
-//                    self.lastUpdated.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
-                }
+                self.updateCoinDataStructure(dict: dict)
             }
         })
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        ref.observe(.childChanged, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String : AnyObject] {
+                self.updateCoinDataStructure(dict: dict)
+            }
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -173,9 +176,69 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         super.viewDidDisappear(animated)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func updateCoinDataStructure(dict: [String: Any]) {
+        self.coinData["rank"] = dict["rank"] as! Int
+        
+        let currencyData = dict[GlobalValues.currency!] as? [String: Any]
+        
+        if self.coinData["oldPrice"] == nil {
+            self.coinData["oldPrice"] = 0.0
+        }
+        else {
+            self.coinData["oldPrice"] = self.coinData["currentPrice"]
+        }
+        self.coinData["currentPrice"] = currencyData!["price"] as! Double
+        
+        self.coinData["volume24hrsFiat"] = currencyData!["vol_24hrs_total"] as! Double
+        let volumeCoin = currencyData!["vol_24hrs_currency"] as! Double
+        self.coinData["volume24hrsCoin"] = Double(round(1000*volumeCoin)/1000)
+
+        self.coinData["high24hrs"] = currencyData!["high_24hrs"] as! Double
+        self.coinData["low24hrs"] = currencyData!["low_24hrs"] as! Double
+        
+        self.coinData["lastTradeMarket"] = currencyData!["last_trade_market"] as! String
+        self.coinData["lastTradeVolume"] = currencyData!["last_trade_volume"] as! Double
+        
+        self.coinData["supply"] = currencyData!["supply"] as! Double
+        self.coinData["marketcap"] = currencyData!["marketcap"] as! Double
+
+        
+        let percentage = currencyData!["change_24hrs_percent"] as! Double
+        let roundedPercentage = Double(round(1000*percentage)/1000)
+        self.coinData["percentageChange24hrs"] = roundedPercentage
+        self.coinData["priceChange24hrs"] = currencyData!["change_24hrs_fiat"] as! Double
+        self.coinData["timestamp"] = currencyData!["timestamp"] as! Double
+        
+        self.updateLabels()
+    }
+    
+    func updateLabels() {
+        
+        DispatchQueue.main.async {
+            self.rankLabel.text = "\(self.coinData["rank"]!)"
+            
+//            self.coinSymbolLabel.text = self.coinData["]
+            self.currentPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["currentPrice"] as! Double))
+            
+            self.dateFormatter.dateFormat = "h:mm a"
+            let timestamp = self.coinData["timestamp"] as! Double
+            self.lastUpdatedLabel.text =  self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
+            
+            self.percentageChangeLabel.text = "\(self.coinData["percentageChange24hrs"] as! Double)"
+            self.priceChangeLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["priceChange24hrs"] as! Double))
+            
+            self.high24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["high24hrs"] as! Double))
+            self.low24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["low24hrs"] as! Double))
+            self.lastTradedMarketLabel.text = self.coinData["lastTradeMarket"] as! String
+            
+            self.volume24hrsCoinLabel.text = "\(self.coinData["volume24hrsCoin"] as! Double)"
+            self.volume24hrsFiatLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["volume24hrsFiat"] as! Double))
+            self.lastTradedVolumeLabel.text = "\(self.coinData["lastTradeVolume"] as! Double)"
+            
+            self.coinSupplyLabel.text = "\(self.coinData["supply"] as! Double)"
+            self.marketCapLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["marketcap"] as! Double))
+
+        }
     }
     
     func getChartData(timeSpan: Int) {
