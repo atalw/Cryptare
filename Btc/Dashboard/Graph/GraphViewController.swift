@@ -165,6 +165,10 @@ class GraphViewController: UIViewController, ChartViewDelegate {
                 self.updateCoinDataStructure(dict: dict)
             }
         })
+        
+        coinSymbolLabel.text = databaseTableTitle
+        coinLogo.image = UIImage(named: databaseTableTitle.lowercased())
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
