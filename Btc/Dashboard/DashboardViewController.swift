@@ -30,9 +30,6 @@ class DashboardViewController: UIViewController {
     var listOfCoins: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
     
-    @IBAction func refreshButtonAction(_ sender: Any) {
-        graphController.reloadData()
-    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

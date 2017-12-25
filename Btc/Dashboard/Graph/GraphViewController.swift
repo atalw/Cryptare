@@ -21,7 +21,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     
     var databaseTableTitle: String!
     
-    
     var parentControler: DashboardViewController!
     
     let defaults = UserDefaults.standard
@@ -35,7 +34,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var currentPrice: Double! = 0.0
     
     var coinData: [String: Any] = [:]
-
     
     @IBOutlet weak var coinNameLabel: UILabel!
     @IBOutlet weak var coinLogo: UIImageView!
@@ -63,30 +61,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     @IBAction func rangeSegmentedControl(_ sender: Any) {
         if let index = (sender as? UISegmentedControl)?.selectedSegmentIndex {
             getChartData(timeSpan: index)
-//            if index == 0 { // day
-//                self.timeSpan.text = "(1 hour)"
-//            }
-//            else if index == 1 { // week
-//                self.timeSpan.text = "(3 hours)"
-//            }
-//            else if index == 2 { // month
-//                self.timeSpan.text = "(12 hours)"
-//            }
-//            else if index == 3 { // year
-//                self.timeSpan.text = "(1 day)"
-//            }
-//            else if index == 4 { // year
-//                self.timeSpan.text = "(1 week)"
-//            }
-//            else if index == 5 { // year
-//                self.timeSpan.text = "(1 month)"
-//            }
-//            else if index == 6 { // year
-//                self.timeSpan.text = "(6 months)"
-//            }
-//            else if index == 7 { // year
-//                self.timeSpan.text = "(1 year)"
-//            }
         }
     }
     
@@ -193,9 +167,9 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         }
         self.coinData["currentPrice"] = currencyData!["price"] as! Double
         
-        self.coinData["volume24hrsFiat"] = currencyData!["vol_24hrs_total"] as! Double
-        let volumeCoin = currencyData!["vol_24hrs_currency"] as! Double
+        let volumeCoin = currencyData!["vol_24hrs_coin"] as! Double
         self.coinData["volume24hrsCoin"] = Double(round(1000*volumeCoin)/1000)
+        self.coinData["volume24hrsFiat"] = currencyData!["vol_24hrs_fiat"] as! Double
 
         self.coinData["high24hrs"] = currencyData!["high_24hrs"] as! Double
         self.coinData["low24hrs"] = currencyData!["low_24hrs"] as! Double
@@ -219,9 +193,24 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     func updateLabels() {
         
         DispatchQueue.main.async {
+            let currentPrice = self.coinData["currentPrice"] as! Double
+            let oldPrice = self.coinData["oldPrice"] as? Double ?? 0.0
+            
+            var colour: UIColor
+            if  currentPrice > oldPrice {
+                colour = self.greenColour
+            }
+            else if currentPrice < oldPrice {
+                colour = self.redColour
+            }
+            else {
+                colour = UIColor.black
+            }
+            
             self.coinNameLabel.text = self.coinData["name"] as! String
             
             self.currentPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["currentPrice"] as! Double))
+            self.flashColourOnLabel(label: self.currentPriceLabel, colour: colour)
             
             self.dateFormatter.dateFormat = "h:mm a"
             let timestamp = self.coinData["timestamp"] as! Double
@@ -229,6 +218,8 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             
             self.percentageChangeLabel.text = "\(self.coinData["percentageChange24hrs"] as! Double)%"
             self.priceChangeLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["priceChange24hrs"] as! Double))
+            self.percentageChangeLabel.textColor = colour
+            self.priceChangeLabel.textColor = colour
             
             self.high24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["high24hrs"] as! Double))
             self.low24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["low24hrs"] as! Double))
@@ -242,6 +233,16 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             self.marketCapLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["marketcap"] as! Double))
 
         }
+    }
+    
+    func flashColourOnLabel(label: UILabel, colour: UIColor) {
+        UILabel.transition(with:  label, duration: 0.1, options: .transitionCrossDissolve, animations: {
+            label.textColor = colour
+        }, completion: { finished in
+            UILabel.transition(with:  label, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                label.textColor = UIColor.black
+            }, completion: nil)
+        })
     }
     
     func getChartData(timeSpan: Int) {
@@ -342,114 +343,4 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             self.getChartData(timeSpan: self.rangeSegmentControlObject.selectedSegmentIndex)
         }
     }
-    
-    // order dictionary btc data according to date
-    func orderBtcPriceData(startDate: Date, endDate: Date, btcPriceData: [String:Double]) -> ([String], [Double]) {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-        if btcPriceData.count == 1 {
-            return ([(btcPriceData.first?.key)!], [(btcPriceData.first?.value)!])
-        }
-        var labels : [String] = []
-        var values : [Double] = []
-        
-        var tempDate = startDate
-        
-        while tempDate <= endDate {
-            let tempDateString = self.dateFormatter.string(from: tempDate)
-            if let price = btcPriceData[tempDateString] {
-                labels.append(tempDateString)
-                values.append(price)
-            }
-            tempDate = Calendar.current.date(byAdding: .day, value: 1, to: tempDate)!
-        }
-        
-        return (labels, values)
-    }
-    
-    func initializeChart(labels: [String], values: [Double]) {
-        
-        var lineChartEntry = [ChartDataEntry]()
-        
-        for i in 0..<values.count {
-            let data = ChartDataEntry(x: Double(i), y: values[i])
-            lineChartEntry.append(data)
-        }
-        
-        let line1 = LineChartDataSet(values: lineChartEntry, label: "Price") //Here we convert lineChartEntry to a LineChartDataSet
-        
-        let lineColor = UIColor.init(hex: "2980B9")
-        line1.colors = [lineColor] //Sets the colour to blue
-//        line1.colors = ChartColorTemplates.liberty()
-        line1.drawCirclesEnabled = false
-        line1.fillAlpha = 1
-        line1.lineWidth = 3
-        if ChartSettings.chartMode == "linear" {
-            line1.mode = .linear
-        }
-        else if ChartSettings.chartMode == "smooth" {
-            line1.mode = .cubicBezier
-        }
-        else if ChartSettings.chartMode == "stepped" {
-            line1.mode = .stepped
-        }
-        
-        let gradientColors = [lineColor.cgColor, UIColor.white.cgColor] as CFArray // Colors of the gradient
-        let colorLocations:[CGFloat] = [1.0, 0] // Positioning of the gradient
-        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations) // Gradient Object
-        line1.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0) // Set the Gradient
-        line1.drawFilledEnabled = false // Draw the Gradient
-        
-        line1.highlightEnabled = true
-        line1.highlightColor = UIColor.black.withAlphaComponent(0.4)
-        line1.highlightLineWidth = 1
-        line1.setDrawHighlightIndicators(true)
-        line1.drawHorizontalHighlightIndicatorEnabled = false
-        
-        let lineChartData = LineChartData() //This is the object that will be added to the chart
-        
-        lineChartData.addDataSet(line1) //Adds the line to the dataSet
-        lineChartData.setDrawValues(false)
-        
-        chart.rightAxis.enabled = false
-        chart.leftAxis.enabled = ChartSettings.yAxis
-        chart.leftAxis.drawGridLinesEnabled = ChartSettings.yAxisGridLinesEnabled
-        
-        chart.xAxis.enabled = ChartSettings.xAxis
-        chart.xAxis.drawLabelsEnabled = true
-        chart.xAxis.labelPosition = .bottom
-        chart.xAxis.drawGridLinesEnabled = ChartSettings.xAxisGridLinesEnabled
-
-        chart.pinchZoomEnabled = true
-        chart.legend.enabled = false
-        chart.chartDescription?.text = ""
-        
-        chart.data = lineChartData //finally - it adds the chart data to the chart and causes an update
-        
-        // popup value on highlight
-        let marker: BalloonMarker = BalloonMarker(color: UIColor.init(hex: "2980B9"), font: UIFont.systemFont(ofSize: 11), textColor: UIColor.white, insets: UIEdgeInsets(top: 3, left: 5, bottom: 3, right: 5))
-        marker.minimumSize = CGSize(width: 50, height: 30)
-        chart.marker = marker
-        
-        // reset chart zoom
-        chart.fitScreen()
-        // reset highlight value
-        chart.highlightValue(nil)
-        if ChartSettings.yAxis {
-            chart.setExtraOffsets(left: 5, top: 0, right: 10, bottom: 0)
-        }
-        else {
-            chart.setExtraOffsets(left: 30, top: 0, right: 30, bottom: 0)
-        }
-
-        chart.data?.notifyDataChanged()
-    }
-
-    func reloadData() {
-//        self.getCurrentBtcPrice()
-    }
-    
-    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-//        print(entry)
-    }
-    
 }
