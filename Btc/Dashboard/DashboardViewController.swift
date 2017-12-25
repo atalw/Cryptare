@@ -66,7 +66,6 @@ class DashboardViewController: UIViewController {
             if let dict = snapshot.value as? [String: AnyObject] {
                 let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
                 self.coins = []
-                print("lsitofcoins")
                 for index in 0..<sortedDict.count {
                     if sortedDict[index].key != "MIOTA" && sortedDict[index].key != "VET" {
                         self.coins.append(sortedDict[index].key)
@@ -105,9 +104,6 @@ class DashboardViewController: UIViewController {
         for coinRef in coinRefs {
             coinRef.removeAllObservers()
         }
-        coins = []
-        coinRefs = []
-        coinData = [:]
     }
 
     // MARK: - Navigation
@@ -126,7 +122,7 @@ class DashboardViewController: UIViewController {
     
     func setupCoinRefs() {
         let currency = GlobalValues.currency!
-        print(currency)
+        coinData = [:]
         for coin in self.coins {
             self.coinData[coin] = [:]
             self.coinData[coin]!["rank"] = 0
@@ -136,7 +132,7 @@ class DashboardViewController: UIViewController {
             self.coinData[coin]!["percentageChange24hrs"] = 0.0
             self.coinData[coin]!["priceChange24hrs"] = 0.0
         }
-        
+        coinRefs = []
         for coin in self.coins {
             self.coinRefs.append(self.databaseRef.child(coin))
         }
@@ -198,7 +194,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         let coin = coins[indexPath.row]
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
         
-        cell!.coinRank.text = "\(self.coinData[coin]!["rank"]!)"
+        cell!.coinRank.text = "\(self.coinData[coin]?["rank"] as! Int)"
         cell!.coinRank.adjustsFontSizeToFitWidth = true
         
         cell!.coinSymbolLabel.text = coin
