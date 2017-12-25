@@ -219,27 +219,24 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     func updateLabels() {
         
         DispatchQueue.main.async {
-            self.rankLabel.text = "\(self.coinData["rank"]!)"
-            
-//            self.coinSymbolLabel.text = self.coinData["]
             self.currentPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["currentPrice"] as! Double))
             
             self.dateFormatter.dateFormat = "h:mm a"
             let timestamp = self.coinData["timestamp"] as! Double
             self.lastUpdatedLabel.text =  self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
             
-            self.percentageChangeLabel.text = "\(self.coinData["percentageChange24hrs"] as! Double)"
+            self.percentageChangeLabel.text = "\(self.coinData["percentageChange24hrs"] as! Double)%"
             self.priceChangeLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["priceChange24hrs"] as! Double))
             
             self.high24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["high24hrs"] as! Double))
             self.low24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["low24hrs"] as! Double))
             self.lastTradedMarketLabel.text = self.coinData["lastTradeMarket"] as! String
             
-            self.volume24hrsCoinLabel.text = "\(self.coinData["volume24hrsCoin"] as! Double)"
+            self.volume24hrsCoinLabel.text = "\(self.coinData["volume24hrsCoin"] as! Double) \(self.databaseTableTitle!)"
             self.volume24hrsFiatLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["volume24hrsFiat"] as! Double))
-            self.lastTradedVolumeLabel.text = "\(self.coinData["lastTradeVolume"] as! Double)"
+            self.lastTradedVolumeLabel.text = "\(self.coinData["lastTradeVolume"] as! Double) \(self.databaseTableTitle!)"
             
-            self.coinSupplyLabel.text = "\(self.coinData["supply"] as! Double)"
+            self.coinSupplyLabel.text = "\(self.coinData["supply"] as! Double) \(self.databaseTableTitle!)"
             self.marketCapLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["marketcap"] as! Double))
 
         }
