@@ -37,7 +37,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     var coinData: [String: Any] = [:]
 
     
-    @IBOutlet weak var rankLabel: UILabel!
+    @IBOutlet weak var coinNameLabel: UILabel!
     @IBOutlet weak var coinLogo: UIImageView!
     @IBOutlet weak var coinSymbolLabel: UILabel!
     @IBOutlet weak var currentPriceLabel: UILabel!
@@ -105,6 +105,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         
+        coinNameLabel.adjustsFontSizeToFitWidth = true
         coinSymbolLabel.adjustsFontSizeToFitWidth = true
         currentPriceLabel.adjustsFontSizeToFitWidth = true
         lastUpdatedLabel.adjustsFontSizeToFitWidth = true
@@ -168,7 +169,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         coinSymbolLabel.text = databaseTableTitle
         coinLogo.image = UIImage(named: databaseTableTitle.lowercased())
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -182,7 +182,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     
     func updateCoinDataStructure(dict: [String: Any]) {
         self.coinData["rank"] = dict["rank"] as! Int
-        
+        self.coinData["name"] = dict["name"] as! String
         let currencyData = dict[GlobalValues.currency!] as? [String: Any]
         
         if self.coinData["oldPrice"] == nil {
@@ -219,6 +219,8 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     func updateLabels() {
         
         DispatchQueue.main.async {
+            self.coinNameLabel.text = self.coinData["name"] as! String
+            
             self.currentPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["currentPrice"] as! Double))
             
             self.dateFormatter.dateFormat = "h:mm a"
