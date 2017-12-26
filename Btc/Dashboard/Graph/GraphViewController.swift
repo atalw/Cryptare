@@ -146,7 +146,12 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         })
         
         coinSymbolLabel.text = databaseTableTitle
-        coinLogo.image = UIImage(named: databaseTableTitle.lowercased())
+        if databaseTableTitle == "IOT" {
+            coinLogo.image = UIImage(named: "miota")
+        }
+        else {
+            coinLogo.image = UIImage(named: databaseTableTitle.lowercased())
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

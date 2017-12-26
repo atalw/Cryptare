@@ -30,6 +30,9 @@ class DashboardViewController: UIViewController {
     var listOfCoins: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
     
+    @IBOutlet weak var header24hrChangeLabel: UILabel!
+    @IBOutlet weak var headerCurrentPriceLabel: UILabel!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -67,6 +70,9 @@ class DashboardViewController: UIViewController {
                     if sortedDict[index].key != "MIOTA" && sortedDict[index].key != "VET" {
                         self.coins.append(sortedDict[index].key)
                     }
+                    else if sortedDict[index].key == "MIOTA" {
+                        self.coins.append("IOT")
+                    }
                 }
                 self.setupCoinRefs()
             }
@@ -88,6 +94,9 @@ class DashboardViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+////        header24hrChangeLabel.adjustsFontSizeToFitWidth = true
+//        headerCurrentPriceLabel.adjustsFontSizeToFitWidth = true
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     }
@@ -197,7 +206,12 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         cell!.coinSymbolLabel.text = coin
         cell!.coinSymbolLabel.adjustsFontSizeToFitWidth = true
         
-        cell!.coinSymbolImage.image = UIImage(named: coin.lowercased())
+        if coin == "IOT" {
+            cell!.coinSymbolImage.image = UIImage(named: "miota")
+        }
+        else {
+            cell!.coinSymbolImage.image = UIImage(named: coin.lowercased())
+        }
         cell!.coinSymbolImage.contentMode = .scaleAspectFit
         
         var colour: UIColor
@@ -213,6 +227,8 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         else {
             colour = UIColor.black
         }
+        
+        cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
         cell!.coinCurrentValueLabel.text = self.numberFormatter.string(from: NSNumber(value: currentPrice))
         if changedRow == indexPath.row {
             UILabel.transition(with:  cell!.coinCurrentValueLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
@@ -230,6 +246,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         self.dateFormatter.dateFormat = "h:mm a"
         let timestamp = self.coinData[coin]?["timestamp"] as! Double
         cell!.coinTimestampLabel.text =  self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
+        cell!.coinTimestampLabel.adjustsFontSizeToFitWidth = true
         
         let percentageChange = self.coinData[coin]?["percentageChange24hrs"] as! Double
         cell!.coinPercentageChangeLabel.text = "\(percentageChange)%"
