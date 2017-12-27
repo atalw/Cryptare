@@ -1,19 +1,18 @@
 //
-//  PortfolioSummaryTableViewCell.swift
+//  AddCoinTableViewCell.swift
 //  Btc
 //
-//  Created by Akshit Talwar on 21/12/2017.
+//  Created by Akshit Talwar on 27/12/2017.
 //  Copyright © 2017 atalw. All rights reserved.
 //
 
 import UIKit
 
-class PortfolioSummaryTableViewCell: UITableViewCell {
+class AddCoinTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var coinSymbolLabel: UILabel!
     @IBOutlet weak var coinImage: UIImageView!
-    @IBOutlet weak var currentCoinValueLabel: UILabel!
-    @IBOutlet weak var changePercentageLabel: UILabel!
+    @IBOutlet weak var coinNameLabel: UILabel!
+    @IBOutlet weak var coinSymbolLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -13,6 +13,8 @@ import BulletinBoard
 
 class PortfolioTableViewController: UITableViewController {
     
+    var coin: String!
+    
     // MARK: - Constants
     
     let defaults = UserDefaults.standard
@@ -28,7 +30,7 @@ class PortfolioTableViewController: UITableViewController {
     // MARK: - Variable initalization
     
     var parentController: PortfolioViewController!
-    
+    var portfolioData: [[String: Any]] = []
     var portfolioEntries: [PortfolioEntryModel] = []
     var btcPrice: Double!
     
@@ -65,6 +67,8 @@ class PortfolioTableViewController: UITableViewController {
         
         activityIndicator.addSubview(view)
         self.activityIndicator.hidesWhenStopped = true
+        
+        print(portfolioData)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -88,6 +92,11 @@ class PortfolioTableViewController: UITableViewController {
             }
             self.activityIndicator.stopAnimating()
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     deinit {
@@ -240,28 +249,13 @@ class PortfolioTableViewController: UITableViewController {
     // MARK: - Portfolio functions
 
     func initalizePortfolioEntries() {
-//        defaults.removeObject(forKey: "portfolioEntries")
-        
-        if var data = defaults.data(forKey: portfolioEntriesConstant) {
-            let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
-            print(portfolioEntries.count)
-            if portfolioEntries.count == 0 {
-                tableEmptyMessage()
-            }
-            else {
-                for index in 0..<portfolioEntries.count {
-                    let firstElement = portfolioEntries[index][0] as? String
-                    let secondElement = portfolioEntries[index][1] as? Double
-                    let thirdElement = portfolioEntries[index][2] as? String
-                    
-                    if let type = firstElement, let amountOfBitcoin =  secondElement, let dateOfPurchase = dateFormatter.date(from: thirdElement as! String) {
-                        PortfolioEntryModel(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
-                    }
-                }
-            }
+        if portfolioData.count == 0 {
+            tableEmptyMessage()
         }
         else {
-            tableEmptyMessage()
+            for portfolio in portfolioData {
+                PortfolioEntryModel(coin: coin, type: portfolio["type"] as! String, amountOfBitcoin: portfolio["coinAmount"] as! Double, dateOfPurchase: portfolio["date"] as! Date, currentBtcPrice: self.btcPrice, delegate: self)
+            }
         }
     }
     
@@ -277,7 +271,7 @@ class PortfolioTableViewController: UITableViewController {
     
     func addPortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date) {
         tableView.backgroundView = nil
-        PortfolioEntryModel(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
+        PortfolioEntryModel(coin: coin, type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
         savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
     }
     
@@ -287,14 +281,14 @@ class PortfolioTableViewController: UITableViewController {
 
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                portfolioEntries.append([0: type as Any, 1: amountOfBitcoin as Any, 2: dateString as Any])
+                portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any])
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: portfolioEntriesConstant)
             }
         }
         else {
             var portfolioEntries: [[Int:Any]] = []
-            portfolioEntries.append([0: type as Any, 1: amountOfBitcoin as Any, 2: dateString as Any])
+            portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any])
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
             defaults.set(newData, forKey: portfolioEntriesConstant)
         }
@@ -306,8 +300,8 @@ class PortfolioTableViewController: UITableViewController {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 let dateString = dateFormatter.string(from: portfolioEntry.dateOfPurchase)
                 for index in 0..<portfolioEntries.count {
-                    if let type = portfolioEntries[index][0] as? String, let amountOfBitcoin = portfolioEntries[index][1] as? Double, let date = portfolioEntries[index][2] as? String {
-                        if type == portfolioEntry.type && amountOfBitcoin == portfolioEntry.amountOfBitcoin && dateString == date {
+                    if let coin = portfolioEntries[index][0] as? String, let type = portfolioEntries[index][1] as? String, let amountOfBitcoin = portfolioEntries[index][2] as? Double, let date = portfolioEntries[index][3] as? String {
+                        if coin == portfolioEntry.coin && type == portfolioEntry.type && amountOfBitcoin == portfolioEntry.amountOfBitcoin && dateString == date {
                             portfolioEntries.remove(at: index)
                             if type == "buy" {
                                 parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
@@ -373,7 +367,9 @@ class PortfolioTableViewController: UITableViewController {
         })
     }
     
-   
+}
+
+extension PortfolioTableViewController {
     
 }
 

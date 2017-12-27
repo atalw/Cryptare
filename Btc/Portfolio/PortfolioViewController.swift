@@ -22,6 +22,9 @@ class PortfolioViewController: UIViewController {
     var totalInvested: Double! = 0.0
     var totalAmountOfBitcoin: Double! = 0.0
     
+    var coin: String!
+    var portfolioData: [[String: Any]] = []
+    
     var sortDropDownView: YNDropDownMenu!
     
     // MARK: - IBOutlets
@@ -181,6 +184,8 @@ class PortfolioViewController: UIViewController {
         let destinationVC = segue.destination
         if let portfolioTableController = destinationVC as? PortfolioTableViewController {
             portfolioTableController.parentController = self
+            portfolioTableController.coin = self.coin
+            portfolioTableController.portfolioData = self.portfolioData
             self.portfolioTableController = portfolioTableController
         }
     }

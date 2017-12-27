@@ -14,6 +14,7 @@ class PortfolioEntryModel {
     
     weak var delegate: PortfolioEntryDelegate?
     
+    var coin: String!
     var type: String!
     var amountOfBitcoin: Double!
     var cost: Double!
@@ -25,10 +26,11 @@ class PortfolioEntryModel {
     
     let dateFormatter = DateFormatter()
     
-    init(type: String, amountOfBitcoin: Double, dateOfPurchase: Date!, currentBtcPrice: Double!, delegate: PortfolioEntryDelegate) {
+    init(coin: String, type: String, amountOfBitcoin: Double, dateOfPurchase: Date!, currentBtcPrice: Double!, delegate: PortfolioEntryDelegate) {
         dateFormatter.dateFormat = "YYYY-MM-dd"
         self.delegate = delegate
         
+        self.coin = coin
         self.type = type
         self.amountOfBitcoin = amountOfBitcoin
         self.dateOfPurchase = dateOfPurchase
