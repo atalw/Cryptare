@@ -8,6 +8,7 @@
 
 import Foundation
 import BulletinBoard
+import Firebase
 
 class  CostBulletinPage: NSObject, BulletinItem {
     
@@ -17,7 +18,10 @@ class  CostBulletinPage: NSObject, BulletinItem {
     var nextItem: BulletinItem?
     
     let  dataSource: [String: Any]
+    let dateFormatter = DateFormatter()
     
+    var databaseRef: DatabaseReference!
+
     fileprivate var cost: UITextField?
     fileprivate var addButton: ContainerView<HighlightButton>?
 
@@ -25,9 +29,11 @@ class  CostBulletinPage: NSObject, BulletinItem {
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
     
-    init(dataSource: [String: Any]) {
+    init(coin: String, dataSource: [String: Any]) {
         
         self.dataSource = dataSource
+        databaseRef = Database.database().reference().child(coin)
+
     }
     
     func makeArrangedSubviews() -> [UIView] {
@@ -50,7 +56,7 @@ class  CostBulletinPage: NSObject, BulletinItem {
         firstRowTitle.textAlignment = .left
         firstRowTitle.adjustsFontSizeToFitWidth = true
         firstRowTitle.font = UIFont.systemFont(ofSize: 18)
-        firstRowTitle.text = "Cost"
+        firstRowTitle.text = "Cost (\(GlobalValues.currency!))"
         firstRowTitle.isAccessibilityElement = false
         firstFieldStack.addArrangedSubview(firstRowTitle)
         
@@ -77,11 +83,25 @@ class  CostBulletinPage: NSObject, BulletinItem {
             self?.cost?.becomeFirstResponder()
         }
         
+        calculateCostFromDate()
+        
         return arrangedSubviews
     }
     
     func tearDown() {
         
+    }
+    
+    func calculateCostFromDate() {
+        
+        databaseRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String : AnyObject] {
+                if let price = dict[GlobalValues.currency!]!["price"] as? Double {
+                    let cost = price * (self.dataSource["coinAmount"] as! Double)
+                    self.cost?.text = "\(cost)"
+                }
+            }
+        })
     }
     
     public func makeGroupStack() -> UIStackView {
@@ -122,22 +142,6 @@ extension CostBulletinPage: UITextFieldDelegate {
         }
         
         return false
-    }
-    
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //        if isInputValid(text: amountOfBitcoin?.text) && isInputValid(text: dateOfPurchase?.text){
-        //            textField.resignFirstResponder()
-        //            NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
-        //            actionHandler?(self)
-        //            return true
-        //
-        //        } else {
-        //            errorLabel?.text = "You must enter some text to continue."
-        //            textField.backgroundColor = .red
-        //            return false
-        //        }
-        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

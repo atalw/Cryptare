@@ -20,6 +20,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     
     let dateFormatter = DateFormatter()
     
+    let coin: String
     
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
@@ -34,6 +35,10 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     fileprivate var addButton: ContainerView<HighlightButton>?
     
     public var descriptionText: String!
+    
+    init(coin: String) {
+        self.coin = coin
+    }
 
     func tearDown() {
         errorLabel = nil
@@ -141,10 +146,10 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         
         var dataSource: [String: Any] = [:]
         dataSource["type"] = "buy"
-        dataSource["coinAmount"] = amountOfBitcoin?.text
+        dataSource["coinAmount"] = Double(amountOfBitcoin!.text!)
         dataSource["date"] = date
         
-        nextItem = CostBulletinPage(dataSource: dataSource)
+        nextItem = CostBulletinPage(coin: coin, dataSource: dataSource)
         displayNextItem()
     }
     

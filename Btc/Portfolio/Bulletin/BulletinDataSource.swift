@@ -40,7 +40,7 @@ enum BulletinDataSource {
             item.displayNextItem()
         }
         
-        page.nextItem = makeTextFieldPage()
+//        page.nextItem = makeTextFieldPage()
         
         return page
         
@@ -53,8 +53,8 @@ enum BulletinDataSource {
      *
      * The keyboard return button presents the next item (the notification page).
      */
-    static func makeTextFieldPage() -> TextFieldBulletinPage {
-        let page = TextFieldBulletinPage()
+    static func makeTextFieldPage(coin: String) -> TextFieldBulletinPage {
+        let page = TextFieldBulletinPage(coin: coin)
         
 //        page.descriptionText = "Enter the amount of Bitcoin and the date of purchase"
 

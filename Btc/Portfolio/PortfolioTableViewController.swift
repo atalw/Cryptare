@@ -43,7 +43,7 @@ class PortfolioTableViewController: UITableViewController {
     
     lazy var bulletinManager: BulletinManager = {
         
-        let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage()
+        let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage(coin: self.coin)
         return BulletinManager(rootItem: rootItem)
         
     }()
@@ -336,7 +336,7 @@ class PortfolioTableViewController: UITableViewController {
     
     func showAddBuyBulletin() {
         bulletinManager = {
-            let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage()
+            let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage(coin: self.coin)
             return BulletinManager(rootItem: rootItem)
         }()
         bulletinManager.backgroundViewStyle = currentBackground.style
