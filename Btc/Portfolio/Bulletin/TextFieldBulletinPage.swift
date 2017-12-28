@@ -33,8 +33,6 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     fileprivate var done: UIBarButtonItem!
     fileprivate var addButton: ContainerView<HighlightButton>?
     
-    public var descriptionText: String!
-    
     init(coin: String) {
         self.coin = coin
     }
@@ -161,7 +159,7 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
         
         dateOfPurchase?.endEditing(true)
         
-        if isInputValid(text: amountOfBitcoin?.text) {
+        if isInputValid(text: coinAmount?.text) {
             addButton?.contentView.isEnabled = true
         }
     }

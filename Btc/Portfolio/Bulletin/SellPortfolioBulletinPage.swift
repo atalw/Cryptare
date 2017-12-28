@@ -22,28 +22,21 @@ class SellPortfolioBulletinPage: NSObject, BulletinItem {
     var nextItem: BulletinItem?
     
     let dateFormatter = DateFormatter()
-    
+    let coin: String
     
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
     
-    fileprivate var errorLabel: UILabel?
-    fileprivate var amountOfBitcoin: UITextField?
-    fileprivate var dateOfPurchase: UITextField?
+    fileprivate var coinAmount: UITextField?
+    fileprivate var dateOfSale: UITextField?
     fileprivate var picker = UIDatePicker()
     fileprivate var date: String?
     fileprivate var toolbar = UIToolbar()
     fileprivate var done: UIBarButtonItem!
     fileprivate var addButton: ContainerView<HighlightButton>?
     
-    public var descriptionText: String!
-    
-    func tearDown() {
-        errorLabel = nil
-        amountOfBitcoin = nil
-        dateOfPurchase = nil
-        done = nil
-        addButton = nil
+    init(coin: String) {
+        self.coin = coin
     }
     
     func makeArrangedSubviews() -> [UIView] {
@@ -52,23 +45,8 @@ class SellPortfolioBulletinPage: NSObject, BulletinItem {
         var arrangedSubviews = [UIView]()
         createDatePicker()
         
-        let titleLabel = interfaceFactory.makeTitleLabel(reading: "Sell Portfolio")
+        let titleLabel = interfaceFactory.makeTitleLabel(reading: "Sell Transaction")
         arrangedSubviews.append(titleLabel)
-        
-        // Description Label
-        
-        if let descriptionText = self.descriptionText {
-            
-            let descriptionLabel = interfaceFactory.makeDescriptionLabel(isCompact: false)
-            descriptionLabel.text = descriptionText
-            arrangedSubviews.append(descriptionLabel)
-            
-        }
-        
-        errorLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
-        errorLabel!.text = ""
-        errorLabel!.textColor = .red
-        arrangedSubviews.append(errorLabel!)
         
         let firstFieldStack = self.makeGroupStack()
         arrangedSubviews.append(firstFieldStack)
@@ -82,12 +60,12 @@ class SellPortfolioBulletinPage: NSObject, BulletinItem {
         firstRowTitle.isAccessibilityElement = false
         firstFieldStack.addArrangedSubview(firstRowTitle)
         
-        amountOfBitcoin = UITextField()
-        amountOfBitcoin!.delegate = self
-        amountOfBitcoin!.borderStyle = .roundedRect
-        amountOfBitcoin!.returnKeyType = .done
-        amountOfBitcoin!.keyboardType = UIKeyboardType.decimalPad
-        firstFieldStack.addArrangedSubview(amountOfBitcoin!)
+        coinAmount = UITextField()
+        coinAmount!.delegate = self
+        coinAmount!.borderStyle = .roundedRect
+        coinAmount!.returnKeyType = .done
+        coinAmount!.keyboardType = UIKeyboardType.decimalPad
+        firstFieldStack.addArrangedSubview(coinAmount!)
         
         let secondFieldStack = self.makeGroupStack()
         arrangedSubviews.append(secondFieldStack)
@@ -101,15 +79,15 @@ class SellPortfolioBulletinPage: NSObject, BulletinItem {
         secondRowtitle.isAccessibilityElement = false
         secondFieldStack.addArrangedSubview(secondRowtitle)
         
-        dateOfPurchase = UITextField()
-        dateOfPurchase!.delegate = self
-        dateOfPurchase!.borderStyle = .roundedRect
-        dateOfPurchase!.returnKeyType = .done
-        dateOfPurchase!.inputView = picker
-        dateOfPurchase!.inputAccessoryView = toolbar
-        secondFieldStack.addArrangedSubview(dateOfPurchase!)
+        dateOfSale = UITextField()
+        dateOfSale!.delegate = self
+        dateOfSale!.borderStyle = .roundedRect
+        dateOfSale!.returnKeyType = .done
+        dateOfSale!.inputView = picker
+        dateOfSale!.inputAccessoryView = toolbar
+        secondFieldStack.addArrangedSubview(dateOfSale!)
         
-        addButton = interfaceFactory.makeActionButton(title: "Add")
+        addButton = interfaceFactory.makeActionButton(title: "Next")
         arrangedSubviews.append(addButton!)
         
         addButton?.contentView.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
@@ -119,10 +97,19 @@ class SellPortfolioBulletinPage: NSObject, BulletinItem {
         // since there isn't a method similar to "viewDidAppear" for BulletinItems,
         // we're using a workaround open the keyboard after a certain amount of time has elapsed
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) { [weak self] in
-            self?.amountOfBitcoin?.becomeFirstResponder()
+            self?.coinAmount?.becomeFirstResponder()
         }
         
         return arrangedSubviews
+    }
+    
+    func tearDown() {
+        addButton?.contentView.removeTarget(self, action: nil, for: .touchUpInside)
+        
+        coinAmount = nil
+        dateOfSale = nil
+        done = nil
+        addButton = nil
     }
     
     func createDatePicker() {
@@ -139,8 +126,14 @@ class SellPortfolioBulletinPage: NSObject, BulletinItem {
     }
     
     @objc private func addButtonTapped() {
-        NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["type": "sell", "amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": date])
-        actionHandler?(self)
+        
+        var dataSource: [String: Any] = [:]
+        dataSource["type"] = "sell"
+        dataSource["coinAmount"] = Double(coinAmount!.text!)
+        dataSource["date"] = date
+        
+        nextItem = CostBulletinPage(coin: coin, dataSource: dataSource)
+        displayNextItem()
     }
     
     public func makeGroupStack() -> UIStackView {
@@ -161,14 +154,14 @@ extension SellPortfolioBulletinPage: UITextFieldDelegate {
     @objc func donePressed() {
         dateFormatter.dateFormat = "MMM dd, yyyy"
         let dateString = dateFormatter.string(from: picker.date)
-        dateOfPurchase!.text = dateString
+        dateOfSale!.text = dateString
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
         date = dateFormatter.string(from: picker.date)
         
-        dateOfPurchase?.endEditing(true)
+        dateOfSale?.endEditing(true)
         
-        if isInputValid(text: amountOfBitcoin?.text) {
+        if isInputValid(text: coinAmount?.text) {
             addButton?.contentView.isEnabled = true
         }
     }
@@ -184,24 +177,12 @@ extension SellPortfolioBulletinPage: UITextFieldDelegate {
         return false
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //        if isInputValid(text: amountOfBitcoin?.text) && isInputValid(text: dateOfPurchase?.text){
-        //            textField.resignFirstResponder()
-        //            NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
-        //            actionHandler?(self)
-        //            return true
-        //
-        //        } else {
-        //            errorLabel?.text = "You must enter some text to continue."
-        //            textField.backgroundColor = .red
-        //            return false
-        //        }
-        return true
-    }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if !isInputValid(text: textField.text) {
             addButton?.contentView.isEnabled = false
+        }
+        else {
+            addButton?.contentView.isEnabled = true
         }
     }
     

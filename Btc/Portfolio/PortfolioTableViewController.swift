@@ -41,14 +41,6 @@ class PortfolioTableViewController: UITableViewController {
     /// The current background style.
     var currentBackground = (name: "Dark", style: BulletinBackgroundViewStyle.dimmed)
     
-    lazy var bulletinManager: BulletinManager = {
-        
-        let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage(coin: self.coin)
-        return BulletinManager(rootItem: rootItem)
-        
-    }()
-
-    
     // MARK: - UI Outlets
     
     override func viewDidLoad() {
@@ -77,8 +69,6 @@ class PortfolioTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
         // Register notification observers
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(setupDidComplete), name: .SetupDidComplete, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldEntered(notification:)), name: .TextFieldEntered, object: nil)
     }
@@ -335,7 +325,7 @@ class PortfolioTableViewController: UITableViewController {
      */
     
     func showAddBuyBulletin() {
-        bulletinManager = {
+        let bulletinManager = { () -> BulletinManager in
             let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage(coin: self.coin)
             return BulletinManager(rootItem: rootItem)
         }()
@@ -345,8 +335,8 @@ class PortfolioTableViewController: UITableViewController {
     }
     
     func showAddSellBulletin() {
-        bulletinManager = {
-            let rootItem: BulletinItem = BulletinDataSource.makeSellPortfolioPage()
+        let bulletinManager = { () -> BulletinManager in
+            let rootItem: BulletinItem = BulletinDataSource.makeSellPortfolioPage(coin: self.coin)
             return BulletinManager(rootItem: rootItem)
         }()
         bulletinManager.backgroundViewStyle = currentBackground.style
