@@ -7,18 +7,24 @@
 //
 
 import UIKit
+import Firebase
 
 class PortfolioSummaryViewController: UIViewController {
     
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
+    let numberFormatter = NumberFormatter()
 
     let portfolioEntriesConstant = "portfolioEntries"
 
 
     var dict: [String: [[String: Any]]] = [:]
-    var summary: [String: [String: Any]] = [:]
+    var summary: [String: [String: Double]] = [:]
     var coins: [String] = []
+    
+    var databaseRef: DatabaseReference!
+    var coinRefs: [DatabaseReference] = []
+
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -27,10 +33,13 @@ class PortfolioSummaryViewController: UIViewController {
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        numberFormatter.numberStyle = .currency
 
         tableView.delegate = self
         tableView.dataSource = self
         
+        databaseRef = Database.database().reference()
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
@@ -38,9 +47,29 @@ class PortfolioSummaryViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        let currency = GlobalValues.currency!
+        
+        if currency == "INR" {
+            numberFormatter.locale = Locale.init(identifier: "en_IN")
+        }
+        else if currency == "USD" {
+            numberFormatter.locale = Locale.init(identifier: "en_US")
+        }
+        
         dict = [:]
         coins = []
         initalizePortfolioEntries()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        databaseRef.removeAllObservers()
+        
+        for coinRef in coinRefs {
+            coinRef.removeAllObservers()
+        }
     }
     
 
@@ -89,12 +118,33 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin] = [:]
             summary[coin]!["coinAmount"] = 0.0
             summary[coin]!["cost"] = 0.0
+            summary[coin]!["coinMarketValue"] = 0.0 // market value of 1 coin
+            summary[coin]!["holdingsMarketValue"] = 0.0 // market value of holdings
+            
             for entry in dict[coin]! {
-                summary[coin]!["coinAmount"] = (summary[coin]!["coinAmount"] as! Double) + (entry["coinAmount"] as! Double)
-                summary[coin]!["cost"] = (summary[coin]!["cost"] as! Double) + (entry["cost"] as! Double)
+                if entry["type"] as! String == "buy" {
+                    summary[coin]!["coinAmount"] = summary[coin]!["coinAmount"]! + (entry["coinAmount"] as! Double)
+                    summary[coin]!["cost"] = summary[coin]!["cost"]! + (entry["cost"] as! Double)
+                }
+                else if entry["type"] as! String == "sell" {
+                    summary[coin]!["coinAmount"] = summary[coin]!["coinAmount"]! - (entry["coinAmount"] as! Double)
+                    summary[coin]!["cost"] = summary[coin]!["cost"]! - (entry["cost"] as! Double)
+                }
             }
+            
+            coinRefs.append(databaseRef.child(coin))
+            let index = coinRefs.count - 1
+            
+            coinRefs[index].observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String : AnyObject] {
+                    print(self.summary[coin]!["coinAmount"]!)
+                    self.summary[coin]!["coinMarketValue"] = dict[GlobalValues.currency!]!["price"] as! Double
+                    self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["coinAmount"]! * self.summary[coin]!["coinMarketValue"]!
+                    self.tableView.reloadData()
+                }
+            })
+            
         }
-        print(summary)
     }
 }
 
@@ -106,13 +156,24 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSummaryCell") as? PortfolioSummaryTableViewCell
         
-        cell!.coinSymbolLabel.text = "\(coins[indexPath.row])"
-        cell!.coinImage.image = UIImage(named: coins[indexPath.row].lowercased())
+        let coin = coins[indexPath.row]
+        
+        cell!.coinSymbolLabel.text = "\(coin)"
+        cell!.coinSymbolLabel.adjustsFontSizeToFitWidth = true
+        
+        cell!.coinImage.image = UIImage(named: coin.lowercased())
         for (symbol, name) in GlobalValues.coins {
-            if symbol == coins[indexPath.row] {
+            if symbol == coin {
                 cell!.coinNameLabel.text = name
             }
         }
+        
+        cell!.coinHoldingsLabel.text = "\(summary[coin]!["coinAmount"]!) \(coin)"
+        cell!.coinHoldingsLabel.adjustsFontSizeToFitWidth = true
+        
+        let holdingsMarketValue = summary[coin]!["holdingsMarketValue"]!
+        cell!.coinCurrentValueLabel.text = numberFormatter.string(from: NSNumber(value: holdingsMarketValue))
+        cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
         
         return cell!
     }

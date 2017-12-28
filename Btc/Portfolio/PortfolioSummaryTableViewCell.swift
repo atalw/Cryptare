@@ -13,7 +13,12 @@ class PortfolioSummaryTableViewCell: UITableViewCell {
     @IBOutlet weak var coinSymbolLabel: UILabel!
     @IBOutlet weak var coinImage: UIImageView!
     @IBOutlet weak var coinNameLabel: UILabel!
+    @IBOutlet weak var coinHoldingsLabel: UILabel!
+    @IBOutlet weak var coinCurrentValueLabel: UILabel!
+    
     @IBOutlet weak var changePercentageLabel: UILabel!
+    @IBOutlet weak var changeCostLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
