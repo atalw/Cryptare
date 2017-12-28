@@ -8,7 +8,8 @@
 
 import Foundation
 import BulletinBoard
-import Firebase
+import Alamofire
+import SwiftyJSON
 
 class  CostBulletinPage: NSObject, BulletinItem {
     
@@ -19,9 +20,8 @@ class  CostBulletinPage: NSObject, BulletinItem {
     
     let  dataSource: [String: Any]
     let dateFormatter = DateFormatter()
+    let coin: String
     
-    var databaseRef: DatabaseReference!
-
     fileprivate var cost: UITextField?
     fileprivate var addButton: ContainerView<HighlightButton>?
 
@@ -32,8 +32,7 @@ class  CostBulletinPage: NSObject, BulletinItem {
     init(coin: String, dataSource: [String: Any]) {
         
         self.dataSource = dataSource
-        databaseRef = Database.database().reference().child(coin)
-
+        self.coin = coin
     }
     
     func makeArrangedSubviews() -> [UIView] {
@@ -65,7 +64,7 @@ class  CostBulletinPage: NSObject, BulletinItem {
         cost!.borderStyle = .roundedRect
         cost!.returnKeyType = .done
         cost!.keyboardType = UIKeyboardType.decimalPad
-        
+        cost!.text = "0"
         cost!.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         
         firstFieldStack.addArrangedSubview(cost!)
@@ -75,7 +74,7 @@ class  CostBulletinPage: NSObject, BulletinItem {
         
         addButton?.contentView.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
-        addButton?.contentView.isEnabled = false
+        addButton?.contentView.isEnabled = true
         
         // since there isn't a method similar to "viewDidAppear" for BulletinItems,
         // we're using a workaround open the keyboard after a certain amount of time has elapsed
@@ -93,15 +92,19 @@ class  CostBulletinPage: NSObject, BulletinItem {
     }
     
     func calculateCostFromDate() {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let date = dateFormatter.date(from: dataSource["date"] as! String)
+        let unixTime = date?.timeIntervalSince1970
+        let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=\(self.coin)&tsyms=\(GlobalValues.currency!)&ts=\(unixTime!)")!
         
-        databaseRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String : AnyObject] {
-                if let price = dict[GlobalValues.currency!]!["price"] as? Double {
-                    let cost = price * (self.dataSource["coinAmount"] as! Double)
-                    self.cost?.text = "\(cost)"
-                }
+        Alamofire.request(url).responseJSON(completionHandler: { response in
+            
+            let json = JSON(data: response.data!)
+            if let price = json[self.coin][GlobalValues.currency!].double {
+                self.cost?.text = "\(price * (self.dataSource["coinAmount"] as! Double))"
             }
         })
+        
     }
     
     public func makeGroupStack() -> UIStackView {

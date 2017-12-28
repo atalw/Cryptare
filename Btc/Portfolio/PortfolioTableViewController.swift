@@ -262,11 +262,11 @@ class PortfolioTableViewController: UITableViewController {
     @objc func textFieldEntered(notification: Notification) {
         dateFormatter.dateFormat = "YYYY-MM-dd"
         let type = notification.userInfo?["type"] as! String
-        let amountOfBitcoin = Double(notification.userInfo?["coinAmount"] as! String)
+        let amountOfBitcoin = notification.userInfo?["coinAmount"] as! Double
         let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["date"] as! String)
         let cost = Double(notification.userInfo?["cost"] as! String)
         if amountOfBitcoin != nil && dateOfPurchase != nil && cost != nil {
-            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!, cost: cost!)
+            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase!, cost: cost!)
         }
     }
     

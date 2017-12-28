@@ -57,22 +57,6 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         let titleLabel = interfaceFactory.makeTitleLabel(reading: "Add Transaction")
         arrangedSubviews.append(titleLabel)
         
-
-        // Description Label
-        
-//        if let descriptionText = self.descriptionText {
-//
-//            let descriptionLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
-//            descriptionLabel.text = descriptionText
-//            arrangedSubviews.append(descriptionLabel)
-//
-//        }
-
-//        errorLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
-//        errorLabel!.text = ""
-//        errorLabel!.textColor = .red
-//        arrangedSubviews.append(errorLabel!)
-        
         let firstFieldStack = self.makeGroupStack()
         arrangedSubviews.append(firstFieldStack)
         
@@ -100,7 +84,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         secondRowtitle.textAlignment = .left
         secondRowtitle.adjustsFontSizeToFitWidth = true
         secondRowtitle.font = UIFont.systemFont(ofSize: 18)
-        secondRowtitle.text = "Date of purchase"
+        secondRowtitle.text = "Date"
         secondRowtitle.isAccessibilityElement = false
         secondFieldStack.addArrangedSubview(secondRowtitle)
         
