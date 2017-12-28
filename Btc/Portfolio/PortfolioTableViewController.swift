@@ -291,17 +291,20 @@ class PortfolioTableViewController: UITableViewController {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 let dateString = dateFormatter.string(from: portfolioEntry.dateOfPurchase)
                 for index in 0..<portfolioEntries.count {
-                    if let coin = portfolioEntries[index][0] as? String, let type = portfolioEntries[index][1] as? String, let amountOfBitcoin = portfolioEntries[index][2] as? Double, let date = portfolioEntries[index][3] as? String {
-                        if coin == portfolioEntry.coin && type == portfolioEntry.type && amountOfBitcoin == portfolioEntry.coinAmount && dateString == date {
-                            portfolioEntries.remove(at: index)
-                            if type == "buy" {
-                                parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
-                            }
-                            else {
-                                parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
-                            }
-                            break
+                    let coin = portfolioEntries[index][0] as? String
+                    let type = portfolioEntries[index][1] as? String
+                    let coinAmount = portfolioEntries[index][2] as? Double
+                    let date = portfolioEntries[index][3] as? String
+                    let cost = portfolioEntries[index][4] as! Double
+                    if coin == portfolioEntry.coin && type == portfolioEntry.type && coinAmount == portfolioEntry.coinAmount && dateString == date && cost == portfolioEntry.cost {
+                        portfolioEntries.remove(at: index)
+                        if type == "buy" {
+                            parentController.subtractTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
                         }
+                        else {
+                            parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+                        }
+                        break
                     }
                 }
                 if portfolioEntries.count == 0 {

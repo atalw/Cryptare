@@ -66,8 +66,9 @@ class PortfolioSummaryViewController: UIViewController {
                 let secondElement = portfolioEntries[index][1] as? String
                 let thirdElement = portfolioEntries[index][2] as? Double
                 let fourthElement = portfolioEntries[index][3] as? String
-//                let fifthElement = portfolioEntries[index][4] as? Double
-                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = dateFormatter.date(from: fourthElement as! String), let cost = thirdElement {
+                let fifthElement = portfolioEntries[index][4] as? Double
+                
+                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = dateFormatter.date(from: fourthElement as! String), let cost = fifthElement {
                     if dict[coin] == nil {
                         dict[coin] = []
                     }
@@ -87,8 +88,10 @@ class PortfolioSummaryViewController: UIViewController {
         for coin in dict.keys {
             summary[coin] = [:]
             summary[coin]!["coinAmount"] = 0.0
+            summary[coin]!["cost"] = 0.0
             for entry in dict[coin]! {
                 summary[coin]!["coinAmount"] = (summary[coin]!["coinAmount"] as! Double) + (entry["coinAmount"] as! Double)
+                summary[coin]!["cost"] = (summary[coin]!["cost"] as! Double) + (entry["cost"] as! Double)
             }
         }
         print(summary)
