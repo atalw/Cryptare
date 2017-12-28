@@ -25,8 +25,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
 
-    fileprivate var errorLabel: UILabel?
-    fileprivate var amountOfBitcoin: UITextField?
+    fileprivate var coinAmount: UITextField?
     fileprivate var dateOfPurchase: UITextField?
     fileprivate var picker = UIDatePicker()
     fileprivate var date: String?
@@ -40,13 +39,6 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         self.coin = coin
     }
 
-    func tearDown() {
-        errorLabel = nil
-        amountOfBitcoin = nil
-        dateOfPurchase = nil
-        done = nil
-        addButton = nil
-    }
 
     func makeArrangedSubviews() -> [UIView] {
         dateFormatter.dateFormat = "YYYY-MM-dd"
@@ -69,12 +61,12 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         firstRowTitle.isAccessibilityElement = false
         firstFieldStack.addArrangedSubview(firstRowTitle)
 
-        amountOfBitcoin = UITextField()
-        amountOfBitcoin!.delegate = self
-        amountOfBitcoin!.borderStyle = .roundedRect
-        amountOfBitcoin!.returnKeyType = .done
-        amountOfBitcoin!.keyboardType = UIKeyboardType.decimalPad
-        firstFieldStack.addArrangedSubview(amountOfBitcoin!)
+        coinAmount = UITextField()
+        coinAmount!.delegate = self
+        coinAmount!.borderStyle = .roundedRect
+        coinAmount!.returnKeyType = .done
+        coinAmount!.keyboardType = UIKeyboardType.decimalPad
+        firstFieldStack.addArrangedSubview(coinAmount!)
         
         let secondFieldStack = self.makeGroupStack()
         arrangedSubviews.append(secondFieldStack)
@@ -106,10 +98,19 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         // since there isn't a method similar to "viewDidAppear" for BulletinItems,
         // we're using a workaround open the keyboard after a certain amount of time has elapsed
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) { [weak self] in
-            self?.amountOfBitcoin?.becomeFirstResponder()
+            self?.coinAmount?.becomeFirstResponder()
         }
 
         return arrangedSubviews
+    }
+    
+    
+    func tearDown() {
+        addButton?.contentView.removeTarget(self, action: nil, for: .touchUpInside)
+        coinAmount = nil
+        dateOfPurchase = nil
+        done = nil
+        addButton = nil
     }
     
     func createDatePicker() {
@@ -126,11 +127,9 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     }
     
     @objc private func addButtonTapped() {
-//        NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["type": "buy", "amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": date])
-        
         var dataSource: [String: Any] = [:]
         dataSource["type"] = "buy"
-        dataSource["coinAmount"] = Double(amountOfBitcoin!.text!)
+        dataSource["coinAmount"] = Double(coinAmount!.text!)
         dataSource["date"] = date
         
         nextItem = CostBulletinPage(coin: coin, dataSource: dataSource)
@@ -148,24 +147,6 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         
     }
     
-//    func calculateCostFromDate() {
-//        let dateOfPurchaseString = dateFormatter.string(from: dateOfPurchase)
-//        let todaysDateString = dateFormatter.string(from: Date())
-//        
-//        else {
-//            let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(dateOfPurchaseString)&end=\(dateOfPurchaseString)")!
-//            
-//            Alamofire.request(url).responseJSON(completionHandler: { response in
-//                
-//                let json = JSON(data: response.data!)
-//                if let price = json["bpi"][dateOfPurchaseString].double {
-//                    self.cost = price * self.coinAmount
-//                }
-//            })
-//        }
-//        
-//    }
-
 }
 
 extension TextFieldBulletinPage: UITextFieldDelegate {
@@ -196,24 +177,12 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
         return false
     }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if isInputValid(text: amountOfBitcoin?.text) && isInputValid(text: dateOfPurchase?.text){
-//            textField.resignFirstResponder()
-//            NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": dateOfPurchase?.text])
-//            actionHandler?(self)
-//            return true
-//
-//        } else {
-//            errorLabel?.text = "You must enter some text to continue."
-//            textField.backgroundColor = .red
-//            return false
-//        }
-        return true
-    }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if !isInputValid(text: textField.text) {
             addButton?.contentView.isEnabled = false
+        }
+        else {
+            addButton?.contentView.isEnabled = true
         }
     }
     

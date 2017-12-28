@@ -25,7 +25,6 @@ class  CostBulletinPage: NSObject, BulletinItem {
     fileprivate var cost: UITextField?
     fileprivate var addButton: ContainerView<HighlightButton>?
 
-    
     public let interfaceFactory = BulletinInterfaceFactory()
     public var actionHandler: ((BulletinItem) -> Void)? = nil
     
@@ -43,7 +42,7 @@ class  CostBulletinPage: NSObject, BulletinItem {
         arrangedSubviews.append(titleLabel)
         
         let descriptionLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
-        let descriptionText = "Add a \(dataSource["type"]!) transaction for \(dataSource["coinAmount"]!) on \(dataSource["date"]!). How much did it cost?"
+        let descriptionText = "Add a \(dataSource["type"]!) transaction for \(dataSource["coinAmount"]!)\(self.coin) on \(dataSource["date"]!). How much did it cost?"
         descriptionLabel.text = descriptionText
         arrangedSubviews.append(descriptionLabel)
 
@@ -88,7 +87,9 @@ class  CostBulletinPage: NSObject, BulletinItem {
     }
     
     func tearDown() {
-        
+        cost?.delegate = nil
+        cost?.removeTarget(self, action: nil, for: .editingChanged)
+        addButton?.contentView.removeTarget(self, action: nil, for: .touchUpInside)
     }
     
     func calculateCostFromDate() {
