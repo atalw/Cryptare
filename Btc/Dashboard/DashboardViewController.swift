@@ -66,12 +66,15 @@ class DashboardViewController: UIViewController {
             if let dict = snapshot.value as? [String: AnyObject] {
                 let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
                 self.coins = []
+                GlobalValues.coins = []
                 for index in 0..<sortedDict.count {
                     if sortedDict[index].key != "MIOTA" && sortedDict[index].key != "VET" {
                         self.coins.append(sortedDict[index].key)
+                        GlobalValues.coins.append((sortedDict[index].key, sortedDict[index].value["name"] as! String))
                     }
                     else if sortedDict[index].key == "MIOTA" {
                         self.coins.append("IOT")
+                        GlobalValues.coins.append(("IOT", sortedDict[index].value["name"] as! String))
                     }
                 }
                 self.setupCoinRefs()

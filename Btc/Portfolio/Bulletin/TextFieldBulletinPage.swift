@@ -48,24 +48,25 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         
         var arrangedSubviews = [UIView]()
         createDatePicker()
-
-        let titleLabel = interfaceFactory.makeTitleLabel(reading: "Add Portfolio")
+        
+        let titleLabel = interfaceFactory.makeTitleLabel(reading: "Add Transaction")
         arrangedSubviews.append(titleLabel)
         
+
         // Description Label
         
-        if let descriptionText = self.descriptionText {
-            
-            let descriptionLabel = interfaceFactory.makeDescriptionLabel(isCompact: false)
-            descriptionLabel.text = descriptionText
-            arrangedSubviews.append(descriptionLabel)
-            
-        }
+//        if let descriptionText = self.descriptionText {
+//
+//            let descriptionLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
+//            descriptionLabel.text = descriptionText
+//            arrangedSubviews.append(descriptionLabel)
+//
+//        }
 
-        errorLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
-        errorLabel!.text = ""
-        errorLabel!.textColor = .red
-        arrangedSubviews.append(errorLabel!)
+//        errorLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
+//        errorLabel!.text = ""
+//        errorLabel!.textColor = .red
+//        arrangedSubviews.append(errorLabel!)
         
         let firstFieldStack = self.makeGroupStack()
         arrangedSubviews.append(firstFieldStack)
@@ -75,7 +76,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         firstRowTitle.textAlignment = .left
         firstRowTitle.adjustsFontSizeToFitWidth = true
         firstRowTitle.font = UIFont.systemFont(ofSize: 18)
-        firstRowTitle.text = "Amount of Bitcoin"
+        firstRowTitle.text = "Coin Amount"
         firstRowTitle.isAccessibilityElement = false
         firstFieldStack.addArrangedSubview(firstRowTitle)
 
@@ -106,7 +107,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         dateOfPurchase!.inputAccessoryView = toolbar
         secondFieldStack.addArrangedSubview(dateOfPurchase!)
         
-        addButton = interfaceFactory.makeActionButton(title: "Add")
+        addButton = interfaceFactory.makeActionButton(title: "Next")
         arrangedSubviews.append(addButton!)
         
         addButton?.contentView.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
@@ -136,8 +137,15 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
     }
     
     @objc private func addButtonTapped() {
-        NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["type": "buy", "amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": date])
-        actionHandler?(self)
+//        NotificationCenter.default.post(name: .TextFieldEntered, object: self, userInfo: ["type": "buy", "amountOfBitcoin": amountOfBitcoin?.text, "dateOfPurchase": date])
+        
+        var dataSource: [String: Any] = [:]
+        dataSource["type"] = "buy"
+        dataSource["coinAmount"] = amountOfBitcoin?.text
+        dataSource["date"] = date
+        
+        nextItem = CostBulletinPage(dataSource: dataSource)
+        displayNextItem()
     }
     
     public func makeGroupStack() -> UIStackView {
@@ -150,6 +158,24 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
         return buttonsStack
         
     }
+    
+//    func calculateCostFromDate() {
+//        let dateOfPurchaseString = dateFormatter.string(from: dateOfPurchase)
+//        let todaysDateString = dateFormatter.string(from: Date())
+//        
+//        else {
+//            let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(dateOfPurchaseString)&end=\(dateOfPurchaseString)")!
+//            
+//            Alamofire.request(url).responseJSON(completionHandler: { response in
+//                
+//                let json = JSON(data: response.data!)
+//                if let price = json["bpi"][dateOfPurchaseString].double {
+//                    self.cost = price * self.coinAmount
+//                }
+//            })
+//        }
+//        
+//    }
 
 }
 

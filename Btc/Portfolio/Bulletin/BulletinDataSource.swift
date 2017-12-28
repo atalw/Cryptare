@@ -58,16 +58,28 @@ enum BulletinDataSource {
         
 //        page.descriptionText = "Enter the amount of Bitcoin and the date of purchase"
 
-        page.dismissalHandler = { item in
-            NotificationCenter.default.post(name: .SetupDidComplete, object: item)
-        }
-        
-        page.actionHandler = { item in
-            item.manager?.dismissBulletin(animated: true)
-        }
+//        page.dismissalHandler = { item in
+//            NotificationCenter.default.post(name: .SetupDidComplete, object: item)
+//        }
+//
+//        page.actionHandler = { item in
+//            item.displayNextItem()
+//        }
+//
+//        page.nextItem = makeCostPage()
         
         return page
     }
+    
+//    static func makeCostPage() -> TextFieldBulletinPage {
+//        let page = CostBulletinPage()
+//
+//        page.actionHandler = { item in
+//            item.manager?.dismissBulletin(animated: true)
+//        }
+//
+//        return page
+//    }
     
 //    /// Whether user completed setup.
 //    static var userDidCompleteSetup: Bool {

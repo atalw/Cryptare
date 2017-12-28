@@ -12,6 +12,7 @@ public struct GlobalValues {
     static var currency: String!
     static var currentBtcPrice: Double!
     static var currentBtcPriceString: String!
+    static var coins: [(String, String)] = []
 }
 
 public struct ChartSettings {

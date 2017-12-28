@@ -17,6 +17,7 @@ class PortfolioSummaryViewController: UIViewController {
 
 
     var dict: [String: [[String: Any]]] = [:]
+    var summary: [String: [String: Any]] = [:]
     var coins: [String] = []
     
     @IBOutlet weak var tableView: UITableView!
@@ -58,7 +59,6 @@ class PortfolioSummaryViewController: UIViewController {
         
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
-            print(portfolioEntries)
             dict = [:]
             print(portfolioEntries.count)
             for index in 0..<portfolioEntries.count {
@@ -66,11 +66,12 @@ class PortfolioSummaryViewController: UIViewController {
                 let secondElement = portfolioEntries[index][1] as? String
                 let thirdElement = portfolioEntries[index][2] as? Double
                 let fourthElement = portfolioEntries[index][3] as? String
-                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = dateFormatter.date(from: fourthElement as! String) {
+//                let fifthElement = portfolioEntries[index][4] as? Double
+                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = dateFormatter.date(from: fourthElement as! String), let cost = thirdElement {
                     if dict[coin] == nil {
                         dict[coin] = []
                     }
-                    dict[coin]!.append(["type": type, "coinAmount": coinAmount, "date": date])
+                    dict[coin]!.append(["type": type, "coinAmount": coinAmount, "date": date, "cost": cost])
                 }
             }
         }
@@ -78,8 +79,19 @@ class PortfolioSummaryViewController: UIViewController {
         for coin in dict.keys {
             coins.append(coin)
         }
-        
+        calculatePortfolioSummary()
         tableView.reloadData()
+    }
+    
+    func calculatePortfolioSummary() {
+        for coin in dict.keys {
+            summary[coin] = [:]
+            summary[coin]!["coinAmount"] = 0.0
+            for entry in dict[coin]! {
+                summary[coin]!["coinAmount"] = (summary[coin]!["coinAmount"] as! Double) + (entry["coinAmount"] as! Double)
+            }
+        }
+        print(summary)
     }
 }
 
@@ -92,6 +104,13 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSummaryCell") as? PortfolioSummaryTableViewCell
         
         cell!.coinSymbolLabel.text = "\(coins[indexPath.row])"
+        cell!.coinImage.image = UIImage(named: coins[indexPath.row].lowercased())
+        for (symbol, name) in GlobalValues.coins {
+            if symbol == coins[indexPath.row] {
+                cell!.coinNameLabel.text = name
+            }
+        }
+        
         return cell!
     }
     

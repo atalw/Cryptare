@@ -127,7 +127,7 @@ class PortfolioTableViewController: UITableViewController {
         }
         
         
-        cell.amountOfBitcoinLabel.text = String(portfolio.amountOfBitcoin)
+        cell.amountOfBitcoinLabel.text = String(portfolio.coinAmount)
         cell.amountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
         if portfolio.type == "buy" {
             cell.amountOfBitcoinLabel.textColor = greenColour
@@ -190,7 +190,7 @@ class PortfolioTableViewController: UITableViewController {
     func tableEmptyMessage() {
         print("empty")
         let messageLabel = UILabel()
-        messageLabel.text = "Add a portfolio"
+        messageLabel.text = "Add a transaction"
         messageLabel.textColor = UIColor.black
         messageLabel.numberOfLines = 0;
         messageLabel.textAlignment = .center
@@ -254,7 +254,7 @@ class PortfolioTableViewController: UITableViewController {
         }
         else {
             for portfolio in portfolioData {
-                PortfolioEntryModel(coin: coin, type: portfolio["type"] as! String, amountOfBitcoin: portfolio["coinAmount"] as! Double, dateOfPurchase: portfolio["date"] as! Date, currentBtcPrice: self.btcPrice, delegate: self)
+                PortfolioEntryModel(coin: coin, type: portfolio["type"] as! String, coinAmount: portfolio["coinAmount"] as! Double, dateOfPurchase: portfolio["date"] as! Date, cost: portfolio["cost"] as! Double, currentCoinPrice: self.btcPrice, delegate: self)
             }
         }
     }
@@ -262,33 +262,34 @@ class PortfolioTableViewController: UITableViewController {
     @objc func textFieldEntered(notification: Notification) {
         dateFormatter.dateFormat = "YYYY-MM-dd"
         let type = notification.userInfo?["type"] as! String
-        let amountOfBitcoin = Double(notification.userInfo?["amountOfBitcoin"] as! String)
-        let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["dateOfPurchase"] as! String)
-        if amountOfBitcoin != nil && dateOfPurchase != nil {
-            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!)
+        let amountOfBitcoin = Double(notification.userInfo?["coinAmount"] as! String)
+        let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["date"] as! String)
+        let cost = Double(notification.userInfo?["cost"] as! String)
+        if amountOfBitcoin != nil && dateOfPurchase != nil && cost != nil {
+            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin!, dateOfPurchase: dateOfPurchase!, cost: cost!)
         }
     }
     
-    func addPortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date) {
+    func addPortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date, cost: Double) {
         tableView.backgroundView = nil
-        PortfolioEntryModel(coin: coin, type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, currentBtcPrice: self.btcPrice, delegate: self)
-        savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase)
+        PortfolioEntryModel(coin: coin, type: type, coinAmount: amountOfBitcoin, dateOfPurchase: dateOfPurchase, cost: cost, currentCoinPrice: self.btcPrice, delegate: self)
+        savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, cost: cost)
     }
     
     // append portfolio entry to userdefaults stored portfolios, else create new data entry
-    func savePortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date) {
+    func savePortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date, cost: Double) {
         let dateString = dateFormatter.string(from: dateOfPurchase)
 
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any])
+                portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any, 4: cost as Any])
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: portfolioEntriesConstant)
             }
         }
         else {
             var portfolioEntries: [[Int:Any]] = []
-            portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any])
+            portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any, 4: cost as Any])
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
             defaults.set(newData, forKey: portfolioEntriesConstant)
         }
@@ -301,7 +302,7 @@ class PortfolioTableViewController: UITableViewController {
                 let dateString = dateFormatter.string(from: portfolioEntry.dateOfPurchase)
                 for index in 0..<portfolioEntries.count {
                     if let coin = portfolioEntries[index][0] as? String, let type = portfolioEntries[index][1] as? String, let amountOfBitcoin = portfolioEntries[index][2] as? Double, let date = portfolioEntries[index][3] as? String {
-                        if coin == portfolioEntry.coin && type == portfolioEntry.type && amountOfBitcoin == portfolioEntry.amountOfBitcoin && dateString == date {
+                        if coin == portfolioEntry.coin && type == portfolioEntry.type && amountOfBitcoin == portfolioEntry.coinAmount && dateString == date {
                             portfolioEntries.remove(at: index)
                             if type == "buy" {
                                 parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
@@ -377,10 +378,10 @@ extension PortfolioTableViewController: PortfolioEntryDelegate {
     
     func dataLoaded(portfolioEntry: PortfolioEntryModel) {
         if portfolioEntry.type == "buy" {
-            parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+            parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.coinAmount, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         }
         else if portfolioEntry.type == "sell" {
-            parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfBitcoin, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+            parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.coinAmount, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         }
         portfolioEntries.append(portfolioEntry)
         tableView.reloadData()
