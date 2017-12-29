@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import Alamofire
+import SwiftyJSON
 
 class PortfolioSummaryViewController: UIViewController {
     
@@ -110,7 +112,7 @@ class PortfolioSummaryViewController: UIViewController {
             coins.append(coin)
         }
         calculatePortfolioSummary()
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
     func calculatePortfolioSummary() {
@@ -120,6 +122,7 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin]!["cost"] = 0.0
             summary[coin]!["coinMarketValue"] = 0.0 // market value of 1 coin
             summary[coin]!["holdingsMarketValue"] = 0.0 // market value of holdings
+            summary[coin]!["coinValueYesterday"] = 0.0
             
             for entry in dict[coin]! {
                 if entry["type"] as! String == "buy" {
@@ -140,11 +143,31 @@ class PortfolioSummaryViewController: UIViewController {
                     print(self.summary[coin]!["coinAmount"]!)
                     self.summary[coin]!["coinMarketValue"] = dict[GlobalValues.currency!]!["price"] as! Double
                     self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["coinAmount"]! * self.summary[coin]!["coinMarketValue"]!
-                    self.tableView.reloadData()
                 }
             })
-            
         }
+        getCoinValueYesterday()
+
+    }
+    
+    func getCoinValueYesterday() {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let yesterday = Int(Date().timeIntervalSince1970 - (24*60*60))
+        for coin in coins {
+            let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=\(coin)&tsyms=\(GlobalValues.currency!)&ts=\(yesterday)")!
+            
+            Alamofire.request(url).responseJSON(completionHandler: { response in
+                
+                let json = JSON(data: response.data!)
+                print(json)
+                if let price = json[coin][GlobalValues.currency!].double {
+                    self.summary[coin]!["coinValueYesterday"] = price
+                    self.tableView.reloadData()
+
+                }
+            })
+        }
+
     }
 }
 
@@ -174,6 +197,19 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let holdingsMarketValue = summary[coin]!["holdingsMarketValue"]!
         cell!.coinCurrentValueLabel.text = numberFormatter.string(from: NSNumber(value: holdingsMarketValue))
         cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
+        
+        let holdingsYesterdayValue = summary[coin]!["coinValueYesterday"]! * summary[coin]!["coinAmount"]!
+        let priceChange = holdingsMarketValue - holdingsYesterdayValue
+        
+        let percentageChange = priceChange / holdingsYesterdayValue * 100
+        if !percentageChange.isNaN {
+            let roundedPercentage = Double(round(percentageChange*100)/100)
+            cell!.changePercentageLabel.text = "\(roundedPercentage) %"
+            cell!.changeCostLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
+        }
+        
+        cell!.changePercentageLabel.adjustsFontSizeToFitWidth = true
+        cell!.changeCostLabel.adjustsFontSizeToFitWidth = true
         
         return cell!
     }
