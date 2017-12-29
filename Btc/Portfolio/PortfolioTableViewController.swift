@@ -32,7 +32,7 @@ class PortfolioTableViewController: UITableViewController {
     var parentController: PortfolioViewController!
     var portfolioData: [[String: Any]] = []
     var portfolioEntries: [PortfolioEntryModel] = []
-    var btcPrice: Double!
+    var coinPrice: Double!
     
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
@@ -76,7 +76,7 @@ class PortfolioTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         activityIndicator.startAnimating()
-        getBtcCurrentValue { (success) -> Void in
+        getCoinMarketValue(coin: coin) { (success) -> Void in
             if success {
                 self.initalizePortfolioEntries()
             }
@@ -244,7 +244,7 @@ class PortfolioTableViewController: UITableViewController {
         }
         else {
             for portfolio in portfolioData {
-                PortfolioEntryModel(coin: coin, type: portfolio["type"] as! String, coinAmount: portfolio["coinAmount"] as! Double, dateOfPurchase: portfolio["date"] as! Date, cost: portfolio["cost"] as! Double, currentCoinPrice: self.btcPrice, delegate: self)
+                PortfolioEntryModel(coin: coin, type: portfolio["type"] as! String, coinAmount: portfolio["coinAmount"] as! Double, dateOfPurchase: portfolio["date"] as! Date, cost: portfolio["cost"] as! Double, currentCoinPrice: self.coinPrice, delegate: self)
             }
         }
     }
@@ -262,7 +262,7 @@ class PortfolioTableViewController: UITableViewController {
     
     func addPortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date, cost: Double) {
         tableView.backgroundView = nil
-        PortfolioEntryModel(coin: coin, type: type, coinAmount: amountOfBitcoin, dateOfPurchase: dateOfPurchase, cost: cost, currentCoinPrice: self.btcPrice, delegate: self)
+        PortfolioEntryModel(coin: coin, type: type, coinAmount: amountOfBitcoin, dateOfPurchase: dateOfPurchase, cost: cost, currentCoinPrice: self.coinPrice, delegate: self)
         savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, cost: cost)
     }
     
@@ -351,11 +351,15 @@ class PortfolioTableViewController: UITableViewController {
         //        BulletinDataSource.userDidCompleteSetup = true
     }
 
-    func getBtcCurrentValue(completion: @escaping (_ success: Bool) -> Void) {
-        Alamofire.request("https://api.coindesk.com/v1/bpi/currentprice/\(GlobalValues.currency!).json").responseJSON(completionHandler: { response in
+    func getCoinMarketValue(coin: String, completion: @escaping (_ success: Bool) -> Void) {
+       let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=\(coin)&tsyms=\(GlobalValues.currency!)")!
+        
+        Alamofire.request(url).responseJSON(completionHandler: { response in
+            
             let json = JSON(data: response.data!)
-            if let price = json["bpi"][GlobalValues.currency!]["rate_float"].double {
-                self.btcPrice = price
+            print(json)
+            if let price = json[GlobalValues.currency!].double {
+                self.coinPrice = price
                 completion(true)
             }
         })

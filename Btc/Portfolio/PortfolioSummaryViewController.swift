@@ -22,6 +22,7 @@ class PortfolioSummaryViewController: UIViewController {
 
     var dict: [String: [[String: Any]]] = [:]
     var summary: [String: [String: Double]] = [:]
+    var yesterdayCoinValues: [String: Double] = [:]
     var coins: [String] = []
     
     var databaseRef: DatabaseReference!
@@ -41,10 +42,21 @@ class PortfolioSummaryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        databaseRef = Database.database().reference()
+        updateOldFormatPortfolioEntries()
+        
+        yesterdayCoinValues = [:]
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        databaseRef = Database.database().reference()
+        dict = [:]
+        coins = []
+        initalizePortfolioEntries()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -59,9 +71,6 @@ class PortfolioSummaryViewController: UIViewController {
             numberFormatter.locale = Locale.init(identifier: "en_US")
         }
         
-        dict = [:]
-        coins = []
-        initalizePortfolioEntries()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -85,6 +94,46 @@ class PortfolioSummaryViewController: UIViewController {
     }
     */
     
+    func updateOldFormatPortfolioEntries() {
+        if let data = defaults.data(forKey: portfolioEntriesConstant) {
+            var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
+            dict = [:]
+            print(portfolioEntries.count)
+            for index in 0..<portfolioEntries.count {
+                let firstElement = portfolioEntries[index][0] as? String
+                let secondElement = portfolioEntries[index][1] as? Double
+                let thirdElement = portfolioEntries[index][2] as? String
+
+                let coin = "BTC"
+                if let type = firstElement, let coinAmount = secondElement, let date = thirdElement {
+                    calculateCostFromDate(dateString: date) { value in
+                        let price = coinAmount * value
+                        portfolioEntries.remove(at: index)
+                        let data = [0: coin as Any, 1: type as Any, 2: coinAmount as Any, 3: date as Any, 4: price as Any]
+                        portfolioEntries.insert(data, at: index)
+                        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                        self.defaults.set(newData, forKey: "portfolioEntries")
+                    }
+                    
+                }
+            }
+        }
+    }
+        
+    func calculateCostFromDate(dateString: String, completionHandler: @escaping (Double) -> ()) {
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let date = dateFormatter.date(from: dateString)
+        let unixTime = Int((date?.timeIntervalSince1970)!)
+        let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=\(GlobalValues.currency!)&ts=\(unixTime)")!
+        Alamofire.request(url).responseJSON(completionHandler: { response in
+            
+            let json = JSON(data: response.data!)
+            if let price = json["BTC"][GlobalValues.currency!].double {
+                completionHandler(price)
+            }
+        })
+    }
+    
     func initalizePortfolioEntries() {
         //        defaults.removeObject(forKey: "portfolioEntries")
         
@@ -92,6 +141,7 @@ class PortfolioSummaryViewController: UIViewController {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
             dict = [:]
             print(portfolioEntries.count)
+            print(portfolioEntries)
             for index in 0..<portfolioEntries.count {
                 let firstElement = portfolioEntries[index][0] as? String
                 let secondElement = portfolioEntries[index][1] as? String
@@ -163,11 +213,9 @@ class PortfolioSummaryViewController: UIViewController {
                 if let price = json[coin][GlobalValues.currency!].double {
                     self.summary[coin]!["coinValueYesterday"] = price
                     self.tableView.reloadData()
-
                 }
             })
         }
-
     }
 }
 
@@ -202,7 +250,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let priceChange = holdingsMarketValue - holdingsYesterdayValue
         
         let percentageChange = priceChange / holdingsYesterdayValue * 100
-        if !percentageChange.isNaN {
+        if !percentageChange.isNaN && !percentageChange.isInfinite {
             let roundedPercentage = Double(round(percentageChange*100)/100)
             cell!.changePercentageLabel.text = "\(roundedPercentage) %"
             cell!.changeCostLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
