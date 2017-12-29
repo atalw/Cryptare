@@ -159,7 +159,7 @@ class PortfolioViewController: UIViewController {
         
         totalPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: change))
         let roundedAmountOfBitcoin = Double(round(1000*totalAmountOfBitcoin!)/1000)
-        totalAmountOfBitcoinLabel.text = "\(roundedAmountOfBitcoin) BTC"
+        totalAmountOfBitcoinLabel.text = "\(roundedAmountOfBitcoin) \(self.coin!)"
         
         if roundedPercentage > 0 {
             totalPercentageView.backgroundColor = greenColour

@@ -16,9 +16,11 @@ class PortfolioSummaryViewController: UIViewController {
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
+    
+    let greenColour = UIColor.init(hex: "#2ecc71")
+    let redColour = UIColor.init(hex: "#e74c3c")
 
     let portfolioEntriesConstant = "portfolioEntries"
-
 
     var dict: [String: [[String: Any]]] = [:]
     var summary: [String: [String: Double]] = [:]
@@ -28,6 +30,10 @@ class PortfolioSummaryViewController: UIViewController {
     var databaseRef: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
 
+    @IBOutlet weak var currentPortfolioValueLabel: UILabel!
+    @IBOutlet weak var totalInvestedLabel: UILabel!
+    @IBOutlet weak var totalPercentageChangeLabel: UILabel!
+    @IBOutlet weak var totalPriceChangeLabel: UILabel!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -52,7 +58,7 @@ class PortfolioSummaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("willappear")
         databaseRef = Database.database().reference()
         dict = [:]
         coins = []
@@ -61,7 +67,8 @@ class PortfolioSummaryViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        print("didappear")
+
         let currency = GlobalValues.currency!
         
         if currency == "INR" {
@@ -73,14 +80,19 @@ class PortfolioSummaryViewController: UIViewController {
         
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("will disappear")
+
         databaseRef.removeAllObservers()
         
         for coinRef in coinRefs {
             coinRef.removeAllObservers()
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
 
@@ -173,6 +185,7 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin]!["coinMarketValue"] = 0.0 // market value of 1 coin
             summary[coin]!["holdingsMarketValue"] = 0.0 // market value of holdings
             summary[coin]!["coinValueYesterday"] = 0.0
+            summary[coin]!["holdingsValueYesterday"] = 0.0
             
             for entry in dict[coin]! {
                 if entry["type"] as! String == "buy" {
@@ -193,11 +206,11 @@ class PortfolioSummaryViewController: UIViewController {
                     print(self.summary[coin]!["coinAmount"]!)
                     self.summary[coin]!["coinMarketValue"] = dict[GlobalValues.currency!]!["price"] as! Double
                     self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["coinAmount"]! * self.summary[coin]!["coinMarketValue"]!
+                    self.updateSummaryLabels()
                 }
             })
         }
         getCoinValueYesterday()
-
     }
     
     func getCoinValueYesterday() {
@@ -212,10 +225,51 @@ class PortfolioSummaryViewController: UIViewController {
                 print(json)
                 if let price = json[coin][GlobalValues.currency!].double {
                     self.summary[coin]!["coinValueYesterday"] = price
+                    self.summary[coin]!["holdingsValueYesterday"] = price * self.summary[coin]!["coinAmount"]!
                     self.tableView.reloadData()
                 }
             })
         }
+    }
+    
+    func updateSummaryLabels() {
+        var currentPortfolioValue = 0.0
+        var totalInvested = 0.0
+        var yesterdayPortfolioValue = 0.0
+        for coin in coins {
+            currentPortfolioValue = currentPortfolioValue + summary[coin]!["holdingsMarketValue"]!
+            totalInvested = totalInvested + summary[coin]!["cost"]!
+            yesterdayPortfolioValue = yesterdayPortfolioValue + summary[coin]!["holdingsValueYesterday"]!
+        }
+        
+        let priceChange = currentPortfolioValue - yesterdayPortfolioValue
+        let percentageChange = priceChange / yesterdayPortfolioValue * 100
+        
+        var colour: UIColor
+        
+        if percentageChange > 0 {
+            colour = greenColour
+        }
+        else if percentageChange < 0 {
+            colour = redColour
+        }
+        else {
+            colour = UIColor.black
+        }
+        
+        currentPortfolioValueLabel.text = numberFormatter.string(from: NSNumber(value: currentPortfolioValue))
+        totalInvestedLabel.text = numberFormatter.string(from: NSNumber(value: totalInvested))
+        
+        if !percentageChange.isNaN && !percentageChange.isInfinite {
+            let roundedPercentageChange = Double(round(percentageChange*100)/100)
+            
+            totalPercentageChangeLabel.text = "\(roundedPercentageChange) %"
+            totalPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
+            
+            totalPercentageChangeLabel.textColor = colour
+            totalPriceChangeLabel.textColor = colour
+        }
+        
     }
 }
 
@@ -225,6 +279,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        updateSummaryLabels()
         let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSummaryCell") as? PortfolioSummaryTableViewCell
         
         let coin = coins[indexPath.row]
@@ -246,14 +301,31 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         cell!.coinCurrentValueLabel.text = numberFormatter.string(from: NSNumber(value: holdingsMarketValue))
         cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
         
-        let holdingsYesterdayValue = summary[coin]!["coinValueYesterday"]! * summary[coin]!["coinAmount"]!
-        let priceChange = holdingsMarketValue - holdingsYesterdayValue
+        let holdingsValueYesterday = summary[coin]!["holdingsValueYesterday"]!
+        let priceChange = holdingsMarketValue - holdingsValueYesterday
         
-        let percentageChange = priceChange / holdingsYesterdayValue * 100
+        let percentageChange = priceChange / holdingsValueYesterday * 100
+        
+        var colour: UIColor
+        
+        if percentageChange > 0 {
+            colour = greenColour
+        }
+        else if percentageChange < 0 {
+            colour = redColour
+        }
+        else {
+            colour = UIColor.black
+        }
+        
         if !percentageChange.isNaN && !percentageChange.isInfinite {
             let roundedPercentage = Double(round(percentageChange*100)/100)
+            
             cell!.changePercentageLabel.text = "\(roundedPercentage) %"
             cell!.changeCostLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
+            
+            cell!.changePercentageLabel.textColor = colour
+            cell!.changeCostLabel.textColor = colour
         }
         
         cell!.changePercentageLabel.adjustsFontSizeToFitWidth = true
