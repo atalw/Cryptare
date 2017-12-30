@@ -68,14 +68,8 @@ class DashboardViewController: UIViewController {
                 self.coins = []
                 GlobalValues.coins = []
                 for index in 0..<sortedDict.count {
-                    if sortedDict[index].key != "MIOTA" && sortedDict[index].key != "VET" {
-                        self.coins.append(sortedDict[index].key)
-                        GlobalValues.coins.append((sortedDict[index].key, sortedDict[index].value["name"] as! String))
-                    }
-                    else if sortedDict[index].key == "MIOTA" {
-                        self.coins.append("IOT")
-                        GlobalValues.coins.append(("IOT", sortedDict[index].value["name"] as! String))
-                    }
+                    self.coins.append(sortedDict[index].key)
+                    GlobalValues.coins.append((sortedDict[index].key, sortedDict[index].value["name"] as! String))
                 }
                 self.setupCoinRefs()
             }
@@ -170,25 +164,24 @@ class DashboardViewController: UIViewController {
     
     func updateCoinDataStructure(coin: String, dict: [String: Any]) {
         self.coinData[coin]!["rank"] = dict["rank"] as! Int
-//        self.coinData[coin]!["rank"] = self.coins.index(of: coin)
-
-//        print(dict["price"])
-        let currencyData = dict[GlobalValues.currency!] as? [String: Any]
-
-        if self.coinData[coin]!["oldPrice"] == nil {
-            self.coinData[coin]!["oldPrice"] = 0.0
+        
+        if let currencyData = dict[GlobalValues.currency!] as? [String: Any] {
+            if self.coinData[coin]!["oldPrice"] == nil {
+                self.coinData[coin]!["oldPrice"] = 0.0
+            }
+            else {
+                self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
+            }
+            self.coinData[coin]!["currentPrice"] = currencyData["price"] as! Double
+            self.coinData[coin]!["volume24hrs"] = currencyData["vol_24hrs_currency"]
+            let percentage = currencyData["change_24hrs_percent"] as! Double
+            let roundedPercentage = Double(round(1000*percentage)/1000)
+            self.coinData[coin]!["percentageChange24hrs"] = roundedPercentage
+            self.coinData[coin]!["priceChange24hrs"] = currencyData["change_24hrs_fiat"] as! Double
+            self.coinData[coin]!["timestamp"] = currencyData["timestamp"] as! Double
+            self.tableView.reloadData()
         }
-        else {
-            self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
-        }
-        self.coinData[coin]!["currentPrice"] = currencyData!["price"] as! Double
-        self.coinData[coin]!["volume24hrs"] = currencyData!["vol_24hrs_currency"]
-        let percentage = currencyData!["change_24hrs_percent"] as! Double
-        let roundedPercentage = Double(round(1000*percentage)/1000)
-        self.coinData[coin]!["percentageChange24hrs"] = roundedPercentage
-        self.coinData[coin]!["priceChange24hrs"] = currencyData!["change_24hrs_fiat"] as! Double
-        self.coinData[coin]!["timestamp"] = currencyData!["timestamp"] as! Double
-        self.tableView.reloadData()
+        
     }
     
 }

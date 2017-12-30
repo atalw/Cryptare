@@ -29,7 +29,10 @@ class PortfolioSummaryViewController: UIViewController {
     
     var databaseRef: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
-
+    
+    @IBOutlet weak var option24hrButton: UIButton!
+    @IBOutlet weak var optionAllTimeButton: UIButton!
+    
     @IBOutlet weak var currentPortfolioValueLabel: UILabel!
     @IBOutlet weak var totalInvestedLabel: UILabel!
     @IBOutlet weak var totalPercentageChangeLabel: UILabel!
@@ -52,13 +55,15 @@ class PortfolioSummaryViewController: UIViewController {
         
         yesterdayCoinValues = [:]
         
+        option24hrButton.isSelected = true
+        optionAllTimeButton.isSelected = false
+        
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("willappear")
         databaseRef = Database.database().reference()
         dict = [:]
         coins = []
@@ -67,7 +72,6 @@ class PortfolioSummaryViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("didappear")
 
         let currency = GlobalValues.currency!
         
@@ -82,7 +86,6 @@ class PortfolioSummaryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("will disappear")
 
         databaseRef.removeAllObservers()
         
@@ -241,9 +244,17 @@ class PortfolioSummaryViewController: UIViewController {
             totalInvested = totalInvested + summary[coin]!["cost"]!
             yesterdayPortfolioValue = yesterdayPortfolioValue + summary[coin]!["holdingsValueYesterday"]!
         }
+        var priceChange: Double = 0
+        var percentageChange: Double = 0
         
-        let priceChange = currentPortfolioValue - yesterdayPortfolioValue
-        let percentageChange = priceChange / yesterdayPortfolioValue * 100
+        if option24hrButton.isSelected {
+            priceChange = currentPortfolioValue - yesterdayPortfolioValue
+            percentageChange = priceChange / yesterdayPortfolioValue * 100
+        }
+        else if optionAllTimeButton.isSelected {
+            priceChange = currentPortfolioValue - totalInvested
+            percentageChange = priceChange / totalInvested * 100
+        }
         
         var colour: UIColor
         
@@ -271,6 +282,22 @@ class PortfolioSummaryViewController: UIViewController {
         }
         
     }
+    
+    @IBAction func optionAllTimeTapped(_ sender: Any) {
+        optionAllTimeButton.isSelected = true
+        option24hrButton.isSelected = false
+        updateSummaryLabels()
+        tableView.reloadData()
+    }
+    
+    @IBAction func option24hrTapped(_ sender: Any) {
+        optionAllTimeButton.isSelected = false
+        option24hrButton.isSelected = true
+        updateSummaryLabels()
+        tableView.reloadData()
+    }
+    
+    
 }
 
 extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDelegate {
@@ -301,10 +328,22 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         cell!.coinCurrentValueLabel.text = numberFormatter.string(from: NSNumber(value: holdingsMarketValue))
         cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
         
-        let holdingsValueYesterday = summary[coin]!["holdingsValueYesterday"]!
-        let priceChange = holdingsMarketValue - holdingsValueYesterday
+        var percentageChange: Double! = 0
+        var priceChange: Double! = 0
         
-        let percentageChange = priceChange / holdingsValueYesterday * 100
+        if option24hrButton.isSelected {
+            let holdingsValueYesterday = summary[coin]!["holdingsValueYesterday"]!
+            priceChange = holdingsMarketValue - holdingsValueYesterday
+            
+            percentageChange = priceChange / holdingsValueYesterday * 100
+        }
+        else if optionAllTimeButton.isSelected {
+            let coinCost = summary[coin]!["cost"]!
+            priceChange = holdingsMarketValue - coinCost
+            
+            percentageChange = priceChange / coinCost * 100
+        }
+        
         
         var colour: UIColor
         
