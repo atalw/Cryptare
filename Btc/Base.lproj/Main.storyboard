@@ -998,7 +998,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aAQ-08-LU2" id="4J7-Le-Cqs">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" tag="10" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="k3g-Jc-6hX">
@@ -2035,34 +2035,34 @@
                                                         <rect key="frame" x="0.0" y="16" width="343" height="406"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <prototypes>
-                                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" id="R6K-A6-G22" customClass="MarketTableViewCell" customModule="Cryptare" customModuleProvider="target">
+                                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" id="R6K-A6-G22" customClass="MarketTableViewCell" customModule="Cryptare" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="28" width="343" height="55"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="R6K-A6-G22" id="BYR-bs-ug2">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="55"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="55"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZp-ys-zle">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="310" height="55"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="55"/>
                                                                             <subviews>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1pf-bo-JHV">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="55"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="55"/>
                                                                                     <subviews>
                                                                                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="748" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyP-pq-2lb" customClass="CustomUIButton" customModule="Cryptare" customModuleProvider="target">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="55"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="111" height="55"/>
                                                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                                             <state key="normal" title="Button">
                                                                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                                             </state>
                                                                                         </button>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0yQ-30-6dp">
-                                                                                            <rect key="frame" x="105" y="0.0" width="100" height="55"/>
+                                                                                            <rect key="frame" x="116" y="0.0" width="111" height="55"/>
                                                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OfL-QV-mEE">
-                                                                                            <rect key="frame" x="210" y="0.0" width="100" height="55"/>
+                                                                                            <rect key="frame" x="232" y="0.0" width="111" height="55"/>
                                                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
@@ -2090,7 +2090,6 @@
                                                                     <outlet property="buyLabel" destination="0yQ-30-6dp" id="unK-h2-e5R"/>
                                                                     <outlet property="sellLabel" destination="OfL-QV-mEE" id="kDw-LK-yyu"/>
                                                                     <outlet property="siteLabel" destination="OyP-pq-2lb" id="Yx6-Zm-dMr"/>
-                                                                    <segue destination="sis-zd-xyp" kind="show" id="8Nf-8L-M4N"/>
                                                                 </connections>
                                                             </tableViewCell>
                                                         </prototypes>
