@@ -219,10 +219,23 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             let timestamp = self.coinData["timestamp"] as! Double
             self.lastUpdatedLabel.text =  self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
             
-            self.percentageChangeLabel.text = "\(self.coinData["percentageChange24hrs"] as! Double)%"
+            var percentageChangeColour: UIColor
+            let percentageChange = self.coinData["percentageChange24hrs"] as! Double
+            
+            if  percentageChange > 0 {
+                percentageChangeColour = self.greenColour
+            }
+            else if percentageChange < 0 {
+                percentageChangeColour = self.redColour
+            }
+            else {
+                percentageChangeColour = UIColor.black
+            }
+            
+            self.percentageChangeLabel.text = "\(percentageChange)%"
             self.priceChangeLabel.text = (self.coinData["priceChange24hrs"] as! Double).asCurrency
-            self.percentageChangeLabel.textColor = colour
-            self.priceChangeLabel.textColor = colour
+            self.percentageChangeLabel.textColor = percentageChangeColour
+            self.priceChangeLabel.textColor = percentageChangeColour
             
             self.high24hrsLabel.text = (self.coinData["high24hrs"] as! Double).asCurrency
             self.low24hrsLabel.text = (self.coinData["low24hrs"] as! Double).asCurrency
