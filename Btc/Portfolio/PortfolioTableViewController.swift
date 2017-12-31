@@ -97,6 +97,8 @@ class PortfolioTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dateFormatter.dateFormat = "dd/MM/YY"
+        
+        
 
         let portfolio = portfolioEntries[indexPath.row]
         var cell: PortfolioTableViewCell
@@ -107,6 +109,14 @@ class PortfolioTableViewController: UITableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSellCell", for: indexPath) as! PortfolioTableViewCell
         }
         
+        for (symbol, name) in GlobalValues.coins {
+            if symbol == coin {
+                cell.coinNameLabel.text = name
+                cell.coinLogoImage.image = UIImage(named: symbol.lowercased())
+            }
+        }
+        
+        cell.coinNameLabel.adjustsFontSizeToFitWidth = true
         
         cell.amountOfBitcoinLabel.text = String(portfolio.coinAmount)
         cell.amountOfBitcoinLabel.adjustsFontSizeToFitWidth = true

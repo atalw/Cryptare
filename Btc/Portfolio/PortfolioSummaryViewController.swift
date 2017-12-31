@@ -55,6 +55,8 @@ class PortfolioSummaryViewController: UIViewController {
         option24hrButton.isSelected = true
         optionAllTimeButton.isSelected = false
         
+        tableView.tableFooterView = UIView(frame: .zero)
+        
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
     }
@@ -100,7 +102,6 @@ class PortfolioSummaryViewController: UIViewController {
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
             var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
             dict = [:]
-            print(portfolioEntries.count)
             for index in 0..<portfolioEntries.count {
                 let firstElement = portfolioEntries[index][0] as? String
                 let secondElement = portfolioEntries[index][1] as? Double
@@ -142,8 +143,6 @@ class PortfolioSummaryViewController: UIViewController {
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
             dict = [:]
-            print(portfolioEntries.count)
-            print(portfolioEntries)
             for index in 0..<portfolioEntries.count {
                 let firstElement = portfolioEntries[index][0] as? String
                 let secondElement = portfolioEntries[index][1] as? String
@@ -193,7 +192,6 @@ class PortfolioSummaryViewController: UIViewController {
             
             coinRefs[index].observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String : AnyObject] {
-                    print(self.summary[coin]!["coinAmount"]!)
                     self.summary[coin]!["coinMarketValue"] = dict[GlobalValues.currency!]!["price"] as! Double
                     self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["coinAmount"]! * self.summary[coin]!["coinMarketValue"]!
                     self.updateSummaryLabels()
@@ -213,7 +211,6 @@ class PortfolioSummaryViewController: UIViewController {
             Alamofire.request(url).responseJSON(completionHandler: { response in
                 
                 let json = JSON(data: response.data!)
-                print(json)
                 if let price = json[coin][GlobalValues.currency!].double {
                     self.summary[coin]!["coinValueYesterday"] = price
                     self.summary[coin]!["holdingsValueYesterday"] = price * self.summary[coin]!["coinAmount"]!

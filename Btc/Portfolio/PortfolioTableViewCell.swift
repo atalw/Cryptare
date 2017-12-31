@@ -10,6 +10,8 @@ import UIKit
 
 class PortfolioTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var coinNameLabel: UILabel!
+    @IBOutlet weak var coinLogoImage: UIImageView!
     @IBOutlet weak var amountOfBitcoinLabel: UILabel!
     @IBOutlet weak var costLabel: UILabel!
     @IBOutlet weak var dateOfPurchaseLabel: UILabel!
