@@ -13,7 +13,6 @@ import Firebase
 class MarketDetailViewController: UIViewController {
     
     let defaults = UserDefaults.standard
-    let numberFormatter = NumberFormatter()
     
     var market: String!
     var databaseChildTitle: String!
@@ -52,13 +51,6 @@ class MarketDetailViewController: UIViewController {
         navigationItem.title = market
         
         let selectedCountry = self.defaults.string(forKey: "selectedCountry")
-        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
-        if selectedCountry == "india" {
-            self.numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if selectedCountry == "usa" {
-            self.numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
         
         titleLabel.text = market
         
@@ -92,8 +84,8 @@ class MarketDetailViewController: UIViewController {
                 }
                 
                 DispatchQueue.main.async {
-                    self.buyPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: currentBuyPrice))
-                    self.sellPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: currentSellPrice))
+                    self.buyPriceLabel.text = currentBuyPrice.asCurrency
+                    self.sellPriceLabel.text = currentSellPrice.asCurrency
                     let formattedVolume = Double(round(10000*currentVolume)/10000)
                     self.volumeLabel.text = "₿ \(formattedVolume)"
                 }
@@ -103,8 +95,13 @@ class MarketDetailViewController: UIViewController {
         marketDescriptionLabel.text = marketDescription
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         ref.removeAllObservers()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
 

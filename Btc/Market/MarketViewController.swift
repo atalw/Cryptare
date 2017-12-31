@@ -137,7 +137,11 @@ class MarketViewController: UIViewController {
             bitstampRef = databaseReference.child("bitstamp_BTC_USD")
 //            bittrexRef = databaseReference.child("")
         }
-        
+        else if self.defaults.string(forKey: "selectedCountry") == "eu" {
+            coinbaseRef = databaseReference.child("coinbase_BTC_EUR")
+            krakenRef = databaseReference.child("kraken_BTC_EUR")
+            localbitcoinsRef = databaseReference.child("localbitcoins_BTC_EUR")
+        }
 
     }
     
@@ -145,6 +149,8 @@ class MarketViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        
+        self.loadData()
         
         // for current bitcoin price
         let tableTitle = "current_btc_price_\(GlobalValues.currency!)"
@@ -272,6 +278,27 @@ class MarketViewController: UIViewController {
             
         }
         
+        else if selectedCountry == "eu" {
+            coinbaseRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Coinbase")
+                }
+            })
+            
+            localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
+                }
+            })
+            
+            krakenRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: "Kraken")
+                }
+            })
+            
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -284,11 +311,10 @@ class MarketViewController: UIViewController {
             print("here")
         }
         
-        self.loadData()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         currentBtcRef.removeAllObservers()
         
@@ -308,7 +334,15 @@ class MarketViewController: UIViewController {
             bitfinexRef.removeAllObservers()
             bitstampRef.removeAllObservers()
         }
-        
+        else if selectedCountry == "eu" {
+            coinbaseRef.removeAllObservers()
+            localbitcoinsRef.removeAllObservers()
+            krakenRef.removeAllObservers()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     // MARK: Firebase helper functions
@@ -609,6 +643,22 @@ class MarketViewController: UIViewController {
                 liteMarkets = [("Poloniex", "https://poloniex.com/"), ("Gemini", "https://gemini.com/"), ("Bitfinex", "https://www.bitfinex.com/"), ("Bitstamp", "https://www.bitstamp.net/"), ("Bittrex", "https://bittrex.com/")]
             #endif
            
+        }
+        else if self.selectedCountry == "eu" {
+            // Coinbase
+            let coinbaseDescription = ""
+            let coinbaseLinks = ["", "", ""]
+            addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b", description: coinbaseDescription, links: coinbaseLinks)
+            
+            // Kraken
+            let krakenDescription = ""
+            let krakenLinks = ["", "", ""]
+            addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/", description: krakenDescription, links: krakenLinks)
+            
+            // LocalBitcoins
+            let localbitcoinsDescription = ""
+            let localbitcoinsLinks = ["", "", ""]
+            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
         }
         
     }
