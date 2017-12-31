@@ -69,7 +69,6 @@ class PortfolioSummaryViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -198,6 +197,7 @@ class PortfolioSummaryViewController: UIViewController {
                     self.summary[coin]!["coinMarketValue"] = dict[GlobalValues.currency!]!["price"] as! Double
                     self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["coinAmount"]! * self.summary[coin]!["coinMarketValue"]!
                     self.updateSummaryLabels()
+                    self.tableView.reloadData()
                 }
             })
         }
