@@ -153,43 +153,44 @@ class MarketViewController: UIViewController {
         self.loadData()
         
         // for current bitcoin price
-        let tableTitle = "current_btc_price_\(GlobalValues.currency!)"
+        let tableTitle = "BTC"
         currentBtcRef = Database.database().reference().child(tableTitle)
         
         currentBtcRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String : AnyObject] {
-                let oldBtcPrice = self.currentBtcPrice
-                self.currentBtcPrice = dict["price"] as! Double
-                let unixTime = dict["timestamp"] as! Double
-                var colour: UIColor
-                
-                if self.currentBtcPrice > oldBtcPrice {
-                    colour = self.greenColour
-                }
-                else if self.currentBtcPrice < oldBtcPrice {
-                    colour = self.redColour
-                }
-                else {
-                    colour = UIColor.black
-                }
-                
-                GlobalValues.currentBtcPriceString = self.currentBtcPrice.asCurrency
-                GlobalValues.currentBtcPrice = self.currentBtcPrice
-                DispatchQueue.main.async {
-                    self.btcPriceLabel.text = (self.currentBtcPrice * self.textFieldValue).asCurrency
+                if let currencyData = dict[GlobalValues.currency!] as? [String: Any] {
+                    let oldBtcPrice = self.currentBtcPrice
+                    self.currentBtcPrice = currencyData["price"] as! Double
+                    let unixTime = currencyData["timestamp"] as! Double
+                    var colour: UIColor
                     
-                    UILabel.transition(with: self.btcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
-                        self.btcPriceLabel.textColor = colour
-                    }, completion: { finished in
-                        UILabel.transition(with: self.btcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                            self.btcPriceLabel.textColor = UIColor.black
-                        }, completion: nil)
-                    })
+                    if self.currentBtcPrice > oldBtcPrice {
+                        colour = self.greenColour
+                    }
+                    else if self.currentBtcPrice < oldBtcPrice {
+                        colour = self.redColour
+                    }
+                    else {
+                        colour = UIColor.black
+                    }
                     
-//                    self.dateFormatter.dateFormat = "h:mm a"
-//                    self.lastUpdated.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: unixTime))
+                    GlobalValues.currentBtcPriceString = self.currentBtcPrice.asCurrency
+                    GlobalValues.currentBtcPrice = self.currentBtcPrice
+                    DispatchQueue.main.async {
+                        self.btcPriceLabel.text = (self.currentBtcPrice * self.textFieldValue).asCurrency
+                        
+                        UILabel.transition(with: self.btcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
+                            self.btcPriceLabel.textColor = colour
+                        }, completion: { finished in
+                            UILabel.transition(with: self.btcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                                self.btcPriceLabel.textColor = UIColor.black
+                            }, completion: nil)
+                        })
+                        
+                    }
                 }
             }
+                
         })
         
         
