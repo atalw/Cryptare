@@ -45,7 +45,7 @@ class PortfolioTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets.zero
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
         activityIndicator.addSubview(view)
@@ -112,7 +112,12 @@ class PortfolioTableViewController: UITableViewController {
         for (symbol, name) in GlobalValues.coins {
             if symbol == coin {
                 cell.coinNameLabel.text = name
-                cell.coinLogoImage.image = UIImage(named: symbol.lowercased())
+                if symbol == "IOT" {
+                    cell.coinLogoImage.image = UIImage(named: "miota")
+                }
+                else {
+                    cell.coinLogoImage.image = UIImage(named: symbol.lowercased())
+                }
             }
         }
         
@@ -179,7 +184,6 @@ class PortfolioTableViewController: UITableViewController {
     }
     
     func tableEmptyMessage() {
-        print("empty")
         let messageLabel = UILabel()
         messageLabel.text = "Add a transaction"
         messageLabel.textColor = UIColor.black
@@ -187,7 +191,7 @@ class PortfolioTableViewController: UITableViewController {
         messageLabel.textAlignment = .center
         messageLabel.sizeToFit()
         
-        tableView.backgroundView = messageLabel;
+        tableView.backgroundView = messageLabel
         tableView.backgroundView?.backgroundColor = UIColor.groupTableViewBackground
     }
  
@@ -251,7 +255,7 @@ class PortfolioTableViewController: UITableViewController {
     }
     
     @objc func textFieldEntered(notification: Notification) {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let type = notification.userInfo?["type"] as! String
         let amountOfBitcoin = notification.userInfo?["coinAmount"] as! Double
         let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["date"] as! String)
@@ -287,24 +291,27 @@ class PortfolioTableViewController: UITableViewController {
     }
     
     func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 let dateString = dateFormatter.string(from: portfolioEntry.dateOfPurchase)
                 for index in 0..<portfolioEntries.count {
+                    print(portfolioEntries[index])
                     let coin = portfolioEntries[index][0] as? String
                     let type = portfolioEntries[index][1] as? String
                     let coinAmount = portfolioEntries[index][2] as? Double
                     let date = portfolioEntries[index][3] as? String
                     let cost = portfolioEntries[index][4] as! Double
                     if coin == portfolioEntry.coin && type == portfolioEntry.type && coinAmount == portfolioEntry.coinAmount && dateString == date && cost == portfolioEntry.cost {
-                        portfolioEntries.remove(at: index)
                         if type == "buy" {
                             parentController.subtractTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
                         }
                         else {
                             parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
                         }
+                        print("deleted")
+                        portfolioEntries.remove(at: index)
+
                         break
                     }
                 }

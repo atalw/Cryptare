@@ -39,7 +39,7 @@ class TextFieldBulletinPage: NSObject, BulletinItem {
 
 
     func makeArrangedSubviews() -> [UIView] {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
         var arrangedSubviews = [UIView]()
         createDatePicker()
@@ -154,7 +154,7 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
         let dateString = dateFormatter.string(from: picker.date)
         dateOfPurchase!.text = dateString
         
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         date = dateFormatter.string(from: picker.date)
         
         dateOfPurchase?.endEditing(true)

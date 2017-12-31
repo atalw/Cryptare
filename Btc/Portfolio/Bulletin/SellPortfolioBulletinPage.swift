@@ -56,7 +56,7 @@ class SellPortfolioBulletinPage: NSObject, BulletinItem {
         firstRowTitle.textAlignment = .left
         firstRowTitle.adjustsFontSizeToFitWidth = true
         firstRowTitle.font = UIFont.systemFont(ofSize: 18)
-        firstRowTitle.text = "Amount of Bitcoin"
+        firstRowTitle.text = "Coin Amount"
         firstRowTitle.isAccessibilityElement = false
         firstFieldStack.addArrangedSubview(firstRowTitle)
         
@@ -156,7 +156,7 @@ extension SellPortfolioBulletinPage: UITextFieldDelegate {
         let dateString = dateFormatter.string(from: picker.date)
         dateOfSale!.text = dateString
         
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         date = dateFormatter.string(from: picker.date)
         
         dateOfSale?.endEditing(true)
