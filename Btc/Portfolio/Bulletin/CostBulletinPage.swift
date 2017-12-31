@@ -93,7 +93,7 @@ class  CostBulletinPage: NSObject, BulletinItem {
     }
     
     func calculateCostFromDate() {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let date = dateFormatter.date(from: dataSource["date"] as! String)
         let unixTime = date?.timeIntervalSince1970
         let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=\(self.coin)&tsyms=\(GlobalValues.currency!)&ts=\(unixTime!)")!

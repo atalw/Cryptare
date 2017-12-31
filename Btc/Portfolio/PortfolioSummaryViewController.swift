@@ -42,7 +42,7 @@ class PortfolioSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         
         tableView.delegate = self
@@ -66,7 +66,24 @@ class PortfolioSummaryViewController: UIViewController {
         databaseRef = Database.database().reference()
         dict = [:]
         coins = []
+        summary = [:]
         initalizePortfolioEntries()
+        if coins.count == 0 {
+            tableView.reloadData()
+            updateSummaryLabels()
+            let messageLabel = UILabel()
+            messageLabel.text = "Add a coin"
+            messageLabel.textColor = UIColor.black
+            messageLabel.numberOfLines = 0;
+            messageLabel.textAlignment = .center
+            messageLabel.sizeToFit()
+            
+            tableView.backgroundView = messageLabel
+        }
+        else {
+            tableView.backgroundView = nil
+
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -124,7 +141,7 @@ class PortfolioSummaryViewController: UIViewController {
     }
         
     func calculateCostFromDate(dateString: String, completionHandler: @escaping (Double) -> ()) {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let date = dateFormatter.date(from: dateString)
         let unixTime = Int((date?.timeIntervalSince1970)!)
         let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=\(GlobalValues.currency!)&ts=\(unixTime)")!
@@ -157,13 +174,12 @@ class PortfolioSummaryViewController: UIViewController {
                     dict[coin]!.append(["type": type, "coinAmount": coinAmount, "date": date, "cost": cost])
                 }
             }
-        }
-        
-        for coin in dict.keys {
-            coins.append(coin)
+            
+            for coin in dict.keys {
+                coins.append(coin)
+            }
         }
         calculatePortfolioSummary()
-//        tableView.reloadData()
     }
     
     func calculatePortfolioSummary() {
@@ -203,7 +219,7 @@ class PortfolioSummaryViewController: UIViewController {
     }
     
     func getCoinValueYesterday() {
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let yesterday = Int(Date().timeIntervalSince1970 - (24*60*60))
         for coin in coins {
             let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=\(coin)&tsyms=\(GlobalValues.currency!)&ts=\(yesterday)")!
@@ -224,6 +240,13 @@ class PortfolioSummaryViewController: UIViewController {
         var currentPortfolioValue = 0.0
         var totalInvested = 0.0
         var yesterdayPortfolioValue = 0.0
+        
+        currentPortfolioValueLabel.text = 0.asCurrency
+        totalInvestedLabel.text = 0.asCurrency
+        
+        totalPercentageChangeLabel.text = "\(0.00) %"
+        totalPriceChangeLabel.text = 0.asCurrency
+        
         for coin in coins {
             currentPortfolioValue = currentPortfolioValue + summary[coin]!["holdingsMarketValue"]!
             totalInvested = totalInvested + summary[coin]!["cost"]!
@@ -299,7 +322,12 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         cell!.coinSymbolLabel.text = "\(coin)"
         cell!.coinSymbolLabel.adjustsFontSizeToFitWidth = true
         
-        cell!.coinImage.image = UIImage(named: coin.lowercased())
+        if coin == "IOT" {
+            cell!.coinImage.image = UIImage(named: "miota")
+        }
+        else {
+            cell!.coinImage.image = UIImage(named: coin.lowercased())
+        }
         for (symbol, name) in GlobalValues.coins {
             if symbol == coin {
                 cell!.coinNameLabel.text = name
