@@ -40,37 +40,7 @@ class PortfolioEntryModel {
         self.calculateChange()
         self.delegate?.dataLoaded(portfolioEntry: self)
         
-//        calculateCostFromDate { (success) -> Void in
-//            self.calculateChange()
-//            self.delegate?.dataLoaded(portfolioEntry: self)
-//        }
     }
-    
-    
-    
-//    func calculateCostFromDate(completion: @escaping (_ success: Bool) -> Void) {
-//        let dateOfPurchaseString = dateFormatter.string(from: dateOfPurchase)
-//        let todaysDateString = dateFormatter.string(from: Date())
-//
-//        if dateOfPurchaseString == todaysDateString {
-//            cost = currentCoinPrice * coinAmount
-//            print(cost)
-//            completion(true)
-//        }
-//        else {
-//            let url = URL(string: "https://api.coindesk.com/v1/bpi/historical/close.json?currency=\(GlobalValues.currency!)&start=\(dateOfPurchaseString)&end=\(dateOfPurchaseString)")!
-//
-//            Alamofire.request(url).responseJSON(completionHandler: { response in
-//
-//                let json = JSON(data: response.data!)
-//                if let price = json["bpi"][dateOfPurchaseString].double {
-//                    self.cost = price * self.coinAmount
-//                    completion(true)
-//                }
-//            })
-//        }
-//
-//    }
     
     func calculateChange() {
         let change = currentValue - cost

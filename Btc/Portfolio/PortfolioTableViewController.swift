@@ -20,7 +20,6 @@ class PortfolioTableViewController: UITableViewController {
     let defaults = UserDefaults.standard
     
     let dateFormatter = DateFormatter()
-    let numberFormatter = NumberFormatter()
     
     let portfolioEntriesConstant = "portfolioEntries"
     let portfolioCellConstant = "portfolioCell"
@@ -49,14 +48,6 @@ class PortfolioTableViewController: UITableViewController {
         dateFormatter.dateFormat = "YYYY-MM-dd"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
-        numberFormatter.numberStyle = .currency
-        if GlobalValues.currency == "INR" {
-            numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if GlobalValues.currency == "USD" {
-            numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
-        
         activityIndicator.addSubview(view)
         self.activityIndicator.hidesWhenStopped = true
         
@@ -127,7 +118,7 @@ class PortfolioTableViewController: UITableViewController {
         }
         
         if let cost = portfolio.cost {
-            cell.costLabel?.text = numberFormatter.string(from: NSNumber(value: cost))
+            cell.costLabel?.text = cost.asCurrency
             cell.costLabel?.adjustsFontSizeToFitWidth = true
         }
         
@@ -151,12 +142,12 @@ class PortfolioTableViewController: UITableViewController {
         }
         
         if let currentvalue = portfolio.currentValue {
-            cell.currentValueLabel?.text = numberFormatter.string(from: NSNumber(value: currentvalue))
+            cell.currentValueLabel?.text = currentvalue.asCurrency
             cell.currentValueLabel?.adjustsFontSizeToFitWidth = true
         }
         
         if let priceChange = portfolio.priceChange {
-            cell.priceChangeLabel?.text = numberFormatter.string(from: NSNumber(value: priceChange))
+            cell.priceChangeLabel?.text = priceChange.asCurrency
             cell.priceChangeLabel?.adjustsFontSizeToFitWidth = true
         }
 

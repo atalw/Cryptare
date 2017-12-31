@@ -36,6 +36,7 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
         // Do any additional setup after loading the view.
 //        self.tableViewController.countryTable.sel
         self.tableViewController.countryTable.delegate = self
+        tableViewController.countryTable.tableFooterView = UIView(frame: .zero)
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,6 +63,11 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
         else if indexPath.row == 1 {
             self.defaults.set("usa", forKey: "selectedCountry")
             GlobalValues.currency = "USD"
+        }
+        
+        else if indexPath.row == 2 {
+            self.defaults.set("eu", forKey: "selectedCountry")
+            GlobalValues.currency = "EUR"
         }
         if nextButton != nil {
             self.nextButton.isEnabled = true

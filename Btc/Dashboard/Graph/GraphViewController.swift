@@ -25,7 +25,6 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
-    let numberFormatter = NumberFormatter()
     let decimalNumberFormatter = NumberFormatter()
     var currency: String! = ""
     
@@ -68,20 +67,12 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.chart.delegate = self
+        
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
-        numberFormatter.numberStyle = .currency
         decimalNumberFormatter.numberStyle = .decimal
         
-        if GlobalValues.currency == "INR" {
-            numberFormatter.locale = Locale.init(identifier: "en_IN")
-            decimalNumberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if GlobalValues.currency == "USD" {
-            numberFormatter.locale = Locale.init(identifier: "en_US")
-            decimalNumberFormatter.locale = Locale.init(identifier: "en_US")
-        }
         
         coinNameLabel.adjustsFontSizeToFitWidth = true
         coinSymbolLabel.adjustsFontSizeToFitWidth = true
@@ -166,6 +157,9 @@ class GraphViewController: UIViewController, ChartViewDelegate {
     func updateCoinDataStructure(dict: [String: Any]) {
         self.coinData["rank"] = dict["rank"] as! Int
         self.coinData["name"] = dict["name"] as! String
+        
+        self.title = self.coinData["name"] as! String
+        
         let currencyData = dict[GlobalValues.currency!] as? [String: Any]
         
         if self.coinData["oldPrice"] == nil {
@@ -218,7 +212,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             
             self.coinNameLabel.text = self.coinData["name"] as! String
             
-            self.currentPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["currentPrice"] as! Double))
+            self.currentPriceLabel.text = (self.coinData["currentPrice"] as! Double).asCurrency
             self.flashColourOnLabel(label: self.currentPriceLabel, colour: colour)
             
             self.dateFormatter.dateFormat = "h:mm a"
@@ -226,24 +220,23 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             self.lastUpdatedLabel.text =  self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
             
             self.percentageChangeLabel.text = "\(self.coinData["percentageChange24hrs"] as! Double)%"
-            self.priceChangeLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["priceChange24hrs"] as! Double))
+            self.priceChangeLabel.text = (self.coinData["priceChange24hrs"] as! Double).asCurrency
             self.percentageChangeLabel.textColor = colour
             self.priceChangeLabel.textColor = colour
             
-            self.high24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["high24hrs"] as! Double))
-            self.low24hrsLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["low24hrs"] as! Double))
+            self.high24hrsLabel.text = (self.coinData["high24hrs"] as! Double).asCurrency
+            self.low24hrsLabel.text = (self.coinData["low24hrs"] as! Double).asCurrency
             self.lastTradedMarketLabel.text = self.coinData["lastTradeMarket"] as! String
             
             let formattedVolumeCoin = self.decimalNumberFormatter.string(from: NSNumber(value: self.coinData["volume24hrsCoin"] as! Double))
             self.volume24hrsCoinLabel.text = "\(formattedVolumeCoin!) \(self.databaseTableTitle!)"
-            self.volume24hrsFiatLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["volume24hrsFiat"] as! Double))
+            self.volume24hrsFiatLabel.text = (self.coinData["volume24hrsFiat"] as! Double).asCurrency
             let formattedLastTradedVolume = self.decimalNumberFormatter.string(from: NSNumber(value: self.coinData["lastTradeVolume"] as! Double))
             self.lastTradedVolumeLabel.text = "\(formattedLastTradedVolume!) \(self.databaseTableTitle!)"
             
             let formattedSupply = self.decimalNumberFormatter.string(from: NSNumber(value: self.coinData["supply"] as! Double))
             self.coinSupplyLabel.text = "\(formattedSupply!) \(self.databaseTableTitle!)"
-            self.marketCapLabel.text = self.numberFormatter.string(from: NSNumber(value: self.coinData["marketcap"] as! Double))
-
+            self.marketCapLabel.text = (self.coinData["marketcap"] as! Double).asCurrency
         }
     }
     

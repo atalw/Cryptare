@@ -87,6 +87,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             else if defaults.string(forKey: "selectedCountry") == "usa" {
                 GlobalValues.currency = "USD"
             }
+            else if defaults.string(forKey: "selectedCountry") == "eu" {
+                GlobalValues.currency = "EUR"
+            }
             self.createMenuView(storyboard: storyboard)
         }
         

@@ -13,7 +13,6 @@ import Firebase
 class DashboardViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
-    let numberFormatter = NumberFormatter()
     
     var coins: [String] = []
     let greenColour = UIColor.init(hex: "#35CC4B")
@@ -33,21 +32,18 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var header24hrChangeLabel: UILabel!
     @IBOutlet weak var headerCurrentPriceLabel: UILabel!
     
+    @IBOutlet weak var currencyButton: UIBarButtonItem!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         let currency = GlobalValues.currency!
         
-        if currency == "INR" {
-            numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if currency == "USD" {
-            numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
-        
         databaseRef = Database.database().reference()
         
         listOfCoins = databaseRef.child("coins")
+        
+        currencyButton.title = currency
         
     }
     
@@ -86,8 +82,6 @@ class DashboardViewController: UIViewController {
 //
 //        newsButton.colourOne = UIColor.init(hex: "#fc4a1a")
 //        newsButton.colourTwo = UIColor.init(hex: "#f7b733")
-        
-        numberFormatter.numberStyle = .currency
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -225,7 +219,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
-        cell!.coinCurrentValueLabel.text = self.numberFormatter.string(from: NSNumber(value: currentPrice))
+        cell!.coinCurrentValueLabel.text = currentPrice.asCurrency
         if changedRow == indexPath.row {
             UILabel.transition(with:  cell!.coinCurrentValueLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
                 cell!.coinCurrentValueLabel.textColor = colour
@@ -261,7 +255,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         let priceChange = self.coinData[coin]?["priceChange24hrs"] as! Double
-        cell!.coinPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
+        cell!.coinPriceChangeLabel.text = priceChange.asCurrency
         cell!.coinPriceChangeLabel.adjustsFontSizeToFitWidth = true
         cell!.coinPriceChangeLabel.textColor = colour
         

@@ -30,7 +30,6 @@ class MarketViewController: UIViewController {
     #endif
     
     let defaults = UserDefaults.standard
-    let numberFormatter = NumberFormatter()
 
     var selectedCountry: String!
     
@@ -146,13 +145,6 @@ class MarketViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
-        self.numberFormatter.numberStyle = NumberFormatter.Style.currency
-        if selectedCountry == "india" {
-            self.numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if selectedCountry == "usa" {
-            self.numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
         
         // for current bitcoin price
         let tableTitle = "current_btc_price_\(GlobalValues.currency!)"
@@ -175,10 +167,10 @@ class MarketViewController: UIViewController {
                     colour = UIColor.black
                 }
                 
-                GlobalValues.currentBtcPriceString = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice))
+                GlobalValues.currentBtcPriceString = self.currentBtcPrice.asCurrency
                 GlobalValues.currentBtcPrice = self.currentBtcPrice
                 DispatchQueue.main.async {
-                    self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: self.currentBtcPrice * self.textFieldValue))
+                    self.btcPriceLabel.text = (self.currentBtcPrice * self.textFieldValue).asCurrency
                     
                     UILabel.transition(with: self.btcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
                         self.btcPriceLabel.textColor = colour
@@ -519,7 +511,7 @@ class MarketViewController: UIViewController {
     }
     
     func updateCurrentBtcPrice(_ value: Double) {
-        self.btcPriceLabel.text = self.numberFormatter.string(from: NSNumber(value: value))
+        self.btcPriceLabel.text = value.asCurrency
     }
     
     func populateTable() {
@@ -673,9 +665,13 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
         cell!.siteLabel?.setTitle(market.title, for: .normal)
         cell!.siteLabel.url = market.siteLink
         cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+        cell!.siteLabel.titleLabel?.adjustsFontSizeToFitWidth = true
         
-        cell!.buyLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.buyPrice))
-        cell!.sellLabel?.text = self.numberFormatter.string(from: NSNumber(value: market.sellPrice))
+        cell!.buyLabel?.text = market.buyPrice.asCurrency
+        cell!.buyLabel.adjustsFontSizeToFitWidth = true
+        
+        cell!.sellLabel?.text = market.sellPrice.asCurrency
+        cell!.sellLabel.adjustsFontSizeToFitWidth = true
         
         if indexPath.row == changedCell {
             print("here")

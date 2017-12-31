@@ -11,8 +11,6 @@ import YNDropDownMenu
 
 class PortfolioViewController: UIViewController {
     
-    let numberFormatter = NumberFormatter()
-    
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
     
@@ -53,14 +51,6 @@ class PortfolioViewController: UIViewController {
         super.viewDidLoad()
         
         self.automaticallyAdjustsScrollViewInsets = false
-        
-        numberFormatter.numberStyle = .currency
-        if GlobalValues.currency == "INR" {
-            numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if GlobalValues.currency == "USD" {
-            numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
         
         currentPortfolioValueLabel.adjustsFontSizeToFitWidth = true
         totalInvestedLabel.adjustsFontSizeToFitWidth = true
@@ -146,8 +136,8 @@ class PortfolioViewController: UIViewController {
     }
     
     func setTotalPortfolioValues() {
-        currentPortfolioValueLabel.text = numberFormatter.string(from: NSNumber(value: currentPortfolioValue))
-        totalInvestedLabel.text = numberFormatter.string(from: NSNumber(value: totalInvested))
+        currentPortfolioValueLabel.text = currentPortfolioValue.asCurrency
+        totalInvestedLabel.text = totalInvested.asCurrency
         let absTotalInvested = abs(totalInvested)
         let change = currentPortfolioValue - totalInvested
         let percentageChange = (change / absTotalInvested) * 100
@@ -157,7 +147,7 @@ class PortfolioViewController: UIViewController {
         }
         totalPercentageLabel.text = "\(roundedPercentage)%"
         
-        totalPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: change))
+        totalPriceChangeLabel.text = change.asCurrency
         let roundedAmountOfBitcoin = Double(round(1000*totalAmountOfBitcoin!)/1000)
         totalAmountOfBitcoinLabel.text = "\(roundedAmountOfBitcoin) \(self.coin!)"
         

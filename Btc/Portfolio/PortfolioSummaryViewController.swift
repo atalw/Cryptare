@@ -15,7 +15,6 @@ class PortfolioSummaryViewController: UIViewController {
     
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
-    let numberFormatter = NumberFormatter()
     
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
@@ -46,8 +45,6 @@ class PortfolioSummaryViewController: UIViewController {
         dateFormatter.dateFormat = "YYYY-MM-dd"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         
-        numberFormatter.numberStyle = .currency
-
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -73,15 +70,6 @@ class PortfolioSummaryViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let currency = GlobalValues.currency!
-        
-        if currency == "INR" {
-            numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if currency == "USD" {
-            numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -268,14 +256,14 @@ class PortfolioSummaryViewController: UIViewController {
             colour = UIColor.black
         }
         
-        currentPortfolioValueLabel.text = numberFormatter.string(from: NSNumber(value: currentPortfolioValue))
-        totalInvestedLabel.text = numberFormatter.string(from: NSNumber(value: totalInvested))
+        currentPortfolioValueLabel.text = currentPortfolioValue.asCurrency
+        totalInvestedLabel.text = totalInvested.asCurrency
         
         if !percentageChange.isNaN && !percentageChange.isInfinite {
             let roundedPercentageChange = Double(round(percentageChange*100)/100)
             
             totalPercentageChangeLabel.text = "\(roundedPercentageChange) %"
-            totalPriceChangeLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
+            totalPriceChangeLabel.text = priceChange.asCurrency
             
             totalPercentageChangeLabel.textColor = colour
             totalPriceChangeLabel.textColor = colour
@@ -325,7 +313,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         cell!.coinHoldingsLabel.adjustsFontSizeToFitWidth = true
         
         let holdingsMarketValue = summary[coin]!["holdingsMarketValue"]!
-        cell!.coinCurrentValueLabel.text = numberFormatter.string(from: NSNumber(value: holdingsMarketValue))
+        cell!.coinCurrentValueLabel.text = holdingsMarketValue.asCurrency
         cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
         
         var percentageChange: Double! = 0
@@ -361,7 +349,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             let roundedPercentage = Double(round(percentageChange*100)/100)
             
             cell!.changePercentageLabel.text = "\(roundedPercentage) %"
-            cell!.changeCostLabel.text = numberFormatter.string(from: NSNumber(value: priceChange))
+            cell!.changeCostLabel.text = priceChange.asCurrency
             
             cell!.changePercentageLabel.textColor = colour
             cell!.changeCostLabel.textColor = colour
