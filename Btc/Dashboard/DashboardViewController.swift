@@ -112,7 +112,7 @@ class DashboardViewController: UIViewController {
         
         let destinationViewController = segue.destination
         if let graphController = destinationViewController as? GraphViewController {
-            graphController.parentControler = self
+//            graphController.parentControler = self
             self.graphController = graphController
         }
     }

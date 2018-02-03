@@ -32,6 +32,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var allNewsData : [NewsData] = [];
     var sortedNewsData : [NewsData] = [];
     
+    var cryptoName: String! = "cryptocurrency"
+    
     @IBAction func refreshButton(_ sender: Any) {
         self.getNews()
     }
@@ -158,21 +160,25 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func getIndiaNews() {
-        var url: String! = "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us"
+        var url: String! = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) india/\(cryptoName) india?hl=en&ned=us"
         
         if self.selectedCountry == "india" {
-            url = "https://news.google.com/news/rss/search/section/q/bitcoin%20india/bitcoin%20india?hl=en&ned=us"
+            url = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) india/\(cryptoName!) india?hl=en&ned=us"
         }
         else if self.selectedCountry == "usa" {
-            url = "https://news.google.com/news/rss/search/section/q/bitcoin%20usa/bitcoin%20usa?hl=en&ned=us"
+            url = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) usa/\(cryptoName!) usa?hl=en&ned=us"
         }
+        url = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         self.getRSSFeedResponse(path: url) { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
             
             #if PRO_VERSION
-                for item in (rssFeed?.items)! {
-                    let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                    self.allNewsData.append(newsData)
+                if let items = rssFeed?.items {
+                    for item in items {
+                        let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                        self.allNewsData.append(newsData)
+                    }
                 }
+                
             #endif
         
             #if LITE_VERSION
@@ -194,12 +200,19 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func getWorldwideNews() {
-        self.getRSSFeedResponse(path: "https://news.google.com/news/rss/search/section/q/bitcoin/bitcoin?hl=en&ned=us") { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
+        var url: String! = "https://news.google.com/news/rss/search/section/q/\(cryptoName!)/\(cryptoName!)?hl=en&ned=us"
+            
+        url = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+
+        self.getRSSFeedResponse(path: url) { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
             #if PRO_VERSION
-                for item in (rssFeed?.items)! {
-                    let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                    self.allNewsData.append(newsData)
+                if let items = rssFeed?.items {
+                    for item in items {
+                        let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
+                        self.allNewsData.append(newsData)
+                    }
                 }
+                
             #endif
             
             #if LITE_VERSION

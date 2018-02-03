@@ -17,6 +17,7 @@ pod 'Firebase/Database'
 pod 'SlideMenuControllerSwift', :git => 'https://github.com/dekatotoro/SlideMenuControllerSwift', :branch => 'swift4'
 pod 'BulletinBoard', :git => 'https://github.com/alexaubry/BulletinBoard.git'
 pod 'YNDropDownMenu'
+pod 'TTSegmentedControl'
 
 target 'CryptareLite' do
     use_frameworks!
@@ -32,7 +33,7 @@ target 'CryptareLite' do
     pod 'SlideMenuControllerSwift', :git => 'https://github.com/dekatotoro/SlideMenuControllerSwift', :branch => 'swift4'
     pod 'BulletinBoard', :git => 'https://github.com/alexaubry/BulletinBoard.git'
     pod 'YNDropDownMenu'
-    
+    pod 'TTSegmentedControl'
 end
 
 target 'BtcTests' do
