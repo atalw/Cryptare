@@ -56,24 +56,11 @@ class MarketViewController: UIViewController {
     
     var currentBtcRef: DatabaseReference!
     
-    var zebpayRef: DatabaseReference!
-    var localbitcoinsRef: DatabaseReference!
-    var coinsecureRef: DatabaseReference!
-    var pocketBitsRef: DatabaseReference!
-    var koinexRef: DatabaseReference!
-    var throughbitRef: DatabaseReference!
+    var coinMarkets: [String: String] = [:]
     
-    var coinbaseRef: DatabaseReference!
-    var krakenRef: DatabaseReference!
-    var poloniexRef: DatabaseReference!
-    var geminiRef: DatabaseReference!
-    var bitfinexRef: DatabaseReference!
-    var bitstampRef: DatabaseReference!
-    var bittrexRef: DatabaseReference!
-
     var databaseReference: DatabaseReference!
-    let bitcoinDatabaseTitles = ["Zebpay": "zebpay", "LocalBitcoins": "localbitcoins_BTC_\(GlobalValues.currency)", "Coinsecure": "coinsecure", "PocketBits": "pocketbits", "Koinex": "koinex_BTC_INR", "Throughbit": "throughbit_BTC_INR"]
-    let ethereumDatabaseTitles = ["Koinex": "koinex_ETH_INR"]
+    
+    var exchangeRefs: [(DatabaseReference, String, String)] = []
     
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
@@ -122,36 +109,6 @@ class MarketViewController: UIViewController {
         
         databaseReference = Database.database().reference()
         
-        if self.defaults.string(forKey: "selectedCountry") == "india" {
-            if currentCoin == "BTC" {
-                zebpayRef = databaseReference.child("zebpay")
-                localbitcoinsRef = databaseReference.child("localbitcoins_BTC_\(GlobalValues.currency!)")
-                coinsecureRef = databaseReference.child("coinsecure")
-                pocketBitsRef = databaseReference.child("pocketbits")
-                koinexRef = databaseReference.child("koinex_BTC_INR")
-                throughbitRef = databaseReference.child("throughbit_BTC_INR")
-            }
-            else if currentCoin == "ETH" {
-                koinexRef = databaseReference.child("koinex_ETH_INR")
-            }
-            
-        }
-        else if self.defaults.string(forKey: "selectedCountry") == "usa" {
-            coinbaseRef = databaseReference.child("coinbase_BTC_USD")
-            krakenRef = databaseReference.child("kraken_BTC_USD")
-            localbitcoinsRef = databaseReference.child("localbitcoins_BTC_USD")
-//            poloniexRef = databaseReference.child("")
-            geminiRef = databaseReference.child("gemini_BTC_USD")
-            bitfinexRef = databaseReference.child("bitfinex_BTC_USD")
-            bitstampRef = databaseReference.child("bitstamp_BTC_USD")
-//            bittrexRef = databaseReference.child("")
-        }
-        else if self.defaults.string(forKey: "selectedCountry") == "eu" {
-            coinbaseRef = databaseReference.child("coinbase_BTC_EUR")
-            krakenRef = databaseReference.child("kraken_BTC_EUR")
-            localbitcoinsRef = databaseReference.child("localbitcoins_BTC_EUR")
-        }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -170,6 +127,7 @@ class MarketViewController: UIViewController {
                 if let currencyData = dict[GlobalValues.currency!] as? [String: Any] {
                     let oldBtcPrice = self.currentBtcPrice
                     self.currentBtcPrice = currencyData["price"] as! Double
+                    
                     let unixTime = currencyData["timestamp"] as! Double
                     var colour: UIColor
                     
@@ -197,127 +155,16 @@ class MarketViewController: UIViewController {
                         })
                         
                     }
+                    if let currencyMarkets = currencyData["markets"] as? [String: String] {
+                        self.coinMarkets = currencyMarkets
+                        self.setupCoinMarketRefs()
+                    }
                 }
             }
                 
         })
         
-        
         textFieldValue = 1.0
-        
-        if selectedCountry == "india" {
-            
-            if currentCoin! == "BTC" {
-                zebpayRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedData(dict: dict, title: "Zebpay")
-                    }
-                })
-                
-                coinsecureRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedData(dict: dict, title: "Coinsecure")
-                    }
-                })
-                
-                koinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedData(dict: dict, title: "Koinex")
-                    }
-                })
-                
-                #if PRO_VERSION
-                    
-                    localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                        if let dict = snapshot.value as? [String: AnyObject] {
-                            self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
-                        }
-                    })
-                    
-                    pocketBitsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                        if let dict = snapshot.value as? [String: AnyObject] {
-                            self.updateFirebaseObservedData(dict: dict, title: "PocketBits")
-                        }
-                    })
-                    
-                    throughbitRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                        if let dict = snapshot.value as? [String: AnyObject] {
-                            self.updateFirebaseObservedData(dict: dict, title: "Throughbit")
-                        }
-                    })
-                #endif
-            }
-            
-            else if currentCoin! == "ETH" {
-                koinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedData(dict: dict, title: "Koinex")
-                    }
-                })
-            }
-            
-        }
-        
-        else if selectedCountry == "usa" {
-            
-            coinbaseRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Coinbase")
-                }
-            })
-            
-            localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
-                }
-            })
-            
-            krakenRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Kraken")
-                }
-            })
-            
-            #if PRO_VERSION
-                geminiRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedData(dict: dict, title: "Gemini")
-                    }
-                })
-                bitfinexRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedData(dict: dict, title: "Bitfinex")
-                    }
-                })
-                bitstampRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedData(dict: dict, title: "Bitstamp")
-                    }
-                })
-            #endif
-            
-        }
-        
-        else if selectedCountry == "eu" {
-            coinbaseRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Coinbase")
-                }
-            })
-            
-            localbitcoinsRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "LocalBitcoins")
-                }
-            })
-            
-            krakenRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: "Kraken")
-                }
-            })
-            
-        }
         
     }
     
@@ -338,32 +185,8 @@ class MarketViewController: UIViewController {
         
         currentBtcRef.removeAllObservers()
         
-        if selectedCountry == "india" {
-            if currentCoin! == "BTC" {
-                zebpayRef.removeAllObservers()
-                localbitcoinsRef.removeAllObservers()
-                pocketBitsRef.removeAllObservers()
-                coinsecureRef.removeAllObservers()
-                koinexRef.removeAllObservers()
-                throughbitRef.removeAllObservers()
-            }
-            else if currentCoin! == "ETH" {
-                koinexRef.removeAllObservers()
-
-            }
-        }
-        else if selectedCountry == "usa" {
-            coinbaseRef.removeAllObservers()
-            localbitcoinsRef.removeAllObservers()
-            krakenRef.removeAllObservers()
-            geminiRef.removeAllObservers()
-            bitfinexRef.removeAllObservers()
-            bitstampRef.removeAllObservers()
-        }
-        else if selectedCountry == "eu" {
-            coinbaseRef.removeAllObservers()
-            localbitcoinsRef.removeAllObservers()
-            krakenRef.removeAllObservers()
+        for exchangeRef in exchangeRefs {
+            exchangeRef.0.removeAllObservers()
         }
     }
     
@@ -372,6 +195,24 @@ class MarketViewController: UIViewController {
     }
     
     // MARK: Firebase helper functions
+    
+    func setupCoinMarketRefs() {
+        for (key, value) in self.coinMarkets {
+            exchangeRefs.append((databaseReference.child(value), key, value))
+        }
+        
+        for exchangeRef in exchangeRefs {
+            exchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    self.updateFirebaseObservedData(dict: dict, title: exchangeRef.1)
+                }
+            })
+        }
+        
+        self.populateTable()
+        self.defaultSort()
+        self.btcAmount.text = "1"
+    }
     
     func updateFirebaseObservedData(dict: [String: AnyObject], title: String) {
         
@@ -575,127 +416,47 @@ class MarketViewController: UIViewController {
     }
     
     func populateTable() {
-        if self.selectedCountry == "india" {
-            
-            if currentCoin! == "BTC" {
-                // Zebpay
-                let zebpayDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non congue risus. Proin sagittis erat ut est accumsan, nec lobortis urna dignissim. Praesent ac mauris nisl. Maecenas in magna molestie, consequat erat quis, eleifend orci. Quisque ornare eu ligula eu porttitor. Mauris tempus enim sit amet risus molestie aliquet. Phasellus cursus ex venenatis tellus eleifend, ut pretium ipsum pulvinar. Suspendisse commodo scelerisque vestibulum. Vivamus maximus dignissim purus nec pharetra."
-                let zebpayLinks = ["https://www.zebpay.com/", "https://twitter.com/zebpay", "https://www.facebook.com/zebpay/"]
-                
-                addExchangeToTable(title: "Zebpay", url: "https://www.zebpay.com/?utm_campaign=app_refferal_ref/ref/REF34005162&utm_medium=app&utm_source=zebpay_app_refferal", description: zebpayDescription, links: zebpayLinks)
-                
-                //Coinsecure
-                let coinsecureDescription = ""
-                let coinsecureLinks = ["", "", ""]
-                addExchangeToTable(title: "Coinsecure", url: "https://coinsecure.in/signup/TVRWPVbGFVx7nYcr6YYM", description: coinsecureDescription, links: coinsecureLinks)
-                
-                // Koinex
-                let koinexDescription = ""
-                let koinexLinks = ["", "", ""]
-                addExchangeToTable(title: "Koinex", url: "https://koinex.in/?ref=8271af", description: koinexDescription, links: koinexLinks)
-                
-                #if PRO_VERSION
-                    
-                    // Unocoin
-                    //            addExchangeToTable(title: "Unocoin", url: "https://www.unocoin.com/?referrerid=301527")
-                    
-                    // LocalBitcoins
-                    let localbitcoinsDescription = ""
-                    let localbitcoinsLinks = ["", "", ""]
-                    addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
-                    
-                    // PocketBits
-                    let pocketbitsDescription = ""
-                    let pocketbitsLinks = ["", "", ""]
-                    addExchangeToTable(title: "PocketBits", url: "https://www.pocketbits.in/", description: pocketbitsDescription, links: pocketbitsLinks)
-                    
-                    // Throughbit
-                    let throughbitDescription = ""
-                    let throughbitLinks = ["", "", ""]
-                    addExchangeToTable(title: "Throughbit", url: "https://www.throughbit.com/", description: throughbitDescription, links: throughbitLinks)
-                #endif
-                
-                #if LITE_VERSION
-                    liteMarkets = [("LocalBitcoins", "https://localbitcoins.com/?ch=cynk"), ("PocketBits", "https://www.pocketbits.in/"), ("Throughbit", "https://www.throughbit.com/")]
-                #endif
+        
+        for coinMarket in coinMarkets {
+            print(coinMarket.key)
+            if let currentMarketInfo = marketInformation[coinMarket.key] {
+                addExchangeToTable(title: coinMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
             }
             
-            else if currentCoin! == "ETH" {
-                // Koinex
-                let koinexDescription = ""
-                let koinexLinks = ["", "", ""]
-                addExchangeToTable(title: "Koinex", url: "https://koinex.in/?ref=8271af", description: koinexDescription, links: koinexLinks)
-                
-            }
-            
-            
         }
-        else if self.selectedCountry == "usa" {
-            
-            // Coinbase
-            let coinbaseDescription = ""
-            let coinbaseLinks = ["", "", ""]
-            addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b", description: coinbaseDescription, links: coinbaseLinks)
-            
-            // Kraken
-            let krakenDescription = ""
-            let krakenLinks = ["", "", ""]
-            addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/", description: krakenDescription, links: krakenLinks)
-            
-            // LocalBitcoins
-            let localbitcoinsDescription = ""
-            let localbitcoinsLinks = ["", "", ""]
-            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
-            
-            #if PRO_VERSION
-                
-                // Poloniex
-                //            addExchangeToTable(title: "Poloniex", url: "https://poloniex.com/")
-                
-                // Gemini
-                let geminiDescription = ""
-                let geminiLinks = ["", "", ""]
-                addExchangeToTable(title: "Gemini", url: "https://gemini.com/", description: geminiDescription, links: geminiLinks)
-                
-                
-                // Bitfinex
-                let bitfinexDescription = ""
-                let bitfinexLinks = ["", "", ""]
-                addExchangeToTable(title: "Bitfinex", url: "https://www.bitfinex.com/", description: bitfinexDescription, links: bitfinexLinks)
-                
-                
-                // Bitstamp
-                let bitstampDescription = ""
-                let bitstampLinks = ["", "", ""]
-                addExchangeToTable(title: "Bitstamp", url: "https://www.bitstamp.net/", description: bitstampDescription, links: bitstampLinks)
-                
-                
-                // Bittrex
-                //            addExchangeToTable(title: "Bittrex", url: "https://bittrex.com/")
-
-            #endif
-            
-            #if LITE_VERSION
-                liteMarkets = [("Poloniex", "https://poloniex.com/"), ("Gemini", "https://gemini.com/"), ("Bitfinex", "https://www.bitfinex.com/"), ("Bitstamp", "https://www.bitstamp.net/"), ("Bittrex", "https://bittrex.com/")]
-            #endif
-           
-        }
-        else if self.selectedCountry == "eu" {
-            // Coinbase
-            let coinbaseDescription = ""
-            let coinbaseLinks = ["", "", ""]
-            addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b", description: coinbaseDescription, links: coinbaseLinks)
-            
-            // Kraken
-            let krakenDescription = ""
-            let krakenLinks = ["", "", ""]
-            addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/", description: krakenDescription, links: krakenLinks)
-            
-            // LocalBitcoins
-            let localbitcoinsDescription = ""
-            let localbitcoinsLinks = ["", "", ""]
-            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
-        }
+//        if self.selectedCountry == "india" {
+//
+//            for coinMarket in coinMarkets {
+//                print(coinMarket.key)
+//                if let currentMarketInfo = marketInformation[coinMarket.key] {
+//                    addExchangeToTable(title: coinMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
+//                }
+//
+//            }
+//
+//
+//        }
+//        else if self.selectedCountry == "usa" {
+//
+//
+//        }
+        
+//        else if self.selectedCountry == "eu" {
+//            // Coinbase
+//            let coinbaseDescription = ""
+//            let coinbaseLinks = ["", "", ""]
+//            addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b", description: coinbaseDescription, links: coinbaseLinks)
+//
+//            // Kraken
+//            let krakenDescription = ""
+//            let krakenLinks = ["", "", ""]
+//            addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/", description: krakenDescription, links: krakenLinks)
+//
+//            // LocalBitcoins
+//            let localbitcoinsDescription = ""
+//            let localbitcoinsLinks = ["", "", ""]
+//            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
+//        }
         
     }
     
@@ -792,7 +553,7 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             if let index = tableView.indexPathForSelectedRow?.row {
                 if let title = self.markets[index].title {
                     marketDetailController.market = title
-                    marketDetailController.databaseChildTitle = self.bitcoinDatabaseTitles[title]
+                    marketDetailController.databaseChildTitle = self.coinMarkets[title]
                     marketDetailController.marketDescription = self.markets[index].description
                     marketDetailController.links = self.markets[index].links
                 }
