@@ -29,6 +29,9 @@ let marketInformation: [String: [String: String]] = [
     "Bitbns": [
         "url": "https://bitbns.com/",
     ],
+    "Coinome": [
+        "url": "https://www.coinome.com/",
+    ],
     "LocalBitcoins": [
         "url": "https://localbitcoins.com/?ch=cynk",
     ],
