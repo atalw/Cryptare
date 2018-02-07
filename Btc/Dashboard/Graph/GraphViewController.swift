@@ -68,16 +68,12 @@ class GraphViewController: UIViewController {
                 self.marketContainer.isHidden = false
             }
         }
-        
-        var swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
-        swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        self.view.addGestureRecognizer(swipeRight)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        pageSegmentedControl.selectedSegmentIndex = 0
-        
+        viewSegmentControl.selectItemAt(index: 0)
         cryptoDetailContainer.isHidden = false
         newsContainer.isHidden = true
         marketContainer.isHidden = true

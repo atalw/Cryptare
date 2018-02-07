@@ -77,6 +77,8 @@ class MarketViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
+    
     // MARK: VC Lifecycle
     
     override func viewDidLoad() {
@@ -180,6 +182,14 @@ class MarketViewController: UIViewController {
         
     }
     
+    override func viewWillLayoutSubviews() {
+//        var frame = tableView.frame
+//        frame.size.height = tableView.contentSize.height
+//        tableView.frame = frame
+        
+
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -188,6 +198,8 @@ class MarketViewController: UIViewController {
         for exchangeRef in exchangeRefs {
             exchangeRef.0.removeAllObservers()
         }
+        
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -337,6 +349,8 @@ class MarketViewController: UIViewController {
                 self.sellSortButton.sendActions(for: .touchUpInside)
             }
         }
+        
+        tableHeightConstraint.constant = tableView.contentSize.height + 50
     }
     
     func reSort() {
@@ -371,6 +385,7 @@ class MarketViewController: UIViewController {
     func loadData() {
         self.markets.removeAll()
         self.copyMarkets.removeAll()
+        self.coinMarkets.removeAll()
         self.tableView.reloadData()
         
 //        self.currentBtcPrice = GlobalValues.currentBtcPrice
@@ -424,40 +439,6 @@ class MarketViewController: UIViewController {
             }
             
         }
-//        if self.selectedCountry == "india" {
-//
-//            for coinMarket in coinMarkets {
-//                print(coinMarket.key)
-//                if let currentMarketInfo = marketInformation[coinMarket.key] {
-//                    addExchangeToTable(title: coinMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
-//                }
-//
-//            }
-//
-//
-//        }
-//        else if self.selectedCountry == "usa" {
-//
-//
-//        }
-        
-//        else if self.selectedCountry == "eu" {
-//            // Coinbase
-//            let coinbaseDescription = ""
-//            let coinbaseLinks = ["", "", ""]
-//            addExchangeToTable(title: "Coinbase", url: "https://www.coinbase.com/join/57f5a4bef3a4f2006d0b7f4b", description: coinbaseDescription, links: coinbaseLinks)
-//
-//            // Kraken
-//            let krakenDescription = ""
-//            let krakenLinks = ["", "", ""]
-//            addExchangeToTable(title: "Kraken", url: "https://www.kraken.com/", description: krakenDescription, links: krakenLinks)
-//
-//            // LocalBitcoins
-//            let localbitcoinsDescription = ""
-//            let localbitcoinsLinks = ["", "", ""]
-//            addExchangeToTable(title: "LocalBitcoins", url: "https://localbitcoins.com/?ch=cynk", description: localbitcoinsDescription, links: localbitcoinsLinks)
-//        }
-        
     }
     
     func addExchangeToTable(title: String, url: String, description: String, links: [String]) {
@@ -521,7 +502,6 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
         cell!.sellLabel.adjustsFontSizeToFitWidth = true
         
         if indexPath.row == changedCell {
-            print("here")
             if newBuyPriceIsGreater != nil {
                 if newBuyPriceIsGreater! {
                     flashBuyPriceLabel(cell: cell!, colour: greenColour)
