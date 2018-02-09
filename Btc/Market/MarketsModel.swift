@@ -13,6 +13,7 @@ class Market {
     var siteLink: URL!
     var buyPrice: Double!
     var sellPrice: Double!
+    var lastPrice: Double?
     var description: String!
     var links: [String] = []
     

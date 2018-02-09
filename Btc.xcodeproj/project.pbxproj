@@ -62,6 +62,8 @@
 		8656E3AB1FE7BC6F000EB58E /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656E3A91FE7BC6F000EB58E /* CoinTableViewCell.swift */; };
 		8656E3AD1FE7D4A6000EB58E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8656E3AC1FE7D4A6000EB58E /* Assets.xcassets */; };
 		8656E3AE1FE7D4A6000EB58E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8656E3AC1FE7D4A6000EB58E /* Assets.xcassets */; };
+		865FF08D202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */; };
+		865FF08E202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */; };
 		8661F5D11FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
 		8661F5D21FB5F7B800D6F365 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */; };
 		86730EF12025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */; };
@@ -204,6 +206,7 @@
 		8656E3A91FE7BC6F000EB58E /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		8656E3AC1FE7D4A6000EB58E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
+		865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoMarketTableViewCell.swift; sourceTree = "<group>"; };
 		8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
 		86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailViewController.swift; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
@@ -412,6 +415,7 @@
 				86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */,
 				86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */,
 				86E8A5742028A69B00D7E467 /* MarketInformation.swift */,
+				865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */,
 			);
 			path = Market;
 			sourceTree = "<group>";
@@ -1005,6 +1009,7 @@
 				86BD6F9B1F85236100C4B0CA /* MarketsModel.swift in Sources */,
 				8650C5791FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */,
+				865FF08D202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */,
 				861A75201FF8F21100263A90 /* Double+Extensions.swift in Sources */,
 				86277C191FF3A12B00CC9819 /* AddCoinTableViewController.swift in Sources */,
 				8602BAB71F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
@@ -1072,6 +1077,7 @@
 				868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */,
 				8650C57A1FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				86BD6F9C1F85236100C4B0CA /* MarketsModel.swift in Sources */,
+				865FF08E202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */,
 				861A75211FF8F21100263A90 /* Double+Extensions.swift in Sources */,
 				86277C1A1FF3A12B00CC9819 /* AddCoinTableViewController.swift in Sources */,
 				8602BAB81F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
@@ -1236,7 +1242,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DPRO_VERSION\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.atalwar.Cryptare;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.atalwar.Cryptare-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;

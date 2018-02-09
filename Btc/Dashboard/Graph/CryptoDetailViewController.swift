@@ -271,36 +271,41 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     func getChartData(timeSpan: Int) {
         var url: URL!
         
+        var scopeCurrency : String = currency
+        if currency! == "INR" {
+            scopeCurrency = "USD"
+        }
+        
         if timeSpan == 0 { // 1 hour
-            let urlString = "https://min-api.cryptocompare.com/data/histominute?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=60&aggregrate=30"
+            let urlString = "https://min-api.cryptocompare.com/data/histominute?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=60&aggregrate=30"
             url = URL(string: urlString)!
         }
         else if timeSpan == 1 { // 6 hours
-            let urlString = "https://min-api.cryptocompare.com/data/histominute?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=180"
+            let urlString = "https://min-api.cryptocompare.com/data/histominute?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=180"
             url = URL(string: urlString)!
         }
         else if timeSpan == 2 { // 12 hours
-            let urlString = "https://min-api.cryptocompare.com/data/histohour?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=12"
+            let urlString = "https://min-api.cryptocompare.com/data/histohour?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=12"
             url = URL(string: urlString)!
         }
         else if timeSpan == 3 { // 1 day
-            let urlString = "https://min-api.cryptocompare.com/data/histohour?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=24"
+            let urlString = "https://min-api.cryptocompare.com/data/histohour?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=24"
             url = URL(string: urlString)!
         }
         else if timeSpan == 4 { // 1 week
-            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=7"
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=7"
             url = URL(string: urlString)!
         }
         else if timeSpan == 5 { // 1 month
-            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=30"
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=30"
             url = URL(string: urlString)!
         }
         else if timeSpan == 6 { // 6 months
-            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=180"
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=180"
             url = URL(string: urlString)!
         }
         else if timeSpan == 7 { // 1 year
-            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(currency!)&limit=365"
+            let urlString = "https://min-api.cryptocompare.com/data/histoday?fsym=\(databaseTableTitle!)&tsym=\(scopeCurrency)&limit=365"
             url = URL(string: urlString)!
         }
         
@@ -330,6 +335,8 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     func getHourlyHistorialData(url: URL, completion: @escaping (_ success : Bool, _ chartData: [CandleChartDataEntry]) -> ()) {
         
         var chartData: [CandleChartDataEntry] = []
+        var exchangeRate: Double = 1
+        
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print(error!)
@@ -342,19 +349,51 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
             do {
                 let prices = JSON(data: data)["Data"].arrayValue
                 var index = 1
-                for hour in prices {
-                    let time = hour["time"].double
-                    let high = hour["high"].double
-                    let low = hour["low"].double
-                    let open = hour["open"].double
-                    let close = hour["close"].double
-                    chartData.append(CandleChartDataEntry(x: Double(index), shadowH: high!, shadowL: low!, open: open!, close: close!))
-                    index = index + 1
+                if self.currency == "INR" {
+                    let exchangeURL = URL(string: "https://api.fixer.io/latest?symbols=INR&base=USD")!
+                    let exchangeTask = URLSession.shared.dataTask(with: exchangeURL) { data, response, error in
+                        guard error == nil else {
+                            return
+                        }
+                        guard let data = data else {
+                            return
+                        }
+                        do {
+                            exchangeRate = JSON(data:data)["rates"]["INR"].double!
+                            
+                            for hour in prices {
+                                let time = hour["time"].double! * exchangeRate
+                                let high = hour["high"].double! * exchangeRate
+                                let low = hour["low"].double! * exchangeRate
+                                let open = hour["open"].double! * exchangeRate
+                                let close = hour["close"].double! * exchangeRate
+                                chartData.append(CandleChartDataEntry(x: Double(index), shadowH: high, shadowL: low, open: open, close: close))
+                                index = index + 1
+                            }
+                            
+                            DispatchQueue.main.async {
+                                completion(true, chartData)
+                            }
+                        }
+                    }
+                    exchangeTask.resume()
+                }
+                else {
+                    for hour in prices {
+                        let time = hour["time"].double!
+                        let high = hour["high"].double!
+                        let low = hour["low"].double!
+                        let open = hour["open"].double!
+                        let close = hour["close"].double!
+                        chartData.append(CandleChartDataEntry(x: Double(index), shadowH: high, shadowL: low, open: open, close: close))
+                        index = index + 1
+                    }
+                    
+                    DispatchQueue.main.async {
+                        completion(true, chartData)
+                    }
                 }
                 
-                DispatchQueue.main.async {
-                    completion(true, chartData)
-                }
             }
         }
         task.resume()

@@ -32,6 +32,9 @@ let marketInformation: [String: [String: String]] = [
     "Coinome": [
         "url": "https://www.coinome.com/",
     ],
+    "Coindelta": [
+        "url": "https://coindelta.com/",
+    ],
     "LocalBitcoins": [
         "url": "https://localbitcoins.com/?ch=cynk",
     ],
@@ -49,5 +52,8 @@ let marketInformation: [String: [String: String]] = [
     ],
     "Bitstamp": [
         "url": "https://www.bitstamp.net/",
+    ],
+    "Kucoin": [
+        "url": "https://www.kucoin.com/",
     ]
 ]
