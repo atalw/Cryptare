@@ -14,6 +14,7 @@ class Market {
     var buyPrice: Double!
     var sellPrice: Double!
     var lastPrice: Double?
+    var percentChange: Double?
     var description: String!
     var links: [String] = []
     

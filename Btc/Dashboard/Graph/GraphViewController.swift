@@ -68,6 +68,13 @@ class GraphViewController: UIViewController {
                 self.marketContainer.isHidden = false
             }
         }
+        
+        for (symbol, name) in GlobalValues.coins {
+            if symbol == self.databaseTableTitle {
+                self.title = name
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

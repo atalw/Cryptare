@@ -28,4 +28,12 @@ extension Double {
         
         return numberFormatter.string(from: NSNumber(value: self))!
     }
+    
+    var asBtcCurrency: String {
+        return "₿ \(self)"
+    }
+    
+    var asEthCurrency: String {
+        return "\(self) ETH"
+    }
 }

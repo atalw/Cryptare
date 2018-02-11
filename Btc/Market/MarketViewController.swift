@@ -21,11 +21,25 @@ class MarketViewController: UIViewController {
     @IBOutlet weak var buySortButton: UIButton!
     @IBOutlet weak var sellSortButton: UIButton!
     
+    @IBOutlet weak var buySortBtcButton: UIButton!
+    @IBOutlet weak var sellSortBtcButton: UIButton!
+    
+    @IBOutlet weak var buySortEthButton: UIButton!
+    @IBOutlet weak var sellSortEthButton: UIButton!
+    
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var btcMarketsTable: UITableView!
     @IBOutlet weak var btcTableHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var ethMarketsTable: UITableView!
+    @IBOutlet weak var ethTableHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var fiatMarketDescriptionLabel: UILabel!
+    @IBOutlet weak var btcMarketDescriptionLabel: UILabel!
+    @IBOutlet weak var ethMarketDescriptionLabel: UILabel!
     
     #if LITE_VERSION
     @IBAction func upgradeButton(_ sender: Any) {
@@ -47,15 +61,24 @@ class MarketViewController: UIViewController {
     var buySortButtonCounter = 0
     var sellSortButtonCounter = 0
     
+    var lastPriceSortButtonCounter = 0
+    var percentChangeSortButtonCounter = 0
+    
     let buyTitleArray = ["Buy", "Buy ▲", "Buy ▼"]
     let sellTitleArray = ["Sell", "Sell ▲", "Sell ▼"]
     
+    let lastPriceTitleArray = ["Last Price", "Last Price ▲", "Last Price ▼"]
+    let percentChangeTitleArray = ["24hr Change", "24hr Change ▲", "24hr Change ▼"]
+    
     var markets: [Market] = []
-    var cryptoMarkets: [Market] = []
+    var btcMarkets: [Market] = []
+    var ethMarkets: [Market] = []
 
     var liteMarkets : [(String, String)] = []
+    
     var copyMarkets: [(Double, Double)] = []
-    var copyCryptoMarkets: [(Double, Double)] = []
+    var copyBtcMarkets: [(Double, Double)] = []
+    var copyEthMarkets: [(Double, Double)] = []
 
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -66,11 +89,13 @@ class MarketViewController: UIViewController {
     
     var coinMarkets: [String: String] = [:]
     var coinBtcMarkets: [String: String] = [:]
-    
+    var coinEthMarkets: [String: String] = [:]
+
     var databaseReference: DatabaseReference!
     
     var fiatExchangeRefs: [(DatabaseReference, String, String)] = []
-    var cryptoExchangeRefs: [(DatabaseReference, String, String)] = []
+    var btcExchangeRefs: [(DatabaseReference, String, String)] = []
+    var ethExchangeRefs: [(DatabaseReference, String, String)] = []
     
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
@@ -80,6 +105,11 @@ class MarketViewController: UIViewController {
     var newSellPriceIsGreater: Bool? = true
     
     var selectedMarket: String!
+    
+    
+    
+    let marketRowColour : UIColor = UIColor.white
+    let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
     
     @IBAction func refreshButton(_ sender: Any) {
         self.btcPriceLabel.text = currentCoinPriceString
@@ -97,6 +127,10 @@ class MarketViewController: UIViewController {
 //        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
 //        view.addGestureRecognizer(tap)
         
+        fiatMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using \(GlobalValues.currency!)."
+        btcMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using BTC (₿)."
+        ethMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using ETH."
+        
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         self.isHeroEnabled = true
@@ -107,6 +141,19 @@ class MarketViewController: UIViewController {
         sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
         self.sellSortButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
         
+        buySortBtcButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        self.buySortBtcButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
+        
+        sellSortBtcButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        self.sellSortBtcButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
+        
+        buySortEthButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        self.buySortEthButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
+        
+        sellSortEthButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        self.sellSortEthButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
+        
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
@@ -114,6 +161,10 @@ class MarketViewController: UIViewController {
         self.btcMarketsTable.delegate = self
         self.btcMarketsTable.dataSource = self
         self.btcMarketsTable.tableFooterView = UIView()
+        
+        self.ethMarketsTable.delegate = self
+        self.ethMarketsTable.dataSource = self
+        self.ethMarketsTable.tableFooterView = UIView()
         
         activityIndicator.center = self.tableView.center
         activityIndicator.hidesWhenStopped = true
@@ -172,17 +223,24 @@ class MarketViewController: UIViewController {
                     }
                     if let currencyMarkets = currencyData["markets"] as? [String: String] {
                         self.coinMarkets = currencyMarkets
-//                        self.setupCoinMarketRefs()
+                        self.setupCoinMarketRefs()
                     }
                 }
                 
                 if let btcData = dict["BTC"] as? [String: Any] {
                     if let btcMarkets = btcData["markets"] as? [String: String] {
                         self.coinBtcMarkets = btcMarkets
+                        self.setupCoinBtcMarketRefs()
                     }
                 }
                 
-                self.setupCoinMarketRefs()
+                if let ethData = dict["ETH"] as? [String: Any] {
+                    if let ethMarkets = ethData["markets"] as? [String: String] {
+                        self.coinEthMarkets = ethMarkets
+                        self.setupCoinEthMarketRefs()
+                    }
+                }
+                
             }
             
         })
@@ -200,7 +258,62 @@ class MarketViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             print("here")
         }
-        btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
+        
+//        tableHeightConstraint.constant = tableView.contentSize.height
+
+        
+        if coinMarkets.count != 0 {
+            tableView.backgroundView = nil
+            tableHeightConstraint.constant = tableView.contentSize.height
+            tableView.reloadData()
+        }
+        else {
+            let messageLabel = UILabel()
+            messageLabel.text = "No markets currently available."
+            messageLabel.textColor = UIColor.black
+            messageLabel.numberOfLines = 0;
+            messageLabel.textAlignment = .center
+            messageLabel.sizeToFit()
+            
+            tableHeightConstraint.constant = CGFloat(140)
+            tableView.backgroundView = messageLabel
+        }
+
+        if coinBtcMarkets.count != 0 {
+            btcMarketsTable.backgroundView = nil
+            btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
+            btcMarketsTable.reloadData()
+
+        }
+        else {
+            let messageLabel = UILabel()
+            messageLabel.text = "No markets currently available."
+            messageLabel.textColor = UIColor.black
+            messageLabel.numberOfLines = 0;
+            messageLabel.textAlignment = .center
+            messageLabel.sizeToFit()
+            
+            btcTableHeightConstraint.constant = CGFloat(140)
+            btcMarketsTable.backgroundView = messageLabel
+        }
+        
+        if coinEthMarkets.count != 0 {
+            ethMarketsTable.backgroundView = nil
+            ethTableHeightConstraint.constant = self.ethMarketsTable.contentSize.height
+            ethMarketsTable.reloadData()
+            
+        }
+        else {
+            let messageLabel = UILabel()
+            messageLabel.text = "No markets currently available."
+            messageLabel.textColor = UIColor.black
+            messageLabel.numberOfLines = 0;
+            messageLabel.textAlignment = .center
+            messageLabel.sizeToFit()
+            
+            ethTableHeightConstraint.constant = CGFloat(140)
+            ethMarketsTable.backgroundView = messageLabel
+        }
         
     }
     
@@ -221,7 +334,13 @@ class MarketViewController: UIViewController {
             fiatExchangeRef.0.removeAllObservers()
         }
         
+        for btcExchangeRef in btcExchangeRefs {
+            btcExchangeRef.0.removeAllObservers()
+        }
         
+        for ethExchangeRef in ethExchangeRefs {
+            ethExchangeRef.0.removeAllObservers()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -235,10 +354,6 @@ class MarketViewController: UIViewController {
             fiatExchangeRefs.append((databaseReference.child(value), key, value))
         }
         
-        for (key, value) in self.coinBtcMarkets {
-            cryptoExchangeRefs.append((databaseReference.child(value), key, value))
-        }
-        
         for fiatExchangeRef in fiatExchangeRefs {
             fiatExchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String: AnyObject] {
@@ -247,27 +362,63 @@ class MarketViewController: UIViewController {
             })
         }
         
-        for cryptoExchangeRef in cryptoExchangeRefs {
-            if cryptoExchangeRef.1 == "Kucoin" { // Kucoin historial data available through their API
-                cryptoExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
+        self.populateFiatTable()
+        self.defaultSort()
+        self.btcAmount.text = "1"
+    }
+    
+    func setupCoinBtcMarketRefs() {
+        
+        for (key, value) in self.coinBtcMarkets {
+            btcExchangeRefs.append((databaseReference.child(value), key, value))
+        }
+        
+        for btcExchangeRef in btcExchangeRefs {
+            if btcExchangeRef.1 == "Kucoin" { // Kucoin historial data available through their API
+                btcExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
                     if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedDataCrypto(dict: dict, title: cryptoExchangeRef.1)
+                        self.updateFirebaseObservedDataBtc(dict: dict, title: btcExchangeRef.1)
                     }
                 })
             }
             else {
-                cryptoExchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                btcExchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
                     if let dict = snapshot.value as? [String: AnyObject] {
-                        self.updateFirebaseObservedDataCrypto(dict: dict, title: cryptoExchangeRef.1)
+                        self.updateFirebaseObservedDataBtc(dict: dict, title: btcExchangeRef.1)
                     }
                 })
             }
         }
         
-        self.populateFiatTable()
-        self.populateCryptoTable()
-        self.defaultSort()
-        self.btcAmount.text = "1"
+        self.populateBtcTable()
+
+    }
+    
+    func setupCoinEthMarketRefs() {
+        
+        for (key, value) in self.coinEthMarkets {
+            ethExchangeRefs.append((databaseReference.child(value), key, value))
+        }
+        
+        for ethExchangeRef in ethExchangeRefs {
+            if ethExchangeRef.1 == "Kucoin" { // Kucoin historial data available through their API
+                ethExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedDataEth(dict: dict, title: ethExchangeRef.1)
+                    }
+                })
+            }
+            else {
+                ethExchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedDataEth(dict: dict, title: ethExchangeRef.1)
+                    }
+                })
+            }
+        }
+        
+        self.populateEthTable()
+        
     }
     
     func updateFirebaseObservedData(dict: [String: AnyObject], title: String) {
@@ -317,49 +468,95 @@ class MarketViewController: UIViewController {
         }
     }
     
-    func updateFirebaseObservedDataCrypto(dict: [String: AnyObject], title: String) {
+    func updateFirebaseObservedDataBtc(dict: [String: AnyObject], title: String) {
         
-        let lastPrice = dict["last_price"] as! Double
+        let currentBuyPrice = dict["buy_price"] as! Double
+        let currentSellPrice = dict["sell_price"] as! Double
         
-        if let index = self.cryptoMarkets.index(where: {$0.title == title}) {
+        if let index = self.btcMarkets.index(where: {$0.title == title}) {
             
-//            let oldBuyPrice = self.copyMarkets[index].0
-//            let oldSellPrice = self.copyMarkets[index].1
-//
-            self.cryptoMarkets[index].lastPrice = lastPrice * self.textFieldValue
-//            self.cryptoMarkets[index].sellPrice = currentSellPrice * self.textFieldValue
-//
-//            // update other array
-//            self.copyMarkets[index].0 = currentBuyPrice
-//            self.copyMarkets[index].1 = currentSellPrice
-//
-//            if oldBuyPrice < currentBuyPrice {
-//                newBuyPriceIsGreater = true
-//                changedCell = index
-//            }
-//            else if oldBuyPrice > currentBuyPrice {
-//                newBuyPriceIsGreater = false
-//                changedCell = index
-//            }
-//            else {
-//                newBuyPriceIsGreater = nil
-//            }
-//
-//            if oldSellPrice < currentSellPrice {
-//                newSellPriceIsGreater = true
-//                changedCell = index
-//            }
-//            else if oldSellPrice > currentSellPrice {
-//                newSellPriceIsGreater = false
-//                changedCell = index
-//            }
-//            else {
-//                newSellPriceIsGreater = nil
-//            }
+            let oldBuyPrice = self.copyBtcMarkets[index].0
+            let oldSellPrice = self.copyBtcMarkets[index].1
             
+            self.btcMarkets[index].buyPrice = currentBuyPrice
+            self.btcMarkets[index].sellPrice = currentBuyPrice
+
+            // update other array
+            self.copyBtcMarkets[index].0 = currentBuyPrice
+            self.copyBtcMarkets[index].1 = currentSellPrice
+
+            if oldBuyPrice < currentBuyPrice {
+                newBuyPriceIsGreater = true
+                changedCell = index
+            }
+            else if oldBuyPrice > currentBuyPrice {
+                newBuyPriceIsGreater = false
+                changedCell = index
+            }
+            else {
+                newBuyPriceIsGreater = nil
+            }
+
+            if oldSellPrice < currentSellPrice {
+                newSellPriceIsGreater = true
+                changedCell = index
+            }
+            else if oldSellPrice > currentSellPrice {
+                newSellPriceIsGreater = false
+                changedCell = index
+            }
+            else {
+                newSellPriceIsGreater = nil
+            }
             
             self.btcMarketsTable.reloadData()
-//            self.reSort()
+            self.reSort()
+        }
+    }
+    
+    func updateFirebaseObservedDataEth(dict: [String: AnyObject], title: String) {
+        
+        let currentBuyPrice = dict["buy_price"] as! Double
+        let currentSellPrice = dict["sell_price"] as! Double
+        
+        if let index = self.ethMarkets.index(where: {$0.title == title}) {
+            
+            let oldBuyPrice = self.copyEthMarkets[index].0
+            let oldSellPrice = self.copyEthMarkets[index].1
+            
+            self.ethMarkets[index].buyPrice = currentBuyPrice
+            self.ethMarkets[index].sellPrice = currentBuyPrice
+            
+            // update other array
+            self.copyEthMarkets[index].0 = currentBuyPrice
+            self.copyEthMarkets[index].1 = currentSellPrice
+            
+            if oldBuyPrice < currentBuyPrice {
+                newBuyPriceIsGreater = true
+                changedCell = index
+            }
+            else if oldBuyPrice > currentBuyPrice {
+                newBuyPriceIsGreater = false
+                changedCell = index
+            }
+            else {
+                newBuyPriceIsGreater = nil
+            }
+            
+            if oldSellPrice < currentSellPrice {
+                newSellPriceIsGreater = true
+                changedCell = index
+            }
+            else if oldSellPrice > currentSellPrice {
+                newSellPriceIsGreater = false
+                changedCell = index
+            }
+            else {
+                newSellPriceIsGreater = nil
+            }
+            
+            self.ethMarketsTable.reloadData()
+            self.reSort()
         }
     }
     
@@ -372,16 +569,28 @@ class MarketViewController: UIViewController {
         }
         if buySortButtonCounter == 1 {
             self.markets.sort(by: {$0.buyPrice < $1.buyPrice})
+            self.btcMarkets.sort(by: {$0.buyPrice < $1.buyPrice})
+            self.ethMarkets.sort(by: {$0.buyPrice < $1.buyPrice})
             self.copyMarkets.sort(by: {$0.0 < $1.0})
         }
         else if buySortButtonCounter == 2 {
             self.markets.sort(by: {$0.buyPrice > $1.buyPrice})
+            self.btcMarkets.sort(by: {$0.buyPrice > $1.buyPrice})
+            self.ethMarkets.sort(by: {$0.buyPrice > $1.buyPrice})
             self.copyMarkets.sort(by: {$0.0 > $1.0})
         }
         buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        buySortBtcButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        buySortEthButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+
         sellSortButtonCounter = 0
         sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        sellSortBtcButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        sellSortEthButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+
         tableView.reloadData()
+        btcMarketsTable.reloadData()
+        ethMarketsTable.reloadData()
     }
     
     @objc func sellSortButtonTapped() {
@@ -391,16 +600,31 @@ class MarketViewController: UIViewController {
         }
         if sellSortButtonCounter == 1 {
             self.markets.sort(by: {$0.sellPrice < $1.sellPrice})
+            self.btcMarkets.sort(by: {$0.sellPrice < $1.sellPrice})
+            self.ethMarkets.sort(by: {$0.sellPrice < $1.sellPrice})
+
             self.copyMarkets.sort(by: {$0.1 < $1.1})
         }
         else if sellSortButtonCounter == 2 {
             self.markets.sort(by: {$0.sellPrice > $1.sellPrice})
+            self.btcMarkets.sort(by: {$0.sellPrice > $1.sellPrice})
+            self.ethMarkets.sort(by: {$0.sellPrice > $1.sellPrice})
+
             self.copyMarkets.sort(by: {$0.1 > $1.1})
         }
         sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        sellSortBtcButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+        sellSortEthButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+
         buySortButtonCounter = 0
         buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        buySortBtcButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+        buySortEthButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+
         tableView.reloadData()
+        btcMarketsTable.reloadData()
+        ethMarketsTable.reloadData()
+
     }
     
     @objc func handleButton(sender: CustomUIButton!) {
@@ -440,7 +664,6 @@ class MarketViewController: UIViewController {
             }
         }
         
-        tableHeightConstraint.constant = tableView.contentSize.height
     }
     
     func reSort() {
@@ -476,7 +699,8 @@ class MarketViewController: UIViewController {
         self.markets.removeAll()
         self.copyMarkets.removeAll()
         self.coinMarkets.removeAll()
-        self.cryptoMarkets.removeAll()
+        self.btcMarkets.removeAll()
+        self.ethMarkets.removeAll()
         self.tableView.reloadData()
         
 //        self.currentCoinPrice = GlobalValues.currentCoinPrice
@@ -532,10 +756,20 @@ class MarketViewController: UIViewController {
         }
     }
     
-    func populateCryptoTable() {
+    func populateBtcTable() {
+        
         for coinBtcMarket in coinBtcMarkets {
             if let currentMarketInfo = marketInformation[coinBtcMarket.key] {
-                addCryptoExchangeToTable(title: coinBtcMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
+                addBtcExchangeToTable(title: coinBtcMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
+            }
+        }
+    }
+    
+    func populateEthTable() {
+        
+        for coinEthMarket in coinEthMarkets {
+            if let currentMarketInfo = marketInformation[coinEthMarket.key] {
+                addEthExchangeToTable(title: coinEthMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
             }
         }
     }
@@ -545,9 +779,14 @@ class MarketViewController: UIViewController {
         self.copyMarkets.append((0, 0))
     }
     
-    func addCryptoExchangeToTable(title: String, url: String, description: String, links: [String]) {
-        self.cryptoMarkets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
-        self.copyCryptoMarkets.append((0, 0))
+    func addBtcExchangeToTable(title: String, url: String, description: String, links: [String]) {
+        self.btcMarkets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
+        self.copyBtcMarkets.append((0, 0))
+    }
+    
+    func addEthExchangeToTable(title: String, url: String, description: String, links: [String]) {
+        self.ethMarkets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
+        self.copyEthMarkets.append((0, 0))
     }
 
     
@@ -583,7 +822,11 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         if self.btcMarketsTable == tableView {
-            count = self.cryptoMarkets.count
+            count = self.btcMarkets.count
+        }
+        
+        if self.ethMarketsTable == tableView {
+            count = self.ethMarkets.count
         }
         
         return count!
@@ -643,17 +886,72 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         if self.btcMarketsTable == tableView {
-            print(self.cryptoMarkets.count)
-            let cell = self.btcMarketsTable.dequeueReusableCell(withIdentifier: "cryptoMarketCell") as? CryptoMarketTableViewCell!
-            let market = self.cryptoMarkets[indexPath.row]
-
-            cell!.exchangeName.text = market.title
-            cell!.lastPrice.text = "\(market.lastPrice!)"
-            cell!.percentageChangeLabel.text = market.title
+            let cell = self.btcMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
+            let market = self.btcMarkets[indexPath.row]
+            cell!.siteLabel?.setTitle(market.title, for: .normal)
+            cell!.siteLabel.url = market.siteLink
+            cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+            cell!.siteLabel.titleLabel?.adjustsFontSizeToFitWidth = true
+            
+            cell!.buyLabel?.text = market.buyPrice.asBtcCurrency
+            cell!.buyLabel.adjustsFontSizeToFitWidth = true
+            
+            cell!.sellLabel?.text = market.sellPrice.asBtcCurrency
+            cell!.sellLabel.adjustsFontSizeToFitWidth = true
+            
+            return cell!
+        }
+        
+        if self.ethMarketsTable == tableView {
+            let cell = self.ethMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
+            let market = self.ethMarkets[indexPath.row]
+            cell!.siteLabel?.setTitle(market.title, for: .normal)
+            cell!.siteLabel.url = market.siteLink
+            cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+            cell!.siteLabel.titleLabel?.adjustsFontSizeToFitWidth = true
+            
+            cell!.buyLabel?.text = market.buyPrice.asEthCurrency
+            cell!.buyLabel.adjustsFontSizeToFitWidth = true
+            
+            cell!.sellLabel?.text = market.sellPrice.asEthCurrency
+            cell!.sellLabel.adjustsFontSizeToFitWidth = true
             
             return cell!
         }
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        if self.tableView == tableView {
+            let row = indexPath.row
+            if row % 2 == 0 {
+                cell.backgroundColor = marketRowColour
+            }
+            else {
+                cell.backgroundColor = alternateMarketRowColour
+            }
+        }
+       
+        if self.btcMarketsTable == tableView {
+            let row = indexPath.row
+            if row % 2 == 0 {
+                cell.backgroundColor = marketRowColour
+            }
+            else {
+                cell.backgroundColor = alternateMarketRowColour
+            }
+        }
+        
+        if self.ethMarketsTable == tableView {
+            let row = indexPath.row
+            if row % 2 == 0 {
+                cell.backgroundColor = marketRowColour
+            }
+            else {
+                cell.backgroundColor = alternateMarketRowColour
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
