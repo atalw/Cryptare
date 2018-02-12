@@ -34,6 +34,10 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var cryptoName: String! = "cryptocurrency"
     
+    let marketRowColour : UIColor = UIColor.white
+    let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
+    let sortButtonSelectedColour: UIColor = UIColor.init(hex: "46637F")
+    
     @IBAction func refreshButton(_ sender: Any) {
         self.getNews()
     }
@@ -106,7 +110,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         sortPopularityButton.isSelected = true
         sortDateButton.isSelected = false
         
-        sortPopularityButton.backgroundColor = UIColor.lightGray
+        sortPopularityButton.backgroundColor = sortButtonSelectedColour
         sortDateButton.backgroundColor = UIColor.white
         
         activityIndicator.stopAnimating()
@@ -120,7 +124,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         sortPopularityButton.isSelected = false
         sortDateButton.isSelected = true
         
-        sortDateButton.backgroundColor = UIColor.lightGray
+        sortDateButton.backgroundColor = sortButtonSelectedColour
         sortPopularityButton.backgroundColor = UIColor.white
         
         activityIndicator.stopAnimating()
@@ -310,6 +314,17 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         cell.link = entry.link
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        let row = indexPath.row
+        if row % 2 == 0 {
+            cell.backgroundColor = marketRowColour
+        }
+        else {
+            cell.backgroundColor = alternateMarketRowColour
+        }
     }
 
 }
