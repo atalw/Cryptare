@@ -55,5 +55,8 @@ let marketInformation: [String: [String: String]] = [
     ],
     "Kucoin": [
         "url": "https://www.kucoin.com/",
+    ],
+    "Binance": [
+        "url": "https://www.binance.com/",
     ]
 ]
