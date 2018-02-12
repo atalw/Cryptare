@@ -33,7 +33,7 @@ class LeftNavigationTableViewCell: UITableViewCell {
     
     override open func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
-            self.background.backgroundColor = UIColor.init(hex: "2980B9")
+            self.background.backgroundColor = UIColor.init(hex: "46637F")
             self.titleLabel.textColor = UIColor.white
         } else {
             self.background.backgroundColor = UIColor.white
@@ -44,7 +44,7 @@ class LeftNavigationTableViewCell: UITableViewCell {
     // ignore the default handling
     override open func setSelected(_ selected: Bool, animated: Bool) {
         if selected {
-            self.background.backgroundColor = UIColor.init(hex: "2980B9")
+            self.background.backgroundColor = UIColor.init(hex: "46637F")
             self.titleLabel.textColor = UIColor.white
         }
         else {

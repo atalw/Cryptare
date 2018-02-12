@@ -16,6 +16,8 @@ class MarketViewController: UIViewController {
     
     @IBOutlet var btcPriceLabel: UILabel!
     @IBOutlet var btcAmount: UITextField!
+
+    @IBOutlet weak var coinNameLabel: UILabel!
     @IBOutlet var infoButton: UIBarButtonItem!
     
     @IBOutlet weak var buySortButton: UIButton!
@@ -36,6 +38,9 @@ class MarketViewController: UIViewController {
     
     @IBOutlet weak var ethMarketsTable: UITableView!
     @IBOutlet weak var ethTableHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var changedTableView: UITableView!
+
     
     @IBOutlet weak var fiatMarketDescriptionLabel: UILabel!
     @IBOutlet weak var btcMarketDescriptionLabel: UILabel!
@@ -126,6 +131,8 @@ class MarketViewController: UIViewController {
         //Looks for single or multiple taps.
 //        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
 //        view.addGestureRecognizer(tap)
+        
+        coinNameLabel.text = currentCoin
         
         fiatMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using \(GlobalValues.currency!)."
         btcMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using BTC (₿)."
@@ -441,10 +448,12 @@ class MarketViewController: UIViewController {
             if oldBuyPrice < currentBuyPrice {
                 newBuyPriceIsGreater = true
                 changedCell = index
+                changedTableView = tableView
             }
             else if oldBuyPrice > currentBuyPrice {
                 newBuyPriceIsGreater = false
                 changedCell = index
+                changedTableView = tableView
             }
             else {
                 newBuyPriceIsGreater = nil
@@ -453,10 +462,12 @@ class MarketViewController: UIViewController {
             if oldSellPrice < currentSellPrice {
                 newSellPriceIsGreater = true
                 changedCell = index
+                changedTableView = tableView
             }
             else if oldSellPrice > currentSellPrice {
                 newSellPriceIsGreater = false
                 changedCell = index
+                changedTableView = tableView
             }
             else {
                 newSellPriceIsGreater = nil
@@ -478,8 +489,8 @@ class MarketViewController: UIViewController {
             let oldBuyPrice = self.copyBtcMarkets[index].0
             let oldSellPrice = self.copyBtcMarkets[index].1
             
-            self.btcMarkets[index].buyPrice = currentBuyPrice
-            self.btcMarkets[index].sellPrice = currentBuyPrice
+            self.btcMarkets[index].buyPrice = currentBuyPrice * self.textFieldValue
+            self.btcMarkets[index].sellPrice = currentBuyPrice * self.textFieldValue
 
             // update other array
             self.copyBtcMarkets[index].0 = currentBuyPrice
@@ -488,10 +499,12 @@ class MarketViewController: UIViewController {
             if oldBuyPrice < currentBuyPrice {
                 newBuyPriceIsGreater = true
                 changedCell = index
+                changedTableView = btcMarketsTable
             }
             else if oldBuyPrice > currentBuyPrice {
                 newBuyPriceIsGreater = false
                 changedCell = index
+                changedTableView = btcMarketsTable
             }
             else {
                 newBuyPriceIsGreater = nil
@@ -500,10 +513,12 @@ class MarketViewController: UIViewController {
             if oldSellPrice < currentSellPrice {
                 newSellPriceIsGreater = true
                 changedCell = index
+                changedTableView = btcMarketsTable
             }
             else if oldSellPrice > currentSellPrice {
                 newSellPriceIsGreater = false
                 changedCell = index
+                changedTableView = btcMarketsTable
             }
             else {
                 newSellPriceIsGreater = nil
@@ -524,8 +539,8 @@ class MarketViewController: UIViewController {
             let oldBuyPrice = self.copyEthMarkets[index].0
             let oldSellPrice = self.copyEthMarkets[index].1
             
-            self.ethMarkets[index].buyPrice = currentBuyPrice
-            self.ethMarkets[index].sellPrice = currentBuyPrice
+            self.ethMarkets[index].buyPrice = currentBuyPrice * self.textFieldValue
+            self.ethMarkets[index].sellPrice = currentBuyPrice * self.textFieldValue
             
             // update other array
             self.copyEthMarkets[index].0 = currentBuyPrice
@@ -534,10 +549,12 @@ class MarketViewController: UIViewController {
             if oldBuyPrice < currentBuyPrice {
                 newBuyPriceIsGreater = true
                 changedCell = index
+                changedTableView = ethMarketsTable
             }
             else if oldBuyPrice > currentBuyPrice {
                 newBuyPriceIsGreater = false
                 changedCell = index
+                changedTableView = ethMarketsTable
             }
             else {
                 newBuyPriceIsGreater = nil
@@ -546,10 +563,12 @@ class MarketViewController: UIViewController {
             if oldSellPrice < currentSellPrice {
                 newSellPriceIsGreater = true
                 changedCell = index
+                changedTableView = ethMarketsTable
             }
             else if oldSellPrice > currentSellPrice {
                 newSellPriceIsGreater = false
                 changedCell = index
+                changedTableView = ethMarketsTable
             }
             else {
                 newSellPriceIsGreater = nil
@@ -736,9 +755,23 @@ class MarketViewController: UIViewController {
                 for index in 0..<self.copyMarkets.count {
                     self.markets[index].buyPrice = self.copyMarkets[index].0 * value
                     self.markets[index].sellPrice = self.copyMarkets[index].1 * value
+                    
                 }
+                for index in 0..<self.copyBtcMarkets.count {
+                    self.btcMarkets[index].buyPrice = self.copyBtcMarkets[index].0 * value
+                    self.btcMarkets[index].sellPrice = self.copyBtcMarkets[index].1 * value
+                    
+                }
+                for index in 0..<self.copyEthMarkets.count {
+                    self.ethMarkets[index].buyPrice = self.copyEthMarkets[index].0 * value
+                    self.ethMarkets[index].sellPrice = self.copyEthMarkets[index].1 * value
+                    
+                }
+                
             }
             self.tableView.reloadData()
+            self.btcMarketsTable.reloadData()
+            self.ethMarketsTable.reloadData()
         }
     }
     
@@ -860,7 +893,7 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             cell!.sellLabel?.text = market.sellPrice.asCurrency
             cell!.sellLabel.adjustsFontSizeToFitWidth = true
             
-            if indexPath.row == changedCell {
+            if indexPath.row == changedCell && changedTableView == tableView {
                 if newBuyPriceIsGreater != nil {
                     if newBuyPriceIsGreater! {
                         flashBuyPriceLabel(cell: cell!, colour: greenColour)
@@ -880,6 +913,7 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 
                 changedCell = -1
+                changedTableView = nil
             }
             
             return cell!
@@ -899,6 +933,29 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             cell!.sellLabel?.text = market.sellPrice.asBtcCurrency
             cell!.sellLabel.adjustsFontSizeToFitWidth = true
             
+            if indexPath.row == changedCell && changedTableView == btcMarketsTable {
+                if newBuyPriceIsGreater != nil {
+                    if newBuyPriceIsGreater! {
+                        flashBuyPriceLabel(cell: cell!, colour: greenColour)
+                    }
+                    else if !newBuyPriceIsGreater! {
+                        flashBuyPriceLabel(cell: cell!, colour: redColour)
+                    }
+                }
+                
+                if newSellPriceIsGreater != nil {
+                    if newSellPriceIsGreater! {
+                        flashSellPriceLabel(cell: cell!, colour: greenColour)
+                    }
+                    else if !newSellPriceIsGreater! {
+                        flashSellPriceLabel(cell: cell!, colour: redColour)
+                    }
+                }
+                
+                changedCell = -1
+                changedTableView = nil
+            }
+            
             return cell!
         }
         
@@ -915,6 +972,29 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             
             cell!.sellLabel?.text = market.sellPrice.asEthCurrency
             cell!.sellLabel.adjustsFontSizeToFitWidth = true
+            
+            if indexPath.row == changedCell && changedTableView == ethMarketsTable {
+                if newBuyPriceIsGreater != nil {
+                    if newBuyPriceIsGreater! {
+                        flashBuyPriceLabel(cell: cell!, colour: greenColour)
+                    }
+                    else if !newBuyPriceIsGreater! {
+                        flashBuyPriceLabel(cell: cell!, colour: redColour)
+                    }
+                }
+                
+                if newSellPriceIsGreater != nil {
+                    if newSellPriceIsGreater! {
+                        flashSellPriceLabel(cell: cell!, colour: greenColour)
+                    }
+                    else if !newSellPriceIsGreater! {
+                        flashSellPriceLabel(cell: cell!, colour: redColour)
+                    }
+                }
+                
+                changedCell = -1
+                changedTableView = nil
+            }
             
             return cell!
         }

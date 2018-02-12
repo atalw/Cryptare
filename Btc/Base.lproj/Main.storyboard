@@ -1895,7 +1895,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="or5-2j-6s3">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="or5-2j-6s3">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SAJ-S5-qBj">
@@ -2511,6 +2511,7 @@
                         <outlet property="buySortBtcButton" destination="mjA-wh-rjG" id="QjY-sb-9Ck"/>
                         <outlet property="buySortButton" destination="Qek-ir-IqB" id="EOn-NQ-g6l"/>
                         <outlet property="buySortEthButton" destination="B2w-MJ-hU3" id="Gkc-23-wnf"/>
+                        <outlet property="coinNameLabel" destination="2ec-RK-yTJ" id="d96-6l-n6Z"/>
                         <outlet property="ethMarketDescriptionLabel" destination="Lr4-y9-QiG" id="rF4-Jj-XCG"/>
                         <outlet property="ethMarketsTable" destination="Y0X-jS-aFw" id="KB0-mY-eBu"/>
                         <outlet property="ethTableHeightConstraint" destination="VSP-sC-3OJ" id="tSe-1F-sjV"/>
