@@ -2496,11 +2496,7 @@
                     <tabBarItem key="tabBarItem" title="Markets" image="icons8-Coins-50" selectedImage="icons8-Coins Filled-50" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Markets" leftItemsSupplementBackButton="YES" largeTitleDisplayMode="never" id="rtl-Hq-nKf">
-                        <barButtonItem key="rightBarButtonItem" title="?" id="1pR-Kt-OEy">
-                            <connections>
-                                <segue destination="Qmc-dS-nUH" kind="show" id="tdd-Ea-mtf"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="?" id="1pR-Kt-OEy"/>
                     </navigationItem>
                     <connections>
                         <outlet property="btcAmount" destination="HHH-93-kR6" id="eXW-cM-oiI"/>
@@ -2726,27 +2722,27 @@
             <objects>
                 <viewController id="Qmc-dS-nUH" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FuG-Js-QXP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yYX-QJ-Cd3">
-                                <rect key="frame" x="16" y="36" width="343" height="555"/>
+                                <rect key="frame" x="16" y="36" width="343" height="615"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ew-68-UTi">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="70.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="79.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Jkw-sW-uQD">
-                                                <rect key="frame" x="5" y="5" width="333" height="60.5"/>
+                                                <rect key="frame" x="5" y="5" width="333" height="69.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What does this app do?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt5-BQ-xeT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="10.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="19.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="It compares the current prices of Indian bitcoin exchanges." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgL-sI-2Hi">
-                                                        <rect key="frame" x="0.0" y="10.5" width="333" height="50"/>
+                                                        <rect key="frame" x="0.0" y="19.5" width="333" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
@@ -2769,20 +2765,20 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="boa-86-dDS">
-                                        <rect key="frame" x="0.0" y="80.5" width="343" height="71"/>
+                                        <rect key="frame" x="0.0" y="89.5" width="343" height="79"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="q7k-bm-Yl2">
-                                                <rect key="frame" x="5" y="5" width="333" height="61"/>
+                                                <rect key="frame" x="5" y="5" width="333" height="69"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where do we get the data from?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MjL-UU-h86">
-                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="11"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="19"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Real-time values are directly fetched from the exchanges" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfy-Fy-NjF">
-                                                        <rect key="frame" x="0.0" y="11" width="333" height="50"/>
+                                                        <rect key="frame" x="0.0" y="19" width="333" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
@@ -2805,20 +2801,20 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BkE-Na-5ZO">
-                                        <rect key="frame" x="0.0" y="161.5" width="343" height="70.5"/>
+                                        <rect key="frame" x="0.0" y="178.5" width="343" height="79.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rj2-N7-xbi">
-                                                <rect key="frame" x="5" y="5" width="333" height="60.5"/>
+                                                <rect key="frame" x="5" y="5" width="333" height="69.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How should I use this app?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yog-dV-s9l">
-                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="10.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="19.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Analyse the prices of the exchanges and then tap on the link to jump directly to the website." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pkc-jU-YIh">
-                                                        <rect key="frame" x="0.0" y="10.5" width="333" height="50"/>
+                                                        <rect key="frame" x="0.0" y="19.5" width="333" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
@@ -2841,20 +2837,20 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ol-eW-DRc">
-                                        <rect key="frame" x="0.0" y="242" width="343" height="71"/>
+                                        <rect key="frame" x="0.0" y="268" width="343" height="79"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gYl-1q-a6u">
-                                                <rect key="frame" x="5" y="5" width="333" height="61"/>
+                                                <rect key="frame" x="5" y="5" width="333" height="69"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Localbitcoin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2oP-U9-bUB">
-                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="11"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="19"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Buy bitcoins with multiple payment methods" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23N-ma-KIy">
-                                                        <rect key="frame" x="0.0" y="11" width="333" height="50"/>
+                                                        <rect key="frame" x="0.0" y="19" width="333" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
@@ -2877,20 +2873,20 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zz7-Mz-WRg">
-                                        <rect key="frame" x="0.0" y="323" width="343" height="70.5"/>
+                                        <rect key="frame" x="0.0" y="357" width="343" height="79.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bjF-WY-ou9">
-                                                <rect key="frame" x="5" y="5" width="333" height="60.5"/>
+                                                <rect key="frame" x="5" y="5" width="333" height="69.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coinsecure:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g37-ny-s7q">
-                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="10.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="19.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Get bitcoins worth ₹200 free on your first bitcoin buy or sell transaction" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfV-CF-78x">
-                                                        <rect key="frame" x="0.0" y="10.5" width="333" height="50"/>
+                                                        <rect key="frame" x="0.0" y="19.5" width="333" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -2912,13 +2908,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUh-bw-OC6">
-                                        <rect key="frame" x="0.0" y="403.5" width="343" height="71"/>
+                                        <rect key="frame" x="0.0" y="446.5" width="343" height="79"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6fX-j4-pc7">
-                                                <rect key="frame" x="5" y="5" width="333" height="61"/>
+                                                <rect key="frame" x="5" y="5" width="333" height="69"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unocoin:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Lj-Io-Vey">
-                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="11"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="19"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -2926,7 +2922,7 @@
                                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="One of India's first online real-time bitcoin exchanges" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xf-pA-1Ja">
-                                                        <rect key="frame" x="0.0" y="11" width="333" height="50"/>
+                                                        <rect key="frame" x="0.0" y="19" width="333" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
@@ -2949,20 +2945,20 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cci-vU-rJ7">
-                                        <rect key="frame" x="0.0" y="484.5" width="343" height="70.5"/>
+                                        <rect key="frame" x="0.0" y="535.5" width="343" height="79.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kpb-WA-Wge">
-                                                <rect key="frame" x="5" y="5" width="333" height="60.5"/>
+                                                <rect key="frame" x="5" y="5" width="333" height="69.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zebpay:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPY-AQ-3n5">
-                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="10.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="333" height="19.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="0.16078431369999999" green="0.50196078430000002" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Get bitcoins worth ₹100 free on your first bitcoin buy or sell transaction" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bc-oI-60b">
-                                                        <rect key="frame" x="0.0" y="10.5" width="333" height="50"/>
+                                                        <rect key="frame" x="0.0" y="19.5" width="333" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>

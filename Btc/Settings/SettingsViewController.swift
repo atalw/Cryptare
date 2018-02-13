@@ -37,6 +37,8 @@ class SettingsViewController: UITableViewController {
     // footer
     @IBOutlet weak var appVersionLabel: UILabel!
     
+    var buttonHighlightedBackgroundColour: UIColor = UIColor.init(hex: "46637F")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -182,7 +184,7 @@ class SettingsViewController: UITableViewController {
         smoothModeButton.isSelected = false
         steppedModeButton.isSelected = false
         
-        linearModeButton.backgroundColor = UIColor.lightGray
+        linearModeButton.backgroundColor = buttonHighlightedBackgroundColour
         smoothModeButton.backgroundColor = UIColor.white
         steppedModeButton.backgroundColor = UIColor.white
         
@@ -194,7 +196,7 @@ class SettingsViewController: UITableViewController {
         steppedModeButton.isSelected = false
         
         linearModeButton.backgroundColor = UIColor.white
-        smoothModeButton.backgroundColor = UIColor.lightGray
+        smoothModeButton.backgroundColor = buttonHighlightedBackgroundColour
         steppedModeButton.backgroundColor = UIColor.white
         
     }
@@ -206,7 +208,7 @@ class SettingsViewController: UITableViewController {
         
         linearModeButton.backgroundColor = UIColor.white
         smoothModeButton.backgroundColor = UIColor.white
-        steppedModeButton.backgroundColor = UIColor.lightGray
+        steppedModeButton.backgroundColor = buttonHighlightedBackgroundColour
         
     }
 
@@ -264,7 +266,7 @@ class SettingsViewController: UITableViewController {
             buySort.isSelected = true
             sellSort.isSelected = false
             
-            buySort.backgroundColor = UIColor.lightGray
+            buySort.backgroundColor = buttonHighlightedBackgroundColour
             sellSort.backgroundColor = UIColor.white
         }
         else if defaults.string(forKey: "marketSort") == "sell" {
@@ -272,14 +274,14 @@ class SettingsViewController: UITableViewController {
             sellSort.isSelected = true
             
             buySort.backgroundColor = UIColor.white
-            sellSort.backgroundColor = UIColor.lightGray
+            sellSort.backgroundColor = buttonHighlightedBackgroundColour
         }
         
         if defaults.string(forKey: "marketOrder") == "ascending" {
             ascendingSort.isSelected = true
             descendingSort.isSelected = false
             
-            ascendingSort.backgroundColor = UIColor.lightGray
+            ascendingSort.backgroundColor = buttonHighlightedBackgroundColour
             descendingSort.backgroundColor = UIColor.white
         }
         else if defaults.string(forKey: "marketOrder") == "descending" {
@@ -287,7 +289,7 @@ class SettingsViewController: UITableViewController {
             descendingSort.isSelected = true
             
             ascendingSort.backgroundColor = UIColor.white
-            descendingSort.backgroundColor = UIColor.lightGray
+            descendingSort.backgroundColor = buttonHighlightedBackgroundColour
         }
     }
     
@@ -317,7 +319,7 @@ class SettingsViewController: UITableViewController {
             ascendingSort.isSelected = true
             descendingSort.isSelected = false
             
-            ascendingSort.backgroundColor = UIColor.lightGray
+            ascendingSort.backgroundColor = buttonHighlightedBackgroundColour
             descendingSort.backgroundColor = UIColor.white
             
             defaults.set("ascending", forKey: "marketOrder")
@@ -327,7 +329,7 @@ class SettingsViewController: UITableViewController {
             descendingSort.isSelected = true
             
             ascendingSort.backgroundColor = UIColor.white
-            descendingSort.backgroundColor = UIColor.lightGray
+            descendingSort.backgroundColor = buttonHighlightedBackgroundColour
             
             defaults.set("descending", forKey: "marketOrder")
         }
@@ -340,7 +342,7 @@ class SettingsViewController: UITableViewController {
             popularitySort.isSelected = true
             dateSort.isSelected = false
             
-            popularitySort.backgroundColor = UIColor.lightGray
+            popularitySort.backgroundColor = buttonHighlightedBackgroundColour
             dateSort.backgroundColor = UIColor.white
         }
         else if newsSort == "date" {
@@ -356,7 +358,7 @@ class SettingsViewController: UITableViewController {
             popularitySort.isSelected = true
             dateSort.isSelected = false
             
-            popularitySort.backgroundColor = UIColor.lightGray
+            popularitySort.backgroundColor = buttonHighlightedBackgroundColour
             dateSort.backgroundColor = UIColor.white
             
             defaults.set("popularity", forKey: "newsSort")
@@ -366,7 +368,7 @@ class SettingsViewController: UITableViewController {
             dateSort.isSelected = true
             
             popularitySort.backgroundColor = UIColor.white
-            dateSort.backgroundColor = UIColor.lightGray
+            dateSort.backgroundColor = buttonHighlightedBackgroundColour
             
             defaults.set("date", forKey: "newsSort")
         }
