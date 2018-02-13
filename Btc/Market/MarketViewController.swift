@@ -328,7 +328,9 @@ class MarketViewController: UIViewController {
 //        var frame = tableView.frame
 //        frame.size.height = tableView.contentSize.height
 //        tableView.frame = frame
-        
+        tableView.reloadData()
+        btcMarketsTable.reloadData()
+        ethMarketsTable.reloadData()
 
     }
     
@@ -362,11 +364,21 @@ class MarketViewController: UIViewController {
         }
         
         for fiatExchangeRef in fiatExchangeRefs {
-            fiatExchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String: AnyObject] {
-                    self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
-                }
-            })
+            if fiatExchangeRef.1 == "Kucoin" { // Kucoin historial data available through their API
+                fiatExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
+                    }
+                })
+            }
+            else {
+                fiatExchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                    if let dict = snapshot.value as? [String: AnyObject] {
+                        self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
+                    }
+                })
+            }
+            
         }
         
         self.populateFiatTable()

@@ -53,10 +53,13 @@ let marketInformation: [String: [String: String]] = [
     "Bitstamp": [
         "url": "https://www.bitstamp.net/",
     ],
+    "Bittrex": [
+        "url": "https://www.bitstamp.net/",
+    ],
     "Kucoin": [
         "url": "https://www.kucoin.com/",
     ],
     "Binance": [
-        "url": "https://www.binance.com/",
+        "url": "https://www.binance.com/?ref=19610967",
     ]
 ]
