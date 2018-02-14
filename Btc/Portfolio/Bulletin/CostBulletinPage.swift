@@ -42,7 +42,13 @@ class  CostBulletinPage: NSObject, BulletinItem {
         arrangedSubviews.append(titleLabel)
         
         let descriptionLabel = interfaceFactory.makeDescriptionLabel(isCompact: true)
-        let descriptionText = "Add a \(dataSource["type"]!) transaction for \(dataSource["coinAmount"]!)\(self.coin) on \(dataSource["date"]!). How much did it cost?"
+        
+        var descriptionText = ""
+        if let transactionType = dataSource["type"], let coinAmount = dataSource["coinAmount"], let date = dataSource["date"] {
+            
+            descriptionText = "Add a \(transactionType) transaction for \(coinAmount)\(self.coin) on \(date). How much did it cost?"
+        }
+    
         descriptionLabel.text = descriptionText
         arrangedSubviews.append(descriptionLabel)
 
