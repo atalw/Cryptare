@@ -178,11 +178,11 @@ extension SellPortfolioBulletinPage: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if !isInputValid(text: textField.text) {
-            addButton?.contentView.isEnabled = false
+        if isInputValid(text: coinAmount?.text) && isInputValid(text: dateOfSale?.text) {
+            addButton?.contentView.isEnabled = true
         }
         else {
-            addButton?.contentView.isEnabled = true
+            addButton?.contentView.isEnabled = false
         }
     }
     

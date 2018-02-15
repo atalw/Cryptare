@@ -159,7 +159,7 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
         
         dateOfPurchase?.endEditing(true)
         
-        if isInputValid(text: coinAmount?.text) {
+        if isInputValid(text: coinAmount?.text) && isInputValid(text: dateOfPurchase?.text){
             addButton?.contentView.isEnabled = true
         }
     }
@@ -176,11 +176,11 @@ extension TextFieldBulletinPage: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if !isInputValid(text: textField.text) {
-            addButton?.contentView.isEnabled = false
+        if isInputValid(text: coinAmount?.text) && isInputValid(text: dateOfPurchase?.text) {
+            addButton?.contentView.isEnabled = true
         }
         else {
-            addButton?.contentView.isEnabled = true
+            addButton?.contentView.isEnabled = false
         }
     }
     

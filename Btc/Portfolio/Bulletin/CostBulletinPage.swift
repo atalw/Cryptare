@@ -74,7 +74,7 @@ class  CostBulletinPage: NSObject, BulletinItem {
         
         firstFieldStack.addArrangedSubview(cost!)
         
-        addButton = interfaceFactory.makeActionButton(title: "Next")
+        addButton = interfaceFactory.makeActionButton(title: "Add")
         arrangedSubviews.append(addButton!)
         
         addButton?.contentView.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
