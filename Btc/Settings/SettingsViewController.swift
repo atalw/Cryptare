@@ -298,7 +298,7 @@ class SettingsViewController: UITableViewController {
             buySort.isSelected = true
             sellSort.isSelected = false
             
-            buySort.backgroundColor = UIColor.lightGray
+            buySort.backgroundColor = buttonHighlightedBackgroundColour
             sellSort.backgroundColor = UIColor.white
             
             defaults.set("buy", forKey: "marketSort")
@@ -308,7 +308,7 @@ class SettingsViewController: UITableViewController {
             sellSort.isSelected = true
             
             buySort.backgroundColor = UIColor.white
-            sellSort.backgroundColor = UIColor.lightGray
+            sellSort.backgroundColor = buttonHighlightedBackgroundColour
             
             defaults.set("sell", forKey: "marketSort")
         }
@@ -350,7 +350,7 @@ class SettingsViewController: UITableViewController {
             dateSort.isSelected = true
             
             popularitySort.backgroundColor = UIColor.white
-            dateSort.backgroundColor = UIColor.lightGray
+            dateSort.backgroundColor = buttonHighlightedBackgroundColour
         }
     }
     @IBAction func newsSortButtonTapped(_ sender: Any) {
