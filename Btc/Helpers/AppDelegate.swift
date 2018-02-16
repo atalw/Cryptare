@@ -81,15 +81,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         if defaults.string(forKey: "selectedCountry") != nil {
-            if defaults.string(forKey: "selectedCountry") == "india" {
-                GlobalValues.currency = "INR"
+            let savedCountry = defaults.string(forKey: "selectedCountry") as! String
+            
+            for countryTuple in GlobalValues.countryList {
+                if savedCountry == countryTuple.0 {
+                    GlobalValues.currency = countryTuple.1
+                }
             }
-            else if defaults.string(forKey: "selectedCountry") == "usa" {
-                GlobalValues.currency = "USD"
-            }
-            else if defaults.string(forKey: "selectedCountry") == "eu" {
-                GlobalValues.currency = "EUR"
-            }
+            
             self.createMenuView(storyboard: storyboard)
         }
         

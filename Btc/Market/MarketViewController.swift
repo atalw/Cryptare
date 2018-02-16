@@ -111,8 +111,6 @@ class MarketViewController: UIViewController {
     
     var selectedMarket: String!
     
-    
-    
     let marketRowColour : UIColor = UIColor.white
     let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
     

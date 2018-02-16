@@ -8,12 +8,16 @@
 
 import UIKit
 
-class CountrySelectionViewController: UIViewController, UITableViewDelegate {
+class CountrySelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+   
     
     var tableViewController : countryTableViewController!
     @IBOutlet weak var nextButton: UIButton!
     
     let defaults = UserDefaults.standard
+    
+    
+    var sortedCountryList: [(String, String, String)] = []
     
     @IBAction func nextButtonTapped(_ sender: Any) {
         
@@ -32,10 +36,11 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        sortedCountryList = GlobalValues.countryList.sorted(by: {$0.1 < $1.1})
 
-        // Do any additional setup after loading the view.
-//        self.tableViewController.countryTable.sel
-        self.tableViewController.countryTable.delegate = self
+        tableViewController.countryTable.delegate = self
+        tableViewController.countryTable.dataSource = self
         tableViewController.countryTable.tableFooterView = UIView(frame: .zero)
     }
 
@@ -46,29 +51,29 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//         Get the new view controller using segue.destinationViewController.
-//         Pass the selected object to the new view controller.
         if let tableViewController = segue.destination as? countryTableViewController {
             self.tableViewController = tableViewController
         }
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sortedCountryList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let row = indexPath.row
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        cell!.textLabel?.text = sortedCountryList[row].1
+        return cell!
+    }
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            self.defaults.set("india", forKey: "selectedCountry")
-            GlobalValues.currency = "INR"
-        }
-        else if indexPath.row == 1 {
-            self.defaults.set("usa", forKey: "selectedCountry")
-            GlobalValues.currency = "USD"
-        }
         
-        else if indexPath.row == 2 {
-            self.defaults.set("eu", forKey: "selectedCountry")
-            GlobalValues.currency = "EUR"
-        }
+        let row = indexPath.row
+        self.defaults.set(sortedCountryList[row].0, forKey: "selectedCountry")
+        GlobalValues.currency = sortedCountryList[row].1
         if nextButton != nil {
             self.nextButton.isEnabled = true
         }
@@ -78,5 +83,4 @@ class CountrySelectionViewController: UIViewController, UITableViewDelegate {
 class countryTableViewController: UITableViewController {
     
     @IBOutlet var countryTable: UITableView!
-    @IBOutlet weak var indiaCell: UITableViewCell!
 }

@@ -13,6 +13,17 @@ public struct GlobalValues {
     static var currentBtcPrice: Double!
     static var currentBtcPriceString: String!
     static var coins: [(String, String)] = []
+    static let countryList = [("india", "INR", "en_IN"),
+                              ("usa", "USD", "en_US"),
+                              ("eu", "EUR", "nl_NL"),
+                              ("uk", "GBP", "en_GB"),
+                              ("canada", "CAD", "en_CA"),
+                              ("japan", "JPY", "ja_JP"),
+                              ("china", "CNY", "ii_CN"),
+                              ("singapore", "SGD", "en_SG"),
+                              ("australia", "AUD", "en_AU"),
+                              ("turkey", "TRY", "tr_TR"),
+                              ("uae", "AED", "ar_AE")]
 }
 
 public struct ChartSettings {

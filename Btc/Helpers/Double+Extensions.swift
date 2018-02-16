@@ -16,14 +16,10 @@ extension Double {
         
         let currency = GlobalValues.currency!
         
-        if currency == "INR" {
-            numberFormatter.locale = Locale.init(identifier: "en_IN")
-        }
-        else if currency == "USD" {
-            numberFormatter.locale = Locale.init(identifier: "en_US")
-        }
-        else if currency == "EUR" {
-            numberFormatter.locale = Locale.init(identifier: "nl_NL")
+        for countryTuple in GlobalValues.countryList {
+            if currency == countryTuple.1 {
+                numberFormatter.locale = Locale.init(identifier: countryTuple.2)
+            }
         }
         
         return numberFormatter.string(from: NSNumber(value: self))!
