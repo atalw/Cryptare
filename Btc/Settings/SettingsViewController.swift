@@ -106,6 +106,8 @@ class SettingsViewController: UITableViewController {
         #endif
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+        
+        IAPService.shared.getProducts()
 
     }
     
@@ -383,6 +385,11 @@ class SettingsViewController: UITableViewController {
             else if indexPath.row == 1 {
                 let url = URL(string: "http://reddit.com/r/bitcoin")
                 UIApplication.shared.openURL(url!)
+            }
+        }
+        else if indexPath.section == 5 {
+            if indexPath.row == 0 {print("here")
+                IAPService.shared.purchase(product: .removeAds)
             }
         }
     }

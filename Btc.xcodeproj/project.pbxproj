@@ -34,7 +34,6 @@
 		863474C11F0CE54900E7EB86 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BA1F0CE54900E7EB86 /* EventKit.framework */; };
 		863474C21F0CE54900E7EB86 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BB1F0CE54900E7EB86 /* EventKitUI.framework */; };
 		863474C31F0CE54900E7EB86 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BC1F0CE54900E7EB86 /* MessageUI.framework */; };
-		863474C41F0CE54900E7EB86 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BD1F0CE54900E7EB86 /* StoreKit.framework */; };
 		863474C51F0CE54900E7EB86 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */; };
 		86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */; };
 		86401C4D1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */; };
@@ -49,6 +48,11 @@
 		86492AB11FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */; };
 		864D32BD1FF51B2F0059E9B5 /* CostBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D32BC1FF51B2F0059E9B5 /* CostBulletinPage.swift */; };
 		864D32BE1FF51B2F0059E9B5 /* CostBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D32BC1FF51B2F0059E9B5 /* CostBulletinPage.swift */; };
+		864E9736203C53F60023238F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864E9735203C53F60023238F /* StoreKit.framework */; };
+		864E9738203C56470023238F /* IAPProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864E9737203C56470023238F /* IAPProduct.swift */; };
+		864E9739203C56470023238F /* IAPProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864E9737203C56470023238F /* IAPProduct.swift */; };
+		864E973B203C57570023238F /* IAPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864E973A203C57570023238F /* IAPService.swift */; };
+		864E973C203C57570023238F /* IAPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864E973A203C57570023238F /* IAPService.swift */; };
 		864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
 		8650C5721FC051270078FD02 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5711FC051270078FD02 /* PortfolioViewController.swift */; };
 		8650C5731FC051270078FD02 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5711FC051270078FD02 /* PortfolioViewController.swift */; };
@@ -86,7 +90,6 @@
 		868F1A8D1F7D301E0093402A /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BA1F0CE54900E7EB86 /* EventKit.framework */; };
 		868F1A8E1F7D301E0093402A /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BB1F0CE54900E7EB86 /* EventKitUI.framework */; };
 		868F1A8F1F7D301E0093402A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BC1F0CE54900E7EB86 /* MessageUI.framework */; };
-		868F1A901F7D301E0093402A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BD1F0CE54900E7EB86 /* StoreKit.framework */; };
 		868F1A911F7D301E0093402A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */; };
 		868F1A921F7D301E0093402A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B61F0CE51E00E7EB86 /* AVFoundation.framework */; };
 		868F1A931F7D301E0093402A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863474B41F0CE51A00E7EB86 /* AudioToolbox.framework */; };
@@ -188,7 +191,6 @@
 		863474BA1F0CE54900E7EB86 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		863474BB1F0CE54900E7EB86 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 		863474BC1F0CE54900E7EB86 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		863474BD1F0CE54900E7EB86 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		86401C4B1FADF36300C4A46B /* LeftNavigationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftNavigationTableViewCell.swift; sourceTree = "<group>"; };
 		864362561F66F9DF00883792 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,9 @@
 		86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEntryDelegate.swift; sourceTree = "<group>"; };
 		864D32BC1FF51B2F0059E9B5 /* CostBulletinPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostBulletinPage.swift; sourceTree = "<group>"; };
+		864E9735203C53F60023238F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		864E9737203C56470023238F /* IAPProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPProduct.swift; sourceTree = "<group>"; };
+		864E973A203C57570023238F /* IAPService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPService.swift; sourceTree = "<group>"; };
 		864F53271FAC9F0600BC852F /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		8650C5711FC051270078FD02 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SortDropDownViews.xib; sourceTree = "<group>"; };
@@ -255,12 +260,12 @@
 				863474C11F0CE54900E7EB86 /* EventKit.framework in Frameworks */,
 				863474C21F0CE54900E7EB86 /* EventKitUI.framework in Frameworks */,
 				863474C31F0CE54900E7EB86 /* MessageUI.framework in Frameworks */,
-				863474C41F0CE54900E7EB86 /* StoreKit.framework in Frameworks */,
 				863474C51F0CE54900E7EB86 /* SystemConfiguration.framework in Frameworks */,
 				863474B71F0CE51E00E7EB86 /* AVFoundation.framework in Frameworks */,
 				863474B51F0CE51A00E7EB86 /* AudioToolbox.framework in Frameworks */,
 				863474B31F0CE50F00E7EB86 /* AdSupport.framework in Frameworks */,
 				15DFE81E344F47F5A759C997 /* Pods_Cryptare.framework in Frameworks */,
+				864E9736203C53F60023238F /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +294,6 @@
 				868F1A8D1F7D301E0093402A /* EventKit.framework in Frameworks */,
 				868F1A8E1F7D301E0093402A /* EventKitUI.framework in Frameworks */,
 				868F1A8F1F7D301E0093402A /* MessageUI.framework in Frameworks */,
-				868F1A901F7D301E0093402A /* StoreKit.framework in Frameworks */,
 				868F1A911F7D301E0093402A /* SystemConfiguration.framework in Frameworks */,
 				868F1A921F7D301E0093402A /* AVFoundation.framework in Frameworks */,
 				868F1A931F7D301E0093402A /* AudioToolbox.framework in Frameworks */,
@@ -385,12 +389,12 @@
 		863474A81F0CDD6C00E7EB86 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				864E9735203C53F60023238F /* StoreKit.framework */,
 				863474B81F0CE54900E7EB86 /* CoreGraphics.framework */,
 				863474B91F0CE54900E7EB86 /* CoreTelephony.framework */,
 				863474BA1F0CE54900E7EB86 /* EventKit.framework */,
 				863474BB1F0CE54900E7EB86 /* EventKitUI.framework */,
 				863474BC1F0CE54900E7EB86 /* MessageUI.framework */,
-				863474BD1F0CE54900E7EB86 /* StoreKit.framework */,
 				863474BE1F0CE54900E7EB86 /* SystemConfiguration.framework */,
 				863474B61F0CE51E00E7EB86 /* AVFoundation.framework */,
 				863474B41F0CE51A00E7EB86 /* AudioToolbox.framework */,
@@ -443,6 +447,8 @@
 				86A713861FB5DAAF003DA98C /* Bundle.swift */,
 				86FC11BC1FEBC9C60094B82F /* Constants.swift */,
 				861A751F1FF8F21100263A90 /* Double+Extensions.swift */,
+				864E9737203C56470023238F /* IAPProduct.swift */,
+				864E973A203C57570023238F /* IAPService.swift */,
 			);
 			name = "Helper Files";
 			path = Helpers;
@@ -634,6 +640,9 @@
 						DevelopmentTeam = J724CNLQL9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -996,6 +1005,7 @@
 				865361FD1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */,
 				8650C5721FC051270078FD02 /* PortfolioViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
+				864E973B203C57570023238F /* IAPService.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
 				86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */,
@@ -1009,6 +1019,7 @@
 				86BD6F9B1F85236100C4B0CA /* MarketsModel.swift in Sources */,
 				8650C5791FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				864F53281FAC9F0600BC852F /* LeftViewController.swift in Sources */,
+				864E9738203C56470023238F /* IAPProduct.swift in Sources */,
 				865FF08D202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */,
 				861A75201FF8F21100263A90 /* Double+Extensions.swift in Sources */,
 				86277C191FF3A12B00CC9819 /* AddCoinTableViewController.swift in Sources */,
@@ -1064,6 +1075,7 @@
 				865361FE1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */,
 				8650C5731FC051270078FD02 /* PortfolioViewController.swift in Sources */,
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
+				864E973C203C57570023238F /* IAPService.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
 				86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */,
 				868F1A821F7D301E0093402A /* CountrySelectionViewController.swift in Sources */,
@@ -1077,6 +1089,7 @@
 				868F1A841F7D301E0093402A /* MyCollectionViewCell.swift in Sources */,
 				8650C57A1FC07C460078FD02 /* SortDropDownViews.swift in Sources */,
 				86BD6F9C1F85236100C4B0CA /* MarketsModel.swift in Sources */,
+				864E9739203C56470023238F /* IAPProduct.swift in Sources */,
 				865FF08E202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */,
 				861A75211FF8F21100263A90 /* Double+Extensions.swift in Sources */,
 				86277C1A1FF3A12B00CC9819 /* AddCoinTableViewController.swift in Sources */,
