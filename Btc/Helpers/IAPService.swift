@@ -11,6 +11,8 @@ import StoreKit
 
 class IAPService: NSObject {
     
+    let defaults = UserDefaults.standard
+    
     // cant create IAPService object
     private override init() {}
     
@@ -20,9 +22,25 @@ class IAPService: NSObject {
     var products = [SKProduct]()
     let paymentQueue = SKPaymentQueue.default()
     
+    var completionHandler: ((Bool, [SKProduct]?) -> Void)!
+    
     func getProducts() {
         let products: Set = [IAPProduct.removeAds.rawValue]
         let request = SKProductsRequest(productIdentifiers: products)
+        
+        print("transactions in queue", paymentQueue.transactions.count)
+        
+        request.delegate = self
+        request.start()
+        paymentQueue.add(self)
+    }
+    
+    func requestProductsWithCompletionHandler(completionHandler:@escaping (Bool, [SKProduct]?) -> Void){
+        self.completionHandler = completionHandler
+        
+        let products: Set = [IAPProduct.removeAds.rawValue, IAPProduct.unlockMarkets.rawValue]
+        let request = SKProductsRequest(productIdentifiers: products)
+        
         request.delegate = self
         request.start()
         paymentQueue.add(self)
@@ -43,7 +61,11 @@ extension IAPService: SKProductsRequestDelegate {
         self.products = response.products
         for product in response.products {
             print(product.localizedTitle)
+            print(product.priceLocale)
+            print(product.price)
         }
+        
+        completionHandler(true, products)
     }
 }
 
@@ -52,6 +74,44 @@ extension IAPService: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             print(transaction.transactionState.status(), transaction.payment.productIdentifier)
+            if transaction.payment.productIdentifier == IAPProduct.removeAds.rawValue {
+                switch transaction.transactionState {
+                case .purchased:
+                    print("AHSDFHAHF")
+                    defaults.set(true, forKey: "removeAdsPurchased")
+                    queue.finishTransaction(transaction)
+                case .restored:
+                    print("restoring it bitch")
+                    queue.restoreCompletedTransactions()
+                    defaults.set(true, forKey: "removeAdsPurchased")
+                case .purchasing:
+                    print("adsfadfadfa")
+                default:
+                    print("nonneeeee")
+                    queue.finishTransaction(transaction)
+                    break
+                }
+            }
+            
+            if transaction.payment.productIdentifier == IAPProduct.unlockMarkets.rawValue {
+                switch transaction.transactionState {
+                case .purchased:
+                    print("AHSDFHAHF")
+                    defaults.set(true, forKey: "unlockMarketsPurchased")
+                    queue.finishTransaction(transaction)
+                case .restored:
+                    print("restoring it bitch")
+                    queue.restoreCompletedTransactions()
+                    defaults.set(true, forKey: "unlockMarketsPurchased")
+                case .purchasing:
+                    print("adsfadfadfa")
+                default:
+                    print("nonneeeee")
+                    queue.finishTransaction(transaction)
+                    break
+                }
+            }
+            
         }
     }
 }
@@ -65,5 +125,15 @@ extension SKPaymentTransactionState {
         case .purchasing: return "purchasing"
         case .restored: return "restored"
         }
+    }
+}
+
+
+extension SKProduct {
+    func localizedPrice() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = self.priceLocale
+        return formatter.string(from: self.price)!
     }
 }

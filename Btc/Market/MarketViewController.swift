@@ -46,6 +46,8 @@ class MarketViewController: UIViewController {
     @IBOutlet weak var btcMarketDescriptionLabel: UILabel!
     @IBOutlet weak var ethMarketDescriptionLabel: UILabel!
     
+    @IBOutlet weak var marketsLockView: UIView!
+    
     #if LITE_VERSION
     @IBAction func upgradeButton(_ sender: Any) {
         UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/app/id1266256984")!)
@@ -129,6 +131,19 @@ class MarketViewController: UIViewController {
         //Looks for single or multiple taps.
 //        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
 //        view.addGestureRecognizer(tap)
+        
+        if currentCoin == "BTC" || currentCoin == "ETH" {
+            marketsLockView.isHidden = true
+        }
+        else {
+            let unlockMarketsPurchased = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
+            if unlockMarketsPurchased == true {
+                marketsLockView.isHidden = true
+            }
+            else {
+                marketsLockView.isHidden = false
+            }
+        }
         
         coinNameLabel.text = currentCoin
         

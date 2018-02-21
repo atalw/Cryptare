@@ -34,6 +34,9 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var popularitySort: UIButton!
     @IBOutlet weak var dateSort: UIButton!
     
+    @IBOutlet weak var removeAdsPriceLabel: UILabel!
+    @IBOutlet weak var unlockMarketsPriceLabel: UILabel!
+    
     // footer
     @IBOutlet weak var appVersionLabel: UILabel!
     
@@ -41,6 +44,9 @@ class SettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.removeAdsPriceLabel.text = 0.0.asCurrency
+        self.unlockMarketsPriceLabel.text = 0.0.asCurrency
         
         //chart
         linearModeButton.layer.cornerRadius = 5
@@ -107,7 +113,19 @@ class SettingsViewController: UITableViewController {
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
         
-        IAPService.shared.getProducts()
+//        let iapProducts = IAPService.shared.getProducts()
+//        print(IAPService.shared.products.count)
+        
+        IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
+            if success {
+                if products != nil {
+                    if products!.count > 1 {
+                        self.removeAdsPriceLabel.text = products![0].localizedPrice()
+                        self.unlockMarketsPriceLabel.text = products![1].localizedPrice()
+                    }
+                }
+            }
+        })
 
     }
     
@@ -377,7 +395,15 @@ class SettingsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 4 { // social
+        if indexPath.section == 0 { // in-app purchases
+            if indexPath.row == 0 {
+                IAPService.shared.purchase(product: .removeAds)
+            }
+            else if indexPath.row == 1 {
+                IAPService.shared.purchase(product: .unlockMarkets)
+            }
+        }
+        else if indexPath.section == 5 { // social
             if indexPath.row == 0 { //twitter
                 let url = URL(string: "https://twitter.com/cryptare")
                 UIApplication.shared.openURL(url!)
@@ -387,11 +413,7 @@ class SettingsViewController: UITableViewController {
                 UIApplication.shared.openURL(url!)
             }
         }
-        else if indexPath.section == 5 {
-            if indexPath.row == 0 {print("here")
-                IAPService.shared.purchase(product: .removeAds)
-            }
-        }
+        
     }
     
     /*

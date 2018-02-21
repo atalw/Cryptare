@@ -10,4 +10,5 @@ import Foundation
 
 enum IAPProduct: String {
     case removeAds = "com.atalwar.Cryptare.RemoveAds"
+    case unlockMarkets = "com.atalwar.Cryptare.UnlockMarkets"
 }
