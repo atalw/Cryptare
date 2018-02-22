@@ -12,3 +12,8 @@ enum IAPProduct: String {
     case removeAds = "com.atalwar.Cryptare.RemoveAds"
     case unlockMarkets = "com.atalwar.Cryptare.UnlockMarkets"
 }
+
+enum IAPProductDev: String {
+    case removeAds = "com.atalwar.Cryptare.dev.RemoveAds"
+    case unlockMarkets = "com.atalwar.Cryptare.dev.UnlockMarkets"
+}

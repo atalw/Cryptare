@@ -52,6 +52,15 @@ class DashboardViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
+        if removeAdsPurchased == false {
+            bannerView.load(GADRequest())
+            bannerView.delegate = self
+        }
+        else {
+            bannerView.isHidden = true
+        }
+        
         if currentReachabilityStatus == .notReachable {
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
@@ -95,14 +104,7 @@ class DashboardViewController: UIViewController {
         
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
-        let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
-        if removeAdsPurchased == false {
-            bannerView.load(GADRequest())
-            bannerView.delegate = self
-        }
-        else {
-            bannerView.isHidden = true
-        }
+        
 
     }
     

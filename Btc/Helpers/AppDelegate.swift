@@ -13,6 +13,7 @@ import UserNotifications
 import SlideMenuControllerSwift
 import Charts
 import GoogleMobileAds
+import SwiftyStoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -21,8 +22,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var ref: DatabaseReference!
     let defaults = UserDefaults.standard
     
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
+        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
+            switch result {
+            case .success(let receipt):
+                print("Verify receipt success: \(receipt)")
+                if let originalAppVersion = receipt["receipt"]?["original_application_version"] as? String {
+                    print(originalAppVersion, "Original")
+                    if let versionNumber = Double(originalAppVersion) {
+                        if versionNumber < 2.92 {
+                            UserDefaults.standard.set(true, forKey: "removeAdsPurchased")
+                            UserDefaults.standard.set(true, forKey: "unlockMarketsPurchased")
+                            UserDefaults.standard.set(true, forKey: "paidUser")
+                        }
+                    }
+                }
+            case .error(let error):
+                print("Verify receipt failed: \(error)")
+            }
+        }
         
         GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
 

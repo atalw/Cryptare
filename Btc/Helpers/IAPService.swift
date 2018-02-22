@@ -24,21 +24,15 @@ class IAPService: NSObject {
     
     var completionHandler: ((Bool, [SKProduct]?) -> Void)!
     
-    func getProducts() {
-        let products: Set = [IAPProduct.removeAds.rawValue]
-        let request = SKProductsRequest(productIdentifiers: products)
-        
-        print("transactions in queue", paymentQueue.transactions.count)
-        
-        request.delegate = self
-        request.start()
-        paymentQueue.add(self)
-    }
-    
     func requestProductsWithCompletionHandler(completionHandler:@escaping (Bool, [SKProduct]?) -> Void){
         self.completionHandler = completionHandler
         
-        let products: Set = [IAPProduct.removeAds.rawValue, IAPProduct.unlockMarkets.rawValue]
+        #if DEBUG
+            let products: Set = [IAPProductDev.removeAds.rawValue, IAPProductDev.unlockMarkets.rawValue]
+        #else
+            let products: Set = [IAPProduct.removeAds.rawValue, IAPProduct.unlockMarkets.rawValue]
+        #endif
+        
         let request = SKProductsRequest(productIdentifiers: products)
         
         request.delegate = self

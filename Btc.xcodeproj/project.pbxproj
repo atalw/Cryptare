@@ -48,7 +48,6 @@
 		86492AB11FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */; };
 		864D32BD1FF51B2F0059E9B5 /* CostBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D32BC1FF51B2F0059E9B5 /* CostBulletinPage.swift */; };
 		864D32BE1FF51B2F0059E9B5 /* CostBulletinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D32BC1FF51B2F0059E9B5 /* CostBulletinPage.swift */; };
-		864E9736203C53F60023238F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864E9735203C53F60023238F /* StoreKit.framework */; };
 		864E9738203C56470023238F /* IAPProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864E9737203C56470023238F /* IAPProduct.swift */; };
 		864E9739203C56470023238F /* IAPProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864E9737203C56470023238F /* IAPProduct.swift */; };
 		864E973B203C57570023238F /* IAPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864E973A203C57570023238F /* IAPService.swift */; };
@@ -126,6 +125,7 @@
 		86E1383A1FBB214D00C5D3ED /* FeedbackGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E138381FBB214D00C5D3ED /* FeedbackGenerators.swift */; };
 		86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */; };
 		86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E31CCA1F41D77900445B08 /* NewsData.swift */; };
+		86E73047203EE73200015380 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E73046203EE73200015380 /* StoreKit.framework */; };
 		86E8A5752028A69B00D7E467 /* MarketInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8A5742028A69B00D7E467 /* MarketInformation.swift */; };
 		86E8A5762028A69B00D7E467 /* MarketInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8A5742028A69B00D7E467 /* MarketInformation.swift */; };
 		86FBF1C61FE28B160056A5BA /* MarketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FBF1C51FE28B150056A5BA /* MarketDetailViewController.swift */; };
@@ -200,7 +200,6 @@
 		86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEntryDelegate.swift; sourceTree = "<group>"; };
 		864D32BC1FF51B2F0059E9B5 /* CostBulletinPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostBulletinPage.swift; sourceTree = "<group>"; };
-		864E9735203C53F60023238F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		864E9737203C56470023238F /* IAPProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPProduct.swift; sourceTree = "<group>"; };
 		864E973A203C57570023238F /* IAPService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPService.swift; sourceTree = "<group>"; };
 		864F53271FAC9F0600BC852F /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
@@ -236,6 +235,7 @@
 		86E138381FBB214D00C5D3ED /* FeedbackGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackGenerators.swift; sourceTree = "<group>"; };
 		86E31CC81F41D2A400445B08 /* CustomNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNewsTableViewCell.swift; sourceTree = "<group>"; };
 		86E31CCA1F41D77900445B08 /* NewsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
+		86E73046203EE73200015380 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		86E8A5742028A69B00D7E467 /* MarketInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInformation.swift; sourceTree = "<group>"; };
 		86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cryptare.entitlements; sourceTree = "<group>"; };
 		86FBF1C51FE28B150056A5BA /* MarketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewController.swift; sourceTree = "<group>"; };
@@ -265,7 +265,7 @@
 				863474B51F0CE51A00E7EB86 /* AudioToolbox.framework in Frameworks */,
 				863474B31F0CE50F00E7EB86 /* AdSupport.framework in Frameworks */,
 				15DFE81E344F47F5A759C997 /* Pods_Cryptare.framework in Frameworks */,
-				864E9736203C53F60023238F /* StoreKit.framework in Frameworks */,
+				86E73047203EE73200015380 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +389,7 @@
 		863474A81F0CDD6C00E7EB86 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				864E9735203C53F60023238F /* StoreKit.framework */,
+				86E73046203EE73200015380 /* StoreKit.framework */,
 				863474B81F0CE54900E7EB86 /* CoreGraphics.framework */,
 				863474B91F0CE54900E7EB86 /* CoreTelephony.framework */,
 				863474BA1F0CE54900E7EB86 /* EventKit.framework */,
@@ -866,6 +866,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TTSegmentedControl/TTSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -882,6 +883,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -908,6 +910,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TTSegmentedControl/TTSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -924,6 +927,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -1255,7 +1259,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DPRO_VERSION\"";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.atalwar.Cryptare-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = com.atalwar.Cryptare.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;

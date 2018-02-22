@@ -19,6 +19,7 @@ pod 'BulletinBoard', :git => 'https://github.com/alexaubry/BulletinBoard.git'
 pod 'YNDropDownMenu'
 pod 'TTSegmentedControl'
 pod 'Google-Mobile-Ads-SDK'
+pod 'SwiftyStoreKit'
 
 target 'CryptareLite' do
     use_frameworks!
@@ -36,6 +37,7 @@ target 'CryptareLite' do
     pod 'YNDropDownMenu'
     pod 'TTSegmentedControl'
     pod 'Google-Mobile-Ads-SDK'
+    pod 'SwiftyStoreKit'
 end
 
 target 'BtcTests' do

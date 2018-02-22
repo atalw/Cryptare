@@ -104,7 +104,11 @@ class SettingsViewController: UITableViewController {
         loadNewsSettings()
         
         #if PRO_VERSION
-            appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
+            #if DEBUG
+                appVersionLabel?.text = " Cryptare DEBUG v\(Bundle.appVersion)"
+            #else
+                appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
+            #endif
         #endif
         
         #if LITE_VERSION
@@ -112,21 +116,42 @@ class SettingsViewController: UITableViewController {
         #endif
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-//        let iapProducts = IAPService.shared.getProducts()
-//        print(IAPService.shared.products.count)
+        let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
+        let unlockMarketsPurchased: Bool = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
+        let paidUser: Bool = UserDefaults.standard.bool(forKey: "paidUser")
         
         IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
             if success {
                 if products != nil {
-                    if products!.count > 1 {
-                        self.removeAdsPriceLabel.text = products![0].localizedPrice()
-                        self.unlockMarketsPriceLabel.text = products![1].localizedPrice()
+                    if !paidUser {
+                        if products!.count > 1 {
+                            if removeAdsPurchased {
+                                self.removeAdsPriceLabel.text = "Already purchased"
+                            }
+                            else {
+                                self.removeAdsPriceLabel.text = products![0].localizedPrice()
+                            }
+                            
+                            if unlockMarketsPurchased {
+                                self.unlockMarketsPriceLabel.text = "Already purchased"
+                            }
+                            else {
+                                self.unlockMarketsPriceLabel.text = products![1].localizedPrice()
+                            }
+                        }
+                    }
+                    else {
+                        self.removeAdsPriceLabel.text = "Already purchased"
+                        self.unlockMarketsPriceLabel.text = "Already purchased"
                     }
                 }
             }
         })
-
     }
     
     @objc func xAxisChange(xAxisSwitch: UISwitch) {
@@ -395,12 +420,22 @@ class SettingsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
+        let unlockMarketsPurchased: Bool = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
+        let paidUser: Bool = UserDefaults.standard.bool(forKey: "paidUser")
+
         if indexPath.section == 0 { // in-app purchases
-            if indexPath.row == 0 {
-                IAPService.shared.purchase(product: .removeAds)
-            }
-            else if indexPath.row == 1 {
-                IAPService.shared.purchase(product: .unlockMarkets)
+            if !paidUser {
+                if !removeAdsPurchased {
+                    if indexPath.row == 0 {
+                        IAPService.shared.purchase(product: .removeAds)
+                    }
+                }
+                if !unlockMarketsPurchased {
+                    if indexPath.row == 1 {
+                        IAPService.shared.purchase(product: .unlockMarkets)
+                    }
+                }
             }
         }
         else if indexPath.section == 5 { // social
