@@ -47,6 +47,7 @@ class MarketViewController: UIViewController {
     @IBOutlet weak var ethMarketDescriptionLabel: UILabel!
     
     @IBOutlet weak var marketsLockView: UIView!
+    @IBOutlet weak var unlockMarketsPriceButton: UIButton!
     
     #if LITE_VERSION
     @IBAction func upgradeButton(_ sender: Any) {
@@ -272,6 +273,17 @@ class MarketViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+//        IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
+//            if success {
+//                if products != nil {
+//                    let price = products![1].localizedPrice()
+//                    self.unlockMarketsPriceButton.setTitle(" \(price) ", for: .normal)
+//                    self.unlockMarketsPriceButton.sizeToFit()
+////                    self.unlockMarketsPriceButton.addTarget(self, action: #selector(self.unlockMarketsButtonTapped), for: .touchUpInside)
+//                }
+//            }
+//        })
+        
         if currentReachabilityStatus == .notReachable {
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
@@ -367,6 +379,23 @@ class MarketViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+    }
+    
+    @objc func unlockMarketsButtonTapped() {
+        IAPService.shared.purchase(product: .unlockMarkets)
+        
+        if currentCoin == "BTC" || currentCoin == "ETH" {
+            marketsLockView.isHidden = true
+        }
+        else {
+            let unlockMarketsPurchased = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
+            if unlockMarketsPurchased == true {
+                marketsLockView.isHidden = true
+            }
+            else {
+                marketsLockView.isHidden = false
+            }
+        }
     }
     
     // MARK: Firebase helper functions
