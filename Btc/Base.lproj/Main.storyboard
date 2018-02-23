@@ -1755,7 +1755,7 @@
             </objects>
             <point key="canvasLocation" x="1351" y="922"/>
         </scene>
-        <!--Unlock Markets-->
+        <!--View Controller-->
         <scene sceneID="3uk-lD-lrg">
             <objects>
                 <viewController id="LTd-dD-Umg" sceneMemberID="viewController">
@@ -1813,9 +1813,9 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Veu-09-dqJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="70"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Compare the prices of 50+ markets of 100+ cryptocurrencies." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6E-dR-qQS">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You'll be able to compare the prices of 50+ markets of 100+ cryptocurrencies." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6E-dR-qQS">
                                                                 <rect key="frame" x="10" y="10" width="315" height="50"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1837,9 +1837,9 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="whx-OV-alH">
                                                         <rect key="frame" x="0.0" y="80" width="335" height="70"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Markets included are Fiat markets, BTC markets and ETH markets." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHt-dj-beY">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The listed markets include Fiat markets, BTC markets and ETH markets." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHt-dj-beY">
                                                                 <rect key="frame" x="10" y="10" width="315" height="50"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1863,7 +1863,7 @@
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is shit feature 3 but gotta add this to keep the rule of threes valid" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4B-fy-gIH">
                                                                 <rect key="frame" x="10" y="10" width="315" height="50"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1941,7 +1941,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3aY-gB-LUe"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Unlock Markets" id="5xN-OR-FMr"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <size key="freeformSize" width="375" height="1100"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ih-ft-jHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2784,7 +2785,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <segue destination="LTd-dD-Umg" kind="show" id="gvE-Lb-yYx"/>
+                                                    <segue destination="LTd-dD-Umg" kind="presentation" id="ReA-d2-PKG"/>
                                                 </connections>
                                             </button>
                                         </subviews>
