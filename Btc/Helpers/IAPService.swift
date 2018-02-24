@@ -23,7 +23,8 @@ class IAPService: NSObject {
     let paymentQueue = SKPaymentQueue.default()
     
     var completionHandler: ((Bool, [SKProduct]?) -> Void)!
-    
+    var completionHandlerBool: ((Bool) -> Void)!
+
     func requestProductsWithCompletionHandler(completionHandler:@escaping (Bool, [SKProduct]?) -> Void){
         self.completionHandler = completionHandler
         
@@ -40,7 +41,8 @@ class IAPService: NSObject {
         paymentQueue.add(self)
     }
     
-    func purchase(product: IAPProduct) {
+    func purchase(product: IAPProduct, completionHandlerBool:@escaping (Bool) -> Void) {
+        self.completionHandlerBool = completionHandlerBool
         print(product.rawValue, products[0].productIdentifier)
         guard let productToPurchase = products.filter({ $0.productIdentifier == product.rawValue }).first else { return }
         let payment = SKPayment(product: productToPurchase)
@@ -93,6 +95,7 @@ extension IAPService: SKPaymentTransactionObserver {
                     print("AHSDFHAHF")
                     defaults.set(true, forKey: "unlockMarketsPurchased")
                     queue.finishTransaction(transaction)
+                    completionHandlerBool(true)
                 case .restored:
                     print("restoring it bitch")
                     queue.restoreCompletedTransactions()

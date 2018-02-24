@@ -133,18 +133,7 @@ class MarketViewController: UIViewController {
 //        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
 //        view.addGestureRecognizer(tap)
         
-        if currentCoin == "BTC" || currentCoin == "ETH" {
-            marketsLockView.isHidden = true
-        }
-        else {
-            let unlockMarketsPurchased = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
-            if unlockMarketsPurchased == true {
-                marketsLockView.isHidden = true
-            }
-            else {
-                marketsLockView.isHidden = false
-            }
-        }
+        
         
         coinNameLabel.text = currentCoin
         
@@ -284,6 +273,19 @@ class MarketViewController: UIViewController {
 //            }
 //        })
         
+        if currentCoin == "BTC" || currentCoin == "ETH" {
+            marketsLockView.isHidden = true
+        }
+        else {
+            let unlockMarketsPurchased = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
+            if unlockMarketsPurchased == true {
+                marketsLockView.isHidden = true
+            }
+            else {
+                marketsLockView.isHidden = false
+            }
+        }
+        
         if currentReachabilityStatus == .notReachable {
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
@@ -381,22 +383,7 @@ class MarketViewController: UIViewController {
         super.viewDidDisappear(animated)
     }
     
-    @objc func unlockMarketsButtonTapped() {
-        IAPService.shared.purchase(product: .unlockMarkets)
-        
-        if currentCoin == "BTC" || currentCoin == "ETH" {
-            marketsLockView.isHidden = true
-        }
-        else {
-            let unlockMarketsPurchased = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
-            if unlockMarketsPurchased == true {
-                marketsLockView.isHidden = true
-            }
-            else {
-                marketsLockView.isHidden = false
-            }
-        }
-    }
+    
     
     // MARK: Firebase helper functions
     

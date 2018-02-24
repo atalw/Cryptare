@@ -46,7 +46,6 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
         
         self.removeAdsPriceLabel.text = 0.0.asCurrency
-        self.unlockMarketsPriceLabel.text = 0.0.asCurrency
         
         //chart
         linearModeButton.layer.cornerRadius = 5
@@ -139,9 +138,6 @@ class SettingsViewController: UITableViewController {
                             
                             if unlockMarketsPurchased {
                                 self.unlockMarketsPriceLabel.text = "Already purchased"
-                            }
-                            else {
-                                self.unlockMarketsPriceLabel.text = products![1].localizedPrice()
                             }
                         }
                     }
@@ -428,12 +424,16 @@ class SettingsViewController: UITableViewController {
             if !paidUser {
                 if !removeAdsPurchased {
                     if indexPath.row == 0 {
-                        IAPService.shared.purchase(product: .removeAds)
+                        IAPService.shared.purchase(product: .removeAds, completionHandlerBool: { (success) -> Void in
+                            
+                        })
                     }
                 }
                 if !unlockMarketsPurchased {
                     if indexPath.row == 1 {
-                        IAPService.shared.purchase(product: .unlockMarkets)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
+                        self.present(controller, animated: true, completion: nil)
                     }
                 }
             }

@@ -66,6 +66,9 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.sortPopularityButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.sortDateButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
