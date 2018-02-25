@@ -13,6 +13,7 @@ class CoinTableViewCell: UITableViewCell {
     @IBOutlet weak var coinRank: UILabel!
     @IBOutlet weak var coinSymbolImage: UIImageView!
     @IBOutlet weak var coinSymbolLabel: UILabel!
+    @IBOutlet weak var coinNameLabel: UILabel!
     @IBOutlet weak var coinCurrentValueLabel: UILabel!
     @IBOutlet weak var coinTimestampLabel: UILabel!
     @IBOutlet weak var coinPercentageChangeLabel: UILabel!

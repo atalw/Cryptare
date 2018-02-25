@@ -220,6 +220,13 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         }
         cell!.coinSymbolImage.contentMode = .scaleAspectFit
         
+        for (symbol, name) in GlobalValues.coins {
+            if symbol == coin {
+                cell!.coinNameLabel.text = name
+            }
+        }
+        
+        
         var colour: UIColor
         let currentPrice = self.coinData[coin]?["currentPrice"] as! Double
         let oldPrice = self.coinData[coin]?["oldPrice"] as? Double ?? 0.0
