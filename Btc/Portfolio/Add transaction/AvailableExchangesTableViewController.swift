@@ -1,5 +1,5 @@
 //
-//  AddTransactionTableViewController.swift
+//  AvailableExchangesTableViewController.swift
 //  Btc
 //
 //  Created by Akshit Talwar on 25/02/2018.
@@ -8,8 +8,13 @@
 
 import UIKit
 
-class AddTransactionTableViewController: UITableViewController {
-
+class AvailableExchangesTableViewController: UITableViewController {
+    
+    var parentController: AddTransactionTableViewController!
+    
+    var markets: [String: String]!
+    var sortedMarkets: [(String, String)]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,6 +23,7 @@ class AddTransactionTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        sortedMarkets = markets.sorted(by: {$0.key.localizedCompare($1.key) == .orderedAscending})
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,23 +35,25 @@ class AddTransactionTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return markets.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = sortedMarkets[indexPath.row].0
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let market = sortedMarkets[indexPath.row]
+        parentController.updateCurrentExchange(exchange: market)
+        navigationController?.popViewController(animated: true)
+    }
 
     /*
     // Override to support conditional editing of the table view.

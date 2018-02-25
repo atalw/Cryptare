@@ -39,9 +39,9 @@ class PortfolioViewController: UIViewController {
     @IBAction func addPortfolioAction(_ sender: Any) {
         portfolioTableController.showAddBuyBulletin()
     }
-    @IBAction func addBuyPortflioAction(_ sender: Any) {
-        portfolioTableController.showAddBuyBulletin()
-    }
+//    @IBAction func addBuyPortflioAction(_ sender: Any) {
+//        portfolioTableController.showAddBuyBulletin()
+//    }
     @IBAction func addSellPortfolioAction(_ sender: Any) {
        portfolioTableController.showAddSellBulletin()
     }
@@ -177,6 +177,10 @@ class PortfolioViewController: UIViewController {
             portfolioTableController.coin = self.coin
             portfolioTableController.portfolioData = self.portfolioData
             self.portfolioTableController = portfolioTableController
+        }
+        
+        if let addTransactionController = destinationVC as? AddTransactionViewController {
+            addTransactionController.coin = self.coin
         }
     }
  
