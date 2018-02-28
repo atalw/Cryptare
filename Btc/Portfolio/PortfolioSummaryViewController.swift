@@ -121,19 +121,19 @@ class PortfolioSummaryViewController: UIViewController {
             dict = [:]
             for index in 0..<portfolioEntries.count {
                 let firstElement = portfolioEntries[index][0] as? String
-                let secondElement = portfolioEntries[index][1] as? Double
-                let thirdElement = portfolioEntries[index][2] as? String
-
-                let coin = "BTC"
-                if let type = firstElement, let coinAmount = secondElement, let date = thirdElement {
-                    calculateCostFromDate(dateString: date) { value in
-                        let price = coinAmount * value
-                        portfolioEntries.remove(at: index)
-                        let data = [0: coin as Any, 1: type as Any, 2: coinAmount as Any, 3: date as Any, 4: price as Any]
-                        portfolioEntries.insert(data, at: index)
-                        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                        self.defaults.set(newData, forKey: "portfolioEntries")
-                    }
+                let secondElement = portfolioEntries[index][1] as? String
+                let thirdElement = portfolioEntries[index][2] as? Double
+                let fourthElement = portfolioEntries[index][3] as? String
+                let fifthElement = portfolioEntries[index][4] as? Double
+                
+                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = fourthElement, let cost = fifthElement {
+                    let tradePair = GlobalValues.currency!
+                    let exchange = "None"
+                    
+                    let data = [0: coin as Any, 1: type as Any, 2: coinAmount as Any, 3: date as Any, 4: cost as Any, 5: tradePair, 6: exchange]
+                    portfolioEntries.insert(data, at: index)
+                    let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                    self.defaults.set(newData, forKey: "portfolioEntries")
                     
                 }
             }
@@ -166,12 +166,18 @@ class PortfolioSummaryViewController: UIViewController {
                 let thirdElement = portfolioEntries[index][2] as? Double
                 let fourthElement = portfolioEntries[index][3] as? String
                 let fifthElement = portfolioEntries[index][4] as? Double
+                let sixthElement = portfolioEntries[index][4] as? String
+                let seventhElement = portfolioEntries[index][4] as? String
+
                 
-                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = dateFormatter.date(from: fourthElement as! String), let cost = fifthElement {
+                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement,
+                    let date = dateFormatter.date(from: fourthElement as! String), let cost = fifthElement,
+                    let tradePair = sixthElement, let exchange = seventhElement {
                     if dict[coin] == nil {
                         dict[coin] = []
                     }
-                    dict[coin]!.append(["type": type, "coinAmount": coinAmount, "date": date, "cost": cost])
+                    dict[coin]!.append(["type": type, "coinAmount": coinAmount, "date": date,
+                                        "cost": cost, "tradePair": tradePair, "exchange": exchange])
                 }
             }
             
@@ -307,6 +313,8 @@ class PortfolioSummaryViewController: UIViewController {
     
     
 }
+
+
 
 extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

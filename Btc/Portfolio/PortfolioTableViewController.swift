@@ -22,7 +22,7 @@ class PortfolioTableViewController: UITableViewController {
     let dateFormatter = DateFormatter()
     
     let portfolioEntriesConstant = "portfolioEntries"
-    let portfolioCellConstant = "portfolioCell"
+    let portfolioCellConstant = "portfolioBuyCell"
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
     
@@ -123,13 +123,35 @@ class PortfolioTableViewController: UITableViewController {
         
         cell.coinNameLabel.adjustsFontSizeToFitWidth = true
         
-        cell.amountOfBitcoinLabel.text = String(portfolio.coinAmount)
-        cell.amountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
+        cell.amountOfCoinsLabel.text = String(portfolio.coinAmount)
+        cell.amountOfCoinsLabel.adjustsFontSizeToFitWidth = true
         if portfolio.type == "buy" {
-            cell.amountOfBitcoinLabel.textColor = greenColour
+            cell.amountOfCoinsLabel.textColor = greenColour
+            if let date = portfolio.date {
+                dateFormatter.dateFormat = "dd MMM, YYYY"
+                let dateString = dateFormatter.string(from: date)
+                if let exchange = portfolio.exchange {
+                    cell.transactionInfoLabel.text = "Bought on \(dateString) via \(exchange)"
+                }
+                else {
+                    cell.transactionInfoLabel.text = "Bought on \(dateString)"
+                }
+            }
+            
         }
         else if portfolio.type == "sell" {
-            cell.amountOfBitcoinLabel.textColor = redColour
+            cell.amountOfCoinsLabel.textColor = redColour
+            if let date = portfolio.date {
+                dateFormatter.dateFormat = "dd MMM, YYYY"
+                let dateString = dateFormatter.string(from: date)
+                if let exchange = portfolio.exchange {
+                    cell.transactionInfoLabel.text = "Sold on \(dateString) via \(exchange)"
+
+                }
+                else {
+                    cell.transactionInfoLabel.text = "Sold on \(dateString)"
+                }
+            }
         }
         
         if let cost = portfolio.cost {
@@ -137,10 +159,10 @@ class PortfolioTableViewController: UITableViewController {
             cell.costLabel?.adjustsFontSizeToFitWidth = true
         }
         
-        if let date = portfolio.dateOfPurchase {
-            cell.dateOfPurchaseLabel?.text = dateFormatter.string(from: date)
-            cell.dateOfPurchaseLabel?.adjustsFontSizeToFitWidth = true
-        }
+//        if let date = portfolio.dateOfPurchase {
+//            cell.dateOfPurchaseLabel?.text = dateFormatter.string(from: date)
+//            cell.dateOfPurchaseLabel?.adjustsFontSizeToFitWidth = true
+//        }
         
         if let percentageChange = portfolio.percentageChange {
             cell.percentageChange?.text = "\(percentageChange)%"
@@ -164,6 +186,10 @@ class PortfolioTableViewController: UITableViewController {
         if let priceChange = portfolio.priceChange {
             cell.priceChangeLabel?.text = priceChange.asCurrency
             cell.priceChangeLabel?.adjustsFontSizeToFitWidth = true
+        }
+        
+        if let tradePair = portfolio.tradePair {
+            cell.tradingPairLabel.text = "\(coin)-\(tradePair)"
         }
 
         return cell
@@ -241,88 +267,7 @@ class PortfolioTableViewController: UITableViewController {
     }
     */
     
-    // MARK: - Portfolio functions
-
-    func initalizePortfolioEntries() {
-        if portfolioData.count == 0 {
-            tableEmptyMessage()
-        }
-        else {
-            for portfolio in portfolioData {
-                PortfolioEntryModel(coin: coin, type: portfolio["type"] as! String, coinAmount: portfolio["coinAmount"] as! Double, dateOfPurchase: portfolio["date"] as! Date, cost: portfolio["cost"] as! Double, currentCoinPrice: self.coinPrice, delegate: self)
-            }
-        }
-    }
-    
-    @objc func textFieldEntered(notification: Notification) {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let type = notification.userInfo?["type"] as! String
-        let amountOfBitcoin = notification.userInfo?["coinAmount"] as! Double
-        let dateOfPurchase = dateFormatter.date(from: notification.userInfo?["date"] as! String)
-        let cost = Double(notification.userInfo?["cost"] as! String)
-        if amountOfBitcoin != nil && dateOfPurchase != nil && cost != nil {
-            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase!, cost: cost!)
-        }
-    }
-    
-    func addPortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date, cost: Double) {
-        tableView.backgroundView = nil
-        PortfolioEntryModel(coin: coin, type: type, coinAmount: amountOfBitcoin, dateOfPurchase: dateOfPurchase, cost: cost, currentCoinPrice: self.coinPrice, delegate: self)
-        savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, dateOfPurchase: dateOfPurchase, cost: cost)
-    }
-    
-    // append portfolio entry to userdefaults stored portfolios, else create new data entry
-    func savePortfolioEntry(type: String, amountOfBitcoin: Double, dateOfPurchase: Date, cost: Double) {
-        let dateString = dateFormatter.string(from: dateOfPurchase)
-
-        if var data = defaults.data(forKey: portfolioEntriesConstant) {
-            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any, 4: cost as Any])
-                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: portfolioEntriesConstant)
-            }
-        }
-        else {
-            var portfolioEntries: [[Int:Any]] = []
-            portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any, 4: cost as Any])
-            let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-            defaults.set(newData, forKey: portfolioEntriesConstant)
-        }
-    }
-    
-    func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        if var data = defaults.data(forKey: portfolioEntriesConstant) {
-            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                let dateString = dateFormatter.string(from: portfolioEntry.dateOfPurchase)
-                for index in 0..<portfolioEntries.count {
-                    print(portfolioEntries[index])
-                    let coin = portfolioEntries[index][0] as? String
-                    let type = portfolioEntries[index][1] as? String
-                    let coinAmount = portfolioEntries[index][2] as? Double
-                    let date = portfolioEntries[index][3] as? String
-                    let cost = portfolioEntries[index][4] as! Double
-                    if coin == portfolioEntry.coin && type == portfolioEntry.type && coinAmount == portfolioEntry.coinAmount && dateString == date && cost == portfolioEntry.cost {
-                        if type == "buy" {
-                            parentController.subtractTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
-                        }
-                        else {
-                            parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
-                        }
-                        print("deleted")
-                        portfolioEntries.remove(at: index)
-
-                        break
-                    }
-                }
-                if portfolioEntries.count == 0 {
-                    tableEmptyMessage()
-                }
-                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: portfolioEntriesConstant)
-            }
-        }
-    }
+   
     
 //    func valueToData(_ value: [String: (Double, String)]) -> Data {
 //        var converted = value.mapValues { (value) -> [Int:Any] in
@@ -376,7 +321,101 @@ class PortfolioTableViewController: UITableViewController {
 }
 
 extension PortfolioTableViewController {
+    // MARK: - Portfolio functions
     
+    func initalizePortfolioEntries() {
+        if portfolioData.count == 0 {
+            tableEmptyMessage()
+        }
+        else {
+            for portfolio in portfolioData {
+                PortfolioEntryModel(coin: coin,
+                                    type: portfolio["type"] as! String,
+                                    coinAmount: portfolio["coinAmount"] as! Double,
+                                    date: portfolio["date"] as! Date,
+                                    cost: portfolio["cost"] as! Double,
+                                    currentCoinPrice: self.coinPrice,
+                                    tradePair: portfolio["tradePair"] as! String,
+                                    exchange: portfolio["exchange"] as! String,
+                                    delegate: self)
+            }
+        }
+    }
+    
+    @objc func textFieldEntered(notification: Notification) {
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let type = notification.userInfo?["type"] as! String
+        let amountOfBitcoin = notification.userInfo?["coinAmount"] as? Double
+        let date = dateFormatter.date(from: notification.userInfo?["date"] as! String)
+        let cost = Double(notification.userInfo?["cost"] as! String)
+        if amountOfBitcoin != nil && date != nil && cost != nil {
+            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin!, date: date!, cost: cost!)
+        }
+    }
+    
+    func addPortfolioEntry(type: String, amountOfBitcoin: Double, date: Date, cost: Double) {
+        tableView.backgroundView = nil
+//        PortfolioEntryModel(coin: coin,
+//                            type: type,
+//                            coinAmount: amountOfBitcoin,
+//                            date: date, cost: cost,
+//                            currentCoinPrice: self.coinPrice,
+//                            delegate: self)
+//        savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, date: date, cost: cost)
+    }
+    
+    // append portfolio entry to userdefaults stored portfolios, else create new data entry
+    func savePortfolioEntry(type: String, amountOfBitcoin: Double, date: Date, cost: Double) {
+        let dateString = dateFormatter.string(from: date)
+        
+        if var data = defaults.data(forKey: portfolioEntriesConstant) {
+            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
+                portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any, 4: cost as Any])
+                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                defaults.set(newData, forKey: portfolioEntriesConstant)
+            }
+        }
+        else {
+            var portfolioEntries: [[Int:Any]] = []
+            portfolioEntries.append([0: coin as Any, 1: type as Any, 2: amountOfBitcoin as Any, 3: dateString as Any, 4: cost as Any])
+            let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+            defaults.set(newData, forKey: portfolioEntriesConstant)
+        }
+    }
+    
+    func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if var data = defaults.data(forKey: portfolioEntriesConstant) {
+            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
+                let dateString = dateFormatter.string(from: portfolioEntry.date)
+                for index in 0..<portfolioEntries.count {
+                    print(portfolioEntries[index])
+                    let coin = portfolioEntries[index][0] as? String
+                    let type = portfolioEntries[index][1] as? String
+                    let coinAmount = portfolioEntries[index][2] as? Double
+                    let date = portfolioEntries[index][3] as? String
+                    let cost = portfolioEntries[index][4] as! Double
+                    if coin == portfolioEntry.coin && type == portfolioEntry.type && coinAmount == portfolioEntry.coinAmount && dateString == date && cost == portfolioEntry.cost {
+                        if type == "buy" {
+                            parentController.subtractTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+                        }
+                        else {
+                            parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: coinAmount!, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
+                        }
+                        print("deleted")
+                        portfolioEntries.remove(at: index)
+                        
+                        break
+                    }
+                }
+                if portfolioEntries.count == 0 {
+                    tableEmptyMessage()
+                }
+                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                defaults.set(newData, forKey: portfolioEntriesConstant)
+            }
+        }
+    }
 }
 
 extension PortfolioTableViewController: PortfolioEntryDelegate {
@@ -389,6 +428,9 @@ extension PortfolioTableViewController: PortfolioEntryDelegate {
             parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.coinAmount, cost: portfolioEntry.cost, currentValue: portfolioEntry.currentValue)
         }
         portfolioEntries.append(portfolioEntry)
+        
+        portfolioEntries = portfolioEntries.sorted(by: {$0.date.compare($1.date) == .orderedDescending})
+        
         tableView.reloadData()
     }
 }

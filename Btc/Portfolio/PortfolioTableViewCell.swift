@@ -9,16 +9,22 @@
 import UIKit
 
 class PortfolioTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var coinNameLabel: UILabel!
+    
+    @IBOutlet weak var transactionInfoLabel: UILabel!
+    
     @IBOutlet weak var coinLogoImage: UIImageView!
-    @IBOutlet weak var amountOfBitcoinLabel: UILabel!
+    @IBOutlet weak var coinNameLabel: UILabel!
+    
+    @IBOutlet weak var amountOfCoinsLabel: UILabel!
     @IBOutlet weak var costLabel: UILabel!
-    @IBOutlet weak var dateOfPurchaseLabel: UILabel!
+    
     @IBOutlet weak var percentageChange: UILabel!
+    @IBOutlet weak var percentageChangeView: UIView!
+
+    @IBOutlet weak var tradingPairLabel: UILabel!
+  
     @IBOutlet weak var currentValueLabel: UILabel!
     @IBOutlet weak var priceChangeLabel: UILabel!
-    @IBOutlet weak var percentageChangeView: UIView!
     
     
     override func awakeFromNib() {

@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 class AddTransactionTableViewController: UITableViewController {
+    
+    var parentController: AddTransactionViewController!
 
     var coin: String!
     // tradingPairs: [(coin, currency)]
@@ -26,6 +28,25 @@ class AddTransactionTableViewController: UITableViewController {
     @IBOutlet weak var currentTradingPairLabel: UILabel!
     @IBOutlet weak var currentExchangeLabel: UILabel!
     
+    @IBOutlet weak var costPerCoinTextField: UITextField! {
+        didSet {
+            costPerCoinTextField.addDoneCancelToolbar()
+        }
+    }
+    @IBOutlet weak var amountOfCoinsTextField: UITextField! {
+        didSet {
+            amountOfCoinsTextField.addDoneCancelToolbar()
+        }
+    }
+    @IBOutlet weak var feesTextField: UITextField!{
+        didSet {
+            feesTextField.addDoneCancelToolbar()
+        }
+    }
+    
+    @IBOutlet weak var deductFromHoldingsLabel: UILabel!
+    @IBOutlet weak var detectFromHoldingsSwitch: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,7 +55,11 @@ class AddTransactionTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-
+        
+        costPerCoinTextField.delegate = self
+        amountOfCoinsTextField.delegate = self
+        feesTextField.delegate = self
+        
         databaseRef = Database.database().reference().child(coin)
         
         databaseRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
@@ -61,18 +86,24 @@ class AddTransactionTableViewController: UITableViewController {
                 self.currentTradingPair = (coin, currency)
                 self.currentTradingPairLabel.text = "\(coin)-\(currency)"
                 
+                self.deductFromHoldingsLabel.text = "Deduct from \(currency) holdings"
+                
                 if let markets = allMarkets[currency] as? [String: String] {
                     self.currentTradingPairMarkets = markets
                     self.currentExchange = ("None", "none")
                     self.currentExchangeLabel.text = currentExchange.0
                 }
                 
+                self.parentController.currentTradingPair = self.currentTradingPair
+                self.parentController.currentExchange = currentExchange
             }
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        parentController.tableViewHeightConstraint.constant = tableView.contentSize.height
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,16 +115,23 @@ class AddTransactionTableViewController: UITableViewController {
         self.currentTradingPair = pair
         self.currentTradingPairLabel.text = "\(pair.0)-\(pair.1)"
         
+        self.deductFromHoldingsLabel.text = "Deduct from \(pair.1) holdings"
+        
         if let markets = allMarkets[pair.1] as? [String: String] {
             currentTradingPairMarkets = markets
             self.currentExchange = ("None", "none")
             self.currentExchangeLabel.text = currentExchange.0
         }
+        
+        self.parentController.currentTradingPair = self.currentTradingPair
+        self.parentController.currentExchange = currentExchange
     }
     
     func updateCurrentExchange(exchange: (String, String)) {
         self.currentExchange = exchange
         self.currentExchangeLabel.text = exchange.0
+        
+        self.parentController.currentExchange = currentExchange
     }
 
     // MARK: - Table view data source
@@ -170,4 +208,59 @@ class AddTransactionTableViewController: UITableViewController {
         
     }
 
+}
+
+extension AddTransactionTableViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("TextField did begin editing method called")
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("TextField did end editing method called\(textField.text!)")
+        
+        if textField == self.costPerCoinTextField {
+            if let text = textField.text {
+                if let costPerCoin = Double(text) {
+                    parentController.costPerCoin = costPerCoin
+                }
+            }
+        }
+        else if textField == self.amountOfCoinsTextField {
+            if let text = textField.text {
+                if let amountOfCoins = Double(text) {
+                    parentController.amountOfCoins = amountOfCoins
+                }
+            }
+        }
+        else if textField == self.feesTextField {
+            if let text = textField.text {
+                if let fees = Double(text) {
+                    parentController.fees = fees
+                }
+            }
+        }
+        parentController.updateAddTransactionButtonStatus()
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        print("TextField should begin editing method called")
+        return true;
+    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        print("TextField should clear method called")
+        return true;
+    }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("TextField should end editing method called")
+        return true;
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        return true
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("TextField should return method called")
+        textField.resignFirstResponder();
+        return true;
+    }
+    
 }

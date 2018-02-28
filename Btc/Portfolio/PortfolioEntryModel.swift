@@ -18,26 +18,34 @@ class PortfolioEntryModel {
     var type: String!
     var coinAmount: Double!
     var cost: Double!
-    var dateOfPurchase: Date!
+    var date: Date!
     var currentCoinPrice: Double!
     var currentValue: Double!
     var percentageChange: Double!
     var priceChange: Double!
     
+    var tradePair: String!
+    var exchange: String!
+    
     let dateFormatter = DateFormatter()
     
-    init(coin: String, type: String, coinAmount: Double, dateOfPurchase: Date!, cost: Double?, currentCoinPrice: Double!, delegate: PortfolioEntryDelegate) {
+    init(coin: String, type: String, coinAmount: Double, date: Date!, cost: Double?,
+         currentCoinPrice: Double!, tradePair: String, exchange: String,
+         delegate: PortfolioEntryDelegate) {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         self.delegate = delegate
         
         self.coin = coin
         self.type = type
         self.coinAmount = coinAmount
-        self.dateOfPurchase = dateOfPurchase
+        self.date = date
         self.cost = cost
         self.currentCoinPrice = currentCoinPrice
         self.currentValue = currentCoinPrice * coinAmount
         self.calculateChange()
+        self.tradePair = tradePair
+        self.exchange = exchange
+        
         self.delegate?.dataLoaded(portfolioEntry: self)
         
     }

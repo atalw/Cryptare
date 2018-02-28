@@ -121,6 +121,10 @@
 		86BD6F9F1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */; };
 		86C1623920429C3000BFC90E /* AddTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */; };
 		86C1623A20429C3000BFC90E /* AddTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */; };
+		86DF12152045572F00FA4787 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF12142045572F00FA4787 /* UITextField+Extensions.swift */; };
+		86DF12162045572F00FA4787 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF12142045572F00FA4787 /* UITextField+Extensions.swift */; };
+		86DF121920458D1300FA4787 /* NotificationCenter+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */; };
+		86DF121A20458D1300FA4787 /* NotificationCenter+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */; };
 		86E003271FE963C1000AD106 /* PortfolioSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E003261FE963C1000AD106 /* PortfolioSummaryViewController.swift */; };
 		86E003281FE963C1000AD106 /* PortfolioSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E003261FE963C1000AD106 /* PortfolioSummaryViewController.swift */; };
 		86E1381E1FBB152300C5D3ED /* BulletinDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E1381D1FBB152300C5D3ED /* BulletinDataSource.swift */; };
@@ -242,6 +246,8 @@
 		86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
 		86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIButton.swift; sourceTree = "<group>"; };
 		86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewController.swift; sourceTree = "<group>"; };
+		86DF12142045572F00FA4787 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
+		86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Extentions.swift"; sourceTree = "<group>"; };
 		86E003261FE963C1000AD106 /* PortfolioSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSummaryViewController.swift; sourceTree = "<group>"; };
 		86E1381D1FBB152300C5D3ED /* BulletinDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinDataSource.swift; sourceTree = "<group>"; };
 		86E138231FBB155D00C5D3ED /* FeedbackPageBulletinItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackPageBulletinItem.swift; sourceTree = "<group>"; };
@@ -463,6 +469,7 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */,
 				86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */,
 				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
 				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
@@ -475,6 +482,7 @@
 				861A751F1FF8F21100263A90 /* Double+Extensions.swift */,
 				864E9737203C56470023238F /* IAPProduct.swift */,
 				864E973A203C57570023238F /* IAPService.swift */,
+				86DF12142045572F00FA4787 /* UITextField+Extensions.swift */,
 			);
 			name = "Helper Files";
 			path = Helpers;
@@ -1026,9 +1034,11 @@
 				86E8A5752028A69B00D7E467 /* MarketInformation.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
+				86DF121920458D1300FA4787 /* NotificationCenter+Extentions.swift in Sources */,
 				86BD6F9E1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */,
 				86FBF1C61FE28B160056A5BA /* MarketDetailViewController.swift in Sources */,
+				86DF12152045572F00FA4787 /* UITextField+Extensions.swift in Sources */,
 				86F2015720414C5600DC7654 /* UnlockMarketsViewController.swift in Sources */,
 				86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
@@ -1101,9 +1111,11 @@
 				86E8A5762028A69B00D7E467 /* MarketInformation.swift in Sources */,
 				868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */,
 				868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */,
+				86DF121A20458D1300FA4787 /* NotificationCenter+Extentions.swift in Sources */,
 				86BD6F9F1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
 				8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */,
 				86FBF1C71FE28B160056A5BA /* MarketDetailViewController.swift in Sources */,
+				86DF12162045572F00FA4787 /* UITextField+Extensions.swift in Sources */,
 				86F2015820414C5600DC7654 /* UnlockMarketsViewController.swift in Sources */,
 				86401C4D1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				86492AAB1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
