@@ -13,6 +13,16 @@ import SwiftyJSON
 
 class PortfolioSummaryViewController: UIViewController {
     
+    
+    // dev-------------------------------
+    let portfolioEntries: [[Int:Any]] = [
+        [4: 798436.4399999999, 2: 1, 0: "BTC", 3: "2018-01-28", 1: "buy"],
+        [4: 371513.745, 2: 0.5, 0: "BTC", 3: "2018-02-28", 1: "sell"],
+        [4: 1178481.7, 2: 58, 0: "LTC", 3: "2017-12-28", 1: "buy"],
+        [4: 182723.24, 2: 14, 0: "LTC", 3: "2018-01-28", 1: "sell"]
+    ]
+    // ------------------------------------
+    
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
     
@@ -47,6 +57,9 @@ class PortfolioSummaryViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+//        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+//        self.defaults.set(newData, forKey: "portfolioEntries")
         
         updateOldFormatPortfolioEntries()
         
@@ -118,23 +131,26 @@ class PortfolioSummaryViewController: UIViewController {
     func updateOldFormatPortfolioEntries() {
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
             var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
+            print("old", portfolioEntries)
             dict = [:]
             for index in 0..<portfolioEntries.count {
-                let firstElement = portfolioEntries[index][0] as? String
-                let secondElement = portfolioEntries[index][1] as? String
-                let thirdElement = portfolioEntries[index][2] as? Double
-                let fourthElement = portfolioEntries[index][3] as? String
-                let fifthElement = portfolioEntries[index][4] as? Double
-                
-                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = fourthElement, let cost = fifthElement {
-                    let tradePair = GlobalValues.currency!
-                    let exchange = "None"
+                if portfolioEntries[index].count == 5 {
+                    let firstElement = portfolioEntries[index][0] as? String
+                    let secondElement = portfolioEntries[index][1] as? String
+                    let thirdElement = portfolioEntries[index][2] as? Double
+                    let fourthElement = portfolioEntries[index][3] as? String
+                    let fifthElement = portfolioEntries[index][4] as? Double
                     
-                    let data = [0: coin as Any, 1: type as Any, 2: coinAmount as Any, 3: date as Any, 4: cost as Any, 5: tradePair, 6: exchange]
-                    portfolioEntries.insert(data, at: index)
-                    let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                    self.defaults.set(newData, forKey: "portfolioEntries")
-                    
+                    if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = fourthElement, let cost = fifthElement {
+                        let tradePair = GlobalValues.currency!
+                        let exchange = "None"
+                        
+                        let data = [0: coin as Any, 1: type as Any, 2: coinAmount as Any, 3: date as Any, 4: cost as Any, 5: tradePair, 6: exchange]
+                        portfolioEntries[index] = data
+                        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                        self.defaults.set(newData, forKey: "portfolioEntries")
+                        
+                    }
                 }
             }
         }
@@ -155,10 +171,12 @@ class PortfolioSummaryViewController: UIViewController {
     }
     
     func initalizePortfolioEntries() {
-        //        defaults.removeObject(forKey: "portfolioEntries")
+//        defaults.removeObject(forKey: "portfolioEntries")
         
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
+            print("new", portfolioEntries)
+
             dict = [:]
             for index in 0..<portfolioEntries.count {
                 let firstElement = portfolioEntries[index][0] as? String
@@ -166,18 +184,23 @@ class PortfolioSummaryViewController: UIViewController {
                 let thirdElement = portfolioEntries[index][2] as? Double
                 let fourthElement = portfolioEntries[index][3] as? String
                 let fifthElement = portfolioEntries[index][4] as? Double
-                let sixthElement = portfolioEntries[index][4] as? String
-                let seventhElement = portfolioEntries[index][4] as? String
+                let sixthElement = portfolioEntries[index][5] as? String
+                let seventhElement = portfolioEntries[index][6] as? String
 
                 
                 if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement,
-                    let date = dateFormatter.date(from: fourthElement as! String), let cost = fifthElement,
-                    let tradePair = sixthElement, let exchange = seventhElement {
+                    let date = dateFormatter.date(from: fourthElement as! String),
+                    let cost = fifthElement,
+                    let tradePair = sixthElement,
+                    let exchange = seventhElement
+                {
                     if dict[coin] == nil {
                         dict[coin] = []
                     }
                     dict[coin]!.append(["type": type, "coinAmount": coinAmount, "date": date,
-                                        "cost": cost, "tradePair": tradePair, "exchange": exchange])
+                                        "cost": cost,
+                                        "tradePair": tradePair, "exchange": exchange
+                        ])
                 }
             }
             

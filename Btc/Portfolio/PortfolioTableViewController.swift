@@ -355,13 +355,15 @@ extension PortfolioTableViewController {
     
     func addPortfolioEntry(type: String, amountOfBitcoin: Double, date: Date, cost: Double) {
         tableView.backgroundView = nil
-//        PortfolioEntryModel(coin: coin,
-//                            type: type,
-//                            coinAmount: amountOfBitcoin,
-//                            date: date, cost: cost,
-//                            currentCoinPrice: self.coinPrice,
-//                            delegate: self)
-//        savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, date: date, cost: cost)
+        PortfolioEntryModel(coin: coin,
+                            type: type,
+                            coinAmount: amountOfBitcoin,
+                            date: date, cost: cost,
+                            currentCoinPrice: self.coinPrice,
+                            tradePair: "",
+                            exchange: "None",
+                            delegate: self)
+        savePortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin, date: date, cost: cost)
     }
     
     // append portfolio entry to userdefaults stored portfolios, else create new data entry

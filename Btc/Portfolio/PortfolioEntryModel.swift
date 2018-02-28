@@ -34,7 +34,7 @@ class PortfolioEntryModel {
          delegate: PortfolioEntryDelegate) {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         self.delegate = delegate
-        
+
         self.coin = coin
         self.type = type
         self.coinAmount = coinAmount
@@ -45,10 +45,28 @@ class PortfolioEntryModel {
         self.calculateChange()
         self.tradePair = tradePair
         self.exchange = exchange
-        
+
         self.delegate?.dataLoaded(portfolioEntry: self)
-        
+
     }
+    
+//    init(coin: String, type: String, coinAmount: Double, date: Date!, cost: Double?,
+//         currentCoinPrice: Double!, delegate: PortfolioEntryDelegate) {
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        self.delegate = delegate
+//        
+//        self.coin = coin
+//        self.type = type
+//        self.coinAmount = coinAmount
+//        self.date = date
+//        self.cost = cost
+//        self.currentCoinPrice = currentCoinPrice
+//        self.currentValue = currentCoinPrice * coinAmount
+//        self.calculateChange()
+//
+//        self.delegate?.dataLoaded(portfolioEntry: self)
+//
+//    }
     
     func calculateChange() {
         let change = currentValue - cost
