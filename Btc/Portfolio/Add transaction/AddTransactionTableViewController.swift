@@ -12,7 +12,10 @@ import Firebase
 class AddTransactionTableViewController: UITableViewController {
     
     var parentController: AddTransactionViewController!
-
+    
+    let dateFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
+    
     var coin: String!
     // tradingPairs: [(coin, currency)]
     var tradingPairs: [(String, String)] = []
@@ -27,6 +30,11 @@ class AddTransactionTableViewController: UITableViewController {
     @IBOutlet weak var tradingPairCell: UITableViewCell!
     @IBOutlet weak var currentTradingPairLabel: UILabel!
     @IBOutlet weak var currentExchangeLabel: UILabel!
+    
+    @IBOutlet weak var timeTextField: UITextField!
+    let timePicker = UIDatePicker()
+    @IBOutlet weak var dateTextField: UITextField!
+    let datePicker = UIDatePicker()
     
     @IBOutlet weak var costPerCoinTextField: UITextField! {
         didSet {
@@ -55,6 +63,17 @@ class AddTransactionTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        timeFormatter.dateFormat  = "hh:mm a"
+        dateFormatter.dateFormat = "dd MMM, YYYY"
+        
+        timeTextField.text = timeFormatter.string(from: Date())
+        dateTextField.text = dateFormatter.string(from: Date())
+        
+        parentController.time = timePicker.date
+        parentController.date = datePicker.date
+        
+        createDatePicker()
+        createTimePicker()
         
         costPerCoinTextField.delegate = self
         amountOfCoinsTextField.delegate = self
@@ -132,6 +151,47 @@ class AddTransactionTableViewController: UITableViewController {
         self.currentExchangeLabel.text = exchange.0
         
         self.parentController.currentExchange = currentExchange
+    }
+    
+    func createDatePicker() {
+        
+        datePicker.datePickerMode = .date
+        datePicker.minimumDate = dateFormatter.date(from: "01 Jan, 2010")
+        datePicker.maximumDate = Date()
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressedDate))
+        toolbar.setItems([doneBarButton], animated: false)
+        
+        self.dateTextField.inputAccessoryView = toolbar
+        self.dateTextField.inputView = datePicker
+    }
+    
+    @objc func donePressedDate() {
+        self.dateTextField.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+        parentController.date = datePicker.date
+    }
+    
+    func createTimePicker() {
+        timePicker.datePickerMode = .time
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressedTime))
+        toolbar.setItems([doneBarButton], animated: false)
+        
+        self.timeTextField.inputAccessoryView = toolbar
+        self.timeTextField.inputView = timePicker
+    }
+    
+    @objc func donePressedTime() {
+        self.timeTextField.text = timeFormatter.string(from: timePicker.date)
+        self.view.endEditing(true)
+        parentController.time = timePicker.date
     }
 
     // MARK: - Table view data source

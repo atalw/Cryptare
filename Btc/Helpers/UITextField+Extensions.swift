@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 extension UITextField {
+    
     func addDoneCancelToolbar(onDone: (target: Any, action: Selector)? = nil, onCancel: (target: Any, action: Selector)? = nil) {
         let onCancel = onCancel ?? (target: self, action: #selector(cancelButtonTapped))
         let onDone = onDone ?? (target: self, action: #selector(doneButtonTapped))
@@ -31,4 +32,7 @@ extension UITextField {
     @objc func cancelButtonTapped() {
         self.text = ""
         self.resignFirstResponder() }
+    
+    
+    
 }

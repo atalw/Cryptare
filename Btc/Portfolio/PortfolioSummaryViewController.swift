@@ -25,6 +25,7 @@ class PortfolioSummaryViewController: UIViewController {
     
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
     
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
@@ -52,8 +53,10 @@ class PortfolioSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "dd MMM, YYYY"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        timeFormatter.dateFormat = "hh:mm a"
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -131,7 +134,7 @@ class PortfolioSummaryViewController: UIViewController {
     func updateOldFormatPortfolioEntries() {
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
             var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
-            print("old", portfolioEntries)
+            
             dict = [:]
             for index in 0..<portfolioEntries.count {
                 if portfolioEntries[index].count == 5 {
@@ -141,11 +144,27 @@ class PortfolioSummaryViewController: UIViewController {
                     let fourthElement = portfolioEntries[index][3] as? String
                     let fifthElement = portfolioEntries[index][4] as? Double
                     
-                    if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement, let date = fourthElement, let cost = fifthElement {
-                        let tradePair = GlobalValues.currency!
-                        let exchange = "None"
+                    if let coin = firstElement, let type = secondElement, let amountOfCoins = thirdElement, let date = fourthElement, let costPerCoin = fifthElement {
                         
-                        let data = [0: coin as Any, 1: type as Any, 2: coinAmount as Any, 3: date as Any, 4: cost as Any, 5: tradePair, 6: exchange]
+                        let tradingPair = GlobalValues.currency!
+                        let exchange = "None"
+                        let fees = 0
+                        let time = "12:00 AM"
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        let newDateFormat = dateFormatter.date(from: date)
+                        dateFormatter.dateFormat = "dd MMM, YYYY"
+                        let newDateString = dateFormatter.string(from: newDateFormat!)
+                        let data = [0: type as Any,
+                                    1: coin as Any,
+                                    2: tradingPair as Any,
+                                    3: exchange as Any,
+                                    4: costPerCoin as Any,
+                                    5: amountOfCoins as Any,
+                                    6: fees as Any,
+                                    7: newDateString as Any,
+                                    8: time as Any
+                        ]
+                        print(data)
                         portfolioEntries[index] = data
                         let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                         self.defaults.set(newData, forKey: "portfolioEntries")
@@ -172,38 +191,52 @@ class PortfolioSummaryViewController: UIViewController {
     
     func initalizePortfolioEntries() {
 //        defaults.removeObject(forKey: "portfolioEntries")
-        
+        dateFormatter.dateFormat = "dd MMM, YYYY"
+        timeFormatter.dateFormat = "hh:mm a"
+
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
             print("new", portfolioEntries)
 
             dict = [:]
             for index in 0..<portfolioEntries.count {
-                let firstElement = portfolioEntries[index][0] as? String
-                let secondElement = portfolioEntries[index][1] as? String
-                let thirdElement = portfolioEntries[index][2] as? Double
-                let fourthElement = portfolioEntries[index][3] as? String
-                let fifthElement = portfolioEntries[index][4] as? Double
-                let sixthElement = portfolioEntries[index][5] as? String
-                let seventhElement = portfolioEntries[index][6] as? String
+                let firstElement = portfolioEntries[index][0] as? String // type
+                let secondElement = portfolioEntries[index][1] as? String // coin
+                let thirdElement = portfolioEntries[index][2] as? String // tradingPair
+                let fourthElement = portfolioEntries[index][3] as? String // exchange
+                let fifthElement = portfolioEntries[index][4] as? Double // costPerCoin
+                let sixthElement = portfolioEntries[index][5] as? Double // amountOfCoins
+                let seventhElement = portfolioEntries[index][6] as? Double // fees
+                let eighthElement = portfolioEntries[index][7] as? String // date
+                let ninthElement = portfolioEntries[index][8] as? String // time
 
                 
-                if let coin = firstElement, let type = secondElement, let coinAmount = thirdElement,
-                    let date = dateFormatter.date(from: fourthElement as! String),
-                    let cost = fifthElement,
-                    let tradePair = sixthElement,
-                    let exchange = seventhElement
-                {
+                if let type = firstElement,
+                    let coin = secondElement,
+                    let tradingPair = thirdElement,
+                    let exchange = fourthElement,
+                    let costPerCoin = fifthElement,
+                    let amountOfCoins = sixthElement,
+                    let fees = seventhElement,
+                    let date = dateFormatter.date(from: eighthElement as! String),
+                    let time = timeFormatter.date(from: ninthElement as! String) {
+                    
                     if dict[coin] == nil {
                         dict[coin] = []
                     }
-                    dict[coin]!.append(["type": type, "coinAmount": coinAmount, "date": date,
-                                        "cost": cost,
-                                        "tradePair": tradePair, "exchange": exchange
-                        ])
+                    
+                    dict[coin]!.append(["type": type,
+                                        "tradingPair": tradingPair,
+                                        "exchange": exchange,
+                                        "costPerCoin": costPerCoin,
+                                        "amountOfCoins": amountOfCoins,
+                                        "fees": fees,
+                                        "date": date,
+                                        "time": time
+                                        ])
                 }
             }
-            
+            print(dict)
             for coin in dict.keys {
                 coins.append(coin)
             }
@@ -214,8 +247,8 @@ class PortfolioSummaryViewController: UIViewController {
     func calculatePortfolioSummary() {
         for coin in dict.keys {
             summary[coin] = [:]
-            summary[coin]!["coinAmount"] = 0.0
-            summary[coin]!["cost"] = 0.0
+            summary[coin]!["amountOfCoins"] = 0.0
+            summary[coin]!["costPerCoin"] = 0.0
             summary[coin]!["coinMarketValue"] = 0.0 // market value of 1 coin
             summary[coin]!["holdingsMarketValue"] = 0.0 // market value of holdings
             summary[coin]!["coinValueYesterday"] = 0.0
@@ -223,12 +256,12 @@ class PortfolioSummaryViewController: UIViewController {
             
             for entry in dict[coin]! {
                 if entry["type"] as! String == "buy" {
-                    summary[coin]!["coinAmount"] = summary[coin]!["coinAmount"]! + (entry["coinAmount"] as! Double)
-                    summary[coin]!["cost"] = summary[coin]!["cost"]! + (entry["cost"] as! Double)
+                    summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! + (entry["amountOfCoins"] as! Double)
+                    summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! + (entry["costPerCoin"] as! Double)
                 }
                 else if entry["type"] as! String == "sell" {
-                    summary[coin]!["coinAmount"] = summary[coin]!["coinAmount"]! - (entry["coinAmount"] as! Double)
-                    summary[coin]!["cost"] = summary[coin]!["cost"]! - (entry["cost"] as! Double)
+                    summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! - (entry["amountOfCoins"] as! Double)
+                    summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! - (entry["costPerCoin"] as! Double)
                 }
             }
             
@@ -238,7 +271,7 @@ class PortfolioSummaryViewController: UIViewController {
             coinRefs[index].observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String : AnyObject] {
                     self.summary[coin]!["coinMarketValue"] = dict[GlobalValues.currency!]!["price"] as! Double
-                    self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["coinAmount"]! * self.summary[coin]!["coinMarketValue"]!
+                    self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["amountOfCoins"]! * self.summary[coin]!["coinMarketValue"]!
                     self.updateSummaryLabels()
                     self.tableView.reloadData()
                 }
@@ -258,7 +291,7 @@ class PortfolioSummaryViewController: UIViewController {
                 let json = JSON(data: response.data!)
                 if let price = json[coin][GlobalValues.currency!].double {
                     self.summary[coin]!["coinValueYesterday"] = price
-                    self.summary[coin]!["holdingsValueYesterday"] = price * self.summary[coin]!["coinAmount"]!
+                    self.summary[coin]!["holdingsValueYesterday"] = price * self.summary[coin]!["amountOfCoins"]!
                     self.tableView.reloadData()
                 }
             })
@@ -278,7 +311,7 @@ class PortfolioSummaryViewController: UIViewController {
         
         for coin in coins {
             currentPortfolioValue = currentPortfolioValue + summary[coin]!["holdingsMarketValue"]!
-            totalInvested = totalInvested + summary[coin]!["cost"]!
+            totalInvested = totalInvested + summary[coin]!["costPerCoin"]!
             yesterdayPortfolioValue = yesterdayPortfolioValue + summary[coin]!["holdingsValueYesterday"]!
         }
         var priceChange: Double = 0
@@ -365,7 +398,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             }
         }
         
-        cell!.coinHoldingsLabel.text = "\(summary[coin]!["coinAmount"]!) \(coin)"
+        cell!.coinHoldingsLabel.text = "\(summary[coin]!["amountOfCoins"]!) \(coin)"
         cell!.coinHoldingsLabel.adjustsFontSizeToFitWidth = true
         
         let holdingsMarketValue = summary[coin]!["holdingsMarketValue"]!
@@ -382,7 +415,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             percentageChange = priceChange / holdingsValueYesterday * 100
         }
         else if optionAllTimeButton.isSelected {
-            let coinCost = summary[coin]!["cost"]!
+            let coinCost = summary[coin]!["costPerCoin"]!
             priceChange = holdingsMarketValue - coinCost
             
             percentageChange = priceChange / coinCost * 100

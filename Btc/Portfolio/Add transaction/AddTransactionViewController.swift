@@ -21,7 +21,8 @@ class AddTransactionViewController: UIViewController {
     var costPerCoin: Double!
     var amountOfCoins: Double!
     var fees: Double!
-    var date: String!
+    var time: Date!
+    var date: Date!
     var deductFromHoldings: Bool!
 
     @IBOutlet weak var buyTransactionType: UIButton!
@@ -103,21 +104,23 @@ class AddTransactionViewController: UIViewController {
     
     func updateAddTransactionButtonStatus() {
         if currentTradingPair != nil && currentExchange != nil &&
-            costPerCoin != nil && amountOfCoins != nil && fees != nil {
+            costPerCoin != nil && amountOfCoins != nil &&
+            fees != nil && time != nil && date != nil {
             addTransactionButton.isEnabled = true
         }
     }
     
     @IBAction func addTransactionButtonTapped(_ sender: Any) {
         
-        let data: [String : Any] = ["type": "buy",
-                "tradingPair": currentTradingPair,
-                "exchange": currentExchange,
-                "costPerCoin": costPerCoin,
-                "amountOfCoins": amountOfCoins,
-                "fees": fees,
-                "date": "",
-                ]
+            let data: [String : Any] = ["type": "buy",
+                                        "tradingPair": currentTradingPair.1,
+                                        "exchange": currentExchange.0,
+                                        "costPerCoin": costPerCoin,
+                                        "amountOfCoins": amountOfCoins,
+                                        "fees": fees,
+                                        "date": date,
+                                        "time": time
+                    ]
         
         NotificationCenter.default.post(name: .transactionAdded, object: nil, userInfo: data)
         
