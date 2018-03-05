@@ -342,18 +342,18 @@ extension PortfolioTableViewController {
         let amountOfCoins = notification.userInfo?["amountOfCoins"] as? Double
         let fees = notification.userInfo?["fees"] as? Double
         
-        let dateString = notification.userInfo?["date"] as? Date
-        print(dateString)
-        var date: Date?
-        if dateString != nil {
-//            date = dateFormatter.date(from: dateString!)
-        }
+        let date = notification.userInfo?["date"] as? Date
+//        print(dateString)
+//        var date: Date?
+//        if dateString != nil {
+////            date = dateFormatter.date(from: dateString!)
+//        }
         
-        let timeString = notification.userInfo?["time"] as? Date
-        var time: Date?
-        if timeString != nil {
-//            time = timeFormatter.date(from: timeString!)
-        }
+        let time = notification.userInfo?["time"] as? Date
+//        var time: Date?
+//        if timeString != nil {
+////            time = timeFormatter.date(from: timeString!)
+//        }
         
         if type != nil && tradingPair != nil && exchange != nil &&
             costPerCoin != nil && amountOfCoins != nil &&
@@ -369,13 +369,13 @@ extension PortfolioTableViewController {
                                       "costPerCoin": costPerCoin!,
                                       "amountOfCoins": amountOfCoins!,
                                       "fees": fees!,
-                                      "date": dateString!,
-                                      "time": timeString!]
+                                      "date": date!,
+                                      "time": time!]
             self.portfolioData.append(data)
             
-            savePortfolioEntry(type: type!, amountOfCoins: amountOfCoins!, date: dateString!,
+            savePortfolioEntry(type: type!, amountOfCoins: amountOfCoins!, date: date!,
                                costPerCoin: costPerCoin!, tradingPair: tradingPair!,
-                               exchange: exchange!, fees: fees!, time: timeString!)
+                               exchange: exchange!, fees: fees!, time: date!)
         }
     }
     
@@ -437,7 +437,7 @@ extension PortfolioTableViewController {
     func savePortfolioEntry(type: String, amountOfCoins: Double, date: Date, costPerCoin: Double,
                             tradingPair: String, exchange: String, fees: Double, time: Date) {
         
-        let dateString = dateFormatter.string(from: date)
+//        let dateString = dateFormatter.string(from: date)
         let timeString = timeFormatter.string(from: time)
         
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
@@ -450,7 +450,7 @@ extension PortfolioTableViewController {
                                          4: costPerCoin as Any,
                                          5: amountOfCoins as Any,
                                          6: fees as Any,
-                                         7: dateString as Any,
+                                         7: date as Any,
                                          8: timeString as Any
                                          ])
                 
@@ -468,7 +468,7 @@ extension PortfolioTableViewController {
                                      4: costPerCoin as Any,
                                      5: amountOfCoins as Any,
                                      6: fees as Any,
-                                     7: dateString as Any,
+                                     7: date as Any,
                                      8: timeString as Any
                                     ])
             
@@ -484,7 +484,7 @@ extension PortfolioTableViewController {
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 
-                let dateString = dateFormatter.string(from: portfolioEntry.date)
+//                let dateString = dateFormatter.string(from: portfolioEntry.date)
                 let timeString = timeFormatter.string(from: portfolioEntry.time)
                 
                 for index in 0..<portfolioEntries.count {
@@ -496,12 +496,12 @@ extension PortfolioTableViewController {
                     let costPerCoin = portfolioEntries[index][4] as! Double
                     let amountOfCoins = portfolioEntries[index][5] as? Double
                     let fees = portfolioEntries[index][6] as? Double
-                    let date = portfolioEntries[index][7] as? String
+                    let date = portfolioEntries[index][7] as? Date
                     let time = portfolioEntries[index][8] as? String
 
                     if type == portfolioEntry.type && coin == portfolioEntry.coin &&
                         amountOfCoins == portfolioEntry.amountOfCoins &&
-                        dateString == date && costPerCoin == portfolioEntry.costPerCoin &&
+                        portfolioEntry.date == date && costPerCoin == portfolioEntry.costPerCoin &&
                         timeString == time && exchange == portfolioEntry.exchange {
                         
                         if type == "buy" {

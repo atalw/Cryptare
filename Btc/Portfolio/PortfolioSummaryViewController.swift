@@ -54,7 +54,7 @@ class PortfolioSummaryViewController: UIViewController {
         super.viewDidLoad()
         
         dateFormatter.dateFormat = "dd MMM, YYYY"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone.current
         
         timeFormatter.dateFormat = "hh:mm a"
         
@@ -144,16 +144,16 @@ class PortfolioSummaryViewController: UIViewController {
                     let fourthElement = portfolioEntries[index][3] as? String
                     let fifthElement = portfolioEntries[index][4] as? Double
                     
-                    if let coin = firstElement, let type = secondElement, let amountOfCoins = thirdElement, let date = fourthElement, let costPerCoin = fifthElement {
+                    if let coin = firstElement, let type = secondElement, let amountOfCoins = thirdElement, let dateString = fourthElement, let costPerCoin = fifthElement {
                         
                         let tradingPair = GlobalValues.currency!
                         let exchange = "None"
                         let fees = 0
                         let time = "12:00 AM"
                         dateFormatter.dateFormat = "yyyy-MM-dd"
-                        let newDateFormat = dateFormatter.date(from: date)
-                        dateFormatter.dateFormat = "dd MMM, YYYY"
-                        let newDateString = dateFormatter.string(from: newDateFormat!)
+                        let date = dateFormatter.date(from: dateString)
+//                        dateFormatter.dateFormat = "dd MMM, YYYY"
+//                        let newDateString = dateFormatter.string(from: newDateFormat!)
                         let data = [0: type as Any,
                                     1: coin as Any,
                                     2: tradingPair as Any,
@@ -161,7 +161,7 @@ class PortfolioSummaryViewController: UIViewController {
                                     4: costPerCoin as Any,
                                     5: amountOfCoins as Any,
                                     6: fees as Any,
-                                    7: newDateString as Any,
+                                    7: date as Any,
                                     8: time as Any
                         ]
                         print(data)
@@ -207,7 +207,7 @@ class PortfolioSummaryViewController: UIViewController {
                 let fifthElement = portfolioEntries[index][4] as? Double // costPerCoin
                 let sixthElement = portfolioEntries[index][5] as? Double // amountOfCoins
                 let seventhElement = portfolioEntries[index][6] as? Double // fees
-                let eighthElement = portfolioEntries[index][7] as? String // date
+                let eighthElement = portfolioEntries[index][7] as? Date // date
                 let ninthElement = portfolioEntries[index][8] as? String // time
 
                 
@@ -218,7 +218,8 @@ class PortfolioSummaryViewController: UIViewController {
                     let costPerCoin = fifthElement,
                     let amountOfCoins = sixthElement,
                     let fees = seventhElement,
-                    let date = dateFormatter.date(from: eighthElement as! String),
+//                    let date = dateFormatter.date(from: eighthElement as! String),
+                    let date = eighthElement,
                     let time = timeFormatter.date(from: ninthElement as! String) {
                     
                     if dict[coin] == nil {
