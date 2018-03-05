@@ -12,6 +12,7 @@ import Firebase
 class AddTransactionTableViewController: UITableViewController {
     
     var parentController: AddTransactionViewController!
+    var transactionType: String!
     
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
@@ -105,7 +106,13 @@ class AddTransactionTableViewController: UITableViewController {
                 self.currentTradingPair = (coin, currency)
                 self.currentTradingPairLabel.text = "\(coin)-\(currency)"
                 
-                self.deductFromHoldingsLabel.text = "Deduct from \(currency) holdings"
+                if transactionType == "buy" {
+                    self.deductFromHoldingsLabel.text = "Deduct from \(currency) holdings"
+
+                }
+                else if transactionType == "sell" {
+                    self.deductFromHoldingsLabel.text = "Add to \(currency) holdings"
+                }
                 
                 if let markets = allMarkets[currency] as? [String: String] {
                     self.currentTradingPairMarkets = markets
@@ -283,6 +290,9 @@ extension AddTransactionTableViewController: UITextFieldDelegate {
                 if let costPerCoin = Double(text) {
                     parentController.costPerCoin = costPerCoin
                 }
+                else {
+                    parentController.costPerCoin = nil
+                }
             }
         }
         else if textField == self.amountOfCoinsTextField {
@@ -290,12 +300,18 @@ extension AddTransactionTableViewController: UITextFieldDelegate {
                 if let amountOfCoins = Double(text) {
                     parentController.amountOfCoins = amountOfCoins
                 }
+                else {
+                    parentController.amountOfCoins = nil
+                }
             }
         }
         else if textField == self.feesTextField {
             if let text = textField.text {
                 if let fees = Double(text) {
                     parentController.fees = fees
+                }
+                else {
+                    parentController.fees = nil
                 }
             }
         }

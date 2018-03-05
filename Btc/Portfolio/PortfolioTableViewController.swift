@@ -134,29 +134,31 @@ class PortfolioTableViewController: UITableViewController {
         cell.amountOfCoinsLabel.adjustsFontSizeToFitWidth = true
         if portfolio.type == "buy" {
             cell.amountOfCoinsLabel.textColor = greenColour
-            if let date = portfolio.date {
+            if let date = portfolio.date, let time = portfolio.time {
                 dateFormatter.dateFormat = "dd MMM, YYYY"
                 let dateString = dateFormatter.string(from: date)
+                let timeString = timeFormatter.string(from: time)
                 if let exchange = portfolio.exchange {
-                    cell.transactionInfoLabel.text = "Bought on \(dateString) via \(exchange)"
+                    cell.transactionInfoLabel.text = "Bought on \(dateString) via \(exchange) at \(timeString)"
                 }
                 else {
-                    cell.transactionInfoLabel.text = "Bought on \(dateString)"
+                    cell.transactionInfoLabel.text = "Bought on \(dateString) at \(timeString)"
                 }
             }
             
         }
         else if portfolio.type == "sell" {
             cell.amountOfCoinsLabel.textColor = redColour
-            if let date = portfolio.date {
+            if let date = portfolio.date, let time = portfolio.time {
                 dateFormatter.dateFormat = "dd MMM, YYYY"
                 let dateString = dateFormatter.string(from: date)
+                let timeString = timeFormatter.string(from: time)
                 if let exchange = portfolio.exchange {
-                    cell.transactionInfoLabel.text = "Sold on \(dateString) via \(exchange)"
+                    cell.transactionInfoLabel.text = "Sold on \(dateString) via \(exchange) at \(timeString)"
 
                 }
                 else {
-                    cell.transactionInfoLabel.text = "Sold on \(dateString)"
+                    cell.transactionInfoLabel.text = "Sold on \(dateString) at \(timeString)"
                 }
             }
         }

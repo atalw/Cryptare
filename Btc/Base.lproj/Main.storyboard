@@ -1359,7 +1359,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
-                                                            <action selector="addSellPortfolioAction:" destination="fdT-oF-G8Y" eventType="touchUpInside" id="bLY-c2-oz0"/>
+                                                            <segue destination="2La-5o-fxj" kind="show" id="aTF-nS-vEp"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -2228,65 +2228,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bxO-iz-hVo">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="980"/>
                                         <subviews>
-                                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4CZ-Dp-Cfi">
-                                                <rect key="frame" x="15" y="20" width="345" height="40"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dDX-Z7-Y0V">
-                                                        <rect key="frame" x="0.0" y="0.0" width="345" height="40"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCE-u2-1Ri">
-                                                                <rect key="frame" x="0.0" y="0.0" width="167.5" height="40"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                <state key="normal" title="Buy">
-                                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                </state>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                        <integer key="value" value="5"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
-                                                                <connections>
-                                                                    <action selector="buyTransactionButtonTapped:" destination="2La-5o-fxj" eventType="touchUpInside" id="72p-5l-P5p"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aBb-kp-9CG">
-                                                                <rect key="frame" x="177.5" y="0.0" width="167.5" height="40"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                <state key="normal" title="Sell">
-                                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                </state>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                        <integer key="value" value="5"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
-                                                                <connections>
-                                                                    <action selector="addSellPortfolioAction:" destination="fdT-oF-G8Y" eventType="touchUpInside" id="hHc-Ae-Ltr"/>
-                                                                    <action selector="sellTransactionButtonTapped:" destination="2La-5o-fxj" eventType="touchUpInside" id="Q4n-72-5tQ"/>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="bottom" secondItem="ZCE-u2-1Ri" secondAttribute="bottom" id="8MV-ue-x51"/>
-                                                            <constraint firstItem="ZCE-u2-1Ri" firstAttribute="top" secondItem="dDX-Z7-Y0V" secondAttribute="top" id="AfS-uF-Yql"/>
-                                                            <constraint firstAttribute="bottom" secondItem="aBb-kp-9CG" secondAttribute="bottom" id="LZC-QG-hCt"/>
-                                                            <constraint firstItem="aBb-kp-9CG" firstAttribute="top" secondItem="dDX-Z7-Y0V" secondAttribute="top" id="Xyi-ao-1dk"/>
-                                                        </constraints>
-                                                    </stackView>
-                                                </subviews>
-                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="dDX-Z7-Y0V" secondAttribute="trailing" id="2Id-em-KEE"/>
-                                                    <constraint firstItem="dDX-Z7-Y0V" firstAttribute="leading" secondItem="4CZ-Dp-Cfi" secondAttribute="leading" id="T1Y-6U-Y6C"/>
-                                                    <constraint firstAttribute="bottom" secondItem="dDX-Z7-Y0V" secondAttribute="bottom" id="aYL-6k-igN"/>
-                                                    <constraint firstAttribute="height" constant="40" id="am0-7Q-UUs"/>
-                                                    <constraint firstItem="dDX-Z7-Y0V" firstAttribute="top" secondItem="4CZ-Dp-Cfi" secondAttribute="top" id="hfJ-w3-rcZ"/>
-                                                </constraints>
-                                            </view>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cim-S1-dpX">
-                                                <rect key="frame" x="0.0" y="60" width="375" height="500"/>
+                                                <rect key="frame" x="0.0" y="30" width="375" height="500"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" priority="750" constant="500" id="2xz-cA-hkD"/>
                                                 </constraints>
@@ -2319,16 +2262,13 @@
                                         <constraints>
                                             <constraint firstItem="FDW-RO-9wm" firstAttribute="top" secondItem="D7X-DO-m9g" secondAttribute="bottom" constant="7.5" id="2vc-14-xLD"/>
                                             <constraint firstAttribute="trailing" secondItem="FDW-RO-9wm" secondAttribute="trailing" id="4Xh-n9-ig0"/>
+                                            <constraint firstItem="Cim-S1-dpX" firstAttribute="top" secondItem="bxO-iz-hVo" secondAttribute="top" constant="30" id="6Qw-qk-qgz"/>
                                             <constraint firstItem="D7X-DO-m9g" firstAttribute="top" secondItem="Cim-S1-dpX" secondAttribute="bottom" priority="250" constant="20" id="8S1-ta-daJ"/>
                                             <constraint firstAttribute="bottom" secondItem="FDW-RO-9wm" secondAttribute="bottom" id="FLv-wi-33o"/>
-                                            <constraint firstItem="Cim-S1-dpX" firstAttribute="top" secondItem="4CZ-Dp-Cfi" secondAttribute="bottom" id="FN1-XS-2HF"/>
                                             <constraint firstAttribute="trailing" secondItem="D7X-DO-m9g" secondAttribute="trailing" constant="20" id="Hcl-nZ-bv1"/>
                                             <constraint firstAttribute="trailing" secondItem="Cim-S1-dpX" secondAttribute="trailing" id="Lau-MF-gnG"/>
-                                            <constraint firstAttribute="trailing" secondItem="4CZ-Dp-Cfi" secondAttribute="trailing" constant="15" id="OMr-hd-YSN"/>
                                             <constraint firstItem="Cim-S1-dpX" firstAttribute="leading" secondItem="bxO-iz-hVo" secondAttribute="leading" id="aZn-nm-uRM"/>
                                             <constraint firstItem="D7X-DO-m9g" firstAttribute="leading" secondItem="bxO-iz-hVo" secondAttribute="leading" constant="20" id="dX0-3f-lcc"/>
-                                            <constraint firstItem="4CZ-Dp-Cfi" firstAttribute="leading" secondItem="bxO-iz-hVo" secondAttribute="leading" constant="15" id="eSE-J1-8WM"/>
-                                            <constraint firstItem="4CZ-Dp-Cfi" firstAttribute="top" secondItem="bxO-iz-hVo" secondAttribute="top" constant="20" id="noz-rS-KMF"/>
                                             <constraint firstItem="FDW-RO-9wm" firstAttribute="leading" secondItem="bxO-iz-hVo" secondAttribute="leading" id="rTF-dN-wgh"/>
                                         </constraints>
                                     </view>
@@ -2356,8 +2296,6 @@
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="addTransactionButton" destination="FDW-RO-9wm" id="1bu-fO-Wyn"/>
-                        <outlet property="buyTransactionType" destination="ZCE-u2-1Ri" id="6x0-fY-Y5f"/>
-                        <outlet property="sellTransactionType" destination="aBb-kp-9CG" id="LSb-Kq-vUu"/>
                         <outlet property="tableViewHeightConstraint" destination="2xz-cA-hkD" id="VKA-xq-J5s"/>
                     </connections>
                 </viewController>
@@ -5210,6 +5148,7 @@
         <image name="markets" width="846" height="1615"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="aTF-nS-vEp"/>
         <segue reference="aMw-vO-4ZL"/>
     </inferredMetricsTieBreakers>
 </document>

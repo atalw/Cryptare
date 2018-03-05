@@ -42,9 +42,9 @@ class PortfolioViewController: UIViewController {
 //    @IBAction func addBuyPortflioAction(_ sender: Any) {
 //        portfolioTableController.showAddBuyBulletin()
 //    }
-    @IBAction func addSellPortfolioAction(_ sender: Any) {
-       portfolioTableController.showAddSellBulletin()
-    }
+//    @IBAction func addSellPortfolioAction(_ sender: Any) {
+//       portfolioTableController.showAddSellBulletin()
+//    }
     // MARK: - VC Lifecycle
     
     override func viewDidLoad() {
@@ -180,7 +180,20 @@ class PortfolioViewController: UIViewController {
         }
         
         if let addTransactionController = destinationVC as? AddTransactionViewController {
-            addTransactionController.coin = self.coin
+            if let button = sender as? UIButton {
+                if let title = button.titleLabel?.text {
+                    if title == "Buy" {
+                        addTransactionController.transactionType = "buy"
+                    }
+                    else if title == "Sell" {
+                        addTransactionController.transactionType = "sell"
+                    }
+                    addTransactionController.coin = self.coin
+                }
+                
+            }
+            
+            
         }
     }
  
