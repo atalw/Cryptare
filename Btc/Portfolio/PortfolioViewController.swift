@@ -11,6 +11,9 @@ import YNDropDownMenu
 
 class PortfolioViewController: UIViewController {
     
+    let dateFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
+    
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
     
@@ -39,16 +42,15 @@ class PortfolioViewController: UIViewController {
     @IBAction func addPortfolioAction(_ sender: Any) {
         portfolioTableController.showAddBuyBulletin()
     }
-//    @IBAction func addBuyPortflioAction(_ sender: Any) {
-//        portfolioTableController.showAddBuyBulletin()
-//    }
-//    @IBAction func addSellPortfolioAction(_ sender: Any) {
-//       portfolioTableController.showAddSellBulletin()
-//    }
+    
     // MARK: - VC Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone.current
+        timeFormatter.dateFormat = "hh:mm a"
         
         self.automaticallyAdjustsScrollViewInsets = false
         
@@ -59,13 +61,11 @@ class PortfolioViewController: UIViewController {
         totalAmountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
         
         setTotalPortfolioValues()
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -103,7 +103,15 @@ class PortfolioViewController: UIViewController {
         }
     }
     
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+//        print("removed", coin)
+//        NotificationCenter.default.removeObserver(self)
+        
+        currentPortfolioValue = 0
+        totalInvested = 0
+        totalAmountOfBitcoin = 0
+    }
     
     // MARK: - Total Portfolio functions
     
@@ -159,10 +167,8 @@ class PortfolioViewController: UIViewController {
         }
         else {
             totalPercentageView.backgroundColor = redColour
-            
         }
     }
-    
     
     // MARK: - Navigation
 
@@ -189,6 +195,7 @@ class PortfolioViewController: UIViewController {
                         addTransactionController.transactionType = "sell"
                     }
                     addTransactionController.coin = self.coin
+                    addTransactionController.parentController = self
                 }
                 
             }

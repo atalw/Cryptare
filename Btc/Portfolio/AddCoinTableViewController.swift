@@ -11,11 +11,17 @@ import Firebase
 
 class AddCoinTableViewController: UITableViewController {
     
+    var parentController: PortfolioSummaryViewController!
+    
     var databaseRef: DatabaseReference!
     var listOfCoins: DatabaseReference!
     
     var coins: [(String, String)] = []
+    
+    var coinSearchResults = [(String, String)]()
 
+    let searchController = UISearchController(searchResultsController: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +30,24 @@ class AddCoinTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        searchController.searchResultsUpdater = self
+        
+        if #available(iOS 9.1, *) {
+            searchController.obscuresBackgroundDuringPresentation = false
+        } else {
+            // Fallback on earlier versions
+        }
+        searchController.searchBar.placeholder = "Search"
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        definesPresentationContext = true
+        searchController.searchBar.searchBarStyle = .minimal
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,10 +56,18 @@ class AddCoinTableViewController: UITableViewController {
         databaseRef = Database.database().reference()
         
         listOfCoins = databaseRef.child("coins")
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = true
+        }
         
         listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String: AnyObject] {
@@ -55,6 +87,29 @@ class AddCoinTableViewController: UITableViewController {
             self.tableView.reloadData()
         })
     }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        coinSearchResults = coins.filter( {( arg0 ) -> Bool in
+            let (coin, name) = arg0
+            if coin.lowercased().contains(searchText.lowercased()) || name.lowercased().contains(searchText.lowercased()) {
+                return true
+            }
+            else { return false }
+        })
+        
+        tableView.reloadData()
+    }
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -62,33 +117,46 @@ class AddCoinTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return coinSearchResults.count
+        }
         return self.coins.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addCoinCell", for: indexPath) as! AddCoinTableViewCell
+        var data: (String, String)
+        if isFiltering() {
+            data = coinSearchResults[indexPath.row]
+        }
+        else {
+            data = coins[indexPath.row]
+        }
         
-        let index = indexPath.row
-        print(coins[index].0.lowercased())
-        if coins[index].0 == "IOT" {
+        if data.0 == "IOT" {
             cell.coinImage.image = UIImage(named: "miota")
         }
         else {
-            cell.coinImage.image = UIImage(named: coins[index].0.lowercased())
+            cell.coinImage.image = UIImage(named: data.0.lowercased())
         }
-        cell.coinNameLabel.text = coins[index].1
-        cell.coinSymbolLabel.text = "(\(coins[index].0))"
+        cell.coinNameLabel.text = data.1
+        cell.coinSymbolLabel.text = "(\(data.0))"
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! PortfolioViewController
-
-        targetViewController.coin = coins[indexPath.row].0
+        var coin: String!
+        
+        if isFiltering() {
+            coin = coinSearchResults[indexPath.row].0
+        }
+        else {
+            coin = coins[indexPath.row].0
+        }
+        
+        self.parentController.newCoinAdded(coin: coin)
         self.navigationController?.popViewController(animated: true)
-        self.navigationController?.pushViewController(targetViewController, animated: true)
-
     }
  
 
@@ -137,4 +205,11 @@ class AddCoinTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension AddCoinTableViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
 }

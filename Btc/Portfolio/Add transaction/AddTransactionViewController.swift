@@ -10,6 +10,8 @@ import UIKit
 
 class AddTransactionViewController: UIViewController {
     
+    var parentController: PortfolioViewController!
+    
     let greenColour = UIColor.init(hex: "2ECC71")
     let redColour = UIColor.init(hex: "E74C3C")
     let navyBlueColour = UIColor.init(hex: "46637F")
@@ -76,19 +78,20 @@ class AddTransactionViewController: UIViewController {
     
     @IBAction func addTransactionButtonTapped(_ sender: Any) {
         
-            let data: [String : Any] = ["type": transactionType,
-                                        "tradingPair": currentTradingPair.1,
-                                        "exchange": currentExchange.0,
-                                        "costPerCoin": costPerCoin,
-                                        "amountOfCoins": amountOfCoins,
-                                        "fees": fees,
-                                        "date": date,
-                                        "time": time
-                    ]
+        let data: [String: Any] = ["type": transactionType,
+                                   "tradingPair": currentTradingPair.1,
+                                   "exchange": currentExchange.0,
+                                   "costPerCoin": costPerCoin,
+                                   "amountOfCoins": amountOfCoins,
+                                   "fees": fees,
+                                   "date": date,
+                                   "time": time
+        ]
         
-        NotificationCenter.default.post(name: .transactionAdded, object: nil, userInfo: data)
+        parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
         
         self.navigationController?.popViewController(animated: true)
+
     }
     // MARK: - Navigation
 

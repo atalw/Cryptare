@@ -45,9 +45,8 @@ class PortfolioTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.contentInset = UIEdgeInsets.zero
+        
         dateFormatter.dateFormat = "yyyy-MM-dd"
-//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         dateFormatter.timeZone = TimeZone.current
         timeFormatter.dateFormat = "hh:mm a"
 
@@ -65,15 +64,17 @@ class PortfolioTableViewController: UITableViewController {
         // Register notification observers
 //        NotificationCenter.default.addObserver(self, selector: #selector(textFieldEntered(notification:)), name: .TextFieldEntered, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(transactionAdded(notification:)), name: .transactionAdded, object: nil)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        activityIndicator.startAnimating()
         portfolioEntries.removeAll()
+
+        activityIndicator.startAnimating()
         getCoinMarketValue(coin: coin) { (success) -> Void in
             if success {
                 self.initalizePortfolioEntries()
@@ -85,10 +86,6 @@ class PortfolioTableViewController: UITableViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Table view data source
@@ -332,73 +329,11 @@ class PortfolioTableViewController: UITableViewController {
 extension PortfolioTableViewController {
     // MARK: - Portfolio functions
     
-    @objc func transactionAdded(notification: Notification) {
-        dateFormatter.dateFormat = "dd MMM, YYYY"
-        timeFormatter.dateFormat = "hh:mm a"
+    func addPortfolioEntry(portfolioEntry: [String: Any]) {
         
-        let type = notification.userInfo?["type"] as? String
-        let tradingPair = notification.userInfo?["tradingPair"] as? String
-        let exchange = notification.userInfo?["exchange"] as? String
+        self.portfolioData.append(portfolioEntry)
         
-        let costPerCoin = notification.userInfo?["costPerCoin"] as? Double
-        let amountOfCoins = notification.userInfo?["amountOfCoins"] as? Double
-        let fees = notification.userInfo?["fees"] as? Double
-        
-        let date = notification.userInfo?["date"] as? Date
-//        print(dateString)
-//        var date: Date?
-//        if dateString != nil {
-////            date = dateFormatter.date(from: dateString!)
-//        }
-        
-        let time = notification.userInfo?["time"] as? Date
-//        var time: Date?
-//        if timeString != nil {
-////            time = timeFormatter.date(from: timeString!)
-//        }
-        
-        if type != nil && tradingPair != nil && exchange != nil &&
-            costPerCoin != nil && amountOfCoins != nil &&
-            fees != nil && date != nil && time != nil  {
-            
-//            addPortfolioEntry(type: type!, amountOfCoins: amountOfCoins!, date: date!,
-//                              costPerCoin: costPerCoin!, tradingPair: tradingPair!,
-//                              exchange: exchange!, fees: fees!, time: time!)
-            
-            let data: [String:Any] = ["type": type!,
-                                      "tradingPair": tradingPair!,
-                                      "exchange": exchange!,
-                                      "costPerCoin": costPerCoin!,
-                                      "amountOfCoins": amountOfCoins!,
-                                      "fees": fees!,
-                                      "date": date!,
-                                      "time": time!]
-            self.portfolioData.append(data)
-            
-            savePortfolioEntry(type: type!, amountOfCoins: amountOfCoins!, date: date!,
-                               costPerCoin: costPerCoin!, tradingPair: tradingPair!,
-                               exchange: exchange!, fees: fees!, time: date!)
-        }
-    }
-    
-    func addPortfolioEntry(type: String, amountOfCoins: Double, date: Date, costPerCoin: Double,
-                           tradingPair: String, exchange: String, fees: Double, time: Date) {
-        tableView.backgroundView = nil
-        
-        PortfolioEntryModel(type: type,
-                            coin: coin,
-                            tradingPair: tradingPair,
-                            exchange: exchange,
-                            costPerCoin: costPerCoin,
-                            amountOfCoins: amountOfCoins,
-                            fees: fees,
-                            date: date, time: time,
-                            currentCoinPrice: self.coinPrice,
-                            delegate: self)
-        
-        savePortfolioEntry(type: type, amountOfCoins: amountOfCoins, date: date,
-                           costPerCoin: costPerCoin, tradingPair: tradingPair,
-                           exchange: exchange, fees: fees, time: time)
+        savePortfolioEntry(portfolioEntry: portfolioEntry)
     }
     
     func initalizePortfolioEntries() {
@@ -422,39 +357,23 @@ extension PortfolioTableViewController {
         }
     }
     
-//    @objc func textFieldEntered(notification: Notification) {
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        let type = notification.userInfo?["type"] as! String
-//        let amountOfBitcoin = notification.userInfo?["coinAmount"] as? Double
-//        let date = dateFormatter.date(from: notification.userInfo?["date"] as! String)
-//        let cost = Double(notification.userInfo?["cost"] as! String)
-//        if amountOfBitcoin != nil && date != nil && cost != nil {
-////            addPortfolioEntry(type: type, amountOfBitcoin: amountOfBitcoin!, date: date!, cost: cost!)
-//        }
-//    }
-    
-   
-    
     // append portfolio entry to userdefaults stored portfolios, else create new data entry
-    func savePortfolioEntry(type: String, amountOfCoins: Double, date: Date, costPerCoin: Double,
-                            tradingPair: String, exchange: String, fees: Double, time: Date) {
-        
-//        let dateString = dateFormatter.string(from: date)
-        let timeString = timeFormatter.string(from: time)
+    func savePortfolioEntry(portfolioEntry: [String: Any]) {
+        //        let dateString = dateFormatter.string(from: date)
+        let timeString = timeFormatter.string(from: portfolioEntry["time"] as! Date)
         
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                
-                portfolioEntries.append([0: type as Any,
+                portfolioEntries.append([0: portfolioEntry["type"] as Any,
                                          1: coin as Any,
-                                         2: tradingPair as Any,
-                                         3: exchange as Any,
-                                         4: costPerCoin as Any,
-                                         5: amountOfCoins as Any,
-                                         6: fees as Any,
-                                         7: date as Any,
+                                         2: portfolioEntry["tradingPair"] as Any,
+                                         3: portfolioEntry["exchange"] as Any,
+                                         4: portfolioEntry["costPerCoin"] as Any,
+                                         5: portfolioEntry["amountOfCoins"] as Any,
+                                         6: portfolioEntry["fees"] as Any,
+                                         7: portfolioEntry["date"] as Any,
                                          8: timeString as Any
-                                         ])
+                    ])
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: portfolioEntriesConstant)
@@ -463,21 +382,22 @@ extension PortfolioTableViewController {
         else {
             var portfolioEntries: [[Int:Any]] = []
             
-            portfolioEntries.append([0: type as Any,
+            portfolioEntries.append([0: portfolioEntry["type"] as Any,
                                      1: coin as Any,
-                                     2: tradingPair as Any,
-                                     3: exchange as Any,
-                                     4: costPerCoin as Any,
-                                     5: amountOfCoins as Any,
-                                     6: fees as Any,
-                                     7: date as Any,
+                                     2: portfolioEntry["tradingPair"] as Any,
+                                     3: portfolioEntry["exchange"] as Any,
+                                     4: portfolioEntry["costPerCoin"] as Any,
+                                     5: portfolioEntry["amountOfCoins"] as Any,
+                                     6: portfolioEntry["fees"] as Any,
+                                     7: portfolioEntry["date"] as Any,
                                      8: timeString as Any
-                                    ])
+                ])
             
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
             defaults.set(newData, forKey: portfolioEntriesConstant)
         }
     }
+    
     
     func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
         dateFormatter.dateFormat = "yyyy-MM-dd"

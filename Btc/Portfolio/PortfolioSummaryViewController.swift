@@ -121,15 +121,19 @@ class PortfolioSummaryViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let destinationVc = segue.destination
+        if let addCoinVc = destinationVc as? AddCoinTableViewController {
+            addCoinVc.parentController = self
+        }
     }
-    */
+    
     
     func updateOldFormatPortfolioEntries() {
         if let data = defaults.data(forKey: portfolioEntriesConstant) {
@@ -458,6 +462,19 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         targetViewController.portfolioData = dict[coins[indexPath.row]]!
         
         self.navigationController?.pushViewController(targetViewController, animated: true)
-
+    }
+    
+    func newCoinAdded(coin: String) {
+        let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! PortfolioViewController
+        
+        targetViewController.coin = coin
+        if let data = dict[coin] {
+            targetViewController.portfolioData = data
+        }
+        else {
+            targetViewController.portfolioData = []
+        }
+        
+        self.navigationController?.pushViewController(targetViewController, animated: true)
     }
 }
