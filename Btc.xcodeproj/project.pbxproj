@@ -347,9 +347,9 @@
 		863362592042F4E3009D1778 /* Add transaction */ = {
 			isa = PBXGroup;
 			children = (
+				8633625F20430357009D1778 /* AddTransactionViewController.swift */,
 				86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */,
 				8633625A2042F512009D1778 /* TradingPairTableViewController.swift */,
-				8633625F20430357009D1778 /* AddTransactionViewController.swift */,
 				8633626520430C55009D1778 /* AvailableExchangesTableViewController.swift */,
 			);
 			path = "Add transaction";
@@ -529,20 +529,36 @@
 		8661F5CF1FB5F78E00D6F365 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				866E8035204EE81A0051C541 /* Summary */,
+				866E8036204EE8400051C541 /* Coin Detail */,
 				86E1381C1FBB150C00C5D3ED /* Bulletin */,
 				8650C5771FC07BE80078FD02 /* SortDropDown */,
-				8650C5711FC051270078FD02 /* PortfolioViewController.swift */,
-				8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */,
 				86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */,
-				86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */,
 				86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */,
+			);
+			path = Portfolio;
+			sourceTree = "<group>";
+		};
+		866E8035204EE81A0051C541 /* Summary */ = {
+			isa = PBXGroup;
+			children = (
 				86E003261FE963C1000AD106 /* PortfolioSummaryViewController.swift */,
 				865361FC1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift */,
 				86277C181FF3A12B00CC9819 /* AddCoinTableViewController.swift */,
 				86277C1B1FF3A65E00CC9819 /* AddCoinTableViewCell.swift */,
+			);
+			path = Summary;
+			sourceTree = "<group>";
+		};
+		866E8036204EE8400051C541 /* Coin Detail */ = {
+			isa = PBXGroup;
+			children = (
+				8650C5711FC051270078FD02 /* PortfolioViewController.swift */,
+				8661F5D01FB5F7B700D6F365 /* PortfolioTableViewController.swift */,
+				86492AAC1FB9C475003EC0B6 /* PortfolioTableViewCell.swift */,
 				863362592042F4E3009D1778 /* Add transaction */,
 			);
-			path = Portfolio;
+			path = "Coin Detail";
 			sourceTree = "<group>";
 		};
 		869BFA101FB3132100625A64 /* Settings */ = {
