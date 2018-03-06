@@ -30,6 +30,9 @@ class DashboardViewController: UIViewController {
     var listOfCoins: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
     
+    let searchController = UISearchController(searchResultsController: nil)
+    var coinSearchResults = [String]()
+
     @IBOutlet weak var header24hrChangeLabel: UILabel!
     @IBOutlet weak var headerCurrentPriceLabel: UILabel!
     
@@ -47,10 +50,17 @@ class DashboardViewController: UIViewController {
         
         currencyButton.title = currency
         
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = true
+        }
         
         let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
         if removeAdsPurchased == false {
@@ -105,7 +115,23 @@ class DashboardViewController: UIViewController {
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         
-
+        searchController.searchResultsUpdater = self
+        
+        if #available(iOS 9.1, *) {
+            searchController.obscuresBackgroundDuringPresentation = false
+        } else {
+            // Fallback on earlier versions
+        }
+        searchController.searchBar.placeholder = "Search"
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        definesPresentationContext = true
+        searchController.searchBar.searchBarStyle = .minimal
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -132,6 +158,7 @@ class DashboardViewController: UIViewController {
             self.graphController = graphController
         }
     }
+    
     
     func setupCoinRefs() {
         let currency = GlobalValues.currency!
@@ -194,16 +221,46 @@ class DashboardViewController: UIViewController {
         
     }
     
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        coinSearchResults = coins.filter( {( coin: String ) -> Bool in
+            if coin.lowercased().contains(searchText.lowercased()) {
+                return true
+            }
+            else { return false }
+        })
+        
+        tableView.reloadData()
+    }
+    
 }
 
 extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return coinSearchResults.count
+        }
         return coins.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let coin = coins[indexPath.row]
+        var coin: String
+        if isFiltering() {
+            coin = coinSearchResults[indexPath.row]
+        }
+        else {
+            coin = coins[indexPath.row]
+        }
+        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
         
         cell!.coinRank.text = "\(self.coinData[coin]?["rank"] as! Int)"
@@ -287,7 +344,12 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "graphViewController") as! GraphViewController
-        targetViewController.databaseTableTitle = self.coins[indexPath.row]
+        if isFiltering() {
+            targetViewController.databaseTableTitle = self.coinSearchResults[indexPath.row]
+        }
+        else {
+            targetViewController.databaseTableTitle = self.coins[indexPath.row]
+        }
         self.navigationController?.pushViewController(targetViewController, animated: true)
     }
     
@@ -360,6 +422,13 @@ extension DashboardViewController: GADBannerViewDelegate {
     /// the App Store), backgrounding the current app.
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
         print("adViewWillLeaveApplication")
+    }
+}
+
+extension DashboardViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
     }
 }
 
