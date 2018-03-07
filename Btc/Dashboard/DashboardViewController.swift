@@ -50,9 +50,6 @@ class DashboardViewController: UIViewController {
         
         currencyButton.title = currency
         
-        if #available(iOS 11.0, *) {
-            navigationItem.hidesSearchBarWhenScrolling = false
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -232,7 +229,14 @@ class DashboardViewController: UIViewController {
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         coinSearchResults = coins.filter( {( coin: String ) -> Bool in
-            if coin.lowercased().contains(searchText.lowercased()) {
+            var coinName: String = coin
+            for (symbol, name) in GlobalValues.coins {
+                if symbol == coin {
+                    coinName = name
+                }
+            }
+            if coin.lowercased().contains(searchText.lowercased()) ||
+                coinName.lowercased().contains(searchText.lowercased()) {
                 return true
             }
             else { return false }
