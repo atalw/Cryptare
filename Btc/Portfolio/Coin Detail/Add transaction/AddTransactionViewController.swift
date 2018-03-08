@@ -10,7 +10,7 @@ import UIKit
 
 class AddTransactionViewController: UIViewController {
     
-    var parentController: PortfolioViewController!
+    var parentController: CryptoPortfolioViewController!
     
     let greenColour = UIColor.init(hex: "2ECC71")
     let redColour = UIColor.init(hex: "E74C3C")

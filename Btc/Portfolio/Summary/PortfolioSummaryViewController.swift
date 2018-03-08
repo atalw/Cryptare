@@ -456,7 +456,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! PortfolioViewController
+        let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
         
         targetViewController.coin = coins[indexPath.row]
         targetViewController.portfolioData = dict[coins[indexPath.row]]!
@@ -465,7 +465,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     }
     
     func newCoinAdded(coin: String) {
-        let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! PortfolioViewController
+        let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
         
         targetViewController.coin = coin
         if let data = dict[coin] {

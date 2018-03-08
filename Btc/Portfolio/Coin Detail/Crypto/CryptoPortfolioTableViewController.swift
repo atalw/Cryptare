@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import BulletinBoard
 
-class PortfolioTableViewController: UITableViewController {
+class CryptoPortfolioTableViewController: UITableViewController {
     
     var coin: String!
     
@@ -29,7 +29,7 @@ class PortfolioTableViewController: UITableViewController {
     
     // MARK: - Variable initalization
     
-    var parentController: PortfolioViewController!
+    var parentController: CryptoPortfolioViewController!
     var portfolioData: [[String: Any]] = []
     var portfolioEntries: [PortfolioEntryModel] = []
     var coinPrice: Double!
@@ -326,7 +326,7 @@ class PortfolioTableViewController: UITableViewController {
     
 }
 
-extension PortfolioTableViewController {
+extension CryptoPortfolioTableViewController {
     // MARK: - Portfolio functions
     
     func addPortfolioEntry(portfolioEntry: [String: Any]) {
@@ -449,7 +449,7 @@ extension PortfolioTableViewController {
     }
 }
 
-extension PortfolioTableViewController: PortfolioEntryDelegate {
+extension CryptoPortfolioTableViewController: PortfolioEntryDelegate {
     
     func dataLoaded(portfolioEntry: PortfolioEntryModel) {
         if portfolioEntry.type == "buy" {

@@ -17,9 +17,11 @@ class AddCoinTableViewController: UITableViewController {
     var listOfCoins: DatabaseReference!
     
     var coins: [(String, String)] = []
+    var currencies: [(String, String)] = []
     
     var coinSearchResults = [(String, String)]()
-
+    var currencySearchResults = [(String, String)]()
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
@@ -78,6 +80,10 @@ class AddCoinTableViewController: UITableViewController {
                     }
                 }
             }
+            
+            for country in GlobalValues.countryList {
+                self.currencies.append((country.1, country.3))
+            }
             self.tableView.reloadData()
         })
     }
@@ -100,6 +106,14 @@ class AddCoinTableViewController: UITableViewController {
             else { return false }
         })
         
+        currencySearchResults = currencies.filter( {( arg0 ) -> Bool in
+            let (currency, name) = arg0
+            if currency.lowercased().contains(searchText.lowercased()) || name.lowercased().contains(searchText.lowercased()) {
+                return true
+            }
+            else { return false }
+        })
+        
         tableView.reloadData()
     }
     
@@ -107,24 +121,56 @@ class AddCoinTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Cryptocurrencies"
+        }
+        else if section == 1 {
+            return "Fiat Currencies"
+        }
+        return "Cryptocurrencies"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-            return coinSearchResults.count
+            if section == 0 {
+                return coinSearchResults.count
+            }
+            if section == 1 {
+                return currencySearchResults.count
+            }
         }
-        return self.coins.count
+        if section == 0 {
+            return self.coins.count
+        }
+        if section == 1 {
+            return self.currencies.count
+        }
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addCoinCell", for: indexPath) as! AddCoinTableViewCell
-        var data: (String, String)
+        var data: (String, String) = ("", "")
+        let section = indexPath.section
         if isFiltering() {
-            data = coinSearchResults[indexPath.row]
+            if section == 0 {
+                data = coinSearchResults[indexPath.row]
+            }
+            if section == 1 {
+                data = currencySearchResults[indexPath.row]
+            }
         }
         else {
-            data = coins[indexPath.row]
+            if section == 0 {
+                data = coins[indexPath.row]
+            }
+            else {
+                data = currencies[indexPath.row]
+            }
         }
         
         if data.0 == "IOT" {
@@ -141,15 +187,32 @@ class AddCoinTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var coin: String!
+        let section = indexPath.section
         
         if isFiltering() {
-            coin = coinSearchResults[indexPath.row].0
+            if section == 0 {
+                coin = coinSearchResults[indexPath.row].0
+            }
+            else if section == 1 {
+                coin = currencySearchResults[indexPath.row].0
+            }
         }
         else {
-            coin = coins[indexPath.row].0
+            if section == 0 {
+                coin = coins[indexPath.row].0
+            }
+            else if section == 1 {
+                coin = currencies[indexPath.row].0
+            }
         }
         
-        self.parentController.newCoinAdded(coin: coin)
+        if section == 0 {
+            self.parentController.newCoinAdded(coin: coin)
+        }
+        else if section == 1 {
+            self.parentController.newCoinAdded(coin: coin)
+        }
+        
         self.navigationController?.popViewController(animated: true)
     }
  

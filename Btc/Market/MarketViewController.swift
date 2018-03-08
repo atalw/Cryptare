@@ -384,7 +384,6 @@ class MarketViewController: UIViewController {
     }
     
     
-    
     // MARK: Firebase helper functions
     
     func setupCoinMarketRefs() {

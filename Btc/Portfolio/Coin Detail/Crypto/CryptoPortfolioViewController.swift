@@ -9,7 +9,7 @@
 import UIKit
 import YNDropDownMenu
 
-class PortfolioViewController: UIViewController {
+class CryptoPortfolioViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()

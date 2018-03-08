@@ -17,7 +17,7 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     let defaults = UserDefaults.standard
     
     
-    var sortedCountryList: [(String, String, String)] = []
+    var sortedCountryList: [(String, String, String, String)] = []
     
     @IBAction func nextButtonTapped(_ sender: Any) {
         
