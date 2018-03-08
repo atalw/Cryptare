@@ -17,7 +17,7 @@ class CryptoPortfolioViewController: UIViewController {
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
     
-    var portfolioTableController: PortfolioTableViewController! // child vc
+    var portfolioTableController: CryptoPortfolioTableViewController! // child vc
     
     var currentPortfolioValue: Double! = 0.0
     var totalInvested: Double! = 0.0
@@ -178,7 +178,7 @@ class CryptoPortfolioViewController: UIViewController {
 //         Pass the selected object to the new view controller.
         
         let destinationVC = segue.destination
-        if let portfolioTableController = destinationVC as? PortfolioTableViewController {
+        if let portfolioTableController = destinationVC as? CryptoPortfolioTableViewController {
             portfolioTableController.parentController = self
             portfolioTableController.coin = self.coin
             portfolioTableController.portfolioData = self.portfolioData
