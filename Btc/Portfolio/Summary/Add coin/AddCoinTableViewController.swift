@@ -206,14 +206,14 @@ class AddCoinTableViewController: UITableViewController {
             }
         }
         
+        self.navigationController?.popViewController(animated: true)
+        
         if section == 0 {
             self.parentController.newCoinAdded(coin: coin)
         }
         else if section == 1 {
             self.parentController.newCoinAdded(coin: coin)
         }
-        
-        self.navigationController?.popViewController(animated: true)
     }
  
 
