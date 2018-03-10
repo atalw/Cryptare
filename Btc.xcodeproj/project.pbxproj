@@ -73,6 +73,9 @@
 		8656E3AE1FE7D4A6000EB58E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8656E3AC1FE7D4A6000EB58E /* Assets.xcassets */; };
 		865FF08D202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */; };
 		865FF08E202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */; };
+		8661C7372053ED6C00221DE2 /* FiatTransactionEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661C7362053ED6C00221DE2 /* FiatTransactionEntryModel.swift */; };
+		8661C739205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661C738205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift */; };
+		8661C73A205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661C738205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift */; };
 		8661F5D11FB5F7B800D6F365 /* CryptoPortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* CryptoPortfolioTableViewController.swift */; };
 		8661F5D21FB5F7B800D6F365 /* CryptoPortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661F5D01FB5F7B700D6F365 /* CryptoPortfolioTableViewController.swift */; };
 		86730EF12025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */; };
@@ -103,6 +106,14 @@
 		868F1AA51F7D3EEB0093402A /* MainLite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868F1AA41F7D3EEB0093402A /* MainLite.storyboard */; };
 		869BFA121FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
 		869BFA131FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
+		86A2B57020528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B56F20528650001A3DE2 /* FiatPortfolioTableViewCell.swift */; };
+		86A2B57120528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B56F20528650001A3DE2 /* FiatPortfolioTableViewCell.swift */; };
+		86A2B5732052866A001A3DE2 /* FiatPortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B5722052866A001A3DE2 /* FiatPortfolioTableViewController.swift */; };
+		86A2B5742052866A001A3DE2 /* FiatPortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B5722052866A001A3DE2 /* FiatPortfolioTableViewController.swift */; };
+		86A2B57720529C85001A3DE2 /* AddFiatTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B57620529C85001A3DE2 /* AddFiatTransactionViewController.swift */; };
+		86A2B57820529C85001A3DE2 /* AddFiatTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B57620529C85001A3DE2 /* AddFiatTransactionViewController.swift */; };
+		86A2B57A20529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B57920529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift */; };
+		86A2B57B20529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B57920529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift */; };
 		86A713871FB5DAAF003DA98C /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A713861FB5DAAF003DA98C /* Bundle.swift */; };
 		86A713881FB5DAAF003DA98C /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A713861FB5DAAF003DA98C /* Bundle.swift */; };
 		86AC1F261F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
@@ -230,6 +241,8 @@
 		8656E3AC1FE7D4A6000EB58E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoMarketTableViewCell.swift; sourceTree = "<group>"; };
+		8661C7362053ED6C00221DE2 /* FiatTransactionEntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatTransactionEntryModel.swift; sourceTree = "<group>"; };
+		8661C738205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioFiatSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		8661F5D01FB5F7B700D6F365 /* CryptoPortfolioTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoPortfolioTableViewController.swift; sourceTree = "<group>"; };
 		86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailViewController.swift; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +251,10 @@
 		868F1AA41F7D3EEB0093402A /* MainLite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainLite.storyboard; sourceTree = "<group>"; };
 		868F1AA61F7D42CA0093402A /* InfoLite.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoLite.plist; sourceTree = "<group>"; };
 		869BFA111FB3135B00625A64 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		86A2B56F20528650001A3DE2 /* FiatPortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatPortfolioTableViewCell.swift; sourceTree = "<group>"; };
+		86A2B5722052866A001A3DE2 /* FiatPortfolioTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatPortfolioTableViewController.swift; sourceTree = "<group>"; };
+		86A2B57620529C85001A3DE2 /* AddFiatTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFiatTransactionViewController.swift; sourceTree = "<group>"; };
+		86A2B57920529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFiatTransactionTableViewController.swift; sourceTree = "<group>"; };
 		86A713861FB5DAAF003DA98C /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		86AC1F251F9137B60079F013 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		86AC1F281F913DA70079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -350,8 +367,8 @@
 		863362592042F4E3009D1778 /* Add transaction */ = {
 			isa = PBXGroup;
 			children = (
-				8633625F20430357009D1778 /* AddTransactionViewController.swift */,
-				86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */,
+				86A2B57C20529CA7001A3DE2 /* Crypto */,
+				86A2B57520529C62001A3DE2 /* Fiat */,
 				8633625A2042F512009D1778 /* TradingPairTableViewController.swift */,
 				8633626520430C55009D1778 /* AvailableExchangesTableViewController.swift */,
 			);
@@ -548,6 +565,7 @@
 				86E003261FE963C1000AD106 /* PortfolioSummaryViewController.swift */,
 				865361FC1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift */,
 				866E8037204EE8FD0051C541 /* Add coin */,
+				8661C738205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift */,
 			);
 			path = Summary;
 			sourceTree = "<group>";
@@ -581,10 +599,31 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		86A2B57520529C62001A3DE2 /* Fiat */ = {
+			isa = PBXGroup;
+			children = (
+				86A2B57620529C85001A3DE2 /* AddFiatTransactionViewController.swift */,
+				86A2B57920529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift */,
+			);
+			path = Fiat;
+			sourceTree = "<group>";
+		};
+		86A2B57C20529CA7001A3DE2 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				8633625F20430357009D1778 /* AddTransactionViewController.swift */,
+				86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
 		86CD93CD20518521009046F2 /* Fiat */ = {
 			isa = PBXGroup;
 			children = (
 				86CD93CA2051851C009046F2 /* FiatPortfolioViewController.swift */,
+				86A2B5722052866A001A3DE2 /* FiatPortfolioTableViewController.swift */,
+				86A2B56F20528650001A3DE2 /* FiatPortfolioTableViewCell.swift */,
+				8661C7362053ED6C00221DE2 /* FiatTransactionEntryModel.swift */,
 			);
 			path = Fiat;
 			sourceTree = "<group>";
@@ -1083,6 +1122,7 @@
 				8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */,
 				86FBF1C61FE28B160056A5BA /* MarketDetailViewController.swift in Sources */,
 				86DF12152045572F00FA4787 /* UITextField+Extensions.swift in Sources */,
+				86A2B5732052866A001A3DE2 /* FiatPortfolioTableViewController.swift in Sources */,
 				86F2015720414C5600DC7654 /* UnlockMarketsViewController.swift in Sources */,
 				86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
@@ -1090,10 +1130,14 @@
 				86492AB01FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */,
 				86E003271FE963C1000AD106 /* PortfolioSummaryViewController.swift in Sources */,
 				86CD93CB2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */,
+				86A2B57A20529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift in Sources */,
+				86A2B57720529C85001A3DE2 /* AddFiatTransactionViewController.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
 				865361FD1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */,
 				8650C5721FC051270078FD02 /* CryptoPortfolioViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
+				8661C7372053ED6C00221DE2 /* FiatTransactionEntryModel.swift in Sources */,
+				86A2B57020528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */,
 				864E973B203C57570023238F /* IAPService.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
 				86C1623920429C3000BFC90E /* AddTransactionTableViewController.swift in Sources */,
@@ -1122,6 +1166,7 @@
 				8634749F1F082E7000E7EB86 /* BtcPrices.swift in Sources */,
 				86E1382D1FBB155D00C5D3ED /* TextFieldBulletinPage.swift in Sources */,
 				864362571F66F9E000883792 /* DashboardViewController.swift in Sources */,
+				8661C739205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift in Sources */,
 				86A713871FB5DAAF003DA98C /* Bundle.swift in Sources */,
 				863474A31F0BB11E00E7EB86 /* AppDelegate.swift in Sources */,
 				863474711F08262000E7EB86 /* MarketViewController.swift in Sources */,
@@ -1161,6 +1206,7 @@
 				8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */,
 				86FBF1C71FE28B160056A5BA /* MarketDetailViewController.swift in Sources */,
 				86DF12162045572F00FA4787 /* UITextField+Extensions.swift in Sources */,
+				86A2B5742052866A001A3DE2 /* FiatPortfolioTableViewController.swift in Sources */,
 				86F2015820414C5600DC7654 /* UnlockMarketsViewController.swift in Sources */,
 				86401C4D1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				86492AAB1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
@@ -1168,10 +1214,13 @@
 				86492AB11FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */,
 				86E003281FE963C1000AD106 /* PortfolioSummaryViewController.swift in Sources */,
 				86CD93CC2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */,
+				86A2B57B20529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift in Sources */,
+				86A2B57820529C85001A3DE2 /* AddFiatTransactionViewController.swift in Sources */,
 				868F1A7E1F7D301E0093402A /* MainViewController.swift in Sources */,
 				865361FE1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */,
 				8650C5731FC051270078FD02 /* CryptoPortfolioViewController.swift in Sources */,
 				868F1A7F1F7D301E0093402A /* CustomNewsTableViewCell.swift in Sources */,
+				86A2B57120528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */,
 				864E973C203C57570023238F /* IAPService.swift in Sources */,
 				868F1A801F7D301E0093402A /* NewsData.swift in Sources */,
 				86C1623A20429C3000BFC90E /* AddTransactionTableViewController.swift in Sources */,
@@ -1193,6 +1242,7 @@
 				861A75211FF8F21100263A90 /* Double+Extensions.swift in Sources */,
 				86277C1A1FF3A12B00CC9819 /* AddCoinTableViewController.swift in Sources */,
 				8633625C2042F512009D1778 /* TradingPairTableViewController.swift in Sources */,
+				8661C73A205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift in Sources */,
 				8602BAB81F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
 				86B0D7F11FC57126002CE499 /* SellPortfolioBulletinPage.swift in Sources */,
 				86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */,

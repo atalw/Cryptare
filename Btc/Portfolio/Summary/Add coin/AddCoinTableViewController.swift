@@ -60,10 +60,18 @@ class AddCoinTableViewController: UITableViewController {
         databaseRef = Database.database().reference()
         
         listOfCoins = databaseRef.child("coins")
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = true
+        }
         
         listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String: AnyObject] {
@@ -212,7 +220,7 @@ class AddCoinTableViewController: UITableViewController {
             self.parentController.newCoinAdded(coin: coin)
         }
         else if section == 1 {
-            self.parentController.newCoinAdded(coin: coin)
+            self.parentController.newCurrencyAdded(currency: coin)
         }
     }
  

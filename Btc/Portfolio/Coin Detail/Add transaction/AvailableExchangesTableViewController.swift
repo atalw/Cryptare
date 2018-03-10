@@ -10,7 +10,8 @@ import UIKit
 
 class AvailableExchangesTableViewController: UITableViewController {
     
-    var parentController: AddTransactionTableViewController!
+    var cryptoParentController: AddTransactionTableViewController?
+    var fiatParentController: AddFiatTransactionTableViewController?
     
     var markets: [String: String]!
     var sortedMarkets: [(String, String)]!
@@ -51,7 +52,12 @@ class AvailableExchangesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let market = sortedMarkets[indexPath.row]
-        parentController.updateCurrentExchange(exchange: market)
+        if cryptoParentController != nil {
+            cryptoParentController?.updateCurrentExchange(exchange: market)
+        }
+        else if fiatParentController != nil {
+            fiatParentController?.updateCurrentExchange(exchange: market)
+        }
         navigationController?.popViewController(animated: true)
     }
 

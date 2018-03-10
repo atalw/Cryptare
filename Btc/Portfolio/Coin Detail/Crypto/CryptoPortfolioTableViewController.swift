@@ -102,8 +102,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dateFormatter.dateFormat = "dd/MM/YY"
         
-        
-
         let portfolio = portfolioEntries[indexPath.row]
         var cell: PortfolioTableViewCell
         if portfolio.type == "buy" {

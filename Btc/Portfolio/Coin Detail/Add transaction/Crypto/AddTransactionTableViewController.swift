@@ -269,7 +269,7 @@ class AddTransactionTableViewController: UITableViewController {
             destinationVC.tradingPairs = self.tradingPairs
         }
         else if let destinationVc = segue.destination as? AvailableExchangesTableViewController {
-            destinationVc.parentController = self
+            destinationVc.cryptoParentController = self
             destinationVc.markets = self.currentTradingPairMarkets
         }
         
