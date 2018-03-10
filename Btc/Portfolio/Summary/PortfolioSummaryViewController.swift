@@ -54,6 +54,7 @@ class PortfolioSummaryViewController: UIViewController {
     @IBOutlet weak var totalPriceChangeLabel: UILabel!
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +110,24 @@ class PortfolioSummaryViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if coins.count == 0 && currencies.count == 0 {
+            tableViewHeightConstraint.constant = 500
+        }
+        else {
+            tableViewHeightConstraint.constant = tableView.contentSize.height
+            tableView.reloadData()
+        }
+
+    }
+    
+    override func viewDidLayoutSubviews() {
+        if coins.count == 0 && currencies.count == 0 {
+            tableViewHeightConstraint.constant = 500
+        }
+        else {
+            tableViewHeightConstraint.constant = tableView.contentSize.height
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -125,7 +144,6 @@ class PortfolioSummaryViewController: UIViewController {
         super.viewDidDisappear(animated)
     }
     
-
     
     // MARK: - Navigation
 
