@@ -16,8 +16,9 @@ class PortfolioTableViewCell: UITableViewCell {
     @IBOutlet weak var coinNameLabel: UILabel!
     
     @IBOutlet weak var amountOfCoinsLabel: UILabel!
-    @IBOutlet weak var costLabel: UILabel!
-    
+    @IBOutlet weak var costPerCoinLabel: UILabel!
+    @IBOutlet weak var totalCostLabel: UILabel!
+
     @IBOutlet weak var percentageChange: UILabel!
     @IBOutlet weak var percentageChangeView: UIView!
 

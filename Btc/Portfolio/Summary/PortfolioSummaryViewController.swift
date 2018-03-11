@@ -330,19 +330,25 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin] = [:]
             summary[coin]!["amountOfCoins"] = 0.0
             summary[coin]!["costPerCoin"] = 0.0
+            summary[coin]!["totalCost"] = 0.0
             summary[coin]!["coinMarketValue"] = 0.0 // market value of 1 coin
             summary[coin]!["holdingsMarketValue"] = 0.0 // market value of holdings
             summary[coin]!["coinValueYesterday"] = 0.0
             summary[coin]!["holdingsValueYesterday"] = 0.0
             
             for entry in dict[coin]! {
+                let amount = (entry["amountOfCoins"] as! Double) + (entry["costPerCoin"] as! Double)
+
                 if entry["type"] as! String == "buy" {
                     summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! + (entry["amountOfCoins"] as! Double)
                     summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! + (entry["costPerCoin"] as! Double)
+                    summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! + amount
                 }
                 else if entry["type"] as! String == "sell" {
                     summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! - (entry["amountOfCoins"] as! Double)
                     summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! - (entry["costPerCoin"] as! Double)
+                    summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! - amount
+
                 }
             }
             
@@ -406,7 +412,7 @@ class PortfolioSummaryViewController: UIViewController {
         
         for coin in coins {
             currentPortfolioValue = currentPortfolioValue + summary[coin]!["holdingsMarketValue"]!
-            totalInvested = totalInvested + summary[coin]!["costPerCoin"]!
+            totalInvested = totalInvested + summary[coin]!["totalCost"]!
             yesterdayPortfolioValue = yesterdayPortfolioValue + summary[coin]!["holdingsValueYesterday"]!
         }
         for currency in currencies {

@@ -113,7 +113,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
         
         for (symbol, name) in GlobalValues.coins {
             if symbol == coin {
-                cell.coinNameLabel.text = name
+//                cell.coinNameLabel.text = name
                 if symbol == "IOT" {
                     cell.coinLogoImage.image = UIImage(named: "miota")
                 }
@@ -123,7 +123,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
             }
         }
         
-        cell.coinNameLabel.adjustsFontSizeToFitWidth = true
+//        cell.coinNameLabel.adjustsFontSizeToFitWidth = true
         
         cell.amountOfCoinsLabel.text = String(portfolio.amountOfCoins)
         cell.amountOfCoinsLabel.adjustsFontSizeToFitWidth = true
@@ -158,9 +158,11 @@ class CryptoPortfolioTableViewController: UITableViewController {
             }
         }
         
-        if let cost = portfolio.costPerCoin {
-            cell.costLabel?.text = cost.asCurrency
-            cell.costLabel?.adjustsFontSizeToFitWidth = true
+        if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins {
+            let total = cost * amountOfCoins
+            cell.costPerCoinLabel.text = cost.asCurrency
+            cell.costPerCoinLabel.adjustsFontSizeToFitWidth = true
+            cell.totalCostLabel.text = total.asCurrency
         }
         
 //        if let date = portfolio.dateOfPurchase {
