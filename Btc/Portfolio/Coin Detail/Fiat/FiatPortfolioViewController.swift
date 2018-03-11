@@ -14,6 +14,10 @@ class FiatPortfolioViewController: UIViewController {
     
     var currency: String!
     var portfolioData: [[String: Any]] = []
+    
+    var currentAvailable: Double! = 0
+    var totalDeposited: Double! = 0
+    var totalWithdrawn: Double! = 0
 
     @IBOutlet weak var currentAvailableLabel: UILabel!
     @IBOutlet weak var totalDepositedLabel: UILabel!
@@ -25,12 +29,42 @@ class FiatPortfolioViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        currentAvailable = 0
+        totalDeposited = 0
+        totalWithdrawn = 0
     }
     
+    func addToTotalDeposited(value: Double) {
+        totalDeposited = totalDeposited + value
+        currentAvailable = currentAvailable + value
+        setTotalValues()
+    }
+    
+    func addToTotalWithdrawn(value: Double) {
+        totalWithdrawn = totalWithdrawn + value
+        currentAvailable = currentAvailable - value
+        setTotalValues()
+    }
+    
+    func removeDepositedEntry(value: Double) {
+        totalDeposited = totalDeposited - value
+        currentAvailable = currentAvailable - value
+        setTotalValues()
+    }
+    
+    func removeWithdrawnEntry(value: Double) {
+        totalWithdrawn = totalWithdrawn - value
+        currentAvailable = currentAvailable + value
+        setTotalValues()
+    }
 
+    func setTotalValues() {
+        currentAvailableLabel.text = currentAvailable.asCurrency
+        totalDepositedLabel.text = totalDeposited.asCurrency
+        totalWithdrawnLabel.text = totalWithdrawn.asCurrency
+    }
     
     // MARK: - Navigation
 

@@ -86,10 +86,17 @@ class PortfolioSummaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         databaseRef = Database.database().reference()
+        
         dict = [:]
+        currencyDict = [:]
+        
         coins = []
+        currencies = []
+        
         summary = [:]
+        
         initalizePortfolioEntries()
+        
         if coins.count == 0 {
             tableView.reloadData()
             updateSummaryLabels()
@@ -269,12 +276,12 @@ class PortfolioSummaryViewController: UIViewController {
             for coin in dict.keys {
                 coins.append(coin)
             }
-            calculatePortfolioSummary()
         }
             
         if let data = defaults.data(forKey: fiatPortfolioEntriesConstant) {
             let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
             
+            currencyDict = [:]
             for index in 0..<portfolioEntries.count {
                 if portfolioEntries[index].count == 7 { // fiat currency entry
                     let firstElement = portfolioEntries[index][0] as? String // currency
@@ -313,6 +320,8 @@ class PortfolioSummaryViewController: UIViewController {
                 currencies.append(currency)
             }
         }
+        calculatePortfolioSummary()
+
     }
     
     func calculatePortfolioSummary() {
@@ -347,6 +356,20 @@ class PortfolioSummaryViewController: UIViewController {
                     self.tableView.reloadData()
                 }
             })
+        }
+        
+        for currency in currencyDict.keys {
+            summary[currency] = [:]
+            summary[currency]!["amount"] = 0.0
+            
+            for entry in currencyDict[currency]! {
+                if entry["type"] as! String == "deposit" {
+                    summary[currency]!["amount"] = summary[currency]!["amount"]! + (entry["amount"] as! Double)
+                }
+                else if entry["type"] as! String == "withdraw" {
+                    summary[currency]!["amount"] = summary[currency]!["amount"]! - (entry["amount"] as! Double)
+                }
+            }
         }
         getCoinValueYesterday()
     }
@@ -384,6 +407,9 @@ class PortfolioSummaryViewController: UIViewController {
             currentPortfolioValue = currentPortfolioValue + summary[coin]!["holdingsMarketValue"]!
             totalInvested = totalInvested + summary[coin]!["costPerCoin"]!
             yesterdayPortfolioValue = yesterdayPortfolioValue + summary[coin]!["holdingsValueYesterday"]!
+        }
+        for currency in currencies {
+            currentPortfolioValue = currentPortfolioValue + summary[currency]!["amount"]!
         }
         var priceChange: Double = 0
         var percentageChange: Double = 0
@@ -557,7 +583,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
                 }
             }
             
-            if let holdingsMarketValue = summary[currency]?["holdingsMarketValue"] {
+            if let holdingsMarketValue = summary[currency]?["amount"] {
                 cell.holdingsLabel.text = holdingsMarketValue.asCurrency
                 cell.holdingsLabel.adjustsFontSizeToFitWidth = true
             }
@@ -606,7 +632,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "fiatPortfolioViewController") as! FiatPortfolioViewController
         
         targetViewController.currency = currency
-        if let data = dict[currency] {
+        if let data = currencyDict[currency] {
             targetViewController.portfolioData = data
         }
         else {
