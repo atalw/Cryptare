@@ -65,13 +65,7 @@ class FiatPortfolioTableViewController: UITableViewController {
         
         cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! FiatPortfolioTableViewCell
         
-        cell.currencyLogo.image = UIImage(named: currency.lowercased())
-        
-        for (country, symbol, locale, name) in GlobalValues.countryList {
-            if symbol == currency {
-                cell.currencyName.text = name
-            }
-        }
+       
         
         cell.amountLabel.text = entry.amount.asCurrency
         cell.feesLabel.text = entry.fees.asCurrency
@@ -135,10 +129,10 @@ extension FiatPortfolioTableViewController {
                 portfolioEntries.append(entry)
                 
                 if entry.transactionType == "deposit" {
-                    parentController.addToTotalDeposited(value: entry.amount)
+                    parentController.addToTotalDeposited(value: (entry.amount-entry.fees))
                 }
                 else if entry.transactionType == "withdraw" {
-                    parentController.addToTotalWithdrawn(value: entry.amount)
+                    parentController.addToTotalWithdrawn(value: (entry.amount+entry.fees))
                 }
             }
         }
@@ -160,7 +154,7 @@ extension FiatPortfolioTableViewController {
                                          3: portfolioEntry["amount"] as Any,
                                          4: portfolioEntry["fees"] as Any,
                                          5: portfolioEntry["date"] as Any,
-                                         6: portfolioEntry["time"] as Any,
+                                         6: portfolioEntry["time"] as Any
                     ])
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
@@ -176,7 +170,7 @@ extension FiatPortfolioTableViewController {
                                      3: portfolioEntry["amount"] as Any,
                                      4: portfolioEntry["fees"] as Any,
                                      5: portfolioEntry["date"] as Any,
-                                     6: portfolioEntry["time"] as Any,
+                                     6: portfolioEntry["time"] as Any
                 ])
             
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)

@@ -19,6 +19,7 @@ class FiatPortfolioViewController: UIViewController {
     var totalDeposited: Double! = 0
     var totalWithdrawn: Double! = 0
 
+    @IBOutlet weak var currencyNameLabel: UILabel!
     @IBOutlet weak var currentAvailableLabel: UILabel!
     @IBOutlet weak var totalDepositedLabel: UILabel!
     @IBOutlet weak var totalWithdrawnLabel: UILabel!
@@ -27,6 +28,12 @@ class FiatPortfolioViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        for (country, symbol, locale, name) in GlobalValues.countryList {
+            if symbol == currency {
+                currencyNameLabel.text = name
+                break
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

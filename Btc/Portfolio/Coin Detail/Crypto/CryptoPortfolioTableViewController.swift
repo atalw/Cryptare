@@ -341,7 +341,7 @@ extension CryptoPortfolioTableViewController {
         else {
             for portfolio in portfolioData {
                 PortfolioEntryModel(type: portfolio["type"] as! String,
-                                    coin: coin,
+                                    coin: portfolio["coin"] as! String,
                                     tradingPair: portfolio["tradingPair"] as! String,
                                     exchange: portfolio["exchange"] as! String,
                                     costPerCoin: portfolio["costPerCoin"] as! Double,
@@ -363,7 +363,7 @@ extension CryptoPortfolioTableViewController {
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 portfolioEntries.append([0: portfolioEntry["type"] as Any,
-                                         1: coin as Any,
+                                         1: portfolioEntry["coin"] as Any,
                                          2: portfolioEntry["tradingPair"] as Any,
                                          3: portfolioEntry["exchange"] as Any,
                                          4: portfolioEntry["costPerCoin"] as Any,
@@ -381,7 +381,7 @@ extension CryptoPortfolioTableViewController {
             var portfolioEntries: [[Int:Any]] = []
             
             portfolioEntries.append([0: portfolioEntry["type"] as Any,
-                                     1: coin as Any,
+                                     1: portfolioEntry["coin"] as Any,
                                      2: portfolioEntry["tradingPair"] as Any,
                                      3: portfolioEntry["exchange"] as Any,
                                      4: portfolioEntry["costPerCoin"] as Any,

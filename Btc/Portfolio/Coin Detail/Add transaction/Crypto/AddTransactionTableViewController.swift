@@ -54,7 +54,7 @@ class AddTransactionTableViewController: UITableViewController {
     }
     
     @IBOutlet weak var deductFromHoldingsLabel: UILabel!
-    @IBOutlet weak var detectFromHoldingsSwitch: UISwitch!
+    @IBOutlet weak var deductFromHoldingsSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +98,9 @@ class AddTransactionTableViewController: UITableViewController {
                 self.updateLabels()
             }
         })
+        
+        deductFromHoldingsSwitch.isOn = true
+        parentController.deductFromHoldings = true
     }
     
     func updateLabels() {
@@ -141,7 +144,15 @@ class AddTransactionTableViewController: UITableViewController {
         self.currentTradingPair = pair
         self.currentTradingPairLabel.text = "\(pair.0)-\(pair.1)"
         
-        self.deductFromHoldingsLabel.text = "Deduct from \(pair.1) holdings"
+        
+        if transactionType == "buy" {
+            self.deductFromHoldingsLabel.text = "Deduct from \(pair.1) holdings"
+
+        }
+        else if transactionType == "sell" {
+            self.deductFromHoldingsLabel.text = "Add to \(pair.1) holdings"
+
+        }
         
         if let markets = allMarkets[pair.1] as? [String: String] {
             currentTradingPairMarkets = markets
@@ -201,6 +212,14 @@ class AddTransactionTableViewController: UITableViewController {
         parentController.time = timePicker.date
     }
 
+    @IBAction func deductSwitchTapped(_ sender: Any) {
+        if deductFromHoldingsSwitch.isOn {
+            parentController.deductFromHoldings = true
+        }
+        else {
+            parentController.deductFromHoldings = false
+        }
+    }
     // MARK: - Table view data source
 
 //    override func numberOfSections(in tableView: UITableView) -> Int {

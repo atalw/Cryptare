@@ -262,6 +262,7 @@ class PortfolioSummaryViewController: UIViewController {
                         }
                         
                         dict[coin]!.append(["type": type,
+                                            "coin": coin,
                                             "tradingPair": tradingPair,
                                             "exchange": exchange,
                                             "costPerCoin": costPerCoin,

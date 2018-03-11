@@ -10,7 +10,11 @@ import UIKit
 
 class AddTransactionViewController: UIViewController {
     
+    let defaults = UserDefaults.standard
+    
     var parentController: CryptoPortfolioViewController!
+    
+    let fiatPortfolioEntriesConstant = "fiatPortfolioEntries"
     
     let greenColour = UIColor.init(hex: "2ECC71")
     let redColour = UIColor.init(hex: "E74C3C")
@@ -19,6 +23,7 @@ class AddTransactionViewController: UIViewController {
     var transactionType: String!
 
     var coin: String!
+    var currencies: [String] = []
     
     var currentTradingPair: (String, String)!
     var currentExchange: (String, String)!
@@ -53,6 +58,10 @@ class AddTransactionViewController: UIViewController {
             addTransactionButton.setBackgroundColor(redColour, forState: .normal)
 
         }
+        
+        for (country, symbol, locale, name) in GlobalValues.countryList {
+            currencies.append(symbol)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,8 +87,12 @@ class AddTransactionViewController: UIViewController {
     
     @IBAction func addTransactionButtonTapped(_ sender: Any) {
         
+        let tradingPair = currentTradingPair.1
+        let amount = costPerCoin*amountOfCoins
+        
         let data: [String: Any] = ["type": transactionType,
-                                   "tradingPair": currentTradingPair.1,
+                                   "coin": coin,
+                                   "tradingPair": tradingPair,
                                    "exchange": currentExchange.0,
                                    "costPerCoin": costPerCoin,
                                    "amountOfCoins": amountOfCoins,
@@ -90,8 +103,76 @@ class AddTransactionViewController: UIViewController {
         
         parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
         
+        if currencies.contains(tradingPair) {
+            print(tradingPair)
+            var type: String!
+            if type == "buy" {
+                type = "withdraw"
+            }
+            else {
+                type = "deposit"
+            }
+            addFiatTransaction(currency: tradingPair, type: type, exchange: currentExchange.0, amount: amount, fees: fees, date: date, time: time)
+        }
+        else {
+            print("not")
+            var type: String!
+            if transactionType == "buy" {
+                type = "sell"
+            }
+            else {
+                type = "buy"
+            }
+            let data: [String: Any] = ["type": type,
+                                       "coin": tradingPair,
+                                       "tradingPair": coin,
+                                       "exchange": currentExchange.0,
+                                       "costPerCoin": costPerCoin,
+                                       "amountOfCoins": amountOfCoins,
+                                       "fees": fees,
+                                       "date": date,
+                                       "time": time
+                ]
+            
+            parentController.portfolioTableController.savePortfolioEntry(portfolioEntry: data)
+
+        }
+        
         self.navigationController?.popViewController(animated: true)
 
+    }
+    
+    func addFiatTransaction(currency: String, type: String, exchange: String, amount: Double, fees: Double, date: Date, time: Date ) {
+        if var data = defaults.data(forKey: fiatPortfolioEntriesConstant) {
+            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
+                portfolioEntries.append([0: currency as Any,
+                                         1: type as Any,
+                                         2: exchange as Any,
+                                         3: amount as Any,
+                                         4: fees as Any,
+                                         5: date as Any,
+                                         6: time as Any
+                                         ])
+                
+                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+                defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
+            }
+        }
+        else {
+            var portfolioEntries: [[Int:Any]] = []
+            
+            portfolioEntries.append([0: currency as Any,
+                                     1: type as Any,
+                                     2: exchange as Any,
+                                     3: amount as Any,
+                                     4: fees as Any,
+                                     5: date as Any,
+                                     6: time as Any
+                                     ])
+            
+            let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+            defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
+        }
     }
     // MARK: - Navigation
 
