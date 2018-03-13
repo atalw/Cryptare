@@ -2953,7 +2953,7 @@
                                 <rect key="frame" x="0.0" y="30" width="375" height="637"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="20" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="6Oy-jE-Ssm">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="587"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="637"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="b8K-Of-aXj">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
@@ -3114,8 +3114,8 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L7C-52-1fI" customClass="GADBannerView">
-                                        <rect key="frame" x="27.5" y="587" width="320" height="50"/>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L7C-52-1fI" customClass="GADBannerView">
+                                        <rect key="frame" x="27.5" y="-30" width="320" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Flr-IJ-7FP"/>
@@ -5104,6 +5104,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TRx-wX-1xB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-106" y="-2408"/>
+        </scene>
+        <!--Intro View Controller-->
+        <scene sceneID="wyP-U1-XxS">
+            <objects>
+                <viewController storyboardIdentifier="IntroViewController" id="fsd-3J-8L5" customClass="IntroViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hY9-gc-dtd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="3wP-Vq-6xg">
+                                <rect key="frame" x="168" y="550" width="39" height="37"/>
+                                <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="currentPageIndicatorTintColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24z-Uy-5bE">
+                                <rect key="frame" x="87" y="607" width="200" height="40"/>
+                                <color key="backgroundColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="A0B-Hu-A6X"/>
+                                    <constraint firstAttribute="width" constant="200" id="s0C-aw-dma"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u2Y-vO-HEr">
+                                <rect key="frame" x="0.0" y="20" width="375" height="667"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oa9-od-cp9" firstAttribute="bottom" secondItem="24z-Uy-5bE" secondAttribute="bottom" constant="20" id="BNV-01-6yf"/>
+                            <constraint firstItem="24z-Uy-5bE" firstAttribute="top" secondItem="3wP-Vq-6xg" secondAttribute="bottom" constant="20" id="M62-ir-7VN"/>
+                            <constraint firstItem="u2Y-vO-HEr" firstAttribute="leading" secondItem="oa9-od-cp9" secondAttribute="leading" id="RJx-wD-EiJ"/>
+                            <constraint firstItem="u2Y-vO-HEr" firstAttribute="height" secondItem="hY9-gc-dtd" secondAttribute="height" id="UN5-9B-qEQ"/>
+                            <constraint firstItem="24z-Uy-5bE" firstAttribute="centerX" secondItem="hY9-gc-dtd" secondAttribute="centerX" id="Xyy-x3-Ma6"/>
+                            <constraint firstItem="oa9-od-cp9" firstAttribute="trailing" secondItem="u2Y-vO-HEr" secondAttribute="trailing" id="ceu-5u-TpK"/>
+                            <constraint firstItem="u2Y-vO-HEr" firstAttribute="top" secondItem="oa9-od-cp9" secondAttribute="top" id="hdi-IX-tcr"/>
+                            <constraint firstItem="3wP-Vq-6xg" firstAttribute="centerX" secondItem="hY9-gc-dtd" secondAttribute="centerX" id="uYb-gF-ihT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="oa9-od-cp9"/>
+                    </view>
+                    <connections>
+                        <outlet property="pageControl" destination="3wP-Vq-6xg" id="tKS-Pl-tWH"/>
+                        <outlet property="skipButton" destination="24z-Uy-5bE" id="3xY-GW-RXH"/>
+                        <outlet property="slideScrollView" destination="u2Y-vO-HEr" id="5Qz-eD-a6X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tJV-aL-1mf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2748.8000000000002" y="-2992.353823088456"/>
         </scene>
         <!--Left View Controller-->
         <scene sceneID="Mju-TQ-BCk">
