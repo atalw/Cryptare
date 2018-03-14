@@ -15,7 +15,7 @@
         <!--Country Selection View Controller-->
         <scene sceneID="Z96-z4-Jyi">
             <objects>
-                <viewController id="QBu-mH-Hb4" customClass="CountrySelectionViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CountrySelectionViewController" id="QBu-mH-Hb4" customClass="CountrySelectionViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Skt-wu-Vr4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -77,13 +77,13 @@
             <objects>
                 <tableViewController storyboardIdentifier="SettingsViewController" id="S82-LZ-v1f" customClass="SettingsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="45" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Nfi-BV-dJX">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="900"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="Vwy-ld-pXs"/>
                         <inset key="scrollIndicatorInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="qH9-cw-bSS">
-                            <rect key="frame" x="0.0" y="1028.5" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="1129.5" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxQ-V7-jUc">
@@ -623,20 +623,54 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Tutorials 📖" id="3NT-Gw-XRB">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ojn-Fh-qce">
+                                        <rect key="frame" x="0.0" y="920.5" width="375" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ojn-Fh-qce" id="Ecw-UZ-DhG">
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="44.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Jfr-eN-Fbs">
+                                                    <rect key="frame" x="16" y="0.0" width="309" height="45"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App features" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t68-yL-Byv">
+                                                            <rect key="frame" x="0.0" y="12.5" width="309" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Jfr-eN-Fbs" firstAttribute="leading" secondItem="Ecw-UZ-DhG" secondAttribute="leading" constant="16" id="1CX-xQ-pNa"/>
+                                                <constraint firstItem="Jfr-eN-Fbs" firstAttribute="top" secondItem="Ecw-UZ-DhG" secondAttribute="top" id="76P-5a-HBe"/>
+                                                <constraint firstAttribute="trailing" secondItem="Jfr-eN-Fbs" secondAttribute="trailing" constant="16" id="LbW-gd-r5N"/>
+                                                <constraint firstAttribute="bottom" secondItem="Jfr-eN-Fbs" secondAttribute="bottom" id="cD7-Im-87x"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="fsd-3J-8L5" kind="presentation" id="UXC-uy-e6E"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Social 🌐" id="dlB-Rd-M4v">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sGK-vf-CoC">
-                                        <rect key="frame" x="0.0" y="920.5" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="1021.5" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sGK-vf-CoC" id="YS3-wg-4W9">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zCA-hI-YkP">
-                                                    <rect key="frame" x="16" y="0.0" width="310" height="45"/>
+                                                    <rect key="frame" x="16" y="0.0" width="309" height="45"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Twitter @cryptare" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dT7-Ba-PUi">
-                                                            <rect key="frame" x="0.0" y="12.5" width="310" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="12.5" width="309" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -653,17 +687,17 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="PAw-E3-3MY">
-                                        <rect key="frame" x="0.0" y="965.5" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="1066.5" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PAw-E3-3MY" id="khE-ht-fht">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Gjs-Bl-0a0">
-                                                    <rect key="frame" x="16" y="0.0" width="310" height="45"/>
+                                                    <rect key="frame" x="16" y="0.0" width="309" height="45"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visit r/bitcoin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SI0-BS-Qn7">
-                                                            <rect key="frame" x="0.0" y="12.5" width="310" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="12.5" width="309" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -688,7 +722,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="3Af-DA-HDA"/>
-                    <size key="freeformSize" width="375" height="900"/>
+                    <size key="freeformSize" width="375" height="1100"/>
                     <connections>
                         <outlet property="appVersionLabel" destination="fxQ-V7-jUc" id="VQK-LI-5Id"/>
                         <outlet property="ascendingSort" destination="7aY-Cw-0gs" id="ovR-dG-80H"/>
@@ -5659,6 +5693,6 @@
         <segue reference="UTo-K4-ZGb"/>
         <segue reference="dyn-Tm-p5O"/>
         <segue reference="aTF-nS-vEp"/>
-        <segue reference="aMw-vO-4ZL"/>
+        <segue reference="Vxq-BP-5vg"/>
     </inferredMetricsTieBreakers>
 </document>

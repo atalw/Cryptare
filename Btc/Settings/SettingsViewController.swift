@@ -438,7 +438,7 @@ class SettingsViewController: UITableViewController {
                 }
             }
         }
-        else if indexPath.section == 5 { // social
+        else if indexPath.section == 6 { // social
             if indexPath.row == 0 { //twitter
                 let url = URL(string: "https://twitter.com/cryptare")
                 UIApplication.shared.openURL(url!)

@@ -142,6 +142,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             self.createMenuView(storyboard: storyboard)
         }
+        else if selectedCountry == nil {
+            
+            let countrySelectionViewController = storyboard.instantiateViewController(withIdentifier: "CountrySelectionViewController") as! CountrySelectionViewController
+            
+            self.window?.rootViewController = countrySelectionViewController
+            self.window?.makeKeyAndVisible()
+
+            let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+            
+            self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
+        }
         
         return true
     }
