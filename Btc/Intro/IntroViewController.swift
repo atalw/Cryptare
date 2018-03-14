@@ -55,6 +55,10 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         pageControl.currentPage = Int(pageIndex)
     }
 
+    @IBAction func skipButtonTapped(_ sender: Any) {
+        UserDefaults.standard.set(true, forKey: "introComplete")
+        self.dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 

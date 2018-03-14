@@ -106,15 +106,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             defaults.set(true, forKey: "newsSettingsExist")
         }
         
-        if defaults.string(forKey: "selectedCountry") != nil {
-            let savedCountry = defaults.string(forKey: "selectedCountry") as! String
+        let selectedCountry = defaults.string(forKey: "selectedCountry")
+        let introComplete = defaults.bool(forKey: "introComplete")
+        
+        if selectedCountry != nil && introComplete {
+//            let savedCountry = defaults.string(forKey: "selectedCountry") as! String
             
             for countryTuple in GlobalValues.countryList {
-                if savedCountry == countryTuple.0 {
+                if selectedCountry == countryTuple.0 {
                     GlobalValues.currency = countryTuple.1
                 }
             }
             
+            self.createMenuView(storyboard: storyboard)
+        }
+        else if selectedCountry != nil && !introComplete {
+            
+            for countryTuple in GlobalValues.countryList {
+                if selectedCountry == countryTuple.0 {
+                    GlobalValues.currency = countryTuple.1
+                }
+            }
+            self.createMenuView(storyboard: storyboard)
+            
+            let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+            
+            self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
+            
+        }
+        else if selectedCountry != nil && introComplete {
+            for countryTuple in GlobalValues.countryList {
+                if selectedCountry == countryTuple.0 {
+                    GlobalValues.currency = countryTuple.1
+                }
+            }
             self.createMenuView(storyboard: storyboard)
         }
         
