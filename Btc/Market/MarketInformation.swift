@@ -53,13 +53,31 @@ let marketInformation: [String: [String: String]] = [
     "Bitstamp": [
         "url": "https://www.bitstamp.net/",
     ],
-    "Bittrex": [
-        "url": "https://www.bitstamp.net/",
-    ],
     "Kucoin": [
         "url": "https://www.kucoin.com/",
     ],
     "Binance": [
         "url": "https://www.binance.com/?ref=19610967",
+    ],
+    "Huobi": [
+        "url": "https://www.huobi.pro/",
+    ],
+    "HitBTC": [
+        "url": "https://hitbtc.com/?ref_id=5aad68a490e2b",
+    ],
+    "Cex.io": [
+        "url": "https://cex.io/r/0/up119273984/0/",
+    ],
+    "Gate.io": [
+        "url": "https://gate.io/signup/1328628",
+    ],
+    "Quoinex": [
+        "url": "https://accounts.quoinex.com/sign-up?affiliate=t-44DPVk371768",
+    ],
+    "LakeBTC": [
+        "url": "https://www.lakebtc.com/?ref=qholjo",
+    ],
+    "Bittrex": [
+        "url": "https://bittrex.com",
     ]
 ]
