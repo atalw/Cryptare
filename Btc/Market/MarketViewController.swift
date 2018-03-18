@@ -101,6 +101,8 @@ class MarketViewController: UIViewController {
 
     var databaseReference: DatabaseReference!
     
+    var all_exchanges_update_type: [String: String] = [:]
+    
     var fiatExchangeRefs: [(DatabaseReference, String, String)] = []
     var btcExchangeRefs: [(DatabaseReference, String, String)] = []
     var ethExchangeRefs: [(DatabaseReference, String, String)] = []
@@ -192,67 +194,12 @@ class MarketViewController: UIViewController {
         
         self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
         
-        self.loadData()
         
-        // for current coin price
-        let tableTitle = currentCoin!
-        coinRef = Database.database().reference().child(tableTitle)
-        
-        coinRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String : AnyObject] {
-                if let currencyData = dict[GlobalValues.currency!] as? [String: Any] {
-                    let oldBtcPrice = self.currentCoinPrice
-                    self.currentCoinPrice = currencyData["price"] as! Double
-                    
-                    let unixTime = currencyData["timestamp"] as! Double
-                    var colour: UIColor
-                    
-                    if self.currentCoinPrice > oldBtcPrice {
-                        colour = self.greenColour
-                    }
-                    else if self.currentCoinPrice < oldBtcPrice {
-                        colour = self.redColour
-                    }
-                    else {
-                        colour = UIColor.black
-                    }
-                    
-                    GlobalValues.currentBtcPriceString = self.currentCoinPrice.asCurrency
-                    GlobalValues.currentBtcPrice = self.currentCoinPrice
-                    DispatchQueue.main.async {
-                        self.btcPriceLabel.text = (self.currentCoinPrice * self.textFieldValue).asCurrency
-                        
-                        UILabel.transition(with: self.btcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
-                            self.btcPriceLabel.textColor = colour
-                        }, completion: { finished in
-                            UILabel.transition(with: self.btcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                                self.btcPriceLabel.textColor = UIColor.black
-                            }, completion: nil)
-                        })
-                        
-                    }
-                    if let currencyMarkets = currencyData["markets"] as? [String: String] {
-                        self.coinMarkets = currencyMarkets
-                        self.setupCoinMarketRefs()
-                    }
-                }
-                
-                if let btcData = dict["BTC"] as? [String: Any] {
-                    if let btcMarkets = btcData["markets"] as? [String: String] {
-                        self.coinBtcMarkets = btcMarkets
-                        self.setupCoinBtcMarketRefs()
-                    }
-                }
-                
-                if let ethData = dict["ETH"] as? [String: Any] {
-                    if let ethMarkets = ethData["markets"] as? [String: String] {
-                        self.coinEthMarkets = ethMarkets
-                        self.setupCoinEthMarketRefs()
-                    }
-                }
-                
+        self.databaseReference.child("all_exchanges_update_type").observe(.value, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: String] {
+                self.all_exchanges_update_type = dict
+                self.loadData()
             }
-            
         })
         
         textFieldValue = 1.0
@@ -261,17 +208,6 @@ class MarketViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-//        IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
-//            if success {
-//                if products != nil {
-//                    let price = products![1].localizedPrice()
-//                    self.unlockMarketsPriceButton.setTitle(" \(price) ", for: .normal)
-//                    self.unlockMarketsPriceButton.sizeToFit()
-////                    self.unlockMarketsPriceButton.addTarget(self, action: #selector(self.unlockMarketsButtonTapped), for: .touchUpInside)
-//                }
-//            }
-//        })
         
         if currentCoin == "BTC" || currentCoin == "ETH" {
             marketsLockView.isHidden = true
@@ -349,6 +285,7 @@ class MarketViewController: UIViewController {
             ethMarketsTable.backgroundView = messageLabel
         }
         
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -392,7 +329,8 @@ class MarketViewController: UIViewController {
         }
         
         for fiatExchangeRef in fiatExchangeRefs {
-            if fiatExchangeRef.1 == "Kucoin" { // Kucoin historial data available through their API
+            let exchangeName = fiatExchangeRef.1
+            if all_exchanges_update_type[exchangeName] == "update" {
                 fiatExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
                     if let dict = snapshot.value as? [String: AnyObject] {
                         self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
@@ -421,7 +359,8 @@ class MarketViewController: UIViewController {
         }
         
         for btcExchangeRef in btcExchangeRefs {
-            if btcExchangeRef.1 == "Kucoin" { // Kucoin historial data available through their API
+            let exchangeName = btcExchangeRef.1
+            if all_exchanges_update_type[exchangeName] == "update" {
                 btcExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
                     if let dict = snapshot.value as? [String: AnyObject] {
                         self.updateFirebaseObservedDataBtc(dict: dict, title: btcExchangeRef.1)
@@ -448,7 +387,8 @@ class MarketViewController: UIViewController {
         }
         
         for ethExchangeRef in ethExchangeRefs {
-            if ethExchangeRef.1 == "Kucoin" { // Kucoin historial data available through their API
+            let exchangeName = ethExchangeRef.1
+           if all_exchanges_update_type[exchangeName] == "update" {
                 ethExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
                     if let dict = snapshot.value as? [String: AnyObject] {
                         self.updateFirebaseObservedDataEth(dict: dict, title: ethExchangeRef.1)
@@ -769,6 +709,72 @@ class MarketViewController: UIViewController {
 
 //        self.populateFiatTable()
 //        self.populateCryptoTable()
+        
+        // for current coin price
+        let tableTitle = currentCoin!
+        coinRef = databaseReference.child(tableTitle)
+        
+        coinRef.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String : AnyObject] {
+                if let currencyData = dict[GlobalValues.currency!] as? [String: Any] {
+                    let oldBtcPrice = self.currentCoinPrice
+                    self.currentCoinPrice = currencyData["price"] as! Double
+                    
+                    let unixTime = currencyData["timestamp"] as! Double
+                    var colour: UIColor
+                    
+                    if self.currentCoinPrice > oldBtcPrice {
+                        colour = self.greenColour
+                    }
+                    else if self.currentCoinPrice < oldBtcPrice {
+                        colour = self.redColour
+                    }
+                    else {
+                        colour = UIColor.black
+                    }
+                    
+                    GlobalValues.currentBtcPriceString = self.currentCoinPrice.asCurrency
+                    GlobalValues.currentBtcPrice = self.currentCoinPrice
+                    DispatchQueue.main.async {
+                        self.btcPriceLabel.text = (self.currentCoinPrice * self.textFieldValue).asCurrency
+                        
+                        UILabel.transition(with: self.btcPriceLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
+                            self.btcPriceLabel.textColor = colour
+                        }, completion: { finished in
+                            UILabel.transition(with: self.btcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                                self.btcPriceLabel.textColor = UIColor.black
+                            }, completion: nil)
+                        })
+                        
+                    }
+                    
+                    
+                    
+                    if let currencyMarkets = currencyData["markets"] as? [String: String] {
+                        self.coinMarkets = currencyMarkets
+                        self.setupCoinMarketRefs()
+                    }
+                }
+                
+                if let btcData = dict["BTC"] as? [String: Any] {
+                    if let btcMarkets = btcData["markets"] as? [String: String] {
+                        self.coinBtcMarkets = btcMarkets
+                        self.setupCoinBtcMarketRefs()
+                    }
+                }
+                
+                if let ethData = dict["ETH"] as? [String: Any] {
+                    if let ethMarkets = ethData["markets"] as? [String: String] {
+                        self.coinEthMarkets = ethMarkets
+                        self.setupCoinEthMarketRefs()
+                    }
+                }
+                
+            }
+            
+        })
+        
+        
         self.defaultSort()
         self.btcAmount.text = "1"
     }

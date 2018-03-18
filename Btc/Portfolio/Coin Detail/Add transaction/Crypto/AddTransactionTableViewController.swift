@@ -28,6 +28,9 @@ class AddTransactionTableViewController: UITableViewController {
     var currentTradingPair: (String, String)!
     var currentExchange: (String, String)!
     
+    var databaseReference: DatabaseReference!
+    var all_exchanges_update_type: [String: String] = [:]
+
     @IBOutlet weak var tradingPairCell: UITableViewCell!
     @IBOutlet weak var currentTradingPairLabel: UILabel!
     @IBOutlet weak var currentExchangeLabel: UILabel!
@@ -101,6 +104,7 @@ class AddTransactionTableViewController: UITableViewController {
         
         deductFromHoldingsSwitch.isOn = true
         parentController.deductFromHoldings = true
+        
     }
     
     func updateLabels() {
@@ -132,12 +136,12 @@ class AddTransactionTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         parentController.tableViewHeightConstraint.constant = tableView.contentSize.height
-
+        databaseReference = Database.database().reference()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        databaseReference.removeAllObservers()
     }
     
     func updateCurrentTradingPair(pair: (String, String)) {
@@ -169,6 +173,54 @@ class AddTransactionTableViewController: UITableViewController {
         self.currentExchangeLabel.text = exchange.0
         
         self.parentController.currentExchange = currentExchange
+        
+        if exchange.0 != "None" {
+            updateCostPerCoinTextfield(exchange: exchange)
+        }
+        else {
+            self.costPerCoinTextField.text = ""
+        }
+    }
+    
+    func updateCostPerCoinTextfield(exchange: (String, String)) {
+        self.databaseReference.child("all_exchanges_update_type").observe(.value, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String: String] {
+                self.all_exchanges_update_type = dict
+                let exchangeName = exchange.0
+                if self.all_exchanges_update_type[exchangeName] == "update" {
+                    self.databaseReference.child(exchange.1).observe(.value, with: {(snapshot) -> Void in
+                        if let dict = snapshot.value as? [String: AnyObject] {
+                            //                            self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
+                            let buyPrice = dict["buy_price"] as! Double
+                            let sellPrice = dict["sell_price"] as! Double
+                            
+                            if self.transactionType == "buy" {
+                                self.costPerCoinTextField.text = "\(buyPrice)"
+                            }
+                            else {
+                                self.costPerCoinTextField.text = "\(sellPrice)"
+                            }
+                        }
+                    })
+                }
+                else {
+                    self.databaseReference.child(exchange.1).queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+                        if let dict = snapshot.value as? [String: AnyObject] {
+                            let buyPrice = dict["buy_price"] as! Double
+                            let sellPrice = dict["sell_price"] as! Double
+                            
+                            if self.transactionType == "buy" {
+                                self.costPerCoinTextField.text = "\(buyPrice)"
+                            }
+                            else {
+                                self.costPerCoinTextField.text = "\(sellPrice)"
+                            }
+                        }
+                    })
+                }
+            }
+        })
+        
     }
     
     func createDatePicker() {
