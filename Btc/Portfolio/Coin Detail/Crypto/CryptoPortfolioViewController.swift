@@ -23,6 +23,7 @@ class CryptoPortfolioViewController: UIViewController {
     var totalAmountOfBitcoin: Double! = 0.0
     
     var coin: String!
+    var coinPrice: Double!
     var portfolioData: [[String: Any]] = []
     
     // MARK: - IBOutlets
@@ -146,6 +147,7 @@ class CryptoPortfolioViewController: UIViewController {
             portfolioTableController.parentController = self
             portfolioTableController.coin = self.coin
             portfolioTableController.portfolioData = self.portfolioData
+            portfolioTableController.coinPrice = self.coinPrice
             self.portfolioTableController = portfolioTableController
         }
         

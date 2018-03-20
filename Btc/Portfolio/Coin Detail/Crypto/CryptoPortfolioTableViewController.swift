@@ -14,7 +14,7 @@ import BulletinBoard
 class CryptoPortfolioTableViewController: UITableViewController {
     
     var coin: String!
-    
+    var coinPrice: Double!
     // MARK: - Constants
     
     let defaults = UserDefaults.standard
@@ -32,7 +32,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
     var parentController: CryptoPortfolioViewController!
     var portfolioData: [[String: Any]] = []
     var portfolioEntries: [PortfolioEntryModel] = []
-    var coinPrice: Double!
     
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
@@ -53,8 +52,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
         activityIndicator.addSubview(view)
         self.activityIndicator.hidesWhenStopped = true
         
-        print(portfolioData)
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -75,13 +72,8 @@ class CryptoPortfolioTableViewController: UITableViewController {
         portfolioEntries.removeAll()
 
         activityIndicator.startAnimating()
-        getCoinMarketValue(coin: coin) { (success) -> Void in
-            if success {
-                self.initalizePortfolioEntries()
-            }
-            self.activityIndicator.stopAnimating()
-        }
-        
+        self.initalizePortfolioEntries()
+        self.activityIndicator.stopAnimating()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -189,9 +181,14 @@ class CryptoPortfolioTableViewController: UITableViewController {
             cell.currentValueLabel?.adjustsFontSizeToFitWidth = true
         }
         
-        if let priceChange = portfolio.priceChange {
-            cell.priceChangeLabel?.text = priceChange.asCurrency
-            cell.priceChangeLabel?.adjustsFontSizeToFitWidth = true
+//        if let priceChange = portfolio.priceChange {
+//            cell.priceChangeLabel?.text = priceChange.asCurrency
+//            cell.priceChangeLabel?.adjustsFontSizeToFitWidth = true
+//        }
+        
+        if let fees = portfolio.fees {
+            cell.feesLabel?.text = fees.asCurrency
+            cell.feesLabel?.adjustsFontSizeToFitWidth = true
         }
         
         if let tradePair = portfolio.tradingPair {
@@ -311,17 +308,18 @@ class CryptoPortfolioTableViewController: UITableViewController {
     }
 
     func getCoinMarketValue(coin: String, completion: @escaping (_ success: Bool) -> Void) {
-       let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=\(coin)&tsyms=\(GlobalValues.currency!)")!
+//       let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=\(coin)&tsyms=\(GlobalValues.currency!)")!
+//
+//        Alamofire.request(url).responseJSON(completionHandler: { response in
+//
+//            let json = JSON(data: response.data!)
+//            print(json)
+//            if let price = json[GlobalValues.currency!].double {
+//                self.coinPrice = price
+//                completion(true)
+//            }
+//        })
         
-        Alamofire.request(url).responseJSON(completionHandler: { response in
-            
-            let json = JSON(data: response.data!)
-            print(json)
-            if let price = json[GlobalValues.currency!].double {
-                self.coinPrice = price
-                completion(true)
-            }
-        })
     }
     
 }

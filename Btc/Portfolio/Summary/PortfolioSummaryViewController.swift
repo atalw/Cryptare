@@ -357,8 +357,10 @@ class PortfolioSummaryViewController: UIViewController {
             
             coinRefs[index].observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String : AnyObject] {
-                    self.summary[coin]!["coinMarketValue"] = dict[GlobalValues.currency!]!["price"] as! Double
+                    let price = dict[GlobalValues.currency!]!["price"] as! Double
+                    self.summary[coin]!["coinMarketValue"] = price
                     self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["amountOfCoins"]! * self.summary[coin]!["coinMarketValue"]!
+//                    self.dict[coin]?.append([])
                     self.updateSummaryLabels()
                     self.tableView.reloadData()
                 }
@@ -623,6 +625,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             let coin = coins[indexPath.row]
             targetViewController.coin = coin
             targetViewController.portfolioData = dict[coin]!
+            targetViewController.coinPrice = self.summary[coin]!["coinMarketValue"]
             
             self.navigationController?.pushViewController(targetViewController, animated: true)
         }
@@ -632,7 +635,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             let currency = currencies[indexPath.row]
             targetViewController.currency = currency
             targetViewController.portfolioData = currencyDict[currency]!
-            
+
             self.navigationController?.pushViewController(targetViewController, animated: true)
         }
     }
@@ -641,6 +644,8 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
         
         targetViewController.coin = coin
+        targetViewController.coinPrice = self.summary[coin]!["coinMarketValue"]
+
         if let data = dict[coin] {
             targetViewController.portfolioData = data
         }

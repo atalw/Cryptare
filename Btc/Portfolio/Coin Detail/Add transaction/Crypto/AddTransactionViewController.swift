@@ -35,7 +35,7 @@ class AddTransactionViewController: UIViewController {
     var deductFromHoldings: Bool!
 
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var totalTransactionCostLabel: UILabel!
     @IBOutlet weak var addTransactionButton: UIButton!
     
     override func viewDidLoad() {
@@ -75,6 +75,16 @@ class AddTransactionViewController: UIViewController {
     }
 
     func updateAddTransactionButtonStatus() {
+        
+        if costPerCoin != nil && amountOfCoins != nil && fees != nil {
+            let totalCost = (costPerCoin * amountOfCoins) + fees
+
+            totalTransactionCostLabel.text = "Total cost of transaction is \(totalCost.asCurrency)"
+        }
+        else {
+            totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asCurrency)"
+        }
+        
         if currentTradingPair != nil && currentExchange != nil &&
             costPerCoin != nil && amountOfCoins != nil &&
             fees != nil && time != nil && date != nil {

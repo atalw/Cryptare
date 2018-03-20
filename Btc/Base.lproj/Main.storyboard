@@ -1693,17 +1693,17 @@
                                                                                         </label>
                                                                                     </subviews>
                                                                                 </stackView>
-                                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1CV-AZ-WIG">
+                                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="iUc-IM-2S5">
                                                                                     <rect key="frame" x="167.5" y="0.5" width="157.5" height="16"/>
                                                                                     <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Market value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWB-Hx-wLS">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="67.5" height="16"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Fees" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pgg-RK-f26">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="25" height="16"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SwP-hC-aG9">
-                                                                                            <rect key="frame" x="72.5" y="0.0" width="85" height="16"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO2-PH-e6k">
+                                                                                            <rect key="frame" x="30" y="0.0" width="127.5" height="16"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
@@ -1732,17 +1732,17 @@
                                                                                         </label>
                                                                                     </subviews>
                                                                                 </stackView>
-                                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="iUc-IM-2S5">
+                                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1CV-AZ-WIG">
                                                                                     <rect key="frame" x="167.5" y="0.0" width="157.5" height="16"/>
                                                                                     <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Change" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pgg-RK-f26">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="40.5" height="16"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Market value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWB-Hx-wLS">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="67.5" height="16"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO2-PH-e6k">
-                                                                                            <rect key="frame" x="45.5" y="0.0" width="112" height="16"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SwP-hC-aG9">
+                                                                                            <rect key="frame" x="72.5" y="0.0" width="85" height="16"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
@@ -1805,9 +1805,9 @@
                                     <outlet property="coinLogoImage" destination="St1-Qe-HPb" id="Qd8-cV-Bna"/>
                                     <outlet property="costPerCoinLabel" destination="GLf-bR-c3H" id="8UB-DU-dYI"/>
                                     <outlet property="currentValueLabel" destination="SwP-hC-aG9" id="7JY-7B-cF8"/>
+                                    <outlet property="feesLabel" destination="UO2-PH-e6k" id="z3G-ny-gOG"/>
                                     <outlet property="percentageChange" destination="9E7-n7-Kqb" id="x6M-M1-a3r"/>
                                     <outlet property="percentageChangeView" destination="L8C-84-CPz" id="dhL-6T-k9h"/>
-                                    <outlet property="priceChangeLabel" destination="UO2-PH-e6k" id="Kyd-Xt-vkN"/>
                                     <outlet property="totalCostLabel" destination="KIQ-3j-wOB" id="vw4-Jz-IYk"/>
                                     <outlet property="tradingPairLabel" destination="z5C-Ec-1cr" id="sbd-dl-4aW"/>
                                     <outlet property="transactionInfoLabel" destination="Wbg-lI-HQg" id="Ga3-ck-qqq"/>
@@ -1925,14 +1925,14 @@
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="aSq-XO-ccy">
                                                                                     <rect key="frame" x="167.5" y="2" width="157.5" height="16"/>
                                                                                     <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Current value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9MW-HL-ttM">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="71" height="16"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Fees" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9MW-HL-ttM">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="25" height="16"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBf-bA-dmH">
-                                                                                            <rect key="frame" x="76" y="0.0" width="81.5" height="16"/>
+                                                                                            <rect key="frame" x="30" y="0.0" width="127.5" height="16"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
@@ -1990,7 +1990,7 @@
                                     <outlet property="amountOfCoinsLabel" destination="71L-jM-9Kn" id="RZo-CV-33w"/>
                                     <outlet property="coinLogoImage" destination="UFh-vQ-yE7" id="nfT-Wl-2p2"/>
                                     <outlet property="costPerCoinLabel" destination="cP0-y8-sCP" id="a2w-Jd-ql5"/>
-                                    <outlet property="currentValueLabel" destination="cBf-bA-dmH" id="shK-bl-pZO"/>
+                                    <outlet property="feesLabel" destination="cBf-bA-dmH" id="WkS-1h-VHE"/>
                                     <outlet property="totalCostLabel" destination="Tmf-UP-axs" id="Gp5-ia-i2N"/>
                                     <outlet property="tradingPairLabel" destination="DOJ-nY-MdK" id="ijL-WS-CZB"/>
                                     <outlet property="transactionInfoLabel" destination="Lc8-W7-xVr" id="UjY-mw-0cJ"/>
@@ -2021,15 +2021,15 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bxO-iz-hVo">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="680"/>
                                         <subviews>
-                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cim-S1-dpX">
-                                                <rect key="frame" x="0.0" y="5" width="375" height="500"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total cost of transaction is 0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zHy-g9-GJC">
+                                                <rect key="frame" x="20" y="460" width="335" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" priority="750" constant="500" id="2xz-cA-hkD"/>
+                                                    <constraint firstAttribute="height" constant="30" id="1iW-rN-9K7"/>
                                                 </constraints>
-                                                <connections>
-                                                    <segue destination="ulk-ml-FlE" kind="embed" id="gaN-hY-WAy"/>
-                                                </connections>
-                                            </containerView>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FDW-RO-9wm">
                                                 <rect key="frame" x="0.0" y="630" width="375" height="50"/>
                                                 <color key="backgroundColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2044,16 +2044,28 @@
                                                     <action selector="addTransactionButtonTapped:" destination="2La-5o-fxj" eventType="touchUpInside" id="OmA-3O-0PU"/>
                                                 </connections>
                                             </button>
+                                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cim-S1-dpX">
+                                                <rect key="frame" x="0.0" y="2" width="375" height="500"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" priority="750" constant="450" id="2xz-cA-hkD"/>
+                                                </constraints>
+                                                <connections>
+                                                    <segue destination="ulk-ml-FlE" kind="embed" id="gaN-hY-WAy"/>
+                                                </connections>
+                                            </containerView>
                                         </subviews>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="FDW-RO-9wm" secondAttribute="trailing" id="4Xh-n9-ig0"/>
                                             <constraint firstItem="Cim-S1-dpX" firstAttribute="top" secondItem="bxO-iz-hVo" secondAttribute="top" constant="5" id="6Qw-qk-qgz"/>
-                                            <constraint firstItem="FDW-RO-9wm" firstAttribute="top" secondItem="Cim-S1-dpX" secondAttribute="bottom" priority="250" constant="10" id="8ef-8g-haJ"/>
                                             <constraint firstAttribute="bottom" secondItem="FDW-RO-9wm" secondAttribute="bottom" id="FLv-wi-33o"/>
                                             <constraint firstAttribute="trailing" secondItem="Cim-S1-dpX" secondAttribute="trailing" id="Lau-MF-gnG"/>
+                                            <constraint firstItem="zHy-g9-GJC" firstAttribute="top" secondItem="Cim-S1-dpX" secondAttribute="bottom" constant="5" id="VXX-zU-zWz"/>
+                                            <constraint firstItem="FDW-RO-9wm" firstAttribute="top" secondItem="zHy-g9-GJC" secondAttribute="bottom" priority="250" constant="73" id="Whs-et-SCo"/>
                                             <constraint firstItem="Cim-S1-dpX" firstAttribute="leading" secondItem="bxO-iz-hVo" secondAttribute="leading" id="aZn-nm-uRM"/>
+                                            <constraint firstAttribute="trailing" secondItem="zHy-g9-GJC" secondAttribute="trailing" constant="20" id="rJ3-Tr-VRw"/>
                                             <constraint firstItem="FDW-RO-9wm" firstAttribute="leading" secondItem="bxO-iz-hVo" secondAttribute="leading" id="rTF-dN-wgh"/>
+                                            <constraint firstItem="zHy-g9-GJC" firstAttribute="leading" secondItem="bxO-iz-hVo" secondAttribute="leading" constant="20" id="vob-rD-Bil"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -2081,11 +2093,12 @@
                     <connections>
                         <outlet property="addTransactionButton" destination="FDW-RO-9wm" id="1bu-fO-Wyn"/>
                         <outlet property="tableViewHeightConstraint" destination="2xz-cA-hkD" id="VKA-xq-J5s"/>
+                        <outlet property="totalTransactionCostLabel" destination="zHy-g9-GJC" id="DZy-FX-L4V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nLl-HO-xJQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="246" y="1805"/>
+            <point key="canvasLocation" x="245.59999999999999" y="1804.4977511244379"/>
         </scene>
         <!--Add Transaction-->
         <scene sceneID="YCX-yH-8ri">
@@ -2170,8 +2183,8 @@
         <!--Add Transaction Table View Controller-->
         <scene sceneID="w2f-1X-JT7">
             <objects>
-                <tableViewController id="ulk-ml-FlE" customClass="AddTransactionTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="4eo-x3-gRC">
+                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="ulk-ml-FlE" customClass="AddTransactionTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="1" id="4eo-x3-gRC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>

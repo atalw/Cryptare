@@ -56,18 +56,18 @@ class PortfolioEntryModel {
         self.time = time
         
         self.currentCoinPrice = currentCoinPrice
-        self.currentValue = currentCoinPrice * amountOfCoins
-        self.calculateChange()
+        self.currentValue = (currentCoinPrice * amountOfCoins) + fees
         self.exchange = exchange
         
-        self.totalCost = costPerCoin * amountOfCoins
+        self.totalCost = (costPerCoin * amountOfCoins) + fees
+        
+        self.calculateChange()
 
         self.delegate?.dataLoaded(portfolioEntry: self)
 
     }
     
     func calculateChange() {
-        let totalCost = costPerCoin * amountOfCoins
         let change = currentValue - totalCost
         let percentageChange = (change / totalCost) * 100
         let roundedPercentage = Double(round(100*percentageChange)/100)
