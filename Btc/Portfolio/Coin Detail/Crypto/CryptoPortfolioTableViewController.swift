@@ -453,10 +453,10 @@ extension CryptoPortfolioTableViewController: PortfolioEntryDelegate {
     
     func dataLoaded(portfolioEntry: PortfolioEntryModel) {
         if portfolioEntry.type == "buy" {
-            parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
+            parentController.addTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.totalCost, currentValue: portfolioEntry.currentValue)
         }
         else if portfolioEntry.type == "sell" {
-            parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
+            parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.totalCost, currentValue: portfolioEntry.currentValue)
         }
         portfolioEntries.append(portfolioEntry)
         

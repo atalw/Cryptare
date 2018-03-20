@@ -134,28 +134,28 @@ class AddCoinTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Cryptocurrencies"
-        }
-        else if section == 1 {
             return "Fiat Currencies"
         }
-        return "Cryptocurrencies"
+        else if section == 1 {
+            return "Cryptocurrencies"
+        }
+        return "Fiat Currencies"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             if section == 0 {
-                return coinSearchResults.count
+                return currencySearchResults.count
             }
             if section == 1 {
-                return currencySearchResults.count
+                return coinSearchResults.count
             }
         }
         if section == 0 {
-            return self.coins.count
+            return self.currencies.count
         }
         if section == 1 {
-            return self.currencies.count
+            return self.coins.count
         }
         return 0
     }
@@ -166,18 +166,18 @@ class AddCoinTableViewController: UITableViewController {
         let section = indexPath.section
         if isFiltering() {
             if section == 0 {
-                data = coinSearchResults[indexPath.row]
+                data = currencySearchResults[indexPath.row]
             }
             if section == 1 {
-                data = currencySearchResults[indexPath.row]
+                data = coinSearchResults[indexPath.row]
             }
         }
         else {
             if section == 0 {
-                data = coins[indexPath.row]
+                data = currencies[indexPath.row]
             }
             else {
-                data = currencies[indexPath.row]
+                data = coins[indexPath.row]
             }
         }
         
@@ -199,28 +199,30 @@ class AddCoinTableViewController: UITableViewController {
         
         if isFiltering() {
             if section == 0 {
-                coin = coinSearchResults[indexPath.row].0
+                coin = currencySearchResults[indexPath.row].0
+
             }
             else if section == 1 {
-                coin = currencySearchResults[indexPath.row].0
+                coin = coinSearchResults[indexPath.row].0
             }
         }
         else {
             if section == 0 {
-                coin = coins[indexPath.row].0
+                coin = currencies[indexPath.row].0
             }
             else if section == 1 {
-                coin = currencies[indexPath.row].0
+                coin = coins[indexPath.row].0
             }
         }
         
         self.navigationController?.popViewController(animated: true)
         
         if section == 0 {
-            self.parentController.newCoinAdded(coin: coin)
+            self.parentController.newCurrencyAdded(currency: coin)
+
         }
         else if section == 1 {
-            self.parentController.newCurrencyAdded(currency: coin)
+            self.parentController.newCoinAdded(coin: coin)
         }
     }
  

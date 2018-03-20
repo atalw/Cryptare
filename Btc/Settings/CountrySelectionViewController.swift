@@ -63,9 +63,11 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
-        cell!.textLabel?.text = sortedCountryList[row].1
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! AddCoinTableViewCell
+        cell.coinImage.image = UIImage.init(named: sortedCountryList[row].1.lowercased())
+        cell.coinNameLabel.text = sortedCountryList[row].3
+        cell.coinSymbolLabel.text = "(\(sortedCountryList[row].1))"
+        return cell
     }
     
     
@@ -74,9 +76,10 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
         let row = indexPath.row
         self.defaults.set(sortedCountryList[row].0, forKey: "selectedCountry")
         GlobalValues.currency = sortedCountryList[row].1
-        if nextButton != nil {
-            self.nextButton.isEnabled = true
-        }
+        self.dismiss(animated: true, completion: nil)
+//        if nextButton != nil {
+//            self.nextButton.isEnabled = true
+//        }
     }
 }
 

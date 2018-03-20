@@ -337,7 +337,7 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin]!["holdingsValueYesterday"] = 0.0
             
             for entry in dict[coin]! {
-                let amount = (entry["amountOfCoins"] as! Double) + (entry["costPerCoin"] as! Double)
+                let amount = (entry["amountOfCoins"] as! Double) * (entry["costPerCoin"] as! Double)
 
                 if entry["type"] as! String == "buy" {
                     summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! + (entry["amountOfCoins"] as! Double)
@@ -368,13 +368,19 @@ class PortfolioSummaryViewController: UIViewController {
         for currency in currencyDict.keys {
             summary[currency] = [:]
             summary[currency]!["amount"] = 0.0
+            summary[currency]!["deposited"] = 0.0
             
             for entry in currencyDict[currency]! {
+                var entryAmount = entry["amount"] as! Double
+                
+               
+                
                 if entry["type"] as! String == "deposit" {
-                    summary[currency]!["amount"] = summary[currency]!["amount"]! + (entry["amount"] as! Double)
+                    summary[currency]!["amount"] = summary[currency]!["amount"]! + entryAmount
+                    summary[currency]!["deposited"] = summary[currency]!["deposited"]! + entryAmount
                 }
                 else if entry["type"] as! String == "withdraw" {
-                    summary[currency]!["amount"] = summary[currency]!["amount"]! - (entry["amount"] as! Double)
+                    summary[currency]!["amount"] = summary[currency]!["amount"]! - entryAmount
                 }
             }
         }
@@ -417,7 +423,9 @@ class PortfolioSummaryViewController: UIViewController {
         }
         for currency in currencies {
             currentPortfolioValue = currentPortfolioValue + summary[currency]!["amount"]!
+            yesterdayPortfolioValue = yesterdayPortfolioValue + summary[currency]!["amount"]!
         }
+        
         var priceChange: Double = 0
         var percentageChange: Double = 0
         
@@ -479,11 +487,19 @@ class PortfolioSummaryViewController: UIViewController {
 extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        if dict.count > 0 && currencyDict.count > 0 {
+            return 2
+        }
+        else if (dict.count == 0 && currencyDict.count > 0) || (dict.count > 0 && currencyDict.count == 0) {
+            return 1
+        }
+        else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
+        if section == 0 && dict.count > 0 {
             return "Cryptocurrencies"
         }
         else {
@@ -493,10 +509,10 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
-        if section == 0 {
+        if section == 0 && dict.count > 0 {
             count = dict.count
         }
-        else if section == 1 {
+        else {
             count = currencyDict.count
         }
         return count
@@ -505,7 +521,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         updateSummaryLabels()
         
-        if indexPath.section == 0 {
+        if indexPath.section == 0 && dict.count > 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSummaryCell") as? PortfolioSummaryTableViewCell
             
             let coin = coins[indexPath.row]
@@ -542,10 +558,10 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
                 percentageChange = priceChange / holdingsValueYesterday * 100
             }
             else if optionAllTimeButton.isSelected {
-                let coinCost = summary[coin]!["costPerCoin"]!
-                priceChange = holdingsMarketValue - coinCost
+                let totalCost = summary[coin]!["totalCost"]!
+                priceChange = holdingsMarketValue - totalCost
                 
-                percentageChange = priceChange / coinCost * 100
+                percentageChange = priceChange / totalCost * 100
             }
             
             
@@ -601,7 +617,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = indexPath.section
         
-        if section == 0 {
+        if section == 0 && dict.count > 0 {
             let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
             
             let coin = coins[indexPath.row]
@@ -610,7 +626,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             
             self.navigationController?.pushViewController(targetViewController, animated: true)
         }
-        else if section == 1 {
+        else {
             let targetViewController = storyboard?.instantiateViewController(withIdentifier: "fiatPortfolioViewController") as! FiatPortfolioViewController
             
             let currency = currencies[indexPath.row]

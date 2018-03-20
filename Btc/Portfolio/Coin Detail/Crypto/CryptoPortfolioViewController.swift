@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YNDropDownMenu
 
 class CryptoPortfolioViewController: UIViewController {
     
@@ -25,8 +24,6 @@ class CryptoPortfolioViewController: UIViewController {
     
     var coin: String!
     var portfolioData: [[String: Any]] = []
-    
-    var sortDropDownView: YNDropDownMenu!
     
     // MARK: - IBOutlets
     @IBOutlet weak var currentPortfolioValueLabel: UILabel!
@@ -71,43 +68,10 @@ class CryptoPortfolioViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let sortDropDownViews = Bundle.main.loadNibNamed("SortDropDownViews", owner: nil, options: nil) as? [UIView]
-        
-        var sortDropDownMenu: YNDropDownMenu!
-        
-        if let _sortDropDownViews = sortDropDownViews {
-            // Inherit YNDropDownView if you want to hideMenu in your dropDownViews
-            sortDropDownMenu = YNDropDownMenu(frame: CGRect(x: 0, y: sortView.frame.minY, width: UIScreen.main.bounds.size.width, height: 40), dropDownViews: _sortDropDownViews, dropDownViewTitles: ["Amount", "Date", "Money", "Change"])
-            let FFA409 = UIColor.init(red: 255/255, green: 164/255, blue: 9/255, alpha: 1.0)
-            
-            //            view.setImageWhen(normal: UIImage(named: "arrow_nor"), selected: UIImage(named: "arrow_sel"), disabled: UIImage(named: "arrow_dim"))
-            
-            sortDropDownMenu.setLabelColorWhen(normal: .black, selected: FFA409, disabled: .gray)
-            
-            sortDropDownMenu.setLabelFontWhen(normal: .systemFont(ofSize: 12), selected: .boldSystemFont(ofSize: 12), disabled: .systemFont(ofSize: 12))
-            
-            sortDropDownMenu.backgroundBlurEnabled = true
-            sortDropDownMenu.bottomLine.isHidden = false
-            // Add custom blurEffectView
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .black
-            sortDropDownMenu.blurEffectView = backgroundView
-            sortDropDownMenu.blurEffectViewAlpha = 0.7
-            
-            // Open and Hide Menu
-            sortDropDownMenu.normalSelected(at: 0)
-            sortDropDownMenu.setBackgroundColor(color: UIColor.white)
-            
-            // important - add to stack view to correctly place drop down view in view
-//            self.mainStackView.addSubview(sortDropDownMenu)
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-//        print("removed", coin)
-//        NotificationCenter.default.removeObserver(self)
-        
         currentPortfolioValue = 0
         totalInvested = 0
         totalAmountOfBitcoin = 0

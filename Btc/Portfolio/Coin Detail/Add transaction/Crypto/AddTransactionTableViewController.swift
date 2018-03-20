@@ -196,9 +196,11 @@ class AddTransactionTableViewController: UITableViewController {
                             
                             if self.transactionType == "buy" {
                                 self.costPerCoinTextField.text = "\(buyPrice)"
+                                self.parentController.costPerCoin = buyPrice
                             }
                             else {
                                 self.costPerCoinTextField.text = "\(sellPrice)"
+                                self.parentController.costPerCoin = sellPrice
                             }
                         }
                     })
@@ -211,9 +213,11 @@ class AddTransactionTableViewController: UITableViewController {
                             
                             if self.transactionType == "buy" {
                                 self.costPerCoinTextField.text = "\(buyPrice)"
+                                self.parentController.costPerCoin = buyPrice
                             }
                             else {
                                 self.costPerCoinTextField.text = "\(sellPrice)"
+                                self.parentController.costPerCoin = sellPrice
                             }
                         }
                     })

@@ -104,9 +104,9 @@ class AddTransactionViewController: UIViewController {
         parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
         
         if currencies.contains(tradingPair) {
-            print(tradingPair)
+            print(tradingPair, transactionType)
             var type: String!
-            if type == "buy" {
+            if transactionType == "buy" {
                 type = "withdraw"
             }
             else {
@@ -143,6 +143,7 @@ class AddTransactionViewController: UIViewController {
     }
     
     func addFiatTransaction(currency: String, type: String, exchange: String, amount: Double, fees: Double, date: Date, time: Date ) {
+        print("type", type)
         if var data = defaults.data(forKey: fiatPortfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 portfolioEntries.append([0: currency as Any,
