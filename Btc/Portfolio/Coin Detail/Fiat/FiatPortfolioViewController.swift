@@ -10,6 +10,8 @@ import UIKit
 
 class FiatPortfolioViewController: UIViewController {
     
+    var parentController: PortfolioSummaryViewController!
+    
     var portfolioTableController: FiatPortfolioTableViewController! // child vc
     
     var currency: String!
@@ -24,8 +26,15 @@ class FiatPortfolioViewController: UIViewController {
     @IBOutlet weak var totalDepositedLabel: UILabel!
     @IBOutlet weak var totalWithdrawnLabel: UILabel!
     
+    @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        currencyNameLabel.adjustsFontSizeToFitWidth = true
+        currentAvailableLabel.adjustsFontSizeToFitWidth = true
+        totalDepositedLabel.adjustsFontSizeToFitWidth = true
+        totalWithdrawnLabel.adjustsFontSizeToFitWidth = true
 
         // Do any additional setup after loading the view.
         for (country, symbol, locale, name) in GlobalValues.countryList {

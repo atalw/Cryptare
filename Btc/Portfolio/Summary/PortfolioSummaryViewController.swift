@@ -80,22 +80,12 @@ class PortfolioSummaryViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
-
+        
+        loadAllPortfolios()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        databaseRef = Database.database().reference()
-        
-        dict = [:]
-        currencyDict = [:]
-        
-        coins = []
-        currencies = []
-        
-        summary = [:]
-        
-        initalizePortfolioEntries()
         
         if coins.count == 0 {
             tableView.reloadData()
@@ -162,6 +152,24 @@ class PortfolioSummaryViewController: UIViewController {
         if let addCoinVc = destinationVc as? AddCoinTableViewController {
             addCoinVc.parentController = self
         }
+        else if let cryptoPortfolioVC = destinationVc as? CryptoPortfolioViewController {
+            cryptoPortfolioVC.parentController = self
+        }
+    }
+    
+    func loadAllPortfolios() {
+        databaseRef = Database.database().reference()
+
+        dict = [:]
+        currencyDict = [:]
+        
+        coins = []
+        currencies = []
+        
+        summary = [:]
+        
+        initalizePortfolioEntries()
+
     }
     
     
@@ -374,15 +382,14 @@ class PortfolioSummaryViewController: UIViewController {
             
             for entry in currencyDict[currency]! {
                 var entryAmount = entry["amount"] as! Double
-                
-               
+                var fees = entry["fees"] as! Double
                 
                 if entry["type"] as! String == "deposit" {
-                    summary[currency]!["amount"] = summary[currency]!["amount"]! + entryAmount
-                    summary[currency]!["deposited"] = summary[currency]!["deposited"]! + entryAmount
+                    summary[currency]!["amount"] = summary[currency]!["amount"]! + entryAmount - fees
+                    summary[currency]!["deposited"] = summary[currency]!["deposited"]! + entryAmount - fees
                 }
                 else if entry["type"] as! String == "withdraw" {
-                    summary[currency]!["amount"] = summary[currency]!["amount"]! - entryAmount
+                    summary[currency]!["amount"] = summary[currency]!["amount"]! - entryAmount - fees
                 }
             }
         }
@@ -626,6 +633,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             targetViewController.coin = coin
             targetViewController.portfolioData = dict[coin]!
             targetViewController.coinPrice = self.summary[coin]!["coinMarketValue"]
+            targetViewController.parentController = self
             
             self.navigationController?.pushViewController(targetViewController, animated: true)
         }
@@ -635,6 +643,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             let currency = currencies[indexPath.row]
             targetViewController.currency = currency
             targetViewController.portfolioData = currencyDict[currency]!
+            targetViewController.parentController = self
 
             self.navigationController?.pushViewController(targetViewController, animated: true)
         }
@@ -645,7 +654,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         
         targetViewController.coin = coin
         targetViewController.coinPrice = self.summary[coin]!["coinMarketValue"]
-
+        targetViewController.parentController = self
         if let data = dict[coin] {
             targetViewController.portfolioData = data
         }
@@ -660,6 +669,8 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "fiatPortfolioViewController") as! FiatPortfolioViewController
         
         targetViewController.currency = currency
+        targetViewController.parentController = self
+
         if let data = currencyDict[currency] {
             targetViewController.portfolioData = data
         }

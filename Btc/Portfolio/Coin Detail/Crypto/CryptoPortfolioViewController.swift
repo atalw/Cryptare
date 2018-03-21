@@ -10,6 +10,8 @@ import UIKit
 
 class CryptoPortfolioViewController: UIViewController {
     
+    var parentController: PortfolioSummaryViewController!
+    
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
     
@@ -33,9 +35,8 @@ class CryptoPortfolioViewController: UIViewController {
     @IBOutlet weak var totalPriceChangeLabel: UILabel!
     @IBOutlet weak var totalPercentageLabel: UILabel!
     @IBOutlet weak var totalPercentageView: UIView!
-    @IBOutlet weak var sortView: UIView!
     
-    @IBOutlet weak var mainStackView: UIStackView!
+    @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
     
     @IBAction func addPortfolioAction(_ sender: Any) {
         portfolioTableController.showAddBuyBulletin()
@@ -151,7 +152,7 @@ class CryptoPortfolioViewController: UIViewController {
             self.portfolioTableController = portfolioTableController
         }
         
-        if let addTransactionController = destinationVC as? AddTransactionViewController {
+        else if let addTransactionController = destinationVC as? AddTransactionViewController {
             if let button = sender as? UIButton {
                 if let title = button.titleLabel?.text {
                     if title == "Buy" {
@@ -165,8 +166,9 @@ class CryptoPortfolioViewController: UIViewController {
                 }
                 
             }
-            
-            
+        }
+        else if let portfolioSummaryController = destinationVC as? PortfolioSummaryViewController {
+            print("here")
         }
     }
  

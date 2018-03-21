@@ -42,6 +42,12 @@ class FiatPortfolioTableViewController: UITableViewController {
         self.initalizePortfolioEntries()
 
     }
+    
+    override func viewWillLayoutSubviews() {
+        if portfolioEntries.count > 0 {
+            parentController.containerViewHeight.constant = tableView.contentSize.height
+        }
+    }
 
     // MARK: - Table view data source
 
@@ -159,6 +165,7 @@ extension FiatPortfolioTableViewController {
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
+                parentController.parentController.loadAllPortfolios()
             }
         }
         else {
@@ -175,6 +182,7 @@ extension FiatPortfolioTableViewController {
             
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
             defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
+            parentController.parentController.loadAllPortfolios()
         }
     }
     
@@ -212,7 +220,7 @@ extension FiatPortfolioTableViewController {
                         }
                         
                         portfolioEntries.remove(at: index)
-                        
+
                         break
                     }
                 }
@@ -222,6 +230,7 @@ extension FiatPortfolioTableViewController {
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
+                parentController.parentController.loadAllPortfolios()
             }
         }
     }

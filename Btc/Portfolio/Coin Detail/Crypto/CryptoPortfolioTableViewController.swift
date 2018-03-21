@@ -74,6 +74,19 @@ class CryptoPortfolioTableViewController: UITableViewController {
         activityIndicator.startAnimating()
         self.initalizePortfolioEntries()
         self.activityIndicator.stopAnimating()
+        
+       
+    }
+    
+    
+    
+    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        tableView.reloadData()
+        if portfolioEntries.count > 0 {
+            parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
+//            tableView.reloadData()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -93,6 +106,8 @@ class CryptoPortfolioTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dateFormatter.dateFormat = "dd/MM/YY"
+        
+        print(tableView.contentSize.height)
         
         let portfolio = portfolioEntries[indexPath.row]
         var cell: PortfolioTableViewCell
@@ -375,6 +390,7 @@ extension CryptoPortfolioTableViewController {
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: portfolioEntriesConstant)
+                parentController.parentController.loadAllPortfolios()
             }
         }
         else {
@@ -393,6 +409,7 @@ extension CryptoPortfolioTableViewController {
             
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
             defaults.set(newData, forKey: portfolioEntriesConstant)
+            parentController.parentController.loadAllPortfolios()
         }
     }
     
@@ -432,7 +449,6 @@ extension CryptoPortfolioTableViewController {
                         }
                         
                         portfolioEntries.remove(at: index)
-                        
                         break
                     }
                 }
@@ -442,6 +458,7 @@ extension CryptoPortfolioTableViewController {
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: portfolioEntriesConstant)
+                parentController.parentController.loadAllPortfolios()
             }
         }
     }
