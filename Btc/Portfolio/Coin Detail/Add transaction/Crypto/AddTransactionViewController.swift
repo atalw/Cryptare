@@ -167,6 +167,7 @@ class AddTransactionViewController: UIViewController {
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
                 defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
+                parentController.parentController.loadAllPortfolios()
             }
         }
         else {
@@ -183,6 +184,7 @@ class AddTransactionViewController: UIViewController {
             
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
             defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
+            parentController.parentController.loadAllPortfolios()
         }
     }
     // MARK: - Navigation

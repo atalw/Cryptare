@@ -345,7 +345,7 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin]!["holdingsValueYesterday"] = 0.0
             
             for entry in dict[coin]! {
-                let amount = (entry["amountOfCoins"] as! Double) * (entry["costPerCoin"] as! Double)
+                let amount = (entry["amountOfCoins"] as! Double) * (entry["costPerCoin"] as! Double) - (entry["fees"] as! Double)
 
                 if entry["type"] as! String == "buy" {
                     summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! + (entry["amountOfCoins"] as! Double)
@@ -652,8 +652,14 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     func newCoinAdded(coin: String) {
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
         
+        var handle = databaseRef.child(coin).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+            if let dict = snapshot.value as? [String : AnyObject] {
+                let price = dict[GlobalValues.currency!]!["price"] as! Double
+                targetViewController.coinPrice = price
+            }
+        })
+        
         targetViewController.coin = coin
-        targetViewController.coinPrice = self.summary[coin]!["coinMarketValue"]
         targetViewController.parentController = self
         if let data = dict[coin] {
             targetViewController.portfolioData = data
@@ -661,7 +667,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         else {
             targetViewController.portfolioData = []
         }
-        
+//        handle.remo
         self.navigationController?.pushViewController(targetViewController, animated: true)
     }
     
