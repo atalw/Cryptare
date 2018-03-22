@@ -6,7 +6,6 @@ target 'Cryptare' do
 use_frameworks!
 
 # Pods for Btc
-pod 'Hero', :git => 'https://github.com/lkzhao/Hero.git'
 pod 'Alamofire', '~> 4.4'
 pod 'AlamofireRSSParser'
 pod 'SwiftyJSON'
@@ -20,11 +19,11 @@ pod 'YNDropDownMenu'
 pod 'TTSegmentedControl'
 pod 'Google-Mobile-Ads-SDK'
 pod 'SwiftyStoreKit'
+pod 'Parchment', '~> 1.0'
 
 target 'CryptareLite' do
     use_frameworks!
     
-    pod 'Hero', :git => 'https://github.com/lkzhao/Hero.git'
     pod 'Alamofire', '~> 4.4'
     pod 'AlamofireRSSParser'
     pod 'SwiftyJSON'
@@ -38,6 +37,7 @@ target 'CryptareLite' do
     pod 'TTSegmentedControl'
     pod 'Google-Mobile-Ads-SDK'
     pod 'SwiftyStoreKit'
+    pod 'Parchment', '~> 1.0'
 end
 
 target 'BtcTests' do

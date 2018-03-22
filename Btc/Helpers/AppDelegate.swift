@@ -17,7 +17,7 @@ import SwiftyStoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
-
+    
     var window: UIWindow?
     var ref: DatabaseReference!
     let defaults = UserDefaults.standard
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
-
+        
         
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             })
             application.registerForRemoteNotifications()
-
+            
             #if PRO_VERSION
                 setUpFirebase()
             #endif
@@ -84,13 +84,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             defaults.set(ChartSettingsDefault.xAxis, forKey: "xAxis")
             defaults.set(ChartSettingsDefault.xAxisGridLinesEnabled, forKey: "xAxisGridLinesEnabled")
-
+            
             defaults.set(ChartSettingsDefault.yAxis, forKey: "yAxis")
             defaults.set(ChartSettingsDefault.yAxisGridLinesEnabled, forKey: "yAxisGridLinesEnabled")
             
             defaults.set(true, forKey: "chartSettingsExist")
         }
-     
+        
         // market settings
         if !defaults.bool(forKey: "marketSettingsExist") {
             defaults.set("buy", forKey: "marketSort")
@@ -110,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let introComplete = defaults.bool(forKey: "introComplete")
         
         if selectedCountry != nil && introComplete {
-//            let savedCountry = defaults.string(forKey: "selectedCountry") as! String
+            //            let savedCountry = defaults.string(forKey: "selectedCountry") as! String
             
             for countryTuple in GlobalValues.countryList {
                 if selectedCountry == countryTuple.0 {
@@ -148,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             self.window?.rootViewController = countrySelectionViewController
             self.window?.makeKeyAndVisible()
-
+            
             let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
             
             self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
@@ -158,12 +158,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func createMenuView(storyboard: UIStoryboard) {
-        let dashboardViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
+        let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
         
-        let nvc: UINavigationController = UINavigationController(rootViewController: dashboardViewController)
+        let nvc: UINavigationController = UINavigationController(rootViewController: mainViewController)
         
-        leftViewController.dashboardViewController = nvc
+        leftViewController.mainViewController = nvc
         
         SlideMenuOptions.contentViewDrag = true
         SlideMenuOptions.contentViewScale = 1
@@ -173,7 +173,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
         self.window?.rootViewController = slideMenuController
-        slideMenuController.delegate = dashboardViewController as SlideMenuControllerDelegate
+        slideMenuController.delegate = mainViewController as SlideMenuControllerDelegate
         self.window?.makeKeyAndVisible()
     }
     
@@ -215,7 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //The listener is passed a snapshot containing the new child's data.
         ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             let enumerator = snapshot.children
-
+            
             while let child = enumerator.nextObject() as? DataSnapshot {
                 if child.value as? String == fcmToken {
                     print("exists")
@@ -234,29 +234,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func disconnectFromFCM() {
         Messaging.messaging().shouldEstablishDirectChannel = false
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         disconnectFromFCM()
     }
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-//        FirstViewController.loadData(<#T##FirstViewController#>)
+        //        FirstViewController.loadData(<#T##FirstViewController#>)
         connectToFCM()
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
@@ -281,6 +281,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler(.alert)
     }
-
+    
 }
 

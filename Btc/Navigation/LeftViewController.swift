@@ -22,17 +22,17 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     
     @IBOutlet weak var tableView: UITableView!
     var menus = ["Dashboard", "Portfolio", "News", "Settings"]
-    var dashboardViewController: UIViewController!
+    var mainViewController: UIViewController!
     var portfolioSummaryViewController: UIViewController!
     var newsViewController: UIViewController!
     var settingsViewController: UIViewController!
     
-//    var imageHeaderView: ImageHeaderView!
+    //    var imageHeaderView: ImageHeaderView!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,8 +44,8 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
         
-        let dashboardViewController = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
-        self.dashboardViewController = UINavigationController(rootViewController: dashboardViewController)
+        let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+        self.mainViewController = UINavigationController(rootViewController: mainViewController)
         
         let portfolioSummaryViewController = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
         self.portfolioSummaryViewController = UINavigationController(rootViewController: portfolioSummaryViewController)
@@ -70,7 +70,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     func changeViewController(_ menu: LeftMenu) {
         switch menu {
         case .dashboard:
-            self.slideMenuController()?.changeMainViewController(self.dashboardViewController, close: true)
+            self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
         case .portfolio:
             self.slideMenuController()?.changeMainViewController(self.portfolioSummaryViewController, close: true)
         case .news:
@@ -110,7 +110,7 @@ extension LeftViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menus.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let menu = LeftMenu(rawValue: indexPath.row) {

@@ -7,13 +7,16 @@
 //
 
 import UIKit
-import SlideMenuControllerSwift
 import Firebase
 import GoogleMobileAds
 
 class DashboardViewController: UIViewController {
     
+    var parentController: MainViewController!
+    
     let dateFormatter = DateFormatter()
+    
+    var favouritesTab: Bool!
     
     var coins: [String] = []
     let greenColour = UIColor.init(hex: "#35CC4B")
@@ -30,34 +33,20 @@ class DashboardViewController: UIViewController {
     var listOfCoins: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
     
-    let searchController = UISearchController(searchResultsController: nil)
+//    let searchController = UISearchController(searchResultsController: nil)
     var coinSearchResults = [String]()
 
     @IBOutlet weak var header24hrChangeLabel: UILabel!
     @IBOutlet weak var headerCurrentPriceLabel: UILabel!
     
-    @IBOutlet weak var currencyButton: UIBarButtonItem!
     @IBOutlet weak var bannerView: GADBannerView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let currency = GlobalValues.currency!
-        
-        databaseRef = Database.database().reference()
-        
-        listOfCoins = databaseRef.child("coins")
-        
-        currencyButton.title = currency
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if #available(iOS 11.0, *) {
-            navigationItem.hidesSearchBarWhenScrolling = true
-        }
         
         let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
         if removeAdsPurchased == false {
@@ -74,20 +63,8 @@ class DashboardViewController: UIViewController {
             //            self.present(alert, animated: true){}
             present(alert, animated: true, completion: nil)
         }
-//        graphController.reloadData()
         
-        listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: AnyObject] {
-                let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
-                self.coins = []
-                GlobalValues.coins = []
-                for index in 0..<sortedDict.count {
-                    self.coins.append(sortedDict[index].key)
-                    GlobalValues.coins.append((sortedDict[index].key, sortedDict[index].value["name"] as! String))
-                }
-                self.setupCoinRefs()
-            }
-        })
+        self.setupCoinRefs()
     }
 
     override func viewDidLoad() {
@@ -95,44 +72,44 @@ class DashboardViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-//        marketsButton.colourOne = UIColor.init(hex: "#2F80ED")
-//        marketsButton.colourTwo = UIColor.init(hex: "#56CCF2")
-//
-//        newsButton.colourOne = UIColor.init(hex: "#fc4a1a")
-//        newsButton.colourTwo = UIColor.init(hex: "#f7b733")
-        
         tableView.delegate = self
         tableView.dataSource = self
-        
-////        header24hrChangeLabel.adjustsFontSizeToFitWidth = true
-//        headerCurrentPriceLabel.adjustsFontSizeToFitWidth = true
-        
-        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
         
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         
-        searchController.searchResultsUpdater = self
+        databaseRef = Database.database().reference()
         
-        if #available(iOS 9.1, *) {
-            searchController.obscuresBackgroundDuringPresentation = false
-        } else {
-            // Fallback on earlier versions
+        listOfCoins = databaseRef.child("coins")
+        
+        if !favouritesTab {
+            listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
+                    self.coins = []
+                    GlobalValues.coins = []
+                    for index in 0..<sortedDict.count {
+                        self.coins.append(sortedDict[index].key)
+                        GlobalValues.coins.append((sortedDict[index].key, sortedDict[index].value["name"] as! String))
+                    }
+                    self.setupCoinRefs()
+                }
+            })
         }
-        searchController.searchBar.placeholder = "Search"
-        
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController = searchController
-        } else {
-            // Fallback on earlier versions
+        else {
+            var favourites: [String] = []
+            let defaults = UserDefaults.standard
+            if let favouritesDefaults = defaults.object(forKey: "dashboardFavourites") {
+                favourites = favouritesDefaults as! [String]
+            }
+            self.coins = favourites
+            self.setupCoinRefs()
         }
         
-        definesPresentationContext = true
-        searchController.searchBar.searchBarStyle = .minimal
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         databaseRef.removeAllObservers()
         listOfCoins.removeAllObservers()
@@ -140,6 +117,10 @@ class DashboardViewController: UIViewController {
         for coinRef in coinRefs {
             coinRef.removeAllObservers()
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
 
     // MARK: - Navigation
@@ -177,11 +158,13 @@ class DashboardViewController: UIViewController {
         for coinRef in self.coinRefs {
             coinRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
                 if let dict = snapshot.value as? [String : AnyObject] {
-                    let index = self.coinRefs.index(of: coinRef)
-                    let coin = self.coins[index!]
-                    self.changedRow = index!
-                    self.updateCoinDataStructure(coin: coin, dict: dict)
+                    if let index = self.coinRefs.index(of: coinRef) {
+                        let coin = self.coins[index]
+                        self.changedRow = index
+                        self.updateCoinDataStructure(coin: coin, dict: dict)
+                    }
                 }
+                    
             })
             
             coinRef.observe(.childChanged, with: {(snapshot) -> Void in
@@ -219,31 +202,15 @@ class DashboardViewController: UIViewController {
     }
     
     func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
+        return parentController.searchController.isActive && !searchBarIsEmpty()
     }
     
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
-        return searchController.searchBar.text?.isEmpty ?? true
+        return parentController.searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        coinSearchResults = coins.filter( {( coin: String ) -> Bool in
-            var coinName: String = coin
-            for (symbol, name) in GlobalValues.coins {
-                if symbol == coin {
-                    coinName = name
-                }
-            }
-            if coin.lowercased().contains(searchText.lowercased()) ||
-                coinName.lowercased().contains(searchText.lowercased()) {
-                return true
-            }
-            else { return false }
-        })
-        
-        tableView.reloadData()
-    }
+   
     
 }
 
@@ -359,40 +326,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
-extension DashboardViewController : SlideMenuControllerDelegate {
-    
-    func leftWillOpen() {
-//        print("SlideMenuControllerDelegate: leftWillOpen")
-    }
-    
-    func leftDidOpen() {
-//        print("SlideMenuControllerDelegate: leftDidOpen")
-    }
-    
-    func leftWillClose() {
-//        print("SlideMenuControllerDelegate: leftWillClose")
-    }
-    
-    func leftDidClose() {
-//        print("SlideMenuControllerDelegate: leftDidClose")
-    }
-    
-    func rightWillOpen() {
-//        print("SlideMenuControllerDelegate: rightWillOpen")
-    }
-    
-    func rightDidOpen() {
-//        print("SlideMenuControllerDelegate: rightDidOpen")
-    }
-    
-    func rightWillClose() {
-//        print("SlideMenuControllerDelegate: rightWillClose")
-    }
-    
-    func rightDidClose() {
-//        print("SlideMenuControllerDelegate: rightDidClose")
-    }
-}
+
 
 extension DashboardViewController: GADBannerViewDelegate {
     /// Tells the delegate an ad request loaded an ad.
@@ -429,11 +363,6 @@ extension DashboardViewController: GADBannerViewDelegate {
     }
 }
 
-extension DashboardViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
-}
+
 
 

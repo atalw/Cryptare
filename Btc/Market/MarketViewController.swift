@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftyJSON
-import Hero
 import Firebase
 
 class MarketViewController: UIViewController {
@@ -144,8 +143,6 @@ class MarketViewController: UIViewController {
         ethMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using ETH."
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        self.isHeroEnabled = true
         
         buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
         self.buySortButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
