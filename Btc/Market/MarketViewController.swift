@@ -118,23 +118,10 @@ class MarketViewController: UIViewController {
     let marketRowColour : UIColor = UIColor.white
     let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
     
-    @IBAction func refreshButton(_ sender: Any) {
-        self.btcPriceLabel.text = currentCoinPriceString
-        self.loadData()
-        self.tableView.reloadData()
-    }
-    
-    
     // MARK: VC Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Looks for single or multiple taps.
-//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-//        view.addGestureRecognizer(tap)
-        
-        
         
         coinNameLabel.text = currentCoin
         
@@ -201,11 +188,6 @@ class MarketViewController: UIViewController {
         
         textFieldValue = 1.0
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
         if currentCoin == "BTC" || currentCoin == "ETH" {
             marketsLockView.isHidden = true
         }
@@ -219,20 +201,24 @@ class MarketViewController: UIViewController {
             }
         }
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         if currentReachabilityStatus == .notReachable {
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
             present(alert, animated: true, completion: nil)
-            print("here")
         }
         
-//        tableHeightConstraint.constant = tableView.contentSize.height
-
+    }
+    
+    override func viewWillLayoutSubviews() {
         
         if coinMarkets.count != 0 {
             tableView.backgroundView = nil
             tableHeightConstraint.constant = tableView.contentSize.height
-            tableView.reloadData()
         }
         else {
             let messageLabel = UILabel()
@@ -245,12 +231,11 @@ class MarketViewController: UIViewController {
             tableHeightConstraint.constant = CGFloat(140)
             tableView.backgroundView = messageLabel
         }
-
+        
         if coinBtcMarkets.count != 0 {
             btcMarketsTable.backgroundView = nil
             btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
-            btcMarketsTable.reloadData()
-
+            
         }
         else {
             let messageLabel = UILabel()
@@ -267,7 +252,6 @@ class MarketViewController: UIViewController {
         if coinEthMarkets.count != 0 {
             ethMarketsTable.backgroundView = nil
             ethTableHeightConstraint.constant = self.ethMarketsTable.contentSize.height
-            ethMarketsTable.reloadData()
             
         }
         else {
@@ -282,17 +266,9 @@ class MarketViewController: UIViewController {
             ethMarketsTable.backgroundView = messageLabel
         }
         
-        
-    }
-    
-    override func viewWillLayoutSubviews() {
-//        var frame = tableView.frame
-//        frame.size.height = tableView.contentSize.height
-//        tableView.frame = frame
         tableView.reloadData()
         btcMarketsTable.reloadData()
         ethMarketsTable.reloadData()
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {

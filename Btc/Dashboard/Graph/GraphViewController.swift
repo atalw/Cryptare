@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import TTSegmentedControl
+import Parchment
 
 class GraphViewController: UIViewController {
     
@@ -15,59 +15,29 @@ class GraphViewController: UIViewController {
     
     var databaseTableTitle: String!
     
-    @IBOutlet weak var viewSegmentControl: TTSegmentedControl!
+    let titles = ["Details", "News", "Markets"]
     
-    @IBOutlet weak var pageSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var cryptoDetailContainer: UIView!
-    @IBOutlet weak var newsContainer: UIView!
-    @IBOutlet weak var marketContainer: UIView!
-    
-    @IBAction func viewSegmentChanged(_ sender: Any) {
+    lazy var viewControllerList: [UIViewController] = {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        let cryptoDetailVC = storyboard.instantiateViewController(withIdentifier: "CryptoDetailViewController") as! CryptoDetailViewController
+        cryptoDetailVC.databaseTableTitle = databaseTableTitle
         
-        switch (sender as? UISegmentedControl)!.selectedSegmentIndex {
-        case 0:
-            cryptoDetailContainer.isHidden = false
-            newsContainer.isHidden = true
-            marketContainer.isHidden = true
-        case 1:
-            cryptoDetailContainer.isHidden = true
-            newsContainer.isHidden = false
-            marketContainer.isHidden = true
-        case 2:
-            cryptoDetailContainer.isHidden = true
-            newsContainer.isHidden = true
-            marketContainer.isHidden = false
-        default:
-            break;
+        let newsVC = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
+        for (symbol, name) in GlobalValues.coins {
+            if symbol == databaseTableTitle {
+                let searchTerm = "\(name) \(symbol) cryptocurrency"
+                newsVC.cryptoName = searchTerm
+            }
         }
-    }
-    
+        let marketsVC = storyboard.instantiateViewController(withIdentifier: "MarketViewController") as! MarketViewController
+        marketsVC.currentCoin = databaseTableTitle
+        
+        return [cryptoDetailVC, newsVC, marketsVC]
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewSegmentControl.allowChangeThumbWidth = false
-        
-        viewSegmentControl.itemTitles = ["Details", "News", "Markets"]
-        viewSegmentControl.defaultTextFont = UIFont.boldSystemFont(ofSize: 15)
-        viewSegmentControl.selectedTextFont = UIFont.boldSystemFont(ofSize: 15)
-        
-        viewSegmentControl.didSelectItemWith = { (index, title) -> () in
-            if index == 0 {
-                self.cryptoDetailContainer.isHidden = false
-                self.newsContainer.isHidden = true
-                self.marketContainer.isHidden = true
-            }
-            else if index == 1 {
-                self.cryptoDetailContainer.isHidden = true
-                self.newsContainer.isHidden = false
-                self.marketContainer.isHidden = true
-            }
-            else if index == 2 {
-                self.cryptoDetailContainer.isHidden = true
-                self.newsContainer.isHidden = true
-                self.marketContainer.isHidden = false
-            }
-        }
         
         for (symbol, name) in GlobalValues.coins {
             if symbol == self.databaseTableTitle {
@@ -75,16 +45,25 @@ class GraphViewController: UIViewController {
             }
         }
         
+        self.navigationController?.navigationBar.isTranslucent = false
+        
+        let pagingViewController = PagingViewController<PagingIndexItem>()
+        pagingViewController.dataSource = self
+        
+        pagingViewController.menuItemSize = .sizeToFit(minWidth: 100, height: 40)
+        pagingViewController.menuHorizontalAlignment = .center
+        
+        // Add the paging view controller as a child view controller and
+        // contrain it to all edges.
+        addChildViewController(pagingViewController)
+        view.addSubview(pagingViewController.view)
+        view.constrainToEdges(pagingViewController.view)
+        pagingViewController.didMove(toParentViewController: self)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        pageSegmentedControl.selectedSegmentIndex = 0
-        viewSegmentControl.selectItemAt(index: 0)
-        cryptoDetailContainer.isHidden = false
-        newsContainer.isHidden = true
-        marketContainer.isHidden = true
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -99,26 +78,21 @@ class GraphViewController: UIViewController {
         super.viewDidDisappear(animated)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        let destinationViewController = segue.destination
-        
-        if let cryptoDetailViewController = segue.destination as? CryptoDetailViewController {
-            cryptoDetailViewController.databaseTableTitle = databaseTableTitle
-        }
-        else if let newsViewController = segue.destination as? NewsViewController {
-            for (symbol, name) in GlobalValues.coins {
-                if symbol == databaseTableTitle {
-                    let searchTerm = "\(name) \(symbol) cryptocurrency"
-                    newsViewController.cryptoName = searchTerm
+    
+}
 
-                }
-            }
-        }
-        else if let marketViewController = segue.destination as? MarketViewController {
-            marketViewController.currentCoin = databaseTableTitle
-        }
-        
+extension GraphViewController: PagingViewControllerDataSource {
+    
+    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T {
+        return PagingIndexItem(index: index, title: titles[index]) as! T
+    }
+    
+    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, viewControllerForIndex index: Int) -> UIViewController {
+        return viewControllerList[index]
+    }
+    
+    func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
+        return titles.count
     }
     
 }

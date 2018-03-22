@@ -48,6 +48,10 @@ class DashboardViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if let index = self.tableView.indexPathForSelectedRow{
+            self.tableView.deselectRow(at: index, animated: true)
+        }
+        
         let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
         if removeAdsPurchased == false {
             bannerView.load(GADRequest())
