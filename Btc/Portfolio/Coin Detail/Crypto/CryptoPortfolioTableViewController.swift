@@ -165,11 +165,28 @@ class CryptoPortfolioTableViewController: UITableViewController {
             }
         }
         
-        if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins {
-            let total = cost * amountOfCoins
-            cell.costPerCoinLabel.text = cost.asCurrency
+        if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins, let fees = portfolio.fees {
             cell.costPerCoinLabel.adjustsFontSizeToFitWidth = true
-            cell.totalCostLabel.text = total.asCurrency
+            cell.feesLabel?.adjustsFontSizeToFitWidth = true
+            
+            let total = (cost * amountOfCoins) - fees
+            
+            if portfolio.tradingPair == "BTC" {
+                cell.costPerCoinLabel.text = cost.asBtcCurrency
+                cell.feesLabel?.text = fees.asBtcCurrency
+            }
+            else if portfolio.tradingPair == "ETH" {
+                cell.costPerCoinLabel.text = cost.asEthCurrency
+                cell.feesLabel?.text = fees.asEthCurrency
+            }
+            else {
+                cell.costPerCoinLabel.text = cost.asCurrency
+                cell.feesLabel?.text = fees.asCurrency
+            }
+            
+            cell.totalCostLabel.text = portfolio.totalCost.asCurrency
+
+            
         }
         
 //        if let date = portfolio.dateOfPurchase {
@@ -202,8 +219,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
 //        }
         
         if let fees = portfolio.fees {
-            cell.feesLabel?.text = fees.asCurrency
-            cell.feesLabel?.adjustsFontSizeToFitWidth = true
+            
         }
         
         if let tradePair = portfolio.tradingPair {

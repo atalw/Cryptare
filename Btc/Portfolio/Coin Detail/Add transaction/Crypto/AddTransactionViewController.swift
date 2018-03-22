@@ -78,11 +78,29 @@ class AddTransactionViewController: UIViewController {
         
         if costPerCoin != nil && amountOfCoins != nil && fees != nil {
             let totalCost = (costPerCoin * amountOfCoins) + fees
+            
+            if currentTradingPair.1 == "BTC" {
+                totalTransactionCostLabel.text = "Total cost of transaction is \(totalCost.asBtcCurrency)"
 
-            totalTransactionCostLabel.text = "Total cost of transaction is \(totalCost.asCurrency)"
+            }
+            else if currentTradingPair.1 == "ETH" {
+                totalTransactionCostLabel.text = "Total cost of transaction is \(totalCost.asEthCurrency)"
+
+            }
+            else {
+                totalTransactionCostLabel.text = "Total cost of transaction is \(totalCost.asCurrency)"
+            }
         }
         else {
-            totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asCurrency)"
+            if currentTradingPair.1 == "BTC" {
+                totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asBtcCurrency)"
+            }
+            else if currentTradingPair.1 == "ETH" {
+                totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asEthCurrency)"
+            }
+            else {
+                totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asCurrency)"
+            }
         }
         
         if currentTradingPair != nil && currentExchange != nil &&

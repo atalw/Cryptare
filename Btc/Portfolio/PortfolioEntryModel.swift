@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import Alamofire
-import SwiftyJSON
+import Firebase
 
 class PortfolioEntryModel {
     
@@ -56,14 +55,36 @@ class PortfolioEntryModel {
         self.time = time
         
         self.currentCoinPrice = currentCoinPrice
-        self.currentValue = (currentCoinPrice * amountOfCoins) + fees
+        
+        self.currentValue = currentCoinPrice * amountOfCoins
+        self.totalCost = (costPerCoin * amountOfCoins) - fees
+        
         self.exchange = exchange
-        
-        self.totalCost = (costPerCoin * amountOfCoins) + fees
-        
-        self.calculateChange()
 
-        self.delegate?.dataLoaded(portfolioEntry: self)
+        if tradingPair == "BTC" || tradingPair == "ETH" {
+            Database.database().reference().child(tradingPair).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+                if let dict = snapshot.value as? [String : AnyObject] {
+                    let price = dict[GlobalValues.currency!]!["price"] as! Double
+                    self.totalCost = self.totalCost * price
+                    self.calculateChange()
+                    self.delegate?.dataLoaded(portfolioEntry: self)
+                }
+            })
+            
+            Database.database().reference().child(coin).child(tradingPair).child("markets").child(exchange).observeSingleEvent(of: .value, with: {(snapshot) in
+                if let dict = snapshot.value as? [String: AnyObject] {
+                    print(dict)
+//                    let price = dict[GlobalValues.currency!]!["price"] as! Double
+//                    self.totalCost = self.totalCost * price
+//                    self.calculateChange()
+//                    self.delegate?.dataLoaded(portfolioEntry: self)
+                }
+            })
+        }
+        else {
+            self.calculateChange()
+            self.delegate?.dataLoaded(portfolioEntry: self)
+        }
 
     }
     
