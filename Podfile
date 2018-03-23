@@ -18,6 +18,7 @@ pod 'BulletinBoard', :git => 'https://github.com/alexaubry/BulletinBoard.git'
 pod 'Google-Mobile-Ads-SDK'
 pod 'SwiftyStoreKit'
 pod 'Parchment', '~> 1.0'
+pod 'SwiftReorder', '~> 4.0'
 
 target 'CryptareLite' do
     use_frameworks!
@@ -34,6 +35,7 @@ target 'CryptareLite' do
     pod 'Google-Mobile-Ads-SDK'
     pod 'SwiftyStoreKit'
     pod 'Parchment', '~> 1.0'
+    pod 'SwiftReorder', '~> 4.0'
 end
 
 target 'BtcTests' do

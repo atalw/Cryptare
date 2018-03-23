@@ -9,13 +9,16 @@
 import UIKit
 import Firebase
 import GoogleMobileAds
+import SwiftReorder
 
 class DashboardViewController: UIViewController {
     
     var parentController: MainViewController!
     
     let dateFormatter = DateFormatter()
-    
+    let defaults = UserDefaults.standard
+
+    let dashboardFavouritesKey = "dashboardFavourites"
     var favouritesTab: Bool!
     
     var coins: [String] = []
@@ -112,6 +115,8 @@ class DashboardViewController: UIViewController {
             self.setupCoinRefs()
         }
         
+        // for reorder
+        tableView.reorder.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -145,7 +150,6 @@ class DashboardViewController: UIViewController {
     
     func getFavourites() {
         var favourites: [String] = []
-        let defaults = UserDefaults.standard
         if let favouritesDefaults = defaults.object(forKey: "dashboardFavourites") {
             favourites = favouritesDefaults as! [String]
         }
@@ -239,6 +243,13 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if favouritesTab {
+            if let spacer = tableView.reorder.spacerCell(for: indexPath) {
+                return spacer
+            }
+        }
+        
         var coin: String
         if isFiltering() {
             coin = coinSearchResults[indexPath.row]
@@ -375,6 +386,17 @@ extension DashboardViewController: GADBannerViewDelegate {
     /// the App Store), backgrounding the current app.
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
         print("adViewWillLeaveApplication")
+    }
+}
+
+extension DashboardViewController: TableViewReorderDelegate {
+    func tableView(_ tableView: UITableView, reorderRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // Update data model
+        let destinationCoin = coins[destinationIndexPath.row]
+        coins[destinationIndexPath.row] = coins[sourceIndexPath.row]
+        coins[sourceIndexPath.row] = destinationCoin
+        
+        defaults.set(coins, forKey: dashboardFavouritesKey)
     }
 }
 
