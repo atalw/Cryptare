@@ -31,18 +31,34 @@ class MainViewController: UIViewController {
         }
         searchController.searchBar.placeholder = "Search"
         
+        definesPresentationContext = true
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.barStyle = .default
+        searchController.searchResultsUpdater =  self
+
+        let scb = searchController.searchBar
+        
+        scb.tintColor = UIColor.white
+        scb.barTintColor = UIColor.white
+        
+        if let textfield = scb.value(forKey: "searchField") as? UITextField {
+            textfield.textColor = UIColor.blue
+            if let backgroundview = textfield.subviews.first {
+                
+                // Background color
+                backgroundview.backgroundColor = UIColor.white
+                
+                // Rounded corner
+                backgroundview.layer.cornerRadius = 10;
+                backgroundview.clipsToBounds = true;
+            }
+        }
+        
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
         } else {
             // Fallback on earlier versions
         }
-        
-        definesPresentationContext = true
-        searchController.searchBar.searchBarStyle = .minimal
-        
-        searchController.searchResultsUpdater =  self
-
-
         // Do any additional setup after loading the view.
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
         

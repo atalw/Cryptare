@@ -64,6 +64,18 @@ class GraphViewController: UIViewController {
         pagingViewController.menuItemSize = .sizeToFit(minWidth: 100, height: 40)
         pagingViewController.menuHorizontalAlignment = .center
         
+        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
+        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
+        pagingViewController.indicatorColor = UIColor.init(hex: "ff7043")
+        pagingViewController.textColor = UIColor.lightGray
+        pagingViewController.selectedTextColor = UIColor.white
+        
+        pagingViewController.indicatorOptions = .visible(
+            height: 4,
+            zIndex: Int.max,
+            spacing: UIEdgeInsets.zero,
+            insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        
         // Add the paging view controller as a child view controller and
         // contrain it to all edges.
         addChildViewController(pagingViewController)

@@ -76,9 +76,23 @@ class DashboardViewController: UIViewController {
         }
         else {
             self.getFavourites()
-            self.setupCoinRefs()
+            
+            if coins.count == 0 {
+                let messageLabel = UILabel()
+                messageLabel.text = "No coins added to your favourites"
+                messageLabel.textColor = UIColor.black
+                messageLabel.numberOfLines = 0;
+                messageLabel.textAlignment = .center
+                messageLabel.sizeToFit()
+                
+                tableView.backgroundView = messageLabel
+            }
+            else {
+                tableView.backgroundView = nil
+                self.setupCoinRefs()
+            }
         }
-        
+        tableView.reloadData()
     }
 
     override func viewDidLoad() {
@@ -88,6 +102,7 @@ class DashboardViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
@@ -111,12 +126,11 @@ class DashboardViewController: UIViewController {
             })
         }
         else {
-            self.getFavourites()
-            self.setupCoinRefs()
+            // for reorder
+            tableView.reorder.delegate = self
+//            self.getFavourites()
         }
         
-        // for reorder
-        tableView.reorder.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -149,6 +163,7 @@ class DashboardViewController: UIViewController {
     }
     
     func getFavourites() {
+        self.coins = []
         var favourites: [String] = []
         if let favouritesDefaults = defaults.object(forKey: "dashboardFavourites") {
             favourites = favouritesDefaults as! [String]

@@ -27,6 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        UINavigationBar.appearance().barTintColor = UIColor.init(hex: "46637F")
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().tintColor = UIColor.white
+        
         let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
         SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
             switch result {

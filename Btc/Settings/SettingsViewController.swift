@@ -13,6 +13,9 @@ class SettingsViewController: UITableViewController {
     
     let defaults = UserDefaults.standard
     
+    // dashboard
+    @IBOutlet weak var favouritesInitialTabSwitch: UISwitch!
+    
     // charts
     @IBOutlet weak var linearModeButton: UIButton!
     @IBOutlet weak var smoothModeButton: UIButton!
@@ -46,6 +49,9 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
         
         self.removeAdsPriceLabel.text = 0.0.asCurrency
+        
+        // dashboard
+        favouritesInitialTabSwitch.addTarget(self, action: #selector(favouritesInitialTabChange), for: .valueChanged)
         
         //chart
         linearModeButton.layer.cornerRadius = 5
@@ -98,6 +104,7 @@ class SettingsViewController: UITableViewController {
         // social
 //        twitterCell.se
         
+        loadDashboardSettings()
         loadChartSettings()
         loadMarketSettings()
         loadNewsSettings()
@@ -148,6 +155,11 @@ class SettingsViewController: UITableViewController {
                 }
             }
         })
+    }
+    
+    @objc func favouritesInitialTabChange(favouritesInitialTabSwitch: UISwitch) {
+        let state = favouritesInitialTabSwitch.isOn
+        defaults.set(state, forKey: "favouritesFirstTab")
     }
     
     @objc func xAxisChange(xAxisSwitch: UISwitch) {
@@ -271,6 +283,11 @@ class SettingsViewController: UITableViewController {
         defaults.set(ChartSettingsDefault.yAxisGridLinesEnabled, forKey: "yAxisGridLinesEnabled")
         
         loadChartSettings()
+    }
+    
+    func loadDashboardSettings() {
+        let favouritesFirstTab = defaults.bool(forKey: "favouritesFirstTab")
+        favouritesInitialTabSwitch.isOn = favouritesFirstTab
     }
     
     func loadChartSettings() {
@@ -437,8 +454,16 @@ class SettingsViewController: UITableViewController {
                     }
                 }
             }
+            if indexPath.row == 2 {
+                IAPService.shared.restorePurchases()
+            }
         }
-        else if indexPath.section == 6 { // social
+        else if indexPath.section == 1 {
+            if indexPath.row == 1 { // Remove all favourites
+                defaults.set([], forKey: "dashboardFavourites")
+            }
+        }
+        else if indexPath.section == 7 { // social
             if indexPath.row == 0 { //twitter
                 let url = URL(string: "https://twitter.com/cryptare")
                 UIApplication.shared.openURL(url!)
