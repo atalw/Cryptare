@@ -68,7 +68,14 @@ class DashboardViewController: UIViewController {
             present(alert, animated: true, completion: nil)
         }
         
-        self.setupCoinRefs()
+        if !favouritesTab {
+            self.setupCoinRefs()
+        }
+        else {
+            self.getFavourites()
+            self.setupCoinRefs()
+        }
+        
     }
 
     override func viewDidLoad() {
@@ -101,12 +108,7 @@ class DashboardViewController: UIViewController {
             })
         }
         else {
-            var favourites: [String] = []
-            let defaults = UserDefaults.standard
-            if let favouritesDefaults = defaults.object(forKey: "dashboardFavourites") {
-                favourites = favouritesDefaults as! [String]
-            }
-            self.coins = favourites
+            self.getFavourites()
             self.setupCoinRefs()
         }
         
@@ -139,6 +141,15 @@ class DashboardViewController: UIViewController {
 //            graphController.parentControler = self
             self.graphController = graphController
         }
+    }
+    
+    func getFavourites() {
+        var favourites: [String] = []
+        let defaults = UserDefaults.standard
+        if let favouritesDefaults = defaults.object(forKey: "dashboardFavourites") {
+            favourites = favouritesDefaults as! [String]
+        }
+        self.coins = favourites
     }
     
     

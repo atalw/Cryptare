@@ -140,6 +140,8 @@
 		86CD93CB2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CD93CA2051851C009046F2 /* FiatPortfolioViewController.swift */; };
 		86CD93CC2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CD93CA2051851C009046F2 /* FiatPortfolioViewController.swift */; };
 		86D6083C2063AD3500C2157B /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6083B2063AD3500C2157B /* UIView+Constraints.swift */; };
+		86D6083E2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6083D2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift */; };
+		86D608402064E9E500C2157B /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6083F2064E9E500C2157B /* UIImage+Extensions.swift */; };
 		86DF12152045572F00FA4787 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF12142045572F00FA4787 /* UITextField+Extensions.swift */; };
 		86DF12162045572F00FA4787 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF12142045572F00FA4787 /* UITextField+Extensions.swift */; };
 		86DF121920458D1300FA4787 /* NotificationCenter+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */; };
@@ -278,6 +280,8 @@
 		86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewController.swift; sourceTree = "<group>"; };
 		86CD93CA2051851C009046F2 /* FiatPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatPortfolioViewController.swift; sourceTree = "<group>"; };
 		86D6083B2063AD3500C2157B /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		86D6083D2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarBarButtonItem+Extensions.swift"; sourceTree = "<group>"; };
+		86D6083F2064E9E500C2157B /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		86DF12142045572F00FA4787 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Extentions.swift"; sourceTree = "<group>"; };
 		86E003261FE963C1000AD106 /* PortfolioSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSummaryViewController.swift; sourceTree = "<group>"; };
@@ -516,6 +520,8 @@
 				864E973A203C57570023238F /* IAPService.swift */,
 				86DF12142045572F00FA4787 /* UITextField+Extensions.swift */,
 				86D6083B2063AD3500C2157B /* UIView+Constraints.swift */,
+				86D6083D2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift */,
+				86D6083F2064E9E500C2157B /* UIImage+Extensions.swift */,
 			);
 			name = "Helper Files";
 			path = Helpers;
@@ -1015,8 +1021,6 @@
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/TTSegmentedControl/TTSegmentedControl.framework",
-				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1032,8 +1036,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTSegmentedControl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1059,8 +1061,6 @@
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/TTSegmentedControl/TTSegmentedControl.framework",
-				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1076,8 +1076,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTSegmentedControl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1153,6 +1151,7 @@
 				86DF12152045572F00FA4787 /* UITextField+Extensions.swift in Sources */,
 				86A2B5732052866A001A3DE2 /* FiatPortfolioTableViewController.swift in Sources */,
 				86F2015720414C5600DC7654 /* UnlockMarketsViewController.swift in Sources */,
+				86D608402064E9E500C2157B /* UIImage+Extensions.swift in Sources */,
 				86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
 				86277C1C1FF3A65E00CC9819 /* AddCoinTableViewCell.swift in Sources */,
@@ -1166,6 +1165,7 @@
 				865361FD1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */,
 				8650C5721FC051270078FD02 /* CryptoPortfolioViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
+				86D6083E2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift in Sources */,
 				8661C7372053ED6C00221DE2 /* FiatTransactionEntryModel.swift in Sources */,
 				86A2B57020528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */,
 				864E973B203C57570023238F /* IAPService.swift in Sources */,

@@ -11,11 +11,18 @@ import Parchment
 
 class GraphViewController: UIViewController {
     
+    let dashboardFavouritesKey = "dashboardFavourites"
+    
+    let selectedColour = UIColor.init(hex: "#F7B54A")
+    
     var parentControler: DashboardViewController!
     
     var databaseTableTitle: String!
     
     let titles = ["Details", "News", "Markets"]
+    var favourites: [String] = []
+    var favouriteStatus: Bool = false
+    var favouriteButton: UIBarButtonItem!
     
     lazy var viewControllerList: [UIViewController] = {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -38,6 +45,10 @@ class GraphViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
+        favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
+        self.navigationItem.rightBarButtonItem = favouriteButton
         
         for (symbol, name) in GlobalValues.coins {
             if symbol == self.databaseTableTitle {
@@ -64,6 +75,8 @@ class GraphViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getFavouriteList()
+        setFavouriteButtonStatus()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,6 +89,66 @@ class GraphViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+    }
+    
+    func getFavouriteList() {
+        let defaults = UserDefaults.standard
+        
+        favourites = []
+        if let savedFavourites = defaults.object(forKey: dashboardFavouritesKey) as? Any {
+            if let array = savedFavourites as? [String] {
+                favourites = array
+            }
+        }
+    }
+    
+    func setFavouriteButtonStatus() {
+        
+        if favourites.contains(databaseTableTitle) {
+            var image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
+            image = image?.maskWithColor(color: selectedColour)
+            favouriteButton.image = image
+            favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
+            self.navigationItem.rightBarButtonItem = favouriteButton
+            favouriteStatus = true
+        }
+        else {
+            var image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
+            image = image?.maskWithColor(color: UIColor.gray)
+            favouriteButton.image = image
+            favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
+            self.navigationItem.rightBarButtonItem = favouriteButton
+            favouriteStatus = false
+        }
+    }
+    
+    @objc func favouriteButtonTapped() {
+        
+        if favouriteStatus {
+            if !favourites.contains(databaseTableTitle) {
+                favouriteStatus = false
+            } else {
+                for index in 0..<favourites.count {
+                    if databaseTableTitle == favourites[index] {
+                        favourites.remove(at: index)
+                        break
+                    }
+                }
+                favouriteStatus = true
+            }
+        } else {
+            if favourites.contains(databaseTableTitle) {
+                favouriteStatus = false
+            }
+            else {
+                favourites.append(databaseTableTitle)
+                favouriteStatus = true
+            }
+        }
+        
+        UserDefaults.standard.set(favourites, forKey:dashboardFavouritesKey)
+        
+        setFavouriteButtonStatus()
     }
     
     
