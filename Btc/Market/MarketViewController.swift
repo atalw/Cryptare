@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Firebase
+import Armchair
 
 class MarketViewController: UIViewController {
     
@@ -122,6 +123,8 @@ class MarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Armchair.userDidSignificantEvent(true)
         
         coinNameLabel.text = currentCoin
         

@@ -19,6 +19,7 @@ pod 'Google-Mobile-Ads-SDK'
 pod 'SwiftyStoreKit'
 pod 'Parchment', '~> 1.0'
 pod 'SwiftReorder', '~> 4.0'
+pod 'Armchair', '>= 0.3'
 
 target 'CryptareLite' do
     use_frameworks!
@@ -36,6 +37,7 @@ target 'CryptareLite' do
     pod 'SwiftyStoreKit'
     pod 'Parchment', '~> 1.0'
     pod 'SwiftReorder', '~> 4.0'
+    pod 'Armchair', '>= 0.3'
 end
 
 target 'BtcTests' do

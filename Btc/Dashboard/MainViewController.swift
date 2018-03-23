@@ -82,7 +82,6 @@ class MainViewController: UIViewController {
                 
                 favouritesVC.parentController = self
                 self.favouritesVC = favouritesVC
-//                searchController.searchResultsUpdater = favouritesVC
             }
         }
     }

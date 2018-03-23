@@ -8,6 +8,7 @@
 
 import UIKit
 import Parchment
+import Armchair
 
 class GraphViewController: UIViewController {
     
@@ -132,6 +133,8 @@ class GraphViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = favouriteButton
             favouriteStatus = false
         }
+        
+        Armchair.userDidSignificantEvent(true)
     }
     
     @objc func favouriteButtonTapped() {

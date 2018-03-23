@@ -7,9 +7,9 @@
 //
 
 import UIKit
-
 import Alamofire
 import AlamofireRSSParser
+import Armchair
 
 public enum NetworkResponseStatus {
     case success
@@ -64,6 +64,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Armchair.userDidSignificantEvent(true)
         
         self.sortPopularityButton.titleLabel?.adjustsFontSizeToFitWidth = true
         self.sortDateButton.titleLabel?.adjustsFontSizeToFitWidth = true

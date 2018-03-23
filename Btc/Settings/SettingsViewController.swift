@@ -8,6 +8,7 @@
 
 import UIKit
 import Charts
+import Armchair
 
 class SettingsViewController: UITableViewController {
     
@@ -47,6 +48,8 @@ class SettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Armchair.userDidSignificantEvent(true)
         
         self.removeAdsPriceLabel.text = 0.0.asCurrency
         

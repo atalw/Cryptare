@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import BulletinBoard
+import Armchair
 
 class CryptoPortfolioTableViewController: UITableViewController {
     
@@ -363,6 +364,8 @@ extension CryptoPortfolioTableViewController {
         self.portfolioData.append(portfolioEntry)
         
         savePortfolioEntry(portfolioEntry: portfolioEntry)
+        
+        Armchair.userDidSignificantEvent(true)
     }
     
     func initalizePortfolioEntries() {

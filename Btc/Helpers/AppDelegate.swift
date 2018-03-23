@@ -14,6 +14,7 @@ import SlideMenuControllerSwift
 import Charts
 import GoogleMobileAds
 import SwiftyStoreKit
+import Armchair
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -22,16 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var ref: DatabaseReference!
     let defaults = UserDefaults.standard
     
-    
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // armchair
+        Armchair.appID("1266256984")
+        Armchair.significantEventsUntilPrompt(5)
+        
+        // navigation bar
         UINavigationBar.appearance().barTintColor = UIColor.init(hex: "46637F")
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.white
         
+        // apple receipt validation
         let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
         SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
             switch result {
@@ -52,9 +57,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
+        // google ads
         GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
         
-        
+        // notification request
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
                 if error != nil {}
@@ -75,6 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             // Fallback on earlier versions
         }
         
+        // storyboard
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
         #endif
@@ -115,8 +122,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let introComplete = defaults.bool(forKey: "introComplete")
         
         if selectedCountry != nil && introComplete {
-            //            let savedCountry = defaults.string(forKey: "selectedCountry") as! String
-            
             for countryTuple in GlobalValues.countryList {
                 if selectedCountry == countryTuple.0 {
                     GlobalValues.currency = countryTuple.1
