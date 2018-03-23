@@ -546,13 +546,21 @@ class MarketViewController: UIViewController {
             self.markets.sort(by: {$0.buyPrice < $1.buyPrice})
             self.btcMarkets.sort(by: {$0.buyPrice < $1.buyPrice})
             self.ethMarkets.sort(by: {$0.buyPrice < $1.buyPrice})
+            
             self.copyMarkets.sort(by: {$0.0 < $1.0})
+            self.copyBtcMarkets.sort(by: {$0.0 < $1.0})
+            self.copyEthMarkets.sort(by: {$0.0 < $1.0})
+
+
         }
         else if buySortButtonCounter == 2 {
             self.markets.sort(by: {$0.buyPrice > $1.buyPrice})
             self.btcMarkets.sort(by: {$0.buyPrice > $1.buyPrice})
             self.ethMarkets.sort(by: {$0.buyPrice > $1.buyPrice})
+            
             self.copyMarkets.sort(by: {$0.0 > $1.0})
+            self.copyBtcMarkets.sort(by: {$0.0 > $1.0})
+            self.copyEthMarkets.sort(by: {$0.0 > $1.0})
         }
         buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
         buySortBtcButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
@@ -579,6 +587,9 @@ class MarketViewController: UIViewController {
             self.ethMarkets.sort(by: {$0.sellPrice < $1.sellPrice})
 
             self.copyMarkets.sort(by: {$0.1 < $1.1})
+            self.copyBtcMarkets.sort(by: {$0.1 < $1.1})
+            self.copyEthMarkets.sort(by: {$0.1 < $1.1})
+
         }
         else if sellSortButtonCounter == 2 {
             self.markets.sort(by: {$0.sellPrice > $1.sellPrice})
@@ -586,6 +597,9 @@ class MarketViewController: UIViewController {
             self.ethMarkets.sort(by: {$0.sellPrice > $1.sellPrice})
 
             self.copyMarkets.sort(by: {$0.1 > $1.1})
+            self.copyBtcMarkets.sort(by: {$0.1 > $1.1})
+            self.copyEthMarkets.sort(by: {$0.1 > $1.1})
+
         }
         sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
         sellSortBtcButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
