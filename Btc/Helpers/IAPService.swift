@@ -8,6 +8,7 @@
 
 import Foundation
 import StoreKit
+import SwiftyUserDefaults
 
 class IAPService: NSObject {
     
@@ -28,11 +29,10 @@ class IAPService: NSObject {
     func requestProductsWithCompletionHandler(completionHandler:@escaping (Bool, [SKProduct]?) -> Void){
         self.completionHandler = completionHandler
         
-        #if DEBUG
-            let products: Set = [IAPProductDev.removeAds.rawValue, IAPProductDev.unlockMarkets.rawValue]
-        #else
-            let products: Set = [IAPProduct.removeAds.rawValue, IAPProduct.unlockMarkets.rawValue]
-        #endif
+        let products: Set = [IAPProduct.unlockAll.rawValue,
+                             IAPProduct.removeAds.rawValue,
+                             IAPProduct.unlockMarkets.rawValue,
+                             IAPProduct.multiplePortfolios.rawValue]
         
         let request = SKProductsRequest(productIdentifiers: products)
         
@@ -77,17 +77,14 @@ extension IAPService: SKPaymentTransactionObserver {
             if transaction.payment.productIdentifier == IAPProduct.removeAds.rawValue {
                 switch transaction.transactionState {
                 case .purchased:
-                    print("AHSDFHAHF")
-                    defaults.set(true, forKey: "removeAdsPurchased")
+                    Defaults[.removeAdsPurchased] = true
                     queue.finishTransaction(transaction)
                 case .restored:
-                    print("restoring it bitch")
                     queue.restoreCompletedTransactions()
-                    defaults.set(true, forKey: "removeAdsPurchased")
+                    Defaults[.removeAdsPurchased] = true
                 case .purchasing:
                     print("adsfadfadfa")
                 default:
-                    print("nonneeeee")
                     queue.finishTransaction(transaction)
                     break
                 }
@@ -96,18 +93,55 @@ extension IAPService: SKPaymentTransactionObserver {
             if transaction.payment.productIdentifier == IAPProduct.unlockMarkets.rawValue {
                 switch transaction.transactionState {
                 case .purchased:
-                    print("AHSDFHAHF")
-                    defaults.set(true, forKey: "unlockMarketsPurchased")
+                    Defaults[.unlockMarketsPurchased] = true
                     queue.finishTransaction(transaction)
                     completionHandlerBool(true)
                 case .restored:
-                    print("restoring it bitch")
                     queue.restoreCompletedTransactions()
-                    defaults.set(true, forKey: "unlockMarketsPurchased")
+                    Defaults[.unlockMarketsPurchased] = true
                 case .purchasing:
                     print("adsfadfadfa")
                 default:
-                    print("nonneeeee")
+                    queue.finishTransaction(transaction)
+                    break
+                }
+            }
+            
+            if transaction.payment.productIdentifier == IAPProduct.multiplePortfolios.rawValue {
+                switch transaction.transactionState {
+                case .purchased:
+                    Defaults[.multiplePortfoliosPurchased] = true
+                    queue.finishTransaction(transaction)
+                    completionHandlerBool(true)
+                case .restored:
+                    queue.restoreCompletedTransactions()
+                    Defaults[.multiplePortfoliosPurchased] = true
+                case .purchasing:
+                    print("adsfadfadfa")
+                default:
+                    queue.finishTransaction(transaction)
+                    break
+                }
+            }
+            
+            if transaction.payment.productIdentifier == IAPProduct.unlockAll.rawValue {
+                switch transaction.transactionState {
+                case .purchased:
+                    Defaults[.unlockAllPurchased] = true
+                    Defaults[.removeAdsPurchased] = true
+                    Defaults[.unlockMarketsPurchased] = true
+                    Defaults[.multiplePortfoliosPurchased] = true
+                    queue.finishTransaction(transaction)
+                    completionHandlerBool(true)
+                case .restored:
+                    queue.restoreCompletedTransactions()
+                    Defaults[.unlockAllPurchased] = true
+                    Defaults[.removeAdsPurchased] = true
+                    Defaults[.unlockMarketsPurchased] = true
+                    Defaults[.multiplePortfoliosPurchased] = true
+                case .purchasing:
+                    print("adsfadfadfa")
+                default:
                     queue.finishTransaction(transaction)
                     break
                 }
