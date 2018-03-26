@@ -26,10 +26,16 @@ extension Double {
     }
     
     var asBtcCurrency: String {
-        return "₿ \(self)"
+        var decimalValue = Decimal(self)
+        var result = Decimal()
+        NSDecimalRound(&result, &decimalValue, 8, .plain)
+        return "₿ \(result)"
     }
     
     var asEthCurrency: String {
-        return "\(self) ETH"
+        var decimalValue = Decimal(self)
+        var result = Decimal()
+        NSDecimalRound(&result, &decimalValue, 8, .plain)
+        return "\(result) ETH"
     }
 }

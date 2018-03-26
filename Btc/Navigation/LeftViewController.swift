@@ -23,7 +23,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     @IBOutlet weak var tableView: UITableView!
     var menus = ["Dashboard", "Portfolio", "News", "Settings"]
     var mainViewController: UIViewController!
-    var portfolioSummaryViewController: UIViewController!
+    var mainPortfolioViewController: UIViewController!
     var newsViewController: UIViewController!
     var settingsViewController: UIViewController!
     
@@ -47,8 +47,8 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         self.mainViewController = UINavigationController(rootViewController: mainViewController)
         
-        let portfolioSummaryViewController = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
-        self.portfolioSummaryViewController = UINavigationController(rootViewController: portfolioSummaryViewController)
+        let mainPortfolioViewController = storyboard.instantiateViewController(withIdentifier: "MainPortfolioViewController") as! MainPortfolioViewController
+        self.mainPortfolioViewController = UINavigationController(rootViewController: mainPortfolioViewController)
         
         let newsViewController = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
         self.newsViewController = UINavigationController(rootViewController: newsViewController)
@@ -72,7 +72,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         case .dashboard:
             self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
         case .portfolio:
-            self.slideMenuController()?.changeMainViewController(self.portfolioSummaryViewController, close: true)
+            self.slideMenuController()?.changeMainViewController(self.mainPortfolioViewController, close: true)
         case .news:
             self.slideMenuController()?.changeMainViewController(self.newsViewController, close: true)
         case .settings:

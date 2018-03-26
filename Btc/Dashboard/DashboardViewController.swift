@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import GoogleMobileAds
 import SwiftReorder
 import SwiftyUserDefaults
 
@@ -18,7 +17,6 @@ class DashboardViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
 
-    let dashboardFavouritesKey = "dashboardFavourites"
     var favouritesTab: Bool!
     
     var coins: [String] = []
@@ -42,8 +40,6 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var header24hrChangeLabel: UILabel!
     @IBOutlet weak var headerCurrentPriceLabel: UILabel!
     
-    @IBOutlet weak var bannerView: GADBannerView!
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -54,15 +50,6 @@ class DashboardViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
-        if removeAdsPurchased == false {
-            bannerView.load(GADRequest())
-            bannerView.delegate = self
-        }
-        else {
-            bannerView.isHidden = true
-        }
         
         if currentReachabilityStatus == .notReachable {
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
@@ -103,9 +90,6 @@ class DashboardViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
         
         databaseRef = Database.database().reference()
         
@@ -292,7 +276,6 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         
-        
         var colour: UIColor
         let currentPrice = self.coinData[coin]?["currentPrice"] as! Double
         let oldPrice = self.coinData[coin]?["oldPrice"] as? Double ?? 0.0
@@ -362,43 +345,6 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         self.navigationController?.pushViewController(targetViewController, animated: true)
     }
     
-}
-
-
-
-extension DashboardViewController: GADBannerViewDelegate {
-    /// Tells the delegate an ad request loaded an ad.
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("adViewDidReceiveAd")
-    }
-    
-    /// Tells the delegate an ad request failed.
-    func adView(_ bannerView: GADBannerView,
-                didFailToReceiveAdWithError error: GADRequestError) {
-        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-    }
-    
-    /// Tells the delegate that a full-screen view will be presented in response
-    /// to the user clicking on an ad.
-    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-        print("adViewWillPresentScreen")
-    }
-    
-    /// Tells the delegate that the full-screen view will be dismissed.
-    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
-        print("adViewWillDismissScreen")
-    }
-    
-    /// Tells the delegate that the full-screen view has been dismissed.
-    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
-        print("adViewDidDismissScreen")
-    }
-    
-    /// Tells the delegate that a user click will open another app (such as
-    /// the App Store), backgrounding the current app.
-    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-        print("adViewWillLeaveApplication")
-    }
 }
 
 extension DashboardViewController: TableViewReorderDelegate {

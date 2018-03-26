@@ -47,7 +47,7 @@ class CryptoPortfolioViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         dateFormatter.timeZone = TimeZone.current
         timeFormatter.dateFormat = "hh:mm a"
         

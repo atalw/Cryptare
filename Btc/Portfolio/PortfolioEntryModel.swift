@@ -27,7 +27,6 @@ class PortfolioEntryModel {
     var totalCost: Double!
     
     var date: Date!
-    var time: Date!
     
     var currentCoinPrice: Double!
     var currentValue: Double!
@@ -37,7 +36,7 @@ class PortfolioEntryModel {
     
     let dateFormatter = DateFormatter()
     
-    init(type: String, coin: String, tradingPair: String, exchange: String, costPerCoin: Double!, amountOfCoins: Double, fees: Double!, date: Date!, time: Date!, currentCoinPrice: Double!,
+    init(type: String, coin: String, tradingPair: String, exchange: String, costPerCoin: Double!, amountOfCoins: Double, fees: Double!, date: Date!, currentCoinPrice: Double!,
          delegate: PortfolioEntryDelegate) {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         self.delegate = delegate
@@ -52,7 +51,6 @@ class PortfolioEntryModel {
         self.fees = fees
         
         self.date = date
-        self.time = time
         
         self.currentCoinPrice = currentCoinPrice
         

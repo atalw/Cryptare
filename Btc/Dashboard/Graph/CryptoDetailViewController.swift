@@ -10,6 +10,7 @@ import UIKit
 import Charts
 import SwiftyJSON
 import Firebase
+import SwiftyUserDefaults
 
 class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     
@@ -23,7 +24,6 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     
     var parentControler: DashboardViewController!
     
-    let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
     let decimalNumberFormatter = NumberFormatter()
     var currency: String! = ""
@@ -69,7 +69,7 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
 
         self.chart.delegate = self
         
-        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        self.selectedCountry = Defaults[.selectedCountry]
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
         decimalNumberFormatter.numberStyle = .decimal

@@ -9,10 +9,9 @@
 import UIKit
 import Parchment
 import Armchair
+import SwiftyUserDefaults
 
 class GraphViewController: UIViewController {
-    
-    let dashboardFavouritesKey = "dashboardFavourites"
     
     let selectedColour = UIColor.init(hex: "#F7B54A")
     
@@ -105,14 +104,7 @@ class GraphViewController: UIViewController {
     }
     
     func getFavouriteList() {
-        let defaults = UserDefaults.standard
-        
-        favourites = []
-        if let savedFavourites = defaults.object(forKey: dashboardFavouritesKey) as? Any {
-            if let array = savedFavourites as? [String] {
-                favourites = array
-            }
-        }
+        favourites = Defaults[.dashboardFavourites]
     }
     
     func setFavouriteButtonStatus() {
@@ -161,7 +153,7 @@ class GraphViewController: UIViewController {
             }
         }
         
-        UserDefaults.standard.set(favourites, forKey:dashboardFavouritesKey)
+        Defaults[.dashboardFavourites] = favourites
         
         setFavouriteButtonStatus()
     }

@@ -21,7 +21,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
     let defaults = UserDefaults.standard
     
     let dateFormatter = DateFormatter()
-    let timeFormatter = DateFormatter()
     
     let portfolioEntriesConstant = "portfolioEntries"
     let portfolioCellConstant = "portfolioBuyCell"
@@ -48,7 +47,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone.current
-        timeFormatter.dateFormat = "hh:mm a"
 
         activityIndicator.addSubview(view)
         self.activityIndicator.hidesWhenStopped = true
@@ -137,10 +135,10 @@ class CryptoPortfolioTableViewController: UITableViewController {
         cell.amountOfCoinsLabel.adjustsFontSizeToFitWidth = true
         if portfolio.type == "buy" {
             cell.amountOfCoinsLabel.textColor = greenColour
-            if let date = portfolio.date, let time = portfolio.time {
+            if let date = portfolio.date {
                 dateFormatter.dateFormat = "dd MMM, YYYY"
                 let dateString = dateFormatter.string(from: date)
-                let timeString = timeFormatter.string(from: time)
+                let timeString = dateFormatter.string(from: date)
                 if let exchange = portfolio.exchange {
                     cell.transactionInfoLabel.text = "Bought on \(dateString) via \(exchange) at \(timeString)"
                 }
@@ -152,10 +150,10 @@ class CryptoPortfolioTableViewController: UITableViewController {
         }
         else if portfolio.type == "sell" {
             cell.amountOfCoinsLabel.textColor = redColour
-            if let date = portfolio.date, let time = portfolio.time {
+            if let date = portfolio.date {
                 dateFormatter.dateFormat = "dd MMM, YYYY"
                 let dateString = dateFormatter.string(from: date)
-                let timeString = timeFormatter.string(from: time)
+                let timeString = dateFormatter.string(from: date)
                 if let exchange = portfolio.exchange {
                     cell.transactionInfoLabel.text = "Sold on \(dateString) via \(exchange) at \(timeString)"
 
@@ -375,14 +373,13 @@ extension CryptoPortfolioTableViewController {
         else {
             for portfolio in portfolioData {
                 PortfolioEntryModel(type: portfolio["type"] as! String,
-                                    coin: portfolio["coin"] as! String,
+                                    coin: coin,
                                     tradingPair: portfolio["tradingPair"] as! String,
                                     exchange: portfolio["exchange"] as! String,
                                     costPerCoin: portfolio["costPerCoin"] as! Double,
                                     amountOfCoins: portfolio["amountOfCoins"] as! Double,
                                     fees: portfolio["fees"] as! Double,
                                     date: portfolio["date"] as! Date,
-                                    time: portfolio["time"] as! Date,
                                     currentCoinPrice: self.coinPrice,
                                     delegate: self)
             }
@@ -391,8 +388,6 @@ extension CryptoPortfolioTableViewController {
     
     // append portfolio entry to userdefaults stored portfolios, else create new data entry
     func savePortfolioEntry(portfolioEntry: [String: Any]) {
-        //        let dateString = dateFormatter.string(from: date)
-        let timeString = timeFormatter.string(from: portfolioEntry["time"] as! Date)
         
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
@@ -404,7 +399,6 @@ extension CryptoPortfolioTableViewController {
                                          5: portfolioEntry["amountOfCoins"] as Any,
                                          6: portfolioEntry["fees"] as Any,
                                          7: portfolioEntry["date"] as Any,
-                                         8: timeString as Any
                     ])
                 
                 let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
@@ -423,7 +417,6 @@ extension CryptoPortfolioTableViewController {
                                      5: portfolioEntry["amountOfCoins"] as Any,
                                      6: portfolioEntry["fees"] as Any,
                                      7: portfolioEntry["date"] as Any,
-                                     8: timeString as Any
                 ])
             
             let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
@@ -434,15 +427,12 @@ extension CryptoPortfolioTableViewController {
     
     
     func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        timeFormatter.dateFormat = "hh:mm a"
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         
         if var data = defaults.data(forKey: portfolioEntriesConstant) {
             if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
                 
 //                let dateString = dateFormatter.string(from: portfolioEntry.date)
-                let timeString = timeFormatter.string(from: portfolioEntry.time)
-                
                 for index in 0..<portfolioEntries.count {
                     
                     let type = portfolioEntries[index][0] as? String
@@ -453,12 +443,11 @@ extension CryptoPortfolioTableViewController {
                     let amountOfCoins = portfolioEntries[index][5] as? Double
                     let fees = portfolioEntries[index][6] as? Double
                     let date = portfolioEntries[index][7] as? Date
-                    let time = portfolioEntries[index][8] as? String
 
                     if type == portfolioEntry.type && coin == portfolioEntry.coin &&
                         amountOfCoins == portfolioEntry.amountOfCoins &&
                         portfolioEntry.date == date && costPerCoin == portfolioEntry.costPerCoin &&
-                        timeString == time && exchange == portfolioEntry.exchange {
+                        exchange == portfolioEntry.exchange {
                         
                         if type == "buy" {
                             parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfCoins!, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)

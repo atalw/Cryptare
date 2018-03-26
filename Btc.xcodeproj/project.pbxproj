@@ -137,6 +137,8 @@
 		86BD6F9F1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */; };
 		86C1623920429C3000BFC90E /* AddTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */; };
 		86C1623A20429C3000BFC90E /* AddTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */; };
+		86CCB512206694C100B42808 /* MainPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CCB511206694C100B42808 /* MainPortfolioViewController.swift */; };
+		86CCB5142068D8C700B42808 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CCB5132068D8C700B42808 /* UserDefaultsKeys.swift */; };
 		86CD93CB2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CD93CA2051851C009046F2 /* FiatPortfolioViewController.swift */; };
 		86CD93CC2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CD93CA2051851C009046F2 /* FiatPortfolioViewController.swift */; };
 		86D6083C2063AD3500C2157B /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6083B2063AD3500C2157B /* UIView+Constraints.swift */; };
@@ -278,6 +280,8 @@
 		86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
 		86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIButton.swift; sourceTree = "<group>"; };
 		86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewController.swift; sourceTree = "<group>"; };
+		86CCB511206694C100B42808 /* MainPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPortfolioViewController.swift; sourceTree = "<group>"; };
+		86CCB5132068D8C700B42808 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		86CD93CA2051851C009046F2 /* FiatPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatPortfolioViewController.swift; sourceTree = "<group>"; };
 		86D6083B2063AD3500C2157B /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		86D6083D2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarBarButtonItem+Extensions.swift"; sourceTree = "<group>"; };
@@ -522,6 +526,7 @@
 				86D6083B2063AD3500C2157B /* UIView+Constraints.swift */,
 				86D6083D2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift */,
 				86D6083F2064E9E500C2157B /* UIImage+Extensions.swift */,
+				86CCB5132068D8C700B42808 /* UserDefaultsKeys.swift */,
 			);
 			name = "Helper Files";
 			path = Helpers;
@@ -581,6 +586,7 @@
 		8661F5CF1FB5F78E00D6F365 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				86CCB511206694C100B42808 /* MainPortfolioViewController.swift */,
 				866E8035204EE81A0051C541 /* Summary */,
 				866E8036204EE8400051C541 /* Coin Detail */,
 				86E1381C1FBB150C00C5D3ED /* Bulletin */,
@@ -1023,6 +1029,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftReorder/SwiftReorder.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1040,6 +1047,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftReorder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1067,6 +1075,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftReorder/SwiftReorder.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1084,6 +1093,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftReorder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1148,6 +1158,8 @@
 				86FC11BD1FEBC9C70094B82F /* Constants.swift in Sources */,
 				8661F5D11FB5F7B800D6F365 /* CryptoPortfolioTableViewController.swift in Sources */,
 				8633626020430357009D1778 /* AddTransactionViewController.swift in Sources */,
+				86CCB5142068D8C700B42808 /* UserDefaultsKeys.swift in Sources */,
+				86CCB512206694C100B42808 /* MainPortfolioViewController.swift in Sources */,
 				86730EF12025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */,
 				86E8A5752028A69B00D7E467 /* MarketInformation.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
