@@ -7,15 +7,12 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 class CountrySelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-   
     
     var tableViewController : countryTableViewController!
     @IBOutlet weak var nextButton: UIButton!
-    
-    let defaults = UserDefaults.standard
-    
     
     var sortedCountryList: [(String, String, String, String)] = []
     
@@ -74,12 +71,9 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let row = indexPath.row
-        self.defaults.set(sortedCountryList[row].0, forKey: "selectedCountry")
+        Defaults[.selectedCountry] = sortedCountryList[row].0
         GlobalValues.currency = sortedCountryList[row].1
         self.dismiss(animated: true, completion: nil)
-//        if nextButton != nil {
-//            self.nextButton.isEnabled = true
-//        }
     }
 }
 

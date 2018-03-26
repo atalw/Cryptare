@@ -15,6 +15,7 @@ import Charts
 import GoogleMobileAds
 import SwiftyStoreKit
 import Armchair
+import SwiftyUserDefaults
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -46,9 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     print(originalAppVersion, "Original")
                     if let versionNumber = Double(originalAppVersion) {
                         if versionNumber < 2.92 {
-                            UserDefaults.standard.set(true, forKey: "removeAdsPurchased")
-                            UserDefaults.standard.set(true, forKey: "unlockMarketsPurchased")
-                            UserDefaults.standard.set(true, forKey: "paidUser")
+                            Defaults[.removeAdsPurchased] = true
+                            Defaults[.previousPaidUser] = true
                         }
                     }
                 }
@@ -90,36 +90,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
         #endif
         
+        // dashboard settings
+        if !Defaults.hasKey(.dashboardFavourites) &&
+            !Defaults.hasKey(.dashboardFavouritesFirstTab) {
+            Defaults[.dashboardFavourites] = ["BTC", "ETH", "LTC", "XRB"]
+            Defaults[.dashboardFavouritesFirstTab] = true
+        }
+        
         // chart settings
-        if !defaults.bool(forKey: "chartSettingsExist") {
-            defaults.set("smooth", forKey: "chartMode")
+        if !Defaults.hasKey(.chartSettingsExist) {
+            Defaults[.chartMode] = "smooth"
             
-            defaults.set(ChartSettingsDefault.xAxis, forKey: "xAxis")
-            defaults.set(ChartSettingsDefault.xAxisGridLinesEnabled, forKey: "xAxisGridLinesEnabled")
-            
-            defaults.set(ChartSettingsDefault.yAxis, forKey: "yAxis")
-            defaults.set(ChartSettingsDefault.yAxisGridLinesEnabled, forKey: "yAxisGridLinesEnabled")
-            
-            defaults.set(true, forKey: "chartSettingsExist")
+            Defaults[.xAxis] = ChartSettingsDefault.xAxis
+            Defaults[.xAxisGridLinesEnabled] = ChartSettingsDefault.xAxisGridLinesEnabled
+
+            Defaults[.yAxis] = ChartSettingsDefault.yAxis
+            Defaults[.yAxisGridLinesEnabled] = ChartSettingsDefault.yAxisGridLinesEnabled
+
+            Defaults[.chartSettingsExist] = true
         }
         
         // market settings
-        if !defaults.bool(forKey: "marketSettingsExist") {
-            defaults.set("buy", forKey: "marketSort")
-            defaults.set("ascending", forKey: "marketOrder")
+        if !Defaults.hasKey(.marketSettingsExist) {
+            Defaults[.marketSort] = "buy"
+            Defaults[.marketOrder] = "ascending"
             
-            defaults.set(true, forKey: "marketSettingsExist")
+            Defaults[.marketSettingsExist] = true
         }
         
         // news settings
-        if !defaults.bool(forKey: "newsSettingsExist") {
-            defaults.set("popularity", forKey: "newsSort")
+        
+        if !Defaults.hasKey(.newsSettingsExist) {
+            Defaults[.newsSort] = "popularity"
             
-            defaults.set(true, forKey: "newsSettingsExist")
+            Defaults[.newsSettingsExist] = true
         }
         
-        let selectedCountry = defaults.string(forKey: "selectedCountry")
-        let introComplete = defaults.bool(forKey: "introComplete")
+        let selectedCountry = Defaults[.selectedCountry]
+        let introComplete = Defaults[.mainIntroComplete]
         
         if selectedCountry != nil && introComplete {
             for countryTuple in GlobalValues.countryList {
@@ -211,10 +219,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func setUpFirebaseLite() {
-        print("here")
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = true
-        print("here2")
         ref = Database.database().reference().child("user_ids_lite")
         
         let fcmToken = Messaging.messaging().fcmToken

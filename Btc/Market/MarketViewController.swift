@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 import Firebase
 import Armchair
+import SwiftyUserDefaults
 
 class MarketViewController: UIViewController {
     
@@ -55,8 +56,6 @@ class MarketViewController: UIViewController {
     }
     #endif
     
-    let defaults = UserDefaults.standard
-
     var selectedCountry: String!
     
     var currentCoin: String! = "BTC"
@@ -179,7 +178,7 @@ class MarketViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+        self.selectedCountry = Defaults[.selectedCountry]
         
         
         self.databaseReference.child("all_exchanges_update_type").observe(.value, with: {(snapshot) -> Void in
@@ -195,7 +194,7 @@ class MarketViewController: UIViewController {
             marketsLockView.isHidden = true
         }
         else {
-            let unlockMarketsPurchased = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
+            let unlockMarketsPurchased = Defaults[.unlockMarketsPurchased]
             if unlockMarketsPurchased == true {
                 marketsLockView.isHidden = true
             }
@@ -628,8 +627,8 @@ class MarketViewController: UIViewController {
     }
     
     func defaultSort() {
-        let marketSort = defaults.string(forKey: "marketSort")
-        let marketOrder = defaults.string(forKey: "marketOrder")
+        let marketSort = Defaults[.marketSort]
+        let marketOrder = Defaults[.marketOrder]
         
         self.buySortButtonCounter = 0
         self.sellSortButtonCounter = 0

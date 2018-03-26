@@ -10,13 +10,13 @@ import UIKit
 import Firebase
 import GoogleMobileAds
 import SwiftReorder
+import SwiftyUserDefaults
 
 class DashboardViewController: UIViewController {
     
     var parentController: MainViewController!
     
     let dateFormatter = DateFormatter()
-    let defaults = UserDefaults.standard
 
     let dashboardFavouritesKey = "dashboardFavourites"
     var favouritesTab: Bool!
@@ -46,16 +46,16 @@ class DashboardViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if let indexPath = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let index = self.tableView.indexPathForSelectedRow{
-            self.tableView.deselectRow(at: index, animated: true)
-        }
-        
-        let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
+        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
         if removeAdsPurchased == false {
             bannerView.load(GADRequest())
             bannerView.delegate = self
@@ -164,10 +164,7 @@ class DashboardViewController: UIViewController {
     
     func getFavourites() {
         self.coins = []
-        var favourites: [String] = []
-        if let favouritesDefaults = defaults.object(forKey: "dashboardFavourites") {
-            favourites = favouritesDefaults as! [String]
-        }
+        var favourites: [String] = Defaults[.dashboardFavourites]
         self.coins = favourites
     }
     
@@ -411,7 +408,7 @@ extension DashboardViewController: TableViewReorderDelegate {
         coins[destinationIndexPath.row] = coins[sourceIndexPath.row]
         coins[sourceIndexPath.row] = destinationCoin
         
-        defaults.set(coins, forKey: dashboardFavouritesKey)
+        Defaults[.dashboardFavourites] = coins
     }
 }
 

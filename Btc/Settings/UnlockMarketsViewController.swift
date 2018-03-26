@@ -38,7 +38,13 @@ class UnlockMarketsViewController: UIViewController {
         IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
             if success {
                 if products != nil {
-                    let price = products![1].localizedPrice()
+                    var price = 0.0.asCurrency
+                    for product in products! {
+                        if product.localizedTitle == "Unlock all markets" {
+                           price = product.localizedPrice()
+                        }
+                    }
+                    
                     self.buyUnlockMarketsButton.setTitle(" Unlock all markets for a one-time lifetime purchase of \(price). ", for: .normal)
                     self.buyUnlockMarketsButton.titleLabel?.lineBreakMode = .byWordWrapping
                     self.buyUnlockMarketsButton.addTarget(self, action: #selector(self.unlockMarketsButtonTapped), for: .touchUpInside)

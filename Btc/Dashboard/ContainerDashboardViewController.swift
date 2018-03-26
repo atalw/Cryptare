@@ -8,6 +8,7 @@
 
 import UIKit
 import Parchment
+import SwiftyUserDefaults
 
 class ContainerDashboardViewController: UIViewController {
     
@@ -24,7 +25,7 @@ class ContainerDashboardViewController: UIViewController {
         vc2.favouritesTab = true
         vc2.title = "Favourites"
         
-        let favouriteFirstDefaults = defaults.bool(forKey: "favouritesFirstTab")
+        let favouriteFirstDefaults = Defaults[.dashboardFavouritesFirstTab]
 
         return favouriteFirstDefaults ? [vc2, vc1] : [vc1, vc2]
     }()

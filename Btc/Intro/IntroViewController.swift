@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 class IntroViewController: UIViewController, UIScrollViewDelegate {
 
@@ -56,7 +57,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     }
 
     @IBAction func skipButtonTapped(_ sender: Any) {
-        UserDefaults.standard.set(true, forKey: "introComplete")
+        Defaults[.mainIntroComplete] = true
         self.dismiss(animated: true, completion: nil)
     }
     /*

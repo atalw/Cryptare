@@ -9,10 +9,9 @@
 import UIKit
 import Charts
 import Armchair
+import SwiftyUserDefaults
 
 class SettingsViewController: UITableViewController {
-    
-    let defaults = UserDefaults.standard
     
     // dashboard
     @IBOutlet weak var favouritesInitialTabSwitch: UISwitch!
@@ -38,8 +37,10 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var popularitySort: UIButton!
     @IBOutlet weak var dateSort: UIButton!
     
+    @IBOutlet weak var unlockAllPriceLabel: UILabel!
     @IBOutlet weak var removeAdsPriceLabel: UILabel!
     @IBOutlet weak var unlockMarketsPriceLabel: UILabel!
+    @IBOutlet weak var unlockMulitplePortfoliosLabel: UILabel!
     
     // footer
     @IBOutlet weak var appVersionLabel: UILabel!
@@ -51,7 +52,9 @@ class SettingsViewController: UITableViewController {
         
         Armchair.userDidSignificantEvent(true)
         
+        self.unlockAllPriceLabel.text = 0.0.asCurrency
         self.removeAdsPriceLabel.text = 0.0.asCurrency
+        self.unlockMulitplePortfoliosLabel.text = 0.0.asCurrency
         
         // dashboard
         favouritesInitialTabSwitch.addTarget(self, action: #selector(favouritesInitialTabChange), for: .valueChanged)
@@ -130,30 +133,71 @@ class SettingsViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
-        let unlockMarketsPurchased: Bool = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
-        let paidUser: Bool = UserDefaults.standard.bool(forKey: "paidUser")
+        let unlockAll: Bool = Defaults[.unlockAllPurchased]
+        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
+        let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
+        let unlockMultiplePortfoliosPurchased: Bool = Defaults[.multiplePortfoliosPurchased]
+        let paidUser: Bool = Defaults[.previousPaidUser]
         
         IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
             if success {
                 if products != nil {
                     if !paidUser {
                         if products!.count > 1 {
+                            if unlockAll {
+                                self.unlockAllPriceLabel.text = "Already purchased"
+                            }
+                            else {
+                                for product in products! {
+                                    if product.localizedTitle == "Unlock All" {
+                                        self.unlockAllPriceLabel.text = product.localizedPrice
+
+                                    }
+                                }
+                            }
+                            
                             if removeAdsPurchased {
                                 self.removeAdsPriceLabel.text = "Already purchased"
                             }
                             else {
-                                self.removeAdsPriceLabel.text = products![0].localizedPrice()
+                                for product in products! {
+                                    if product.localizedTitle == "Remove Ads" {
+                                        self.removeAdsPriceLabel.text = product.localizedPrice
+                                        
+                                    }
+                                }
                             }
                             
                             if unlockMarketsPurchased {
                                 self.unlockMarketsPriceLabel.text = "Already purchased"
                             }
+                            else {
+                                for product in products! {
+                                    if product.localizedTitle == "Unlock all markets" {
+                                        self.unlockMarketsPriceLabel.text = "Learn more - \(product.localizedPrice!)"
+                                        
+                                    }
+                                }
+                            }
+                            
+                            if unlockMultiplePortfoliosPurchased {
+                                self.unlockMulitplePortfoliosLabel.text = "Already purchased"
+                            }
+                            else {
+                                for product in products! {
+                                    if product.localizedTitle == "Multiple Portfolios" {
+                                        self.unlockMulitplePortfoliosLabel.text = product.localizedPrice
+                                        
+                                    }
+                                }
+                            }
                         }
                     }
                     else {
+                        self.unlockAllPriceLabel.text = "Already purchased"
                         self.removeAdsPriceLabel.text = "Already purchased"
                         self.unlockMarketsPriceLabel.text = "Already purchased"
+                        self.unlockMulitplePortfoliosLabel.text = "Already purchased"
                     }
                 }
             }
@@ -162,77 +206,54 @@ class SettingsViewController: UITableViewController {
     
     @objc func favouritesInitialTabChange(favouritesInitialTabSwitch: UISwitch) {
         let state = favouritesInitialTabSwitch.isOn
-        defaults.set(state, forKey: "favouritesFirstTab")
+        Defaults[.dashboardFavouritesFirstTab] = state
     }
     
     @objc func xAxisChange(xAxisSwitch: UISwitch) {
         let state = xAxisSwitch.isOn
-        if state {
-            ChartSettings.xAxis = true
-            xAxisGridLinesSwitch.isEnabled = true
-            defaults.set(true, forKey: "xAxis")
-        }
-        else {
-            ChartSettings.xAxis = false
-            xAxisGridLinesSwitch.isEnabled = false
-            defaults.set(false, forKey: "xAxis")
-        }
+        ChartSettings.xAxis = state
+        xAxisGridLinesSwitch.isEnabled = state
+        Defaults[.xAxis] = state
     }
     
     @objc func xAxisGridLinesChange(xAxisSwitch: UISwitch) {
         let state = xAxisGridLinesSwitch.isOn
-        if state {
-            ChartSettings.xAxisGridLinesEnabled = true
-            defaults.set(true, forKey: "xAxisGridLinesEnabled")
-        }
-        else {
-            ChartSettings.xAxisGridLinesEnabled = false
-            defaults.set(false, forKey: "xAxisGridLinesEnabled")
-        }
+        
+        ChartSettings.xAxisGridLinesEnabled = state
+        Defaults[.xAxisGridLinesEnabled] = state
     }
     
     @objc func yAxisChange(xAxisSwitch: UISwitch) {
         let state = yAxisSwitch.isOn
-        if state {
-            ChartSettings.yAxis = true
-            yAxisGridLinesSwitch.isEnabled = true
-            defaults.set(true, forKey: "yAxis")
-        }
-        else {
-            ChartSettings.yAxis = false
-            yAxisGridLinesSwitch.isEnabled = false
-            defaults.set(false, forKey: "yAxis")
-        }
+        
+        ChartSettings.yAxis = state
+        yAxisGridLinesSwitch.isEnabled = state
+        Defaults[.yAxis] = state
     }
     
     @objc func yAxisGridLinesChange(xAxisSwitch: UISwitch) {
         let state = yAxisGridLinesSwitch.isOn
-        if state {
-            ChartSettings.yAxisGridLinesEnabled = true
-            defaults.set(true, forKey: "yAxisGridLinesEnabled")
-        }
-        else {
-            ChartSettings.yAxisGridLinesEnabled = false
-            defaults.set(false, forKey: "yAxisGridLinesEnabled")
-        }
+        
+        ChartSettings.yAxisGridLinesEnabled = state
+        Defaults[.yAxisGridLinesEnabled] = state
     }
 
     @IBAction func linearButtonTapped(_ sender: Any) {
         linearSelected()
         ChartSettings.chartMode = "linear"
-        defaults.set("linear", forKey: "chartMode")
+        Defaults[.chartMode] = "linear"
     }
     
     @IBAction func smoothButtonTapped(_ sender: Any) {
         smoothSelected()
         ChartSettings.chartMode = "smooth"
-        defaults.set("smooth", forKey: "chartMode")
+        Defaults[.chartMode] = "smooth"
     }
     
     @IBAction func steppedButtonTapped(_ sender: Any) {
         steppedSelected()
         ChartSettings.chartMode = "stepped"
-        defaults.set("stepped", forKey: "chartMode")
+        Defaults[.chartMode] = "stepped"
     }
     
     func linearSelected() {
@@ -277,20 +298,19 @@ class SettingsViewController: UITableViewController {
         ChartSettings.yAxis = ChartSettingsDefault.yAxis
         ChartSettings.yAxisGridLinesEnabled = ChartSettingsDefault.yAxisGridLinesEnabled
         
-        defaults.set(ChartSettingsDefault.chartMode, forKey: "chartMode")
+        Defaults[.chartMode] = ChartSettingsDefault.chartMode
         
-        defaults.set(ChartSettingsDefault.xAxis, forKey: "xAxis")
-        defaults.set(ChartSettingsDefault.xAxisGridLinesEnabled, forKey: "xAxisGridLinesEnabled")
+        Defaults[.xAxis] = ChartSettingsDefault.xAxis
+        Defaults[.xAxisGridLinesEnabled] = ChartSettingsDefault.xAxisGridLinesEnabled
         
-        defaults.set(ChartSettingsDefault.yAxis, forKey: "yAxis")
-        defaults.set(ChartSettingsDefault.yAxisGridLinesEnabled, forKey: "yAxisGridLinesEnabled")
+        Defaults[.yAxis] = ChartSettingsDefault.yAxis
+        Defaults[.yAxisGridLinesEnabled] = ChartSettingsDefault.yAxisGridLinesEnabled
         
         loadChartSettings()
     }
     
     func loadDashboardSettings() {
-        let favouritesFirstTab = defaults.bool(forKey: "favouritesFirstTab")
-        favouritesInitialTabSwitch.isOn = favouritesFirstTab
+        favouritesInitialTabSwitch.isOn = Defaults[.dashboardFavouritesFirstTab]
     }
     
     func loadChartSettings() {
@@ -323,14 +343,14 @@ class SettingsViewController: UITableViewController {
     }
     
     func loadMarketSettings() {
-        if defaults.string(forKey: "marketSort") == "buy" {
+        if Defaults[.marketSort] == "buy" {
             buySort.isSelected = true
             sellSort.isSelected = false
             
             buySort.backgroundColor = buttonHighlightedBackgroundColour
             sellSort.backgroundColor = UIColor.white
         }
-        else if defaults.string(forKey: "marketSort") == "sell" {
+        else if Defaults[.marketSort] == "sell" {
             buySort.isSelected = false
             sellSort.isSelected = true
             
@@ -338,14 +358,14 @@ class SettingsViewController: UITableViewController {
             sellSort.backgroundColor = buttonHighlightedBackgroundColour
         }
         
-        if defaults.string(forKey: "marketOrder") == "ascending" {
+        if Defaults[.marketOrder] == "ascending" {
             ascendingSort.isSelected = true
             descendingSort.isSelected = false
             
             ascendingSort.backgroundColor = buttonHighlightedBackgroundColour
             descendingSort.backgroundColor = UIColor.white
         }
-        else if defaults.string(forKey: "marketOrder") == "descending" {
+        else if Defaults[.marketOrder] == "descending" {
             ascendingSort.isSelected = false
             descendingSort.isSelected = true
             
@@ -362,7 +382,7 @@ class SettingsViewController: UITableViewController {
             buySort.backgroundColor = buttonHighlightedBackgroundColour
             sellSort.backgroundColor = UIColor.white
             
-            defaults.set("buy", forKey: "marketSort")
+            Defaults[.marketSort] = "buy"
         }
         else if (sender as! UIButton).isEqual(sellSort) {
             buySort.isSelected = false
@@ -371,7 +391,7 @@ class SettingsViewController: UITableViewController {
             buySort.backgroundColor = UIColor.white
             sellSort.backgroundColor = buttonHighlightedBackgroundColour
             
-            defaults.set("sell", forKey: "marketSort")
+            Defaults[.marketSort] = "sell"
         }
     }
     
@@ -383,7 +403,7 @@ class SettingsViewController: UITableViewController {
             ascendingSort.backgroundColor = buttonHighlightedBackgroundColour
             descendingSort.backgroundColor = UIColor.white
             
-            defaults.set("ascending", forKey: "marketOrder")
+            Defaults[.marketOrder] = "ascending"
         }
         else if (sender as! UIButton).isEqual(descendingSort) {
             ascendingSort.isSelected = false
@@ -392,21 +412,19 @@ class SettingsViewController: UITableViewController {
             ascendingSort.backgroundColor = UIColor.white
             descendingSort.backgroundColor = buttonHighlightedBackgroundColour
             
-            defaults.set("descending", forKey: "marketOrder")
+            Defaults[.marketOrder] = "descending"
         }
     }
     
     func loadNewsSettings() {
-        let newsSort = defaults.string(forKey: "newsSort")
-        
-        if newsSort == "popularity" {
+        if Defaults[.newsSort] == "popularity" {
             popularitySort.isSelected = true
             dateSort.isSelected = false
             
             popularitySort.backgroundColor = buttonHighlightedBackgroundColour
             dateSort.backgroundColor = UIColor.white
         }
-        else if newsSort == "date" {
+        else if Defaults[.newsSort] == "date" {
             popularitySort.isSelected = false
             dateSort.isSelected = true
             
@@ -422,7 +440,7 @@ class SettingsViewController: UITableViewController {
             popularitySort.backgroundColor = buttonHighlightedBackgroundColour
             dateSort.backgroundColor = UIColor.white
             
-            defaults.set("popularity", forKey: "newsSort")
+            Defaults[.newsSort] = "popularity"
         }
         else if (sender as! UIButton).isEqual(dateSort) {
             popularitySort.isSelected = false
@@ -431,39 +449,57 @@ class SettingsViewController: UITableViewController {
             popularitySort.backgroundColor = UIColor.white
             dateSort.backgroundColor = buttonHighlightedBackgroundColour
             
-            defaults.set("date", forKey: "newsSort")
+            Defaults[.newsSort] = "date"
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let removeAdsPurchased: Bool = UserDefaults.standard.bool(forKey: "removeAdsPurchased")
-        let unlockMarketsPurchased: Bool = UserDefaults.standard.bool(forKey: "unlockMarketsPurchased")
-        let paidUser: Bool = UserDefaults.standard.bool(forKey: "paidUser")
+        let unlockAllPurchased: Bool = Defaults[.unlockAllPurchased]
+        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
+        let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
+        let unlockMultiplePortfoliosPurchased: Bool = Defaults[.multiplePortfoliosPurchased]
 
         if indexPath.section == 0 { // in-app purchases
-            if !paidUser {
-                if !removeAdsPurchased {
-                    if indexPath.row == 0 {
-                        IAPService.shared.purchase(product: .removeAds, completionHandlerBool: { (success) -> Void in
-                            
-                        })
-                    }
-                }
-                if !unlockMarketsPurchased {
-                    if indexPath.row == 1 {
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
-                        self.present(controller, animated: true, completion: nil)
-                    }
+            
+            if !unlockAllPurchased {
+                if indexPath.row == 0 {
+                    IAPService.shared.purchase(product: .unlockAll, completionHandlerBool: { (success) -> Void in
+                        
+                    })
                 }
             }
-            if indexPath.row == 2 {
+            
+            if !removeAdsPurchased {
+                if indexPath.row == 1 {
+                    IAPService.shared.purchase(product: .removeAds, completionHandlerBool: { (success) -> Void in
+                        
+                    })
+                }
+            }
+            
+            if !unlockMarketsPurchased {
+                if indexPath.row == 2 {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
+                    self.present(controller, animated: true, completion: nil)
+                }
+            }
+            
+            if !unlockMultiplePortfoliosPurchased {
+                if indexPath.row == 3 {
+                    IAPService.shared.purchase(product: .multiplePortfolios, completionHandlerBool: { (success) -> Void in
+                        
+                    })
+                }
+            }
+            
+            if indexPath.row == 4 {
                 IAPService.shared.restorePurchases()
             }
         }
         else if indexPath.section == 1 {
             if indexPath.row == 1 { // Remove all favourites
-                defaults.set([], forKey: "dashboardFavourites")
+                Defaults[.dashboardFavourites] = []
             }
         }
         else if indexPath.section == 7 { // social
