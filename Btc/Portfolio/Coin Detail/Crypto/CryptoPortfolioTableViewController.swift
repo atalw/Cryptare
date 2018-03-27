@@ -375,6 +375,9 @@ extension CryptoPortfolioTableViewController {
                            "date": portfolioEntry["date"]!]
         
         var allData = Defaults[.cryptoPortfolioData]
+        if allData[portfolioName] == nil {
+            allData[portfolioName] = [:]
+        }
         if var currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
             var data: [String: [[String: Any]] ] = [:]
             if currentPortfolioData[currentCoin] == nil {

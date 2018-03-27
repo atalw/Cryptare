@@ -529,6 +529,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         })
         
         targetViewController.coin = coin
+        targetViewController.portfolioName = portfolioName
         targetViewController.parentController = self
         if let data = cryptoDict[coin] {
             targetViewController.portfolioData = data
@@ -544,6 +545,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "fiatPortfolioViewController") as! FiatPortfolioViewController
         
         targetViewController.currency = currency
+        targetViewController.portfolioName = portfolioName
         targetViewController.portfolioName = portfolioName
         targetViewController.parentController = self
 

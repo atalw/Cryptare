@@ -25,36 +25,7 @@ class MainPortfolioViewController: UIViewController {
     let timeFormatter = DateFormatter()
 
     lazy var viewControllerList: [UIViewController] = {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
-        let allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
-        let allFiatPortfolioData = Defaults[.fiatPortfolioData]
-
-        var portfolioNames: [String] = []
-        var viewcontrollers: [UIViewController] = []
-        
-        for (name, data) in allCryptoPortfolioData {
-            portfolioNames.append(name)
-            
-            let vc1 = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
-            vc1.title = name
-            vc1.portfolioName = name
-            
-            if let cryptoPortfolioData = data as? [String: [[String: Any]] ] {
-                vc1.cryptoPortfolioData = cryptoPortfolioData
-                
-                if let fiatData =  allFiatPortfolioData[name]  as? [String: [[String: Any]] ] {
-                    vc1.fiatPortfolioData = fiatData
-                }
-                else {
-                    vc1.fiatPortfolioData = [:]
-                }
-                
-                viewcontrollers.append(vc1)
-            }
-        }
-        
-        return viewcontrollers
+        return getPortfolios()
     }()
 
     override func viewDidLoad() {
@@ -98,16 +69,6 @@ class MainPortfolioViewController: UIViewController {
         pagingViewController.didMove(toParentViewController: self)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     func updateOldFormatPortfolioEntries() {
         if let data = UserDefaults.standard.data(forKey: "portfolioEntries") {
             var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
@@ -150,9 +111,57 @@ class MainPortfolioViewController: UIViewController {
             Defaults[.cryptoPortfolioData] = data
         }
     }
+    
+    
 
     @IBAction func addPortfolioButtonTapped(_ sender: Any) {
+        if let addPortfolioViewController = self.storyboard?.instantiateViewController(withIdentifier: "addPortfolioViewController") as? AddPortfolioViewController {
+            addPortfolioViewController.parentController = self
+            self.navigationController?.pushViewController(addPortfolioViewController, animated: true)
+        }
+    }
+    
+    func getPortfolios() -> [UIViewController] {
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        var viewControllers: [UIViewController] = []
+
+        let allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
+        let allFiatPortfolioData = Defaults[.fiatPortfolioData]
+        
+        for (name, data) in allCryptoPortfolioData {
+            let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
+            vc.title = name
+            vc.portfolioName = name
+            
+            if let cryptoPortfolioData = data as? [String: [[String: Any]] ] {
+                vc.cryptoPortfolioData = cryptoPortfolioData
+                
+                if let fiatData =  allFiatPortfolioData[name]  as? [String: [[String: Any]] ] {
+                    vc.fiatPortfolioData = fiatData
+                }
+                else {
+                    vc.fiatPortfolioData = [:]
+                }
+                
+                viewControllers.append(vc)
+            }
+        }
+        return viewControllers
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        let destinationVC = segue.destination
+        
+        if let addPortfolioVC = destinationVC as? AddPortfolioViewController {
+            addPortfolioVC.parentController = self
+        }
     }
 }
 
