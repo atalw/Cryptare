@@ -15,8 +15,9 @@ import SwiftyUserDefaults
 class PortfolioSummaryViewController: UIViewController {
     
     var portfolioName: String!
-    var portfolioData: [String: [[String: Any]] ]!
-    
+    var cryptoPortfolioData: [String: [[String: Any]] ]!
+    var fiatPortfolioData: [String: [[String: Any]] ]!
+
     let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
@@ -24,11 +25,11 @@ class PortfolioSummaryViewController: UIViewController {
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
 
-    let portfolioEntriesConstant = "portfolioEntries"
+//    let portfolioEntriesConstant = "portfolioEntries"
     let fiatPortfolioEntriesConstant = "fiatPortfolioEntries"
 
-    var dict: [String: [[String: Any]] ] = [:]
-    var currencyDict: [String: [[String: Any]]] = [:]
+    var cryptoDict: [String: [[String: Any]] ] = [:]
+    var fiatDict: [String: [[String: Any]]] = [:]
 
     var summary: [String: [String: Double] ] = [:]
     var yesterdayCoinValues: [String: Double] = [:]
@@ -69,7 +70,7 @@ class PortfolioSummaryViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         
         
-        loadAllPortfolios(portfolioData: portfolioData)
+        loadAllPortfolios(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,18 +146,18 @@ class PortfolioSummaryViewController: UIViewController {
         }
     }
     
-    func loadAllPortfolios(portfolioData: [String: [[String: Any]]]) {
+    func loadAllPortfolios(cryptoPortfolioData: [String: [[String: Any]]]?, fiatPortfolioData: [String: [[String: Any]]]?) {
         databaseRef = Database.database().reference()
 
-        dict = [:]
-        currencyDict = [:]
+//        cryptoDict = [:]
+//        fiatDict = [:]
+//
+//        coins = []
+//        currencies = []
+//
+//        summary = [:]
         
-        coins = []
-        currencies = []
-        
-        summary = [:]
-        
-        initalizePortfolioEntries(portfolioData: portfolioData)
+        initalizePortfolioEntries(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
 
     }
     
@@ -174,64 +175,34 @@ class PortfolioSummaryViewController: UIViewController {
         })
     }
     
-    func initalizePortfolioEntries(portfolioData: [String: [[String: Any]]]) {
-        dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
-        dict = [:]
-        dict = portfolioData
+    func initalizePortfolioEntries(cryptoPortfolioData: [String: [[String: Any]]]?, fiatPortfolioData: [String: [[String: Any]]]?) {
+//        dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
         
-        for coin in dict.keys {
-            coins.append(coin)
+        if cryptoPortfolioData != nil {
+            cryptoDict = [:]
+            cryptoDict = cryptoPortfolioData!
+            
+            for coin in cryptoDict.keys {
+                coins.append(coin)
+            }
         }
         
-        if let data = defaults.data(forKey: fiatPortfolioEntriesConstant) {
-            let portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[Int:Any]]
+        if fiatPortfolioData != nil {
+            fiatDict = [:]
+            fiatDict = fiatPortfolioData!
             
-            currencyDict = [:]
-            for index in 0..<portfolioEntries.count {
-                if portfolioEntries[index].count == 7 { // fiat currency entry
-                    let firstElement = portfolioEntries[index][0] as? String // currency
-                    let secondElement = portfolioEntries[index][1] as? String // transaction type
-                    let thirdElement = portfolioEntries[index][2] as? String // exchange
-                    let fourthElement = portfolioEntries[index][3] as? Double // amount
-                    let fifthElement = portfolioEntries[index][4] as? Double // fees
-                    let sixthElement = portfolioEntries[index][5] as? Date // date
-                    let seventhElement = portfolioEntries[index][6] as? Date // time
-                    
-                    if let currency = firstElement,
-                        let type = secondElement,
-                        let exchange = thirdElement,
-                        let amount = fourthElement,
-                        let fees = fifthElement,
-                        let date = sixthElement,
-                        let time = seventhElement {
-                        
-                        if currencyDict[currency] == nil {
-                            currencyDict[currency] = []
-                        }
-                        
-                        currencyDict[currency]!.append(["type": type,
-                                                        "exchange": exchange,
-                                                        "amount": amount,
-                                                        "fees": fees,
-                                                        "date": date
-                            ])
-                    }
-                    
-                }
-            }
-            print(currencyDict)
-            for currency in currencyDict.keys {
+            for currency in fiatDict.keys {
                 currencies.append(currency)
             }
         }
         
-        calculatePortfolioSummary(portfolioName: portfolioName, dict: dict)
+        calculatePortfolioSummary(portfolioName: portfolioName, cryptoDict: cryptoDict, fiatDict: fiatDict)
 
     }
     
-    func calculatePortfolioSummary(portfolioName: String, dict: [String: [[String: Any]] ]) {
+    func calculatePortfolioSummary(portfolioName: String, cryptoDict: [String: [[String: Any]]], fiatDict: [String: [[String: Any]]]) {
         
-        for (coin, transactions) in dict {
+        for (coin, transactions) in cryptoDict {
             summary[coin] = [:]
             summary[coin]!["amountOfCoins"] = 0.0
             summary[coin]!["costPerCoin"] = 0.0
@@ -261,23 +232,23 @@ class PortfolioSummaryViewController: UIViewController {
             let index = coinRefs.count - 1
             
             coinRefs[index].observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-                if let dict = snapshot.value as? [String : AnyObject] {
-                    let price = dict[GlobalValues.currency!]!["price"] as! Double
+                if let cryptoDict = snapshot.value as? [String : AnyObject] {
+                    let price = cryptoDict[GlobalValues.currency!]!["price"] as! Double
                     self.summary[coin]!["coinMarketValue"] = price
                     self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["amountOfCoins"]! * self.summary[coin]!["coinMarketValue"]!
-//                    self.dict[coin]?.append([])
+//                    self.cryptoDict[coin]?.append([])
                     self.updateSummaryLabels()
                     self.tableView.reloadData()
                 }
             })
         }
         
-        for currency in currencyDict.keys {
+        for currency in fiatDict.keys {
             summary[currency] = [:]
             summary[currency]!["amount"] = 0.0
             summary[currency]!["deposited"] = 0.0
             
-            for entry in currencyDict[currency]! {
+            for entry in fiatDict[currency]! {
                 var entryAmount = entry["amount"] as! Double
                 var fees = entry["fees"] as! Double
                 
@@ -392,10 +363,10 @@ class PortfolioSummaryViewController: UIViewController {
 extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if dict.count > 0 && currencyDict.count > 0 {
+        if cryptoDict.count > 0 && fiatDict.count > 0 {
             return 2
         }
-        else if (dict.count == 0 && currencyDict.count > 0) || (dict.count > 0 && currencyDict.count == 0) {
+        else if (cryptoDict.count == 0 && fiatDict.count > 0) || (cryptoDict.count > 0 && fiatDict.count == 0) {
             return 1
         }
         else {
@@ -404,7 +375,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 && dict.count > 0 {
+        if section == 0 && cryptoDict.count > 0 {
             return "Cryptocurrencies"
         }
         else {
@@ -414,11 +385,11 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
-        if section == 0 && dict.count > 0 {
-            count = dict.count
+        if section == 0 && cryptoDict.count > 0 {
+            count = cryptoDict.count
         }
         else {
-            count = currencyDict.count
+            count = fiatDict.count
         }
         return count
     }
@@ -426,7 +397,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         updateSummaryLabels()
         
-        if indexPath.section == 0 && dict.count > 0 {
+        if indexPath.section == 0 && cryptoDict.count > 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSummaryCell") as? PortfolioSummaryTableViewCell
             
             let coin = coins[indexPath.row]
@@ -522,13 +493,13 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = indexPath.section
         
-        if section == 0 && dict.count > 0 {
+        if section == 0 && cryptoDict.count > 0 {
             let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
             
             let coin = coins[indexPath.row]
             targetViewController.coin = coin
             targetViewController.portfolioName = portfolioName
-            targetViewController.portfolioData = dict[coin]!
+            targetViewController.portfolioData = cryptoDict[coin]!
             targetViewController.coinPrice = self.summary[coin]!["coinMarketValue"]
             targetViewController.parentController = self
             
@@ -539,7 +510,8 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             
             let currency = currencies[indexPath.row]
             targetViewController.currency = currency
-            targetViewController.portfolioData = currencyDict[currency]!
+            targetViewController.portfolioName = portfolioName
+            targetViewController.portfolioData = fiatDict[currency]!
             targetViewController.parentController = self
 
             self.navigationController?.pushViewController(targetViewController, animated: true)
@@ -558,7 +530,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         
         targetViewController.coin = coin
         targetViewController.parentController = self
-        if let data = dict[coin] {
+        if let data = cryptoDict[coin] {
             targetViewController.portfolioData = data
         }
         else {
@@ -572,9 +544,10 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "fiatPortfolioViewController") as! FiatPortfolioViewController
         
         targetViewController.currency = currency
+        targetViewController.portfolioName = portfolioName
         targetViewController.parentController = self
 
-        if let data = currencyDict[currency] {
+        if let data = fiatDict[currency] {
             targetViewController.portfolioData = data
         }
         else {

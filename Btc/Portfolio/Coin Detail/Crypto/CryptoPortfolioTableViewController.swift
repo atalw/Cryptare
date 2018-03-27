@@ -372,7 +372,7 @@ extension CryptoPortfolioTableViewController {
                            "fees": portfolioEntry["fees"]!,
                            "date": portfolioEntry["date"]!]
         
-        var allData = Defaults[.portfolioData]
+        var allData = Defaults[.cryptoPortfolioData]
         if var currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
             var data: [String: [[String: Any]] ] = [:]
             if currentPortfolioData[coin] == nil {
@@ -385,8 +385,8 @@ extension CryptoPortfolioTableViewController {
                 }
             }
             allData[portfolioName] = data
-            Defaults[.portfolioData] = allData
-            parentController.parentController.loadAllPortfolios(portfolioData: data)
+            Defaults[.cryptoPortfolioData] = allData
+            parentController.parentController.loadAllPortfolios(cryptoPortfolioData: data, fiatPortfolioData: nil)
         }
     }
     
@@ -394,7 +394,7 @@ extension CryptoPortfolioTableViewController {
     func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         
-        var allData = Defaults[.portfolioData]
+        var allData = Defaults[.cryptoPortfolioData]
         if let currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
             var data: [String: [[String: Any]] ] = [:]
             for (coin, transactions) in currentPortfolioData {
@@ -430,7 +430,6 @@ extension CryptoPortfolioTableViewController {
                             break
                         }
                     }
-                    
                 }
             }
             
@@ -438,8 +437,8 @@ extension CryptoPortfolioTableViewController {
                 tableEmptyMessage()
             }
             allData[portfolioName] = data
-            Defaults[.portfolioData] = allData
-            parentController.parentController.loadAllPortfolios(portfolioData: data)
+            Defaults[.cryptoPortfolioData] = allData
+            parentController.parentController.loadAllPortfolios(cryptoPortfolioData: data, fiatPortfolioData: nil)
 
         }
     }

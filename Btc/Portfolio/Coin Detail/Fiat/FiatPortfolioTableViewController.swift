@@ -7,22 +7,20 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 class FiatPortfolioTableViewController: UITableViewController {
     
     var parentController: FiatPortfolioViewController!
     
-    let defaults = UserDefaults.standard
     let dateFormatter = DateFormatter()
     
     var currency: String!
     
     var portfolioData: [[String: Any]] = []
+    var portfolioName: String!
     
     var portfolioEntries: [FiatTransactionEntryModel] = []
-    
-    let fiatPortfolioEntriesConstant = "fiatPortfolioEntries"
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +76,7 @@ class FiatPortfolioTableViewController: UITableViewController {
         cell.dateLabel.text = dateFormatter.string(from: entry.date)
 //        cell.timeLabel.text = entry.time
         
-        if entry.transactionType == "deposit" {
+        if entry.type == "deposit" {
             cell.transactionTypeLabel.text = "Deposited via \(entry.exchange!)"
         }
         else {
@@ -126,18 +124,17 @@ extension FiatPortfolioTableViewController {
         else {
             for portfolio in portfolioData {
                 let entry = FiatTransactionEntryModel(currency: currency,
-                                                      transactionType: portfolio["type"] as! String,
+                                                      type: portfolio["type"] as! String,
                                                       exchange: portfolio["exchange"] as! String,
                                                       amount: portfolio["amount"] as! Double,
                                                       fees: portfolio["fees"] as! Double,
-                                                      date: portfolio["date"] as! Date,
-                                                      time: portfolio["time"] as! Date)
+                                                      date: portfolio["date"] as! Date)
                 portfolioEntries.append(entry)
                 
-                if entry.transactionType == "deposit" {
+                if entry.type == "deposit" {
                     parentController.addToTotalDeposited(value: (entry.amount-entry.fees))
                 }
-                else if entry.transactionType == "withdraw" {
+                else if entry.type == "withdraw" {
                     parentController.addToTotalWithdrawn(value: (entry.amount+entry.fees))
                 }
             }
@@ -149,89 +146,79 @@ extension FiatPortfolioTableViewController {
     
     // append portfolio entry to userdefaults stored portfolios, else create new data entry
     func savePortfolioEntry(portfolioEntry: [String: Any]) {
-        //        let dateString = dateFormatter.string(from: date)
-//        let timeString = timeFormatter.string(from: portfolioEntry["time"] as! Date)
         
-        if var data = defaults.data(forKey: fiatPortfolioEntriesConstant) {
-            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                portfolioEntries.append([0: currency as Any,
-                                         1: portfolioEntry["type"] as Any,
-                                         2: portfolioEntry["exchange"] as Any,
-                                         3: portfolioEntry["amount"] as Any,
-                                         4: portfolioEntry["fees"] as Any,
-                                         5: portfolioEntry["date"] as Any,
-                                         6: portfolioEntry["time"] as Any
-                    ])
-                
-                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
-                parentController.parentController.loadAllPortfolios()
-            }
+        let transaction = ["type": portfolioEntry["type"]!,
+                           "exchange": portfolioEntry["exchange"]!,
+                           "amount": portfolioEntry["amount"]!,
+                           "fees": portfolioEntry["fees"]!,
+                           "date": portfolioEntry["date"]!]
+        
+        var allData = Defaults[.fiatPortfolioData]
+        print(allData)
+        if allData[portfolioName] == nil {
+            allData[portfolioName] = [:]
         }
-        else {
-            var portfolioEntries: [[Int:Any]] = []
-            
-            portfolioEntries.append([0: currency as Any,
-                                     1: portfolioEntry["type"] as Any,
-                                     2: portfolioEntry["exchange"] as Any,
-                                     3: portfolioEntry["amount"] as Any,
-                                     4: portfolioEntry["fees"] as Any,
-                                     5: portfolioEntry["date"] as Any,
-                                     6: portfolioEntry["time"] as Any
-                ])
-            
-            let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-            defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
-            parentController.parentController.loadAllPortfolios()
+        if var currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
+            var data: [String: [[String: Any]] ] = [:]
+            if currentPortfolioData[currency] == nil {
+                currentPortfolioData[currency] = []
+            }
+            for (currency, transactions) in currentPortfolioData {
+                data[currency] = transactions
+                if currency == self.currency {
+                    data[currency]?.append(transaction)
+                }
+            }
+            allData[portfolioName] = data
+            Defaults[.fiatPortfolioData] = allData
+            print(allData)
+            parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
         }
     }
     
     func deletePortfolioEntry(portfolioEntry: FiatTransactionEntryModel) {
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        timeFormatter.dateFormat = "hh:mm a"
         
-        if var data = defaults.data(forKey: fiatPortfolioEntriesConstant) {
-            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                
-                
-                for index in 0..<portfolioEntries.count {
+        var allData = Defaults[.fiatPortfolioData]
+        if var currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
+            var data: [String: [[String: Any]] ] = [:]
+            for (currency, transactions) in currentPortfolioData {
+                // copy all transactions to new dict
+                data[currency] = transactions
+                if currency == portfolioEntry.currency {
+                    for (index, transaction) in data[currency]!.enumerated() {
                     
-                    let currency = portfolioEntries[index][0] as? String
-                    let type = portfolioEntries[index][1] as? String
-                    let exchange = portfolioEntries[index][2] as? String
-                    let amount = portfolioEntries[index][3] as? Double
-                    let fees = portfolioEntries[index][4] as! Double
-                    let date = portfolioEntries[index][5] as? Date
-                    let time = portfolioEntries[index][6] as? Date
-
-                    if currency == portfolioEntry.currency &&
-                        type == portfolioEntry.transactionType &&
-                        exchange == portfolioEntry.exchange &&
-                        amount == portfolioEntry.amount &&
-                        fees == portfolioEntry.fees &&
-                        date == portfolioEntry.date &&
-                        time == portfolioEntry.time {
+                        let type = transaction["type"] as? String
+                        let exchange = transaction["exchange"] as? String
+                        let amount = transaction["amount"] as! Double
+                        let fees = transaction["fees"] as? Double
+                        let date = transaction["date"] as? Date
                         
-                        if type == "deposit" {
-                            parentController.removeDepositedEntry(value: amount!)
+                        if portfolioEntry.type == type &&
+                            portfolioEntry.exchange == exchange &&
+                            portfolioEntry.amount == amount &&
+                            portfolioEntry.fees == fees &&
+                            portfolioEntry.date == date {
+                            
+                            if type == "deposit" {
+                                parentController.removeDepositedEntry(value: amount)
+                            }
+                            else if type == "withdraw" {
+                                parentController.removeWithdrawnEntry(value: amount)
+                            }
+                            data[currency]!.remove(at: index)
+                            break
                         }
-                        else if type == "withdraw" {
-                            parentController.removeWithdrawnEntry(value: amount!)
-                        }
-                        
-                        portfolioEntries.remove(at: index)
-
-                        break
                     }
                 }
-                if portfolioEntries.count == 0 {
-//                    tableEmptyMessage()
-                }
-                
-                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: fiatPortfolioEntriesConstant)
-                parentController.parentController.loadAllPortfolios()
             }
+            
+            if portfolioEntries.count == 0 {
+//                tableEmptyMessage()
+            }
+            
+            allData[portfolioName] = data
+            Defaults[.fiatPortfolioData] = allData
+            parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
         }
     }
 }

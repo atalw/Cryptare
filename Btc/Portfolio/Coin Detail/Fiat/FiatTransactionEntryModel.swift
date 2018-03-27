@@ -14,7 +14,7 @@ class FiatTransactionEntryModel {
     
     var currency: String!
     
-    var transactionType: String!
+    var type: String!
     
     var exchange: String!
     
@@ -22,17 +22,15 @@ class FiatTransactionEntryModel {
     var fees: Double!
     
     var date: Date!
-    var time: Date!
     
-    init(currency: String, transactionType: String, exchange: String,
-         amount: Double, fees: Double, date: Date, time: Date) {
+    init(currency: String, type: String, exchange: String,
+         amount: Double, fees: Double, date: Date) {
         
         self.currency = currency
-        self.transactionType = transactionType
+        self.type = type
         self.exchange = exchange
         self.amount = amount
         self.fees = fees
         self.date = date
-        self.time = time
     }
 }

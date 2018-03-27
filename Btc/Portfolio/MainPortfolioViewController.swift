@@ -27,21 +27,30 @@ class MainPortfolioViewController: UIViewController {
     lazy var viewControllerList: [UIViewController] = {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-        let allPortfolioData = Defaults[.portfolioData]
+        let allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
+        let allFiatPortfolioData = Defaults[.fiatPortfolioData]
+
         var portfolioNames: [String] = []
         var viewcontrollers: [UIViewController] = []
         
-        for (name, data) in allPortfolioData {
+        for (name, data) in allCryptoPortfolioData {
             portfolioNames.append(name)
             
             let vc1 = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
             vc1.title = name
             vc1.portfolioName = name
             
-            if let portfolioData = data as? [String: [[String: Any]] ] {
-                vc1.portfolioData = portfolioData
+            if let cryptoPortfolioData = data as? [String: [[String: Any]] ] {
+                vc1.cryptoPortfolioData = cryptoPortfolioData
+                
+                if let fiatData =  allFiatPortfolioData[name]  as? [String: [[String: Any]] ] {
+                    vc1.fiatPortfolioData = fiatData
+                }
+                else {
+                    vc1.fiatPortfolioData = [:]
+                }
+                
                 viewcontrollers.append(vc1)
-
             }
         }
         
@@ -53,6 +62,8 @@ class MainPortfolioViewController: UIViewController {
         
 //        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
 //        UserDefaults.standard.set(newData, forKey: "portfolioEntries")
+        
+//        UserDefaults.standard.remove("fiatPortfolioEntries")
 //
         dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
         dateFormatter.timeZone = TimeZone.current
@@ -136,7 +147,7 @@ class MainPortfolioViewController: UIViewController {
                     }
                 }
             }
-            Defaults[.portfolioData] = data
+            Defaults[.cryptoPortfolioData] = data
         }
     }
 

@@ -16,6 +16,7 @@ class FiatPortfolioViewController: UIViewController {
     
     var currency: String!
     var portfolioData: [[String: Any]] = []
+    var portfolioName: String!
     
     var currentAvailable: Double! = 0
     var totalDeposited: Double! = 0
@@ -93,6 +94,7 @@ class FiatPortfolioViewController: UIViewController {
         if let portfolioTableController = destinationVC as? FiatPortfolioTableViewController {
             portfolioTableController.parentController = self
             portfolioTableController.currency = self.currency
+            portfolioTableController.portfolioName = self.portfolioName
             portfolioTableController.portfolioData = self.portfolioData
             self.portfolioTableController = portfolioTableController
         }
