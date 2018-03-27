@@ -10,7 +10,6 @@ import Foundation
 import SwiftyUserDefaults
 
 extension DefaultsKeys {
-    static let portfolioData = DefaultsKey<[String: Any]>("portfolioEntries")
     
     static let selectedCountry = DefaultsKey<String>("selectedCountry")
     static let mainIntroComplete = DefaultsKey<Bool>("mainIntroComplete")
@@ -37,6 +36,9 @@ extension DefaultsKeys {
     static let newsSettingsExist = DefaultsKey<Bool>("newsSettingsExist")
     static let newsSort = DefaultsKey<String>("newsSort")
     
+    // Portfolio
+    static let portfolioData = DefaultsKey<[String: Any]>("portfolioEntries")
+
     // IAP
     static let previousPaidUser = DefaultsKey<Bool>("previousPaidUser")
     static let removeAdsPurchased =  DefaultsKey<Bool>("removeAdsPurchased")

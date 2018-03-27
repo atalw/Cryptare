@@ -33,9 +33,11 @@ class MainPortfolioViewController: UIViewController {
         
         for (name, data) in allPortfolioData {
             portfolioNames.append(name)
+            
             let vc1 = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
             vc1.title = name
             vc1.portfolioName = name
+            
             if let portfolioData = data as? [String: [[String: Any]] ] {
                 vc1.portfolioData = portfolioData
                 viewcontrollers.append(vc1)
@@ -49,8 +51,8 @@ class MainPortfolioViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-        UserDefaults.standard.set(newData, forKey: "portfolioEntries")
+//        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+//        UserDefaults.standard.set(newData, forKey: "portfolioEntries")
 //
         dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
         dateFormatter.timeZone = TimeZone.current

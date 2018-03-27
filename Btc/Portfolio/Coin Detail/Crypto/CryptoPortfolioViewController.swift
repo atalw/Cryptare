@@ -27,6 +27,7 @@ class CryptoPortfolioViewController: UIViewController {
     var coin: String!
     var coinPrice: Double!
     var portfolioData: [[String: Any]] = []
+    var portfolioName: String!
     
     // MARK: - IBOutlets
     @IBOutlet weak var currentPortfolioValueLabel: UILabel!
@@ -147,6 +148,7 @@ class CryptoPortfolioViewController: UIViewController {
         if let portfolioTableController = destinationVC as? CryptoPortfolioTableViewController {
             portfolioTableController.parentController = self
             portfolioTableController.coin = self.coin
+            portfolioTableController.portfolioName = self.portfolioName
             portfolioTableController.portfolioData = self.portfolioData
             portfolioTableController.coinPrice = self.coinPrice
             self.portfolioTableController = portfolioTableController

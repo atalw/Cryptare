@@ -11,18 +11,21 @@ import Alamofire
 import SwiftyJSON
 import BulletinBoard
 import Armchair
+import SwiftyUserDefaults
 
 class CryptoPortfolioTableViewController: UITableViewController {
+    
+    var portfolioName: String!
     
     var coin: String!
     var coinPrice: Double!
     // MARK: - Constants
     
-    let defaults = UserDefaults.standard
-    
     let dateFormatter = DateFormatter()
     
-    let portfolioEntriesConstant = "portfolioEntries"
+//    let defaults = UserDefaults.standard
+//    let portfolioEntriesConstant = ""
+    
     let portfolioCellConstant = "portfolioBuyCell"
     let greenColour = UIColor.init(hex: "#2ecc71")
     let redColour = UIColor.init(hex: "#e74c3c")
@@ -45,14 +48,14 @@ class CryptoPortfolioTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         dateFormatter.timeZone = TimeZone.current
 
         activityIndicator.addSubview(view)
         self.activityIndicator.hidesWhenStopped = true
         
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+         self.clearsSelectionOnViewWillAppear = true
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -73,18 +76,12 @@ class CryptoPortfolioTableViewController: UITableViewController {
         activityIndicator.startAnimating()
         self.initalizePortfolioEntries()
         self.activityIndicator.stopAnimating()
-        
-       
     }
     
-    
-    
     override func viewWillLayoutSubviews() {
-//        super.viewWillLayoutSubviews()
-//        tableView.reloadData()
+        super.viewWillLayoutSubviews()
         if portfolioEntries.count > 0 {
             parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
-//            tableView.reloadData()
         }
     }
     
@@ -332,38 +329,16 @@ class CryptoPortfolioTableViewController: UITableViewController {
         bulletinManager.prepare()
         bulletinManager.presentBulletin(above: self)
     }
-    
-    @objc func setupDidComplete() {
-        //        BulletinDataSource.userDidCompleteSetup = true
-    }
-
-    func getCoinMarketValue(coin: String, completion: @escaping (_ success: Bool) -> Void) {
-//       let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=\(coin)&tsyms=\(GlobalValues.currency!)")!
-//
-//        Alamofire.request(url).responseJSON(completionHandler: { response in
-//
-//            let json = JSON(data: response.data!)
-//            print(json)
-//            if let price = json[GlobalValues.currency!].double {
-//                self.coinPrice = price
-//                completion(true)
-//            }
-//        })
-        
-    }
-    
 }
 
 extension CryptoPortfolioTableViewController {
     // MARK: - Portfolio functions
     
     func addPortfolioEntry(portfolioEntry: [String: Any]) {
+        Armchair.userDidSignificantEvent(true)
         
         self.portfolioData.append(portfolioEntry)
-        
         savePortfolioEntry(portfolioEntry: portfolioEntry)
-        
-        Armchair.userDidSignificantEvent(true)
     }
     
     func initalizePortfolioEntries() {
@@ -389,39 +364,29 @@ extension CryptoPortfolioTableViewController {
     // append portfolio entry to userdefaults stored portfolios, else create new data entry
     func savePortfolioEntry(portfolioEntry: [String: Any]) {
         
-        if var data = defaults.data(forKey: portfolioEntriesConstant) {
-            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                portfolioEntries.append([0: portfolioEntry["type"] as Any,
-                                         1: portfolioEntry["coin"] as Any,
-                                         2: portfolioEntry["tradingPair"] as Any,
-                                         3: portfolioEntry["exchange"] as Any,
-                                         4: portfolioEntry["costPerCoin"] as Any,
-                                         5: portfolioEntry["amountOfCoins"] as Any,
-                                         6: portfolioEntry["fees"] as Any,
-                                         7: portfolioEntry["date"] as Any,
-                    ])
-                
-                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: portfolioEntriesConstant)
-                parentController.parentController.loadAllPortfolios()
+        let transaction = ["type": portfolioEntry["type"]!,
+                           "tradingPair": portfolioEntry["tradingPair"]!,
+                           "exchange": portfolioEntry["exchange"]!,
+                           "costPerCoin": portfolioEntry["costPerCoin"]!,
+                           "amountOfCoins": portfolioEntry["amountOfCoins"]!,
+                           "fees": portfolioEntry["fees"]!,
+                           "date": portfolioEntry["date"]!]
+        
+        var allData = Defaults[.portfolioData]
+        if var currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
+            var data: [String: [[String: Any]] ] = [:]
+            if currentPortfolioData[coin] == nil {
+                currentPortfolioData[coin] = []
             }
-        }
-        else {
-            var portfolioEntries: [[Int:Any]] = []
-            
-            portfolioEntries.append([0: portfolioEntry["type"] as Any,
-                                     1: portfolioEntry["coin"] as Any,
-                                     2: portfolioEntry["tradingPair"] as Any,
-                                     3: portfolioEntry["exchange"] as Any,
-                                     4: portfolioEntry["costPerCoin"] as Any,
-                                     5: portfolioEntry["amountOfCoins"] as Any,
-                                     6: portfolioEntry["fees"] as Any,
-                                     7: portfolioEntry["date"] as Any,
-                ])
-            
-            let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-            defaults.set(newData, forKey: portfolioEntriesConstant)
-            parentController.parentController.loadAllPortfolios()
+            for (coin, transactions) in currentPortfolioData {
+                data[coin] = transactions
+                if coin == self.coin {
+                    data[coin]?.append(transaction)
+                }
+            }
+            allData[portfolioName] = data
+            Defaults[.portfolioData] = allData
+            parentController.parentController.loadAllPortfolios(portfolioData: data)
         }
     }
     
@@ -429,45 +394,53 @@ extension CryptoPortfolioTableViewController {
     func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         
-        if var data = defaults.data(forKey: portfolioEntriesConstant) {
-            if var portfolioEntries = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[Int:Any]] {
-                
-//                let dateString = dateFormatter.string(from: portfolioEntry.date)
-                for index in 0..<portfolioEntries.count {
-                    
-                    let type = portfolioEntries[index][0] as? String
-                    let coin = portfolioEntries[index][1] as? String
-                    let tradingPair = portfolioEntries[index][2] as? String
-                    let exchange = portfolioEntries[index][3] as? String
-                    let costPerCoin = portfolioEntries[index][4] as! Double
-                    let amountOfCoins = portfolioEntries[index][5] as? Double
-                    let fees = portfolioEntries[index][6] as? Double
-                    let date = portfolioEntries[index][7] as? Date
+        var allData = Defaults[.portfolioData]
+        if let currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
+            var data: [String: [[String: Any]] ] = [:]
+            for (coin, transactions) in currentPortfolioData {
+                // copy all transactions to new dict
+                data[coin] = transactions
 
-                    if type == portfolioEntry.type && coin == portfolioEntry.coin &&
-                        amountOfCoins == portfolioEntry.amountOfCoins &&
-                        portfolioEntry.date == date && costPerCoin == portfolioEntry.costPerCoin &&
-                        exchange == portfolioEntry.exchange {
+                if coin == portfolioEntry.coin {
+                    for (index, transaction) in data[coin]!.enumerated() {
+                        let type = transaction["type"] as? String
+                        let tradingPair = transaction["tradingPair"] as? String
+                        let exchange = transaction["exchange"] as? String
+                        let costPerCoin = transaction["costPerCoin"] as! Double
+                        let amountOfCoins = transaction["amountOfCoins"] as? Double
+                        let fees = transaction["fees"] as? Double
+                        let date = transaction["date"] as? Date
                         
-                        if type == "buy" {
-                            parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfCoins!, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
+                        if portfolioEntry.type == type &&
+                            portfolioEntry.tradingPair == tradingPair &&
+                            portfolioEntry.exchange == exchange &&
+                            portfolioEntry.costPerCoin == costPerCoin &&
+                            portfolioEntry.amountOfCoins == amountOfCoins &&
+                            portfolioEntry.fees == fees &&
+                            portfolioEntry.date == date {
+                            
+                            if type == "buy" {
+                                parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfCoins!, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
+                            }
+                            else if type == "sell" {
+                                parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: amountOfCoins!, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
+                            }
+                            
+                            data[coin]!.remove(at: index)
+                            break
                         }
-                        else {
-                            parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: amountOfCoins!, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
-                        }
-                        
-                        portfolioEntries.remove(at: index)
-                        break
                     }
+                    
                 }
-                if portfolioEntries.count == 0 {
-                    tableEmptyMessage()
-                }
-                
-                let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-                defaults.set(newData, forKey: portfolioEntriesConstant)
-                parentController.parentController.loadAllPortfolios()
             }
+            
+            if portfolioEntries.count == 0 {
+                tableEmptyMessage()
+            }
+            allData[portfolioName] = data
+            Defaults[.portfolioData] = allData
+            parentController.parentController.loadAllPortfolios(portfolioData: data)
+
         }
     }
 }

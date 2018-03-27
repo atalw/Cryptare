@@ -69,7 +69,7 @@ class PortfolioSummaryViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         
         
-        loadAllPortfolios()
+        loadAllPortfolios(portfolioData: portfolioData)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,7 +145,7 @@ class PortfolioSummaryViewController: UIViewController {
         }
     }
     
-    func loadAllPortfolios() {
+    func loadAllPortfolios(portfolioData: [String: [[String: Any]]]) {
         databaseRef = Database.database().reference()
 
         dict = [:]
@@ -156,7 +156,7 @@ class PortfolioSummaryViewController: UIViewController {
         
         summary = [:]
         
-        initalizePortfolioEntries()
+        initalizePortfolioEntries(portfolioData: portfolioData)
 
     }
     
@@ -174,7 +174,7 @@ class PortfolioSummaryViewController: UIViewController {
         })
     }
     
-    func initalizePortfolioEntries() {
+    func initalizePortfolioEntries(portfolioData: [String: [[String: Any]]]) {
         dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
         dict = [:]
         dict = portfolioData
@@ -527,6 +527,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             
             let coin = coins[indexPath.row]
             targetViewController.coin = coin
+            targetViewController.portfolioName = portfolioName
             targetViewController.portfolioData = dict[coin]!
             targetViewController.coinPrice = self.summary[coin]!["coinMarketValue"]
             targetViewController.parentController = self
