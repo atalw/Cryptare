@@ -23,7 +23,6 @@ class AddFiatTransactionViewController: UIViewController {
     var amount: Double!
     var fees: Double!
     var date: Date!
-    var time: Date!
     
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     

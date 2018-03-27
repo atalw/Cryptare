@@ -364,6 +364,8 @@ extension CryptoPortfolioTableViewController {
     // append portfolio entry to userdefaults stored portfolios, else create new data entry
     func savePortfolioEntry(portfolioEntry: [String: Any]) {
         
+        let currentCoin = portfolioEntry["coin"] as! String
+        
         let transaction = ["type": portfolioEntry["type"]!,
                            "tradingPair": portfolioEntry["tradingPair"]!,
                            "exchange": portfolioEntry["exchange"]!,
@@ -375,12 +377,12 @@ extension CryptoPortfolioTableViewController {
         var allData = Defaults[.cryptoPortfolioData]
         if var currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
             var data: [String: [[String: Any]] ] = [:]
-            if currentPortfolioData[coin] == nil {
-                currentPortfolioData[coin] = []
+            if currentPortfolioData[currentCoin] == nil {
+                currentPortfolioData[currentCoin] = []
             }
             for (coin, transactions) in currentPortfolioData {
                 data[coin] = transactions
-                if coin == self.coin {
+                if coin == currentCoin {
                     data[coin]?.append(transaction)
                 }
             }

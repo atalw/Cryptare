@@ -37,7 +37,8 @@ extension DefaultsKeys {
     static let newsSort = DefaultsKey<String>("newsSort")
     
     // Portfolio
-    static let portfolioData = DefaultsKey<[String: Any]>("portfolioEntries")
+    static let cryptoPortfolioData = DefaultsKey<[String: Any]>("portfolioEntries")
+    static let fiatPortfolioData = DefaultsKey<[String: Any]>("fiatPortfolioEntries")
 
     // IAP
     static let previousPaidUser = DefaultsKey<Bool>("previousPaidUser")

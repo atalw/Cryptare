@@ -63,7 +63,7 @@ class AddFiatTransactionTableViewController: UITableViewController {
         timeTextField.text = timeFormatter.string(from: Date())
         dateTextField.text = dateFormatter.string(from: Date())
         
-        parentController.time = timePicker.date
+//        parentController.time = timePicker.date
         parentController.date = datePicker.date
         
         databaseRef = Database.database().reference().child("BTC")
@@ -196,7 +196,7 @@ class AddFiatTransactionTableViewController: UITableViewController {
     @objc func donePressedTime() {
         self.timeTextField.text = timeFormatter.string(from: timePicker.date)
         self.view.endEditing(true)
-        parentController.time = timePicker.date
+//        parentController.time = timePicker.date
     }
 
     // MARK: - Navigation

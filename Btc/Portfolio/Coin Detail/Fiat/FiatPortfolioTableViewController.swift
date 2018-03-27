@@ -154,7 +154,6 @@ extension FiatPortfolioTableViewController {
                            "date": portfolioEntry["date"]!]
         
         var allData = Defaults[.fiatPortfolioData]
-        print(allData)
         if allData[portfolioName] == nil {
             allData[portfolioName] = [:]
         }
@@ -171,7 +170,6 @@ extension FiatPortfolioTableViewController {
             }
             allData[portfolioName] = data
             Defaults[.fiatPortfolioData] = allData
-            print(allData)
             parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
         }
     }
