@@ -23,10 +23,14 @@ class MainPortfolioViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
+    
+    let pagingViewController = PagingViewController<PagingIndexItem>()
 
     lazy var viewControllerList: [UIViewController] = {
         return getPortfolios()
     }()
+    
+    var portfolioNames: [String]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +51,6 @@ class MainPortfolioViewController: UIViewController {
         self.title = "Portfolio"
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
 
-        let pagingViewController = PagingViewController<PagingIndexItem>()
         pagingViewController.dataSource = self
         
         pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
@@ -117,6 +120,7 @@ class MainPortfolioViewController: UIViewController {
     @IBAction func addPortfolioButtonTapped(_ sender: Any) {
         if let addPortfolioViewController = self.storyboard?.instantiateViewController(withIdentifier: "addPortfolioViewController") as? AddPortfolioViewController {
             addPortfolioViewController.parentController = self
+            addPortfolioViewController.portfolioNames = self.portfolioNames
             self.navigationController?.pushViewController(addPortfolioViewController, animated: true)
         }
     }
@@ -125,6 +129,8 @@ class MainPortfolioViewController: UIViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        self.portfolioNames = []
+        
         var viewControllers: [UIViewController] = []
 
         let allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
@@ -132,6 +138,7 @@ class MainPortfolioViewController: UIViewController {
         
         for (name, data) in allCryptoPortfolioData {
             let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
+            self.portfolioNames.append(name)
             vc.title = name
             vc.portfolioName = name
             

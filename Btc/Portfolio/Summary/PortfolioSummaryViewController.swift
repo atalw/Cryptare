@@ -69,6 +69,9 @@ class PortfolioSummaryViewController: UIViewController {
         
         tableView.tableFooterView = UIView(frame: .zero)
         
+        currentPortfolioValueLabel.text = 0.0.asCurrency
+        totalInvestedLabel.text = 0.0.asCurrency
+        totalPriceChangeLabel.text = 0.0.asCurrency
         
         loadAllPortfolios(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
     }

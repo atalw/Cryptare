@@ -41,7 +41,7 @@ class AddTransactionViewController: UIViewController {
         
         portfolioName = parentController.portfolioName
 
-        addTransactionButton.setBackgroundColor(UIColor.darkGray, forState: .disabled)
+        addTransactionButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)
         
         addTransactionButton.setTitleColor(UIColor.white, for: .normal)
         addTransactionButton.setTitleColor(UIColor.lightGray, for: .disabled)
@@ -50,12 +50,12 @@ class AddTransactionViewController: UIViewController {
         
         if transactionType == "buy" {
             addTransactionButton.setTitle("Add Buy Transaction", for: .normal)
-            addTransactionButton.setBackgroundColor(greenColour, forState: .normal)
+            addTransactionButton.setBackgroundColor(color: greenColour, forState: .normal)
 
         }
         else if transactionType == "sell" {
             addTransactionButton.setTitle("Add Sell Transaction", for: .normal)
-            addTransactionButton.setBackgroundColor(redColour, forState: .normal)
+            addTransactionButton.setBackgroundColor(color: redColour, forState: .normal)
 
         }
         

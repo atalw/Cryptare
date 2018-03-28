@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import BulletinBoard
 import Armchair
 import SwiftyUserDefaults
 
@@ -39,9 +38,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     // MARK: - Bulletin variables
-    
-    /// The current background style.
-    var currentBackground = (name: "Dark", style: BulletinBackgroundViewStyle.dimmed)
     
     // MARK: - UI Outlets
     
@@ -306,29 +302,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
 //        return NSKeyedArchiver.archivedData(withRootObject: converted)
 //    }
     
-    /**
-     * Displays the bulletin.
-     */
-    
-    func showAddBuyBulletin() {
-        let bulletinManager = { () -> BulletinManager in
-            let rootItem: BulletinItem = BulletinDataSource.makeTextFieldPage(coin: self.coin)
-            return BulletinManager(rootItem: rootItem)
-        }()
-        bulletinManager.backgroundViewStyle = currentBackground.style
-        bulletinManager.prepare()
-        bulletinManager.presentBulletin(above: self)
-    }
-    
-    func showAddSellBulletin() {
-        let bulletinManager = { () -> BulletinManager in
-            let rootItem: BulletinItem = BulletinDataSource.makeSellPortfolioPage(coin: self.coin)
-            return BulletinManager(rootItem: rootItem)
-        }()
-        bulletinManager.backgroundViewStyle = currentBackground.style
-        bulletinManager.prepare()
-        bulletinManager.presentBulletin(above: self)
-    }
 }
 
 extension CryptoPortfolioTableViewController {

@@ -39,10 +39,6 @@ class CryptoPortfolioViewController: UIViewController {
     
     @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
     
-    @IBAction func addPortfolioAction(_ sender: Any) {
-        portfolioTableController.showAddBuyBulletin()
-    }
-    
     // MARK: - VC Lifecycle
     
     override func viewDidLoad() {
