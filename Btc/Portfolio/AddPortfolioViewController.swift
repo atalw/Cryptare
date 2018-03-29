@@ -18,14 +18,76 @@ class AddPortfolioViewController: UIViewController {
 
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
+    @IBOutlet weak var unlockPortfolioView: UIView!
+    @IBOutlet weak var unlockPortfolioButton: UIButton!
+    
+    @IBOutlet weak var availablePortfoliosContainerHeightConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         doneButton.isEnabled = false
+        
+        let multiplePortfoliosPurchased = Defaults[.multiplePortfoliosPurchased]
+        
+        if multiplePortfoliosPurchased {
+            unlockPortfolioView.isHidden = true
+            self.unlockPortfolioButton.titleLabel?.textAlignment = NSTextAlignment.center
+        }
+        else {
+            unlockPortfolioView.isHidden = false
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if !unlockPortfolioView.isHidden {
+            IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
+                if success {
+                    if products != nil {
+                        var price = 0.0.asCurrency
+                        for product in products! {
+                            if product.localizedTitle == "Multiple Portfolios" {
+                                price = product.localizedPrice()
+                            }
+                        }
+                        
+                        self.unlockPortfolioButton.setTitle(" Unlock unlimited multiple portfolio for a one-time purchase of \(price). ", for: .normal)
+                            self.unlockPortfolioButton.titleLabel?.textAlignment = NSTextAlignment.center
+                        self.unlockPortfolioButton.titleLabel?.lineBreakMode = .byWordWrapping
+                        self.unlockPortfolioButton.addTarget(self, action: #selector(self.unlockPortfolioButtonTapped), for: .touchUpInside)
+                    }
+                }
+            })
+        }
+        
+    }
+    
+    @objc func unlockPortfolioButtonTapped() {
+        
+        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.openLeft()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let settingsViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController")
+        
+        let leftViewController = self.slideMenuController()?.leftViewController as? LeftViewController
+        let indexPath = IndexPath(row: 3, section: 0)
+        leftViewController?.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
+        leftViewController?.tableView((leftViewController?.tableView)!, didSelectRowAt: indexPath)
+        
+        self.navigationController?.closeLeft()
     }
 
     func updateDoneButton(status: Bool) {
         doneButton.isEnabled = status
+    }
+    
+    func reloadPortfolios() {
+        parentController.viewControllerList = parentController.getPortfolios()
+        parentController.pagingViewController.dataSource = parentController
+        parentController.pagingViewController.reloadData()
     }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
@@ -40,8 +102,7 @@ class AddPortfolioViewController: UIViewController {
             Defaults[.cryptoPortfolioData] = cryptoPortfolioData
             Defaults[.fiatPortfolioData] = fiatPortfolioData
             
-            parentController.viewControllerList = parentController.getPortfolios()
-            parentController.pagingViewController.reloadData()
+            reloadPortfolios()
             
             navigationController?.popViewController(animated: true)
         }
@@ -137,6 +198,55 @@ class AvailablePortfolioTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        parentController.availablePortfoliosContainerHeightConstraint.constant = tableView.contentSize.height
+    }
+    
+    func updatePortfolioName(name: String, index: Int) {
+        print(name, index)
+        
+        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to change the portfolio name from \(portfolioNames[index]) to \(name)?", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+            print("yes tapped")
+            self.changePortfolioName(name: name, index: index)
+        })
+        
+        let cancelAction = UIAlertAction(title: "No", style: .default, handler: { actino -> Void in
+            print("no tapped")
+        })
+        
+        dialogMessage.addAction(yesAction)
+        dialogMessage.addAction(cancelAction)
+        
+        self.present(dialogMessage, animated: true, completion: nil)
+    }
+    
+    func changePortfolioName(name: String, index: Int) {
+        let oldPortfolioName = portfolioNames[index]
+        
+        let cryptoData = Defaults[.cryptoPortfolioData][oldPortfolioName]
+        Defaults[.cryptoPortfolioData][name] = cryptoData
+        Defaults[.cryptoPortfolioData].removeValue(forKey: oldPortfolioName)
+        
+        let fiatData = Defaults[.fiatPortfolioData][oldPortfolioName]
+        Defaults[.fiatPortfolioData][name] = fiatData
+        Defaults[.fiatPortfolioData].removeValue(forKey: oldPortfolioName)
+        
+        self.parentController.reloadPortfolios()
+    }
+    
+    func deletePortfolio(index: Int) {
+        
+        Defaults[.cryptoPortfolioData].removeValue(forKey: portfolioNames[index])
+        Defaults[.fiatPortfolioData].removeValue(forKey: portfolioNames[index])
+        
+        portfolioNames.remove(at: index)
+        
+        parentController.reloadPortfolios()
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -161,14 +271,31 @@ class AvailablePortfolioTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath
-//            let portfolioEntry = self.portfolioEntries[indexPath.row]
-//            self.portfolioEntries.remove(at: indexPath.row)
-//            self.deletePortfolioEntry(portfolioEntry: portfolioEntry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-//            self.parentController.setTotalPortfolioValues()
+            
+            let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this portfolio? All transactions will be deleted.", preferredStyle: .alert)
+            
+            let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+                print("yes tapped")
+                self.deletePortfolio(index: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            })
+            
+            let cancelAction = UIAlertAction(title: "No", style: .default, handler: { actino -> Void in
+                print("no tapped")
+            })
+            
+            dialogMessage.addAction(yesAction)
+            dialogMessage.addAction(cancelAction)
+            
+            self.present(dialogMessage, animated: true, completion: nil)
+            
         }
         
         return [delete]
+    }
+    var index: Int!
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         self.index = indexPath.row
     }
 }
 
@@ -199,12 +326,16 @@ extension AvailablePortfolioTableViewController: UITextFieldDelegate {
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("TextField did end editing method called\(textField.text!)")
-        
         if let text = textField.text {
-            if text != "" && text != nil {
+            if text != "" && text != nil && !portfolioNames.contains(text) {
 //                parentController.portfolioName = text
 //                parentController.updateDoneButton(status: true)
                 print("text")
+                
+                if let indexPath = (textField.superview?.superview?.superview as! UITableView).indexPath(for: textField.superview?.superview as! AvailablePortfolioTableViewCell) {
+                    updatePortfolioName(name: text, index: indexPath.row)
+                }
+                
             }
             else {
 //                parentController.portfolioName = nil

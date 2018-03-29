@@ -130,6 +130,7 @@ class MainPortfolioViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         self.portfolioNames = []
+        self.viewControllerList = []
         
         var viewControllers: [UIViewController] = []
 
@@ -154,6 +155,9 @@ class MainPortfolioViewController: UIViewController {
                 
                 viewControllers.append(vc)
             }
+            else {
+                vc.cryptoPortfolioData = [:]
+            }
         }
         return viewControllers
     }
@@ -175,7 +179,7 @@ class MainPortfolioViewController: UIViewController {
 extension MainPortfolioViewController: PagingViewControllerDataSource {
     
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T {
-        return PagingIndexItem(index: index, title: viewControllerList[index].title ?? "") as! T
+        return PagingIndexItem(index: index, title: portfolioNames[index]) as! T
     }
     
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, viewControllerForIndex index: Int) -> UIViewController {

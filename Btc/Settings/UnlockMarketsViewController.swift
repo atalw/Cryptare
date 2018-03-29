@@ -46,6 +46,7 @@ class UnlockMarketsViewController: UIViewController {
                     }
                     
                     self.buyUnlockMarketsButton.setTitle(" Unlock all markets for a one-time lifetime purchase of \(price). ", for: .normal)
+                    self.buyUnlockMarketsButton.titleLabel?.textAlignment = NSTextAlignment.center
                     self.buyUnlockMarketsButton.titleLabel?.lineBreakMode = .byWordWrapping
                     self.buyUnlockMarketsButton.addTarget(self, action: #selector(self.unlockMarketsButtonTapped), for: .touchUpInside)
                 }
