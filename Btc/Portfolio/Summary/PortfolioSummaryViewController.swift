@@ -79,6 +79,12 @@ class PortfolioSummaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        databaseRef.removeAllObservers()
+        
+        for coinRef in coinRefs {
+            coinRef.removeAllObservers()
+        }
+        
         if coins.count == 0 {
             tableView.reloadData()
 //            updateSummaryLabels(portfolioName: portfolioName)
@@ -99,15 +105,6 @@ class PortfolioSummaryViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if coins.count == 0 && currencies.count == 0 {
-            tableViewHeightConstraint.constant = 500
-        }
-        else {
-            tableViewHeightConstraint.constant = tableView.contentSize.height
-            tableView.reloadData()
-        }
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -115,7 +112,7 @@ class PortfolioSummaryViewController: UIViewController {
             tableViewHeightConstraint.constant = 500
         }
         else {
-            tableViewHeightConstraint.constant = tableView.contentSize.height
+            tableViewHeightConstraint.constant = tableView.contentSize.height + 50
         }
     }
     
@@ -133,32 +130,8 @@ class PortfolioSummaryViewController: UIViewController {
         super.viewDidDisappear(animated)
     }
     
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        let destinationVc = segue.destination
-        if let addCoinVc = destinationVc as? AddCoinTableViewController {
-            addCoinVc.parentController = self
-        }
-        else if let cryptoPortfolioVC = destinationVc as? CryptoPortfolioViewController {
-            cryptoPortfolioVC.parentController = self
-        }
-    }
-    
     func loadAllPortfolios(cryptoPortfolioData: [String: [[String: Any]]]?, fiatPortfolioData: [String: [[String: Any]]]?) {
         databaseRef = Database.database().reference()
-
-//        cryptoDict = [:]
-//        fiatDict = [:]
-//
-//        coins = []
-//        currencies = []
-//
-//        summary = [:]
         
         initalizePortfolioEntries(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
 
@@ -179,7 +152,6 @@ class PortfolioSummaryViewController: UIViewController {
     }
     
     func initalizePortfolioEntries(cryptoPortfolioData: [String: [[String: Any]]]?, fiatPortfolioData: [String: [[String: Any]]]?) {
-//        dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
         
         if cryptoPortfolioData != nil {
             cryptoDict = [:]
@@ -358,6 +330,21 @@ class PortfolioSummaryViewController: UIViewController {
         option24hrButton.isSelected = true
         updateSummaryLabels()
         tableView.reloadData()
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        let destinationVc = segue.destination
+        if let addCoinVc = destinationVc as? AddCoinTableViewController {
+            addCoinVc.parentController = self
+        }
+        else if let cryptoPortfolioVC = destinationVc as? CryptoPortfolioViewController {
+            cryptoPortfolioVC.parentController = self
+        }
     }
     
     
@@ -540,7 +527,6 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         else {
             targetViewController.portfolioData = []
         }
-//        handle.remo
         self.navigationController?.pushViewController(targetViewController, animated: true)
     }
     
