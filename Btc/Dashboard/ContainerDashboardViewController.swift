@@ -12,7 +12,7 @@ import SwiftyUserDefaults
 
 class ContainerDashboardViewController: UIViewController {
     
-    let defaults = UserDefaults.standard
+    var currency: String!
     
     lazy var viewControllerList: [UIViewController] = {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -30,12 +30,16 @@ class ContainerDashboardViewController: UIViewController {
         return favouriteFirstDefaults ? [vc2, vc1] : [vc1, vc2]
     }()
     
-
+    let pagingViewController = PagingViewController<PagingIndexItem>()
+    var currentSelectedIndex: Int! = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let pagingViewController = PagingViewController<PagingIndexItem>()
+        currency = GlobalValues.currency!
+       
         pagingViewController.dataSource = self
+        pagingViewController.delegate = self
         
         pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
         pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
@@ -57,6 +61,26 @@ class ContainerDashboardViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if currency != GlobalValues.currency! {
+            currency = GlobalValues.currency!
+            
+            for (index, viewController) in viewControllerList.enumerated() {
+                if let dashboardVC = viewControllerList[index] as? DashboardViewController {
+                    dashboardVC.currency = currency
+                    
+                    guard let currentIndex = currentSelectedIndex else { return }
+                    
+                    if index == currentIndex {
+                        dashboardVC.loadAllCoinData()
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 extension ContainerDashboardViewController: PagingViewControllerDataSource {
@@ -64,7 +88,7 @@ extension ContainerDashboardViewController: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T {
         return PagingIndexItem(index: index, title: viewControllerList[index].title ?? "") as! T
     }
-
+    
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, viewControllerForIndex index: Int) -> UIViewController {
         return viewControllerList[index]
     }
@@ -73,4 +97,15 @@ extension ContainerDashboardViewController: PagingViewControllerDataSource {
         return viewControllerList.count
     }
 
+}
+
+extension ContainerDashboardViewController: PagingViewControllerDelegate {
+    
+    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, didScrollToItem pagingItem: T, startingViewController: UIViewController?, destinationViewController: UIViewController, transitionSuccessful: Bool) where T : PagingItem, T : Comparable, T : Hashable {
+        
+        if let index = viewControllerList.index(of: destinationViewController) {
+            self.currentSelectedIndex = index
+        }
+    }
+    
 }

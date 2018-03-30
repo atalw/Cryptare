@@ -20,18 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var currencyButton: UIBarButtonItem!
     @IBOutlet weak var bannerView: GADBannerView!
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
-        if removeAdsPurchased == false {
-            bannerView.load(GADRequest())
-            bannerView.delegate = self
-        }
-        else {
-            bannerView.isHidden = true
-        }
-    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +69,19 @@ class MainViewController: UIViewController {
         }
         // Do any additional setup after loading the view.
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
+        if removeAdsPurchased == false {
+            bannerView.load(GADRequest())
+            bannerView.delegate = self
+        }
+        else {
+            bannerView.isHidden = true
+        }
         
         let currency = GlobalValues.currency!
         currencyButton.title = currency
