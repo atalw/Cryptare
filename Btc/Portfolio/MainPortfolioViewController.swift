@@ -21,6 +21,8 @@ class MainPortfolioViewController: UIViewController {
     ]
     // ------------------------------------
     
+    var currency: String!
+
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
     
@@ -39,7 +41,9 @@ class MainPortfolioViewController: UIViewController {
 //        UserDefaults.standard.set(newData, forKey: "portfolioEntries")
         
 //        UserDefaults.standard.remove("fiatPortfolioEntries")
-//
+        
+        currency = GlobalValues.currency!
+        
         dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
         dateFormatter.timeZone = TimeZone.current
         
@@ -70,6 +74,19 @@ class MainPortfolioViewController: UIViewController {
         view.addSubview(pagingViewController.view)
         view.constrainToEdges(pagingViewController.view)
         pagingViewController.didMove(toParentViewController: self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if currency != GlobalValues.currency! {
+            currency = GlobalValues.currency!
+            for (index, viewController) in viewControllerList.enumerated() {
+                if let summaryVC = viewController as? PortfolioSummaryViewController {
+                    summaryVC.updateCurrency(currency: currency)
+                }
+            }
+        }
     }
 
     func updateOldFormatPortfolioEntries() {
