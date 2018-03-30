@@ -12,8 +12,11 @@ import SwiftyUserDefaults
 extension DefaultsKeys {
     
     static let selectedCountry = DefaultsKey<String>("selectedCountry")
-    static let mainIntroComplete = DefaultsKey<Bool>("mainIntroComplete")
-
+    
+    //Intros
+    static let mainAppIntroComplete = DefaultsKey<Bool>("mainAppIntroComplete")
+    static let mainPortfolioIntroComplete = DefaultsKey<Bool>("mainPortfolioIntroComplete")
+    static let paidUserRestoreIntroComplete = DefaultsKey<Bool>("paidUserRestoreIntroComplete")
     
     // Dashboard
     static let dashboardFavourites = DefaultsKey<[String]>("dashboardFavourites")

@@ -11,6 +11,7 @@ import Firebase
 import Alamofire
 import SwiftyJSON
 import SwiftyUserDefaults
+import SwiftyJSON
 
 class PortfolioSummaryViewController: UIViewController {
     
@@ -178,6 +179,8 @@ class PortfolioSummaryViewController: UIViewController {
     func calculatePortfolioSummary(portfolioName: String, cryptoDict: [String: [[String: Any]]], fiatDict: [String: [[String: Any]]]) {
         
         for (coin, transactions) in cryptoDict {
+            print(transactions)
+            
             summary[coin] = [:]
             summary[coin]!["amountOfCoins"] = 0.0
             summary[coin]!["costPerCoin"] = 0.0
@@ -187,19 +190,48 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin]!["coinValueYesterday"] = 0.0
             summary[coin]!["holdingsValueYesterday"] = 0.0
             
-            for trans in transactions {
-                let amount = (trans["amountOfCoins"] as! Double) * (trans["costPerCoin"] as! Double) - (trans["fees"] as! Double)
-
-                if trans["type"] as! String == "buy" {
-                   summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! + (trans["amountOfCoins"] as! Double)
-                    summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! + (trans["costPerCoin"] as! Double)
-                    summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! + amount
+            for (index, trans) in transactions.enumerated() {
+                let tradingPair = trans["tradingPair"] as! String
+                
+                if tradingPair != GlobalValues.currency! {
+                    // check if trading pair is a crypto currency
+                    if coins.contains(tradingPair) {
+                        
+                    }
+                    else {
+                        // check if trading pair is a fiat currency
+                        for (_, symbol, _, _) in GlobalValues.countryList {
+                            if symbol == tradingPair {
+                                self.getExchangeRate(symbol: GlobalValues.currency!, base: tradingPair, completion: { success, exchangeRate in
+                                    if success {
+                                        let type = trans["type"] as! String
+                                        let amountOfCoins = trans["amountOfCoins"] as! Double
+                                        let costPerCoin = trans["costPerCoin"] as! Double * exchangeRate
+                                        let fees = (trans["fees"] as! Double) * exchangeRate
+                                        let totalCost = ((trans["amountOfCoins"] as! Double) * (trans["costPerCoin"] as! Double) - (trans["fees"] as! Double)) * exchangeRate
+                                        
+                                        self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
+                                        
+                                        // update crypto dict to show converted in crypto table VC
+                                        self.cryptoDict[coin]![index]["costPerCoin"] = costPerCoin
+                                        self.cryptoDict[coin]![index]["fees"] = fees
+                                        
+                                        self.tableView.reloadData()
+                                    }
+                                })
+                                break
+                            }
+                        }
+                    }
                 }
-                else if trans["type"] as! String == "sell" {
-                    summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! - (trans["amountOfCoins"] as! Double)
-                    summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! - (trans["costPerCoin"] as! Double)
-                    summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! - amount
-
+                else {
+                    
+                    let type = trans["type"] as! String
+                    let amountOfCoins = trans["amountOfCoins"] as! Double
+                    let costPerCoin = trans["costPerCoin"] as! Double
+                    let totalCost = (amountOfCoins * costPerCoin) - (trans["fees"] as! Double)
+                    
+                    updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
                 }
             }
             
@@ -210,9 +242,7 @@ class PortfolioSummaryViewController: UIViewController {
                 if let cryptoDict = snapshot.value as? [String : AnyObject] {
                     let price = cryptoDict[GlobalValues.currency!]!["price"] as! Double
                     self.summary[coin]!["coinMarketValue"] = price
-                    self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["amountOfCoins"]! * self.summary[coin]!["coinMarketValue"]!
-//                    self.cryptoDict[coin]?.append([])
-                    self.updateSummaryLabels()
+                    self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["amountOfCoins"]! * price
                     self.tableView.reloadData()
                 }
             })
@@ -223,20 +253,63 @@ class PortfolioSummaryViewController: UIViewController {
             summary[currency]!["amount"] = 0.0
             summary[currency]!["deposited"] = 0.0
             
-            for entry in fiatDict[currency]! {
-                var entryAmount = entry["amount"] as! Double
-                var fees = entry["fees"] as! Double
-                
-                if entry["type"] as! String == "deposit" {
-                    summary[currency]!["amount"] = summary[currency]!["amount"]! + entryAmount - fees
-                    summary[currency]!["deposited"] = summary[currency]!["deposited"]! + entryAmount - fees
+            for (index, entry) in fiatDict[currency]!.enumerated() {
+                if currency != GlobalValues.currency! {
+                    // check if trading pair is a fiat currency
+                    for (_, symbol, _, _) in GlobalValues.countryList {
+                        if symbol == currency {
+                            self.getExchangeRate(symbol: GlobalValues.currency!, base: currency, completion: { success, exchangeRate in
+                                if success {
+                                    let type = entry["type"] as! String
+                                    let amount = (entry["amount"] as! Double) * exchangeRate
+                                    let fees = (entry["fees"] as! Double) * exchangeRate
+                                    
+                                    self.updateSummaryWithFiatTransaction(currency: currency, type: type, amount: amount, fees: fees)
+                                    
+                                    self.fiatDict[currency]![index]["amount"] = amount
+                                    self.fiatDict[currency]![index]["fees"] = fees
+                                    self.tableView.reloadData()
+                                }
+                            })
+                        }
+                    }
                 }
-                else if entry["type"] as! String == "withdraw" {
-                    summary[currency]!["amount"] = summary[currency]!["amount"]! - entryAmount - fees
+                else {
+                    let type = entry["type"] as! String
+                    let amount = entry["amount"] as! Double
+                    let fees = entry["fees"] as! Double
+                    
+                    updateSummaryWithFiatTransaction(currency: currency, type: type, amount: amount, fees: fees)
                 }
             }
         }
         getCoinValueYesterday()
+    }
+    
+    func updateSummaryWithCryptoTransaction(coin: String, type: String, amountOfCoins: Double, costPerCoin: Double, totalCost: Double) {
+        
+        if type == "buy" {
+            summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! + amountOfCoins
+            summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! + costPerCoin
+            summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! + totalCost
+        }
+        else if type == "sell" {
+            summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! - amountOfCoins
+            summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! - costPerCoin
+            summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! - totalCost
+            
+        }
+    }
+    
+    func updateSummaryWithFiatTransaction(currency: String, type: String, amount: Double, fees: Double) {
+        
+        if type == "deposit" {
+            summary[currency]!["amount"] = summary[currency]!["amount"]! + amount - fees
+            summary[currency]!["deposited"] = summary[currency]!["deposited"]! + amount
+        }
+        else if type == "withdraw" {
+            summary[currency]!["amount"] = summary[currency]!["amount"]! - amount - fees
+        }
     }
     
     func getCoinValueYesterday() {
@@ -269,9 +342,15 @@ class PortfolioSummaryViewController: UIViewController {
         totalPriceChangeLabel.text = 0.asCurrency
         
         for coin in coins {
-            currentPortfolioValue = currentPortfolioValue + summary[coin]!["holdingsMarketValue"]!
-            totalInvested = totalInvested + summary[coin]!["totalCost"]!
-            yesterdayPortfolioValue = yesterdayPortfolioValue + summary[coin]!["holdingsValueYesterday"]!
+            if let yesterdayPrice = self.summary[coin]!["coinValueYesterday"],
+                let amountOfCoins = self.summary[coin]!["amountOfCoins"] {
+                self.summary[coin]!["holdingsValueYesterday"] =  yesterdayPrice * amountOfCoins
+                
+                currentPortfolioValue = currentPortfolioValue + summary[coin]!["holdingsMarketValue"]!
+                totalInvested = totalInvested + summary[coin]!["totalCost"]!
+                yesterdayPortfolioValue = yesterdayPortfolioValue + summary[coin]!["holdingsValueYesterday"]!
+
+            }
         }
         
         for currency in currencies {
@@ -316,6 +395,25 @@ class PortfolioSummaryViewController: UIViewController {
             totalPriceChangeLabel.textColor = colour
         }
         
+    }
+    
+    func getExchangeRate(symbol: String, base: String, completion: @escaping (_ success : Bool, _ exchangeRate: Double) -> ()) {
+        var exchangeRate: Double = 1
+
+        let exchangeURL = URL(string: "https://api.fixer.io/latest?symbols=\(symbol)&base=\(base)")!
+        let exchangeTask = URLSession.shared.dataTask(with: exchangeURL) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            guard let data = data else {
+                return
+            }
+            do {
+                exchangeRate = JSON(data:data)["rates"][symbol].double!
+                completion(true, exchangeRate)
+            }
+        }
+        exchangeTask.resume()
     }
     
     @IBAction func optionAllTimeTapped(_ sender: Any) {
@@ -407,50 +505,56 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
                 }
             }
             
-            cell!.coinHoldingsLabel.text = "\(summary[coin]!["amountOfCoins"]!) \(coin)"
-            cell!.coinHoldingsLabel.adjustsFontSizeToFitWidth = true
-            
-            let holdingsMarketValue = summary[coin]!["holdingsMarketValue"]!
-            cell!.coinCurrentValueLabel.text = holdingsMarketValue.asCurrency
-            cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
-            
-            var percentageChange: Double! = 0
-            var priceChange: Double! = 0
-            
-            if option24hrButton.isSelected {
-                let holdingsValueYesterday = summary[coin]!["holdingsValueYesterday"]!
-                priceChange = holdingsMarketValue - holdingsValueYesterday
+            if let amountOfCoins = self.summary[coin]!["amountOfCoins"] {
+                cell!.coinHoldingsLabel.text = "\(amountOfCoins) \(coin)"
+                cell!.coinHoldingsLabel.adjustsFontSizeToFitWidth = true
                 
-                percentageChange = priceChange / holdingsValueYesterday * 100
-            }
-            else if optionAllTimeButton.isSelected {
-                let totalCost = summary[coin]!["totalCost"]!
-                priceChange = holdingsMarketValue - totalCost
-                
-                percentageChange = priceChange / totalCost * 100
-            }
-            
-            
-            var colour: UIColor
-            
-            if percentageChange > 0 {
-                colour = greenColour
-            }
-            else if percentageChange < 0 {
-                colour = redColour
-            }
-            else {
-                colour = UIColor.black
-            }
-            
-            if !percentageChange.isNaN && !percentageChange.isInfinite {
-                let roundedPercentage = Double(round(percentageChange*100)/100)
-                
-                cell!.changePercentageLabel.text = "\(roundedPercentage) %"
-                cell!.changeCostLabel.text = priceChange.asCurrency
-                
-                cell!.changePercentageLabel.textColor = colour
-                cell!.changeCostLabel.textColor = colour
+                if let currentCoinMarketValue = self.summary[coin]!["coinMarketValue"] {
+                    self.summary[coin]!["holdingsMarketValue"] =  amountOfCoins * currentCoinMarketValue
+                    
+                    let holdingsMarketValue = summary[coin]!["holdingsMarketValue"]!
+                    cell!.coinCurrentValueLabel.text = holdingsMarketValue.asCurrency
+                    cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
+                    
+                    var percentageChange: Double! = 0
+                    var priceChange: Double! = 0
+                    
+                    if option24hrButton.isSelected {
+                        let holdingsValueYesterday = summary[coin]!["holdingsValueYesterday"]!
+                        priceChange = holdingsMarketValue - holdingsValueYesterday
+                        
+                        percentageChange = priceChange / holdingsValueYesterday * 100
+                    }
+                    else if optionAllTimeButton.isSelected {
+                        let totalCost = summary[coin]!["totalCost"]!
+                        priceChange = holdingsMarketValue - totalCost
+                        
+                        percentageChange = priceChange / totalCost * 100
+                    }
+                    
+                    
+                    var colour: UIColor
+                    
+                    if percentageChange > 0 {
+                        colour = greenColour
+                    }
+                    else if percentageChange < 0 {
+                        colour = redColour
+                    }
+                    else {
+                        colour = UIColor.black
+                    }
+                    
+                    if !percentageChange.isNaN && !percentageChange.isInfinite {
+                        let roundedPercentage = Double(round(percentageChange*100)/100)
+                        
+                        cell!.changePercentageLabel.text = "\(roundedPercentage) %"
+                        cell!.changeCostLabel.text = priceChange.asCurrency
+                        
+                        cell!.changePercentageLabel.textColor = colour
+                        cell!.changeCostLabel.textColor = colour
+                    }
+                }
             }
             
             cell!.changePercentageLabel.adjustsFontSizeToFitWidth = true

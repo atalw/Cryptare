@@ -127,7 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         let selectedCountry = Defaults[.selectedCountry]
-        let introComplete = Defaults[.mainIntroComplete]
+        let introComplete = Defaults[.mainAppIntroComplete]
         
         if selectedCountry != nil && introComplete {
             for countryTuple in GlobalValues.countryList {

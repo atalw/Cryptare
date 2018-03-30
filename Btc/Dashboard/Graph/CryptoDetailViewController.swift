@@ -18,7 +18,6 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     let redColour = UIColor.init(hex: "#e74c3c")
     
     var ref: DatabaseReference!
-    var ltcRef: DatabaseReference!
     
     var databaseTableTitle: String!
     

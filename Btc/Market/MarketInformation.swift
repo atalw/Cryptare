@@ -79,5 +79,14 @@ let marketInformation: [String: [String: String]] = [
     ],
     "Bittrex": [
         "url": "https://bittrex.com",
-    ]
+    ],
+    "KoinOK": [
+        "url": "https://www.koinok.com/signup?referralCode=9KD70UR2"
+    ],
+    "InstaShift": [
+        "url": "https://instashift.io/"
+    ],
+    "WazirX": [
+        "url": ""
+    ],
 ]

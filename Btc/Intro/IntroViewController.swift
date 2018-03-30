@@ -57,7 +57,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     }
 
     @IBAction func skipButtonTapped(_ sender: Any) {
-        Defaults[.mainIntroComplete] = true
+        Defaults[.mainAppIntroComplete] = true
         self.dismiss(animated: true, completion: nil)
     }
     /*

@@ -52,7 +52,7 @@ class AddPortfolioViewController: UIViewController {
                             }
                         }
                         
-                        self.unlockPortfolioButton.setTitle(" Unlock unlimited multiple portfolio for a one-time purchase of \(price). ", for: .normal)
+                        self.unlockPortfolioButton.setTitle(" Unlock unlimited portfolios for a one-time purchase of \(price). ", for: .normal)
                             self.unlockPortfolioButton.titleLabel?.textAlignment = NSTextAlignment.center
                         self.unlockPortfolioButton.titleLabel?.lineBreakMode = .byWordWrapping
                         self.unlockPortfolioButton.addTarget(self, action: #selector(self.unlockPortfolioButtonTapped), for: .touchUpInside)
