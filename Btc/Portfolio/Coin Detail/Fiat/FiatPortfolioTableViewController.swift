@@ -177,7 +177,7 @@ extension FiatPortfolioTableViewController {
     func deletePortfolioEntry(portfolioEntry: FiatTransactionEntryModel) {
         
         var allData = Defaults[.fiatPortfolioData]
-        if var currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
+        if let currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
             var data: [String: [[String: Any]] ] = [:]
             for (currency, transactions) in currentPortfolioData {
                 // copy all transactions to new dict
@@ -188,13 +188,10 @@ extension FiatPortfolioTableViewController {
                         let type = transaction["type"] as? String
                         let exchange = transaction["exchange"] as? String
                         let amount = transaction["amount"] as! Double
-                        let fees = transaction["fees"] as? Double
                         let date = transaction["date"] as? Date
                         
                         if portfolioEntry.type == type &&
                             portfolioEntry.exchange == exchange &&
-                            portfolioEntry.amount == amount &&
-                            portfolioEntry.fees == fees &&
                             portfolioEntry.date == date {
                             
                             if type == "deposit" {

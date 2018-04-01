@@ -99,8 +99,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dateFormatter.dateFormat = "dd/MM/YY"
         
-        print(tableView.contentSize.height)
-        
         let portfolio = portfolioEntries[indexPath.row]
         var cell: PortfolioTableViewCell
         if portfolio.type == "buy" {
@@ -112,7 +110,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
         
         for (symbol, name) in GlobalValues.coins {
             if symbol == coin {
-//                cell.coinNameLabel.text = name
                 if symbol == "IOT" {
                     cell.coinLogoImage.image = UIImage(named: "miota")
                 }
@@ -368,7 +365,6 @@ extension CryptoPortfolioTableViewController {
         }
     }
     
-    
     func deletePortfolioEntry(portfolioEntry: PortfolioEntryModel) {
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         
@@ -384,24 +380,20 @@ extension CryptoPortfolioTableViewController {
                         let type = transaction["type"] as? String
                         let tradingPair = transaction["tradingPair"] as? String
                         let exchange = transaction["exchange"] as? String
-                        let costPerCoin = transaction["costPerCoin"] as! Double
                         let amountOfCoins = transaction["amountOfCoins"] as? Double
-                        let fees = transaction["fees"] as? Double
                         let date = transaction["date"] as? Date
                         
                         if portfolioEntry.type == type &&
                             portfolioEntry.tradingPair == tradingPair &&
                             portfolioEntry.exchange == exchange &&
-                            portfolioEntry.costPerCoin == costPerCoin &&
                             portfolioEntry.amountOfCoins == amountOfCoins &&
-                            portfolioEntry.fees == fees &&
                             portfolioEntry.date == date {
                             
                             if type == "buy" {
-                                parentController.subtractTotalPortfolioValues(amountOfBitcoin: amountOfCoins!, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
+                                parentController.subtractTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
                             }
                             else if type == "sell" {
-                                parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: amountOfCoins!, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
+                                parentController.subtractSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.costPerCoin, currentValue: portfolioEntry.currentValue)
                             }
                             
                             data[coin]!.remove(at: index)
