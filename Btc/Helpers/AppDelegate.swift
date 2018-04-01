@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let selectedCountry = Defaults[.selectedCountry]
         let introComplete = Defaults[.mainAppIntroComplete]
         
-        if selectedCountry != nil && introComplete {
+        if selectedCountry != "" && introComplete {
             for countryTuple in GlobalValues.countryList {
                 if selectedCountry == countryTuple.0 {
                     GlobalValues.currency = countryTuple.1
@@ -138,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             self.createMenuView(storyboard: storyboard)
         }
-        else if selectedCountry != nil && !introComplete {
+        else if selectedCountry != "" && !introComplete {
             
             for countryTuple in GlobalValues.countryList {
                 if selectedCountry == countryTuple.0 {
@@ -152,7 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
             
         }
-        else if selectedCountry != nil && introComplete {
+        else if selectedCountry != "" && introComplete {
             for countryTuple in GlobalValues.countryList {
                 if selectedCountry == countryTuple.0 {
                     GlobalValues.currency = countryTuple.1
@@ -160,7 +160,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             self.createMenuView(storyboard: storyboard)
         }
-        else if selectedCountry == nil {
+        else if selectedCountry == "" {
             
             let countrySelectionViewController = storyboard.instantiateViewController(withIdentifier: "CountrySelectionViewController") as! CountrySelectionViewController
             

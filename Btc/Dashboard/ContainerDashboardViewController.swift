@@ -36,7 +36,9 @@ class ContainerDashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currency = GlobalValues.currency!
+        if GlobalValues.currency != nil {
+            currency = GlobalValues.currency!
+        }
        
         pagingViewController.dataSource = self
         pagingViewController.delegate = self
@@ -64,11 +66,18 @@ class ContainerDashboardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if currency != GlobalValues.currency! {
-            currency = GlobalValues.currency!
-            
-            for (index, viewController) in viewControllerList.enumerated() {
-                if let dashboardVC = viewControllerList[index] as? DashboardViewController {
+        for (index, viewController) in viewControllerList.enumerated() {
+            if let dashboardVC = viewController as? DashboardViewController {
+                if dashboardVC.tableView != nil {
+                    if let selectedTableIndex = dashboardVC.tableView.indexPathForSelectedRow as? IndexPath{
+                        dashboardVC.tableView.deselectRow(at: selectedTableIndex, animated: true)
+                    }
+                }
+                
+                
+                if currency != GlobalValues.currency! {
+                    currency = GlobalValues.currency!
+                    
                     dashboardVC.currency = currency
                     
                     guard let currentIndex = currentSelectedIndex else { return }

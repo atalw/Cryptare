@@ -151,8 +151,15 @@ class MainPortfolioViewController: UIViewController {
         
         var viewControllers: [UIViewController] = []
 
-        let allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
-        let allFiatPortfolioData = Defaults[.fiatPortfolioData]
+        var allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
+        var allFiatPortfolioData = Defaults[.fiatPortfolioData]
+        
+        if allCryptoPortfolioData.isEmpty && allFiatPortfolioData.isEmpty {
+            Defaults[.cryptoPortfolioData] = ["Main": [:]]
+            Defaults[.fiatPortfolioData] = ["Main": [:]]
+            allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
+            allFiatPortfolioData = Defaults[.fiatPortfolioData]
+        }
         
         for (name, data) in allCryptoPortfolioData {
             let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
