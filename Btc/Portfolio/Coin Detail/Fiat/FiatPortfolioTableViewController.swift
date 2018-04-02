@@ -26,13 +26,9 @@ class FiatPortfolioTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
+        self.clearsSelectionOnViewWillAppear = true
+
         dateFormatter.dateFormat = "dd MMM, YYYY"
         timeFormatter.dateFormat = "hh:mm a"
         dateFormatter.timeZone = TimeZone.current
@@ -63,12 +59,10 @@ class FiatPortfolioTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return portfolioEntries.count
     }
 
@@ -117,6 +111,18 @@ class FiatPortfolioTableViewController: UITableViewController {
         return [delete]
     }
     
+    func tableEmptyMessage() {
+        let messageLabel = UILabel()
+        messageLabel.text = "Add a transaction"
+        messageLabel.textColor = UIColor.black
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .center
+        messageLabel.sizeToFit()
+        
+        tableView.backgroundView = messageLabel
+        tableView.backgroundView?.backgroundColor = UIColor.groupTableViewBackground
+    }
+    
 }
 
 extension FiatPortfolioTableViewController {
@@ -133,8 +139,6 @@ extension FiatPortfolioTableViewController {
         }
         else if portfolioEntry["type"] as! String == "withdraw" {
             parentController.updateTotalWithdrawn(value: amount+fees)
-//            parentController.addToTotalWithdrawn(value: amount)
-//            parentController.updateCurrentAvailable(value: <#T##Double#>)
         }
         tableView.reloadData()
         savePortfolioEntry(portfolioEntry: portfolioEntry)
@@ -142,7 +146,7 @@ extension FiatPortfolioTableViewController {
     
     func initalizePortfolioEntries() {
         if portfolioData.count == 0 {
-//            tableEmptyMessage()
+            tableEmptyMessage()
         }
         else {
             for portfolio in portfolioData {
@@ -237,7 +241,7 @@ extension FiatPortfolioTableViewController {
             }
             
             if portfolioEntries.count == 0 {
-//                tableEmptyMessage()
+                tableEmptyMessage()
             }
             
             allData[portfolioName] = data

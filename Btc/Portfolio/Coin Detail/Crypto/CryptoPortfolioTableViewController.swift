@@ -18,12 +18,11 @@ class CryptoPortfolioTableViewController: UITableViewController {
     
     var coin: String!
     var coinPrice: Double!
+    
     // MARK: - Constants
     
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
-//    let defaults = UserDefaults.standard
-//    let portfolioEntriesConstant = ""
     
     let portfolioCellConstant = "portfolioBuyCell"
     let greenColour = UIColor.init(hex: "#2ecc71")
@@ -36,8 +35,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
     var portfolioEntries: [PortfolioEntryModel] = []
     
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-    
-    // MARK: - Bulletin variables
     
     // MARK: - UI Outlets
     
@@ -52,15 +49,8 @@ class CryptoPortfolioTableViewController: UITableViewController {
         activityIndicator.addSubview(view)
         self.activityIndicator.hidesWhenStopped = true
         
-        // Uncomment the following line to preserve selection between presentations
          self.clearsSelectionOnViewWillAppear = true
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        // Register notification observers
-//        NotificationCenter.default.addObserver(self, selector: #selector(textFieldEntered(notification:)), name: .TextFieldEntered, object: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,8 +110,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
                 }
             }
         }
-        
-//        cell.coinNameLabel.adjustsFontSizeToFitWidth = true
         
         cell.amountOfCoinsLabel.text = String(portfolio.amountOfCoins)
         cell.amountOfCoinsLabel.adjustsFontSizeToFitWidth = true
