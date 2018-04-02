@@ -178,11 +178,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
             
         }
         
-//        if let date = portfolio.dateOfPurchase {
-//            cell.dateOfPurchaseLabel?.text = dateFormatter.string(from: date)
-//            cell.dateOfPurchaseLabel?.adjustsFontSizeToFitWidth = true
-//        }
-        
         if let percentageChange = portfolio.percentageChange {
             cell.percentageChange?.text = "\(percentageChange)%"
             cell.percentageChange?.adjustsFontSizeToFitWidth = true
@@ -200,15 +195,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
         if let currentvalue = portfolio.currentValue {
             cell.currentValueLabel?.text = currentvalue.asCurrency
             cell.currentValueLabel?.adjustsFontSizeToFitWidth = true
-        }
-        
-//        if let priceChange = portfolio.priceChange {
-//            cell.priceChangeLabel?.text = priceChange.asCurrency
-//            cell.priceChangeLabel?.adjustsFontSizeToFitWidth = true
-//        }
-        
-        if let fees = portfolio.fees {
-            
         }
         
         if let tradePair = portfolio.tradingPair {

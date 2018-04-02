@@ -15,8 +15,10 @@ class AddFiatTransactionTableViewController: UITableViewController {
     
     var currency: String!
    
+    let dateAndTimeFormatter = DateFormatter()
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
+    let calendar = Calendar.current
     
     var markets: [String: String]!
     var databaseRef: DatabaseReference!
@@ -49,8 +51,19 @@ class AddFiatTransactionTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        timeFormatter.dateFormat  = "hh:mm a"
+        dateAndTimeFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
         dateFormatter.dateFormat = "dd MMM, YYYY"
+        timeFormatter.dateFormat = "hh:mm a"
+        dateAndTimeFormatter.timeZone = TimeZone.current
+        dateFormatter.timeZone = TimeZone.current
+        timeFormatter.timeZone = TimeZone.current
+        
+        let currentDate = Date()
+        
+        timeTextField.text = timeFormatter.string(from: currentDate)
+        dateTextField.text = dateFormatter.string(from: currentDate)
+        
+        parentController.date = currentDate
         
         timeTextField.delegate = self
         dateTextField.delegate = self
@@ -59,12 +72,6 @@ class AddFiatTransactionTableViewController: UITableViewController {
         
         createDatePicker()
         createTimePicker()
-        
-        timeTextField.text = timeFormatter.string(from: Date())
-        dateTextField.text = dateFormatter.string(from: Date())
-        
-//        parentController.time = timePicker.date
-        parentController.date = datePicker.date
         
         databaseRef = Database.database().reference().child("BTC")
 
@@ -177,7 +184,16 @@ class AddFiatTransactionTableViewController: UITableViewController {
     @objc func donePressedDate() {
         self.dateTextField.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
-        parentController.date = datePicker.date
+        
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: parentController.date)
+        
+        components.year = calendar.component(.year, from: datePicker.date)
+        components.month = calendar.component(.month, from: datePicker.date)
+        components.day = calendar.component(.day, from: datePicker.date)
+        
+        print(calendar.date(from: components))
+        
+        parentController.date = calendar.date(from: components)
     }
     
     func createTimePicker() {
@@ -194,9 +210,18 @@ class AddFiatTransactionTableViewController: UITableViewController {
     }
     
     @objc func donePressedTime() {
-        self.timeTextField.text = timeFormatter.string(from: timePicker.date)
+        let time = timePicker.date
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: parentController.date)
+        
+        components.hour = calendar.component(.hour, from: time)
+        components.minute = calendar.component(.minute, from: time)
+        components.second = calendar.component(.second, from: time)
+        
+        timeTextField.text = timeFormatter.string(from: time)
+        
         self.view.endEditing(true)
-//        parentController.time = timePicker.date
+        print(calendar.date(from: components))
+        parentController.date = calendar.date(from: components)
     }
 
     // MARK: - Navigation

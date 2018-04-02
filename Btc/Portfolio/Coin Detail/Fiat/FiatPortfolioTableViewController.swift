@@ -14,6 +14,7 @@ class FiatPortfolioTableViewController: UITableViewController {
     var parentController: FiatPortfolioViewController!
     
     let dateFormatter = DateFormatter()
+    let calendar = Calendar.current
     
     var currency: String!
     
@@ -31,14 +32,19 @@ class FiatPortfolioTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        portfolioEntries.removeAll()
+        
+        self.initalizePortfolioEntries()
+        
+        portfolioEntries = portfolioEntries.sorted(by: {$0.date.compare($1.date) == .orderedDescending})
+        tableView.reloadData()
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        portfolioEntries.removeAll()
-        
-//        activityIndicator.startAnimating()
-        self.initalizePortfolioEntries()
-
     }
     
     override func viewWillLayoutSubviews() {
@@ -73,8 +79,33 @@ class FiatPortfolioTableViewController: UITableViewController {
         
         cell.amountLabel.text = entry.amount.asCurrency
         cell.feesLabel.text = entry.fees.asCurrency
-        cell.dateLabel.text = dateFormatter.string(from: entry.date)
-//        cell.timeLabel.text = entry.time
+        
+        if let date = entry.date {
+            cell.dateLabel.text = dateFormatter.string(from: date)
+            
+            var hour = calendar.component(.hour, from: date)
+            let minutes = calendar.component(.minute, from: date)
+            let seconds = calendar.component(.second, from: date)
+            let pm: Bool!
+            
+            if hour == 12 {
+                pm = false
+            }
+            else if hour > 12 {
+                hour -=  12
+                pm = true
+            }
+            else {
+                pm = false
+            }
+            if minutes > 10 {
+                cell.timeLabel.text = pm ? "\(hour):\(minutes) PM" : "\(hour):\(minutes) AM"
+            }
+            else {
+                cell.timeLabel.text = pm ? "\(hour):0\(minutes) PM" : "\(hour):0\(minutes) AM"
+            }
+        }
+        
         
         if entry.type == "deposit" {
             cell.transactionTypeLabel.text = "Deposited via \(entry.exchange!)"
@@ -107,11 +138,17 @@ extension FiatPortfolioTableViewController {
         
         self.portfolioData.append(portfolioEntry)
         
+        let amount = portfolioEntry["amount"] as! Double
+        let fees = portfolioEntry["fees"] as! Double
+        
         if portfolioEntry["type"] as! String == "deposit" {
-            parentController.addToTotalDeposited(value: portfolioEntry["amount"] as! Double)
+            parentController.updateTotalDeposited(value: amount)
+            parentController.updateCurrentAvailable(value: amount-fees)
         }
         else if portfolioEntry["type"] as! String == "withdraw" {
-            parentController.addToTotalWithdrawn(value: portfolioEntry["amount"] as! Double)
+            parentController.updateTotalWithdrawn(value: amount+fees)
+//            parentController.addToTotalWithdrawn(value: amount)
+//            parentController.updateCurrentAvailable(value: <#T##Double#>)
         }
         tableView.reloadData()
         savePortfolioEntry(portfolioEntry: portfolioEntry)
@@ -132,10 +169,13 @@ extension FiatPortfolioTableViewController {
                 portfolioEntries.append(entry)
                 
                 if entry.type == "deposit" {
-                    parentController.addToTotalDeposited(value: (entry.amount-entry.fees))
+                    parentController.updateCurrentAvailable(value: entry.amount-entry.fees)
+                    parentController.updateTotalDeposited(value: entry.amount+entry.fees)
                 }
                 else if entry.type == "withdraw" {
-                    parentController.addToTotalWithdrawn(value: (entry.amount+entry.fees))
+                    parentController.updateTotalWithdrawn(value: entry.amount+entry.fees)
+                    parentController.updateCurrentAvailable(value: -(entry.amount+entry.fees))
+
                 }
             }
         }
@@ -188,6 +228,7 @@ extension FiatPortfolioTableViewController {
                         let type = transaction["type"] as? String
                         let exchange = transaction["exchange"] as? String
                         let amount = transaction["amount"] as! Double
+                        let fees = transaction["fees"] as! Double
                         let date = transaction["date"] as? Date
                         
                         if portfolioEntry.type == type &&
@@ -195,10 +236,12 @@ extension FiatPortfolioTableViewController {
                             portfolioEntry.date == date {
                             
                             if type == "deposit" {
-                                parentController.removeDepositedEntry(value: amount)
+                                parentController.updateTotalDeposited(value: -(amount+fees))
+                                parentController.updateCurrentAvailable(value: -(amount-fees))
                             }
                             else if type == "withdraw" {
-                                parentController.removeWithdrawnEntry(value: amount)
+                                parentController.updateTotalWithdrawn(value: -(amount+fees))
+                                parentController.updateCurrentAvailable(value: amount+fees)
                             }
                             data[currency]!.remove(at: index)
                             break

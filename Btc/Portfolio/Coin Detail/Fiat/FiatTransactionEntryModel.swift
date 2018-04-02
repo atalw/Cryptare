@@ -10,8 +10,6 @@ import Foundation
 
 class FiatTransactionEntryModel {
     
-//    weak var delegate:
-    
     var currency: String!
     
     var type: String!

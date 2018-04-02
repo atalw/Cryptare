@@ -36,6 +36,10 @@ class FiatPortfolioViewController: UIViewController {
         currentAvailableLabel.adjustsFontSizeToFitWidth = true
         totalDepositedLabel.adjustsFontSizeToFitWidth = true
         totalWithdrawnLabel.adjustsFontSizeToFitWidth = true
+        
+        currentAvailableLabel.text = currentAvailable.asCurrency
+        totalDepositedLabel.text = totalDeposited.asCurrency
+        totalWithdrawnLabel.text = totalWithdrawn.asCurrency
 
         // Do any additional setup after loading the view.
         for (country, symbol, locale, name) in GlobalValues.countryList {
@@ -45,42 +49,37 @@ class FiatPortfolioViewController: UIViewController {
             }
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateCurrentAvailable(value: -currentAvailable)
+        updateTotalDeposited(value: -totalDeposited)
+        updateTotalWithdrawn(value: -totalWithdrawn)
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        currentAvailable = 0
-        totalDeposited = 0
-        totalWithdrawn = 0
     }
     
-    func addToTotalDeposited(value: Double) {
+    func updateCurrentAvailable(value: Double) {
+        currentAvailable = currentAvailable + value
+        DispatchQueue.main.async {
+            self.currentAvailableLabel.text = self.currentAvailable.asCurrency
+        }
+    }
+    
+    func updateTotalDeposited(value: Double) {
         totalDeposited = totalDeposited + value
-        currentAvailable = currentAvailable + value
-        setTotalValues()
+        DispatchQueue.main.async {
+            self.totalDepositedLabel.text = self.totalDeposited.asCurrency
+        }
     }
     
-    func addToTotalWithdrawn(value: Double) {
+    func updateTotalWithdrawn(value: Double) {
         totalWithdrawn = totalWithdrawn + value
-        currentAvailable = currentAvailable - value
-        setTotalValues()
-    }
-    
-    func removeDepositedEntry(value: Double) {
-        totalDeposited = totalDeposited - value
-        currentAvailable = currentAvailable - value
-        setTotalValues()
-    }
-    
-    func removeWithdrawnEntry(value: Double) {
-        totalWithdrawn = totalWithdrawn - value
-        currentAvailable = currentAvailable + value
-        setTotalValues()
-    }
-
-    func setTotalValues() {
-        currentAvailableLabel.text = currentAvailable.asCurrency
-        totalDepositedLabel.text = totalDeposited.asCurrency
-        totalWithdrawnLabel.text = totalWithdrawn.asCurrency
+        DispatchQueue.main.async {
+            self.totalWithdrawnLabel.text = self.totalWithdrawn.asCurrency
+        }
     }
     
     // MARK: - Navigation
