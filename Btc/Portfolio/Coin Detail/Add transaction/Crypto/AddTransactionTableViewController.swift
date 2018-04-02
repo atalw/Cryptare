@@ -16,7 +16,8 @@ class AddTransactionTableViewController: UITableViewController {
     
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
-    
+    let calendar = Calendar.current
+
     var coin: String!
     // tradingPairs: [(coin, currency)]
     var tradingPairs: [(String, String)] = []
@@ -70,11 +71,15 @@ class AddTransactionTableViewController: UITableViewController {
         timeFormatter.dateFormat  = "hh:mm a"
         dateFormatter.dateFormat = "dd MMM, YYYY"
         
-        timeTextField.text = timeFormatter.string(from: Date())
-        dateTextField.text = dateFormatter.string(from: Date())
+        dateFormatter.timeZone = TimeZone.current
+        timeFormatter.timeZone = TimeZone.current
         
-        parentController.time = timePicker.date
-        parentController.date = datePicker.date
+        let currentDate = Date()
+        
+        timeTextField.text = timeFormatter.string(from: currentDate)
+        dateTextField.text = dateFormatter.string(from: currentDate)
+        
+        parentController.date = currentDate
         
         createDatePicker()
         createTimePicker()
@@ -246,7 +251,14 @@ class AddTransactionTableViewController: UITableViewController {
     @objc func donePressedDate() {
         self.dateTextField.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
-        parentController.date = datePicker.date
+        
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: parentController.date)
+        
+        components.year = calendar.component(.year, from: datePicker.date)
+        components.month = calendar.component(.month, from: datePicker.date)
+        components.day = calendar.component(.day, from: datePicker.date)
+        
+        parentController.date = calendar.date(from: components)
     }
     
     func createTimePicker() {
@@ -263,9 +275,18 @@ class AddTransactionTableViewController: UITableViewController {
     }
     
     @objc func donePressedTime() {
-        self.timeTextField.text = timeFormatter.string(from: timePicker.date)
+        let time = timePicker.date
         self.view.endEditing(true)
-        parentController.time = timePicker.date
+        
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: parentController.date)
+        
+        components.hour = calendar.component(.hour, from: time)
+        components.minute = calendar.component(.minute, from: time)
+        components.second = calendar.component(.second, from: time)
+        
+        timeTextField.text = timeFormatter.string(from: time)
+        
+        parentController.date = calendar.date(from: components)
     }
 
     @IBAction func deductSwitchTapped(_ sender: Any) {
@@ -276,62 +297,6 @@ class AddTransactionTableViewController: UITableViewController {
             parentController.deductFromHoldings = false
         }
     }
-    // MARK: - Table view data source
-
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     // MARK: - Navigation
 
@@ -354,12 +319,9 @@ class AddTransactionTableViewController: UITableViewController {
 
 extension AddTransactionTableViewController: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("TextField did begin editing method called")
-    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {}
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("TextField did end editing method called\(textField.text!)")
-        
         if textField == self.costPerCoinTextField {
             if let text = textField.text {
                 if let costPerCoin = Double(text) {
@@ -393,23 +355,18 @@ extension AddTransactionTableViewController: UITextFieldDelegate {
         parentController.updateAddTransactionButtonStatus()
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        print("TextField should begin editing method called")
         return true;
     }
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        print("TextField should clear method called")
         return true;
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("TextField should end editing method called")
         return true;
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         return true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("TextField should return method called")
         textField.resignFirstResponder();
         return true;
     }

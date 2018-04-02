@@ -191,8 +191,6 @@ class AddFiatTransactionTableViewController: UITableViewController {
         components.month = calendar.component(.month, from: datePicker.date)
         components.day = calendar.component(.day, from: datePicker.date)
         
-        print(calendar.date(from: components))
-        
         parentController.date = calendar.date(from: components)
     }
     
@@ -211,6 +209,8 @@ class AddFiatTransactionTableViewController: UITableViewController {
     
     @objc func donePressedTime() {
         let time = timePicker.date
+        self.view.endEditing(true)
+
         var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: parentController.date)
         
         components.hour = calendar.component(.hour, from: time)
@@ -219,8 +219,6 @@ class AddFiatTransactionTableViewController: UITableViewController {
         
         timeTextField.text = timeFormatter.string(from: time)
         
-        self.view.endEditing(true)
-        print(calendar.date(from: components))
         parentController.date = calendar.date(from: components)
     }
 
@@ -241,12 +239,9 @@ class AddFiatTransactionTableViewController: UITableViewController {
 
 extension AddFiatTransactionTableViewController: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("TextField did begin editing method called")
-    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {}
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("TextField did end editing method called\(textField.text!)")
-        
         if textField == self.amountTextField {
             if let text = textField.text {
                 if let amount = Double(text) {
@@ -270,23 +265,18 @@ extension AddFiatTransactionTableViewController: UITextFieldDelegate {
         parentController.updateAddTransactionButtonStatus()
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        print("TextField should begin editing method called")
         return true;
     }
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        print("TextField should clear method called")
         return true;
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("TextField should end editing method called")
         return true;
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         return true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("TextField should return method called")
         textField.resignFirstResponder();
         return true;
     }

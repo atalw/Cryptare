@@ -37,14 +37,16 @@ class AddFiatTransactionViewController: UIViewController {
         addTransactionButton.setTitleColor(UIColor.lightGray, for: .disabled)
         
         addTransactionButton.isEnabled = false
-        
+        addTransactionButton.titleLabel?.adjustsFontSizeToFitWidth = true
+
         if transactionType == "deposit" {
-            addTransactionButton.setTitle("Add Buy Transaction", for: .normal)
+            addTransactionButton.setTitle("Add Deposit Transaction", for: .normal)
             addTransactionButton.setBackgroundColor(color: greenColour, forState: .normal)
             
         }
         else if transactionType == "withdraw" {
-            addTransactionButton.setTitle("Add Sell Transaction", for: .normal)
+            
+            addTransactionButton.setTitle("Add Withdraw Transaction", for: .normal)
             addTransactionButton.setBackgroundColor(color: redColour, forState: .normal)
             
         }

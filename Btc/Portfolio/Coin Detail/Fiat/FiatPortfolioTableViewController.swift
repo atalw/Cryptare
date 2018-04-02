@@ -14,6 +14,7 @@ class FiatPortfolioTableViewController: UITableViewController {
     var parentController: FiatPortfolioViewController!
     
     let dateFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
     let calendar = Calendar.current
     
     var currency: String!
@@ -31,6 +32,12 @@ class FiatPortfolioTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        dateFormatter.dateFormat = "dd MMM, YYYY"
+        timeFormatter.dateFormat = "hh:mm a"
+        dateFormatter.timeZone = TimeZone.current
+        timeFormatter.timeZone = TimeZone.current
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,6 +76,7 @@ class FiatPortfolioTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         dateFormatter.dateFormat = "dd MMM, YYYY"
+        timeFormatter.dateFormat = "hh:mm a"
         
         let entry = portfolioEntries[indexPath.row]
         var cell: FiatPortfolioTableViewCell
@@ -82,28 +90,7 @@ class FiatPortfolioTableViewController: UITableViewController {
         
         if let date = entry.date {
             cell.dateLabel.text = dateFormatter.string(from: date)
-            
-            var hour = calendar.component(.hour, from: date)
-            let minutes = calendar.component(.minute, from: date)
-            let seconds = calendar.component(.second, from: date)
-            let pm: Bool!
-            
-            if hour == 12 {
-                pm = false
-            }
-            else if hour > 12 {
-                hour -=  12
-                pm = true
-            }
-            else {
-                pm = false
-            }
-            if minutes > 10 {
-                cell.timeLabel.text = pm ? "\(hour):\(minutes) PM" : "\(hour):\(minutes) AM"
-            }
-            else {
-                cell.timeLabel.text = pm ? "\(hour):0\(minutes) PM" : "\(hour):0\(minutes) AM"
-            }
+            cell.timeLabel.text = timeFormatter.string(from: date)
         }
         
         
@@ -125,7 +112,6 @@ class FiatPortfolioTableViewController: UITableViewController {
             self.portfolioEntries.remove(at: indexPath.row)
             self.deletePortfolioEntry(portfolioEntry: portfolioEntry)
             tableView.deleteRows(at: [indexPath], with: .fade)
-//            self.parentController.setTotalPortfolioValues()
         }
         
         return [delete]

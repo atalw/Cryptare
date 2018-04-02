@@ -21,7 +21,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
     // MARK: - Constants
     
     let dateFormatter = DateFormatter()
-    
+    let timeFormatter = DateFormatter()
 //    let defaults = UserDefaults.standard
 //    let portfolioEntriesConstant = ""
     
@@ -44,8 +44,10 @@ class CryptoPortfolioTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone.current
+        timeFormatter.dateFormat = "hh:mm a"
+        timeFormatter.timeZone = TimeZone.current
 
         activityIndicator.addSubview(view)
         self.activityIndicator.hidesWhenStopped = true
@@ -127,8 +129,9 @@ class CryptoPortfolioTableViewController: UITableViewController {
             cell.amountOfCoinsLabel.textColor = greenColour
             if let date = portfolio.date {
                 dateFormatter.dateFormat = "dd MMM, YYYY"
+                timeFormatter.dateFormat = "hh:mm a"
                 let dateString = dateFormatter.string(from: date)
-                let timeString = dateFormatter.string(from: date)
+                let timeString = timeFormatter.string(from: date)
                 if let exchange = portfolio.exchange {
                     cell.transactionInfoLabel.text = "Bought on \(dateString) via \(exchange) at \(timeString)"
                 }
@@ -142,8 +145,9 @@ class CryptoPortfolioTableViewController: UITableViewController {
             cell.amountOfCoinsLabel.textColor = redColour
             if let date = portfolio.date {
                 dateFormatter.dateFormat = "dd MMM, YYYY"
+                timeFormatter.dateFormat = "hh:mm a"
                 let dateString = dateFormatter.string(from: date)
-                let timeString = dateFormatter.string(from: date)
+                let timeString = timeFormatter.string(from: date)
                 if let exchange = portfolio.exchange {
                     cell.transactionInfoLabel.text = "Sold on \(dateString) via \(exchange) at \(timeString)"
 
@@ -232,41 +236,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
  
 
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -275,15 +244,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-   
-    
-//    func valueToData(_ value: [String: (Double, String)]) -> Data {
-//        var converted = value.mapValues { (value) -> [Int:Any] in
-//            return [0: value.0, 1: value.1]
-//        }
-//        return NSKeyedArchiver.archivedData(withRootObject: converted)
-//    }
     
 }
 

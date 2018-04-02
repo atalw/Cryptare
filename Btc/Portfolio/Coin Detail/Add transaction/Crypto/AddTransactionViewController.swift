@@ -28,7 +28,6 @@ class AddTransactionViewController: UIViewController {
     var costPerCoin: Double!
     var amountOfCoins: Double!
     var fees: Double!
-    var time: Date!
     var date: Date!
     var deductFromHoldings: Bool!
 
@@ -105,7 +104,7 @@ class AddTransactionViewController: UIViewController {
         
         if currentTradingPair != nil && currentExchange != nil &&
             costPerCoin != nil && amountOfCoins != nil &&
-            fees != nil && time != nil && date != nil {
+            fees != nil && date != nil {
             addTransactionButton.isEnabled = true
         }
         else {
