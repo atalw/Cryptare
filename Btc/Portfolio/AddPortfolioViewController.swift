@@ -29,13 +29,18 @@ class AddPortfolioViewController: UIViewController {
         
         let multiplePortfoliosPurchased = Defaults[.multiplePortfoliosPurchased]
         
-        if multiplePortfoliosPurchased {
+        #if DEBUG
             unlockPortfolioView.isHidden = true
-            self.unlockPortfolioButton.titleLabel?.textAlignment = NSTextAlignment.center
-        }
-        else {
-            unlockPortfolioView.isHidden = false
-        }
+        #else
+            if multiplePortfoliosPurchased {
+                unlockPortfolioView.isHidden = true
+                self.unlockPortfolioButton.titleLabel?.textAlignment = NSTextAlignment.center
+            } else {
+                unlockPortfolioView.isHidden = false
+            }
+        #endif
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

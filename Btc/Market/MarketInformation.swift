@@ -8,7 +8,7 @@
 
 import Foundation
 
-let marketInformation: [String: [String: String]] = [
+var marketInformation: [String: [String: String]] = [
     "Koinex": [
     "url": "https://koinex.in/?ref=8271af",
     "description": "",

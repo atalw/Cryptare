@@ -216,6 +216,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let newChild = self.ref.child("users").childByAutoId()
             newChild.setValue(Messaging.messaging().fcmToken)
         })
+        
+        Database.database().reference().child("all_exchange_info").observeSingleEvent(of: .value, with: { snapshot -> Void in
+            if let dict = snapshot.value as? [String: [String: String]] {
+                marketInformation = dict
+            }
+        })
     }
     
     func setUpFirebaseLite() {

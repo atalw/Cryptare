@@ -75,13 +75,17 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         
         let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
-        if removeAdsPurchased == false {
-            bannerView.load(GADRequest())
-            bannerView.delegate = self
-        }
-        else {
+        #if DEBUG
             bannerView.isHidden = true
-        }
+        #else
+            if removeAdsPurchased == false {
+                bannerView.load(GADRequest())
+                bannerView.delegate = self
+            }
+            else {
+                bannerView.isHidden = true
+            }
+        #endif
         
         let currency = GlobalValues.currency!
         currencyButton.title = currency

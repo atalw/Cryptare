@@ -190,18 +190,22 @@ class MarketViewController: UIViewController {
         
         textFieldValue = 1.0
         
-        if currentCoin == "BTC" || currentCoin == "ETH" {
+        #if DEBUG
             marketsLockView.isHidden = true
-        }
-        else {
-            let unlockMarketsPurchased = Defaults[.unlockMarketsPurchased]
-            if unlockMarketsPurchased == true {
+        #else
+            if currentCoin == "BTC" || currentCoin == "ETH" || currentCoin == "XRP" {
                 marketsLockView.isHidden = true
             }
             else {
-                marketsLockView.isHidden = false
+                let unlockMarketsPurchased = Defaults[.unlockMarketsPurchased]
+                if unlockMarketsPurchased == true {
+                    marketsLockView.isHidden = true
+                }
+                else {
+                    marketsLockView.isHidden = true
+                }
             }
-        }
+        #endif
         
     }
     
@@ -818,7 +822,10 @@ class MarketViewController: UIViewController {
         
         for coinMarket in coinMarkets {
             if let currentMarketInfo = marketInformation[coinMarket.key] {
-                addExchangeToTable(title: coinMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
+                if let name = currentMarketInfo["name"], let url = currentMarketInfo["url"] {
+                    addExchangeToTable(title: name, url: url, description: "", links: [])
+                }
+                
             }
             
         }
