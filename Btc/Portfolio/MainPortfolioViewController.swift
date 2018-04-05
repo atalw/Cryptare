@@ -39,7 +39,7 @@ class MainPortfolioViewController: UIViewController {
         
 //        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
 //        UserDefaults.standard.set(newData, forKey: "portfolioEntries")
-        
+//        
 //        UserDefaults.standard.remove("fiatPortfolioEntries")
         
         currency = GlobalValues.currency!
@@ -97,6 +97,7 @@ class MainPortfolioViewController: UIViewController {
             var data: [String: [String: [[String: Any]] ]] = [:]
             // create Main portfolio key
             data["Main"] = [:]
+            
             for index in 0..<portfolioEntries.count {
                 if portfolioEntries[index].count == 5 {
                     let firstElement = portfolioEntries[index][0] as? String
@@ -130,6 +131,7 @@ class MainPortfolioViewController: UIViewController {
                 }
             }
             Defaults[.cryptoPortfolioData] = data
+            Defaults[.portfolioNames] = ["Main"]
         }
     }
     
@@ -138,7 +140,7 @@ class MainPortfolioViewController: UIViewController {
     @IBAction func addPortfolioButtonTapped(_ sender: Any) {
         if let addPortfolioViewController = self.storyboard?.instantiateViewController(withIdentifier: "addPortfolioViewController") as? AddPortfolioViewController {
             addPortfolioViewController.parentController = self
-            addPortfolioViewController.portfolioNames = self.portfolioNames
+//            addPortfolioViewController.portfolioNames = self.portfolioNames
             self.navigationController?.pushViewController(addPortfolioViewController, animated: true)
         }
     }

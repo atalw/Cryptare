@@ -248,11 +248,11 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//        if favouritesTab {
-//            if let spacer = tableView.reorder.spacerCell(for: indexPath) {
-//                return spacer
-//            }
-//        }
+        if favouritesTab {
+            if let spacer = tableView.reorder.spacerCell(for: indexPath) {
+                return spacer
+            }
+        }
         
         var coin: String
         if isFiltering() {

@@ -8,11 +8,12 @@
 
 import UIKit
 import SwiftyUserDefaults
+import SwiftReorder
 
 class AddPortfolioViewController: UIViewController {
     
     var parentController: MainPortfolioViewController!
-    var portfolioNames: [String]!
+//    var portfolioNames: [String]!
     
     var portfolioName: String?
 
@@ -98,6 +99,8 @@ class AddPortfolioViewController: UIViewController {
     @IBAction func doneButtonPressed(_ sender: Any) {
         
         if portfolioName != nil {
+            Defaults[.portfolioNames].append(portfolioName!)
+            
             var cryptoPortfolioData = Defaults[.cryptoPortfolioData]
             var fiatPortfolioData = Defaults[.fiatPortfolioData]
             
@@ -124,11 +127,11 @@ class AddPortfolioViewController: UIViewController {
         
         if let addPortfolioTableVC = destinationVC as? AddPortfolioTableViewController {
             addPortfolioTableVC.parentController = self
-            addPortfolioTableVC.portfolioNames = self.portfolioNames
+//            addPortfolioTableVC.portfolioNames = self.portfolioNames
         }
         else if let availablePortfolioTableVC = destinationVC as? AvailablePortfolioTableViewController {
             availablePortfolioTableVC.parentController = self
-            availablePortfolioTableVC.portfolioNames = self.portfolioNames
+//            availablePortfolioTableVC.portfolioNames = self.portfolioNames
         }
     }
 
@@ -148,7 +151,7 @@ class AddPortfolioTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        portfolioNames = Defaults[.portfolioNames]
         portfolioNameTextField.delegate = self
     }
 }
@@ -160,16 +163,17 @@ extension AddPortfolioTableViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("TextField did end editing method called\(textField.text!)")
         
-        if let text = textField.text {
-            if text != "" && text != nil && !portfolioNames.contains(text) {
-                parentController.portfolioName = text
-                parentController.updateDoneButton(status: true)
-            }
-            else {
-                parentController.portfolioName = nil
-                parentController.updateDoneButton(status: false)
-            }
+        guard let name = textField.text else { return }
+        
+        if name != "" && !portfolioNames.contains(name) {
+            parentController.portfolioName = name
+            parentController.updateDoneButton(status: true)
         }
+        else {
+            parentController.portfolioName = nil
+            parentController.updateDoneButton(status: false)
+        }
+        
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         print("TextField should begin editing method called")
@@ -201,6 +205,11 @@ class AvailablePortfolioTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        portfolioNames = Defaults[.portfolioNames]
+        
+        tableView.reorder.delegate = self
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -209,8 +218,6 @@ class AvailablePortfolioTableViewController: UITableViewController {
     }
     
     func updatePortfolioName(name: String, index: Int) {
-        print(name, index)
-        
         let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to change the portfolio name from \(portfolioNames[index]) to \(name)?", preferredStyle: .alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
@@ -239,6 +246,8 @@ class AvailablePortfolioTableViewController: UITableViewController {
         Defaults[.fiatPortfolioData][name] = fiatData
         Defaults[.fiatPortfolioData].removeValue(forKey: oldPortfolioName)
         
+        Defaults[.portfolioNames][index] = name
+        
         self.parentController.reloadPortfolios()
     }
     
@@ -248,6 +257,7 @@ class AvailablePortfolioTableViewController: UITableViewController {
         Defaults[.fiatPortfolioData].removeValue(forKey: portfolioNames[index])
         
         portfolioNames.remove(at: index)
+        Defaults[.portfolioNames].remove(at: index)
         
         parentController.reloadPortfolios()
     }
@@ -267,6 +277,10 @@ class AvailablePortfolioTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let spacer = tableView.reorder.spacerCell(for: indexPath) {
+            return spacer
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? AvailablePortfolioTableViewCell
         cell!.portfolioNameTextField?.text = portfolioNames[indexPath.row]
         cell!.portfolioNameTextField.delegate = self
@@ -331,23 +345,17 @@ extension AvailablePortfolioTableViewController: UITextFieldDelegate {
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("TextField did end editing method called\(textField.text!)")
-        if let text = textField.text {
-            if text != "" && text != nil && !portfolioNames.contains(text) {
-//                parentController.portfolioName = text
-//                parentController.updateDoneButton(status: true)
-                print("text")
-                
-                if let indexPath = (textField.superview?.superview?.superview as! UITableView).indexPath(for: textField.superview?.superview as! AvailablePortfolioTableViewCell) {
-                    updatePortfolioName(name: text, index: indexPath.row)
-                }
-                
-            }
-            else {
-//                parentController.portfolioName = nil
-//                parentController.updateDoneButton(status: false)
+        
+        guard let name = textField.text else { return }
+        
+        if name != "" && !portfolioNames.contains(name) {
+            
+            if let indexPath = (textField.superview?.superview?.superview as! UITableView).indexPath(for: textField.superview?.superview as! AvailablePortfolioTableViewCell) {
+                updatePortfolioName(name: name, index: indexPath.row)
             }
         }
     }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         print("TextField should begin editing method called")
         return true;
@@ -368,5 +376,17 @@ extension AvailablePortfolioTableViewController: UITextFieldDelegate {
         print("TextField should return method called")
         textField.resignFirstResponder();
         return true
+    }
+}
+
+extension AvailablePortfolioTableViewController: TableViewReorderDelegate {
+    func tableView(_ tableView: UITableView, reorderRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // Update data model
+        let destinationName = portfolioNames[destinationIndexPath.row]
+        portfolioNames[destinationIndexPath.row] = portfolioNames[sourceIndexPath.row]
+        portfolioNames[sourceIndexPath.row] = destinationName
+        
+        Defaults[.portfolioNames] = portfolioNames
+        self.parentController.reloadPortfolios()
     }
 }
