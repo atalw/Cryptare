@@ -150,7 +150,7 @@ class SettingsViewController: UITableViewController {
                             else {
                                 for product in products! {
                                     if product.localizedTitle == "Unlock All" {
-                                        self.unlockAllPriceLabel.text = product.localizedPrice
+                                        self.unlockAllPriceLabel.text = product.localizedPrice()
 
                                     }
                                 }
@@ -162,7 +162,7 @@ class SettingsViewController: UITableViewController {
                             else {
                                 for product in products! {
                                     if product.localizedTitle == "Remove Ads" {
-                                        self.removeAdsPriceLabel.text = product.localizedPrice
+                                        self.removeAdsPriceLabel.text = product.localizedPrice()
                                         
                                     }
                                 }
@@ -174,7 +174,7 @@ class SettingsViewController: UITableViewController {
                             else {
                                 for product in products! {
                                     if product.localizedTitle == "Unlock all markets" {
-                                        self.unlockMarketsPriceLabel.text = "Learn more - \(product.localizedPrice!)"
+                                        self.unlockMarketsPriceLabel.text = "Learn more - \(product.localizedPrice())"
                                         
                                     }
                                 }
@@ -186,7 +186,7 @@ class SettingsViewController: UITableViewController {
                             else {
                                 for product in products! {
                                     if product.localizedTitle == "Multiple Portfolios" {
-                                        self.unlockMulitplePortfoliosLabel.text = product.localizedPrice
+                                        self.unlockMulitplePortfoliosLabel.text = product.localizedPrice()
                                         
                                     }
                                 }

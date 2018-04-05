@@ -13,6 +13,8 @@ extension DefaultsKeys {
     
     static let selectedCountry = DefaultsKey<String>("selectedCountry")
     
+    static let cryptoIcons = DefaultsKey<[String: Any]>("cryptoIcons")
+    
     //Intros
     static let mainAppIntroComplete = DefaultsKey<Bool>("mainAppIntroComplete")
     static let mainPortfolioIntroComplete = DefaultsKey<Bool>("mainPortfolioIntroComplete")
@@ -40,6 +42,7 @@ extension DefaultsKeys {
     static let newsSort = DefaultsKey<String>("newsSort")
     
     // Portfolio
+    static let portfolioNames = DefaultsKey<[String]>("portfolioNames")
     static let cryptoPortfolioData = DefaultsKey<[String: Any]>("portfolioEntries")
     static let fiatPortfolioData = DefaultsKey<[String: Any]>("fiatPortfolioEntries")
 

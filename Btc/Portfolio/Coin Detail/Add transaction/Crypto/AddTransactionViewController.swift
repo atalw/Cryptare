@@ -148,8 +148,8 @@ class AddTransactionViewController: UIViewController {
                     type = "buy"
                 }
                 let data: [String: Any] = ["type": type,
-                                           "coin": tradingPair,
-                                           "tradingPair": coin,
+                                           "coin": coin,
+                                           "tradingPair": tradingPair,
                                            "exchange": currentExchange.0,
                                            "costPerCoin": costPerCoin,
                                            "amountOfCoins": amountOfCoins,

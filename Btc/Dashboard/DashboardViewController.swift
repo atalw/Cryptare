@@ -191,7 +191,8 @@ class DashboardViewController: UIViewController {
     
     func updateCoinDataStructure(coin: String, dict: [String: Any]) {
         self.coinData[coin]!["rank"] = dict["rank"] as! Int
-        
+        self.coinData[coin]!["iconUrl"] = dict["icon_url"] as! String
+
         if let currencyData = dict[self.currency] as? [String: Any] {
             if self.coinData[coin]!["oldPrice"] == nil {
                 self.coinData[coin]!["oldPrice"] = 0.0
@@ -271,12 +272,10 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         cell!.coinSymbolLabel.text = coin
         cell!.coinSymbolLabel.adjustsFontSizeToFitWidth = true
         
-        if coin == "IOT" {
-            cell!.coinSymbolImage.image = UIImage(named: "miota")
+        if let urlString = self.coinData[coin]?["iconUrl"] as? String {
+            cell!.coinSymbolImage.loadSavedImageWithURL(coin: coin, urlString: urlString)
         }
-        else {
-            cell!.coinSymbolImage.image = UIImage(named: coin.lowercased())
-        }
+        
         cell!.coinSymbolImage.contentMode = .scaleAspectFit
         
         for (symbol, name) in GlobalValues.coins {

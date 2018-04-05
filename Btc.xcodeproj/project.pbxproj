@@ -85,6 +85,7 @@
 		866A3D6F2062F01C0084CBDF /* ContainerDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A3D6E2062F01C0084CBDF /* ContainerDashboardViewController.swift */; };
 		86730EF12025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */; };
 		86730EF22025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */; };
+		868B5D812075FDDB0088938B /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B5D802075FDDB0088938B /* UIImageView+Extensions.swift */; };
 		868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
 		868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
@@ -251,6 +252,7 @@
 		8661F5D01FB5F7B700D6F365 /* CryptoPortfolioTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoPortfolioTableViewController.swift; sourceTree = "<group>"; };
 		866A3D6E2062F01C0084CBDF /* ContainerDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerDashboardViewController.swift; sourceTree = "<group>"; };
 		86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailViewController.swift; sourceTree = "<group>"; };
+		868B5D802075FDDB0088938B /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
 		868F1A9F1F7D301E0093402A /* CryptareLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptareLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		868F1AA01F7D301E0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Btc copy-Info.plist"; path = "/Users/atalw/Documents/dev/ios/Btc/Btc/Btc copy-Info.plist"; sourceTree = "<absolute>"; };
@@ -495,25 +497,17 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
-				86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */,
+				868B5D7F2074F98C0088938B /* Extensions */,
+				868B5D7E2074F9760088938B /* IAP */,
 				86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */,
 				86B20F7E1F13B06100B6ADDD /* Reachability.swift */,
 				863474A21F0BB11E00E7EB86 /* AppDelegate.swift */,
 				8656E3AC1FE7D4A6000EB58E /* Assets.xcassets */,
 				86FC11B91FEBC6A40094B82F /* LaunchScreen.storyboard */,
 				8602BAAD1F83C824003733E8 /* GradientView.swift */,
-				8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */,
 				86A713861FB5DAAF003DA98C /* Bundle.swift */,
 				86FC11BC1FEBC9C60094B82F /* Constants.swift */,
-				861A751F1FF8F21100263A90 /* Double+Extensions.swift */,
-				864E9737203C56470023238F /* IAPProduct.swift */,
-				864E973A203C57570023238F /* IAPService.swift */,
-				86DF12142045572F00FA4787 /* UITextField+Extensions.swift */,
-				86D6083B2063AD3500C2157B /* UIView+Constraints.swift */,
-				86D6083D2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift */,
-				86D6083F2064E9E500C2157B /* UIImage+Extensions.swift */,
 				86CCB5132068D8C700B42808 /* UserDefaultsKeys.swift */,
-				86293883206BA2580005AD26 /* UIButton+Extensions.swift */,
 			);
 			name = "Helper Files";
 			path = Helpers;
@@ -612,6 +606,31 @@
 				86277C1B1FF3A65E00CC9819 /* AddCoinTableViewCell.swift */,
 			);
 			path = "Add coin";
+			sourceTree = "<group>";
+		};
+		868B5D7E2074F9760088938B /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				864E9737203C56470023238F /* IAPProduct.swift */,
+				864E973A203C57570023238F /* IAPService.swift */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
+		868B5D7F2074F98C0088938B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				86DF121820458D1300FA4787 /* NotificationCenter+Extentions.swift */,
+				8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */,
+				861A751F1FF8F21100263A90 /* Double+Extensions.swift */,
+				86DF12142045572F00FA4787 /* UITextField+Extensions.swift */,
+				86D6083B2063AD3500C2157B /* UIView+Constraints.swift */,
+				86D6083D2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift */,
+				86D6083F2064E9E500C2157B /* UIImage+Extensions.swift */,
+				86293883206BA2580005AD26 /* UIButton+Extensions.swift */,
+				868B5D802075FDDB0088938B /* UIImageView+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		869BFA101FB3132100625A64 /* Settings */ = {
@@ -1124,6 +1143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				868B5D812075FDDB0088938B /* UIImageView+Extensions.swift in Sources */,
 				86492AAD1FB9C475003EC0B6 /* PortfolioTableViewCell.swift in Sources */,
 				86FC11BD1FEBC9C70094B82F /* Constants.swift in Sources */,
 				8661F5D11FB5F7B800D6F365 /* CryptoPortfolioTableViewController.swift in Sources */,

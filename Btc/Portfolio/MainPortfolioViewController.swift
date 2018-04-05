@@ -74,6 +74,7 @@ class MainPortfolioViewController: UIViewController {
         view.addSubview(pagingViewController.view)
         view.constrainToEdges(pagingViewController.view)
         pagingViewController.didMove(toParentViewController: self)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -151,26 +152,32 @@ class MainPortfolioViewController: UIViewController {
         
         var viewControllers: [UIViewController] = []
 
+        portfolioNames = Defaults[.portfolioNames]
         var allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
         var allFiatPortfolioData = Defaults[.fiatPortfolioData]
         
         if allCryptoPortfolioData.isEmpty && allFiatPortfolioData.isEmpty {
             Defaults[.cryptoPortfolioData] = ["Main": [:]]
             Defaults[.fiatPortfolioData] = ["Main": [:]]
+            Defaults[.portfolioNames] = ["Main"]
             allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
             allFiatPortfolioData = Defaults[.fiatPortfolioData]
         }
         
-        for (name, data) in allCryptoPortfolioData {
-            let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
-            self.portfolioNames.append(name)
-            vc.title = name
-            vc.portfolioName = name
-            
-            if let cryptoPortfolioData = data as? [String: [[String: Any]] ] {
-                vc.cryptoPortfolioData = cryptoPortfolioData
+        for portfolioName in portfolioNames {
+            if let data = allCryptoPortfolioData[portfolioName] {
+                let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
+                vc.title = portfolioName
+                vc.portfolioName = portfolioName
                 
-                if let fiatData =  allFiatPortfolioData[name]  as? [String: [[String: Any]] ] {
+                if let cryptoData = data as? [String: [[String: Any]] ] {
+                    vc.cryptoPortfolioData = cryptoData
+                }
+                else {
+                    vc.cryptoDict = [:]
+                }
+                
+                if let fiatData =  allFiatPortfolioData[portfolioName]  as? [String: [[String: Any]] ] {
                     vc.fiatPortfolioData = fiatData
                 }
                 else {
@@ -178,11 +185,32 @@ class MainPortfolioViewController: UIViewController {
                 }
                 
                 viewControllers.append(vc)
-            }
-            else {
-                vc.cryptoPortfolioData = [:]
+
             }
         }
+        
+//        for (name, data) in allCryptoPortfolioData {
+//            let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
+//            self.portfolioNames.append(name)
+//            vc.title = name
+//            vc.portfolioName = name
+//
+//            if let cryptoPortfolioData = data as? [String: [[String: Any]] ] {
+//                vc.cryptoPortfolioData = cryptoPortfolioData
+//
+//                if let fiatData =  allFiatPortfolioData[name]  as? [String: [[String: Any]] ] {
+//                    vc.fiatPortfolioData = fiatData
+//                }
+//                else {
+//                    vc.fiatPortfolioData = [:]
+//                }
+//
+//                viewControllers.append(vc)
+//            }
+//            else {
+//                vc.cryptoPortfolioData = [:]
+//            }
+//        }
         return viewControllers
     }
     

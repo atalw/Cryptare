@@ -136,11 +136,15 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
         })
         
         coinSymbolLabel.text = databaseTableTitle
-        if databaseTableTitle == "IOT" {
-            coinLogo.image = UIImage(named: "miota")
-        }
-        else {
-            coinLogo.image = UIImage(named: databaseTableTitle.lowercased())
+//        if databaseTableTitle == "IOT" {
+//            coinLogo.image = UIImage(named: "miota")
+//        }
+//        else {
+//            coinLogo.image = UIImage(named: databaseTableTitle.lowercased())
+//        }
+        
+        if let urlString = "" as? String {
+            coinLogo.loadSavedImage(coin: databaseTableTitle)
         }
     }
     

@@ -100,17 +100,8 @@ class CryptoPortfolioTableViewController: UITableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSellCell", for: indexPath) as! PortfolioTableViewCell
         }
         
-        for (symbol, name) in GlobalValues.coins {
-            if symbol == coin {
-                if symbol == "IOT" {
-                    cell.coinLogoImage.image = UIImage(named: "miota")
-                }
-                else {
-                    cell.coinLogoImage.image = UIImage(named: symbol.lowercased())
-                }
-            }
-        }
-        
+        cell.coinLogoImage.loadSavedImage(coin: coin)
+
         cell.amountOfCoinsLabel.text = String(portfolio.amountOfCoins)
         cell.amountOfCoinsLabel.adjustsFontSizeToFitWidth = true
         if portfolio.type == "buy" {

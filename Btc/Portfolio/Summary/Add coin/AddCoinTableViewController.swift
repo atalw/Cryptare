@@ -181,12 +181,13 @@ class AddCoinTableViewController: UITableViewController {
             }
         }
         
-        if data.0 == "IOT" {
-            cell.coinImage.image = UIImage(named: "miota")
-        }
-        else {
+        if section == 0 {
             cell.coinImage.image = UIImage(named: data.0.lowercased())
         }
+        else {
+            cell.coinImage.loadSavedImage(coin: data.0)
+        }
+        
         cell.coinNameLabel.text = data.1
         cell.coinSymbolLabel.text = "(\(data.0))"
 

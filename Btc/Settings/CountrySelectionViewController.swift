@@ -16,21 +16,6 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     
     var sortedCountryList: [(String, String, String, String)] = []
     
-    @IBAction func nextButtonTapped(_ sender: Any) {
-        
-        #if PRO_VERSION
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        #endif
-        
-        #if LITE_VERSION
-            let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
-        #endif
-        DispatchQueue.main.async {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.createMenuView(storyboard: storyboard)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

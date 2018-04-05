@@ -15,6 +15,8 @@ import SwiftyJSON
 
 class PortfolioSummaryViewController: UIViewController {
     
+    var globalCoins: [String] = []
+    
     var currency: String! {
         didSet {
             loadAllPortfolios(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
@@ -58,6 +60,11 @@ class PortfolioSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        for (symbol, name) in GlobalValues.coins {
+            globalCoins.append(symbol)
+            print(symbol)
+        }
+        
         currency = GlobalValues.currency!
         
         dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
@@ -79,7 +86,6 @@ class PortfolioSummaryViewController: UIViewController {
         totalInvestedLabel.text = 0.0.asCurrency
         totalPriceChangeLabel.text = 0.0.asCurrency
         
-//        loadAllPortfolios(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,11 +96,6 @@ class PortfolioSummaryViewController: UIViewController {
         for coinRef in coinRefs {
             coinRef.removeAllObservers()
         }
-        
-//        if currency != GlobalValues.currency! {
-//            currency = GlobalValues.currency!
-//            loadAllPortfolios(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
-//        }
         
         if coins.count == 0 {
             tableView.reloadData()
@@ -145,7 +146,6 @@ class PortfolioSummaryViewController: UIViewController {
         databaseRef = Database.database().reference()
         
         initalizePortfolioEntries(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
-
     }
     
     func updateCurrency(currency: String) {
@@ -210,8 +210,25 @@ class PortfolioSummaryViewController: UIViewController {
                 
                 if tradingPair != GlobalValues.currency! {
                     // check if trading pair is a crypto currency
-                    if coins.contains(tradingPair) {
+                    print(globalCoins)
+                    if globalCoins.contains(tradingPair) {
+                        let type = trans["type"] as! String
+                        let amountOfCoins = trans["amountOfCoins"] as! Double
+                        var costPerCoin = trans["costPerCoin"] as! Double
+                        var fees = (trans["fees"] as! Double)
+                        var totalCost = (amountOfCoins * costPerCoin) - fees
                         
+                        
+                        databaseRef.child(tradingPair).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+                            if let cryptoDict = snapshot.value as? [String : AnyObject] {
+                                let price = cryptoDict[self.currency]!["price"] as! Double
+                                costPerCoin *= price
+                                fees *= price
+                                totalCost *= price
+                                
+                                self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
+                            }
+                        })
                     }
                     else {
                         // check if trading pair is a fiat currency
@@ -223,7 +240,7 @@ class PortfolioSummaryViewController: UIViewController {
                                         let amountOfCoins = trans["amountOfCoins"] as! Double
                                         let costPerCoin = trans["costPerCoin"] as! Double * exchangeRate
                                         let fees = (trans["fees"] as! Double) * exchangeRate
-                                        let totalCost = ((trans["amountOfCoins"] as! Double) * (trans["costPerCoin"] as! Double) - (trans["fees"] as! Double)) * exchangeRate
+                                        let totalCost = (amountOfCoins * costPerCoin - fees) * exchangeRate
                                         
                                         self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
                                         
@@ -512,12 +529,8 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             cell!.coinSymbolLabel.text = "\(coin)"
             cell!.coinSymbolLabel.adjustsFontSizeToFitWidth = true
             
-            if coin == "IOT" {
-                cell!.coinImage.image = UIImage(named: "miota")
-            }
-            else {
-                cell!.coinImage.image = UIImage(named: coin.lowercased())
-            }
+            cell!.coinImage.loadSavedImage(coin: coin)
+            
             for (symbol, name) in GlobalValues.coins {
                 if symbol == coin {
                     cell!.coinNameLabel.text = name
@@ -589,7 +602,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
             cell.currencyLogoImage.image = UIImage(named: currency.lowercased())
             cell.currencySymbolLabel.text = currency
             
-            for (country, symbol, locale, name) in GlobalValues.countryList {
+            for (_, symbol, _, name) in GlobalValues.countryList {
                 if symbol == currency {
                     cell.currencyNameLabel.text = name
                 }
@@ -634,7 +647,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
     func newCoinAdded(coin: String) {
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
         
-        var handle = databaseRef.child(coin).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+        databaseRef.child(coin).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String : AnyObject] {
                 let price = dict[self.currency]!["price"] as! Double
                 targetViewController.coinPrice = price
