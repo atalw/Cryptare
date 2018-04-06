@@ -87,8 +87,15 @@ class MainViewController: UIViewController {
             }
         #endif
         
-        let currency = GlobalValues.currency!
-        currencyButton.title = currency
+        var currency = GlobalValues.currency
+        if currency == nil {
+            currency = "USD"
+            GlobalValues.currency = "USD"
+            Defaults[.selectedCountry] = "usa"
+        }
+        
+        currencyButton.title = currency!
+
     }
 
     // MARK: - Navigation

@@ -10,7 +10,10 @@ import UIKit
 import SwiftyUserDefaults
 
 class IntroViewController: UIViewController, UIScrollViewDelegate {
-
+    
+    var baseController: UIViewController!
+    var fromAppDelegate: Bool = false
+    
     @IBOutlet weak var slideScrollView: UIScrollView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var skipButton: UIButton!
@@ -58,8 +61,17 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
 
     @IBAction func skipButtonTapped(_ sender: Any) {
         Defaults[.mainAppIntroComplete] = true
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            if self.fromAppDelegate && self.baseController != nil {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                
+                let countrySelectionViewController = storyboard.instantiateViewController(withIdentifier: "CountrySelectionViewController") as! CountrySelectionViewController
+                
+                self.baseController.present(countrySelectionViewController, animated: true, completion: nil)
+            }
+        })
     }
+    
     /*
     // MARK: - Navigation
 

@@ -164,6 +164,7 @@ class MainPortfolioViewController: UIViewController {
             Defaults[.portfolioNames] = ["Main"]
             allCryptoPortfolioData = Defaults[.cryptoPortfolioData]
             allFiatPortfolioData = Defaults[.fiatPortfolioData]
+            portfolioNames = Defaults[.portfolioNames]
         }
         
         for portfolioName in portfolioNames {

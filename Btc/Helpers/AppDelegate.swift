@@ -60,26 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // google ads
         GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
         
-        // notification request
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
-                if error != nil {}
-                else {
-                    UNUserNotificationCenter.current().delegate = self
-                    Messaging.messaging().delegate = self
-                }
-            })
-            application.registerForRemoteNotifications()
-            
-            #if PRO_VERSION
-                setUpFirebase()
-            #endif
-            #if LITE_VERSION
-                setUpFirebaseLite()
-            #endif
-        } else {
-            // Fallback on earlier versions
-        }
+        
         
         // storyboard
         #if PRO_VERSION
@@ -129,7 +110,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let selectedCountry = Defaults[.selectedCountry]
         let introComplete = Defaults[.mainAppIntroComplete]
         
-        if selectedCountry != "" && introComplete {
+        // if country has been selected
+        if selectedCountry != "" {
+            
             for countryTuple in GlobalValues.countryList {
                 if selectedCountry == countryTuple.0 {
                     GlobalValues.currency = countryTuple.1
@@ -137,39 +120,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
             self.createMenuView(storyboard: storyboard)
-        }
-        else if selectedCountry != "" && !introComplete {
-            
-            for countryTuple in GlobalValues.countryList {
-                if selectedCountry == countryTuple.0 {
-                    GlobalValues.currency = countryTuple.1
-                }
+
+            if !introComplete {
+                let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+                
+                self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
             }
-            self.createMenuView(storyboard: storyboard)
-            
-            let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
-            
-            self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
-            
         }
-        else if selectedCountry != "" && introComplete {
-            for countryTuple in GlobalValues.countryList {
-                if selectedCountry == countryTuple.0 {
-                    GlobalValues.currency = countryTuple.1
-                }
+        else { // country not selected
+            if introComplete {
+                
+                GlobalValues.currency = "USD"
+                
+                self.createMenuView(storyboard: storyboard)
+                
+                 let countrySelectionViewController = storyboard.instantiateViewController(withIdentifier: "CountrySelectionViewController") as! CountrySelectionViewController
+                
+                self.window?.rootViewController?.present(countrySelectionViewController, animated: true, completion: nil)
             }
-            self.createMenuView(storyboard: storyboard)
+            else {
+                GlobalValues.currency = "USD"
+                
+                self.createMenuView(storyboard: storyboard)
+                
+                let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+                introViewController.baseController = self.window?.rootViewController
+                introViewController.fromAppDelegate = true
+                
+                self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
+                
+            }
         }
-        else if selectedCountry == "" {
+        
+        // notification request
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
+                if error != nil { return }
+                
+                if isGranted {
+                    UNUserNotificationCenter.current().delegate = self
+                    Messaging.messaging().delegate = self
+                }
+            })
+            application.registerForRemoteNotifications()
             
-            let countrySelectionViewController = storyboard.instantiateViewController(withIdentifier: "CountrySelectionViewController") as! CountrySelectionViewController
+            setUpFirebase()
             
-            self.window?.rootViewController = countrySelectionViewController
-            self.window?.makeKeyAndVisible()
-            
-            let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
-            
-            self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
+        } else {
+            // Fallback on earlier versions
         }
         
         return true
