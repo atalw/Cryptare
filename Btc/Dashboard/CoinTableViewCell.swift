@@ -23,6 +23,13 @@ class CoinTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        self.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        self.coinRank.theme_textColor = GlobalPicker.viewTextColor
+        self.coinSymbolLabel.theme_textColor = GlobalPicker.viewTextColor
+        self.coinNameLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        self.coinCurrentValueLabel.theme_textColor = GlobalPicker.viewTextColor
+        self.coinTimestampLabel.theme_textColor = GlobalPicker.viewAltTextColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

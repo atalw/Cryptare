@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import SwiftReorder
 import SwiftyUserDefaults
+import SwiftTheme
 
 class DashboardViewController: UIViewController {
     
@@ -39,11 +40,22 @@ class DashboardViewController: UIViewController {
 //    let searchController = UISearchController(searchResultsController: nil)
     var coinSearchResults = [String]()
 
+    @IBOutlet weak var rankLabel: UILabel!
     @IBOutlet weak var header24hrChangeLabel: UILabel!
     @IBOutlet weak var headerCurrentPriceLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+        tableView.tableHeaderView?.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        rankLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        header24hrChangeLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        headerCurrentPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        
+        ThemeManager.setTheme(index: Defaults[.currentThemeIndex])
         
         self.currency = GlobalValues.currency!
         
@@ -306,7 +318,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
                     cell!.coinCurrentValueLabel.textColor = colour
                 }, completion: { finished in
                     UILabel.transition(with:  cell!.coinCurrentValueLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                        cell!.coinCurrentValueLabel.textColor = UIColor.black
+                        cell!.coinCurrentValueLabel.theme_textColor = GlobalPicker.viewTextColor
                     }, completion: nil)
                 })
                 

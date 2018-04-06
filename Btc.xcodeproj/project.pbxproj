@@ -86,6 +86,8 @@
 		86730EF12025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */; };
 		86730EF22025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */; };
 		868B5D812075FDDB0088938B /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B5D802075FDDB0088938B /* UIImageView+Extensions.swift */; };
+		868B5D842077C6860088938B /* GlobalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B5D832077C6860088938B /* GlobalPicker.swift */; };
+		868B5D862077E6220088938B /* ColourThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B5D852077E6220088938B /* ColourThemes.swift */; };
 		868F1A781F7A7DF90093402A /* CountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */; };
 		868F1A7C1F7D301E0093402A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		868F1A7D1F7D301E0093402A /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863474721F08262000E7EB86 /* NewsViewController.swift */; };
@@ -253,6 +255,8 @@
 		866A3D6E2062F01C0084CBDF /* ContainerDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerDashboardViewController.swift; sourceTree = "<group>"; };
 		86730EF02025AE3900EE96FF /* CryptoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailViewController.swift; sourceTree = "<group>"; };
 		868B5D802075FDDB0088938B /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
+		868B5D832077C6860088938B /* GlobalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPicker.swift; sourceTree = "<group>"; };
+		868B5D852077E6220088938B /* ColourThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourThemes.swift; sourceTree = "<group>"; };
 		868F1A771F7A7DF90093402A /* CountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionViewController.swift; sourceTree = "<group>"; };
 		868F1A9F1F7D301E0093402A /* CryptareLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptareLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		868F1AA01F7D301E0093402A /* Btc copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Btc copy-Info.plist"; path = "/Users/atalw/Documents/dev/ios/Btc/Btc/Btc copy-Info.plist"; sourceTree = "<absolute>"; };
@@ -497,6 +501,7 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				868B5D822077C6720088938B /* NightMode */,
 				868B5D7F2074F98C0088938B /* Extensions */,
 				868B5D7E2074F9760088938B /* IAP */,
 				86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */,
@@ -631,6 +636,15 @@
 				868B5D802075FDDB0088938B /* UIImageView+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		868B5D822077C6720088938B /* NightMode */ = {
+			isa = PBXGroup;
+			children = (
+				868B5D832077C6860088938B /* GlobalPicker.swift */,
+				868B5D852077E6220088938B /* ColourThemes.swift */,
+			);
+			path = NightMode;
 			sourceTree = "<group>";
 		};
 		869BFA101FB3132100625A64 /* Settings */ = {
@@ -1019,6 +1033,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftReorder/SwiftReorder.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftTheme/SwiftTheme.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
@@ -1036,6 +1051,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftReorder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftTheme.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
@@ -1063,6 +1079,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftReorder/SwiftReorder.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftTheme/SwiftTheme.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
@@ -1080,6 +1097,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftReorder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftTheme.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
@@ -1169,6 +1187,7 @@
 				86E003271FE963C1000AD106 /* PortfolioSummaryViewController.swift in Sources */,
 				86CD93CB2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */,
 				866175A62056C7F000085B44 /* IntroViewController.swift in Sources */,
+				868B5D842077C6860088938B /* GlobalPicker.swift in Sources */,
 				86A2B57A20529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift in Sources */,
 				86A2B57720529C85001A3DE2 /* AddFiatTransactionViewController.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
@@ -1177,6 +1196,7 @@
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86D6083E2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift in Sources */,
 				8661C7372053ED6C00221DE2 /* FiatTransactionEntryModel.swift in Sources */,
+				868B5D862077E6220088938B /* ColourThemes.swift in Sources */,
 				86A2B57020528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */,
 				864E973B203C57570023238F /* IAPService.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,

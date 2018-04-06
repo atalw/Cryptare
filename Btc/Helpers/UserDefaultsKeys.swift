@@ -11,6 +11,8 @@ import SwiftyUserDefaults
 
 extension DefaultsKeys {
     
+    static let currentThemeIndex = DefaultsKey<Int>("currentThemeIndex")
+
     static let selectedCountry = DefaultsKey<String>("selectedCountry")
     
     static let cryptoIcons = DefaultsKey<[String: Any]>("cryptoIcons")

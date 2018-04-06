@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 enum LeftMenu: Int {
     case dashboard = 0
@@ -21,6 +22,8 @@ protocol LeftMenuProtocol : class {
 class LeftViewController : UIViewController, LeftMenuProtocol {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var nightModeSwitch: UISwitch!
+    
     var menus = ["Dashboard", "Portfolio", "News", "Settings"]
     var mainViewController: UIViewController!
     var mainPortfolioViewController: UIViewController!
@@ -35,6 +38,12 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+
+        
+        nightModeSwitch.addTarget(self, action: #selector(nightModeSwitchTapped), for: .touchUpInside)
         
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -60,11 +69,28 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        let currentThemeIndex = Defaults[.currentThemeIndex]
+        if currentThemeIndex == 1 {
+            nightModeSwitch.setOn(true, animated: true)
+        }
+        else {
+            nightModeSwitch.setOn(false, animated: true)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.view.layoutIfNeeded()
+    }
+    
+    @objc func nightModeSwitchTapped() {
+        if nightModeSwitch.isOn {
+            ColourThemes.switchTheme(theme: .night)
+        }
+        else {
+            ColourThemes.switchTheme(theme: .light)
+        }
     }
     
     func changeViewController(_ menu: LeftMenu) {

@@ -20,6 +20,7 @@ pod 'Parchment', '~> 1.0'
 pod 'SwiftReorder', '~> 4.0'
 pod 'Armchair', '>= 0.3'
 pod 'SwiftyUserDefaults'
+pod 'SwiftTheme'
 
 target 'CryptareLite' do
     use_frameworks!
@@ -38,6 +39,7 @@ target 'CryptareLite' do
     pod 'SwiftReorder', '~> 4.0'
     pod 'Armchair', '>= 0.3'
     pod 'SwiftyUserDefaults'
+    pod 'SwiftTheme'
 end
 
 target 'BtcTests' do

@@ -36,6 +36,7 @@ class ContainerDashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         if GlobalValues.currency != nil {
             currency = GlobalValues.currency!
         }
