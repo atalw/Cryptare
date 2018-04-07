@@ -10,8 +10,18 @@ import UIKit
 
 class CustomNewsTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var pubDate: UILabel!
+    @IBOutlet weak var title: UILabel! {
+        didSet {
+            title.theme_textColor = GlobalPicker.viewTextColor
+            title.adjustsFontSizeToFitWidth = true
+        }
+    }
+    @IBOutlet weak var pubDate: UILabel! {
+        didSet {
+            pubDate.theme_textColor = GlobalPicker.viewAltTextColor
+            pubDate.adjustsFontSizeToFitWidth = true
+        }
+    }
     var link: String = ""
 
 

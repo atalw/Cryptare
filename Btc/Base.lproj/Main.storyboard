@@ -4907,7 +4907,7 @@
                                                 </subviews>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="38" id="ZKv-nr-74v"/>
                                             <constraint firstAttribute="trailing" secondItem="Koe-zo-Kah" secondAttribute="trailing" id="eYc-4I-dyO"/>
@@ -4932,7 +4932,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83m-O7-cJk">
-                                                            <rect key="frame" x="20" y="0.0" width="255" height="64.333333333333329"/>
+                                                            <rect key="frame" x="20" y="0.0" width="255" height="64"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <nil key="highlightedColor"/>
                                                             <userDefinedRuntimeAttributes>
@@ -5010,6 +5010,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="indiaButton" destination="4zO-iD-AF8" id="gkf-Yv-zIr"/>
+                        <outlet property="sortByLabel" destination="xbb-3J-VAR" id="rg8-J9-KX0"/>
                         <outlet property="sortDateButton" destination="ucf-IB-CWw" id="H81-8y-6HH"/>
                         <outlet property="sortPopularityButton" destination="gk7-hJ-kMc" id="0l5-eF-JvD"/>
                         <outlet property="tableView" destination="bVe-QR-bXp" id="5RM-eJ-0Cc"/>

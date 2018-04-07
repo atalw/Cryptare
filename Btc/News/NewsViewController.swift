@@ -19,11 +19,7 @@ public enum NetworkResponseStatus {
 
 class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var indiaButton: UIButton!
-    @IBOutlet weak var worldwideButton: UIButton!
-    @IBOutlet weak var sortPopularityButton: UIButton!
-    @IBOutlet weak var sortDateButton: UIButton!
+    
     
     let defaults = UserDefaults.standard
     var selectedCountry: String!
@@ -37,15 +33,78 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
     let sortButtonSelectedColour: UIColor = UIColor.init(hex: "46637F")
     
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
+        }
+    }
+    @IBOutlet weak var indiaButton: UIButton! {
+        didSet {
+            indiaButton.setTitleColor(UIColor.white, for: .selected)
+            indiaButton.isSelected = true
+            indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
+            indiaButton.theme_tintColor = GlobalPicker.sortButtonSelectedColor
+        }
+    }
+    @IBOutlet weak var worldwideButton: UIButton! {
+        didSet {
+            worldwideButton.setTitleColor(UIColor.white, for: .selected)
+            worldwideButton.isSelected = false
+            worldwideButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
+            worldwideButton.theme_tintColor = GlobalPicker.sortButtonSelectedColor
+        }
+    }
+    @IBOutlet weak var sortPopularityButton: UIButton! {
+        didSet {
+            sortPopularityButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            sortPopularityButton.layer.cornerRadius = 5
+            sortPopularityButton.isSelected = true
+            sortPopularityButton.addTarget(self, action: #selector(sortPopularityButtonTapped), for: .touchUpInside)
+            sortPopularityButton.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            sortPopularityButton.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+            
+        }
+    }
+    @IBOutlet weak var sortDateButton: UIButton! {
+        didSet {
+            sortDateButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            sortDateButton.layer.cornerRadius = 5
+            sortDateButton.isSelected = false
+            sortDateButton.addTarget(self, action: #selector(sortDateButtonTapped), for: .touchUpInside)
+            sortDateButton.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            sortDateButton.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
+    
+    @IBOutlet weak var sortByLabel: UILabel! {
+        didSet {
+            sortByLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
     @IBAction func refreshButton(_ sender: Any) {
         self.getNews()
     }
     
-    #if LITE_VERSION
-        @IBAction func upgradeButton(_ sender: Any) {
-            UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/app/id1266256984")!)
-        }
-    #endif
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Armchair.userDidSignificantEvent(true)
+        
+        self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+        self.tableView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+        
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+        
+        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -61,46 +120,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         getNews()
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        Armchair.userDidSignificantEvent(true)
-        
-        self.sortPopularityButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        self.sortDateButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        
-        self.indiaButton.setTitleColor(UIColor.white, for: .selected)
-        self.worldwideButton.setTitleColor(UIColor.white, for: .selected)
-        
-        self.indiaButton.isSelected = true
-        self.worldwideButton.isSelected = false
-        
-        self.sortPopularityButton.layer.cornerRadius = 5
-        self.sortDateButton.layer.cornerRadius = 5
-
-        self.sortPopularityButton.isSelected = true
-        self.sortDateButton.isSelected = false
-        
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        view.addSubview(activityIndicator)
-        
-        self.indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
-        self.worldwideButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
-
-        self.sortPopularityButton.addTarget(self, action: #selector(sortPopularityButtonTapped), for: .touchUpInside)
-        self.sortDateButton.addTarget(self, action: #selector(sortDateButtonTapped), for: .touchUpInside)
-
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
-        
-        self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
-    }
     
     @objc func newsButtonTapped() {
         indiaButton.isSelected = !self.indiaButton.isSelected
@@ -114,8 +133,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         sortPopularityButton.isSelected = true
         sortDateButton.isSelected = false
         
-        sortPopularityButton.backgroundColor = sortButtonSelectedColour
-        sortDateButton.backgroundColor = UIColor.white
+        sortPopularityButton.theme_backgroundColor = GlobalPicker.sortButtonSelectedColor
+        sortDateButton.theme_backgroundColor = GlobalPicker.sortButtonNotSelectedColor
         
         activityIndicator.stopAnimating()
         tableView.reloadData()
@@ -128,8 +147,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         sortPopularityButton.isSelected = false
         sortDateButton.isSelected = true
         
-        sortDateButton.backgroundColor = sortButtonSelectedColour
-        sortPopularityButton.backgroundColor = UIColor.white
+        sortDateButton.theme_backgroundColor = GlobalPicker.sortButtonSelectedColor
+        sortPopularityButton.theme_backgroundColor = GlobalPicker.sortButtonNotSelectedColor
         
         activityIndicator.stopAnimating()
         tableView.reloadData()
@@ -189,17 +208,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 
             #endif
         
-            #if LITE_VERSION
-                for index in 0..<10 {
-                    if let item = rssFeed?.items[index] {
-                        let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                        self.allNewsData.append(newsData)
-                    }
-                }
-                let updateNewsCell = NewsData(title: "Upgrade to view more of the latest news", pubDate: Date(), link: "https://itunes.apple.com/app/id1266256984")
-                self.allNewsData.append(updateNewsCell)
-            #endif
-            
             self.sortedNewsData = self.sortNewsDataByDate(newsData: self.allNewsData)
             self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
@@ -221,17 +229,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     }
                 }
                 
-            #endif
-            
-            #if LITE_VERSION
-                for index in 0..<10  {
-                    if let item = rssFeed?.items[index] {
-                        let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
-                        self.allNewsData.append(newsData)
-                    }
-                }
-                let updateNewsCell = NewsData(title: "Upgrade to view more of the latest news", pubDate: Date(), link: "https://itunes.apple.com/app/id1266256984")
-                self.allNewsData.append(updateNewsCell)
             #endif
             
             self.sortedNewsData = self.sortNewsDataByDate(newsData: self.allNewsData)
@@ -324,10 +321,10 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let row = indexPath.row
         if row % 2 == 0 {
-            cell.backgroundColor = marketRowColour
+            cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
         }
         else {
-            cell.backgroundColor = alternateMarketRowColour
+            cell.theme_backgroundColor = GlobalPicker.alternateMarketRowColour
         }
     }
 
