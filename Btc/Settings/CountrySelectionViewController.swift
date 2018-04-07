@@ -13,11 +13,21 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     
     var tableViewController : countryTableViewController!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var selectCountryTitleLabel: UILabel! {
+        didSet {
+            selectCountryTitleLabel.adjustsFontSizeToFitWidth = true
+            selectCountryTitleLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     
     var sortedCountryList: [(String, String, String, String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableViewController.countryTable.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+         self.tableViewController.countryTable.theme_separatorColor = GlobalPicker.tableSeparatorColor
         
         sortedCountryList = GlobalValues.countryList.sorted(by: {$0.1 < $1.1})
 
@@ -46,6 +56,7 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! AddCoinTableViewCell
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
         cell.coinImage.image = UIImage.init(named: sortedCountryList[row].1.lowercased())
         cell.coinNameLabel.text = sortedCountryList[row].3
         cell.coinSymbolLabel.text = "(\(sortedCountryList[row].1))"

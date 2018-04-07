@@ -17,6 +17,8 @@ class AddCoinTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        coinNameLabel.theme_textColor = GlobalPicker.viewTextColor
+        coinSymbolLabel.theme_textColor = GlobalPicker.viewTextColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

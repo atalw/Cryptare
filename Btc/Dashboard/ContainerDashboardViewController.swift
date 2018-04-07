@@ -36,7 +36,8 @@ class ContainerDashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+
         if GlobalValues.currency != nil {
             currency = GlobalValues.currency!
         }

@@ -25,7 +25,6 @@ class MainViewController: UIViewController {
         
         self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         
-        
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         
