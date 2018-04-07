@@ -46,19 +46,92 @@ class PortfolioSummaryViewController: UIViewController {
     var databaseRef: DatabaseReference!
     var coinRefs: [DatabaseReference] = []
     
-    @IBOutlet weak var option24hrButton: UIButton!
-    @IBOutlet weak var optionAllTimeButton: UIButton!
+    @IBOutlet weak var summaryTitleDescLabel: UILabel! {
+        didSet {
+            summaryTitleDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var option24hrButton: UIButton! {
+        didSet {
+            option24hrButton.isSelected = true
+            option24hrButton.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+            option24hrButton.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+        }
+    }
+    @IBOutlet weak var optionAllTimeButton: UIButton! {
+        didSet {
+            optionAllTimeButton.isSelected = false
+            
+            optionAllTimeButton.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+            optionAllTimeButton.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+        }
+    }
     
-    @IBOutlet weak var currentPortfolioValueLabel: UILabel!
-    @IBOutlet weak var totalInvestedLabel: UILabel!
-    @IBOutlet weak var totalPercentageChangeLabel: UILabel!
-    @IBOutlet weak var totalPriceChangeLabel: UILabel!
+    @IBOutlet weak var summaryView: UIView! {
+        didSet {
+            summaryView.theme_backgroundColor = GlobalPicker.summaryViewBackgroundColor
+        }
+    }
+    @IBOutlet weak var currentPortfolioValueLabel: UILabel! {
+        didSet {
+            currentPortfolioValueLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalInvestedLabel: UILabel! {
+        didSet {
+            totalInvestedLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalPercentageChangeLabel: UILabel! {
+        didSet {
+            totalPercentageChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalPriceChangeLabel: UILabel! {
+        didSet {
+            totalPriceChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+   
+    @IBOutlet weak var totalPortfolioDescLabel: UILabel! {
+        didSet {
+            totalPortfolioDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
+    @IBOutlet weak var percentageChangeDescLabel: UILabel! {
+        didSet {
+            percentageChangeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+
+        }
+    }
+    
+    @IBOutlet weak var totalInvestDescLabel: UILabel! {
+        didSet {
+            totalInvestDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var priceChangeDescLabel: UILabel! {
+        didSet {
+            priceChangeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
+    @IBOutlet weak var addCoinButton: UIButton! {
+        didSet {
+            addCoinButton.theme_backgroundColor = GlobalPicker.addCoinButton
+        }
+    }
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
         
         for (symbol, name) in GlobalValues.coins {
             globalCoins.append(symbol)
@@ -77,8 +150,6 @@ class PortfolioSummaryViewController: UIViewController {
         
         yesterdayCoinValues = [:]
         
-        option24hrButton.isSelected = true
-        optionAllTimeButton.isSelected = false
         
         tableView.tableFooterView = UIView(frame: .zero)
         
@@ -102,7 +173,7 @@ class PortfolioSummaryViewController: UIViewController {
 //            updateSummaryLabels(portfolioName: portfolioName)
             let messageLabel = UILabel()
             messageLabel.text = "Add a coin"
-            messageLabel.textColor = UIColor.black
+            messageLabel.theme_textColor = GlobalPicker.viewTextColor
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = .center
             messageLabel.sizeToFit()

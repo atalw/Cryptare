@@ -37,6 +37,11 @@ class MainPortfolioViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        pagingViewController.collectionView.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        
 //        let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
 //        UserDefaults.standard.set(newData, forKey: "portfolioEntries")
 //        
@@ -57,8 +62,8 @@ class MainPortfolioViewController: UIViewController {
 
         pagingViewController.dataSource = self
         
-        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
-        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
+//        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
+//        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
         pagingViewController.indicatorColor = UIColor.init(hex: "ff7043")
         pagingViewController.textColor = UIColor.lightGray
         pagingViewController.selectedTextColor = UIColor.white

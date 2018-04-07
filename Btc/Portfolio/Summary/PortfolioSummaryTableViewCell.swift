@@ -23,6 +23,12 @@ class PortfolioSummaryTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        coinSymbolLabel.theme_textColor = GlobalPicker.viewTextColor
+        coinNameLabel.theme_textColor = GlobalPicker.viewTextColor
+        coinHoldingsLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        coinCurrentValueLabel.theme_textColor = GlobalPicker.viewAltTextColor
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
