@@ -22,15 +22,24 @@ protocol LeftMenuProtocol : class {
 class LeftViewController : UIViewController, LeftMenuProtocol {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var nightModeSwitch: UISwitch!
+    
+    @IBOutlet weak var nightModeDescLabel: UILabel! {
+        didSet {
+            nightModeDescLabel.adjustsFontSizeToFitWidth = true
+            nightModeDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var nightModeSwitch: UISwitch! {
+        didSet {
+            nightModeSwitch.addTarget(self, action: #selector(nightModeSwitchTapped), for: .touchUpInside)
+        }
+    }
     
     var menus = ["Dashboard", "Portfolio", "News", "Settings"]
     var mainViewController: UIViewController!
     var mainPortfolioViewController: UIViewController!
     var newsViewController: UIViewController!
     var settingsViewController: UIViewController!
-    
-    //    var imageHeaderView: ImageHeaderView!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -39,10 +48,8 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
-        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
-        
-        nightModeSwitch.addTarget(self, action: #selector(nightModeSwitchTapped), for: .touchUpInside)
+        self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+        self.tableView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
         
         #if PRO_VERSION
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -143,6 +150,7 @@ extension LeftViewController : UITableViewDataSource {
             case .dashboard, .portfolio, .news, .settings:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "navigationCell", for: indexPath) as! LeftNavigationTableViewCell
                 cell.setData(menus[indexPath.row])
+                cell.theme_backgroundColor = GlobalPicker.mainBackgroundColor
                 return cell
             }
         }
@@ -153,6 +161,7 @@ extension LeftViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            (tableView.cellForRow(at: indexPath) as? LeftNavigationTableViewCell)?.titleLabel.textColor = UIColor.white
         }
     }
 }

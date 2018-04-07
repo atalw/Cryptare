@@ -25,7 +25,6 @@ class LeftNavigationTableViewCell: UITableViewCell {
     }
     
     open func setData(_ data: Any?) {
-        self.background.backgroundColor = UIColor.white
         if let menuText = data as? String {
             self.titleLabel.text = menuText
         }
@@ -33,23 +32,23 @@ class LeftNavigationTableViewCell: UITableViewCell {
     
     override open func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
-            self.background.backgroundColor = UIColor.init(hex: "46637F")
-            self.titleLabel.textColor = UIColor.white
+            self.background.theme_backgroundColor = GlobalPicker.navigationSelectedBackgroundColor
+            self.titleLabel.theme_textColor = GlobalPicker.navigationTitleTextSelectedColor
         } else {
-            self.background.backgroundColor = UIColor.white
-            self.titleLabel.textColor = UIColor.black
+            self.background.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+            self.titleLabel.theme_textColor = GlobalPicker.viewTextColor
         }
     }
     
     // ignore the default handling
     override open func setSelected(_ selected: Bool, animated: Bool) {
         if selected {
-            self.background.backgroundColor = UIColor.init(hex: "46637F")
-            self.titleLabel.textColor = UIColor.white
+            self.background.theme_backgroundColor = GlobalPicker.navigationSelectedBackgroundColor
+            self.titleLabel.theme_textColor = GlobalPicker.navigationTitleTextSelectedColor
         }
         else {
-            self.background.backgroundColor = UIColor.white
-            self.titleLabel.textColor = UIColor.black
+            self.background.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+            self.titleLabel.theme_textColor = GlobalPicker.viewTextColor
         }
     }
 }
