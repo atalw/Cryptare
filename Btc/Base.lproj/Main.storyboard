@@ -3722,7 +3722,7 @@
                                                         </constraints>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="MfO-gY-nvK" secondAttribute="trailing" id="EBc-6m-cLP"/>
                                                     <constraint firstAttribute="bottom" secondItem="MfO-gY-nvK" secondAttribute="bottom" constant="10" id="bAT-Fb-7po"/>
@@ -4198,7 +4198,7 @@
                                                 </prototypes>
                                             </tableView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="Rgh-kC-S2b" firstAttribute="leading" secondItem="SAJ-S5-qBj" secondAttribute="leading" id="0R3-kV-Fav"/>
                                             <constraint firstItem="A2h-od-aMK" firstAttribute="leading" secondItem="SAJ-S5-qBj" secondAttribute="leading" constant="10" id="1JF-bv-dUj"/>
@@ -4316,7 +4316,9 @@
                         <outlet property="btcAmount" destination="HHH-93-kR6" id="eXW-cM-oiI"/>
                         <outlet property="btcMarketDescriptionLabel" destination="u3m-vn-Z4g" id="Rkn-MU-jUd"/>
                         <outlet property="btcMarketsTable" destination="Rgh-kC-S2b" id="gie-W7-14y"/>
+                        <outlet property="btcMarketsTitleLabel" destination="RGr-jE-sLY" id="7fo-qS-lFI"/>
                         <outlet property="btcPriceLabel" destination="nQs-vr-lLV" id="Ohd-Km-2DJ"/>
+                        <outlet property="btcTableHeader" destination="0b7-3i-gYd" id="nfE-qe-cCi"/>
                         <outlet property="btcTableHeightConstraint" destination="k6U-Uq-mwJ" id="2lc-OX-Y5D"/>
                         <outlet property="buySortBtcButton" destination="mjA-wh-rjG" id="QjY-sb-9Ck"/>
                         <outlet property="buySortButton" destination="Qek-ir-IqB" id="EOn-NQ-g6l"/>
@@ -4324,8 +4326,12 @@
                         <outlet property="coinNameLabel" destination="2ec-RK-yTJ" id="d96-6l-n6Z"/>
                         <outlet property="ethMarketDescriptionLabel" destination="Lr4-y9-QiG" id="rF4-Jj-XCG"/>
                         <outlet property="ethMarketsTable" destination="Y0X-jS-aFw" id="KB0-mY-eBu"/>
+                        <outlet property="ethMarketsTitleLabel" destination="Kno-QM-XqH" id="Dzg-R5-Ux7"/>
+                        <outlet property="ethTableHeader" destination="LdS-Hb-bGl" id="EQc-IS-6vv"/>
                         <outlet property="ethTableHeightConstraint" destination="VSP-sC-3OJ" id="tSe-1F-sjV"/>
                         <outlet property="fiatMarketDescriptionLabel" destination="2Vu-8O-H6N" id="oSy-DZ-Yp8"/>
+                        <outlet property="fiatMarketsTitleLabel" destination="dqz-QL-PKl" id="BrK-AY-RAQ"/>
+                        <outlet property="fiatTableHeader" destination="mOB-xY-TgU" id="ir6-B5-Ato"/>
                         <outlet property="infoButton" destination="1pR-Kt-OEy" id="fuG-X5-ivA"/>
                         <outlet property="marketsLockView" destination="vcy-Z9-pDe" id="xXc-wW-iuw"/>
                         <outlet property="sellSortBtcButton" destination="V1x-UN-ZKM" id="DcZ-br-u3E"/>

@@ -29,6 +29,9 @@ enum GlobalPicker {
 
     // cryptoDetail
     static let segmentControlTintColor: ThemeColorPicker = ["#46627c", "#c8d0d8"]
+    
+    // markets
+    static let alternateMarketRowColour: ThemeColorPicker = ["#e6ecf1", "#59738b"]
 
 
 }

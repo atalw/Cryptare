@@ -10,9 +10,24 @@ import UIKit
 
 class MarketTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var siteLabel: CustomUIButton!
-    @IBOutlet weak var buyLabel: UILabel!
-    @IBOutlet weak var sellLabel: UILabel!
+    @IBOutlet weak var siteLabel: CustomUIButton! {
+        didSet {
+            siteLabel.titleLabel?.adjustsFontSizeToFitWidth = true
+            siteLabel.theme_setTitleColor(GlobalPicker.viewTextColor, forState: .normal)
+        }
+    }
+    @IBOutlet weak var buyLabel: UILabel! {
+        didSet {
+            buyLabel.adjustsFontSizeToFitWidth = true
+            buyLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var sellLabel: UILabel! {
+        didSet {
+            sellLabel.adjustsFontSizeToFitWidth = true
+            sellLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

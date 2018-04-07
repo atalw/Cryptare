@@ -14,48 +14,6 @@ import SwiftyUserDefaults
 
 class MarketViewController: UIViewController {
     
-    
-    @IBOutlet var btcPriceLabel: UILabel!
-    @IBOutlet var btcAmount: UITextField!
-
-    @IBOutlet weak var coinNameLabel: UILabel!
-    @IBOutlet var infoButton: UIBarButtonItem!
-    
-    @IBOutlet weak var buySortButton: UIButton!
-    @IBOutlet weak var sellSortButton: UIButton!
-    
-    @IBOutlet weak var buySortBtcButton: UIButton!
-    @IBOutlet weak var sellSortBtcButton: UIButton!
-    
-    @IBOutlet weak var buySortEthButton: UIButton!
-    @IBOutlet weak var sellSortEthButton: UIButton!
-    
-    
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var btcMarketsTable: UITableView!
-    @IBOutlet weak var btcTableHeightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var ethMarketsTable: UITableView!
-    @IBOutlet weak var ethTableHeightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var changedTableView: UITableView!
-
-    
-    @IBOutlet weak var fiatMarketDescriptionLabel: UILabel!
-    @IBOutlet weak var btcMarketDescriptionLabel: UILabel!
-    @IBOutlet weak var ethMarketDescriptionLabel: UILabel!
-    
-    @IBOutlet weak var marketsLockView: UIView!
-    @IBOutlet weak var unlockMarketsPriceButton: UIButton!
-    
-    #if LITE_VERSION
-    @IBAction func upgradeButton(_ sender: Any) {
-        UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/app/id1266256984")!)
-    }
-    #endif
-    
     var selectedCountry: String!
     
     var currentCoin: String! = "BTC"
@@ -88,10 +46,6 @@ class MarketViewController: UIViewController {
     var copyEthMarkets: [(Double, Double)] = []
 
     
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    
-    // MARK: Firebase database references
-    
     var coinRef: DatabaseReference!
     
     var coinMarkets: [String: String] = [:]
@@ -110,13 +64,148 @@ class MarketViewController: UIViewController {
     let redColour = UIColor.init(hex: "#e74c3c")
     
     var changedCell = -1
+    var changedTableView: UITableView!
     var newBuyPriceIsGreater: Bool? = true
     var newSellPriceIsGreater: Bool? = true
     
     var selectedMarket: String!
     
-    let marketRowColour : UIColor = UIColor.white
-    let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+
+    
+    // MARK: IBOutlets
+
+    @IBOutlet var btcPriceLabel: UILabel! {
+        didSet {
+            btcPriceLabel.adjustsFontSizeToFitWidth = true
+            btcPriceLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet var btcAmount: UITextField!
+    
+    @IBOutlet weak var coinNameLabel: UILabel! {
+        didSet {
+            coinNameLabel.adjustsFontSizeToFitWidth = true
+            coinNameLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet var infoButton: UIBarButtonItem!
+    
+    @IBOutlet weak var buySortButton: UIButton!
+    @IBOutlet weak var sellSortButton: UIButton!
+    
+    @IBOutlet weak var buySortBtcButton: UIButton!
+    @IBOutlet weak var sellSortBtcButton: UIButton!
+    
+    @IBOutlet weak var buySortEthButton: UIButton!
+    @IBOutlet weak var sellSortEthButton: UIButton!
+    
+    @IBOutlet weak var fiatMarketDescriptionLabel: UILabel! {
+        didSet {
+            fiatMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using \(GlobalValues.currency!)."
+            fiatMarketDescriptionLabel.adjustsFontSizeToFitWidth = true
+            fiatMarketDescriptionLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var btcMarketDescriptionLabel: UILabel! {
+        didSet {
+            btcMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using BTC (₿)."
+            btcMarketDescriptionLabel.adjustsFontSizeToFitWidth = true
+            btcMarketDescriptionLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var ethMarketDescriptionLabel: UILabel! {
+        didSet {
+            ethMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using ETH."
+            ethMarketDescriptionLabel.adjustsFontSizeToFitWidth = true
+            ethMarketDescriptionLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
+    @IBOutlet weak var fiatMarketsTitleLabel: UILabel! {
+        didSet {
+            fiatMarketsTitleLabel.adjustsFontSizeToFitWidth = true
+            fiatMarketsTitleLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var btcMarketsTitleLabel: UILabel! {
+        didSet {
+            btcMarketsTitleLabel.adjustsFontSizeToFitWidth = true
+            btcMarketsTitleLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var ethMarketsTitleLabel: UILabel! {
+        didSet {
+            ethMarketsTitleLabel.adjustsFontSizeToFitWidth = true
+            ethMarketsTitleLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.delegate = self
+            tableView.dataSource = self
+            tableView.tableFooterView = UIView()
+            
+            tableView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+            tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+        }
+    }
+    
+    @IBOutlet weak var btcMarketsTable: UITableView! {
+        didSet {
+            btcMarketsTable.delegate = self
+            btcMarketsTable.dataSource = self
+            btcMarketsTable.tableFooterView = UIView()
+            
+            btcMarketsTable.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+            btcMarketsTable.theme_separatorColor = GlobalPicker.tableSeparatorColor
+        }
+    }
+    
+    
+    @IBOutlet weak var ethMarketsTable: UITableView! {
+        didSet {
+            ethMarketsTable.delegate = self
+            ethMarketsTable.dataSource = self
+            ethMarketsTable.tableFooterView = UIView()
+            
+            ethMarketsTable.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+            ethMarketsTable.theme_separatorColor = GlobalPicker.tableSeparatorColor
+        }
+    }
+    
+    @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var btcTableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ethTableHeightConstraint: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var fiatTableHeader: UIView! {
+        didSet {
+            fiatTableHeader.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        }
+    }
+    @IBOutlet weak var btcTableHeader: UIView! {
+        didSet {
+            btcTableHeader.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        }
+    }
+    @IBOutlet weak var ethTableHeader: UIView! {
+        didSet {
+            ethTableHeader.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        }
+    }
+    
+    @IBOutlet weak var marketsLockView: UIView! {
+        didSet {
+            marketsLockView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+        }
+    }
+    @IBOutlet weak var unlockMarketsPriceButton: UIButton! {
+        didSet {
+//            unlockMarketsPriceButton.theme
+        }
+    }
     
     // MARK: VC Lifecycle
     
@@ -125,11 +214,9 @@ class MarketViewController: UIViewController {
         
         Armchair.userDidSignificantEvent(true)
         
-        coinNameLabel.text = currentCoin
+        self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
         
-        fiatMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using \(GlobalValues.currency!)."
-        btcMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using BTC (₿)."
-        ethMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using ETH."
+        coinNameLabel.text = currentCoin
         
         self.btcAmount.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
@@ -151,18 +238,6 @@ class MarketViewController: UIViewController {
         sellSortEthButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
         self.sellSortEthButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
         
-        
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.tableFooterView = UIView()
-        
-        self.btcMarketsTable.delegate = self
-        self.btcMarketsTable.dataSource = self
-        self.btcMarketsTable.tableFooterView = UIView()
-        
-        self.ethMarketsTable.delegate = self
-        self.ethMarketsTable.dataSource = self
-        self.ethMarketsTable.tableFooterView = UIView()
         
         activityIndicator.center = self.tableView.center
         activityIndicator.hidesWhenStopped = true
@@ -229,7 +304,7 @@ class MarketViewController: UIViewController {
         else {
             let messageLabel = UILabel()
             messageLabel.text = "No markets currently available."
-            messageLabel.textColor = UIColor.black
+            messageLabel.theme_textColor = GlobalPicker.viewTextColor
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = .center
             messageLabel.sizeToFit()
@@ -246,7 +321,7 @@ class MarketViewController: UIViewController {
         else {
             let messageLabel = UILabel()
             messageLabel.text = "No markets currently available."
-            messageLabel.textColor = UIColor.black
+            messageLabel.theme_textColor = GlobalPicker.viewTextColor
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = .center
             messageLabel.sizeToFit()
@@ -263,7 +338,7 @@ class MarketViewController: UIViewController {
         else {
             let messageLabel = UILabel()
             messageLabel.text = "No markets currently available."
-            messageLabel.textColor = UIColor.black
+            messageLabel.theme_textColor = GlobalPicker.viewTextColor
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = .center
             messageLabel.sizeToFit()
@@ -735,7 +810,7 @@ class MarketViewController: UIViewController {
                             self.btcPriceLabel.textColor = colour
                         }, completion: { finished in
                             UILabel.transition(with: self.btcPriceLabel, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                                self.btcPriceLabel.textColor = UIColor.black
+                                self.btcPriceLabel.theme_textColor = GlobalPicker.viewTextColor
                             }, completion: nil)
                         })
                         
@@ -870,7 +945,7 @@ class MarketViewController: UIViewController {
             cell.buyLabel?.textColor = colour
         }, completion: { finished in
             UILabel.transition(with: cell.buyLabel, duration: 1.0, options: .transitionCrossDissolve, animations: {
-                cell.buyLabel?.textColor = UIColor.black
+                cell.buyLabel?.theme_textColor = GlobalPicker.viewTextColor
             }, completion: nil)
         })
     }
@@ -880,7 +955,7 @@ class MarketViewController: UIViewController {
             cell.sellLabel?.textColor = colour
         }, completion: { finished in
             UILabel.transition(with: cell.sellLabel, duration: 1.0, options: .transitionCrossDissolve, animations: {
-                cell.sellLabel?.textColor = UIColor.black
+                cell.sellLabel?.theme_textColor = GlobalPicker.viewTextColor
             }, completion: nil)
         })
     }
@@ -911,29 +986,16 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
         var cell: UITableViewCell?
         
         if self.tableView == tableView {
-            #if LITE_VERSION
-                if indexPath.row >= self.markets.count {
-                    let liteCell = self.tableView.dequeueReusableCell(withIdentifier: "liteCell") as? MarketTableViewCell!
-                    let index = indexPath.row - self.markets.count
-                    liteCell!.siteLabel?.setTitle(liteMarkets[index].0, for: .normal)
-                    liteCell!.siteLabel.url = URL(string: liteMarkets[index].1)
-                    liteCell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
-                    return liteCell!
-                }
-            #endif
             
             let market = self.markets[indexPath.row]
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
             cell!.siteLabel?.setTitle(market.title, for: .normal)
             cell!.siteLabel.url = market.siteLink
             cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
-            cell!.siteLabel.titleLabel?.adjustsFontSizeToFitWidth = true
             
             cell!.buyLabel?.text = market.buyPrice.asCurrency
-            cell!.buyLabel.adjustsFontSizeToFitWidth = true
             
             cell!.sellLabel?.text = market.sellPrice.asCurrency
-            cell!.sellLabel.adjustsFontSizeToFitWidth = true
             
             if indexPath.row == changedCell && changedTableView == tableView {
                 if newBuyPriceIsGreater != nil {
@@ -967,13 +1029,10 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             cell!.siteLabel?.setTitle(market.title, for: .normal)
             cell!.siteLabel.url = market.siteLink
             cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
-            cell!.siteLabel.titleLabel?.adjustsFontSizeToFitWidth = true
             
             cell!.buyLabel?.text = market.buyPrice.asBtcCurrency
-            cell!.buyLabel.adjustsFontSizeToFitWidth = true
             
             cell!.sellLabel?.text = market.sellPrice.asBtcCurrency
-            cell!.sellLabel.adjustsFontSizeToFitWidth = true
             
             if indexPath.row == changedCell && changedTableView == btcMarketsTable {
                 if newBuyPriceIsGreater != nil {
@@ -1007,13 +1066,10 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
             cell!.siteLabel?.setTitle(market.title, for: .normal)
             cell!.siteLabel.url = market.siteLink
             cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
-            cell!.siteLabel.titleLabel?.adjustsFontSizeToFitWidth = true
             
             cell!.buyLabel?.text = market.buyPrice.asEthCurrency
-            cell!.buyLabel.adjustsFontSizeToFitWidth = true
             
             cell!.sellLabel?.text = market.sellPrice.asEthCurrency
-            cell!.sellLabel.adjustsFontSizeToFitWidth = true
             
             if indexPath.row == changedCell && changedTableView == ethMarketsTable {
                 if newBuyPriceIsGreater != nil {
@@ -1045,34 +1101,12 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if self.tableView == tableView {
-            let row = indexPath.row
-            if row % 2 == 0 {
-                cell.backgroundColor = marketRowColour
-            }
-            else {
-                cell.backgroundColor = alternateMarketRowColour
-            }
+        let row = indexPath.row
+        if row % 2 == 0 {
+            cell.theme_backgroundColor = GlobalPicker.mainBackgroundColor
         }
-       
-        if self.btcMarketsTable == tableView {
-            let row = indexPath.row
-            if row % 2 == 0 {
-                cell.backgroundColor = marketRowColour
-            }
-            else {
-                cell.backgroundColor = alternateMarketRowColour
-            }
-        }
-        
-        if self.ethMarketsTable == tableView {
-            let row = indexPath.row
-            if row % 2 == 0 {
-                cell.backgroundColor = marketRowColour
-            }
-            else {
-                cell.backgroundColor = alternateMarketRowColour
-            }
+        else {
+            cell.theme_backgroundColor = GlobalPicker.alternateMarketRowColour
         }
     }
     
