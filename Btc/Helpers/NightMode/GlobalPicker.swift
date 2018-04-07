@@ -40,6 +40,8 @@ enum GlobalPicker {
     static let sortButtonNotSelectedColor: ThemeColorPicker = ["#fff", "#35495d"]
     static let sortButtonTextNotSelectedColor: ThemeColorPicker = ["#000", "#fff"]
 
-
+    // settings
+    static let buttonSelectedColor: ThemeColorPicker = ["#46637F", "#59738b"]
+    static let buttonNotSelectedColor: ThemeColorPicker = ["#fff", "#3e556e"]
 
 }

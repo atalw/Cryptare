@@ -70,18 +70,17 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="Vwy-ld-pXs"/>
                         <inset key="scrollIndicatorInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
-                        <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="qH9-cw-bSS">
+                        <view key="tableFooterView" contentMode="scaleToFill" id="qH9-cw-bSS">
                             <rect key="frame" x="0.0" y="1365.3333333333335" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxQ-V7-jUc">
-                                    <rect key="frame" x="168.66666666666666" y="157" width="37.333333333333343" height="18"/>
+                                    <rect key="frame" x="168.66666666666666" y="13" width="37.333333333333343" height="18"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="fxQ-V7-jUc" firstAttribute="centerY" secondItem="qH9-cw-bSS" secondAttribute="centerY" id="C2s-0u-J3b"/>
                                 <constraint firstItem="fxQ-V7-jUc" firstAttribute="centerX" secondItem="qH9-cw-bSS" secondAttribute="centerX" id="MB5-Dp-ALJ"/>
@@ -91,7 +90,7 @@
                             <tableViewSection headerTitle="In-app purchases 🔓" id="aOp-CP-3Ah">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="O4g-V7-SOV">
-                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O4g-V7-SOV" id="8j5-Oz-s8Q">
                                             <rect key="frame" x="0.0" y="0.0" width="341" height="44.666666666666664"/>
@@ -223,7 +222,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Wsw-WY-adQ">
-                                        <rect key="frame" x="0.0" y="235.33333333333337" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="235.33333333333334" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wsw-WY-adQ" id="frQ-iA-Y9A">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44.666666666666664"/>
@@ -744,7 +743,7 @@
                                         <rect key="frame" x="0.0" y="1156.3333333333335" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ojn-Fh-qce" id="Ecw-UZ-DhG">
-                                            <rect key="frame" x="0.0" y="0.0" width="349" height="44.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="44.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Jfr-eN-Fbs">
@@ -778,7 +777,7 @@
                                         <rect key="frame" x="0.0" y="1257.3333333333335" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sGK-vf-CoC" id="YS3-wg-4W9">
-                                            <rect key="frame" x="0.0" y="0.0" width="349" height="44.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="44.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zCA-hI-YkP">
@@ -805,7 +804,7 @@
                                         <rect key="frame" x="0.0" y="1302.3333333333335" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PAw-E3-3MY" id="khE-ht-fht">
-                                            <rect key="frame" x="0.0" y="0.0" width="349" height="44.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="44.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Gjs-Bl-0a0">
@@ -839,23 +838,40 @@
                     <navigationItem key="navigationItem" title="Settings" id="3Af-DA-HDA"/>
                     <size key="freeformSize" width="375" height="1100"/>
                     <connections>
+                        <outlet property="appFeaturesIntroDescLabel" destination="t68-yL-Byv" id="0vO-IO-AH6"/>
                         <outlet property="appVersionLabel" destination="fxQ-V7-jUc" id="VQK-LI-5Id"/>
                         <outlet property="ascendingSort" destination="7aY-Cw-0gs" id="ovR-dG-80H"/>
                         <outlet property="buySort" destination="ILD-dT-CyQ" id="8Ph-Qk-kLS"/>
+                        <outlet property="changeCurrencyDescLabel" destination="fo8-lo-YK0" id="9Mc-Lz-nHX"/>
                         <outlet property="dateSort" destination="90M-2m-Gnx" id="11b-B7-zfK"/>
+                        <outlet property="defaultNewsSortDesc" destination="ERf-kG-Jf6" id="G6t-RM-VCB"/>
+                        <outlet property="defaultOrderDescLabel" destination="DJh-l0-SbE" id="0Xm-Xb-VfZ"/>
+                        <outlet property="defaultSortDescLabel" destination="hrc-ib-bME" id="S8x-I7-ax8"/>
                         <outlet property="descendingSort" destination="dc0-yr-f3S" id="vgv-xA-yjg"/>
+                        <outlet property="favouritesInitialTabDescLabel" destination="V6c-eF-67J" id="GIQ-vQ-4oR"/>
                         <outlet property="favouritesInitialTabSwitch" destination="RuM-sa-Ona" id="h2J-h0-AhY"/>
+                        <outlet property="lineModeDescLabel" destination="MPJ-wx-e2T" id="4TT-js-uoH"/>
                         <outlet property="linearModeButton" destination="5Wl-T1-qh7" id="CbY-MA-YRl"/>
                         <outlet property="popularitySort" destination="8fN-Cp-GxN" id="vsI-gi-4wU"/>
+                        <outlet property="redditDescLabel" destination="SI0-BS-Qn7" id="IU4-mq-1aC"/>
+                        <outlet property="removeAdsDescLabel" destination="kLp-Yt-06i" id="puH-St-xOM"/>
                         <outlet property="removeAdsPriceLabel" destination="URt-iO-oH8" id="auD-m6-PNk"/>
                         <outlet property="sellSort" destination="xoc-Nu-Obb" id="7sh-PN-P28"/>
                         <outlet property="smoothModeButton" destination="Twz-Xe-0dC" id="VKx-8o-Wb0"/>
                         <outlet property="steppedModeButton" destination="q0s-T1-Sgu" id="OZe-Eu-IWK"/>
+                        <outlet property="twitterDescLabel" destination="dT7-Ba-PUi" id="aRx-BC-7Ky"/>
+                        <outlet property="unlockAllDescLabel" destination="0wy-AU-xB9" id="zF6-q6-GgP"/>
                         <outlet property="unlockAllPriceLabel" destination="T59-YM-t4p" id="gqb-3i-eH5"/>
+                        <outlet property="unlockMarketsDescLabel" destination="8i8-tL-JfS" id="ud9-yo-AqB"/>
                         <outlet property="unlockMarketsPriceLabel" destination="2u9-b0-AQq" id="Dtp-7E-yl5"/>
                         <outlet property="unlockMulitplePortfoliosLabel" destination="NKK-yU-loy" id="h0L-J0-dVA"/>
+                        <outlet property="unlockPortfolioDescLabel" destination="JQj-z4-kxm" id="naV-LH-vKq"/>
+                        <outlet property="xAxisDescLabel" destination="bOH-Kn-ykF" id="5DR-V0-1Uy"/>
+                        <outlet property="xAxisGridLinesDescLabel" destination="Aid-J9-N3F" id="ZqI-bU-NFM"/>
                         <outlet property="xAxisGridLinesSwitch" destination="Oqe-K7-CBq" id="P62-Ro-aD2"/>
                         <outlet property="xAxisSwitch" destination="8xJ-33-cCq" id="slg-1e-Ftv"/>
+                        <outlet property="yAxisDescLabel" destination="o1n-ne-DmY" id="dGf-47-r3D"/>
+                        <outlet property="yAxisGridLinesDescLabel" destination="P4s-tq-4al" id="oZV-dQ-4rv"/>
                         <outlet property="yAxisGridLinesSwitch" destination="CpR-z9-sBq" id="r17-RO-QCO"/>
                         <outlet property="yAxisSwitch" destination="trJ-ru-EfN" id="1WM-R1-ydP"/>
                     </connections>
@@ -6402,6 +6418,6 @@
         <segue reference="UTo-K4-ZGb"/>
         <segue reference="dyn-Tm-p5O"/>
         <segue reference="aTF-nS-vEp"/>
-        <segue reference="aMw-vO-4ZL"/>
+        <segue reference="Vxq-BP-5vg"/>
     </inferredMetricsTieBreakers>
 </document>

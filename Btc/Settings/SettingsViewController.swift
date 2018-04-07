@@ -13,119 +13,279 @@ import SwiftyUserDefaults
 
 class SettingsViewController: UITableViewController {
     
+    // iap
+    @IBOutlet weak var unlockAllDescLabel: UILabel! {
+        didSet {
+            unlockAllDescLabel.adjustsFontSizeToFitWidth = true
+            unlockAllDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var unlockAllPriceLabel: UILabel! {
+        didSet {
+            unlockAllPriceLabel.text = 0.0.asCurrency
+            unlockAllPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
+    @IBOutlet weak var removeAdsDescLabel: UILabel! {
+        didSet {
+            removeAdsDescLabel.adjustsFontSizeToFitWidth = true
+            removeAdsDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var removeAdsPriceLabel: UILabel! {
+        didSet {
+            removeAdsPriceLabel.text = 0.0.asCurrency
+            removeAdsPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
+    @IBOutlet weak var unlockMarketsDescLabel: UILabel! {
+        didSet {
+            unlockMarketsDescLabel.adjustsFontSizeToFitWidth = true
+            unlockMarketsDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var unlockMarketsPriceLabel: UILabel! {
+        didSet {
+            unlockMarketsPriceLabel.text = 0.0.asCurrency
+            unlockMarketsPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
+    @IBOutlet weak var unlockPortfolioDescLabel: UILabel! {
+        didSet {
+            unlockPortfolioDescLabel.adjustsFontSizeToFitWidth = true
+            unlockPortfolioDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var unlockMulitplePortfoliosLabel: UILabel! {
+        didSet {
+            unlockMulitplePortfoliosLabel.text = 0.0.asCurrency
+            unlockMulitplePortfoliosLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
     // dashboard
-    @IBOutlet weak var favouritesInitialTabSwitch: UISwitch!
+    @IBOutlet weak var favouritesInitialTabDescLabel: UILabel! {
+        didSet {
+            favouritesInitialTabDescLabel.adjustsFontSizeToFitWidth = true
+            favouritesInitialTabDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var favouritesInitialTabSwitch: UISwitch! {
+        didSet {
+            favouritesInitialTabSwitch.addTarget(self, action: #selector(favouritesInitialTabChange), for: .valueChanged)
+        }
+    }
     
     // charts
-    @IBOutlet weak var linearModeButton: UIButton!
-    @IBOutlet weak var smoothModeButton: UIButton!
-    @IBOutlet weak var steppedModeButton: UIButton!
+    @IBOutlet weak var lineModeDescLabel: UILabel! {
+        didSet {
+            lineModeDescLabel.adjustsFontSizeToFitWidth = true
+            lineModeDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var linearModeButton: UIButton! {
+        didSet {
+            linearModeButton.layer.cornerRadius = 5
+            linearModeButton.setTitleColor(UIColor.black, for: .normal)
+            linearModeButton.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            linearModeButton.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
+    @IBOutlet weak var smoothModeButton: UIButton! {
+        didSet {
+            smoothModeButton.layer.cornerRadius = 5
+            smoothModeButton.setTitleColor(UIColor.black, for: .normal)
+            smoothModeButton.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            smoothModeButton.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
+    @IBOutlet weak var steppedModeButton: UIButton! {
+        didSet {
+            steppedModeButton.layer.cornerRadius = 5
+            steppedModeButton.setTitleColor(UIColor.black, for: .normal)
+            steppedModeButton.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            steppedModeButton.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
 
-    @IBOutlet weak var xAxisSwitch: UISwitch!
-    @IBOutlet weak var xAxisGridLinesSwitch: UISwitch!
+    @IBOutlet weak var xAxisDescLabel: UILabel! {
+        didSet {
+            xAxisDescLabel.adjustsFontSizeToFitWidth = true
+            xAxisDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var xAxisSwitch: UISwitch! {
+        didSet {
+             xAxisSwitch.addTarget(self, action: #selector(xAxisChange), for: .valueChanged)
+        }
+    }
+    
+    @IBOutlet weak var xAxisGridLinesDescLabel: UILabel! {
+        didSet {
+            xAxisGridLinesDescLabel.adjustsFontSizeToFitWidth = true
+            xAxisGridLinesDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var xAxisGridLinesSwitch: UISwitch! {
+        didSet {
+            xAxisGridLinesSwitch.addTarget(self, action: #selector(xAxisGridLinesChange), for: .valueChanged)
 
-    @IBOutlet weak var yAxisSwitch: UISwitch!
-    @IBOutlet weak var yAxisGridLinesSwitch: UISwitch!
+        }
+    }
+    @IBOutlet weak var yAxisDescLabel: UILabel! {
+        didSet {
+            yAxisDescLabel.adjustsFontSizeToFitWidth = true
+            yAxisDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    
+    @IBOutlet weak var yAxisSwitch: UISwitch! {
+        didSet {
+            yAxisSwitch.addTarget(self, action: #selector(yAxisChange), for: .valueChanged)
+        }
+    }
+    @IBOutlet weak var yAxisGridLinesDescLabel: UILabel! {
+        didSet {
+            yAxisGridLinesDescLabel.adjustsFontSizeToFitWidth = true
+            yAxisGridLinesDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var yAxisGridLinesSwitch: UISwitch! {
+        didSet {
+            yAxisGridLinesSwitch.addTarget(self, action: #selector(yAxisGridLinesChange), for: .valueChanged)
+        }
+    }
     
     // markets
-    @IBOutlet weak var buySort: UIButton!
-    @IBOutlet weak var sellSort: UIButton!
-    @IBOutlet weak var ascendingSort: UIButton!
-    @IBOutlet weak var descendingSort: UIButton!
+    @IBOutlet weak var defaultSortDescLabel: UILabel! {
+        didSet {
+            defaultSortDescLabel.adjustsFontSizeToFitWidth = true
+            defaultSortDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var buySort: UIButton! {
+        didSet {
+            buySort.layer.cornerRadius = 5
+            buySort.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            buySort.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
+    @IBOutlet weak var sellSort: UIButton! {
+        didSet {
+            sellSort.layer.cornerRadius = 5
+            sellSort.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            sellSort.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
+    
+    @IBOutlet weak var defaultOrderDescLabel: UILabel! {
+        didSet {
+            defaultOrderDescLabel.adjustsFontSizeToFitWidth = true
+            defaultOrderDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var ascendingSort: UIButton! {
+        didSet {
+            ascendingSort.layer.cornerRadius = 5
+            ascendingSort.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            ascendingSort.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
+    @IBOutlet weak var descendingSort: UIButton! {
+        didSet {
+            descendingSort.layer.cornerRadius = 5
+            descendingSort.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            descendingSort.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
     
     // news
-    @IBOutlet weak var popularitySort: UIButton!
-    @IBOutlet weak var dateSort: UIButton!
+    @IBOutlet weak var defaultNewsSortDesc: UILabel! {
+        didSet {
+            defaultNewsSortDesc.adjustsFontSizeToFitWidth = true
+            defaultNewsSortDesc.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var popularitySort: UIButton! {
+        didSet {
+            popularitySort.layer.cornerRadius = 5
+            popularitySort.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            popularitySort.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
+    @IBOutlet weak var dateSort: UIButton! {
+        didSet {
+            dateSort.layer.cornerRadius = 5
+            dateSort.theme_setTitleColor(GlobalPicker.sortButtonTextSelectedColor, forState: .selected)
+            dateSort.theme_setTitleColor(GlobalPicker.sortButtonTextNotSelectedColor, forState: .normal)
+        }
+    }
     
-    @IBOutlet weak var unlockAllPriceLabel: UILabel!
-    @IBOutlet weak var removeAdsPriceLabel: UILabel!
-    @IBOutlet weak var unlockMarketsPriceLabel: UILabel!
-    @IBOutlet weak var unlockMulitplePortfoliosLabel: UILabel!
+    // currency
+    @IBOutlet weak var changeCurrencyDescLabel: UILabel! {
+        didSet {
+            changeCurrencyDescLabel.adjustsFontSizeToFitWidth = true
+            changeCurrencyDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    
+    // tutorials
+    @IBOutlet weak var appFeaturesIntroDescLabel: UILabel! {
+        didSet {
+            appFeaturesIntroDescLabel.adjustsFontSizeToFitWidth = true
+            appFeaturesIntroDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    
+    // social
+    @IBOutlet weak var twitterDescLabel: UILabel! {
+        didSet {
+            twitterDescLabel.adjustsFontSizeToFitWidth = true
+            twitterDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    
+    @IBOutlet weak var redditDescLabel: UILabel! {
+        didSet {
+            redditDescLabel.adjustsFontSizeToFitWidth = true
+            redditDescLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     
     // footer
-    @IBOutlet weak var appVersionLabel: UILabel!
+    @IBOutlet weak var appVersionLabel: UILabel! {
+        didSet {
+            #if PRO_VERSION
+                #if DEBUG
+                    appVersionLabel?.text = " Cryptare DEBUG v\(Bundle.appVersion)"
+                #else
+                    appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
+                #endif
+            #endif
+            
+           appVersionLabel.adjustsFontSizeToFitWidth = true
+            appVersionLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
     
     var buttonHighlightedBackgroundColour: UIColor = UIColor.init(hex: "46637F")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+        
         Armchair.userDidSignificantEvent(true)
-        
-        self.unlockAllPriceLabel.text = 0.0.asCurrency
-        self.removeAdsPriceLabel.text = 0.0.asCurrency
-        self.unlockMulitplePortfoliosLabel.text = 0.0.asCurrency
-        
-        // dashboard
-        favouritesInitialTabSwitch.addTarget(self, action: #selector(favouritesInitialTabChange), for: .valueChanged)
-        
-        //chart
-        linearModeButton.layer.cornerRadius = 5
-        smoothModeButton.layer.cornerRadius = 5
-        steppedModeButton.layer.cornerRadius = 5
-        
-        linearModeButton.setTitleColor(UIColor.black, for: .normal)
-        smoothModeButton.setTitleColor(UIColor.black, for: .normal)
-        steppedModeButton.setTitleColor(UIColor.black, for: .normal)
-        
-        linearModeButton.setTitleColor(UIColor.white, for: .selected)
-        smoothModeButton.setTitleColor(UIColor.white, for: .selected)
-        steppedModeButton.setTitleColor(UIColor.white, for: .selected)
-        
-        xAxisSwitch.addTarget(self, action: #selector(xAxisChange), for: .valueChanged)
-        xAxisGridLinesSwitch.addTarget(self, action: #selector(xAxisGridLinesChange), for: .valueChanged)
-
-        yAxisSwitch.addTarget(self, action: #selector(yAxisChange), for: .valueChanged)
-        yAxisGridLinesSwitch.addTarget(self, action: #selector(yAxisGridLinesChange), for: .valueChanged)
-        
-        // markets
-        buySort.layer.cornerRadius = 5
-        sellSort.layer.cornerRadius = 5
-        
-        buySort.setTitleColor(UIColor.black, for: .normal)
-        sellSort.setTitleColor(UIColor.black, for: .normal)
-        
-        sellSort.setTitleColor(UIColor.white, for: .selected)
-        buySort.setTitleColor(UIColor.white, for: .selected)
-        
-        ascendingSort.layer.cornerRadius = 5
-        descendingSort.layer.cornerRadius = 5
-        
-        ascendingSort.setTitleColor(UIColor.black, for: .normal)
-        descendingSort.setTitleColor(UIColor.black, for: .normal)
-        
-        ascendingSort.setTitleColor(UIColor.white, for: .selected)
-        descendingSort.setTitleColor(UIColor.white, for: .selected)
-        
-        // news
-        popularitySort.layer.cornerRadius = 5
-        dateSort.layer.cornerRadius = 5
-        
-        popularitySort.setTitleColor(UIColor.black, for: .normal)
-        dateSort.setTitleColor(UIColor.black, for: .normal)
-        
-        popularitySort.setTitleColor(UIColor.white, for: .selected)
-        dateSort.setTitleColor(UIColor.white, for: .selected)
-        
-        // social
-//        twitterCell.se
         
         loadDashboardSettings()
         loadChartSettings()
         loadMarketSettings()
         loadNewsSettings()
-        
-        #if PRO_VERSION
-            #if DEBUG
-                appVersionLabel?.text = " Cryptare DEBUG v\(Bundle.appVersion)"
-            #else
-                appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
-            #endif
-        #endif
-        
-        #if LITE_VERSION
-            appVersionLabel?.text = " CryptareLite v\(Bundle.appVersion)"
-        #endif
         
         self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     }
@@ -261,10 +421,9 @@ class SettingsViewController: UITableViewController {
         smoothModeButton.isSelected = false
         steppedModeButton.isSelected = false
         
-        linearModeButton.backgroundColor = buttonHighlightedBackgroundColour
-        smoothModeButton.backgroundColor = UIColor.white
-        steppedModeButton.backgroundColor = UIColor.white
-        
+        linearModeButton.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+        smoothModeButton.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+        steppedModeButton.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
     }
     
     func smoothSelected() {
@@ -272,9 +431,9 @@ class SettingsViewController: UITableViewController {
         smoothModeButton.isSelected = true
         steppedModeButton.isSelected = false
         
-        linearModeButton.backgroundColor = UIColor.white
-        smoothModeButton.backgroundColor = buttonHighlightedBackgroundColour
-        steppedModeButton.backgroundColor = UIColor.white
+        linearModeButton.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+        smoothModeButton.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+        steppedModeButton.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
         
     }
     
@@ -283,9 +442,9 @@ class SettingsViewController: UITableViewController {
         smoothModeButton.isSelected = false
         steppedModeButton.isSelected = true
         
-        linearModeButton.backgroundColor = UIColor.white
-        smoothModeButton.backgroundColor = UIColor.white
-        steppedModeButton.backgroundColor = buttonHighlightedBackgroundColour
+        linearModeButton.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+        smoothModeButton.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+        steppedModeButton.theme_backgroundColor = GlobalPicker.buttonSelectedColor
         
     }
 
@@ -347,30 +506,30 @@ class SettingsViewController: UITableViewController {
             buySort.isSelected = true
             sellSort.isSelected = false
             
-            buySort.backgroundColor = buttonHighlightedBackgroundColour
-            sellSort.backgroundColor = UIColor.white
+            buySort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+            sellSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
         }
         else if Defaults[.marketSort] == "sell" {
             buySort.isSelected = false
             sellSort.isSelected = true
             
-            buySort.backgroundColor = UIColor.white
-            sellSort.backgroundColor = buttonHighlightedBackgroundColour
+            buySort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+            sellSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
         }
         
         if Defaults[.marketOrder] == "ascending" {
             ascendingSort.isSelected = true
             descendingSort.isSelected = false
             
-            ascendingSort.backgroundColor = buttonHighlightedBackgroundColour
-            descendingSort.backgroundColor = UIColor.white
+            ascendingSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+            descendingSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
         }
         else if Defaults[.marketOrder] == "descending" {
             ascendingSort.isSelected = false
             descendingSort.isSelected = true
             
-            ascendingSort.backgroundColor = UIColor.white
-            descendingSort.backgroundColor = buttonHighlightedBackgroundColour
+            ascendingSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+            descendingSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
         }
     }
     
@@ -379,17 +538,17 @@ class SettingsViewController: UITableViewController {
             buySort.isSelected = true
             sellSort.isSelected = false
             
-            buySort.backgroundColor = buttonHighlightedBackgroundColour
-            sellSort.backgroundColor = UIColor.white
-            
+            buySort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+            sellSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+
             Defaults[.marketSort] = "buy"
         }
         else if (sender as! UIButton).isEqual(sellSort) {
             buySort.isSelected = false
             sellSort.isSelected = true
             
-            buySort.backgroundColor = UIColor.white
-            sellSort.backgroundColor = buttonHighlightedBackgroundColour
+            buySort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+            sellSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
             
             Defaults[.marketSort] = "sell"
         }
@@ -400,8 +559,8 @@ class SettingsViewController: UITableViewController {
             ascendingSort.isSelected = true
             descendingSort.isSelected = false
             
-            ascendingSort.backgroundColor = buttonHighlightedBackgroundColour
-            descendingSort.backgroundColor = UIColor.white
+            ascendingSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+            descendingSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
             
             Defaults[.marketOrder] = "ascending"
         }
@@ -409,8 +568,8 @@ class SettingsViewController: UITableViewController {
             ascendingSort.isSelected = false
             descendingSort.isSelected = true
             
-            ascendingSort.backgroundColor = UIColor.white
-            descendingSort.backgroundColor = buttonHighlightedBackgroundColour
+            ascendingSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+            descendingSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
             
             Defaults[.marketOrder] = "descending"
         }
@@ -421,15 +580,15 @@ class SettingsViewController: UITableViewController {
             popularitySort.isSelected = true
             dateSort.isSelected = false
             
-            popularitySort.backgroundColor = buttonHighlightedBackgroundColour
-            dateSort.backgroundColor = UIColor.white
+            popularitySort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+            dateSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
         }
         else if Defaults[.newsSort] == "date" {
             popularitySort.isSelected = false
             dateSort.isSelected = true
             
-            popularitySort.backgroundColor = UIColor.white
-            dateSort.backgroundColor = buttonHighlightedBackgroundColour
+            popularitySort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+            dateSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
         }
     }
     @IBAction func newsSortButtonTapped(_ sender: Any) {
@@ -437,8 +596,8 @@ class SettingsViewController: UITableViewController {
             popularitySort.isSelected = true
             dateSort.isSelected = false
             
-            popularitySort.backgroundColor = buttonHighlightedBackgroundColour
-            dateSort.backgroundColor = UIColor.white
+            popularitySort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
+            dateSort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
             
             Defaults[.newsSort] = "popularity"
         }
@@ -446,11 +605,22 @@ class SettingsViewController: UITableViewController {
             popularitySort.isSelected = false
             dateSort.isSelected = true
             
-            popularitySort.backgroundColor = UIColor.white
-            dateSort.backgroundColor = buttonHighlightedBackgroundColour
+            popularitySort.theme_backgroundColor = GlobalPicker.buttonNotSelectedColor
+            dateSort.theme_backgroundColor = GlobalPicker.buttonSelectedColor
             
             Defaults[.newsSort] = "date"
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        
+        header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        cell.textLabel?.theme_textColor = GlobalPicker.viewTextColor
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
