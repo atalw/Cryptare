@@ -44,8 +44,10 @@ class ContainerDashboardViewController: UIViewController {
         pagingViewController.dataSource = self
         pagingViewController.delegate = self
         
-        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
-        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
+        pagingViewController.collectionView.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        
+//        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
+//        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
         pagingViewController.indicatorColor = UIColor.init(hex: "ff7043")
         pagingViewController.textColor = UIColor.lightGray
         pagingViewController.selectedTextColor = UIColor.white
@@ -54,7 +56,7 @@ class ContainerDashboardViewController: UIViewController {
                                                         height: 4,
                                                         zIndex: Int.max,
                                                         spacing: UIEdgeInsets.zero,
-                                                        insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+                                                        insets: UIEdgeInsets.zero)
         // Add the paging view controller as a child view controller and
         // contrain it to all edges.
         addChildViewController(pagingViewController)

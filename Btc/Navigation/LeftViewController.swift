@@ -41,7 +41,6 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
         
         self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
-
         
         nightModeSwitch.addTarget(self, action: #selector(nightModeSwitchTapped), for: .touchUpInside)
         

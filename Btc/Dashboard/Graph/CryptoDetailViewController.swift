@@ -34,37 +34,205 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     
     var coinData: [String: Any] = [:]
     
-    @IBOutlet weak var coinNameLabel: UILabel!
-    @IBOutlet weak var coinLogo: UIImageView!
-    @IBOutlet weak var coinSymbolLabel: UILabel!
-    @IBOutlet weak var currentPriceLabel: UILabel!
-    @IBOutlet weak var lastUpdatedLabel: UILabel!
-    @IBOutlet weak var percentageChangeLabel: UILabel!
-    @IBOutlet weak var priceChangeLabel: UILabel!
+    @IBOutlet weak var coinNameLabel: UILabel! {
+        didSet {
+            coinNameLabel.adjustsFontSizeToFitWidth = true
+            coinNameLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     
-    @IBOutlet weak var high24hrsLabel: UILabel!
-    @IBOutlet weak var low24hrsLabel: UILabel!
-    @IBOutlet weak var lastTradedMarketLabel: UILabel!
+    @IBOutlet weak var coinLogo: UIImageView! {
+        didSet {
+            
+        }
+    }
     
-    @IBOutlet weak var volume24hrsCoinLabel: UILabel!
-    @IBOutlet weak var volume24hrsFiatLabel: UILabel!
-    @IBOutlet weak var lastTradedVolumeLabel: UILabel!
+    @IBOutlet weak var coinSymbolLabel: UILabel! {
+        didSet {
+            coinSymbolLabel.adjustsFontSizeToFitWidth = true
+            coinSymbolLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     
-    @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl!
+    @IBOutlet weak var currentPriceLabel: UILabel! {
+        didSet {
+            currentPriceLabel.adjustsFontSizeToFitWidth = true
+            currentPriceLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
     
-    @IBOutlet weak var chart: CandleStickChartView!
+    @IBOutlet weak var lastUpdatedLabel: UILabel! {
+        didSet {
+            lastUpdatedLabel.adjustsFontSizeToFitWidth = true
+            lastUpdatedLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     
-    @IBOutlet weak var coinSupplyLabel: UILabel!
-    @IBOutlet weak var marketCapLabel: UILabel!
+    @IBOutlet weak var percentageChangeLabel: UILabel! {
+        didSet {
+            percentageChangeLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var priceChangeLabel: UILabel! {
+        didSet {
+            priceChangeLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    @IBOutlet weak var separatorView: UIView! {
+        didSet {
+            separatorView.theme_backgroundColor = GlobalPicker.tableSeparatorColor
+        }
+    }
+    
+    @IBOutlet weak var high24hrsLabel: UILabel! {
+        didSet {
+            high24hrsLabel.adjustsFontSizeToFitWidth = true
+            high24hrsLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    
+    @IBOutlet weak var low24hrsLabel: UILabel! {
+        didSet {
+            low24hrsLabel.adjustsFontSizeToFitWidth = true
+            low24hrsLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    
+    @IBOutlet weak var lastTradedMarketLabel: UILabel! {
+        didSet {
+            lastTradedMarketLabel.adjustsFontSizeToFitWidth = true
+            lastTradedMarketLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    
+    @IBOutlet weak var volume24hrsCoinLabel: UILabel! {
+        didSet {
+            volume24hrsCoinLabel.adjustsFontSizeToFitWidth = true
+            volume24hrsCoinLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    
+    @IBOutlet weak var volume24hrsFiatLabel: UILabel! {
+        didSet {
+            volume24hrsFiatLabel.adjustsFontSizeToFitWidth = true
+            volume24hrsFiatLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    
+    @IBOutlet weak var lastTradedVolumeLabel: UILabel! {
+        didSet {
+            lastTradedVolumeLabel.adjustsFontSizeToFitWidth = true
+            lastTradedVolumeLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    
+    @IBOutlet weak var rangeSegmentControlObject: UISegmentedControl! {
+        didSet {
+            rangeSegmentControlObject.selectedSegmentIndex = 0
+            rangeSegmentControlObject.theme_tintColor = GlobalPicker.segmentControlTintColor
+
+        }
+    }
+    
+    @IBOutlet weak var chart: CandleStickChartView! {
+        didSet {
+            let selectedIndex = Defaults[.currentThemeIndex]
+            if selectedIndex == 0 {
+//                chart.xAxis.gridColor
+
+            }
+            else if selectedIndex == 1 {
+                chart.xAxis.gridColor = UIColor.init(hex: "6c8298")
+                chart.xAxis.labelTextColor = UIColor.white
+                chart.leftAxis.gridColor = UIColor.init(hex: "6c8298")
+                chart.leftAxis.labelTextColor = UIColor.white
+            }
+        }
+    }
+    
+    @IBOutlet weak var coinSupplyLabel: UILabel! {
+        didSet {
+            coinSupplyLabel.adjustsFontSizeToFitWidth = true
+            coinSupplyLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    
+    @IBOutlet weak var marketCapLabel: UILabel! {
+        didSet {
+            marketCapLabel.adjustsFontSizeToFitWidth = true
+            marketCapLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
     
     @IBAction func rangeSegmentedControl(_ sender: Any) {
         if let index = (sender as? UISegmentedControl)?.selectedSegmentIndex {
             getChartData(timeSpan: index)
         }
     }
+    
+    @IBOutlet weak var highDescLabel: UILabel! {
+        didSet {
+            highDescLabel.adjustsFontSizeToFitWidth = true
+            highDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var lowDescLabel: UILabel! {
+        didSet {
+            lowDescLabel.adjustsFontSizeToFitWidth = true
+            lowDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var lastMarketDescLabel: UILabel! {
+        didSet {
+            lastMarketDescLabel.adjustsFontSizeToFitWidth = true
+            lastMarketDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var volumePriceDescLabel: UILabel! {
+        didSet {
+            volumePriceDescLabel.adjustsFontSizeToFitWidth = true
+            volumePriceDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var volumePercDescLabel: UILabel! {
+        didSet {
+            volumePercDescLabel.adjustsFontSizeToFitWidth = true
+            volumePercDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var lastVolumeDescLabel: UILabel! {
+        didSet {
+            lastVolumeDescLabel.adjustsFontSizeToFitWidth = true
+            lastVolumeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var supplyDescLabel: UILabel! {
+        didSet {
+            supplyDescLabel.adjustsFontSizeToFitWidth = true
+            supplyDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var marketCapDescLabel: UILabel! {
+        didSet {
+            marketCapDescLabel.adjustsFontSizeToFitWidth = true
+            marketCapDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
 
         self.chart.delegate = self
         
@@ -72,25 +240,6 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
         
         dateFormatter.dateFormat = "YYYY-MM-dd"
         decimalNumberFormatter.numberStyle = .decimal
-        
-        coinNameLabel.adjustsFontSizeToFitWidth = true
-        coinSymbolLabel.adjustsFontSizeToFitWidth = true
-        currentPriceLabel.adjustsFontSizeToFitWidth = true
-        lastUpdatedLabel.adjustsFontSizeToFitWidth = true
-        percentageChangeLabel.adjustsFontSizeToFitWidth = true
-        priceChangeLabel.adjustsFontSizeToFitWidth = true
-        high24hrsLabel.adjustsFontSizeToFitWidth = true
-        low24hrsLabel.adjustsFontSizeToFitWidth = true
-        lastTradedVolumeLabel.adjustsFontSizeToFitWidth = true
-        volume24hrsCoinLabel.adjustsFontSizeToFitWidth = true
-        volume24hrsFiatLabel.adjustsFontSizeToFitWidth = true
-        lastTradedVolumeLabel.adjustsFontSizeToFitWidth = true
-        coinSupplyLabel.adjustsFontSizeToFitWidth = true
-        marketCapLabel.adjustsFontSizeToFitWidth = true
-        
-        self.rangeSegmentControlObject.selectedSegmentIndex = 0
-        
-        currentPriceLabel.adjustsFontSizeToFitWidth = true
         
         ref = Database.database().reference().child(databaseTableTitle)
         
@@ -136,16 +285,8 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
         })
         
         coinSymbolLabel.text = databaseTableTitle
-//        if databaseTableTitle == "IOT" {
-//            coinLogo.image = UIImage(named: "miota")
-//        }
-//        else {
-//            coinLogo.image = UIImage(named: databaseTableTitle.lowercased())
-//        }
-        
-        if let urlString = "" as? String {
-            coinLogo.loadSavedImage(coin: databaseTableTitle)
-        }
+        coinLogo.loadSavedImage(coin: databaseTableTitle)
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -221,7 +362,9 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
             self.coinNameLabel.text = self.coinData["name"] as! String
             
             self.currentPriceLabel.text = (self.coinData["currentPrice"] as! Double).asCurrency
-            self.flashColourOnLabel(label: self.currentPriceLabel, colour: colour)
+            if colour != UIColor.black {
+                self.flashColourOnLabel(label: self.currentPriceLabel, colour: colour)
+            }
             
             self.dateFormatter.dateFormat = "h:mm a"
             let timestamp = self.coinData["timestamp"] as! Double
@@ -266,7 +409,7 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
             label.textColor = colour
         }, completion: { finished in
             UILabel.transition(with:  label, duration: 1.5, options: .transitionCrossDissolve, animations: {
-                label.textColor = UIColor.black
+                label.theme_textColor = GlobalPicker.viewTextColor
             }, completion: nil)
         })
     }

@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        
+        
         // armchair
         Armchair.appID("1266256984")
         Armchair.significantEventsUntilPrompt(5)
@@ -36,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.white
+        
+        UINavigationBar.appearance().theme_barTintColor = GlobalPicker.navigationBarTintColor
         
         // apple receipt validation
         let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")

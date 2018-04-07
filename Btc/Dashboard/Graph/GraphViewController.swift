@@ -43,6 +43,8 @@ class GraphViewController: UIViewController {
         return [cryptoDetailVC, newsVC, marketsVC]
     }()
     
+    let pagingViewController = PagingViewController<PagingIndexItem>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,16 +58,20 @@ class GraphViewController: UIViewController {
             }
         }
         
-        self.navigationController?.navigationBar.isTranslucent = false
-        
-        let pagingViewController = PagingViewController<PagingIndexItem>()
         pagingViewController.dataSource = self
+        pagingViewController.delegate = self
         
         pagingViewController.menuItemSize = .sizeToFit(minWidth: 100, height: 40)
         pagingViewController.menuHorizontalAlignment = .center
         
-        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
-        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
+        print(Defaults[.currentThemeIndex], "currentThemeIndex")
+        
+        pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        pagingViewController.collectionView.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+//        pagingViewController.collectionView.backgroundView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        
+//        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
+//        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
         pagingViewController.indicatorColor = UIColor.init(hex: "ff7043")
         pagingViewController.textColor = UIColor.lightGray
         pagingViewController.selectedTextColor = UIColor.white
@@ -74,7 +80,7 @@ class GraphViewController: UIViewController {
             height: 4,
             zIndex: Int.max,
             spacing: UIEdgeInsets.zero,
-            insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+            insets: UIEdgeInsets.zero)
         
         // Add the paging view controller as a child view controller and
         // contrain it to all edges.
@@ -173,6 +179,17 @@ extension GraphViewController: PagingViewControllerDataSource {
     
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
         return titles.count
+    }
+    
+}
+
+extension GraphViewController: PagingViewControllerDelegate {
+    
+    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, didScrollToItem pagingItem: T, startingViewController: UIViewController?, destinationViewController: UIViewController, transitionSuccessful: Bool) where T : PagingItem, T : Comparable, T : Hashable {
+        
+//        if let index = viewControllerList.index(of: destinationViewController) {
+//            self.currentSelectedIndex = index
+//        }
     }
     
 }
