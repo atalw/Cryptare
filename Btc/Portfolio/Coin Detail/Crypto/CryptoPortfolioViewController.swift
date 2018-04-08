@@ -30,31 +30,85 @@ class CryptoPortfolioViewController: UIViewController {
     var portfolioName: String!
     
     // MARK: - IBOutlets
-    @IBOutlet weak var currentPortfolioValueLabel: UILabel!
-    @IBOutlet weak var totalInvestedLabel: UILabel!
-    @IBOutlet weak var totalAmountOfBitcoinLabel: UILabel!
-    @IBOutlet weak var totalPriceChangeLabel: UILabel!
-    @IBOutlet weak var totalPercentageLabel: UILabel!
-    @IBOutlet weak var totalPercentageView: UIView!
+    @IBOutlet weak var summaryView: UIView! {
+        didSet {
+            summaryView.theme_backgroundColor = GlobalPicker.summaryViewBackgroundColor
+        }
+    }
+    @IBOutlet weak var currentPortfolioValueLabel: UILabel! {
+        didSet {
+            currentPortfolioValueLabel.adjustsFontSizeToFitWidth = true
+            currentPortfolioValueLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalInvestedLabel: UILabel! {
+        didSet {
+            totalInvestedLabel.adjustsFontSizeToFitWidth = true
+            totalInvestedLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalAmountOfBitcoinLabel: UILabel! {
+        didSet {
+            totalAmountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
+            totalAmountOfBitcoinLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalPriceChangeLabel: UILabel! {
+        didSet {
+            totalPriceChangeLabel.adjustsFontSizeToFitWidth = true
+            totalPriceChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalPercentageLabel: UILabel! {
+        didSet {
+            totalPercentageLabel.adjustsFontSizeToFitWidth = true
+            totalPercentageLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var totalPercentageView: UIView! {
+        didSet {
+            
+        }
+    }
     
     @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var currentPortfolioDescLabel: UILabel! {
+        didSet {
+            currentPortfolioDescLabel.adjustsFontSizeToFitWidth = true
+            currentPortfolioDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var totalHoldingsDescLabel: UILabel! {
+        didSet {
+            totalHoldingsDescLabel.adjustsFontSizeToFitWidth = true
+            totalHoldingsDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var totalInvestedDescLabel: UILabel! {
+        didSet {
+            totalInvestedDescLabel.adjustsFontSizeToFitWidth = true
+            totalInvestedDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var totalChangeDescLabel: UILabel! {
+        didSet {
+            totalChangeDescLabel.adjustsFontSizeToFitWidth = true
+            totalChangeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
     // MARK: - VC Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         dateFormatter.timeZone = TimeZone.current
         timeFormatter.dateFormat = "hh:mm a"
         
         self.automaticallyAdjustsScrollViewInsets = false
-        
-        currentPortfolioValueLabel.adjustsFontSizeToFitWidth = true
-        totalInvestedLabel.adjustsFontSizeToFitWidth = true
-        totalPercentageLabel.adjustsFontSizeToFitWidth = true
-        totalPriceChangeLabel.adjustsFontSizeToFitWidth = true
-        totalAmountOfBitcoinLabel.adjustsFontSizeToFitWidth = true
         
         setTotalPortfolioValues()
         

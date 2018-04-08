@@ -1881,7 +1881,7 @@
                                                 </connections>
                                             </containerView>
                                         </subviews>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="SWK-Nx-IQH" secondAttribute="bottom" constant="40" id="3ID-Yc-EnB"/>
                                             <constraint firstAttribute="trailing" secondItem="SWK-Nx-IQH" secondAttribute="trailing" id="3cT-3t-apG"/>
@@ -1974,8 +1974,13 @@
                     <navigationItem key="navigationItem" title="Transactions" id="haq-Ul-FlC"/>
                     <connections>
                         <outlet property="containerViewHeightConstraint" destination="v0J-5e-6jJ" id="d3z-d4-cEy"/>
+                        <outlet property="currentPortfolioDescLabel" destination="8dG-tI-mSg" id="1c6-mL-9up"/>
                         <outlet property="currentPortfolioValueLabel" destination="rfi-3k-lCh" id="6De-pW-j8h"/>
+                        <outlet property="summaryView" destination="3Zs-nW-YfG" id="VvB-Bm-HH5"/>
                         <outlet property="totalAmountOfBitcoinLabel" destination="67o-xF-8F0" id="NWd-fe-gF4"/>
+                        <outlet property="totalChangeDescLabel" destination="vq4-o6-60a" id="2zL-mQ-pbD"/>
+                        <outlet property="totalHoldingsDescLabel" destination="3Q8-G1-jPe" id="9yj-KU-tNM"/>
+                        <outlet property="totalInvestedDescLabel" destination="9oO-Vn-N4e" id="ZgW-HD-pBz"/>
                         <outlet property="totalInvestedLabel" destination="U6m-CW-5QP" id="J6D-iH-Pwl"/>
                         <outlet property="totalPercentageLabel" destination="Bwm-bD-o0C" id="TTU-mf-Oy4"/>
                         <outlet property="totalPercentageView" destination="6cc-tq-Xgu" id="z0m-53-5p6"/>
@@ -2023,7 +2028,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="Wbg-lI-HQg" secondAttribute="trailing" constant="15" id="2fH-6G-qJc"/>
                                                                 <constraint firstItem="Wbg-lI-HQg" firstAttribute="top" secondItem="Ymy-a0-XE2" secondAttribute="top" id="MuM-0B-61x"/>
@@ -2220,7 +2225,7 @@
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
-                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="gex-uC-pzN" firstAttribute="leading" secondItem="qMe-TH-QTD" secondAttribute="leading" id="5RH-YE-JBP"/>
                                                 <constraint firstAttribute="bottom" secondItem="gex-uC-pzN" secondAttribute="bottom" constant="5" id="8Tf-GF-c6o"/>
@@ -2239,11 +2244,17 @@
                                 <connections>
                                     <outlet property="amountOfCoinsLabel" destination="kwE-k1-DY5" id="aN1-C4-32d"/>
                                     <outlet property="coinLogoImage" destination="St1-Qe-HPb" id="Qd8-cV-Bna"/>
+                                    <outlet property="costPerCoinDescLabel" destination="pnm-DD-6PU" id="hc4-kU-y02"/>
                                     <outlet property="costPerCoinLabel" destination="GLf-bR-c3H" id="8UB-DU-dYI"/>
                                     <outlet property="currentValueLabel" destination="SwP-hC-aG9" id="7JY-7B-cF8"/>
+                                    <outlet property="dataView" destination="XFU-QE-O87" id="D6e-P3-GWU"/>
+                                    <outlet property="feesDescLabel" destination="Pgg-RK-f26" id="G7u-b1-EzP"/>
                                     <outlet property="feesLabel" destination="UO2-PH-e6k" id="z3G-ny-gOG"/>
+                                    <outlet property="marketValueDescLabel" destination="hWB-Hx-wLS" id="gsa-bU-DRb"/>
                                     <outlet property="percentageChange" destination="9E7-n7-Kqb" id="x6M-M1-a3r"/>
+                                    <outlet property="percentageChangeDescLabel" destination="I3P-Hs-RYo" id="ZMx-EW-8o4"/>
                                     <outlet property="percentageChangeView" destination="L8C-84-CPz" id="dhL-6T-k9h"/>
+                                    <outlet property="totalCostDescLabel" destination="Dma-ZN-sd9" id="oUg-Oi-jt3"/>
                                     <outlet property="totalCostLabel" destination="KIQ-3j-wOB" id="vw4-Jz-IYk"/>
                                     <outlet property="tradingPairLabel" destination="z5C-Ec-1cr" id="sbd-dl-4aW"/>
                                     <outlet property="transactionInfoLabel" destination="Wbg-lI-HQg" id="Ga3-ck-qqq"/>
@@ -2272,7 +2283,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="Lc8-W7-xVr" secondAttribute="trailing" constant="15" id="06g-ZD-DpG"/>
                                                                 <constraint firstAttribute="height" constant="30" id="LcE-TW-fub"/>
@@ -2406,7 +2417,7 @@
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
-                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="Qud-f3-Zcr" secondAttribute="trailing" id="Bje-Za-B2d"/>
                                                 <constraint firstItem="Qud-f3-Zcr" firstAttribute="leading" secondItem="cXw-dx-sci" secondAttribute="leading" id="fsJ-ua-t7b"/>
@@ -2425,8 +2436,12 @@
                                 <connections>
                                     <outlet property="amountOfCoinsLabel" destination="71L-jM-9Kn" id="RZo-CV-33w"/>
                                     <outlet property="coinLogoImage" destination="UFh-vQ-yE7" id="nfT-Wl-2p2"/>
+                                    <outlet property="costPerCoinDescLabel" destination="HCP-cp-Qfd" id="qVZ-qs-fdv"/>
                                     <outlet property="costPerCoinLabel" destination="cP0-y8-sCP" id="a2w-Jd-ql5"/>
+                                    <outlet property="dataView" destination="s59-Ks-0a8" id="GXf-Np-Ecc"/>
+                                    <outlet property="feesDescLabel" destination="9MW-HL-ttM" id="Mg9-UD-6W4"/>
                                     <outlet property="feesLabel" destination="cBf-bA-dmH" id="WkS-1h-VHE"/>
+                                    <outlet property="totalCostDescLabel" destination="KtV-Bb-uJY" id="Ziy-LC-dyJ"/>
                                     <outlet property="totalCostLabel" destination="Tmf-UP-axs" id="Gp5-ia-i2N"/>
                                     <outlet property="tradingPairLabel" destination="DOJ-nY-MdK" id="ijL-WS-CZB"/>
                                     <outlet property="transactionInfoLabel" destination="Lc8-W7-xVr" id="UjY-mw-0cJ"/>
