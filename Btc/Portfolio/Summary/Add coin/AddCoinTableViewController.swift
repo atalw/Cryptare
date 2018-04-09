@@ -166,6 +166,7 @@ class AddCoinTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addCoinCell", for: indexPath) as! AddCoinTableViewCell
+        cell.selectionStyle = .none
         var data: (String, String) = ("", "")
         let section = indexPath.section
         if isFiltering() {
@@ -229,6 +230,23 @@ class AddCoinTableViewController: UITableViewController {
         else if section == 1 {
             self.parentController.newCoinAdded(coin: coin)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        
+        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        
+        header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
     }
  
 

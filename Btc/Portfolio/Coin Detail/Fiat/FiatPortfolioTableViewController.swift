@@ -117,13 +117,13 @@ class FiatPortfolioTableViewController: UITableViewController {
     func tableEmptyMessage() {
         let messageLabel = UILabel()
         messageLabel.text = "Add a transaction"
-        messageLabel.textColor = UIColor.black
+        messageLabel.theme_textColor = GlobalPicker.viewTextColor
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
         messageLabel.sizeToFit()
         
         tableView.backgroundView = messageLabel
-        tableView.backgroundView?.backgroundColor = UIColor.groupTableViewBackground
+        tableView.backgroundView?.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     }
     
 }

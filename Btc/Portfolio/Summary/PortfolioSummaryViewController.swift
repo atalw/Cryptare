@@ -738,6 +738,12 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        
+        header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+    
     func newCoinAdded(coin: String) {
         let targetViewController = storyboard?.instantiateViewController(withIdentifier: "coinDetailPortfolioController") as! CryptoPortfolioViewController
         

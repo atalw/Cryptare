@@ -269,6 +269,18 @@ class AddFiatTransactionTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        cell.selectionStyle = .none
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        
+        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {

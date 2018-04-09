@@ -1594,7 +1594,7 @@
                         <sections>
                             <tableViewSection headerTitle="Add Portfolio" id="4Bc-Bs-3ab">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="40" id="QCs-bb-mFG">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="40" id="QCs-bb-mFG">
                                         <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QCs-bb-mFG" id="qI3-hu-WTr">
@@ -1625,6 +1625,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="portfolioNameCell" destination="QCs-bb-mFG" id="OFa-Tt-8Sj"/>
                         <outlet property="portfolioNameTextField" destination="k9q-5F-56v" id="JWh-RY-oAs"/>
                     </connections>
                 </tableViewController>
@@ -1862,7 +1863,7 @@
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="VgQ-vV-EjL" secondAttribute="bottom" constant="16" id="37A-Io-kIg"/>
                                                     <constraint firstAttribute="height" constant="150" id="Dhd-Ca-7Wg"/>

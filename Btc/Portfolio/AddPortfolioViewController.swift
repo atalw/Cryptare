@@ -26,6 +26,9 @@ class AddPortfolioViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        
+        
         doneButton.isEnabled = false
         
         let multiplePortfoliosPurchased = Defaults[.multiplePortfoliosPurchased]
@@ -143,17 +146,31 @@ class AddPortfolioTableViewController: UITableViewController {
     var parentController: AddPortfolioViewController!
     var portfolioNames: [String]!
 
+    @IBOutlet weak var portfolioNameCell: UITableViewCell!
     @IBOutlet weak var portfolioNameTextField: UITextField! {
         didSet {
+            portfolioNameTextField.theme_textColor = GlobalPicker.viewTextColor
             portfolioNameTextField.addDoneCancelToolbar()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+        self.portfolioNameCell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        
         portfolioNames = Defaults[.portfolioNames]
         portfolioNameTextField.delegate = self
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        
+        header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+    
 }
 
 extension AddPortfolioTableViewController: UITextFieldDelegate {
@@ -205,6 +222,9 @@ class AvailablePortfolioTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
         
         portfolioNames = Defaults[.portfolioNames]
         
@@ -284,6 +304,9 @@ class AvailablePortfolioTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? AvailablePortfolioTableViewCell
         cell!.portfolioNameTextField?.text = portfolioNames[indexPath.row]
         cell!.portfolioNameTextField.delegate = self
+        
+        cell!.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        cell!.portfolioNameTextField.theme_textColor = GlobalPicker.viewTextColor
         return cell!
     }
     
@@ -316,12 +339,19 @@ class AvailablePortfolioTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          self.index = indexPath.row
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        
+        header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+    }
 }
 
 class AvailablePortfolioTableViewCell: UITableViewCell {
     
     @IBOutlet weak var portfolioNameTextField: UITextField! {
         didSet {
+            portfolioNameTextField.theme_textColor = GlobalPicker.viewTextColor
             portfolioNameTextField.addDoneCancelToolbar()
         }
     }
@@ -329,6 +359,7 @@ class AvailablePortfolioTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

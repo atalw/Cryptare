@@ -18,6 +18,10 @@ class AvailableExchangesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -47,6 +51,12 @@ class AvailableExchangesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        cell.selectionStyle = .none
+        
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        cell.textLabel?.theme_textColor = GlobalPicker.viewTextColor
+        
         cell.textLabel?.text = sortedMarkets[indexPath.row].0
         return cell
     }
@@ -60,6 +70,17 @@ class AvailableExchangesTableViewController: UITableViewController {
             fiatParentController?.updateCurrentExchange(exchange: market)
         }
         navigationController?.popViewController(animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        
+        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     }
 
     /*

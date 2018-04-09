@@ -16,6 +16,10 @@ class TradingPairTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -48,6 +52,11 @@ class TradingPairTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        cell.selectionStyle = .none
+        
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        cell.textLabel?.theme_textColor = GlobalPicker.viewTextColor
 
         cell.textLabel?.text = "\(tradingPairs[indexPath.row].0)-\(tradingPairs[indexPath.row].1)"
         
@@ -58,6 +67,17 @@ class TradingPairTableViewController: UITableViewController {
         let selectedPair = tradingPairs[indexPath.row]
         parentController.updateCurrentTradingPair(pair: selectedPair)
         navigationController?.popViewController(animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        
+        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     }
     /*
     // Override to support conditional editing of the table view.
