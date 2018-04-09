@@ -56,6 +56,23 @@ class AddCoinTableViewController: UITableViewController {
         
         definesPresentationContext = true
         searchController.searchBar.searchBarStyle = .minimal
+        
+        let scb = searchController.searchBar
+        scb.theme_tintColor = GlobalPicker.searchTintColor
+        scb.theme_barTintColor = GlobalPicker.searchBarTintColor
+        
+        if let textfield = scb.value(forKey: "searchField") as? UITextField {
+            textfield.theme_textColor = GlobalPicker.searchBarTextColor
+            if let backgroundview = textfield.subviews.first {
+                
+                // Background color
+                backgroundview.theme_backgroundColor = GlobalPicker.searchBarBackgroundColor
+                
+                // Rounded corner
+                backgroundview.layer.cornerRadius = 10;
+                backgroundview.clipsToBounds = true;
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
