@@ -27,6 +27,9 @@ class FiatPortfolioTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor  
+        
         self.clearsSelectionOnViewWillAppear = true
 
         dateFormatter.dateFormat = "dd MMM, YYYY"

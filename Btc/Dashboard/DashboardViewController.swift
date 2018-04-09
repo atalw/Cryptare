@@ -276,6 +276,8 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
         
+        cell!.selectionStyle = .none
+        
         if let rank = self.coinData[coin]?["rank"] as? Int {
             cell!.coinRank.text = "\(rank)"
             cell!.coinRank.adjustsFontSizeToFitWidth = true
@@ -368,6 +370,18 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             targetViewController.databaseTableTitle = self.coins[indexPath.row]
         }
         self.navigationController?.pushViewController(targetViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        
+        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+        
     }
     
 }

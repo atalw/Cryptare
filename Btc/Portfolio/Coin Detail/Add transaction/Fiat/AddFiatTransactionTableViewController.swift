@@ -25,17 +25,58 @@ class AddFiatTransactionTableViewController: UITableViewController {
     
     var currentExchange: (String, String)!
 
-    @IBOutlet weak var currentExchangeLabel: UILabel!
-    @IBOutlet weak var timeTextField: UITextField!
-    @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var currentExchangeLabel: UILabel! {
+        didSet {
+            currentExchangeLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var timeTextField: UITextField! {
+        didSet {
+            timeTextField.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var dateTextField: UITextField! {
+        didSet {
+            dateTextField.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     @IBOutlet weak var amountTextField: UITextField! {
         didSet {
+            amountTextField.theme_textColor = GlobalPicker.viewTextColor
+
             amountTextField.addDoneCancelToolbar()
         }
     }
     @IBOutlet weak var feesTextField: UITextField! {
         didSet {
+            feesTextField.theme_textColor = GlobalPicker.viewTextColor
             feesTextField.addDoneCancelToolbar()
+        }
+    }
+    
+    @IBOutlet weak var exchangeDescLabel: UILabel! {
+        didSet {
+            exchangeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var timeDescLabel: UILabel! {
+        didSet {
+            timeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var dateDescLabel: UILabel! {
+        didSet {
+            dateDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var amountDescLabel: UILabel! {
+        didSet {
+            amountDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var feesDescLabel: UILabel! {
+        didSet {
+            feesDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
         }
     }
     
@@ -44,6 +85,10 @@ class AddFiatTransactionTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+        self.tableView.theme_tintColor = GlobalPicker.tableSeparatorColor
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -220,6 +265,16 @@ class AddFiatTransactionTableViewController: UITableViewController {
         timeTextField.text = timeFormatter.string(from: time)
         
         parentController.date = calendar.date(from: components)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        
+        header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
     }
 
     // MARK: - Navigation

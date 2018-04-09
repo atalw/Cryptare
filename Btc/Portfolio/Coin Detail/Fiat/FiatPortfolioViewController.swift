@@ -22,24 +22,64 @@ class FiatPortfolioViewController: UIViewController {
     var totalDeposited: Double! = 0
     var totalWithdrawn: Double! = 0
 
-    @IBOutlet weak var currencyNameLabel: UILabel!
-    @IBOutlet weak var currentAvailableLabel: UILabel!
-    @IBOutlet weak var totalDepositedLabel: UILabel!
-    @IBOutlet weak var totalWithdrawnLabel: UILabel!
+    @IBOutlet weak var summaryView: UIView! {
+        didSet {
+            summaryView.theme_backgroundColor = GlobalPicker.summaryViewBackgroundColor
+        }
+    }
+    @IBOutlet weak var currencyNameLabel: UILabel! {
+        didSet {
+            currencyNameLabel.adjustsFontSizeToFitWidth = true
+            currencyNameLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    @IBOutlet weak var currentAvailableLabel: UILabel! {
+        didSet {
+            currentAvailableLabel.adjustsFontSizeToFitWidth = true
+            currentAvailableLabel.text = currentAvailable.asCurrency
+            currentAvailableLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    @IBOutlet weak var totalDepositedLabel: UILabel! {
+        didSet {
+            totalDepositedLabel.adjustsFontSizeToFitWidth = true
+            totalDepositedLabel.text = totalDeposited.asCurrency
+            totalDepositedLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
+    @IBOutlet weak var totalWithdrawnLabel: UILabel! {
+        didSet {
+            totalWithdrawnLabel.adjustsFontSizeToFitWidth = true
+            totalWithdrawnLabel.text = totalWithdrawn.asCurrency
+            totalWithdrawnLabel.theme_textColor = GlobalPicker.viewTextColor
+
+        }
+    }
     
+    @IBOutlet weak var totalAvailableDescLabel: UILabel! {
+        didSet {
+            totalAvailableDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var totalDepositedDescLabel: UILabel! {
+        didSet {
+            totalDepositedDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var totalWithdrawnDescLabel: UILabel! {
+        didSet {
+            totalWithdrawnDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currencyNameLabel.adjustsFontSizeToFitWidth = true
-        currentAvailableLabel.adjustsFontSizeToFitWidth = true
-        totalDepositedLabel.adjustsFontSizeToFitWidth = true
-        totalWithdrawnLabel.adjustsFontSizeToFitWidth = true
-        
-        currentAvailableLabel.text = currentAvailable.asCurrency
-        totalDepositedLabel.text = totalDeposited.asCurrency
-        totalWithdrawnLabel.text = totalWithdrawn.asCurrency
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
 
         // Do any additional setup after loading the view.
         for (country, symbol, locale, name) in GlobalValues.countryList {

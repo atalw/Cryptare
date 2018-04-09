@@ -2505,7 +2505,7 @@
                                                 </connections>
                                             </containerView>
                                         </subviews>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="FDW-RO-9wm" secondAttribute="trailing" id="4Xh-n9-ig0"/>
                                             <constraint firstItem="Cim-S1-dpX" firstAttribute="top" secondItem="bxO-iz-hVo" secondAttribute="top" constant="5" id="6Qw-qk-qgz"/>
@@ -2589,7 +2589,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="T1f-iP-enZ" secondAttribute="trailing" id="NDu-lb-Mfj"/>
                                             <constraint firstAttribute="trailing" secondItem="dpu-sM-zZU" secondAttribute="trailing" id="RJA-HJ-vJA"/>
@@ -2927,16 +2927,23 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="amountOfCoinsDescLabel" destination="fnd-9u-DSR" id="adU-Ku-GPH"/>
                         <outlet property="amountOfCoinsTextField" destination="aSt-Ja-aGj" id="whv-vK-WGJ"/>
+                        <outlet property="costPerCoinDescLabel" destination="YWo-zW-rHw" id="AAI-Xe-k4R"/>
                         <outlet property="costPerCoinTextField" destination="I5o-N2-8lc" id="iJo-na-7QQ"/>
                         <outlet property="currentExchangeLabel" destination="uqE-Dh-DJA" id="3Rz-lk-JPz"/>
                         <outlet property="currentTradingPairLabel" destination="Cfi-Ie-fPS" id="Ne5-Hc-wgs"/>
+                        <outlet property="dateDescLabel" destination="FMA-BB-Gid" id="sny-hR-gw4"/>
                         <outlet property="dateTextField" destination="Y6o-uq-N6y" id="ydm-oK-Jct"/>
                         <outlet property="deductFromHoldingsLabel" destination="sAK-oF-flf" id="CbU-UM-cKP"/>
                         <outlet property="deductFromHoldingsSwitch" destination="g00-Gb-ODs" id="fTa-dA-Uwm"/>
+                        <outlet property="exchangeDescLabel" destination="mXj-eh-tvI" id="mcm-kQ-xeV"/>
+                        <outlet property="feesDescLabel" destination="NPR-Sk-Xch" id="AnH-DH-T11"/>
                         <outlet property="feesTextField" destination="FAB-Xf-R8y" id="WYP-66-eto"/>
+                        <outlet property="timeDescLabel" destination="m6Q-iA-aK8" id="hPf-pu-BDE"/>
                         <outlet property="timeTextField" destination="87f-py-R64" id="Sg1-Jo-sFP"/>
                         <outlet property="tradingPairCell" destination="GM6-pj-FAu" id="bYh-Wk-5bC"/>
+                        <outlet property="tradingPairDescLabel" destination="2wP-9c-3vh" id="7ks-xr-4aC"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2a1-Ia-gh3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3137,10 +3144,15 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="amountDescLabel" destination="8eC-To-fbE" id="JTp-S4-hAK"/>
                         <outlet property="amountTextField" destination="Zjm-Wr-sTb" id="ewG-Cl-1to"/>
                         <outlet property="currentExchangeLabel" destination="jJ3-d6-bWM" id="2oR-zK-GWY"/>
+                        <outlet property="dateDescLabel" destination="eXm-tv-FrQ" id="rk9-iH-WrY"/>
                         <outlet property="dateTextField" destination="2Oo-qX-yqH" id="dIH-SJ-FwZ"/>
+                        <outlet property="exchangeDescLabel" destination="Ccc-53-exz" id="gD7-dG-tsB"/>
+                        <outlet property="feesDescLabel" destination="X5B-qi-Cva" id="KM8-EE-E2J"/>
                         <outlet property="feesTextField" destination="5hD-ha-Evy" id="CDH-0q-IlW"/>
+                        <outlet property="timeDescLabel" destination="l1b-mA-DmT" id="YJ1-B5-CJH"/>
                         <outlet property="timeTextField" destination="42u-3w-MPP" id="PgA-th-nF1"/>
                     </connections>
                 </tableViewController>
@@ -5849,7 +5861,7 @@
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="18o-TO-GeJ"/>
                                                     <constraint firstItem="3GE-WE-cuj" firstAttribute="top" secondItem="wva-yk-Nld" secondAttribute="top" constant="16" id="7jV-vG-HJh"/>
@@ -5868,7 +5880,7 @@
                                                 </connections>
                                             </containerView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="sfl-U2-r7v" secondAttribute="trailing" id="1Ug-BU-KON"/>
                                             <constraint firstItem="wva-yk-Nld" firstAttribute="top" secondItem="nSX-xb-Hoo" secondAttribute="top" id="J7S-Ed-G3a"/>
@@ -5963,7 +5975,11 @@
                         <outlet property="containerViewHeight" destination="dKb-e9-Je4" id="LmI-CM-heK"/>
                         <outlet property="currencyNameLabel" destination="Xih-Sa-m4f" id="BMD-38-Cgb"/>
                         <outlet property="currentAvailableLabel" destination="ZHb-ED-9Nv" id="6n1-Lg-1Oe"/>
+                        <outlet property="summaryView" destination="wva-yk-Nld" id="Acq-IZ-gV2"/>
+                        <outlet property="totalAvailableDescLabel" destination="k6h-XK-w8u" id="3n4-N5-Vh9"/>
+                        <outlet property="totalDepositedDescLabel" destination="xVv-23-50X" id="tds-jf-6L1"/>
                         <outlet property="totalDepositedLabel" destination="yMC-L9-Rfb" id="kZQ-59-IyE"/>
+                        <outlet property="totalWithdrawnDescLabel" destination="ppK-ws-5Pa" id="oR0-ae-MQe"/>
                         <outlet property="totalWithdrawnLabel" destination="RBx-Wm-ylH" id="t1S-Sm-b90"/>
                     </connections>
                 </viewController>
@@ -6008,7 +6024,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="9vb-0x-nIW" secondAttribute="bottom" id="ARR-S5-ROF"/>
                                                                 <constraint firstItem="9vb-0x-nIW" firstAttribute="top" secondItem="ooF-qd-Zv2" secondAttribute="top" id="Ehv-SI-MhU"/>
@@ -6130,7 +6146,7 @@
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
-                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="vtr-JB-Ugx" secondAttribute="trailing" id="J05-5A-iXT"/>
                                                 <constraint firstItem="vtr-JB-Ugx" firstAttribute="top" secondItem="Asf-PF-CYS" secondAttribute="top" constant="5" id="KAs-lV-e2g"/>
@@ -6147,9 +6163,14 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="amountDescLabel" destination="2yE-aZ-q1k" id="P65-Ba-2W5"/>
                                     <outlet property="amountLabel" destination="xHW-QX-hsK" id="VAA-UA-kLR"/>
-                                    <outlet property="dateLabel" destination="aQc-bi-B5a" id="47z-ph-ERN"/>
+                                    <outlet property="dataView" destination="HpR-o4-iAG" id="w4K-Jp-3Go"/>
+                                    <outlet property="dateDescLabel" destination="5bH-aL-Wpd" id="2QT-Mg-D4U"/>
+                                    <outlet property="dateLabel" destination="aQc-bi-B5a" id="DD3-FU-OlP"/>
+                                    <outlet property="feesDescLabel" destination="k4A-bt-1gy" id="F4T-6u-NMk"/>
                                     <outlet property="feesLabel" destination="0nR-YZ-sye" id="4IG-Lc-b6Q"/>
+                                    <outlet property="timeDescLabel" destination="yJu-dj-Q9N" id="lZf-zB-One"/>
                                     <outlet property="timeLabel" destination="kNG-8f-AYi" id="drr-lo-iik"/>
                                     <outlet property="transactionTypeLabel" destination="9vb-0x-nIW" id="UxV-lW-Bdq"/>
                                 </connections>
@@ -6441,7 +6462,7 @@
         <image name="portfolioSample" width="846" height="1667"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UTo-K4-ZGb"/>
+        <segue reference="2KQ-0f-7V7"/>
         <segue reference="dyn-Tm-p5O"/>
         <segue reference="aTF-nS-vEp"/>
         <segue reference="aMw-vO-4ZL"/>

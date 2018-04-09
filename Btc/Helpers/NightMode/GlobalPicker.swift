@@ -24,6 +24,8 @@ enum GlobalPicker {
     static let viewAltTextColor: ThemeColorPicker = ["#555555", "#E8E8E8"]
     static let tableGroupBackgroundColor: ThemeColorPicker = ["#EBEBF1", "#35495d"]
     static let tableSeparatorColor: ThemeColorPicker = ["#E0E0E0", "#14171A"]
+    static let viewSelectedBackgroundColor: ThemeColorPicker = ["#555555", "#2b3d4d"]
+
     
     // for percentage and price change
     static let greenTextColour: ThemeColorPicker = ["#35CC4B", "#35CC4B"]

@@ -32,11 +32,21 @@ class AddTransactionViewController: UIViewController {
     var deductFromHoldings: Bool!
 
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var totalTransactionCostLabel: UILabel!
-    @IBOutlet weak var addTransactionButton: UIButton!
+    @IBOutlet weak var totalTransactionCostLabel: UILabel! {
+        didSet {
+            totalTransactionCostLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var addTransactionButton: UIButton! {
+        didSet {
+            
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         
         portfolioName = parentController.portfolioName
 

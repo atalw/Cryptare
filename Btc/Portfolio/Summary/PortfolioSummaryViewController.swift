@@ -1,4 +1,4 @@
-//
+    //
 //  PortfolioSummaryViewController.swift
 //  Btc
 //
@@ -14,6 +14,10 @@ import SwiftyUserDefaults
 import SwiftyJSON
 
 class PortfolioSummaryViewController: UIViewController {
+    
+    lazy var currentThemeIndex: Int = {
+        return Defaults[.currentThemeIndex]
+    }()
     
     var globalCoins: [String] = []
     
@@ -132,6 +136,7 @@ class PortfolioSummaryViewController: UIViewController {
         self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+
         
         for (symbol, name) in GlobalValues.coins {
             globalCoins.append(symbol)
@@ -161,6 +166,8 @@ class PortfolioSummaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        currentThemeIndex = Defaults[.currentThemeIndex]
         
         databaseRef.removeAllObservers()
         
@@ -595,6 +602,8 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         if indexPath.section == 0 && cryptoDict.count > 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSummaryCell") as? PortfolioSummaryTableViewCell
             
+            cell!.selectionStyle = .none
+            
             let coin = coins[indexPath.row]
             
             cell!.coinSymbolLabel.text = "\(coin)"
@@ -668,6 +677,8 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "portfolioFiatSummaryCell") as! PortfolioFiatSummaryTableViewCell
             
+            cell.selectionStyle = .none
+            
             let currency = currencies[indexPath.row]
             
             cell.currencyLogoImage.image = UIImage(named: currency.lowercased())
@@ -683,6 +694,7 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
                 cell.holdingsLabel.text = holdingsMarketValue.asCurrency
                 cell.holdingsLabel.adjustsFontSizeToFitWidth = true
             }
+            
             return cell
         }
     }
@@ -713,6 +725,17 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
 
             self.navigationController?.pushViewController(targetViewController, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        
+        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     }
     
     func newCoinAdded(coin: String) {

@@ -85,9 +85,21 @@ class MainPortfolioViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        for (_, viewController) in viewControllerList.enumerated() {
+            if let portfolioVC = viewController as? PortfolioSummaryViewController {
+                guard (portfolioVC.tableView) != nil else { return }
+                
+                if let selectedTableIndex = portfolioVC.tableView.indexPathForSelectedRow{
+                    portfolioVC.tableView.deselectRow(at: selectedTableIndex, animated: true)
+                }
+            }
+        }
+        
+        
+        
         if currency != GlobalValues.currency! {
             currency = GlobalValues.currency!
-            for (index, viewController) in viewControllerList.enumerated() {
+            for (_, viewController) in viewControllerList.enumerated() {
                 if let summaryVC = viewController as? PortfolioSummaryViewController {
                     summaryVC.updateCurrency(currency: currency)
                 }

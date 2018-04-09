@@ -33,35 +33,97 @@ class AddTransactionTableViewController: UITableViewController {
     var all_exchanges_update_type: [String: String] = [:]
 
     @IBOutlet weak var tradingPairCell: UITableViewCell!
-    @IBOutlet weak var currentTradingPairLabel: UILabel!
-    @IBOutlet weak var currentExchangeLabel: UILabel!
+    @IBOutlet weak var currentTradingPairLabel: UILabel! {
+        didSet {
+            currentTradingPairLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
+    @IBOutlet weak var currentExchangeLabel: UILabel! {
+        didSet {
+            currentExchangeLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     
-    @IBOutlet weak var timeTextField: UITextField!
+    @IBOutlet weak var timeTextField: UITextField! {
+        didSet {
+            timeTextField.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     let timePicker = UIDatePicker()
-    @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var dateTextField: UITextField! {
+        didSet {
+            dateTextField.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     let datePicker = UIDatePicker()
     
     @IBOutlet weak var costPerCoinTextField: UITextField! {
         didSet {
+            costPerCoinTextField.theme_textColor = GlobalPicker.viewTextColor
             costPerCoinTextField.addDoneCancelToolbar()
         }
     }
     @IBOutlet weak var amountOfCoinsTextField: UITextField! {
         didSet {
+            amountOfCoinsTextField.theme_textColor = GlobalPicker.viewTextColor
             amountOfCoinsTextField.addDoneCancelToolbar()
         }
     }
     @IBOutlet weak var feesTextField: UITextField!{
         didSet {
+            feesTextField.theme_textColor = GlobalPicker.viewTextColor
             feesTextField.addDoneCancelToolbar()
         }
     }
     
-    @IBOutlet weak var deductFromHoldingsLabel: UILabel!
+    @IBOutlet weak var deductFromHoldingsLabel: UILabel! {
+        didSet {
+            deductFromHoldingsLabel.theme_textColor = GlobalPicker.viewTextColor
+        }
+    }
     @IBOutlet weak var deductFromHoldingsSwitch: UISwitch!
     
+    @IBOutlet weak var exchangeDescLabel: UILabel! {
+        didSet {
+            exchangeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var timeDescLabel: UILabel! {
+        didSet {
+            timeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var dateDescLabel: UILabel! {
+        didSet {
+            dateDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var costPerCoinDescLabel: UILabel! {
+        didSet {
+            costPerCoinDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var amountOfCoinsDescLabel: UILabel! {
+        didSet {
+            amountOfCoinsDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    @IBOutlet weak var feesDescLabel: UILabel! {
+        didSet {
+                feesDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
+    
+    @IBOutlet weak var tradingPairDescLabel: UILabel! {
+        didSet {
+            tradingPairDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+        self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -296,6 +358,16 @@ class AddTransactionTableViewController: UITableViewController {
         else {
             parentController.deductFromHoldings = false
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        
+        header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
     }
 
     // MARK: - Navigation
