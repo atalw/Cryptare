@@ -73,11 +73,10 @@ class ContainerDashboardViewController: UIViewController {
         for (index, viewController) in viewControllerList.enumerated() {
             if let dashboardVC = viewController as? DashboardViewController {
                 if dashboardVC.tableView != nil {
-                    if let selectedTableIndex = dashboardVC.tableView.indexPathForSelectedRow as? IndexPath{
+                    if let selectedTableIndex = dashboardVC.tableView.indexPathForSelectedRow {
                         dashboardVC.tableView.deselectRow(at: selectedTableIndex, animated: true)
                     }
                 }
-                
                 
                 if currency != GlobalValues.currency! {
                     currency = GlobalValues.currency!

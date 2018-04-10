@@ -657,9 +657,9 @@ class SettingsViewController: UITableViewController {
             
             if !unlockMultiplePortfoliosPurchased {
                 if indexPath.row == 3 {
-                    IAPService.shared.purchase(product: .multiplePortfolios, completionHandlerBool: { (success) -> Void in
-                        
-                    })
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
+                    self.present(controller, animated: true, completion: nil)
                 }
             }
             

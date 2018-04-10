@@ -152,17 +152,17 @@ class AddTransactionViewController: UIViewController {
             else {
                 var type: String!
                 if transactionType == "buy" {
-                    type = "sell"
+                    type = "cryptoSell"
                 }
                 else {
-                    type = "buy"
+                    type = "cryptoBuy"
                 }
                 let data: [String: Any] = ["type": type,
-                                           "coin": coin,
-                                           "tradingPair": tradingPair,
+                                           "coin": tradingPair,
+                                           "tradingPair": coin,
                                            "exchange": currentExchange.0,
                                            "costPerCoin": costPerCoin,
-                                           "amountOfCoins": amountOfCoins,
+                                           "amountOfCoins": amountOfCoins*costPerCoin,
                                            "fees": fees,
                                            "date": date]
                 

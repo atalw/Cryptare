@@ -99,14 +99,33 @@ class CryptoPortfolioTableViewController: UITableViewController {
         if portfolio.type == "buy" {
             cell = tableView.dequeueReusableCell(withIdentifier: portfolioCellConstant, for: indexPath) as! PortfolioTableViewCell
         }
-        else  {
+        else if portfolio.type == "sell" {
             cell = tableView.dequeueReusableCell(withIdentifier: "portfolioSellCell", for: indexPath) as! PortfolioTableViewCell
+        }
+        else if portfolio.type == "cryptoBuy" {
+            cell = tableView.dequeueReusableCell(withIdentifier: portfolioCellConstant, for: indexPath) as! PortfolioTableViewCell
+        }
+        else {
+            cell = tableView.dequeueReusableCell(withIdentifier: "portfolioCryptoSellCell", for: indexPath) as! PortfolioTableViewCell
         }
         
         cell.coinLogoImage.loadSavedImage(coin: coin)
 
         cell.amountOfCoinsLabel.text = String(portfolio.amountOfCoins)
-        cell.amountOfCoinsLabel.adjustsFontSizeToFitWidth = true
+        
+        if let percentageChange = portfolio.percentageChange {
+            cell.percentageChange?.text = "\(percentageChange)%"
+            if percentageChange > 0 {
+                cell.percentageChangeView?.backgroundColor = greenColour
+            }
+            else if percentageChange == 0 {
+                cell.percentageChangeView?.backgroundColor = UIColor.lightGray
+            }
+            else {
+                cell.percentageChangeView?.backgroundColor = redColour
+            }
+        }
+        
         if portfolio.type == "buy" {
             cell.amountOfCoinsLabel.textColor = greenColour
             if let date = portfolio.date {
@@ -139,10 +158,92 @@ class CryptoPortfolioTableViewController: UITableViewController {
                 }
             }
         }
+        else if portfolio.type == "cryptoBuy" {
+            
+            cell.amountOfCoinsLabel.textColor = greenColour
+            if let date = portfolio.date, let tradingPair = portfolio.tradingPair {
+                dateFormatter.dateFormat = "dd MMM, YYYY"
+                timeFormatter.dateFormat = "hh:mm a"
+                let dateString = dateFormatter.string(from: date)
+                let timeString = timeFormatter.string(from: date)
+                if let exchange = portfolio.exchange {
+                    cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) on \(dateString) via \(exchange) at \(timeString)"
+                }
+                else {
+                    cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) on \(dateString) at \(timeString)"
+                }
+            }
+            
+            if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins, let fees = portfolio.fees {
+                
+                let total = (cost * amountOfCoins) - fees
+                
+                if portfolio.coin == "BTC" {
+                    cell.costPerCoinLabel.text = cost.asBtcCurrency
+                    cell.feesLabel?.text = fees.asBtcCurrency
+                }
+                else if portfolio.coin == "ETH" {
+                    cell.costPerCoinLabel.text = cost.asEthCurrency
+                    cell.feesLabel?.text = fees.asEthCurrency
+                }
+                else {
+                    cell.costPerCoinLabel.text = cost.asCurrency
+                    cell.feesLabel?.text = fees.asCurrency
+                }
+                
+                cell.totalCostLabel.text = portfolio.totalCost.asCurrency
+            }
+            
+            if let tradePair = portfolio.tradingPair {
+                cell.tradingPairLabel.text = "\(tradePair)-\(coin!)"
+            }
+            
+            return cell
+            
+        }
+        else { // crypto sell
+            cell.amountOfCoinsLabel.textColor = redColour
+            if let date = portfolio.date, let tradingPair = portfolio.tradingPair {
+                dateFormatter.dateFormat = "dd MMM, YYYY"
+                timeFormatter.dateFormat = "hh:mm a"
+                let dateString = dateFormatter.string(from: date)
+                let timeString = timeFormatter.string(from: date)
+                if let exchange = portfolio.exchange {
+                    cell.transactionInfoLabel.text = "Deduct due to purchase of \(tradingPair) on \(dateString) via \(exchange) at \(timeString)"
+                    
+                }
+                else {
+                    cell.transactionInfoLabel.text = "Deduct due to purchase of \(tradingPair) on \(dateString) at \(timeString)"
+                }
+            }
+            
+            if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins, let fees = portfolio.fees {
+
+                let total = (cost * amountOfCoins) - fees
+                
+                if portfolio.coin == "BTC" {
+                    cell.costPerCoinLabel.text = cost.asBtcCurrency
+                    cell.feesLabel?.text = fees.asBtcCurrency
+                }
+                else if portfolio.coin == "ETH" {
+                    cell.costPerCoinLabel.text = cost.asEthCurrency
+                    cell.feesLabel?.text = fees.asEthCurrency
+                }
+                else {
+                    cell.costPerCoinLabel.text = cost.asCurrency
+                    cell.feesLabel?.text = fees.asCurrency
+                }
+                
+                cell.totalCostLabel.text = portfolio.totalCost.asCurrency
+            }
+            
+            if let tradePair = portfolio.tradingPair {
+                cell.tradingPairLabel.text = "\(tradePair)-\(coin!)"
+            }
+            return cell
+        }
         
         if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins, let fees = portfolio.fees {
-            cell.costPerCoinLabel.adjustsFontSizeToFitWidth = true
-            cell.feesLabel?.adjustsFontSizeToFitWidth = true
             
             let total = (cost * amountOfCoins) - fees
             
@@ -160,27 +261,10 @@ class CryptoPortfolioTableViewController: UITableViewController {
             }
             
             cell.totalCostLabel.text = portfolio.totalCost.asCurrency
-
-            
-        }
-        
-        if let percentageChange = portfolio.percentageChange {
-            cell.percentageChange?.text = "\(percentageChange)%"
-            cell.percentageChange?.adjustsFontSizeToFitWidth = true
-            if percentageChange > 0 {
-                cell.percentageChangeView?.backgroundColor = greenColour
-            }
-            else if percentageChange == 0 {
-                cell.percentageChangeView?.backgroundColor = UIColor.lightGray
-            }
-            else {
-                cell.percentageChangeView?.backgroundColor = redColour
-            }
         }
         
         if let currentvalue = portfolio.currentValue {
             cell.currentValueLabel?.text = currentvalue.asCurrency
-            cell.currentValueLabel?.adjustsFontSizeToFitWidth = true
         }
         
         if let tradePair = portfolio.tradingPair {

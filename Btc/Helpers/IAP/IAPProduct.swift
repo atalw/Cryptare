@@ -13,6 +13,7 @@ enum IAPProduct: String {
     case unlockMarkets = "com.atalwar.Cryptare.UnlockMarkets"
     case multiplePortfolios = "com.atalwar.Cryptare.MultiplePortfolios"
     case unlockAll = "com.atalwar.Cryptare.UnlockAll"
+    case unlockProMode = "com.atalwar.Cryptare.UnlockProMode"
 
 }
 

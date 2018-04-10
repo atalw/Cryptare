@@ -288,7 +288,6 @@ class PortfolioSummaryViewController: UIViewController {
                 
                 if tradingPair != GlobalValues.currency! {
                     // check if trading pair is a crypto currency
-                    print(globalCoins)
                     if globalCoins.contains(tradingPair) {
                         let type = trans["type"] as! String
                         let amountOfCoins = trans["amountOfCoins"] as! Double
@@ -296,8 +295,12 @@ class PortfolioSummaryViewController: UIViewController {
                         var fees = (trans["fees"] as! Double)
                         var totalCost = (amountOfCoins * costPerCoin) - fees
                         
+                        var crypto = tradingPair
+//                        if type == "cryptoBuy" || type == "cryptoSell" {
+//                            crypto = coin
+//                        }
                         
-                        databaseRef.child(tradingPair).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+                        databaseRef.child(crypto).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
                             if let cryptoDict = snapshot.value as? [String : AnyObject] {
                                 let price = cryptoDict[self.currency]!["price"] as! Double
                                 costPerCoin *= price
@@ -410,7 +413,17 @@ class PortfolioSummaryViewController: UIViewController {
             summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! - amountOfCoins
             summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! - costPerCoin
             summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! - totalCost
-            
+        }
+        else if type == "cryptoBuy" {
+            summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! + amountOfCoins
+            summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! + costPerCoin
+            summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! + totalCost
+
+        }
+        else if type == "cryptoSell" {
+            summary[coin]!["amountOfCoins"] = summary[coin]!["amountOfCoins"]! - amountOfCoins
+            summary[coin]!["costPerCoin"] = summary[coin]!["costPerCoin"]! - costPerCoin
+            summary[coin]!["totalCost"] =  summary[coin]!["totalCost"]! - totalCost
         }
     }
     

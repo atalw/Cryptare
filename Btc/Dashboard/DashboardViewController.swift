@@ -105,7 +105,6 @@ class DashboardViewController: UIViewController {
         if currentReachabilityStatus == .notReachable {
             let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
-            //            self.present(alert, animated: true){}
             present(alert, animated: true, completion: nil)
         }
         
@@ -125,7 +124,6 @@ class DashboardViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print("dis")
     }
     
     func getFavourites() {
@@ -139,7 +137,7 @@ class DashboardViewController: UIViewController {
             if coins.count == 0 {
                 let messageLabel = UILabel()
                 messageLabel.text = "No coins added to your favourites"
-                messageLabel.textColor = UIColor.black
+                messageLabel.theme_textColor = GlobalPicker.viewTextColor
                 messageLabel.numberOfLines = 0;
                 messageLabel.textAlignment = .center
                 messageLabel.sizeToFit()
@@ -235,14 +233,10 @@ class DashboardViewController: UIViewController {
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         
         let destinationViewController = segue.destination
         if let graphController = destinationViewController as? GraphViewController {
-            //            graphController.parentControler = self
             self.graphController = graphController
         }
     }
@@ -310,7 +304,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
                 colour = self.redColour
             }
             else {
-                colour = UIColor.black
+                colour = cell!.coinCurrentValueLabel.textColor
             }
             
             cell!.coinCurrentValueLabel.adjustsFontSizeToFitWidth = true
@@ -347,16 +341,18 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
                 colour = redColour
             }
             else {
-                cell!.coinPercentageChangeLabel.textColor = UIColor.black
-                colour = UIColor.black
+                cell!.coinPercentageChangeLabel.theme_textColor = GlobalPicker.viewTextColor
             }
             
             if let priceChange = self.coinData[coin]?["priceChange24hrs"] as? Double {
                 cell!.coinPriceChangeLabel.text = priceChange.asCurrency
                 cell!.coinPriceChangeLabel.adjustsFontSizeToFitWidth = true
+                let colour = cell!.coinPercentageChangeLabel.textColor
                 cell!.coinPriceChangeLabel.textColor = colour
             }
         }
+        
+        cell!.theme_backgroundColor = GlobalPicker.viewBackgroundColor
         
         return cell!
     }
@@ -370,19 +366,27 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
             targetViewController.databaseTableTitle = self.coins[indexPath.row]
         }
         self.navigationController?.pushViewController(targetViewController, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
         
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
         cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
     }
     
-    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
-        
     }
+    
+//    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+//        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+//
+//        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+//    }
+//
+//    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+//        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+//        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+//
+//    }
     
 }
 

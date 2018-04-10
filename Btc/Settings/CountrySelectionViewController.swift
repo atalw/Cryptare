@@ -56,6 +56,7 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! AddCoinTableViewCell
+        cell.selectionStyle = .none
         cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
         cell.coinImage.image = UIImage.init(named: sortedCountryList[row].1.lowercased())
         cell.coinNameLabel.text = sortedCountryList[row].3
@@ -70,6 +71,18 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
         Defaults[.selectedCountry] = sortedCountryList[row].0
         GlobalValues.currency = sortedCountryList[row].1
         self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        
+        cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     }
 }
 

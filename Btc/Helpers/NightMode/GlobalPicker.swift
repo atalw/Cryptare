@@ -31,7 +31,7 @@ enum GlobalPicker {
     static let viewAltTextColor: ThemeColorPicker = ["#555555", "#E8E8E8"]
     static let tableGroupBackgroundColor: ThemeColorPicker = ["#EBEBF1", "#35495d"]
     static let tableSeparatorColor: ThemeColorPicker = ["#E0E0E0", "#14171A"]
-    static let viewSelectedBackgroundColor: ThemeColorPicker = ["#555555", "#2b3d4d"]
+    static let viewSelectedBackgroundColor: ThemeColorPicker = ["#e5e5e5", "#2b3d4d"]
 
     
     // for percentage and price change
@@ -42,7 +42,7 @@ enum GlobalPicker {
     static let segmentControlTintColor: ThemeColorPicker = ["#46627c", "#c8d0d8"]
     
     // markets
-    static let alternateMarketRowColour: ThemeColorPicker = ["#e6ecf1", "#59738b"]
+    static let alternateMarketRowColour: ThemeColorPicker = ["#e6ecf1", "#47637e"]
     
     // news
     static let sortButtonSelectedColor: ThemeColorPicker = ["#46637F", "#59738b"]
