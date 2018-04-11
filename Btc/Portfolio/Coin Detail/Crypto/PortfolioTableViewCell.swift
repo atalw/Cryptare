@@ -46,7 +46,7 @@ class PortfolioTableViewCell: UITableViewCell {
     @IBOutlet weak var percentageChange: UILabel! {
         didSet {
             percentageChange.adjustsFontSizeToFitWidth = true
-            percentageChange.theme_textColor = GlobalPicker.viewTextColor
+//            percentageChange.theme_textColor = GlobalPicker.viewTextColor
         }
     }
     @IBOutlet weak var percentageChangeView: UIView!

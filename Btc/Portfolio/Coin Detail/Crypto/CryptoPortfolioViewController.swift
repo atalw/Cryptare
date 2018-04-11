@@ -62,7 +62,7 @@ class CryptoPortfolioViewController: UIViewController {
     @IBOutlet weak var totalPercentageLabel: UILabel! {
         didSet {
             totalPercentageLabel.adjustsFontSizeToFitWidth = true
-            totalPercentageLabel.theme_textColor = GlobalPicker.viewTextColor
+//            totalPercentageLabel.theme_textColor = GlobalPicker.viewTextColor
         }
     }
     @IBOutlet weak var totalPercentageView: UIView! {
