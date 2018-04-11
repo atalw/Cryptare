@@ -98,7 +98,7 @@ class AddTransactionViewController: UIViewController {
         
       }
       else {
-        totalTransactionCostLabel.text = "Total cost of transaction is \(totalCost.asCurrency)"
+        totalTransactionCostLabel.text = "Total cost of transaction is \(totalCost.asSelectedCurrency(currency: currentTradingPair.1))"
       }
     }
     else {
@@ -109,7 +109,7 @@ class AddTransactionViewController: UIViewController {
         totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asEthCurrency)"
       }
       else {
-        totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asCurrency)"
+        totalTransactionCostLabel.text = "Total cost of transaction is \(0.0.asSelectedCurrency(currency: currentTradingPair.1))"
       }
     }
     
