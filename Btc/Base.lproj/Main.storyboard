@@ -913,7 +913,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nm3-gP-73K">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nm3-gP-73K">
                                 <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="unl-Nz-KPV">
@@ -1369,6 +1369,7 @@
                         <outlet property="optionAllTimeButton" destination="0qX-tZ-Wqj" id="q1r-aO-YxT"/>
                         <outlet property="percentageChangeDescLabel" destination="KFW-g7-waF" id="I4Q-e3-JpV"/>
                         <outlet property="priceChangeDescLabel" destination="lTN-DQ-Uwg" id="9CR-sQ-5dv"/>
+                        <outlet property="scrollView" destination="nm3-gP-73K" id="koz-x9-na4"/>
                         <outlet property="summaryTitleDescLabel" destination="SKC-cM-pzV" id="8Ut-YO-3pI"/>
                         <outlet property="summaryView" destination="Qh7-sl-ZQX" id="cyH-y2-Fcd"/>
                         <outlet property="tableView" destination="Bcr-ce-8Dr" id="f4e-t6-7CT"/>

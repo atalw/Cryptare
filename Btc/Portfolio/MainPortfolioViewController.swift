@@ -39,7 +39,8 @@ class MainPortfolioViewController: UIViewController {
     super.viewDidLoad()
     
     pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
-    pagingViewController.collectionView.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+    pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     

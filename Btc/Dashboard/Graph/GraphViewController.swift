@@ -67,7 +67,7 @@ class GraphViewController: UIViewController {
         print(Defaults[.currentThemeIndex], "currentThemeIndex")
         
         pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
-        pagingViewController.collectionView.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+        pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
 //        pagingViewController.collectionView.backgroundView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
         
 //        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")

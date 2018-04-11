@@ -18,9 +18,7 @@ public enum NetworkResponseStatus {
 
 
 class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    
-    
+  
     let defaults = UserDefaults.standard
     var selectedCountry: String!
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -321,7 +319,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let row = indexPath.row
         if row % 2 == 0 {
-            cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+            cell.theme_backgroundColor = GlobalPicker.mainBackgroundColor
         }
         else {
             cell.theme_backgroundColor = GlobalPicker.alternateMarketRowColour

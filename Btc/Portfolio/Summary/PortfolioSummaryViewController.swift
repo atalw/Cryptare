@@ -51,6 +51,19 @@ class PortfolioSummaryViewController: UIViewController {
   var databaseRef: DatabaseReference!
   var coinRefs: [DatabaseReference] = []
   
+  lazy var refreshControl: UIRefreshControl = {
+    
+    let refreshControl = UIRefreshControl()
+    
+    refreshControl.addTarget(self, action:
+      #selector(handleRefresh(_:)),
+                             for: UIControlEvents.valueChanged)
+    
+    refreshControl.theme_tintColor = GlobalPicker.viewTextColor
+    
+    return refreshControl
+  }()
+  
   @IBOutlet weak var summaryTitleDescLabel: UILabel! {
     didSet {
       summaryTitleDescLabel.theme_textColor = GlobalPicker.viewTextColor
@@ -128,6 +141,12 @@ class PortfolioSummaryViewController: UIViewController {
     }
   }
   
+  @IBOutlet weak var scrollView: UIScrollView! {
+    didSet {
+      self.scrollView.addSubview(self.refreshControl)
+
+    }
+  }
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   
@@ -582,6 +601,25 @@ class PortfolioSummaryViewController: UIViewController {
     option24hrButton.isSelected = true
     updateSummaryLabels()
     tableView.reloadData()
+  }
+  
+  @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+    
+//    let newHotel = Hotels(name: "Montage Laguna Beach", place:
+//      "California south")
+//    hotels.append(newHotel)
+//
+//    hotels.sort() { $0.name < $0.place }
+    
+    initalizePortfolioEntries(cryptoPortfolioData: [:], fiatPortfolioData: [:])
+    self.tableView.reloadData()
+      
+    initalizePortfolioEntries(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
+    self.tableView.reloadData()
+    
+    updateSummaryLabels()
+    
+    refreshControl.endRefreshing()
   }
   
   // MARK: - Navigation

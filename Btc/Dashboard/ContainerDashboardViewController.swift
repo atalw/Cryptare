@@ -44,11 +44,12 @@ class ContainerDashboardViewController: UIViewController {
        
         pagingViewController.dataSource = self
         pagingViewController.delegate = self
-        
-        pagingViewController.collectionView.theme_backgroundColor = GlobalPicker.navigationBarTintColor
-        
-//        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
-//        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
+      
+//        pagingViewController.collectionView.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+      
+      pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+
+      
         pagingViewController.indicatorColor = UIColor.init(hex: "ff7043")
         pagingViewController.textColor = UIColor.lightGray
         pagingViewController.selectedTextColor = UIColor.white
