@@ -63,8 +63,6 @@ class MainPortfolioViewController: UIViewController {
     
     pagingViewController.dataSource = self
     
-    //        pagingViewController.backgroundColor = UIColor.init(hex: "46637F")
-    //        pagingViewController.selectedBackgroundColor = UIColor.init(hex: "46637F")
     pagingViewController.indicatorColor = UIColor.init(hex: "ff7043")
     pagingViewController.textColor = UIColor.lightGray
     pagingViewController.selectedTextColor = UIColor.white

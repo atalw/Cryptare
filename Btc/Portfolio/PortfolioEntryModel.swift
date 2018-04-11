@@ -36,38 +36,6 @@ class PortfolioEntryModel {
   
   let dateFormatter = DateFormatter()
   
-  init(type: String, coin: String, tradingPair: String, exchange: String, costPerCoin: Double!, amountOfCoins: Double, fees: Double!, date: Date!, currentCoinPrice: Double!,
-       delegate: PortfolioEntryDelegate) {
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    self.delegate = delegate
-    
-    self.type = type
-    
-    self.coin = coin
-    self.tradingPair = tradingPair
-    
-    self.costPerCoin = costPerCoin
-    self.amountOfCoins = amountOfCoins
-    self.fees = fees
-    
-    self.date = date
-    
-    self.currentCoinPrice = currentCoinPrice
-    
-    self.currentValue = currentCoinPrice * (amountOfCoins - fees)
-    self.totalCost = (costPerCoin * amountOfCoins) - fees
-    
-    self.exchange = exchange
-    
-    var crypto = tradingPair
-    if type == "cryptoBuy" || type == "cryptoSell" {
-      crypto = coin
-    }
-    
-    self.calculateChange()
-    self.delegate?.dataLoaded(portfolioEntry: self)
-  }
-  
   init(type: String, coin: String, tradingPair: String, exchange: String, costPerCoin: Double!, amountOfCoins: Double, fees: Double!, date: Date!, totalCost: Double!, currentCoinPrice: Double!,  delegate: PortfolioEntryDelegate) {
     dateFormatter.dateFormat = "yyyy-MM-dd"
     self.delegate = delegate
@@ -85,14 +53,15 @@ class PortfolioEntryModel {
     
     self.currentCoinPrice = currentCoinPrice
     
-    self.currentValue = currentCoinPrice * (amountOfCoins - fees)
     self.totalCost = totalCost
     
     self.exchange = exchange
     
-    var crypto = tradingPair
     if type == "cryptoBuy" || type == "cryptoSell" {
-      crypto = coin
+      self.currentValue = currentCoinPrice * (amountOfCoins - fees)
+    }
+    else {
+      self.currentValue = (currentCoinPrice * amountOfCoins) - fees
     }
     self.calculateChange()
     self.delegate?.dataLoaded(portfolioEntry: self)

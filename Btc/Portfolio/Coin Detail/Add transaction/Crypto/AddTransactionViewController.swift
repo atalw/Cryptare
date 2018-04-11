@@ -127,7 +127,7 @@ class AddTransactionViewController: UIViewController {
     
     let tradingPair = currentTradingPair.1
     let amount = costPerCoin*amountOfCoins
-    
+    let totalCost = amount - fees
     if currencies.contains(tradingPair) {
       let data: [String: Any] = ["type": transactionType,
                                  "coin": coin,
@@ -136,6 +136,7 @@ class AddTransactionViewController: UIViewController {
                                  "costPerCoin": costPerCoin,
                                  "amountOfCoins": amountOfCoins,
                                  "fees": fees,
+                                 "totalCost": totalCost,
                                  "date": date]
       
       parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
