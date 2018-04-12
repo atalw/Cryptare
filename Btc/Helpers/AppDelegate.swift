@@ -41,25 +41,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UINavigationBar.appearance().theme_barTintColor = GlobalPicker.navigationBarTintColor
         
-        // apple receipt validation
-        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
-        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
-            switch result {
-            case .success(let receipt):
-                print("Verify receipt success: \(receipt)")
-                if let originalAppVersion = receipt["receipt"]?["original_application_version"] as? String {
-                    print(originalAppVersion, "Original")
-                    if let versionNumber = Double(originalAppVersion) {
-                        if versionNumber < 2.92 {
-                            Defaults[.removeAdsPurchased] = true
-                            Defaults[.previousPaidUser] = true
-                        }
-                    }
-                }
-            case .error(let error):
-                print("Verify receipt failed: \(error)")
-            }
-        }
+//        // apple receipt validation
+//        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
+//        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
+//            switch result {
+//            case .success(let receipt):
+//                print("Verify receipt success: \(receipt)")
+//                if let originalAppVersion = receipt["receipt"]?["original_application_version"] as? String {
+//                    print(originalAppVersion, "Original")
+//                    if let versionNumber = Double(originalAppVersion) {
+//                        if versionNumber < 2.92 {
+//                            Defaults[.removeAdsPurchased] = true
+//                            Defaults[.previousPaidUser] = true
+//                        }
+//                    }
+//                }
+//            case .error(let error):
+//                print("Verify receipt failed: \(error)")
+//            }
+//        }
         
         // google ads
         GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")

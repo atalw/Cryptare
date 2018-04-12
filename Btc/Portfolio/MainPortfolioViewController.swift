@@ -44,10 +44,10 @@ class MainPortfolioViewController: UIViewController {
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
-//            let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
-//            UserDefaults.standard.set(newData, forKey: "portfolioEntries")
+//    let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
+//    UserDefaults.standard.set(newData, forKey: "portfolioEntries")
 //    
-//            UserDefaults.standard.remove("fiatPortfolioEntries")
+//    UserDefaults.standard.remove("fiatPortfolioEntries")
     
     currency = GlobalValues.currency!
     
