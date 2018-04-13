@@ -11,6 +11,7 @@ import UIKit
 class UnlockMarketsViewController: UIViewController {
   
   let greenColour = UIColor.init(hex: "#2ecc71")
+  let darkerGreenColour = UIColor.init(hex: "#29b765")
   
   @IBOutlet weak var proLabel: UILabel!
   
@@ -27,7 +28,7 @@ class UnlockMarketsViewController: UIViewController {
   }
   @IBOutlet weak var buyProModeOneYear: UIButton! {
     didSet {
-      self.buyProModeOneYear.backgroundColor = greenColour
+      self.buyProModeOneYear.backgroundColor = darkerGreenColour
       self.buyProModeOneYear.titleLabel?.textAlignment = .center
       self.buyProModeOneYear.titleLabel?.adjustsFontSizeToFitWidth = true
       self.buyProModeOneYear.titleLabel?.textAlignment = NSTextAlignment.center
