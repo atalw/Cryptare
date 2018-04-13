@@ -14,6 +14,12 @@ import SwiftyUserDefaults
 class SettingsViewController: UITableViewController {
   
   // iap
+  @IBOutlet weak var unlockProModeDescLabel: UILabel! {
+    didSet {
+      unlockProModeDescLabel.adjustsFontSizeToFitWidth = true
+      unlockProModeDescLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
   @IBOutlet weak var unlockAllDescLabel: UILabel! {
     didSet {
       unlockAllDescLabel.adjustsFontSizeToFitWidth = true
@@ -22,49 +28,11 @@ class SettingsViewController: UITableViewController {
   }
   @IBOutlet weak var unlockAllPriceLabel: UILabel! {
     didSet {
-      unlockAllPriceLabel.text = 0.0.asCurrency
+      unlockAllPriceLabel.text = "Learn more"
       unlockAllPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
     }
   }
   
-  @IBOutlet weak var removeAdsDescLabel: UILabel! {
-    didSet {
-      removeAdsDescLabel.adjustsFontSizeToFitWidth = true
-      removeAdsDescLabel.theme_textColor = GlobalPicker.viewTextColor
-    }
-  }
-  @IBOutlet weak var removeAdsPriceLabel: UILabel! {
-    didSet {
-      removeAdsPriceLabel.text = 0.0.asCurrency
-      removeAdsPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
-    }
-  }
-  
-  @IBOutlet weak var unlockMarketsDescLabel: UILabel! {
-    didSet {
-      unlockMarketsDescLabel.adjustsFontSizeToFitWidth = true
-      unlockMarketsDescLabel.theme_textColor = GlobalPicker.viewTextColor
-    }
-  }
-  @IBOutlet weak var unlockMarketsPriceLabel: UILabel! {
-    didSet {
-      unlockMarketsPriceLabel.text = 0.0.asCurrency
-      unlockMarketsPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
-    }
-  }
-  
-  @IBOutlet weak var unlockPortfolioDescLabel: UILabel! {
-    didSet {
-      unlockPortfolioDescLabel.adjustsFontSizeToFitWidth = true
-      unlockPortfolioDescLabel.theme_textColor = GlobalPicker.viewTextColor
-    }
-  }
-  @IBOutlet weak var unlockMulitplePortfoliosLabel: UILabel! {
-    didSet {
-      unlockMulitplePortfoliosLabel.text = 0.0.asCurrency
-      unlockMulitplePortfoliosLabel.theme_textColor = GlobalPicker.viewAltTextColor
-    }
-  }
   
   // dashboard
   @IBOutlet weak var favouritesInitialTabDescLabel: UILabel! {
@@ -335,75 +303,14 @@ class SettingsViewController: UITableViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
-    let unlockAll: Bool = Defaults[.unlockAllPurchased]
-    let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
-    let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
-    let unlockMultiplePortfoliosPurchased: Bool = Defaults[.multiplePortfoliosPurchased]
+//    let unlockAll: Bool = Defaults[.unlockAllPurchased]
+//    let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
+//    let unlockMultiplePortfoliosPurchased: Bool = Defaults[.multiplePortfoliosPurchased]
     let paidUser: Bool = Defaults[.previousPaidUser]
     
-    IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
-      if success {
-        if products != nil {
-          if !paidUser {
-            if products!.count > 1 {
-              if unlockAll {
-                self.unlockAllPriceLabel.text = "Already purchased"
-              }
-              else {
-                for product in products! {
-                  if product.localizedTitle == "Unlock All" {
-                    self.unlockAllPriceLabel.text = product.localizedPrice()
-                    
-                  }
-                }
-              }
-              
-              if removeAdsPurchased {
-                self.removeAdsPriceLabel.text = "Already purchased"
-              }
-              else {
-                for product in products! {
-                  if product.localizedTitle == "Remove Ads" {
-                    self.removeAdsPriceLabel.text = product.localizedPrice()
-                    
-                  }
-                }
-              }
-              
-              if unlockMarketsPurchased {
-                self.unlockMarketsPriceLabel.text = "Already purchased"
-              }
-              else {
-                for product in products! {
-                  if product.localizedTitle == "Unlock all markets" {
-                    self.unlockMarketsPriceLabel.text = "Learn more - \(product.localizedPrice())"
-                    
-                  }
-                }
-              }
-              
-              if unlockMultiplePortfoliosPurchased {
-                self.unlockMulitplePortfoliosLabel.text = "Already purchased"
-              }
-              else {
-                for product in products! {
-                  if product.localizedTitle == "Multiple Portfolios" {
-                    self.unlockMulitplePortfoliosLabel.text = product.localizedPrice()
-                    
-                  }
-                }
-              }
-            }
-          }
-          else {
-            self.unlockAllPriceLabel.text = "Already purchased"
-            self.removeAdsPriceLabel.text = "Already purchased"
-            self.unlockMarketsPriceLabel.text = "Already purchased"
-            self.unlockMulitplePortfoliosLabel.text = "Already purchased"
-          }
-        }
-      }
-    })
+    if paidUser {
+      self.unlockAllPriceLabel.text = "Already purchased"
+    }
   }
   
   @objc func favouritesInitialTabChange(favouritesInitialTabSwitch: UISwitch) {
@@ -688,13 +595,19 @@ class SettingsViewController: UITableViewController {
     
     if section == 0 { // in-app purchases
       
-      if !unlockAllPurchased {
-        if row == 0 {
-          IAPService.shared.purchase(product: .unlockAll, completionHandlerBool: { (success) -> Void in
-            
-          })
-        }
+      if row == 0 {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
+        self.present(controller, animated: true, completion: nil)
       }
+      
+//      if !unlockAllPurchased {
+//        if row == 0 {
+//          IAPService.shared.purchase(product: .unlockAll, completionHandlerBool: { (success) -> Void in
+//
+//          })
+//        }
+//      }
       
       if !removeAdsPurchased {
         if row == 1 {
@@ -763,20 +676,21 @@ class SettingsViewController: UITableViewController {
         
         self.present(activityController, animated: true, completion: nil)
       }
-      else if row == 2 { // privacy policy
-        let url = URL(string: "http://cryptare.io")
-        UIApplication.shared.openURL(url!)
-      }
-      else if row == 3 { // terms and conditions
-        let url = URL(string: "http://cryptare.io")
-        UIApplication.shared.openURL(url!)
-      }
-      else if row == 4 { // support
+      else if row == 2 { // support
         let email = "support@cryptare.io"
         if let url = URL(string: "mailto:\(email)") {
           UIApplication.shared.openURL(url)
         }
       }
+      else if row == 3 { // privacy policy
+        let url = URL(string: "http://cryptare.io")
+        UIApplication.shared.openURL(url!)
+      }
+      else if row == 4 { // terms and conditions
+        let url = URL(string: "http://cryptare.io")
+        UIApplication.shared.openURL(url!)
+      }
+      
     }
     
   }

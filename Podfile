@@ -21,6 +21,7 @@ pod 'SwiftReorder', '~> 4.0'
 pod 'Armchair', '>= 0.3'
 pod 'SwiftyUserDefaults'
 pod 'SwiftTheme'
+pod 'OpenSSL', '~> 1.0'
 
 target 'CryptareLite' do
     use_frameworks!

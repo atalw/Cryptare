@@ -18,16 +18,16 @@ class MainViewController: UIViewController {
     var favouritesVC: DashboardViewController!
     
     @IBOutlet weak var currencyButton: UIBarButtonItem!
-    @IBOutlet weak var bannerView: GADBannerView!
-    
+//    @IBOutlet weak var bannerView: GADBannerView!
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        
+//        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//        bannerView.rootViewController = self
+      
         if #available(iOS 11.0, *) {
            navigationItem.hidesSearchBarWhenScrolling = false
         }
