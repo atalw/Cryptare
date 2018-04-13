@@ -1509,140 +1509,43 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="crY-BT-sX9">
                                 <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SWA-92-7Yv">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="734"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJp-h7-YPI">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="964.66666666666663"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a PRO feature" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwA-KZ-gOT">
-                                                        <rect key="frame" x="20" y="20" width="335" height="20.333333333333329"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="QHc-Hl-eEh">
-                                                        <rect key="frame" x="40" y="60.333333333333329" width="295" height="60"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="j1E-Ho-hR8">
-                                                                <rect key="frame" x="0.0" y="0.0" width="295" height="60"/>
-                                                                <color key="backgroundColor" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="I5j-eK-fXb"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                                                <state key="normal" title="Unlock unlimited portfolio for a one-time purchase of 0.00.">
-                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                </state>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                        <integer key="value" value="5"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="xf3-OL-KGr">
-                                                        <rect key="frame" x="20" y="130.33333333333334" width="335" height="51.666666666666657"/>
-                                                        <string key="text">This price is expected to increase as the number of features increase. By buying now, you will lock this price and will have access to it for lifetime.</string>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What you'll get" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rd-NM-vPx">
-                                                        <rect key="frame" x="20" y="202" width="335" height="19.333333333333343"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="tGq-ap-Pkc">
-                                                        <rect key="frame" x="20" y="231.33333333333331" width="335" height="70"/>
-                                                        <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pYe-8q-aKe">
-                                                                <rect key="frame" x="0.0" y="0.0" width="335" height="70"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lifetime access to multiple portfolios feature" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TD2-p5-Dft">
-                                                                        <rect key="frame" x="10" y="10" width="315" height="50"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <color key="backgroundColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="bottom" secondItem="TD2-p5-Dft" secondAttribute="bottom" constant="10" id="1Y7-dD-wQR"/>
-                                                                    <constraint firstItem="TD2-p5-Dft" firstAttribute="leading" secondItem="pYe-8q-aKe" secondAttribute="leading" constant="10" id="A0l-mp-Pwa"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="TD2-p5-Dft" secondAttribute="trailing" constant="10" id="cBL-hP-XoM"/>
-                                                                    <constraint firstItem="TD2-p5-Dft" firstAttribute="top" secondItem="pYe-8q-aKe" secondAttribute="top" constant="10" id="hMO-FP-BLq"/>
-                                                                    <constraint firstAttribute="height" constant="70" id="rIU-th-67y"/>
-                                                                </constraints>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                        <integer key="value" value="10"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </view>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portfolioSample" translatesAutoresizingMaskIntoConstraints="NO" id="fXp-PA-3g9">
-                                                        <rect key="frame" x="30" y="321.33333333333331" width="315" height="601.66666666666674"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="fXp-PA-3g9" secondAttribute="height" multiplier="0.523839:1" id="VZR-T4-HdO"/>
-                                                        </constraints>
-                                                    </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZH-cz-0uZ">
-                                                        <rect key="frame" x="20" y="903" width="335" height="51.666666666666629"/>
-                                                        <string key="text">Upcoming features include exchange connections for automatic portfolio updates, multi platform device syncing and backup/exporting of your portfolios.</string>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstItem="hZH-cz-0uZ" firstAttribute="leading" secondItem="fJp-h7-YPI" secondAttribute="leading" constant="20" id="1I7-j9-flE"/>
-                                                    <constraint firstItem="xf3-OL-KGr" firstAttribute="top" secondItem="QHc-Hl-eEh" secondAttribute="bottom" constant="10" id="2Ja-yU-Dsy"/>
-                                                    <constraint firstItem="3Rd-NM-vPx" firstAttribute="top" secondItem="xf3-OL-KGr" secondAttribute="bottom" constant="20" id="2fQ-zP-K9q"/>
-                                                    <constraint firstItem="3Rd-NM-vPx" firstAttribute="leading" secondItem="fJp-h7-YPI" secondAttribute="leading" constant="20" id="7oW-au-crD"/>
-                                                    <constraint firstAttribute="trailing" secondItem="QHc-Hl-eEh" secondAttribute="trailing" constant="40" id="D1H-eu-iS6"/>
-                                                    <constraint firstItem="QHc-Hl-eEh" firstAttribute="centerX" secondItem="fJp-h7-YPI" secondAttribute="centerX" id="JfR-b2-Ppg"/>
-                                                    <constraint firstItem="QHc-Hl-eEh" firstAttribute="leading" secondItem="fJp-h7-YPI" secondAttribute="leading" constant="40" id="KoD-HT-IAP"/>
-                                                    <constraint firstItem="tGq-ap-Pkc" firstAttribute="top" secondItem="3Rd-NM-vPx" secondAttribute="bottom" constant="10" id="POy-1u-7c5"/>
-                                                    <constraint firstAttribute="trailing" secondItem="fXp-PA-3g9" secondAttribute="trailing" constant="30" id="PTn-hJ-BKg"/>
-                                                    <constraint firstItem="fXp-PA-3g9" firstAttribute="top" secondItem="tGq-ap-Pkc" secondAttribute="bottom" constant="20" id="Run-gX-VZ9"/>
-                                                    <constraint firstItem="fXp-PA-3g9" firstAttribute="centerX" secondItem="fJp-h7-YPI" secondAttribute="centerX" id="Ycp-LS-pwr"/>
-                                                    <constraint firstItem="fXp-PA-3g9" firstAttribute="bottom" secondItem="hZH-cz-0uZ" secondAttribute="top" constant="20" id="aDI-L7-Xa9"/>
-                                                    <constraint firstItem="rwA-KZ-gOT" firstAttribute="leading" secondItem="fJp-h7-YPI" secondAttribute="leading" constant="20" id="bqm-SO-VUe"/>
-                                                    <constraint firstAttribute="trailing" secondItem="rwA-KZ-gOT" secondAttribute="trailing" constant="20" id="d7D-5e-HhU"/>
-                                                    <constraint firstAttribute="trailing" secondItem="hZH-cz-0uZ" secondAttribute="trailing" constant="20" id="dwe-lq-oF3"/>
-                                                    <constraint firstItem="QHc-Hl-eEh" firstAttribute="top" secondItem="rwA-KZ-gOT" secondAttribute="bottom" constant="20" id="eHr-Ur-g1E"/>
-                                                    <constraint firstAttribute="trailing" secondItem="xf3-OL-KGr" secondAttribute="trailing" constant="20" id="fqc-bg-TNI"/>
-                                                    <constraint firstItem="xf3-OL-KGr" firstAttribute="leading" secondItem="fJp-h7-YPI" secondAttribute="leading" constant="20" id="h9o-Hh-uRQ"/>
-                                                    <constraint firstAttribute="bottom" secondItem="hZH-cz-0uZ" secondAttribute="bottom" constant="10" id="hAc-8M-My8"/>
-                                                    <constraint firstAttribute="trailing" secondItem="tGq-ap-Pkc" secondAttribute="trailing" constant="20" id="ikD-oE-Sbc"/>
-                                                    <constraint firstAttribute="trailing" secondItem="3Rd-NM-vPx" secondAttribute="trailing" constant="20" id="oh8-4z-fmg"/>
-                                                    <constraint firstItem="tGq-ap-Pkc" firstAttribute="leading" secondItem="fJp-h7-YPI" secondAttribute="leading" constant="20" id="pLU-z4-ZvX"/>
-                                                    <constraint firstItem="fXp-PA-3g9" firstAttribute="leading" secondItem="fJp-h7-YPI" secondAttribute="leading" constant="30" id="q2T-tf-0TJ"/>
-                                                    <constraint firstItem="rwA-KZ-gOT" firstAttribute="top" secondItem="fJp-h7-YPI" secondAttribute="top" constant="20" id="vME-kM-0I8"/>
-                                                    <constraint firstItem="hZH-cz-0uZ" firstAttribute="centerX" secondItem="fJp-h7-YPI" secondAttribute="centerX" id="wEW-8q-MAe"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a PRO feature." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vov-OZ-uRd">
+                                        <rect key="frame" x="95.000000000000014" y="352" width="185.33333333333337" height="30"/>
                                         <constraints>
-                                            <constraint firstItem="fJp-h7-YPI" firstAttribute="leading" secondItem="SWA-92-7Yv" secondAttribute="leading" id="Csi-uo-VQT"/>
-                                            <constraint firstItem="fJp-h7-YPI" firstAttribute="top" secondItem="SWA-92-7Yv" secondAttribute="top" id="M80-Oz-kx2"/>
-                                            <constraint firstAttribute="trailing" secondItem="fJp-h7-YPI" secondAttribute="trailing" id="klo-bU-gpR"/>
-                                            <constraint firstAttribute="bottom" secondItem="fJp-h7-YPI" secondAttribute="bottom" id="wz0-Vx-i0j"/>
-                                            <constraint firstItem="fJp-h7-YPI" firstAttribute="width" secondItem="SWA-92-7Yv" secondAttribute="width" id="wz7-GU-dUC"/>
+                                            <constraint firstAttribute="height" constant="30" id="FQW-b6-miH"/>
                                         </constraints>
-                                    </scrollView>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vww-Cz-4RN">
+                                        <rect key="frame" x="144" y="392" width="86" height="30.666666666666686"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UiF-gL-fWw">
+                                                <rect key="frame" x="0.0" y="0.0" width="86" height="30.666666666666668"/>
+                                                <color key="backgroundColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="ECf-2W-o76"/>
+                                                </constraints>
+                                                <state key="normal" title=" Learn more "/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="LTd-dD-Umg" kind="presentation" id="H3L-rn-bge"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="SWA-92-7Yv" firstAttribute="top" secondItem="crY-BT-sX9" secondAttribute="top" id="2MN-2L-DoK"/>
-                                    <constraint firstAttribute="bottom" secondItem="SWA-92-7Yv" secondAttribute="bottom" id="40s-hM-MpY"/>
-                                    <constraint firstItem="SWA-92-7Yv" firstAttribute="leading" secondItem="crY-BT-sX9" secondAttribute="leading" id="Gsr-WU-GgY"/>
-                                    <constraint firstAttribute="trailing" secondItem="SWA-92-7Yv" secondAttribute="trailing" id="yxe-Vh-aR3"/>
+                                    <constraint firstItem="vww-Cz-4RN" firstAttribute="top" secondItem="Vov-OZ-uRd" secondAttribute="bottom" constant="10" id="FDr-qb-1qN"/>
+                                    <constraint firstItem="Vov-OZ-uRd" firstAttribute="centerX" secondItem="crY-BT-sX9" secondAttribute="centerX" id="r7S-9F-Cf4"/>
+                                    <constraint firstItem="Vov-OZ-uRd" firstAttribute="centerY" secondItem="crY-BT-sX9" secondAttribute="centerY" id="rL9-Dg-e10"/>
+                                    <constraint firstItem="vww-Cz-4RN" firstAttribute="centerX" secondItem="crY-BT-sX9" secondAttribute="centerX" id="wez-81-AxI"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1671,7 +1574,6 @@
                     <connections>
                         <outlet property="availablePortfoliosContainerHeightConstraint" destination="PwC-y6-iE1" id="IXp-h6-vjT"/>
                         <outlet property="doneButton" destination="EBL-i2-7tL" id="VHW-oQ-mBN"/>
-                        <outlet property="unlockPortfolioButton" destination="j1E-Ho-hR8" id="nZd-fn-Oeu"/>
                         <outlet property="unlockPortfolioView" destination="crY-BT-sX9" id="lRW-6N-ttG"/>
                     </connections>
                 </viewController>
@@ -3524,14 +3426,14 @@
             <objects>
                 <viewController storyboardIdentifier="UnlockMarketsViewController" id="LTd-dD-Umg" customClass="UnlockMarketsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hnc-uC-SJk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nG6-bG-2EZ">
-                                <rect key="frame" x="0.0" y="44" width="375" height="1173"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="1373"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JAt-Xn-f5z">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1180"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1424.3333333333333"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngH-Nc-TkU">
                                                 <rect key="frame" x="20" y="10" width="39" height="30"/>
@@ -3540,23 +3442,39 @@
                                                     <action selector="closeButtonTapped:" destination="LTd-dD-Umg" eventType="touchUpInside" id="apm-iF-z37"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a PRO feature aimed at helping a trader make the best decision" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8h3-eW-Hlm">
-                                                <rect key="frame" x="20" y="45" width="335" height="40.666666666666657"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cryptare PRO is a subscription service packed with powerful features for advanced users." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8h3-eW-Hlm">
+                                                <rect key="frame" x="20" y="45" width="335" height="38.333333333333343"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="OH5-do-0Ee">
-                                                <rect key="frame" x="40" y="105.66666666666666" width="295" height="60"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="OH5-do-0Ee">
+                                                <rect key="frame" x="20" y="103.33333333333334" width="335" height="60"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ot4-ob-6vD">
-                                                        <rect key="frame" x="0.0" y="0.0" width="295" height="60"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="162.66666666666666" height="60"/>
                                                         <color key="backgroundColor" red="0.1803921568627451" green="0.80000000000000004" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="Ov5-rf-a90"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                                        <state key="normal" title="Unlock all markets for a one-time lifetime purchase of 00.00.">
+                                                        <state key="normal" title="00.00 / Monthly 1 Month">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="xJI-4h-Md7">
+                                                        <rect key="frame" x="172.66666666666663" y="0.0" width="162.33333333333337" height="60"/>
+                                                        <color key="backgroundColor" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="MIn-Rg-vT8"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                                        <state key="normal" title="00.00 / Monthly 1 Year">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
@@ -3568,25 +3486,25 @@
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="bs0-6p-eSQ">
-                                                <rect key="frame" x="20" y="175.66666666666666" width="335" height="51.666666666666657"/>
-                                                <string key="text">This price is expected to increase as the number of features increase. By buying now, you will lock this price and will have access to it for lifetime.</string>
+                                                <rect key="frame" x="20" y="173.33333333333334" width="335" height="51.666666666666657"/>
+                                                <string key="text">This price is expected to increase as the number of features increase. By buying in now, you will lock this price until you cancel.</string>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What you'll get" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9T-FL-oqe">
-                                                <rect key="frame" x="20" y="247.33333333333334" width="335" height="19.333333333333343"/>
+                                                <rect key="frame" x="20" y="245" width="335" height="19.333333333333314"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MAb-Qt-ZbG">
-                                                <rect key="frame" x="20" y="276.66666666666669" width="335" height="230"/>
+                                                <rect key="frame" x="20" y="274.33333333333331" width="335" height="230"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Veu-09-dqJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="70"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You'll be able to compare the prices of 50+ markets of 100+ cryptocurrencies in real-time." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6E-dR-qQS">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You will be able to create unlimited number of portfolios and track them in real-time." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6E-dR-qQS">
                                                                 <rect key="frame" x="10" y="10" width="315" height="50"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3610,7 +3528,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="whx-OV-alH">
                                                         <rect key="frame" x="0.0" y="80" width="335" height="70"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The listed markets include Fiat markets in 15+ currencies including USD, GBP, EUR, INR, etc." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHt-dj-beY">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You'll be able to compare the 50+ markets of 500+ cryptocurrencies for all supported trading pairs." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHt-dj-beY">
                                                                 <rect key="frame" x="10" y="10" width="315" height="50"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3634,7 +3552,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dgG-sJ-ZkF">
                                                         <rect key="frame" x="0.0" y="160" width="335" height="70"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Also included are markets that support the cryptocurrency purchase using BTC and ETH." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4B-fy-gIH">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You'll lock in this cheap Early Backer price before it increases when new features are added." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4B-fy-gIH">
                                                                 <rect key="frame" x="10" y="10" width="315" height="50"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3658,17 +3576,50 @@
                                                 </subviews>
                                             </stackView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marketsSample" translatesAutoresizingMaskIntoConstraints="NO" id="Ayh-rJ-Ptl">
-                                                <rect key="frame" x="30" y="526.66666666666674" width="315" height="601.66666666666674"/>
+                                                <rect key="frame" x="30" y="524.33333333333348" width="315" height="601.66666666666652"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Ayh-rJ-Ptl" secondAttribute="height" multiplier="0.523839:1" id="qiO-H7-mLg"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcoming features include a detailed market view to view the live order book, price history and other useful market details." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFV-BK-QqD">
-                                                <rect key="frame" x="20" y="1118.3333333333333" width="335" height="51.666666666666742"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFV-BK-QqD">
+                                                <rect key="frame" x="20" y="1116" width="335" height="51.666666666666742"/>
+                                                <string key="text">Exchange connections for automatic portfolio updates, Portfolio export, import, syncing and many more premium features are coming soon!</string>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ats-MD-K0J">
+                                                <rect key="frame" x="20" y="1244.6666666666667" width="335" height="159.66666666666674"/>
+                                                <string key="text">Duration and price of each subscription are shown on the purchase screen, updated at the time of purchase. Payment will be charged to your iTunes account at the confirmatinon of purchase. Subscriptions will automatically renew unless canceled within 24-hours before the end of the current period. You can cancel anytime with your iTunes account settings. Any unused portion of a free trial will be forfeited if you purchase a subscription.</string>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="b3k-Vt-XWm">
+                                                <rect key="frame" x="30" y="1197.6666666666667" width="315" height="27"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q9L-YR-TJp">
+                                                        <rect key="frame" x="0.0" y="0.0" width="155" height="27"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <state key="normal" title="Terms &amp; Conditions">
+                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="tosButtonTapped:" destination="LTd-dD-Umg" eventType="touchUpInside" id="10w-xY-1Am"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JyH-Rv-E6f">
+                                                        <rect key="frame" x="160" y="0.0" width="155" height="27"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <state key="normal" title="Privacy Policy">
+                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="privacyButtonTapped:" destination="LTd-dD-Umg" eventType="touchUpInside" id="KRV-xb-diH"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -3676,8 +3627,11 @@
                                             <constraint firstAttribute="trailing" secondItem="bs0-6p-eSQ" secondAttribute="trailing" constant="20" id="0HS-2P-C2l"/>
                                             <constraint firstAttribute="trailing" secondItem="Y9T-FL-oqe" secondAttribute="trailing" constant="20" id="0w9-Ux-krh"/>
                                             <constraint firstItem="OH5-do-0Ee" firstAttribute="top" secondItem="8h3-eW-Hlm" secondAttribute="bottom" constant="20" id="2ED-xz-uKz"/>
+                                            <constraint firstAttribute="trailing" secondItem="ats-MD-K0J" secondAttribute="trailing" constant="20" id="2f3-5K-geI"/>
+                                            <constraint firstItem="ats-MD-K0J" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="3eD-WY-8nr"/>
                                             <constraint firstItem="VFV-BK-QqD" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="8bf-Q3-79v"/>
                                             <constraint firstItem="bs0-6p-eSQ" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="Au1-wX-vWJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="b3k-Vt-XWm" secondAttribute="trailing" constant="30" id="BKF-2h-hxe"/>
                                             <constraint firstItem="ngH-Nc-TkU" firstAttribute="top" secondItem="JAt-Xn-f5z" secondAttribute="top" constant="10" id="DKP-0o-Z6A"/>
                                             <constraint firstItem="VFV-BK-QqD" firstAttribute="centerX" secondItem="JAt-Xn-f5z" secondAttribute="centerX" id="G5C-sW-132"/>
                                             <constraint firstItem="OH5-do-0Ee" firstAttribute="centerX" secondItem="JAt-Xn-f5z" secondAttribute="centerX" id="JS5-p6-cyV"/>
@@ -3686,15 +3640,18 @@
                                             <constraint firstItem="8h3-eW-Hlm" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="L5V-QZ-Vz9"/>
                                             <constraint firstItem="Ayh-rJ-Ptl" firstAttribute="centerX" secondItem="JAt-Xn-f5z" secondAttribute="centerX" id="LSN-Aa-mQt"/>
                                             <constraint firstItem="ngH-Nc-TkU" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="Ln8-RN-jAv"/>
-                                            <constraint firstItem="OH5-do-0Ee" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="40" id="MGe-p1-OAD"/>
+                                            <constraint firstItem="OH5-do-0Ee" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="MGe-p1-OAD"/>
                                             <constraint firstItem="Y9T-FL-oqe" firstAttribute="top" secondItem="bs0-6p-eSQ" secondAttribute="bottom" constant="20" id="NRP-cI-b1j"/>
                                             <constraint firstAttribute="trailing" secondItem="Ayh-rJ-Ptl" secondAttribute="trailing" constant="30" id="R8q-oo-Vfu"/>
-                                            <constraint firstAttribute="bottom" secondItem="VFV-BK-QqD" secondAttribute="bottom" constant="10" id="bE3-Lb-bgH"/>
+                                            <constraint firstItem="ats-MD-K0J" firstAttribute="top" secondItem="b3k-Vt-XWm" secondAttribute="bottom" constant="20" id="dWf-8S-aGa"/>
                                             <constraint firstItem="MAb-Qt-ZbG" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="dwv-05-hc7"/>
                                             <constraint firstItem="Y9T-FL-oqe" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="20" id="elb-E0-1Uz"/>
-                                            <constraint firstAttribute="trailing" secondItem="OH5-do-0Ee" secondAttribute="trailing" constant="40" id="g14-lr-Pk0"/>
+                                            <constraint firstAttribute="bottom" secondItem="ats-MD-K0J" secondAttribute="bottom" constant="20" id="fXq-Wi-t6F"/>
+                                            <constraint firstAttribute="trailing" secondItem="OH5-do-0Ee" secondAttribute="trailing" constant="20" id="g14-lr-Pk0"/>
                                             <constraint firstItem="Ayh-rJ-Ptl" firstAttribute="top" secondItem="MAb-Qt-ZbG" secondAttribute="bottom" constant="20" id="iYg-Et-V3a"/>
+                                            <constraint firstItem="b3k-Vt-XWm" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="30" id="mZO-2Z-dN0"/>
                                             <constraint firstAttribute="trailing" secondItem="VFV-BK-QqD" secondAttribute="trailing" constant="20" id="oAS-zt-KNu"/>
+                                            <constraint firstItem="b3k-Vt-XWm" firstAttribute="top" secondItem="VFV-BK-QqD" secondAttribute="bottom" constant="30" id="paz-hL-ANd"/>
                                             <constraint firstItem="Ayh-rJ-Ptl" firstAttribute="leading" secondItem="JAt-Xn-f5z" secondAttribute="leading" constant="30" id="sBm-hj-2zl"/>
                                             <constraint firstItem="bs0-6p-eSQ" firstAttribute="top" secondItem="OH5-do-0Ee" secondAttribute="bottom" constant="10" id="uhb-Bv-Mw7"/>
                                             <constraint firstItem="Ayh-rJ-Ptl" firstAttribute="bottom" secondItem="VFV-BK-QqD" secondAttribute="top" constant="10" id="ukl-9w-kY1"/>
@@ -3722,9 +3679,10 @@
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <size key="freeformSize" width="375" height="1300"/>
+                    <size key="freeformSize" width="375" height="1500"/>
                     <connections>
-                        <outlet property="buyUnlockMarketsButton" destination="ot4-ob-6vD" id="eBC-OC-d23"/>
+                        <outlet property="buyProModeOneMonth" destination="ot4-ob-6vD" id="aJX-qT-5jP"/>
+                        <outlet property="buyProModeOneYear" destination="xJI-4h-Md7" id="56f-8Z-pzC"/>
                         <outlet property="featureOneLabel" destination="D6E-dR-qQS" id="IY5-bc-4yl"/>
                         <outlet property="featureThreeLabel" destination="W4B-fy-gIH" id="Kjb-83-PUW"/>
                         <outlet property="featureTwoLabel" destination="SHt-dj-beY" id="cuj-hK-Jm2"/>
@@ -3733,7 +3691,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ih-ft-jHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-503" y="-494"/>
+            <point key="canvasLocation" x="-503.19999999999999" y="-494.33497536945816"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="PXq-fb-u8Y">
@@ -4574,7 +4532,7 @@
                             <view alpha="0.97999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcy-Z9-pDe">
                                 <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a paid feature." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbj-bp-WEY">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a PRO feature." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbj-bp-WEY">
                                         <rect key="frame" x="0.0" y="352" width="375" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="a7X-7T-k4b"/>
@@ -6730,12 +6688,12 @@
         <image name="icons8-Coins Filled-50" width="25" height="25"/>
         <image name="icons8-Coins-50" width="25" height="25"/>
         <image name="marketsSample" width="846" height="1672"/>
-        <image name="portfolioSample" width="846" height="1667"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ReA-d2-PKG"/>
         <segue reference="2KQ-0f-7V7"/>
         <segue reference="dyn-Tm-p5O"/>
         <segue reference="aTF-nS-vEp"/>
-        <segue reference="aMw-vO-4ZL"/>
+        <segue reference="Vxq-BP-5vg"/>
     </inferredMetricsTieBreakers>
 </document>

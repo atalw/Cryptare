@@ -20,7 +20,6 @@ class AddPortfolioViewController: UIViewController {
   @IBOutlet weak var doneButton: UIBarButtonItem!
   
   @IBOutlet weak var unlockPortfolioView: UIView!
-  @IBOutlet weak var unlockPortfolioButton: UIButton!
   
   @IBOutlet weak var availablePortfoliosContainerHeightConstraint: NSLayoutConstraint!
   override func viewDidLoad() {
@@ -38,7 +37,6 @@ class AddPortfolioViewController: UIViewController {
     #else
     if multiplePortfoliosPurchased {
       unlockPortfolioView.isHidden = true
-      self.unlockPortfolioButton.titleLabel?.textAlignment = NSTextAlignment.center
     } else {
       unlockPortfolioView.isHidden = false
     }
@@ -49,27 +47,6 @@ class AddPortfolioViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    if !unlockPortfolioView.isHidden {
-      IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
-        if success {
-          if products != nil {
-            var price = 0.0.asCurrency
-            for product in products! {
-              if product.localizedTitle == "Multiple Portfolios" {
-                price = product.localizedPrice()
-              }
-            }
-            
-            self.unlockPortfolioButton.setTitle(" Unlock unlimited portfolios for a one-time purchase of \(price). ", for: .normal)
-            self.unlockPortfolioButton.titleLabel?.textAlignment = NSTextAlignment.center
-            self.unlockPortfolioButton.titleLabel?.lineBreakMode = .byWordWrapping
-            self.unlockPortfolioButton.addTarget(self, action: #selector(self.unlockPortfolioButtonTapped), for: .touchUpInside)
-          }
-        }
-      })
-    }
-    
   }
   
   @objc func unlockPortfolioButtonTapped() {

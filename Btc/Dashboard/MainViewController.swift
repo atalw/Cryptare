@@ -73,18 +73,18 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
-        #if DEBUG
-            bannerView.isHidden = true
-        #else
-            if removeAdsPurchased == false {
-                bannerView.load(GADRequest())
-                bannerView.delegate = self
-            }
-            else {
-                bannerView.isHidden = true
-            }
-        #endif
+//        let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
+//        #if DEBUG
+//            bannerView.isHidden = true
+//        #else
+//            if removeAdsPurchased == false {
+//                bannerView.load(GADRequest())
+//                bannerView.delegate = self
+//            }
+//            else {
+//                bannerView.isHidden = true
+//            }
+//        #endif
         
         var currency = GlobalValues.currency
         if currency == nil {

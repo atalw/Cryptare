@@ -297,6 +297,12 @@ class SettingsViewController: UITableViewController {
     loadMarketSettings()
     loadNewsSettings()
     
+    if #available(iOS 11.0, *) {
+      self.navigationController?.navigationBar.prefersLargeTitles = true
+    } else {
+      // Fallback on earlier versions
+    }
+    
     self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
   }
   
@@ -609,31 +615,31 @@ class SettingsViewController: UITableViewController {
 //        }
 //      }
       
-      if !removeAdsPurchased {
-        if row == 1 {
-          IAPService.shared.purchase(product: .removeAds, completionHandlerBool: { (success) -> Void in
-            
-          })
-        }
-      }
+//      if !removeAdsPurchased {
+//        if row == 1 {
+//          IAPService.shared.purchase(product: .removeAds, completionHandlerBool: { (success) -> Void in
+//
+//          })
+//        }
+//      }
       
-      if !unlockMarketsPurchased {
-        if row == 2 {
-          let storyboard = UIStoryboard(name: "Main", bundle: nil)
-          let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
-          self.present(controller, animated: true, completion: nil)
-        }
-      }
+//      if !unlockMarketsPurchased {
+//        if row == 2 {
+//          let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//          let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
+//          self.present(controller, animated: true, completion: nil)
+//        }
+//      }
+//
+//      if !unlockMultiplePortfoliosPurchased {
+//        if row == 3 {
+//          let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//          let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
+//          self.present(controller, animated: true, completion: nil)
+//        }
+//      }
       
-      if !unlockMultiplePortfoliosPurchased {
-        if row == 3 {
-          let storyboard = UIStoryboard(name: "Main", bundle: nil)
-          let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
-          self.present(controller, animated: true, completion: nil)
-        }
-      }
-      
-      if row == 4 {
+      if row == 1 {
         IAPService.shared.restorePurchases()
       }
     }
@@ -683,11 +689,11 @@ class SettingsViewController: UITableViewController {
         }
       }
       else if row == 3 { // privacy policy
-        let url = URL(string: "http://cryptare.io")
+        let url = URL(string: "http://cryptare.io/privacy.html")
         UIApplication.shared.openURL(url!)
       }
       else if row == 4 { // terms and conditions
-        let url = URL(string: "http://cryptare.io")
+        let url = URL(string: "http://cryptare.io/tos.html")
         UIApplication.shared.openURL(url!)
       }
       

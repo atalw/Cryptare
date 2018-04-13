@@ -29,10 +29,8 @@ class IAPService: NSObject {
     func requestProductsWithCompletionHandler(completionHandler:@escaping (Bool, [SKProduct]?) -> Void){
         self.completionHandler = completionHandler
         
-        let products: Set = [IAPProduct.unlockAll.rawValue,
-                             IAPProduct.removeAds.rawValue,
-                             IAPProduct.unlockMarkets.rawValue,
-                             IAPProduct.multiplePortfolios.rawValue]
+        let products: Set = [IAPProduct.unlockProMode.rawValue,
+                             IAPProduct.unlockProModeOneYear.rawValue]
         
         let request = SKProductsRequest(productIdentifiers: products)
         
@@ -74,57 +72,57 @@ extension IAPService: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             print(transaction.transactionState.status(), transaction.payment.productIdentifier)
-            if transaction.payment.productIdentifier == IAPProduct.removeAds.rawValue {
-                switch transaction.transactionState {
-                case .purchased:
-                    Defaults[.removeAdsPurchased] = true
-                    queue.finishTransaction(transaction)
-                case .restored:
-                    queue.restoreCompletedTransactions()
-                    Defaults[.removeAdsPurchased] = true
-                case .purchasing:
-                    print("adsfadfadfa")
-                default:
-                    queue.finishTransaction(transaction)
-                    break
-                }
-            }
-            
-            if transaction.payment.productIdentifier == IAPProduct.unlockMarkets.rawValue {
-                switch transaction.transactionState {
-                case .purchased:
-                    Defaults[.unlockMarketsPurchased] = true
-                    queue.finishTransaction(transaction)
-                    completionHandlerBool(true)
-                case .restored:
-                    queue.restoreCompletedTransactions()
-                    Defaults[.unlockMarketsPurchased] = true
-                case .purchasing:
-                    print("adsfadfadfa")
-                default:
-                    queue.finishTransaction(transaction)
-                    break
-                }
-            }
-            
-            if transaction.payment.productIdentifier == IAPProduct.multiplePortfolios.rawValue {
-                switch transaction.transactionState {
-                case .purchased:
-                    Defaults[.multiplePortfoliosPurchased] = true
-                    queue.finishTransaction(transaction)
-                    completionHandlerBool(true)
-                case .restored:
-                    queue.restoreCompletedTransactions()
-                    Defaults[.multiplePortfoliosPurchased] = true
-                case .purchasing:
-                    print("adsfadfadfa")
-                default:
-                    queue.finishTransaction(transaction)
-                    break
-                }
-            }
-            
-            if transaction.payment.productIdentifier == IAPProduct.unlockAll.rawValue {
+//            if transaction.payment.productIdentifier == IAPProduct.removeAds.rawValue {
+//                switch transaction.transactionState {
+//                case .purchased:
+//                    Defaults[.removeAdsPurchased] = true
+//                    queue.finishTransaction(transaction)
+//                case .restored:
+//                    queue.restoreCompletedTransactions()
+//                    Defaults[.removeAdsPurchased] = true
+//                case .purchasing:
+//                    print("adsfadfadfa")
+//                default:
+//                    queue.finishTransaction(transaction)
+//                    break
+//                }
+//            }
+          
+//            if transaction.payment.productIdentifier == IAPProduct.unlockMarkets.rawValue {
+//                switch transaction.transactionState {
+//                case .purchased:
+//                    Defaults[.unlockMarketsPurchased] = true
+//                    queue.finishTransaction(transaction)
+//                    completionHandlerBool(true)
+//                case .restored:
+//                    queue.restoreCompletedTransactions()
+//                    Defaults[.unlockMarketsPurchased] = true
+//                case .purchasing:
+//                    print("adsfadfadfa")
+//                default:
+//                    queue.finishTransaction(transaction)
+//                    break
+//                }
+//            }
+//
+//            if transaction.payment.productIdentifier == IAPProduct.multiplePortfolios.rawValue {
+//                switch transaction.transactionState {
+//                case .purchased:
+//                    Defaults[.multiplePortfoliosPurchased] = true
+//                    queue.finishTransaction(transaction)
+//                    completionHandlerBool(true)
+//                case .restored:
+//                    queue.restoreCompletedTransactions()
+//                    Defaults[.multiplePortfoliosPurchased] = true
+//                case .purchasing:
+//                    print("adsfadfadfa")
+//                default:
+//                    queue.finishTransaction(transaction)
+//                    break
+//                }
+//            }
+          
+            if transaction.payment.productIdentifier == IAPProduct.unlockProMode.rawValue {
                 switch transaction.transactionState {
                 case .purchased:
                     Defaults[.unlockAllPurchased] = true

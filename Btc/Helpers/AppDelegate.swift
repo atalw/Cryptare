@@ -41,6 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     UINavigationBar.appearance().theme_barTintColor = GlobalPicker.navigationBarTintColor
     
+    if #available(iOS 11.0, *) {
+      UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+    }
+    
     // return local receipt or fetch receipt if not available
     SwiftyStoreKit.fetchReceipt(forceRefresh: false) { result in
       switch result {

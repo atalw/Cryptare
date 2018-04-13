@@ -277,7 +277,7 @@ class MarketViewController: UIViewController {
                     marketsLockView.isHidden = true
                 }
                 else {
-                    marketsLockView.isHidden = true
+                    marketsLockView.isHidden = false
                 }
             }
         #endif
