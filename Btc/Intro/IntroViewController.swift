@@ -33,9 +33,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func createSlides() -> [UIView] {
-        let slideOne = Bundle.main.loadNibNamed("FirstView", owner: self, options: nil)?.first as! UIView
-        let slideTwo = Bundle.main.loadNibNamed("SecondView", owner: self, options: nil)?.first as! UIView
-        let slideThree = Bundle.main.loadNibNamed("ThirdView", owner: self, options: nil)?.first as! UIView
+        let slideOne = Bundle.main.loadNibNamed("Dashboard", owner: self, options: nil)?.first as! UIView
+        let slideTwo = Bundle.main.loadNibNamed("Markets", owner: self, options: nil)?.first as! UIView
+        let slideThree = Bundle.main.loadNibNamed("News", owner: self, options: nil)?.first as! UIView
         
         return [slideOne, slideTwo, slideThree]
     }

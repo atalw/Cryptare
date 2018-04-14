@@ -3700,21 +3700,7 @@
                     <view key="view" contentMode="scaleToFill" id="IrQ-Aj-l4H">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lxx-09-yIm">
-                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
-                                <connections>
-                                    <segue destination="RP5-k9-IHP" kind="embed" id="qTV-Oy-ee1"/>
-                                </connections>
-                            </containerView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Lxx-09-yIm" firstAttribute="top" secondItem="7LA-oD-KCg" secondAttribute="top" id="3LP-pJ-XCq"/>
-                            <constraint firstItem="7LA-oD-KCg" firstAttribute="bottom" secondItem="Lxx-09-yIm" secondAttribute="bottom" id="KIw-cd-2iK"/>
-                            <constraint firstItem="Lxx-09-yIm" firstAttribute="leading" secondItem="7LA-oD-KCg" secondAttribute="leading" id="iKk-di-Zzc"/>
-                            <constraint firstItem="7LA-oD-KCg" firstAttribute="trailing" secondItem="Lxx-09-yIm" secondAttribute="trailing" id="zXm-P2-F8A"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="7LA-oD-KCg"/>
                     </view>
                     <navigationItem key="navigationItem" title="Dashboard" id="SKa-1S-50D">
@@ -6627,7 +6613,7 @@
             <objects>
                 <viewController storyboardIdentifier="ContainerDashboardViewController" id="RP5-k9-IHP" customClass="ContainerDashboardViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sHj-Qq-APK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="734"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="pgu-RS-qfR"/>
@@ -6635,7 +6621,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gCa-D1-6yd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3596" y="-1445"/>
+            <point key="canvasLocation" x="-3889" y="-2008"/>
         </scene>
         <!--Available Portfolio Table View Controller-->
         <scene sceneID="GDL-Ne-vSW">
@@ -6694,6 +6680,6 @@
         <segue reference="2KQ-0f-7V7"/>
         <segue reference="dyn-Tm-p5O"/>
         <segue reference="aTF-nS-vEp"/>
-        <segue reference="Vxq-BP-5vg"/>
+        <segue reference="aMw-vO-4ZL"/>
     </inferredMetricsTieBreakers>
 </document>

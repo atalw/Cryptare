@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,19 +18,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="news" translatesAutoresizingMaskIntoConstraints="NO" id="end-Ri-5Ef">
-                    <rect key="frame" x="30" y="120" width="315" height="278.5"/>
+                    <rect key="frame" x="30" y="70" width="315" height="278.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="end-Ri-5Ef" secondAttribute="height" multiplier="61:54" id="neZ-Ge-RYI"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Global market averages of 500+ Cryptocurrencies updated every minute in 15+ different Fiat currencies." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ek6-Ud-9Nd">
-                    <rect key="frame" x="20" y="499" width="335" height="64.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stay up-to-date with the latest news of your favourite cryptocurrencies to stay ahead of the curve." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ek6-Ud-9Nd">
+                    <rect key="frame" x="20" y="449" width="335" height="64.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cWD-TF-06R">
-                    <rect key="frame" x="20" y="458.5" width="335" height="20.5"/>
+                    <rect key="frame" x="20" y="408.5" width="335" height="20.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -41,7 +41,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cWD-TF-06R" secondAttribute="trailing" constant="20" id="4qo-MJ-XCk"/>
                 <constraint firstItem="cWD-TF-06R" firstAttribute="top" secondItem="end-Ri-5Ef" secondAttribute="bottom" constant="60" id="7e9-aB-JSh"/>
                 <constraint firstItem="cWD-TF-06R" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="9rb-aq-C5z"/>
-                <constraint firstItem="end-Ri-5Ef" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="100" id="P5J-q1-wUt"/>
+                <constraint firstItem="end-Ri-5Ef" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="50" id="P5J-q1-wUt"/>
                 <constraint firstItem="Ek6-Ud-9Nd" firstAttribute="top" secondItem="cWD-TF-06R" secondAttribute="bottom" constant="20" id="bkr-6i-bUj"/>
                 <constraint firstItem="Ek6-Ud-9Nd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="kFz-GY-8Ha"/>
                 <constraint firstItem="Ek6-Ud-9Nd" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="oDO-LF-CCA"/>

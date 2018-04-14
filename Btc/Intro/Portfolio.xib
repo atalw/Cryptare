@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="DRi-A6-nj9">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marketsIntro" translatesAutoresizingMaskIntoConstraints="NO" id="AAC-73-sJF">
+                    <rect key="frame" x="30" y="70" width="315" height="278.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="AAC-73-sJF" secondAttribute="height" multiplier="61:54" id="Zc8-vl-nvu"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track all your cryptocurrency investments easily and accurately." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehq-00-TUk">
+                    <rect key="frame" x="20" y="449" width="335" height="42.5"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Portfolio management" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjL-P9-BZl">
+                    <rect key="frame" x="20" y="408.5" width="335" height="20.5"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="w2R-R1-Ad7" firstAttribute="trailing" secondItem="ehq-00-TUk" secondAttribute="trailing" constant="20" id="003-Lc-mvn"/>
+                <constraint firstItem="CjL-P9-BZl" firstAttribute="leading" secondItem="w2R-R1-Ad7" secondAttribute="leading" constant="20" id="2BA-wj-ef7"/>
+                <constraint firstItem="CjL-P9-BZl" firstAttribute="top" secondItem="AAC-73-sJF" secondAttribute="bottom" constant="60" id="5hO-GU-e6Y"/>
+                <constraint firstItem="w2R-R1-Ad7" firstAttribute="trailing" secondItem="AAC-73-sJF" secondAttribute="trailing" constant="30" id="aVe-Tw-hEm"/>
+                <constraint firstItem="w2R-R1-Ad7" firstAttribute="trailing" secondItem="CjL-P9-BZl" secondAttribute="trailing" constant="20" id="cF0-hQ-PfA"/>
+                <constraint firstItem="AAC-73-sJF" firstAttribute="top" secondItem="w2R-R1-Ad7" secondAttribute="top" constant="50" id="dEH-og-84V"/>
+                <constraint firstItem="AAC-73-sJF" firstAttribute="leading" secondItem="w2R-R1-Ad7" secondAttribute="leading" constant="30" id="dYL-aC-Azz"/>
+                <constraint firstItem="ehq-00-TUk" firstAttribute="top" secondItem="CjL-P9-BZl" secondAttribute="bottom" constant="20" id="ibl-oa-gOP"/>
+                <constraint firstItem="ehq-00-TUk" firstAttribute="leading" secondItem="w2R-R1-Ad7" secondAttribute="leading" constant="20" id="jQW-1t-URw"/>
+                <constraint firstItem="ehq-00-TUk" firstAttribute="centerX" secondItem="DRi-A6-nj9" secondAttribute="centerX" id="mrk-Ef-4q2"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="w2R-R1-Ad7"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="marketsIntro" width="719" height="599"/>
+    </resources>
+</document>
