@@ -162,8 +162,6 @@ class MainViewController: UIViewController {
       }
     }
   }
-    
-  
   
   // MARK: - Navigation
   

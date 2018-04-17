@@ -264,11 +264,13 @@ class MarketViewController: UIViewController {
         })
         
         textFieldValue = 1.0
+      
+      let freeCoins = ["BTC", "ETH", "XRP", "BCH", "LTC"]
         
         #if DEBUG
             marketsLockView.isHidden = true
         #else
-            if currentCoin == "BTC" || currentCoin == "ETH" || currentCoin == "XRP" {
+            if freeCoins.contains(currentCoin) {
                 marketsLockView.isHidden = true
             }
             else {
@@ -898,7 +900,7 @@ class MarketViewController: UIViewController {
         for coinMarket in coinMarkets {
             if let currentMarketInfo = marketInformation[coinMarket.key] {
                 if let name = currentMarketInfo["name"], let url = currentMarketInfo["url"] {
-                    addExchangeToTable(title: name, url: url, description: "", links: [])
+                    addExchangeToTable(title: coinMarket.key, url: url, description: "", links: [])
                 }
                 
             }

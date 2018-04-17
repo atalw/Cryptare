@@ -40,7 +40,11 @@ class DashboardViewController: UIViewController {
   //    let searchController = UISearchController(searchResultsController: nil)
   var coinSearchResults = [String]()
   
-  @IBOutlet weak var rankLabel: UILabel!
+  @IBOutlet weak var rankLabel: UILabel! {
+    didSet {
+      rankLabel.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+  }
   @IBOutlet weak var header24hrChangeLabel: UILabel!
   @IBOutlet weak var headerCurrentPriceLabel: UILabel!
   
@@ -51,7 +55,6 @@ class DashboardViewController: UIViewController {
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     tableView.tableHeaderView?.theme_backgroundColor = GlobalPicker.viewBackgroundColor
-    rankLabel.theme_textColor = GlobalPicker.viewAltTextColor
     header24hrChangeLabel.theme_textColor = GlobalPicker.viewAltTextColor
     headerCurrentPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
     
@@ -68,15 +71,29 @@ class DashboardViewController: UIViewController {
     listOfCoins = databaseRef.child("coins")
     
     if !favouritesTab {
-      listOfCoins.queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-        if let dict = snapshot.value as? [String: AnyObject] {
+      listOfCoins.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+        if let dict = snapshot.value as? [String: [String: Any]] {
           let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
           self.coins = []
           GlobalValues.coins = []
           self.tableView.reloadData()
-          for index in 0..<sortedDict.count {
-            self.coins.append(sortedDict[index].key)
-            GlobalValues.coins.append((sortedDict[index].key, sortedDict[index].value["name"] as! String))
+          
+          for (coin, values) in sortedDict {
+            
+            self.coins.append(coin)
+            if let name = values["name"] as? String {
+              GlobalValues.coins.append((coin, name))
+            }
+            
+            if self.coinData[coin] == nil {
+              self.coinData[coin] = [:]
+            }
+            if let rank = values["rank"] as? Int {
+              self.coinData[coin]!["rank"] = rank
+            }
+            if let iconUrl = values["icon_url"] as? String {
+              self.coinData[coin]!["iconUrl"] = iconUrl
+            }
           }
           self.setupCoinRefs()
         }
@@ -154,10 +171,12 @@ class DashboardViewController: UIViewController {
   
   
   func setupCoinRefs() {
-    coinData = [:]
+//    coinData = [:]
     for coin in self.coins {
-      self.coinData[coin] = [:]
-      self.coinData[coin]!["rank"] = 0
+      if coinData[coin] == nil {
+        self.coinData[coin] = [:]
+      }
+//      self.coinData[coin]!["rank"] = 0
       self.coinData[coin]!["currentPrice"] = 0.0
       self.coinData[coin]!["timestamp"] = 0.0
       self.coinData[coin]!["volume24hrs"] = 0.0
@@ -172,22 +191,11 @@ class DashboardViewController: UIViewController {
     coinRefs = []
     
     for coin in self.coins {
-      self.coinRefs.append(self.databaseRef.child(coin))
+      self.coinRefs.append(self.databaseRef.child(coin).child("Data").child(currency))
     }
     
     for coinRef in self.coinRefs {
-      coinRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-        if let dict = snapshot.value as? [String : AnyObject] {
-          if let index = self.coinRefs.index(of: coinRef) {
-            let coin = self.coins[index]
-            self.changedRow = index
-            self.updateCoinDataStructure(coin: coin, dict: dict)
-          }
-        }
-        
-      })
-      
-      coinRef.observe(.childChanged, with: {(snapshot) -> Void in
+      coinRef.observe(.value, with: {(snapshot) -> Void in
         if let dict = snapshot.value as? [String : AnyObject] {
           if let index = self.coinRefs.index(of: coinRef) {
             let coin = self.coins[index]
@@ -200,26 +208,33 @@ class DashboardViewController: UIViewController {
   }
   
   func updateCoinDataStructure(coin: String, dict: [String: Any]) {
-    self.coinData[coin]!["rank"] = dict["rank"] as! Int
-    self.coinData[coin]!["iconUrl"] = dict["icon_url"] as! String
     
-    if let currencyData = dict[self.currency] as? [String: Any] {
-      if self.coinData[coin]!["oldPrice"] == nil {
-        self.coinData[coin]!["oldPrice"] = 0.0
-      }
-      else {
-        self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
-      }
-      self.coinData[coin]!["currentPrice"] = currencyData["price"] as! Double
-      self.coinData[coin]!["volume24hrs"] = currencyData["vol_24hrs_currency"]
-      let percentage = currencyData["change_24hrs_percent"] as! Double
-      let roundedPercentage = Double(round(1000*percentage)/1000)
+    if self.coinData[coin]!["oldPrice"] == nil {
+      self.coinData[coin]!["oldPrice"] = 0.0
+    }
+    else {
+      self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
+    }
+    if let currentPrice = dict["price"] as? Double {
+      self.coinData[coin]!["currentPrice"] = currentPrice
+    }
+    if let volume24hrs = dict["vol_24hrs_currency"] as? Double {
+      self.coinData[coin]!["volume24hrs"] = volume24hrs
+    }
+    if let percentageChange24hours = dict["change_24hrs_percent"] as? Double {
+      let roundedPercentage = Double(round(1000*percentageChange24hours)/1000)
       self.coinData[coin]!["percentageChange24hrs"] = roundedPercentage
-      self.coinData[coin]!["priceChange24hrs"] = currencyData["change_24hrs_fiat"] as! Double
-      self.coinData[coin]!["timestamp"] = currencyData["timestamp"] as! Double
-      self.tableView.reloadData()
+      
+    }
+    if let priceChange24hrs = dict["change_24hrs_fiat"] as? Double {
+      self.coinData[coin]!["priceChange24hrs"] = priceChange24hrs
+    }
+    if let timestamp = dict["timestamp"] as? Double {
+      self.coinData[coin]!["timestamp"] = timestamp
     }
     
+    self.tableView.reloadData()
+
   }
   
   func isFiltering() -> Bool {
@@ -271,17 +286,23 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
     
     cell!.selectionStyle = .none
-    
-    if let rank = self.coinData[coin]?["rank"] as? Int {
-      cell!.coinRank.text = "\(rank)"
-      cell!.coinRank.adjustsFontSizeToFitWidth = true
+    if !favouritesTab {
+      if let rank = self.coinData[coin]?["rank"] as? Int {
+        cell!.coinRank.text = "\(rank)"
+        cell!.coinRank.adjustsFontSizeToFitWidth = true
+      }
     }
     
     cell!.coinSymbolLabel.text = coin
     cell!.coinSymbolLabel.adjustsFontSizeToFitWidth = true
     
-    if let urlString = self.coinData[coin]?["iconUrl"] as? String {
-      cell!.coinSymbolImage.loadSavedImageWithURL(coin: coin, urlString: urlString)
+    if !favouritesTab {
+      if let urlString = self.coinData[coin]?["iconUrl"] as? String {
+        cell!.coinSymbolImage.loadSavedImageWithURL(coin: coin, urlString: urlString)
+      }
+    }
+    else {
+      cell!.coinSymbolImage.loadSavedImage(coin: coin)
     }
     
     cell!.coinSymbolImage.contentMode = .scaleAspectFit
