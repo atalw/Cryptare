@@ -15,6 +15,8 @@ class AddTransactionViewController: UIViewController {
   var parentController: CryptoPortfolioViewController!
   var portfolioName: String!
   
+  let dateFormatter = DateFormatter()
+  
   let greenColour = UIColor.init(hex: "2ECC71")
   let redColour = UIColor.init(hex: "E74C3C")
   let navyBlueColour = UIColor.init(hex: "46637F")
@@ -124,10 +126,13 @@ class AddTransactionViewController: UIViewController {
   }
   
   @IBAction func addTransactionButtonTapped(_ sender: Any) {
-    
+    dateFormatter.dateFormat =  "yyyy-MM-dd hh:mm a"
+
     let tradingPair = currentTradingPair.1
     let amount = costPerCoin*amountOfCoins
     let totalCost = amount - fees
+    let dateString = dateFormatter.string(from: date)
+    
     if currencies.contains(tradingPair) {
       let data: [String: Any] = ["type": transactionType,
                                  "coin": coin,
@@ -137,7 +142,7 @@ class AddTransactionViewController: UIViewController {
                                  "amountOfCoins": amountOfCoins,
                                  "fees": fees,
                                  "totalCost": totalCost,
-                                 "date": date]
+                                 "date": dateString]
       
       parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
       
@@ -149,7 +154,7 @@ class AddTransactionViewController: UIViewController {
         else {
           type = "deposit"
         }
-        addFiatTransaction(currency: tradingPair, type: type, exchange: currentExchange.0, amount: amount, fees: fees, date: date)
+        addFiatTransaction(currency: tradingPair, type: type, exchange: currentExchange.0, amount: amount, fees: fees, date: dateString)
       }
     }
     else {
@@ -167,7 +172,7 @@ class AddTransactionViewController: UIViewController {
                                        "fees": self.fees,
                                        "totalCost": totalCost,
                                        "fiat": GlobalValues.currency!,
-                                       "date": self.date]
+                                       "date": dateString]
             
             self.parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
             
@@ -183,7 +188,7 @@ class AddTransactionViewController: UIViewController {
     
   }
   
-  func addFiatTransaction(currency: String, type: String, exchange: String, amount: Double, fees: Double, date: Date) {
+  func addFiatTransaction(currency: String, type: String, exchange: String, amount: Double, fees: Double, date: String) {
     
     let transaction: [String : Any] = ["type": type,
                                        "exchange": exchange,
@@ -222,13 +227,18 @@ class AddTransactionViewController: UIViewController {
     }
     let amountOfCoins = self.amountOfCoins*self.costPerCoin
     let totalCostFiat = (amountOfCoins-self.fees) * exchangePrice
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
+    let dateString = dateFormatter.string(from: date)
+    
     let cryptoData: [String: Any] = ["type": type,
                                      "tradingPair": self.coin,
                                      "exchange": self.currentExchange.0,
                                      "costPerCoin": self.costPerCoin,
                                      "amountOfCoins": amountOfCoins,
                                      "fees": self.fees,
-                                     "date": self.date,
+                                     "date": dateString,
                                      "fiatPrice": exchangePrice,
                                      "fiat": GlobalValues.currency!]
     self.parentController.portfolioTableController

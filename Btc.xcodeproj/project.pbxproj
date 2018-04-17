@@ -510,6 +510,9 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				864C63E4207F7CF5008AC7BF /* Cryptare-Bridging-Header.h */,
+				864C63E7207F7FBA008AC7BF /* pkcs7_union_accessors.c */,
+				864C63E8207F7FBA008AC7BF /* pkcs7_union_accessors.h */,
 				868B5D822077C6720088938B /* NightMode */,
 				868B5D7F2074F98C0088938B /* Extensions */,
 				868B5D7E2074F9760088938B /* IAP */,
@@ -522,7 +525,6 @@
 				86A713861FB5DAAF003DA98C /* Bundle.swift */,
 				86FC11BC1FEBC9C60094B82F /* Constants.swift */,
 				86CCB5132068D8C700B42808 /* UserDefaultsKeys.swift */,
-				864C63E4207F7CF5008AC7BF /* Cryptare-Bridging-Header.h */,
 			);
 			name = "Helper Files";
 			path = Helpers;
@@ -626,8 +628,6 @@
 		868B5D7E2074F9760088938B /* IAP */ = {
 			isa = PBXGroup;
 			children = (
-				864C63E7207F7FBA008AC7BF /* pkcs7_union_accessors.c */,
-				864C63E8207F7FBA008AC7BF /* pkcs7_union_accessors.h */,
 				864E9737203C56470023238F /* IAPProduct.swift */,
 				864E973A203C57570023238F /* IAPService.swift */,
 				86733334207FA7D700551C38 /* ReceiptValidator.swift */,
@@ -993,6 +993,7 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
 				"${BUILT_PRODUCTS_DIR}/Armchair/Armchair.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -1011,6 +1012,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Armchair.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -1039,6 +1041,7 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
 				"${BUILT_PRODUCTS_DIR}/Armchair/Armchair.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -1057,6 +1060,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Armchair.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",

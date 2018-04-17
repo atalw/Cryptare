@@ -288,7 +288,7 @@ class PortfolioSummaryViewController: UIViewController {
         currencies.append(currency)
       }
     }
-    
+        
     calculatePortfolioSummary(portfolioName: portfolioName, cryptoDict: cryptoDict, fiatDict: fiatDict)
     
   }
@@ -393,15 +393,16 @@ class PortfolioSummaryViewController: UIViewController {
         }
       }
       
-      coinRefs.append(databaseRef.child(coin))
+      coinRefs.append(databaseRef.child(coin).child("Data").child(self.currency))
       let index = coinRefs.count - 1
       
-      coinRefs[index].observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+      coinRefs[index].observeSingleEvent(of: .value, with: {(snapshot) -> Void in
         if let cryptoDict = snapshot.value as? [String : AnyObject] {
-          let price = cryptoDict[self.currency]!["price"] as! Double
-          self.summary[coin]!["coinMarketValue"] = price
-          self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["amountOfCoins"]! * price
-          self.tableView.reloadData()
+          if let price = cryptoDict["price"] as? Double {
+            self.summary[coin]!["coinMarketValue"] = price
+            self.summary[coin]!["holdingsMarketValue"] = self.summary[coin]!["amountOfCoins"]! * price
+            self.tableView.reloadData()
+          }
         }
       })
     }

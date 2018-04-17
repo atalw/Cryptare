@@ -11,6 +11,8 @@ import Alamofire
 import SwiftyJSON
 import Armchair
 import SwiftyUserDefaults
+import FirebaseAuth
+import FirebaseDatabase
 
 class CryptoPortfolioTableViewController: UITableViewController {
   
@@ -58,11 +60,12 @@ class CryptoPortfolioTableViewController: UITableViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    
+    portfolioEntries.removeAll()
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    portfolioEntries.removeAll()
     
     activityIndicator.startAnimating()
     self.initalizePortfolioEntries()
@@ -322,18 +325,23 @@ extension CryptoPortfolioTableViewController {
   
   func addPortfolioEntry(portfolioEntry: [String: Any]) {
     Armchair.userDidSignificantEvent(true)
-    
     self.portfolioData.append(portfolioEntry)
     savePortfolioEntry(coin: portfolioEntry["coin"] as! String, transaction: portfolioEntry)
   }
   
   func initalizePortfolioEntries() {
+    
     if portfolioData.count == 0 {
       tableEmptyMessage()
     }
     else {
       for portfolio in portfolioData {
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
+
         let type = portfolio["type"] as! String
+        
+        let dateString = portfolio["date"] as! String
+        let date = dateFormatter.date(from: dateString)
         if type == "cryptoBuy" || type == "cryptoSell" {
           PortfolioEntryModel(type: portfolio["type"] as! String,
                               coin: coin,
@@ -342,12 +350,13 @@ extension CryptoPortfolioTableViewController {
                               costPerCoin: portfolio["costPerCoin"] as! Double,
                               amountOfCoins: portfolio["amountOfCoins"] as! Double,
                               fees: portfolio["fees"] as! Double,
-                              date: portfolio["date"] as! Date,
+                              date: date,
                               totalCost: portfolio["totalCost"] as! Double,
                               currentCoinPrice: self.coinPrice,
                               delegate: self)
         }
         else {
+          
           PortfolioEntryModel(type: portfolio["type"] as! String,
                               coin: coin,
                               tradingPair: portfolio["tradingPair"] as! String,
@@ -355,7 +364,7 @@ extension CryptoPortfolioTableViewController {
                               costPerCoin: portfolio["costPerCoin"] as! Double,
                               amountOfCoins: portfolio["amountOfCoins"] as! Double,
                               fees: portfolio["fees"] as! Double,
-                              date: portfolio["date"] as! Date,
+                              date: date,
                               totalCost: portfolio["totalCost"] as! Double,
                               currentCoinPrice: self.coinPrice,
                               delegate: self)
@@ -384,7 +393,23 @@ extension CryptoPortfolioTableViewController {
       }
       allData[portfolioName] = data
       Defaults[.cryptoPortfolioData] = allData
+      
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: data, fiatPortfolioData: nil)
+      
+      // update on firebase
+      var uid: String!
+      if Auth.auth().currentUser?.uid == nil {
+        print("user not signed in ERRRORRRR")
+      }
+      else {
+        uid = Auth.auth().currentUser?.uid
+        let portfolioRef = Database.database().reference().child("portfolios").child(uid).child("CryptoData")
+        portfolioRef.updateChildValues(allData) { (err, ref) in
+          if err != nil {
+            print(err, "CryptoData update")
+          }
+        }
+      }
     }
   }
   
@@ -447,7 +472,11 @@ extension CryptoPortfolioTableViewController: PortfolioEntryDelegate {
       parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.totalCost, currentValue: portfolioEntry.currentValue)
     }
     portfolioEntries.append(portfolioEntry)
-    
+//    print(portfolioEntries)
+//    print(portfolioEntry)
+    for portfolio in portfolioEntries {
+      print(portfolio.date)
+    }
     portfolioEntries = portfolioEntries.sorted(by: {$0.date.compare($1.date) == .orderedDescending})
     
     tableView.reloadData()

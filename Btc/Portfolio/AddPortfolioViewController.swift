@@ -9,6 +9,8 @@
 import UIKit
 import SwiftyUserDefaults
 import SwiftReorder
+import FirebaseAuth
+import FirebaseDatabase
 
 class AddPortfolioViewController: UIViewController {
   
@@ -80,6 +82,21 @@ class AddPortfolioViewController: UIViewController {
     
     if portfolioName != nil {
       Defaults[.portfolioNames].append(portfolioName!)
+      
+      // update on firebase
+      var uid: String!
+      if Auth.auth().currentUser?.uid == nil {
+        print("user not signed in ERRRORRRR")
+      }
+      else {
+        uid = Auth.auth().currentUser?.uid
+        let portfolioRef = Database.database().reference().child("portfolios").child(uid).child("Names")
+        portfolioRef.setValue(Defaults[.portfolioNames]) { (err, ref) in
+          if err != nil {
+            print(err, "Names update")
+          }
+        }
+      }
       
       var cryptoPortfolioData = Defaults[.cryptoPortfolioData]
       var fiatPortfolioData = Defaults[.fiatPortfolioData]
@@ -395,6 +412,21 @@ extension AvailablePortfolioTableViewController: TableViewReorderDelegate {
     portfolioNames[sourceIndexPath.row] = destinationName
     
     Defaults[.portfolioNames] = portfolioNames
+    
+    // update on firebase
+    var uid: String!
+    if Auth.auth().currentUser?.uid == nil {
+      print("user not signed in ERRRORRRR")
+    }
+    else {
+      uid = Auth.auth().currentUser?.uid
+      let portfolioRef = Database.database().reference().child("portfolios").child(uid).child("Names")
+      portfolioRef.setValue(Defaults[.portfolioNames]) { (err, ref) in
+        if err != nil {
+          print(err, "Names update")
+        }
+      }
+    }
     self.parentController.reloadPortfolios()
   }
 }

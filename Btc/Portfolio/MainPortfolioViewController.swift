@@ -9,6 +9,8 @@
 import UIKit
 import Parchment
 import SwiftyUserDefaults
+import FirebaseAuth
+import FirebaseDatabase
 
 class MainPortfolioViewController: UIViewController {
   
@@ -40,13 +42,13 @@ class MainPortfolioViewController: UIViewController {
     
     pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
-
+    
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
 //    let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
 //    UserDefaults.standard.set(newData, forKey: "portfolioEntries")
-//    
+//
 //    UserDefaults.standard.remove("fiatPortfolioEntries")
     
     currency = GlobalValues.currency!
@@ -79,6 +81,44 @@ class MainPortfolioViewController: UIViewController {
     view.addSubview(pagingViewController.view)
     view.constrainToEdges(pagingViewController.view)
     pagingViewController.didMove(toParentViewController: self)
+    
+    var uid: String!
+    if Auth.auth().currentUser?.uid == nil {
+      print("user not signed in ERRRORRRR")
+    }
+    else {
+      uid = Auth.auth().currentUser?.uid
+      let portfolioRef = Database.database().reference().child("portfolios").child(uid)
+      
+      portfolioRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+        if !snapshot.exists() {
+          let portfolioData: [String: Any] = ["CryptoData": Defaults[.cryptoPortfolioData],
+            "FiatData": Defaults[.fiatPortfolioData],
+            "Names": Defaults[.portfolioNames]]
+          
+          portfolioRef.updateChildValues(portfolioData, withCompletionBlock: { (err, ref) in
+            if err != nil {
+              print(err, "here")
+              return
+            }
+          })
+        }
+        else {
+          if let portfolio = snapshot.value as? [String: AnyObject] {
+            print(portfolio)
+            if let cryptoData = portfolio["CryptoData"] as? [String: Any] {
+              Defaults[.cryptoPortfolioData] = cryptoData
+            }
+            if let fiatData = portfolio["FiatData"] as? [String: Any] {
+              Defaults[.fiatPortfolioData] = fiatData
+            }
+            if let names = portfolio["Names"] as? [String] {
+              Defaults[.portfolioNames] = names
+            }
+          }
+        }
+      })
+    }
     
   }
   
@@ -123,15 +163,16 @@ class MainPortfolioViewController: UIViewController {
           let fourthElement = portfolioEntries[index][3] as? String
           let fifthElement = portfolioEntries[index][4] as? Double
           
-          if let coin = firstElement, let type = secondElement, let amountOfCoins = thirdElement, let dateString = fourthElement, let costPerCoin = fifthElement {
+          if let coin = firstElement, let type = secondElement, let amountOfCoins = thirdElement, let string = fourthElement, let costPerCoin = fifthElement {
             
             let tradingPair = GlobalValues.currency!
             let exchange = "None"
             let fees = 0.0
             
             dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
-            let date = dateFormatter.date(from: "\(dateString) 12:00 AM")
+            let date = dateFormatter.date(from: "\(string) 12:00 AM")
             
+            let dateString = dateFormatter.string(from: date!)
             if data["Main"]![coin] == nil {
               data["Main"]![coin] = []
             }
@@ -146,7 +187,7 @@ class MainPortfolioViewController: UIViewController {
                                                "fees": fees,
                                                "totalCost": totalCost,
                                                "fiat": tradingPair,
-                                               "date": date!]
+                                               "date": dateString]
             data["Main"]![coin]!.append(transaction)
           }
         }

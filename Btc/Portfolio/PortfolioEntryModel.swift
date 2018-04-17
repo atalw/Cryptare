@@ -37,7 +37,7 @@ class PortfolioEntryModel {
   let dateFormatter = DateFormatter()
   
   init(type: String, coin: String, tradingPair: String, exchange: String, costPerCoin: Double!, amountOfCoins: Double, fees: Double!, date: Date!, totalCost: Double!, currentCoinPrice: Double!,  delegate: PortfolioEntryDelegate) {
-    dateFormatter.dateFormat = "yyyy-MM-dd"
+    dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
     self.delegate = delegate
     
     self.type = type

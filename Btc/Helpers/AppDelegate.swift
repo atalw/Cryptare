@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import FirebaseAuth
 import UserNotifications
 import SlideMenuControllerSwift
 import Charts
@@ -28,8 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // Override point for customization after application launch.
     
     
-    
-    // armchair
+    // armchair - for app review
     Armchair.appID("1266256984")
     Armchair.significantEventsUntilPrompt(5)
     
@@ -233,25 +233,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   
   func setUpFirebase() {
     FirebaseApp.configure()
-    ref = Database.database().reference().child("user_ids")
+    ref = Database.database().reference()
     
     let fcmToken = Messaging.messaging().fcmToken
     
-    //Retrieve lists of items or listen for additions to a list of items.
-    //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
-    //The listener is passed a snapshot containing the new child's data.
-    ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-      let enumerator = snapshot.children
-      
-      while let child = enumerator.nextObject() as? DataSnapshot {
-        if child.value as? String == fcmToken {
-          print("exists")
-          return;
-        }
+    Auth.auth().signInAnonymously() { (user, error) in
+      if error != nil {
+        print("Sign in error")
+        return
       }
-      let newChild = self.ref.child("users").childByAutoId()
-      newChild.setValue(Messaging.messaging().fcmToken)
-    })
+      
+      guard let uid = user?.uid else { return }
+      
+      let usersRefernce = Database.database().reference().child("users").child(uid)
+      let values = ["timestamp": Date().timeIntervalSince1970]
+      
+      usersRefernce.updateChildValues(values, withCompletionBlock: { (err, ref) in
+        if err != nil {
+          print(err)
+          return
+        }
+        
+      })
+      
+    }
+    
+//    //Retrieve lists of items or listen for additions to a list of items.
+//    //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
+//    //The listener is passed a snapshot containing the new child's data.
+//    ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+//      let enumerator = snapshot.children
+//
+//      while let child = enumerator.nextObject() as? DataSnapshot {
+//        if child.value as? String == fcmToken {
+//          print("exists")
+//          return;
+//        }
+//      }
+//      let newChild = self.ref.child("users").childByAutoId()
+//      newChild.setValue(Messaging.messaging().fcmToken)
+//    })
     
     Database.database().reference().child("all_exchange_info").observeSingleEvent(of: .value, with: { snapshot -> Void in
       if let dict = snapshot.value as? [String: [String: String]] {
