@@ -8,8 +8,6 @@
 
 import UIKit
 import SwiftyUserDefaults
-import FirebaseAuth
-import FirebaseDatabase
 
 class FiatPortfolioTableViewController: UITableViewController {
   
@@ -212,20 +210,7 @@ extension FiatPortfolioTableViewController {
       Defaults[.fiatPortfolioData] = allData
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
       
-      // update on firebase
-      var uid: String!
-      if Auth.auth().currentUser?.uid == nil {
-        print("user not signed in ERRRORRRR")
-      }
-      else {
-        uid = Auth.auth().currentUser?.uid
-        let portfolioRef = Database.database().reference().child("portfolios").child(uid).child("FiatData")
-        portfolioRef.updateChildValues(allData) { (err, ref) in
-          if err != nil {
-            print(err, "FiatData update")
-          }
-        }
-      }
+      FirebaseService.shared.updatePortfolioData(databaseTitle: "FiatData", data: allData)
     }
   }
   
@@ -271,6 +256,7 @@ extension FiatPortfolioTableViewController {
       
       allData[portfolioName] = data
       Defaults[.fiatPortfolioData] = allData
+      FirebaseService.shared.deletePortfolioData(databaseTitle: "FiatData", data: allData)
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
     }
   }

@@ -50,7 +50,7 @@ class MainPortfolioViewController: UIViewController {
 //    UserDefaults.standard.set(newData, forKey: "portfolioEntries")
 //
 //    UserDefaults.standard.remove("fiatPortfolioEntries")
-    
+//    
     currency = GlobalValues.currency!
     
     dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"

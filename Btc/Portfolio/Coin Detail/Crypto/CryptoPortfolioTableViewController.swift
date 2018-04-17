@@ -11,8 +11,6 @@ import Alamofire
 import SwiftyJSON
 import Armchair
 import SwiftyUserDefaults
-import FirebaseAuth
-import FirebaseDatabase
 
 class CryptoPortfolioTableViewController: UITableViewController {
   
@@ -393,23 +391,10 @@ extension CryptoPortfolioTableViewController {
       }
       allData[portfolioName] = data
       Defaults[.cryptoPortfolioData] = allData
-      
+      FirebaseService.shared.updatePortfolioData(databaseTitle: "CryptoData", data: allData)
+
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: data, fiatPortfolioData: nil)
       
-      // update on firebase
-      var uid: String!
-      if Auth.auth().currentUser?.uid == nil {
-        print("user not signed in ERRRORRRR")
-      }
-      else {
-        uid = Auth.auth().currentUser?.uid
-        let portfolioRef = Database.database().reference().child("portfolios").child(uid).child("CryptoData")
-        portfolioRef.updateChildValues(allData) { (err, ref) in
-          if err != nil {
-            print(err, "CryptoData update")
-          }
-        }
-      }
     }
   }
   
@@ -429,8 +414,11 @@ extension CryptoPortfolioTableViewController {
             let tradingPair = transaction["tradingPair"] as? String
             let exchange = transaction["exchange"] as? String
             let amountOfCoins = transaction["amountOfCoins"] as? Double
-            let date = transaction["date"] as? Date
             
+            var date: Date!
+            if let dateString = transaction["date"] as? String {
+              date = dateFormatter.date(from: dateString)
+            }
             if portfolioEntry.type == type &&
               portfolioEntry.tradingPair == tradingPair &&
               portfolioEntry.exchange == exchange &&
@@ -456,6 +444,7 @@ extension CryptoPortfolioTableViewController {
       }
       allData[portfolioName] = data
       Defaults[.cryptoPortfolioData] = allData
+      FirebaseService.shared.deletePortfolioData(databaseTitle: "CryptoData", data: allData)
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: data, fiatPortfolioData: nil)
       
     }

@@ -229,7 +229,7 @@ class AddTransactionViewController: UIViewController {
     let totalCostFiat = (amountOfCoins-self.fees) * exchangePrice
     
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
+    dateFormatter.dateFormat =  "yyyy-MM-dd hh:mm a"
     let dateString = dateFormatter.string(from: date)
     
     let cryptoData: [String: Any] = ["type": type,

@@ -83,20 +83,6 @@ class AddPortfolioViewController: UIViewController {
     if portfolioName != nil {
       Defaults[.portfolioNames].append(portfolioName!)
       
-      // update on firebase
-      var uid: String!
-      if Auth.auth().currentUser?.uid == nil {
-        print("user not signed in ERRRORRRR")
-      }
-      else {
-        uid = Auth.auth().currentUser?.uid
-        let portfolioRef = Database.database().reference().child("portfolios").child(uid).child("Names")
-        portfolioRef.setValue(Defaults[.portfolioNames]) { (err, ref) in
-          if err != nil {
-            print(err, "Names update")
-          }
-        }
-      }
       
       var cryptoPortfolioData = Defaults[.cryptoPortfolioData]
       var fiatPortfolioData = Defaults[.fiatPortfolioData]
@@ -106,6 +92,10 @@ class AddPortfolioViewController: UIViewController {
       
       Defaults[.cryptoPortfolioData] = cryptoPortfolioData
       Defaults[.fiatPortfolioData] = fiatPortfolioData
+      
+      FirebaseService.shared.updateCryptoPortfolioName()
+      FirebaseService.shared.updateFiatPortfolioName()
+      FirebaseService.shared.updatePortfolioNames()
       
       reloadPortfolios()
       
@@ -262,16 +252,30 @@ class AvailablePortfolioTableViewController: UITableViewController {
     
     Defaults[.portfolioNames][index] = name
     
+    FirebaseService.shared.updateCryptoPortfolioName()
+    FirebaseService.shared.updateFiatPortfolioName()
+    FirebaseService.shared.updatePortfolioNames()
+    
     self.parentController.reloadPortfolios()
   }
   
   func deletePortfolio(index: Int) {
     
-    Defaults[.cryptoPortfolioData].removeValue(forKey: portfolioNames[index])
-    Defaults[.fiatPortfolioData].removeValue(forKey: portfolioNames[index])
+    var cryptoData = Defaults[.cryptoPortfolioData]
+    var fiatData = Defaults[.fiatPortfolioData]
+    
+    cryptoData.removeValue(forKey: portfolioNames[index])
+    fiatData.removeValue(forKey: portfolioNames[index])
+    
+    Defaults[.cryptoPortfolioData] = cryptoData
+    Defaults[.fiatPortfolioData] = fiatData
     
     portfolioNames.remove(at: index)
     Defaults[.portfolioNames].remove(at: index)
+    
+    FirebaseService.shared.updateCryptoPortfolioName()
+    FirebaseService.shared.updateFiatPortfolioName()
+    FirebaseService.shared.updatePortfolioNames()
     
     parentController.reloadPortfolios()
   }
@@ -413,20 +417,8 @@ extension AvailablePortfolioTableViewController: TableViewReorderDelegate {
     
     Defaults[.portfolioNames] = portfolioNames
     
-    // update on firebase
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
-      let portfolioRef = Database.database().reference().child("portfolios").child(uid).child("Names")
-      portfolioRef.setValue(Defaults[.portfolioNames]) { (err, ref) in
-        if err != nil {
-          print(err, "Names update")
-        }
-      }
-    }
+    FirebaseService.shared.updatePortfolioNames()
+    
     self.parentController.reloadPortfolios()
   }
 }

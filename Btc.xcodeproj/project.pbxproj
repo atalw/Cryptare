@@ -133,6 +133,7 @@
 		86AFB1001FACBCF000AB6DFC /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
 		86B1300E2081FF1C004DC6AA /* Portfolio.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B1300D2081FF1C004DC6AA /* Portfolio.xib */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
+		86BAB82C20864C1000DF73B2 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BAB82B20864C1000DF73B2 /* FirebaseService.swift */; };
 		86BD6F981F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
 		86BD6F991F85203700C4B0CA /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */; };
 		86BD6F9B1F85236100C4B0CA /* MarketsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */; };
@@ -280,6 +281,7 @@
 		86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86B1300D2081FF1C004DC6AA /* Portfolio.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Portfolio.xib; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		86BAB82B20864C1000DF73B2 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		86BD6F971F85203700C4B0CA /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		86BD6F9A1F85236100C4B0CA /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
 		86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIButton.swift; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 				8650C5771FC07BE80078FD02 /* SortDropDown */,
 				86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */,
 				86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */,
+				86BAB82A20864BFA00DF73B2 /* FirebaseHelpers */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -686,6 +689,14 @@
 				86C1623820429C3000BFC90E /* AddTransactionTableViewController.swift */,
 			);
 			path = Crypto;
+			sourceTree = "<group>";
+		};
+		86BAB82A20864BFA00DF73B2 /* FirebaseHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				86BAB82B20864C1000DF73B2 /* FirebaseService.swift */,
+			);
+			path = FirebaseHelpers;
 			sourceTree = "<group>";
 		};
 		86CD93CD20518521009046F2 /* Fiat */ = {
@@ -1095,6 +1106,7 @@
 				86730EF12025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */,
 				86E8A5752028A69B00D7E467 /* MarketInformation.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
+				86BAB82C20864C1000DF73B2 /* FirebaseService.swift in Sources */,
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
 				86DF121920458D1300FA4787 /* NotificationCenter+Extentions.swift in Sources */,
 				86BD6F9E1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
