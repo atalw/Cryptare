@@ -107,6 +107,10 @@ class FirebaseService: NSObject {
 // Firebase Analytics functions
 extension FirebaseService {
   
+  func updateScreenName(screenName: String, screenClass: String) {
+    Analytics.setScreenName(screenName, screenClass: screenClass)
+  }
+  
   // Dashboard
   func dashboard_coin_tapped(coin: String) {
     Analytics.logEvent("dashboard_coin_tapped", parameters: [
@@ -114,16 +118,16 @@ extension FirebaseService {
       ])
   }
   
-  func favourite_coin_tapped(coin: String, status: String) {
-    Analytics.logEvent("favourite_coin_tapped", parameters: [
+  func favourite_action_tapped(coin: String, status: String) {
+    Analytics.logEvent("favourite_action_tapped", parameters: [
       "coin": coin as NSString,
       "status": status as NSString
       ])
   }
   
   // Markets
-  func market_view_appeared(coin: String, currency: String) {
-    Analytics.logEvent("market_view_appeared", parameters: [
+  func markets_view_appeared(coin: String, currency: String) {
+    Analytics.logEvent("markets_view_appeared", parameters: [
       "coin": coin as NSString,
       "currency": currency as NSString
       ])
@@ -143,6 +147,11 @@ extension FirebaseService {
       ])
   }
   
+  func news_article_tapped(url: String) {
+    Analytics.logEvent("market_url_tapped", parameters: [
+      "url": url as NSString
+      ])
+  }
   // Portfolio
   func crypto_transaction_added(coin: String) {
     Analytics.logEvent("crypto_transaction_added", parameters: [
@@ -225,5 +234,11 @@ extension FirebaseService {
   
   func tos_tapped() {
     Analytics.logEvent("tos_tapped", parameters: nil)
+  }
+  
+  func currency_selected(currency: String) {
+    Analytics.logEvent("currency_selected", parameters: [
+      "currency": currency as NSString,
+      ])
   }
 }

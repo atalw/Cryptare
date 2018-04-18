@@ -41,6 +41,8 @@ class CryptoPortfolioTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    FirebaseService.shared.updateScreenName(screenName: "Crypto Portfolio", screenClass: "CryptoPortfolioViewController")
+    
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     

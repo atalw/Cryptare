@@ -161,6 +161,10 @@ class MainViewController: UIViewController {
         }
       }
     }
+    else {
+      guard let currentIndex = currentSelectedIndex else { return }
+      (viewControllerList[currentIndex] as? DashboardViewController)?.loadAllCoinData()
+    }
   }
   
   // MARK: - Navigation

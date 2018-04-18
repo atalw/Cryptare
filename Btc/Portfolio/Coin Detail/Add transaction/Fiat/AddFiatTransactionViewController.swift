@@ -33,6 +33,8 @@ class AddFiatTransactionViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    FirebaseService.shared.updateScreenName(screenName: "Add Fiat Transaction", screenClass: "AddFiatTransactionViewController")
+    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
     addTransactionButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)

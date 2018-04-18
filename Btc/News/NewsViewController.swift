@@ -16,7 +16,6 @@ public enum NetworkResponseStatus {
   case error(string: String?)
 }
 
-
 class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
   
   let defaults = UserDefaults.standard
@@ -90,6 +89,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     super.viewDidLoad()
     
     Armchair.userDidSignificantEvent(true)
+    
+    FirebaseService.shared.updateScreenName(screenName: "News", screenClass: "NewsViewController")
     
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.mainBackgroundColor

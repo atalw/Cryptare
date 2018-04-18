@@ -20,7 +20,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
+      FirebaseService.shared.updateScreenName(screenName: "Intro Onboard", screenClass: "IntroViewController")
+      
         slideScrollView.delegate = self
         let slides = createSlides()
         setupSlideScrollView(slides: slides)

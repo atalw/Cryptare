@@ -3421,10 +3421,10 @@
             </objects>
             <point key="canvasLocation" x="2588" y="1419"/>
         </scene>
-        <!--Unlock Markets View Controller-->
+        <!--Subscriptions View Controller-->
         <scene sceneID="3uk-lD-lrg">
             <objects>
-                <viewController storyboardIdentifier="UnlockMarketsViewController" id="LTd-dD-Umg" customClass="UnlockMarketsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SubscriptionsViewController" id="LTd-dD-Umg" customClass="SubscriptionsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hnc-uC-SJk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5192,23 +5192,23 @@
                                         <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <color key="sectionIndexTrackingBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="65" id="KNm-io-X6m" customClass="CustomNewsTableViewCell" customModule="Cryptare" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" rowHeight="65" id="KNm-io-X6m" customClass="CustomNewsTableViewCell" customModule="Cryptare" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="65"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KNm-io-X6m" id="a6L-pX-c7T">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="342" height="65"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83m-O7-cJk">
-                                                            <rect key="frame" x="20" y="0.0" width="255" height="64"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <rect key="frame" x="20" y="0.0" width="229" height="64"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="highlightedColor"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2A-il-a9W">
-                                                            <rect key="frame" x="281" y="24.666666666666671" width="84" height="16"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2A-il-a9W">
+                                                            <rect key="frame" x="259" y="24.666666666666671" width="82" height="16"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -5218,11 +5218,11 @@
                                                         </label>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="e2A-il-a9W" firstAttribute="trailing" secondItem="a6L-pX-c7T" secondAttribute="trailingMargin" constant="-2" id="Ns8-En-I2n"/>
+                                                        <constraint firstItem="e2A-il-a9W" firstAttribute="trailing" secondItem="a6L-pX-c7T" secondAttribute="trailingMargin" id="Ns8-En-I2n"/>
                                                         <constraint firstItem="83m-O7-cJk" firstAttribute="top" secondItem="a6L-pX-c7T" secondAttribute="top" id="RAv-7H-L4F"/>
                                                         <constraint firstItem="83m-O7-cJk" firstAttribute="leading" secondItem="a6L-pX-c7T" secondAttribute="leading" constant="20" id="aO3-iB-fDX"/>
                                                         <constraint firstAttribute="trailing" secondItem="83m-O7-cJk" secondAttribute="trailing" constant="100" id="i7a-dn-vBT"/>
-                                                        <constraint firstItem="e2A-il-a9W" firstAttribute="leading" secondItem="83m-O7-cJk" secondAttribute="trailing" constant="6" id="kPi-P9-9AB"/>
+                                                        <constraint firstItem="e2A-il-a9W" firstAttribute="leading" secondItem="83m-O7-cJk" secondAttribute="trailing" constant="10" id="kPi-P9-9AB"/>
                                                         <constraint firstItem="e2A-il-a9W" firstAttribute="centerY" secondItem="a6L-pX-c7T" secondAttribute="centerY" id="kTT-3p-EDG"/>
                                                         <constraint firstAttribute="bottom" secondItem="83m-O7-cJk" secondAttribute="bottom" id="oHE-dC-1mQ"/>
                                                     </constraints>

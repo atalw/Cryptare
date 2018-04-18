@@ -153,10 +153,11 @@ class PortfolioSummaryViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    FirebaseService.shared.updateScreenName(screenName: "Portfolio Summary", screenClass: "PortfolioSummaryViewController")
+    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
-    
     
     for (symbol, name) in GlobalValues.coins {
       globalCoins.append(symbol)
@@ -583,7 +584,9 @@ class PortfolioSummaryViewController: UIViewController {
         return
       }
       do {
-        exchangeRate = JSON(data:data)["rates"][symbol].double!
+        if let rate = JSON(data:data)["rates"][symbol].double {
+          exchangeRate = rate
+        }
         completion(true, exchangeRate)
       }
     }

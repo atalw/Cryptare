@@ -78,7 +78,9 @@ class FiatPortfolioViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
+      FirebaseService.shared.updateScreenName(screenName: "Fiat Portfolio", screenClass: "FiatPortfolioViewController")
+      
         self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
 
         // Do any additional setup after loading the view.

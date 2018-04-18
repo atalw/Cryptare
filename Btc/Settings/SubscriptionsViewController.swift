@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UnlockMarketsViewController: UIViewController {
+class SubscriptionsViewController: UIViewController {
   
   let greenColour = UIColor.init(hex: "#2ecc71")
   let darkerGreenColour = UIColor.init(hex: "#29b765")
@@ -56,6 +56,8 @@ class UnlockMarketsViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    FirebaseService.shared.updateScreenName(screenName: "Subscriptions", screenClass: "SubscriptionsViewController")
     
     proLabel.adjustsFontSizeToFitWidth = true
     

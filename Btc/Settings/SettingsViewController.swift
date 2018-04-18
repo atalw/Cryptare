@@ -286,6 +286,8 @@ class SettingsViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    FirebaseService.shared.updateScreenName(screenName: "Settings", screenClass: "SettingsViewController")
+    
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
@@ -605,7 +607,7 @@ class SettingsViewController: UITableViewController {
         FirebaseService.shared.view_subscription_page_tapped()
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
+        let controller = storyboard.instantiateViewController(withIdentifier: "SubscriptionsViewController")
         self.present(controller, animated: true, completion: nil)
       }
       

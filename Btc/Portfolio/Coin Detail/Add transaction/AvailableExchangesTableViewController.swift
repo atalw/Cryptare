@@ -19,6 +19,8 @@ class AvailableExchangesTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    FirebaseService.shared.updateScreenName(screenName: "Available Exchanges Add Transaction", screenClass: "AvailableExchangesTableViewController")
+    
     self.title = "Exchanges"
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor

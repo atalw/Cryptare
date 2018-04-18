@@ -70,39 +70,49 @@ class DashboardViewController: UIViewController {
     
     listOfCoins = databaseRef.child("coins")
     
-    if !favouritesTab {
-      listOfCoins.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-        if let dict = snapshot.value as? [String: [String: Any]] {
-          let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
-          self.coins = []
-          GlobalValues.coins = []
-          self.tableView.reloadData()
+    var allCoins: [String] = []
+    
+    listOfCoins.observeSingleEvent(of: .value, with: { (snapshot) in
+      if let dict = snapshot.value as? [String: [String: Any]] {
+        let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
+        self.coins = []
+        GlobalValues.coins = []
+        self.tableView.reloadData()
+        
+        for (coin, values) in sortedDict {
+          allCoins.append(coin)
           
-          for (coin, values) in sortedDict {
-            
-            self.coins.append(coin)
-            if let name = values["name"] as? String {
-              GlobalValues.coins.append((coin, name))
-            }
-            
-            if self.coinData[coin] == nil {
-              self.coinData[coin] = [:]
-            }
-            if let rank = values["rank"] as? Int {
-              self.coinData[coin]!["rank"] = rank
-            }
-            if let iconUrl = values["icon_url"] as? String {
-              self.coinData[coin]!["iconUrl"] = iconUrl
-            }
+          if self.coinData[coin] == nil {
+            self.coinData[coin] = [:]
           }
-          self.setupCoinRefs()
+          
+          if let name = values["name"] as? String {
+            self.coinData[coin]!["name"] = name
+            GlobalValues.coins.append((coin, name))
+          }
+          
+          if let rank = values["rank"] as? Int {
+            self.coinData[coin]!["rank"] = rank
+          }
+          if let iconUrl = values["icon_url"] as? String {
+            self.coinData[coin]!["iconUrl"] = iconUrl
+          }
         }
-      })
-    }
-    else {
-      // for reorder ability
-      tableView.reorder.delegate = self
-    }
+      }
+      if !self.favouritesTab {
+        FirebaseService.shared.updateScreenName(screenName: "All Dashboard", screenClass: "DashboardViewController")
+        self.coins = allCoins
+      }
+      else {
+        // for reorder ability
+        FirebaseService.shared.updateScreenName(screenName: "Favourites Dashboard", screenClass: "FavouritesDashboardViewController")
+        
+        self.tableView.reorder.delegate = self
+      }
+      
+      self.loadAllCoinData()
+    })
+    
     
   }
   
@@ -124,8 +134,6 @@ class DashboardViewController: UIViewController {
       alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
       present(alert, animated: true, completion: nil)
     }
-    
-    loadAllCoinData()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -209,31 +217,63 @@ class DashboardViewController: UIViewController {
   
   func updateCoinDataStructure(coin: String, dict: [String: Any]) {
     
-    if self.coinData[coin]!["oldPrice"] == nil {
-      self.coinData[coin]!["oldPrice"] = 0.0
+    if coinData[coin]!["oldPrice"] == nil {
+      coinData[coin]!["oldPrice"] = 0.0
     }
     else {
-      self.coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
+      coinData[coin]!["oldPrice"] = self.coinData[coin]!["currentPrice"]
     }
     if let currentPrice = dict["price"] as? Double {
-      self.coinData[coin]!["currentPrice"] = currentPrice
+      coinData[coin]!["currentPrice"] = currentPrice
     }
     if let volume24hrs = dict["vol_24hrs_currency"] as? Double {
-      self.coinData[coin]!["volume24hrs"] = volume24hrs
+      coinData[coin]!["volume24hrs"] = volume24hrs
     }
     if let percentageChange24hours = dict["change_24hrs_percent"] as? Double {
       let roundedPercentage = Double(round(1000*percentageChange24hours)/1000)
-      self.coinData[coin]!["percentageChange24hrs"] = roundedPercentage
+      coinData[coin]!["percentageChange24hrs"] = roundedPercentage
       
     }
     if let priceChange24hrs = dict["change_24hrs_fiat"] as? Double {
-      self.coinData[coin]!["priceChange24hrs"] = priceChange24hrs
+      coinData[coin]!["priceChange24hrs"] = priceChange24hrs
     }
     if let timestamp = dict["timestamp"] as? Double {
-      self.coinData[coin]!["timestamp"] = timestamp
+      coinData[coin]!["timestamp"] = timestamp
     }
     
-    self.tableView.reloadData()
+    if let volumeCoin = dict["vol_24hrs_coin"] as? Double {
+      coinData[coin]!["volume24hrsCoin"] = Double(round(1000*volumeCoin)/1000)
+    }
+//    self.coinData["volume24hrsFiat"] = dict!["vol_24hrs_fiat"] as! Double
+    
+    if let high = dict["high_24hrs"] as? Double {
+      coinData[coin]!["high24hrs"] = high
+    }
+    
+    if let low = dict["low_24hrs"] as? Double {
+      coinData[coin]!["low24hrs"] = low
+    }
+    
+    if let lastTradedMarket = dict["last_trade_market"] as? String {
+      coinData[coin]!["lastTradeMarket"] = lastTradedMarket
+    }
+    if let lastTradeVolume = dict["last_trade_volume"] as? Double {
+      coinData[coin]!["lastTradeVolume"] = lastTradeVolume
+    }
+    
+    if let supply = dict["supply"] as? Double {
+      coinData[coin]!["supply"] = supply
+    }
+    
+    if let marketcap =  dict["marketcap"] as? Double {
+      coinData[coin]!["marketcap"] = marketcap
+    }
+    
+    if coin == "ETH" {
+      print(coinData[coin]!["name"])
+    }
+    
+    tableView.reloadData()
 
   }
   
@@ -382,10 +422,14 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     let targetViewController = storyboard?.instantiateViewController(withIdentifier: "graphViewController") as! GraphViewController
     
     if isFiltering() {
-      targetViewController.databaseTableTitle = self.coinSearchResults[indexPath.row]
+      let coin = self.coinSearchResults[indexPath.row]
+      targetViewController.databaseTableTitle = coin
+      targetViewController.coinData = self.coinData[coin]!
     }
     else {
-      targetViewController.databaseTableTitle = self.coins[indexPath.row]
+      let coin = self.coins[indexPath.row]
+      targetViewController.databaseTableTitle = coin
+      targetViewController.coinData = self.coinData[coin]!
     }
     
     FirebaseService.shared.dashboard_coin_tapped(coin: targetViewController.databaseTableTitle)

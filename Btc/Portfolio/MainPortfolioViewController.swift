@@ -32,7 +32,7 @@ class MainPortfolioViewController: UIViewController {
   let pagingViewController = PagingViewController<PagingIndexItem>()
   
   lazy var viewControllerList: [UIViewController] = {
-    return getPortfolios()
+    return []
   }()
   
   var portfolioNames: [String]!
@@ -50,7 +50,7 @@ class MainPortfolioViewController: UIViewController {
 //    UserDefaults.standard.set(newData, forKey: "portfolioEntries")
 //
 //    UserDefaults.standard.remove("fiatPortfolioEntries")
-//    
+    
     currency = GlobalValues.currency!
     
     dateFormatter.dateFormat = "dd MMM, YYYY hh:mm a"
@@ -118,6 +118,9 @@ class MainPortfolioViewController: UIViewController {
           }
         }
       })
+      
+      self.viewControllerList = self.getPortfolios()
+      self.pagingViewController.reloadData()
     }
     
   }

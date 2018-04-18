@@ -214,6 +214,8 @@ class MarketViewController: UIViewController {
     
     Armchair.userDidSignificantEvent(true)
     
+    FirebaseService.shared.updateScreenName(screenName: "Markets", screenClass: "MarketsViewController")
+    
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     
     coinNameLabel.text = currentCoin
@@ -288,7 +290,7 @@ class MarketViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
-    FirebaseService.shared.market_view_appeared(coin: currentCoin, currency: GlobalValues.currency!)
+    FirebaseService.shared.markets_view_appeared(coin: currentCoin, currency: GlobalValues.currency!)
     
     if currentReachabilityStatus == .notReachable {
       let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)

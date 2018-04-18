@@ -19,6 +19,8 @@ class GraphViewController: UIViewController {
   
   var databaseTableTitle: String!
   
+  var coinData: [String: Any] = [:]
+  
   let titles = ["Details", "News", "Markets"]
   var favourites: [String] = []
   var favouriteStatus: Bool = false
@@ -29,6 +31,7 @@ class GraphViewController: UIViewController {
     
     let cryptoDetailVC = storyboard.instantiateViewController(withIdentifier: "CryptoDetailViewController") as! CryptoDetailViewController
     cryptoDetailVC.databaseTableTitle = databaseTableTitle
+    cryptoDetailVC.coinData = coinData
     
     let newsVC = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
     for (symbol, name) in GlobalValues.coins {
@@ -163,7 +166,7 @@ class GraphViewController: UIViewController {
     
     Defaults[.dashboardFavourites] = favourites
     
-    FirebaseService.shared.favourite_coin_tapped(coin: databaseTableTitle, status: favouriteStatus.description)
+    FirebaseService.shared.favourite_action_tapped(coin: databaseTableTitle, status: favouriteStatus.description)
     
     setFavouriteButtonStatus()
   }

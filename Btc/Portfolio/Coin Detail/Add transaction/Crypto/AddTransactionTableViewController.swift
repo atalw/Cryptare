@@ -121,6 +121,8 @@ class AddTransactionTableViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+      FirebaseService.shared.updateScreenName(screenName: "Add Crypto Transaction", screenClass: "AddTransactionViewController")
         
         self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor

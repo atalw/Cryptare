@@ -49,6 +49,8 @@ class AddTransactionViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    FirebaseService.shared.updateScreenName(screenName: "Add Crypto Transaction", screenClass: "AddTransactionViewController")
+    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
     portfolioName = parentController.portfolioName
@@ -228,7 +230,6 @@ class AddTransactionViewController: UIViewController {
     let amountOfCoins = self.amountOfCoins*self.costPerCoin
     let totalCostFiat = (amountOfCoins-self.fees) * exchangePrice
     
-    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat =  "yyyy-MM-dd hh:mm a"
     let dateString = dateFormatter.string(from: date)
     

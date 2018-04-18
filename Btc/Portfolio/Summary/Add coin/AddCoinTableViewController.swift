@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class AddCoinTableViewController: UITableViewController {
   
@@ -23,6 +22,9 @@ class AddCoinTableViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    FirebaseService.shared.updateScreenName(screenName: "Add Coin", screenClass: "AddCoinViewController")
+
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor

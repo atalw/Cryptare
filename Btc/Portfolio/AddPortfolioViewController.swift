@@ -11,6 +11,7 @@ import SwiftyUserDefaults
 import SwiftReorder
 import FirebaseAuth
 import FirebaseDatabase
+import Firebase
 
 class AddPortfolioViewController: UIViewController {
   
@@ -27,8 +28,10 @@ class AddPortfolioViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+    Analytics.setScreenName("Add Portfolio", screenClass: "AddPortfolioViewController")
+
     
+    self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
     doneButton.isEnabled = false
     
