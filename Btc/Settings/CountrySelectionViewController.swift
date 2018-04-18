@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyUserDefaults
+import Firebase
 
 class CountrySelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -70,6 +71,11 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
         let row = indexPath.row
         Defaults[.selectedCountry] = sortedCountryList[row].0
         GlobalValues.currency = sortedCountryList[row].1
+      
+      Analytics.logEvent("currency_selected", parameters: [
+        "currency": GlobalValues.currency as NSString,
+        ])
+      
         self.dismiss(animated: true, completion: nil)
         
     }

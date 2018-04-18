@@ -26,6 +26,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   var sortedNewsData : [NewsData] = [];
   
   var cryptoName: String! = "cryptocurrency"
+  var coin: String! = "cryptocurrency"
   
   let marketRowColour : UIColor = UIColor.white
   let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
@@ -115,6 +116,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     else if self.selectedCountry == "usa" {
       self.indiaButton.setTitle("🇺🇸", for: .normal)
     }
+    
+    FirebaseService.shared.news_view_appeared(coin: coin, country: selectedCountry)
     
     getNews()
   }

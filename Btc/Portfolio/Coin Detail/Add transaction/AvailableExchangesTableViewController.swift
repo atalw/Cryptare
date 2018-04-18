@@ -75,6 +75,8 @@ class AvailableExchangesTableViewController: UITableViewController {
     else if fiatParentController != nil {
       fiatParentController?.updateCurrentExchange(exchange: market)
     }
+    
+    FirebaseService.shared.transaction_exchange_selected(name: market.0)
     navigationController?.popViewController(animated: true)
   }
   

@@ -392,7 +392,8 @@ extension CryptoPortfolioTableViewController {
       allData[portfolioName] = data
       Defaults[.cryptoPortfolioData] = allData
       FirebaseService.shared.updatePortfolioData(databaseTitle: "CryptoData", data: allData)
-
+      
+      FirebaseService.shared.crypto_transaction_added(coin: coin)
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: data, fiatPortfolioData: nil)
       
     }
@@ -445,6 +446,7 @@ extension CryptoPortfolioTableViewController {
       allData[portfolioName] = data
       Defaults[.cryptoPortfolioData] = allData
       FirebaseService.shared.deletePortfolioData(databaseTitle: "CryptoData", data: allData)
+      
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: data, fiatPortfolioData: nil)
       
     }

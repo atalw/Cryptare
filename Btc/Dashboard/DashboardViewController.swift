@@ -380,12 +380,16 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let targetViewController = storyboard?.instantiateViewController(withIdentifier: "graphViewController") as! GraphViewController
+    
     if isFiltering() {
       targetViewController.databaseTableTitle = self.coinSearchResults[indexPath.row]
     }
     else {
       targetViewController.databaseTableTitle = self.coins[indexPath.row]
     }
+    
+    FirebaseService.shared.dashboard_coin_tapped(coin: targetViewController.databaseTableTitle)
+    
     self.navigationController?.pushViewController(targetViewController, animated: true)
     
     guard let cell = tableView.cellForRow(at: indexPath) else { return }
@@ -405,6 +409,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension DashboardViewController: TableViewReorderDelegate {
   func tableView(_ tableView: UITableView, reorderRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    
     // Update data model
     let destinationCoin = coins[destinationIndexPath.row]
     coins[destinationIndexPath.row] = coins[sourceIndexPath.row]

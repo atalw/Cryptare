@@ -83,10 +83,12 @@ class UnlockMarketsViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
+    FirebaseService.shared.subscription_page_opened()
   }
   
   @objc func unlockProModeTapped() {
+    FirebaseService.shared.one_month_subscription_tapped()
+    
     IAPService.shared.purchase(product: .unlockProMode, completionHandlerBool: { (success) -> Void in
       if success {
         self.dismiss(animated: true, completion: nil)
@@ -95,6 +97,8 @@ class UnlockMarketsViewController: UIViewController {
   }
   
   @objc func unlockProModeOneYearTapped() {
+    FirebaseService.shared.one_year_subscription_tapped()
+    
     IAPService.shared.purchase(product: .unlockProModeOneYear, completionHandlerBool: { (success) -> Void in
       if success {
         self.dismiss(animated: true, completion: nil)
@@ -107,11 +111,15 @@ class UnlockMarketsViewController: UIViewController {
   }
   
   @IBAction func tosButtonTapped(_ sender: Any) {
+    FirebaseService.shared.tos_tapped_from_subscription()
+    
     if let url = URL(string: "http://cryptare.io/privacy.html") {
       UIApplication.shared.openURL(url)
     }
   }
   @IBAction func privacyButtonTapped(_ sender: Any) {
+    FirebaseService.shared.privacy_tapped_from_subscription()
+    
     if let url = URL(string: "http://cryptare.io/tos.html") {
       UIApplication.shared.openURL(url)
     }

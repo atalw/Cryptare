@@ -208,9 +208,11 @@ extension FiatPortfolioTableViewController {
       }
       allData[portfolioName] = data
       Defaults[.fiatPortfolioData] = allData
-      parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
       
       FirebaseService.shared.updatePortfolioData(databaseTitle: "FiatData", data: allData)
+      
+      FirebaseService.shared.fiat_transaction_added(currency: currency)
+      parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
     }
   }
   

@@ -15,6 +15,7 @@ class TradingPairTableViewController: UITableViewController {
   var globalCoins: [String] = []
   var globalCurrencies: [String] = []
 
+  // (quote, base)
   var tradingPairs: [(String, String)]!
   var fiatTradingPairs: [(String, String)] = []
   var cryptoTradingPairs: [(String, String)] = []
@@ -114,6 +115,9 @@ class TradingPairTableViewController: UITableViewController {
     else {
       selectedPair = sortedFiatTradingPairs[indexPath.row]
     }
+    
+    FirebaseService.shared.transaction_tradingPair_selected(pair: selectedPair)
+    
     parentController.updateCurrentTradingPair(pair: selectedPair)
     navigationController?.popViewController(animated: true)
   }

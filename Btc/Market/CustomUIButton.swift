@@ -9,5 +9,6 @@
 import UIKit
 
 class CustomUIButton: UIButton {
-    var url: URL!
+  var url: URL!
+  var title: String!
 }

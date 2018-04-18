@@ -591,10 +591,10 @@ class SettingsViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let unlockAllPurchased: Bool = Defaults[.unlockAllPurchased]
-    let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
-    let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
-    let unlockMultiplePortfoliosPurchased: Bool = Defaults[.multiplePortfoliosPurchased]
+//    let unlockAllPurchased: Bool = Defaults[.unlockAllPurchased]
+//    let removeAdsPurchased: Bool = Defaults[.removeAdsPurchased]
+//    let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
+//    let unlockMultiplePortfoliosPurchased: Bool = Defaults[.multiplePortfoliosPurchased]
     
     let section = indexPath.section
     let row = indexPath.row
@@ -602,42 +602,12 @@ class SettingsViewController: UITableViewController {
     if section == 0 { // in-app purchases
       
       if row == 0 {
+        FirebaseService.shared.view_subscription_page_tapped()
+
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
         self.present(controller, animated: true, completion: nil)
       }
-      
-//      if !unlockAllPurchased {
-//        if row == 0 {
-//          IAPService.shared.purchase(product: .unlockAll, completionHandlerBool: { (success) -> Void in
-//
-//          })
-//        }
-//      }
-      
-//      if !removeAdsPurchased {
-//        if row == 1 {
-//          IAPService.shared.purchase(product: .removeAds, completionHandlerBool: { (success) -> Void in
-//
-//          })
-//        }
-//      }
-      
-//      if !unlockMarketsPurchased {
-//        if row == 2 {
-//          let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//          let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
-//          self.present(controller, animated: true, completion: nil)
-//        }
-//      }
-//
-//      if !unlockMultiplePortfoliosPurchased {
-//        if row == 3 {
-//          let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//          let controller = storyboard.instantiateViewController(withIdentifier: "UnlockMarketsViewController")
-//          self.present(controller, animated: true, completion: nil)
-//        }
-//      }
       
       if row == 1 {
         IAPService.shared.restorePurchases()
@@ -650,15 +620,20 @@ class SettingsViewController: UITableViewController {
     }
     else if section == 7 { // social
       if row == 0 { //twitter
+        FirebaseService.shared.cryptare_twitter_tapped()
         let url = URL(string: "https://twitter.com/cryptare")
         UIApplication.shared.openURL(url!)
       }
       else if row == 1 { // slack
+        FirebaseService.shared.slack_tapped()
+
         if let url = URL(string: "https://join.slack.com/t/cryptare/shared_invite/enQtMzQ2MzQ2NDc0MDA2LWRlOWU4MjI0ZmQxZjQ1NzNhYjkwYWFlZTAzYTdmNzNhNzNmMTg2NTE4MDEzMGM5M2I3MGU0ZWEwMWM4YWRlMGI") {
           UIApplication.shared.openURL(url)
         }
       }
       else if row == 2 { // telegram
+        FirebaseService.shared.telegram_tapped()
+
         if let url = URL(string: "https://t.me/cryptare") {
           UIApplication.shared.openURL(url)
         }
@@ -671,9 +646,13 @@ class SettingsViewController: UITableViewController {
     else if section == 8 {
       let row = row
       if row == 0 { // app review
+        FirebaseService.shared.rate_app_tapped()
+
         Armchair.rateApp()
       }
       else if row == 1 { // share app
+        FirebaseService.shared.share_app_tapped()
+
         let urlString = "https://itunes.apple.com/app/cryptare/id1266256984?mt=8"
         
         let linkToShare = [urlString]
@@ -683,18 +662,24 @@ class SettingsViewController: UITableViewController {
         self.present(activityController, animated: true, completion: nil)
       }
       else if row == 2 { // support
+        FirebaseService.shared.support_tapped()
+
         let email = "support@cryptare.io"
         if let url = URL(string: "mailto:\(email)") {
           UIApplication.shared.openURL(url)
         }
       }
       else if row == 3 { // privacy policy
-        let url = URL(string: "http://cryptare.io/privacy.html")
-        UIApplication.shared.openURL(url!)
+        FirebaseService.shared.privacy_tapped()
+        if let url = URL(string: "http://cryptare.io/privacy.html") {
+          UIApplication.shared.openURL(url)
+        }
       }
       else if row == 4 { // terms and conditions
-        let url = URL(string: "http://cryptare.io/tos.html")
-        UIApplication.shared.openURL(url!)
+        FirebaseService.shared.tos_tapped()
+        if let url = URL(string: "http://cryptare.io/tos.html") {
+          UIApplication.shared.openURL(url)
+        }
       }
       
     }
