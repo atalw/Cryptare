@@ -190,23 +190,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       }
     }
     
-    // notification request
     if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
-        if error != nil { return }
-        
-        if isGranted {
-          UNUserNotificationCenter.current().delegate = self
-          Messaging.messaging().delegate = self
-        }
-      })
-      application.registerForRemoteNotifications()
+      // For iOS 10 display notification (sent via APNS)
+      UNUserNotificationCenter.current().delegate = self
       
-      setUpFirebase()
-      
+      let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+      UNUserNotificationCenter.current().requestAuthorization(
+        options: authOptions,
+        completionHandler: {_, _ in })
     } else {
-      // Fallback on earlier versions
+      let settings: UIUserNotificationSettings =
+        UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+      application.registerUserNotificationSettings(settings)
     }
+    UIApplication.shared.registerForRemoteNotifications()
+    application.registerForRemoteNotifications()
+    Messaging.messaging().delegate = self
+
+    setUpFirebase()
+
+    
+//    // notification request
+//    if #available(iOS 10.0, *) {
+//      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
+//        if error != nil { return }
+//
+//        if isGranted {
+//          UNUserNotificationCenter.current().delegate = self
+//        }
+//      })
+//      application.registerForRemoteNotifications()
+//
+//
+//    } else {
+//      // Fallback on earlier versions
+//    }
     
     return true
   }
@@ -236,6 +254,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     ref = Database.database().reference()
     
     let fcmToken = Messaging.messaging().fcmToken
+    print("FCM token: \(fcmToken ?? "")")
     
     Auth.auth().signInAnonymously() { (user, error) in
       if error != nil {
@@ -245,16 +264,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       
       guard let uid = user?.uid else { return }
       
-      let usersRefernce = Database.database().reference().child("users").child(uid)
-      let values = ["timestamp": Date().timeIntervalSince1970]
+      let usersReference = Database.database().reference()
+                            .child("users").child(uid)
       
-      usersRefernce.updateChildValues(values, withCompletionBlock: { (err, ref) in
-        if err != nil {
-          print(err)
-          return
-        }
-        
-      })
+      if let token = fcmToken {
+        let values: [String : Any] = ["timestamp": Date().timeIntervalSince1970,
+                                      "notificationTokens": [fcmToken!: true] as [String: Any]]
+        usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
+          if err != nil {
+            print(err)
+            return
+          }
+        })
+      }
       
     }
     
@@ -278,31 +300,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       if let dict = snapshot.value as? [String: [String: String]] {
         marketInformation = dict
       }
-    })
-  }
-  
-  func setUpFirebaseLite() {
-    FirebaseApp.configure()
-    Database.database().isPersistenceEnabled = true
-    ref = Database.database().reference().child("user_ids_lite")
-    
-    let fcmToken = Messaging.messaging().fcmToken
-    print(fcmToken)
-    
-    //Retrieve lists of items or listen for additions to a list of items.
-    //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
-    //The listener is passed a snapshot containing the new child's data.
-    ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-      let enumerator = snapshot.children
-      
-      while let child = enumerator.nextObject() as? DataSnapshot {
-        if child.value as? String == fcmToken {
-          print("exists")
-          return;
-        }
-      }
-      let newChild = self.ref.child("users").childByAutoId()
-      newChild.setValue(Messaging.messaging().fcmToken)
     })
   }
   
@@ -339,12 +336,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
+  
   func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
     print("Firebase registration token: \(fcmToken)")
     connectToFCM()
   }
   
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    // Convert token to string
+    let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+    
+    // Print it to console
+    print("APNs device token: \(deviceTokenString)")
+    
+    Messaging.messaging().apnsToken = deviceToken
     print("registered")
     Messaging.messaging().subscribe(toTopic: "/topics/general")
   }

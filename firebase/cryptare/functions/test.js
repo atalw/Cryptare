@@ -1,0 +1,1 @@
+coinAlerts('1234', {params: {uid: 'DS63dp2r6fcamz5uEJUtbuCKpRr2', market: 'MarketAverage', coin: 'ETH', currency: 'INR', count: '0'}})
