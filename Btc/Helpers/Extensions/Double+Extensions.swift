@@ -33,9 +33,17 @@ extension Double {
     for countryTuple in GlobalValues.countryList {
       if currency == countryTuple.1 {
         numberFormatter.locale = Locale.init(identifier: countryTuple.2)
+        return numberFormatter.string(from: NSNumber(value: self))!
       }
     }
-    return numberFormatter.string(from: NSNumber(value: self))!
+    
+    if currency == "BTC" {
+      return self.asBtcCurrency
+    }
+    else if currency == "ETH" {
+      return self.asEthCurrency
+    }
+    return "\(self) \(currency)"
   }
   
   var asBtcCurrency: String {

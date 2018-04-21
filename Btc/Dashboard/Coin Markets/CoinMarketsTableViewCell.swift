@@ -1,5 +1,5 @@
 //
-//  MarketTableViewCell.swift
+//  CoinMarketsTableViewCell.swift
 //  Btc
 //
 //  Created by Akshit Talwar on 04/10/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MarketTableViewCell: UITableViewCell {
+class CoinMarketsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var siteLabel: CustomUIButton! {
         didSet {

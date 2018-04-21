@@ -55,6 +55,7 @@ class DashboardViewController: UIViewController {
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     tableView.tableHeaderView?.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+    
     header24hrChangeLabel.theme_textColor = GlobalPicker.viewAltTextColor
     headerCurrentPriceLabel.theme_textColor = GlobalPicker.viewAltTextColor
     

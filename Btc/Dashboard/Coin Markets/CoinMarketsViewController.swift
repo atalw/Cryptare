@@ -12,7 +12,7 @@ import Firebase
 import Armchair
 import SwiftyUserDefaults
 
-class MarketViewController: UIViewController {
+class CoinMarketsViewController: UIViewController {
   
   var selectedCountry: String!
   
@@ -35,9 +35,9 @@ class MarketViewController: UIViewController {
   let lastPriceTitleArray = ["Last Price", "Last Price ▲", "Last Price ▼"]
   let percentChangeTitleArray = ["24hr Change", "24hr Change ▲", "24hr Change ▼"]
   
-  var markets: [Market] = []
-  var btcMarkets: [Market] = []
-  var ethMarkets: [Market] = []
+  var markets: [CoinMarket] = []
+  var btcMarkets: [CoinMarket] = []
+  var ethMarkets: [CoinMarket] = []
   
   var liteMarkets : [(String, String)] = []
   
@@ -933,22 +933,22 @@ class MarketViewController: UIViewController {
   }
   
   func addExchangeToTable(title: String, url: String, description: String, links: [String]) {
-    self.markets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
+    self.markets.append(CoinMarket(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
     self.copyMarkets.append((0, 0))
   }
   
   func addBtcExchangeToTable(title: String, url: String, description: String, links: [String]) {
-    self.btcMarkets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
+    self.btcMarkets.append(CoinMarket(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
     self.copyBtcMarkets.append((0, 0))
   }
   
   func addEthExchangeToTable(title: String, url: String, description: String, links: [String]) {
-    self.ethMarkets.append(Market(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
+    self.ethMarkets.append(CoinMarket(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
     self.copyEthMarkets.append((0, 0))
   }
   
   
-  func flashBuyPriceLabel(cell: MarketTableViewCell, colour: UIColor) {
+  func flashBuyPriceLabel(cell: CoinMarketsTableViewCell, colour: UIColor) {
     UILabel.transition(with: cell.buyLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
       cell.buyLabel?.textColor = colour
     }, completion: { finished in
@@ -958,7 +958,7 @@ class MarketViewController: UIViewController {
     })
   }
   
-  func flashSellPriceLabel(cell: MarketTableViewCell, colour: UIColor) {
+  func flashSellPriceLabel(cell: CoinMarketsTableViewCell, colour: UIColor) {
     UILabel.transition(with: cell.sellLabel, duration: 0.1, options: .transitionCrossDissolve, animations: {
       cell.sellLabel?.textColor = colour
     }, completion: { finished in
@@ -970,7 +970,7 @@ class MarketViewController: UIViewController {
   
 }
 
-extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
+extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     var count: Int?
@@ -996,7 +996,7 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
     if self.tableView == tableView {
       
       let market = self.markets[indexPath.row]
-      let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
+      let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
       cell!.siteLabel?.setTitle(market.title, for: .normal)
       cell!.siteLabel.url = market.siteLink
       cell!.siteLabel.title = market.title
@@ -1033,7 +1033,7 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     if self.btcMarketsTable == tableView {
-      let cell = self.btcMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
+      let cell = self.btcMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
       let market = self.btcMarkets[indexPath.row]
       cell!.siteLabel?.setTitle(market.title, for: .normal)
       cell!.siteLabel.url = market.siteLink
@@ -1071,7 +1071,7 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     if self.ethMarketsTable == tableView {
-      let cell = self.ethMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? MarketTableViewCell!
+      let cell = self.ethMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
       let market = self.ethMarkets[indexPath.row]
       cell!.siteLabel?.setTitle(market.title, for: .normal)
       cell!.siteLabel.url = market.siteLink
@@ -1120,22 +1120,22 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
       cell.theme_backgroundColor = GlobalPicker.alternateMarketRowColour
     }
   }
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
-    let destinationViewController = segue.destination
-    if let marketDetailController = destinationViewController as? MarketDetailViewController {
-      if let index = tableView.indexPathForSelectedRow?.row {
-        if let title = self.markets[index].title {
-          marketDetailController.market = title
-          marketDetailController.databaseChildTitle = self.coinMarkets[title]
-          marketDetailController.marketDescription = self.markets[index].description
-          marketDetailController.links = self.markets[index].links
-        }
-      }
-    }
-    
-  }
+//
+//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//    let destinationViewController = segue.destination
+//    if let marketDetailController = destinationViewController as? MarketDetailViewController {
+//      if let index = tableView.indexPathForSelectedRow?.row {
+//        if let title = self.markets[index].title {
+//          marketDetailController.market = title
+//          marketDetailController.databaseChildTitle = self.coinMarkets[title]
+//          marketDetailController.marketDescription = self.markets[index].description
+//          marketDetailController.links = self.markets[index].links
+//        }
+//      }
+//    }
+//
+//  }
   
 }
 

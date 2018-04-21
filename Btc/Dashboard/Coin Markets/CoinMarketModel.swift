@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Market {
+class CoinMarket {
     var title: String!
     var siteLink: URL!
     var buyPrice: Double!

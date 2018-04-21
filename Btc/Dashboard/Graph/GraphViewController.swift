@@ -41,7 +41,7 @@ class GraphViewController: UIViewController {
         newsVC.coin = symbol
       }
     }
-    let marketsVC = storyboard.instantiateViewController(withIdentifier: "MarketViewController") as! MarketViewController
+    let marketsVC = storyboard.instantiateViewController(withIdentifier: "CoinMarketsViewController") as! CoinMarketsViewController
     marketsVC.currentCoin = databaseTableTitle
     
     return [cryptoDetailVC, newsVC, marketsVC]

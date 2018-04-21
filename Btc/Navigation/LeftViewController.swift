@@ -11,6 +11,7 @@ import SwiftyUserDefaults
 enum LeftMenu: Int {
   case dashboard = 0
   case portfolio
+  case markets
   case news
   case settings
 }
@@ -35,9 +36,10 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     }
   }
   
-  var menus = ["Dashboard", "Portfolio", "News", "Settings"]
+  var menus = ["Dashboard", "Portfolio", "Markets", "News", "Settings"]
   var mainViewController: UIViewController!
   var mainPortfolioViewController: UIViewController!
+  var marketsViewController: UIViewController!
   var newsViewController: UIViewController!
   var settingsViewController: UIViewController!
   
@@ -66,6 +68,9 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     
     let mainPortfolioViewController = storyboard.instantiateViewController(withIdentifier: "MainPortfolioViewController") as! MainPortfolioViewController
     self.mainPortfolioViewController = UINavigationController(rootViewController: mainPortfolioViewController)
+    
+    let marketsViewController = storyboard.instantiateViewController(withIdentifier: "MarketsContainerViewController") as! MarketsContainerViewController
+    self.marketsViewController = UINavigationController(rootViewController: marketsViewController)
     
     let newsViewController = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
     self.newsViewController = UINavigationController(rootViewController: newsViewController)
@@ -107,6 +112,8 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
       self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
     case .portfolio:
       self.slideMenuController()?.changeMainViewController(self.mainPortfolioViewController, close: true)
+    case .markets:
+      self.slideMenuController()?.changeMainViewController(self.marketsViewController, close: true)
     case .news:
       self.slideMenuController()?.changeMainViewController(self.newsViewController, close: true)
     case .settings:
@@ -119,7 +126,7 @@ extension LeftViewController : UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if let menu = LeftMenu(rawValue: indexPath.row) {
       switch menu {
-      case .dashboard, .portfolio, .news, .settings:
+      case .dashboard, .portfolio, .markets, .news, .settings:
         return 50
       }
     }
@@ -149,7 +156,7 @@ extension LeftViewController : UITableViewDataSource {
     
     if let menu = LeftMenu(rawValue: indexPath.row) {
       switch menu {
-      case .dashboard, .portfolio, .news, .settings:
+      case .dashboard, .portfolio, .markets, .news, .settings:
         let cell = tableView.dequeueReusableCell(withIdentifier: "navigationCell", for: indexPath) as! LeftNavigationTableViewCell
         cell.setData(menus[indexPath.row])
         cell.theme_backgroundColor = GlobalPicker.mainBackgroundColor
