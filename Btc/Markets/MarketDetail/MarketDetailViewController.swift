@@ -11,9 +11,12 @@ import Firebase
 
 class MarketDetailViewController: UIViewController {
   
-  var market: [String: String]!
-  var tradingPairData: [String: [String: Any]] = [:]
+  var market: [String: Any]!
   
+  var links: [String: Any] = [:]
+  var sortedLinks: [String] = []
+  
+  var tradingPairData: [String: [String: Any]] = [:]
   // (coin, [base])
   var sortedTradingPairs: [(String, [String])] = []
   
@@ -24,7 +27,7 @@ class MarketDetailViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.title = market["name"]
+    self.title = market["name"] as! String
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -34,8 +37,13 @@ class MarketDetailViewController: UIViewController {
     tableView.delegate = self
     tableView.dataSource = self
     tableView.tableFooterView = UIView()
+    
+    links = market["links"] as! [String : Any]
+    
+    sortedLinks.append("Website")
+    sortedLinks.append("Twitter")
 
-    if let databaseTitle = market["database_title"] {
+    if let databaseTitle = market["database_title"] as? String {
       databaseRef = Database.database().reference()
       databaseRef.child(databaseTitle).observe(.value) { (snapshot) in
         if let dict = snapshot.value as? [String: [String: Any]] {
@@ -108,7 +116,7 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if section == 0 {
-      return 5
+      return sortedLinks.count
     }
     else {
       return sortedTradingPairs.count
@@ -123,6 +131,13 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
 
     if section == 0 {
       let cell = tableView.dequeueReusableCell(withIdentifier: "link") as! MarketDetailLinkTableViewCell
+      let linkName = sortedLinks[row]
+      cell.socialTitleLabel.text = linkName
+      if let displayLinksDict = links["display_links"] as? [String: String] {
+        cell.linkLabel.text = displayLinksDict[linkName]
+      }
+      cell.link = links[linkName] as! String
+
       return cell
     }
     else {

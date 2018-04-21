@@ -38,7 +38,7 @@ class MarketsViewController: UIViewController {
     if !favouritesTab {
       for market in marketInformation {
 
-        if let name = market.value["name"] {
+        if let name = market.value["name"] as? String {
             self.marketNames.append((market.key, name))
         }
       }

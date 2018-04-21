@@ -905,7 +905,7 @@ class CoinMarketsViewController: UIViewController {
     
     for coinMarket in coinMarkets {
       if let currentMarketInfo = marketInformation[coinMarket.key] {
-        if let name = currentMarketInfo["name"], let url = currentMarketInfo["url"] {
+        if let name = currentMarketInfo["name"] as? String, let url = currentMarketInfo["url"] as? String {
           addExchangeToTable(title: coinMarket.key, url: url, description: "", links: [])
         }
         
@@ -918,7 +918,7 @@ class CoinMarketsViewController: UIViewController {
     
     for coinBtcMarket in coinBtcMarkets {
       if let currentMarketInfo = marketInformation[coinBtcMarket.key] {
-        addBtcExchangeToTable(title: coinBtcMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
+        addBtcExchangeToTable(title: coinBtcMarket.key, url: currentMarketInfo["url"] as! String, description: "", links: [])
       }
     }
   }
@@ -927,7 +927,7 @@ class CoinMarketsViewController: UIViewController {
     
     for coinEthMarket in coinEthMarkets {
       if let currentMarketInfo = marketInformation[coinEthMarket.key] {
-        addEthExchangeToTable(title: coinEthMarket.key, url: currentMarketInfo["url"]!, description: "", links: [])
+        addEthExchangeToTable(title: coinEthMarket.key, url: currentMarketInfo["url"] as! String, description: "", links: [])
       }
     }
   }
