@@ -44,8 +44,6 @@ class MarketsContainerViewController: UIViewController {
     
     self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     
-    self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
-    
     pagingViewController.dataSource = self
     pagingViewController.delegate = self
     
@@ -69,11 +67,22 @@ class MarketsContainerViewController: UIViewController {
     pagingViewController.didMove(toParentViewController: self)
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if let favouritesVC = viewControllerList.first as? MarketsViewController {
+      favouritesVC.marketNames = []
+      favouritesVC.getFavourites()
+    }
+    
+    for viewController in viewControllerList {
+      if let marketVC = viewController as? MarketsViewController {
+        guard (marketVC.tableView) != nil else { return }
+        if let selectedTableIndex = marketVC.tableView.indexPathForSelectedRow {
+          marketVC.deselectTableRow(indexPath: selectedTableIndex)
+        }
+      }
+    }
   }
-  
   
   /*
    // MARK: - Navigation

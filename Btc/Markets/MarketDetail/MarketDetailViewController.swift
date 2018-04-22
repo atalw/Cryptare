@@ -8,10 +8,14 @@
 
 import UIKit
 import Firebase
+import SwiftyUserDefaults
 
 class MarketDetailViewController: UIViewController {
   
+  let selectedColour = UIColor.init(hex: "#F7B54A")
+  
   var market: [String: Any]!
+  var marketName: String!
   
   var links: [String: Any] = [:]
   var sortedLinks: [String] = []
@@ -19,20 +23,39 @@ class MarketDetailViewController: UIViewController {
   var tradingPairData: [String: [String: Any]] = [:]
   // (coin, [base])
   var sortedTradingPairs: [(String, [String])] = []
+  var fannedOutTradingPairs: [(String, String)] = []
   
   var databaseRef: DatabaseReference!
-
+  
+  lazy var activityIndicator: UIActivityIndicatorView = {
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    activityIndicator.center = self.tableView.center
+    activityIndicator.hidesWhenStopped = true
+    tableView.addSubview(activityIndicator)
+    
+    return activityIndicator
+  }()
+  
+  var favouriteMarkets: [String] = []
+  var favouriteStatus: Bool = false
+  var favouriteButton: UIBarButtonItem!
+  
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.title = market["name"] as! String
+    marketName = market["name"] as! String
+    self.title = marketName
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     tableView.tableHeaderView?.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+    
+    let image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
+    favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
+    self.navigationItem.rightBarButtonItem = favouriteButton
     
     tableView.delegate = self
     tableView.dataSource = self
@@ -40,24 +63,67 @@ class MarketDetailViewController: UIViewController {
     
     links = market["links"] as! [String : Any]
     
-    sortedLinks.append("Website")
-    sortedLinks.append("Twitter")
+    if links["Website"] != nil {
+      sortedLinks.append("Website")
+    }
+    
+    if links["Twitter"] != nil {
+      sortedLinks.append("Twitter")
+    }
+    
+    if links["Facebook"] != nil {
+      sortedLinks.append("Facebook")
+    }
+    
+    if links["Google+"] != nil {
+      sortedLinks.append("Google+")
+    }
+    
+    if links["Reddit"] != nil {
+      sortedLinks.append("Reddit")
+    }
+    
+    if links["Github"] != nil {
+      sortedLinks.append("Github")
+    }
+    
+    if links["Medium"] != nil {
+      sortedLinks.append("Medium")
+    }
+
+    activityIndicator.startAnimating()
 
     if let databaseTitle = market["database_title"] as? String {
       databaseRef = Database.database().reference()
       databaseRef.child(databaseTitle).observe(.value) { (snapshot) in
         if let dict = snapshot.value as? [String: [String: Any]] {
 //          print(dict)
-          self.tradingPairData = dict
+//          self.tradingPairData = dict
           
           for (key, value) in dict {
             var baseArray: [String] = []
+            if self.tradingPairData[key] == nil {
+              self.tradingPairData[key] = [:]
+            }
             for (base, data)  in value {
+              self.tradingPairData[key]![base] = data
               baseArray.append(base)
             }
+            
+            baseArray = baseArray.sorted(by: {$0.localizedCaseInsensitiveCompare($1) == .orderedAscending})
+            
             self.sortedTradingPairs.append((key, baseArray))
           }
           self.sortedTradingPairs = self.sortedTradingPairs.sorted(by: {$0.0.localizedCaseInsensitiveCompare($1.0) == .orderedAscending})
+          
+          for (key, baseArray) in self.sortedTradingPairs {
+            for base in baseArray {
+              self.fannedOutTradingPairs.append((key, base))
+            }
+          }
+          
+          self.activityIndicator.stopAnimating()
+
           self.tableView.reloadData()
         }
       }
@@ -65,17 +131,82 @@ class MarketDetailViewController: UIViewController {
 
   }
   
-  override func viewDidLayoutSubviews() {
-    tableViewHeightConstraint.constant = tableView.contentSize.height + 200
-    print(tableViewHeightConstraint.constant)
-
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    getFavouriteMarketsList()
+    setFavouriteButtonStatus()
+    
+    guard (self.tableView) != nil else { return }
+    if let selectedTableIndex = self.tableView.indexPathForSelectedRow {
+      self.deselectTableRow(indexPath: selectedTableIndex)
+    }
   }
   
+  override func viewDidLayoutSubviews() {
+    tableViewHeightConstraint.constant = tableView.contentSize.height + 200
+  }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
     databaseRef.removeAllObservers()
+  }
+  
+  func getFavouriteMarketsList() {
+    favouriteMarkets = Defaults[.favouriteMarkets]
+    tableView.reloadData()
+  }
+  
+  func setFavouriteButtonStatus() {
+    
+    if favouriteMarkets.contains(marketName) {
+      var image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
+      image = image?.maskWithColor(color: selectedColour)
+      favouriteButton.image = image
+      favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
+      self.navigationItem.rightBarButtonItem = favouriteButton
+      favouriteStatus = true
+    }
+    else {
+      var image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
+      image = image?.maskWithColor(color: UIColor.gray)
+      favouriteButton.image = image
+      favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
+      self.navigationItem.rightBarButtonItem = favouriteButton
+      favouriteStatus = false
+    }
+    
+  }
+  
+  @objc func favouriteButtonTapped() {
+    
+    if favouriteStatus {
+      if !favouriteMarkets.contains(marketName) {
+        favouriteStatus = false
+      } else {
+        for index in 0..<favouriteMarkets.count {
+          if marketName == favouriteMarkets[index] {
+            favouriteMarkets.remove(at: index)
+            break
+          }
+        }
+        favouriteStatus = true
+      }
+    } else {
+      if favouriteMarkets.contains(marketName) {
+        favouriteStatus = false
+      }
+      else {
+        favouriteMarkets.append(marketName)
+        favouriteStatus = true
+        
+      }
+    }
+    
+    Defaults[.favouriteMarkets] = favouriteMarkets
+    setFavouriteButtonStatus()
+
   }
   
   /*
@@ -107,7 +238,7 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if indexPath.section == 0 {
-      return 40
+      return 45
     }
     else {
       return 60
@@ -119,7 +250,7 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
       return sortedLinks.count
     }
     else {
-      return sortedTradingPairs.count
+      return fannedOutTradingPairs.count
     }
   }
   
@@ -131,6 +262,8 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
 
     if section == 0 {
       let cell = tableView.dequeueReusableCell(withIdentifier: "link") as! MarketDetailLinkTableViewCell
+      cell.selectionStyle = .none
+      
       let linkName = sortedLinks[row]
       cell.socialTitleLabel.text = linkName
       if let displayLinksDict = links["display_links"] as? [String: String] {
@@ -142,12 +275,10 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
     }
     else {
       let cell = tableView.dequeueReusableCell(withIdentifier: "tradingPair") as! MarketDetailTradingPairTableViewCell
-      var (coin, baseArray) = sortedTradingPairs[row]
-      baseArray = baseArray.sorted(by: {$0.localizedCaseInsensitiveCompare($1) == .orderedAscending})
-      
-      let base = baseArray.first!
+      cell.selectionStyle = .none
+
+      let (coin, base) = fannedOutTradingPairs[row]
       cell.tradingPairLabel.text = "\(coin)/\(base)"
-      
       if let data = tradingPairData[coin]![base] as? [String: Any] {
         if let lastPrice = data["last_price"] as? Double {
           cell.currentPriceLabel.text = lastPrice.asSelectedCurrency(currency: base)
@@ -162,5 +293,35 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
       
       return cell
     }
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let row = indexPath.row
+    let section = indexPath.section
+    
+    if section == 1 {
+      let targetViewController = storyboard?.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
+      
+      self.navigationController?.pushViewController(targetViewController, animated: true)
+    }
+    
+    guard let cell = tableView.cellForRow(at: indexPath) else { return }
+    cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+  }
+  
+  func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    guard let cell = tableView.cellForRow(at: indexPath) else { return }
+    cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+  }
+  
+  func deselectTableRow(indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    tableView(tableView, didDeselectRowAt: indexPath)
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    let header = view as? UITableViewHeaderFooterView
+    
+    header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
   }
 }

@@ -178,7 +178,6 @@ class DashboardViewController: UIViewController {
     self.setupCoinRefs()
   }
   
-  
   func setupCoinRefs() {
 //    coinData = [:]
     for coin in self.coins {
@@ -268,10 +267,6 @@ class DashboardViewController: UIViewController {
     
     if let marketcap =  dict["marketcap"] as? Double {
       coinData[coin]!["marketcap"] = marketcap
-    }
-    
-    if coin == "ETH" {
-      print(coinData[coin]!["name"])
     }
     
     tableView.reloadData()

@@ -68,6 +68,9 @@
 		8650C5761FC073DF0078FD02 /* SortDropDownViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */; };
 		8650C5791FC07C460078FD02 /* SortDropDownViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5781FC07C460078FD02 /* SortDropDownViews.swift */; };
 		8650C57A1FC07C460078FD02 /* SortDropDownViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8650C5781FC07C460078FD02 /* SortDropDownViews.swift */; };
+		865146F4208CAF7F00652213 /* PairDetailContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865146F3208CAF7E00652213 /* PairDetailContainerViewController.swift */; };
+		865146F6208CAF9B00652213 /* PairDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865146F5208CAF9B00652213 /* PairDetailViewController.swift */; };
+		865146F8208CAFB500652213 /* PairAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865146F7208CAFB400652213 /* PairAlertViewController.swift */; };
 		865361FD1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865361FC1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift */; };
 		865361FE1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865361FC1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift */; };
 		8656E3AA1FE7BC6F000EB58E /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656E3A91FE7BC6F000EB58E /* CoinTableViewCell.swift */; };
@@ -247,6 +250,9 @@
 		8650C5711FC051270078FD02 /* CryptoPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoPortfolioViewController.swift; sourceTree = "<group>"; };
 		8650C5741FC073DF0078FD02 /* SortDropDownViews.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SortDropDownViews.xib; sourceTree = "<group>"; };
 		8650C5781FC07C460078FD02 /* SortDropDownViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDropDownViews.swift; sourceTree = "<group>"; };
+		865146F3208CAF7E00652213 /* PairDetailContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairDetailContainerViewController.swift; sourceTree = "<group>"; };
+		865146F5208CAF9B00652213 /* PairDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairDetailViewController.swift; sourceTree = "<group>"; };
+		865146F7208CAFB400652213 /* PairAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairAlertViewController.swift; sourceTree = "<group>"; };
 		865361FC1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		8656E3A91FE7BC6F000EB58E /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		8656E3AC1FE7D4A6000EB58E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -571,6 +577,16 @@
 			path = SortDropDown;
 			sourceTree = "<group>";
 		};
+		865146F2208CAF2F00652213 /* PairDetail */ = {
+			isa = PBXGroup;
+			children = (
+				865146F3208CAF7E00652213 /* PairDetailContainerViewController.swift */,
+				865146F5208CAF9B00652213 /* PairDetailViewController.swift */,
+				865146F7208CAFB400652213 /* PairAlertViewController.swift */,
+			);
+			path = PairDetail;
+			sourceTree = "<group>";
+		};
 		865361FF1FEBC29C00D49B05 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -678,6 +694,7 @@
 				868FC173208B1E7700ED00EC /* MarketDetailViewController.swift */,
 				868FC175208B3E4B00ED00EC /* MarketDetailTradingPairTableViewCell.swift */,
 				868FC177208B3E5E00ED00EC /* MarketDetailLinkTableViewCell.swift */,
+				865146F2208CAF2F00652213 /* PairDetail */,
 			);
 			path = MarketDetail;
 			sourceTree = "<group>";
@@ -1048,7 +1065,9 @@
 				86730EF12025AE3900EE96FF /* CryptoDetailViewController.swift in Sources */,
 				86E8A5752028A69B00D7E467 /* MarketInformation.swift in Sources */,
 				86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */,
+				865146F8208CAFB500652213 /* PairAlertViewController.swift in Sources */,
 				86BAB82C20864C1000DF73B2 /* FirebaseService.swift in Sources */,
+				865146F6208CAF9B00652213 /* PairDetailViewController.swift in Sources */,
 				863474731F08262000E7EB86 /* NewsViewController.swift in Sources */,
 				86DF121920458D1300FA4787 /* NotificationCenter+Extentions.swift in Sources */,
 				86BD6F9E1F87BF5200C4B0CA /* CustomUIButton.swift in Sources */,
@@ -1058,6 +1077,7 @@
 				86F2015720414C5600DC7654 /* SubscriptionsViewController.swift in Sources */,
 				863E7497208A169E00FBDBDF /* MarketsViewController.swift in Sources */,
 				86D608402064E9E500C2157B /* UIImage+Extensions.swift in Sources */,
+				865146F4208CAF7F00652213 /* PairDetailContainerViewController.swift in Sources */,
 				86401C4C1FADF36300C4A46B /* LeftNavigationTableViewCell.swift in Sources */,
 				86492AAA1FB98571003EC0B6 /* PortfolioEntryModel.swift in Sources */,
 				86277C1C1FF3A65E00CC9819 /* AddCoinTableViewCell.swift in Sources */,

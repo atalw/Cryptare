@@ -68,8 +68,6 @@ class GraphViewController: UIViewController {
     pagingViewController.menuItemSize = .sizeToFit(minWidth: 100, height: 40)
     pagingViewController.menuHorizontalAlignment = .center
     
-    print(Defaults[.currentThemeIndex], "currentThemeIndex")
-    
     pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     //        pagingViewController.collectionView.backgroundView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor

@@ -46,9 +46,29 @@ class MarketsViewController: UIViewController {
       marketNames = marketNames.sorted(by: {$0.1.localizedCaseInsensitiveCompare($1.1) == .orderedAscending})
     }
     else { // load markets from UserDefaults
-      
+//      getFavourites()
     }
-
+    
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+//    if favouritesTab {
+//      getFavourites()
+//    }
+    
+    tableView.reloadData()
+  }
+  
+  
+  func getFavourites() {
+    let markets = Defaults[.favouriteMarkets]
+    for market in markets {
+      if let name = marketInformation[market]!["name"] as? String {
+        self.marketNames.append((market, name))
+      }
+    }
   }
   
   /*
@@ -90,31 +110,44 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
         return 5
       }
       else {
-        return 5
+        return marketNames.count
       }
     }
     return marketNames.count
   }
   
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if indexPath.section == 0 {
+      return 60
+    }
+    else {
+      return 50
+    }
+  }
+  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let row = indexPath.row
     let section = indexPath.section
-    
     if favouritesTab {
       if section == 0 {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tradingPair") as! MarketsTradingPairTableViewCell
-        
+        cell.selectionStyle = .none
+
         cell.coinNameLabel.text = "Bitcoin"
         return cell
       }
       else {
         let cell = tableView.dequeueReusableCell(withIdentifier: "marketShortcut") as! MarketsTableViewCell
-//        cell.exchangeTitleLabel.text = marketNames[row]
+        cell.selectionStyle = .none
+
+        cell.exchangeTitleLabel.text = marketNames[row].1
         return cell
       }
     }
     else {
       let cell = tableView.dequeueReusableCell(withIdentifier: "marketShortcut") as! MarketsTableViewCell
+      cell.selectionStyle = .none
+
       cell.exchangeTitleLabel.text = marketNames[row].1
       return cell
     }
@@ -126,15 +159,37 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
     let section = indexPath.section
     
     if favouritesTab {
-      
+      if section == 1 { // favourite markets
+        let targetVC = storyboard?.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
+        targetVC.market = marketInformation[marketNames[row].0]!
+        
+        self.navigationController?.pushViewController(targetVC, animated: true)
+      }
     }
     else {
       let targetVC = storyboard?.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
       targetVC.market = marketInformation[marketNames[row].0]!
       
       self.navigationController?.pushViewController(targetVC, animated: true)
-
     }
     
+    guard let cell = tableView.cellForRow(at: indexPath) else { return }
+    cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
+  }
+  
+  func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    guard let cell = tableView.cellForRow(at: indexPath) else { return }
+    cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+  }
+  
+  func deselectTableRow(indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    tableView(tableView, didDeselectRowAt: indexPath)
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    let header = view as? UITableViewHeaderFooterView
+    
+    header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
   }
 }

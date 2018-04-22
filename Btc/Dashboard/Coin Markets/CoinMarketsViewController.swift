@@ -904,11 +904,12 @@ class CoinMarketsViewController: UIViewController {
   func populateFiatTable() {
     
     for coinMarket in coinMarkets {
-      if let currentMarketInfo = marketInformation[coinMarket.key] {
-        if let name = currentMarketInfo["name"] as? String, let url = currentMarketInfo["url"] as? String {
-          addExchangeToTable(title: coinMarket.key, url: url, description: "", links: [])
+      if let currentMarketInfo = marketInformation[coinMarket.key] as? [String: Any] {
+        if let links = currentMarketInfo["links"] as? [String: Any] {
+          if let url = links["Website"] as? String {
+            addExchangeToTable(title: coinMarket.key, url: url, description: "", links: [])
+          }
         }
-        
       }
       
     }
@@ -918,7 +919,10 @@ class CoinMarketsViewController: UIViewController {
     
     for coinBtcMarket in coinBtcMarkets {
       if let currentMarketInfo = marketInformation[coinBtcMarket.key] {
-        addBtcExchangeToTable(title: coinBtcMarket.key, url: currentMarketInfo["url"] as! String, description: "", links: [])
+        if let links = currentMarketInfo["links"] as? [String: Any] {
+          addBtcExchangeToTable(title: coinBtcMarket.key, url: links["Website"] as! String, description: "", links: [])
+        }
+        
       }
     }
   }
@@ -927,7 +931,9 @@ class CoinMarketsViewController: UIViewController {
     
     for coinEthMarket in coinEthMarkets {
       if let currentMarketInfo = marketInformation[coinEthMarket.key] {
-        addEthExchangeToTable(title: coinEthMarket.key, url: currentMarketInfo["url"] as! String, description: "", links: [])
+        if let links = currentMarketInfo["links"] as? [String: Any] {
+          addEthExchangeToTable(title: coinEthMarket.key, url: links["Website"] as! String, description: "", links: [])
+        }
       }
     }
   }
@@ -994,7 +1000,8 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
     var cell: UITableViewCell?
     
     if self.tableView == tableView {
-      
+      tableHeightConstraint.constant = self.tableView.contentSize.height
+
       let market = self.markets[indexPath.row]
       let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
       cell!.siteLabel?.setTitle(market.title, for: .normal)
@@ -1033,6 +1040,8 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     if self.btcMarketsTable == tableView {
+      btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
+
       let cell = self.btcMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
       let market = self.btcMarkets[indexPath.row]
       cell!.siteLabel?.setTitle(market.title, for: .normal)
@@ -1071,6 +1080,8 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     if self.ethMarketsTable == tableView {
+      ethTableHeightConstraint.constant = self.ethMarketsTable.contentSize.height
+
       let cell = self.ethMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
       let market = self.ethMarkets[indexPath.row]
       cell!.siteLabel?.setTitle(market.title, for: .normal)
