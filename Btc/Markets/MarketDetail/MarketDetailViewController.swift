@@ -16,7 +16,8 @@ class MarketDetailViewController: UIViewController {
   
   var market: [String: Any]!
   var marketName: String!
-  
+  var databaseTitle: String!
+
   var links: [String: Any] = [:]
   var sortedLinks: [String] = []
   
@@ -94,11 +95,10 @@ class MarketDetailViewController: UIViewController {
     activityIndicator.startAnimating()
 
     if let databaseTitle = market["database_title"] as? String {
+      self.databaseTitle = databaseTitle
       databaseRef = Database.database().reference()
       databaseRef.child(databaseTitle).observe(.value) { (snapshot) in
         if let dict = snapshot.value as? [String: [String: Any]] {
-//          print(dict)
-//          self.tradingPairData = dict
           
           for (key, value) in dict {
             var baseArray: [String] = []
@@ -149,6 +149,10 @@ class MarketDetailViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    
+    tradingPairData = [:]
+    sortedTradingPairs = []
+    fannedOutTradingPairs = []
     
     databaseRef.removeAllObservers()
   }
@@ -301,6 +305,19 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
     
     if section == 1 {
       let targetViewController = storyboard?.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
+      
+      let (coin, base) = fannedOutTradingPairs[row]
+      targetViewController.currentPair = (coin, base)
+      targetViewController.coinPairData = tradingPairData[coin]![base] as! [String : Any]
+      var title: String!
+      if databaseTitle == "MarketAverage" {
+        title = "\(coin)/Data/\(base)"
+      }
+      else {
+        title = "\(databaseTitle!)/\(coin)/\(base)"
+      }
+      
+      targetViewController.currentMarket = (marketName, title)
       
       self.navigationController?.pushViewController(targetViewController, animated: true)
     }

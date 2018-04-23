@@ -14,9 +14,9 @@ class PairDetailContainerViewController: UIViewController {
   
   let selectedColour = UIColor.init(hex: "#F7B54A")
   
-  var coinPair: [String: Any]!
+  var coinPairData: [String: Any]!
   var currentPair: (String, String)!
-  var currentMarket: [String: String]!
+  var currentMarket: (String, String)!
   
   var detailVC: PairDetailViewController!
   var alertVC: PairAlertViewController!
@@ -35,18 +35,20 @@ class PairDetailContainerViewController: UIViewController {
     self.alertVC = vc2
     vc2.parentController = self
     vc2.title = "Alerts"
+    vc2.currentPair = currentPair
+    vc2.currentMarket = currentMarket
 
     return [vc1, vc2]
   }()
   
-  var favouritePairs: [String: Any] = [:]
+  var favouritePairs: [String: [String: [[String: String]]]] = [:]
   var favouriteStatus: Bool = false
   var favouriteButton: UIBarButtonItem!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "CoinPair"
+    self.title = "\(currentPair.0)/\(currentPair.1)"
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
     let image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
@@ -81,26 +83,25 @@ class PairDetailContainerViewController: UIViewController {
     super.viewWillAppear(animated)
     
     getFavouritePairsList()
-//    setFavouriteButtonStatus()
+    setFavouriteButtonStatus()
   }
   
   func getFavouritePairsList() {
-    favouritePairs = Defaults[.favouritePairs]
+    if let favouritePairs = Defaults[.favouritePairs] as? [String: [String: [[String: String]]]] {
+      self.favouritePairs = favouritePairs
+    }
+    
   }
   
   func setFavouriteButtonStatus() {
-    if let baseData = favouritePairs[currentPair.0] as? [String: Any] {
-      if let market = baseData[currentPair.1] as? [String: String] {
-        if market == currentMarket {
-          var image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
-          image = image?.maskWithColor(color: selectedColour)
-          favouriteButton.image = image
-          favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
-          self.navigationItem.rightBarButtonItem = favouriteButton
-          favouriteStatus = true
-          return
-        }
-      }
+    if doesFavouritePairsContain(pair: currentPair, market: currentMarket.0) {
+      var image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
+      image = image?.maskWithColor(color: selectedColour)
+      favouriteButton.image = image
+      favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
+      self.navigationItem.rightBarButtonItem = favouriteButton
+      favouriteStatus = true
+      return
     }
     var image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
     image = image?.maskWithColor(color: UIColor.gray)
@@ -113,32 +114,66 @@ class PairDetailContainerViewController: UIViewController {
   
   @objc func favouriteButtonTapped() {
     
-//    if favouriteStatus {
-//      if !favouritePairs.contains(currentPair) {
-//        favouriteStatus = false
-//      } else {
-//        for index in 0..<favouritePairs.count {
-//          if currentPair == favouritePairs[index] {
-//            favouritePairs.remove(at: index)
-//            break
-//          }
-//        }
-//        favouriteStatus = true
-//      }
-//    } else {
-//      if favouritePairs.contains(currentPair) {
-//        favouriteStatus = false
-//      }
-//      else {
-//        favouritePairs.append(currentPair)
-//        favouriteStatus = true
-//
-//      }
-//    }
+    let doesContain = doesFavouritePairsContain(pair: currentPair, market: currentMarket.0)
+    let coin = currentPair.0
+    let pair = currentPair.1
+    let market = currentMarket.0
+    if favouriteStatus {
+      if !doesContain {
+        favouriteStatus = false
+      } else {
+        
+        if var pairArray = favouritePairs[coin]![pair] {
+          if pairArray.count < 2 {
+            favouritePairs[pair] = nil
+          }
+          else {
+            for index in 0..<pairArray.count {
+              if market == pairArray[index]["name"] {
+                pairArray.remove(at: index)
+                break
+              }
+            }
+            favouritePairs[coin]![pair] = pairArray
+          }
+        }
+        favouriteStatus = true
+      }
+    } else {
+      if doesContain {
+        favouriteStatus = false
+      }
+      else {
+        if favouritePairs[coin] == nil {
+          favouritePairs[coin] = [:]
+        }
+        
+        if favouritePairs[coin]![pair] == nil {
+          favouritePairs[coin]![pair] = []
+        }
+        
+        let data = ["name": currentMarket.0, "databaseTitle": currentMarket.1]
+        favouritePairs[coin]![pair]?.append(data)
+        favouriteStatus = true
+      }
+    }
     
     Defaults[.favouritePairs] = favouritePairs
     setFavouriteButtonStatus()
     
+  }
+  
+  func doesFavouritePairsContain(pair: (String, String), market: String) -> Bool {
+    if let data = favouritePairs[pair.0] {
+      if let pairArray = data[pair.1] {
+        for element in pairArray {
+          if market == element["name"] {
+            return true
+          }
+        }
+      }
+    }
+    return false
   }
   
   /*

@@ -12,18 +12,29 @@ import Firebase
 
 class MarketsViewController: UIViewController {
   
+  
+  
   var parentController: MarketsContainerViewController!
   
   var favouritesTab: Bool!
   
-  var tradingPairs: [String] = []
+  var favouriteTradingPairsDict: [String: [String: [[String: String]]]] = [:]
   // (key, name)
   var marketNames: [(String, String)] = []
+  
+  
+  var sortedTradingPairs: [(String, [(String, String)])] = []
+  var fannedOutTradingPairs: [(String, String, String)] = []
+  var tradingPairRefs: [(String, String, String, DatabaseReference)] = []
+  
+  var tradingPairDataDict: [String: [String: [String: [String: Any]]]] = [:]
   
   @IBOutlet weak var tableView: UITableView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -54,21 +65,115 @@ class MarketsViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-//    if favouritesTab {
-//      getFavourites()
-//    }
-    
     tableView.reloadData()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    for tradingPairRef in tradingPairRefs {
+      tradingPairRef.3.removeAllObservers()
+    }
   }
   
   
   func getFavourites() {
+    getFavouriteTradingPairs()
+    getFavouriteMarkets()
+    
+    getFirebasePairData()
+  }
+  
+  func getFavouriteTradingPairs() {
+    // favourite trading pairs
+    let tradingPairs = Defaults[.favouritePairs]
+    
+    if let dict = tradingPairs as? [String: [String: [[String: String]]]] {
+      self.favouriteTradingPairsDict = dict
+    }
+    
+    for (coin, value) in tradingPairs {
+      guard let coinData = value as? [String: Any] else { return }
+      var baseArray: [(String, String)] = []
+      
+      for (pair, pairValue) in coinData {
+        guard let pairArray = pairValue as? [[String: String]] else { return }
+        
+        for pairData in pairArray {
+          if let marketName = pairData["name"], let databaseTitle = pairData["databaseTitle"] {
+            baseArray.append((pair, marketName))
+            let ref = Database.database().reference().child(databaseTitle)
+            tradingPairRefs.append((coin, pair, marketName, ref))
+          }
+        }
+      }
+      
+      baseArray = baseArray.sorted(by: {$0.1.localizedCaseInsensitiveCompare($1.1) == .orderedAscending})
+      
+      self.sortedTradingPairs.append((coin, baseArray))
+      
+    }
+    
+    self.sortedTradingPairs = self.sortedTradingPairs.sorted(by: {$0.0.localizedCaseInsensitiveCompare($1.0) == .orderedAscending})
+    
+    for (key, baseArray) in self.sortedTradingPairs {
+      for base in baseArray {
+        self.fannedOutTradingPairs.append((key, base.0, base.1))
+      }
+    }
+  }
+  
+  func getFavouriteMarkets() {
+    // favourite markets
     let markets = Defaults[.favouriteMarkets]
     for market in markets {
       if let name = marketInformation[market]!["name"] as? String {
         self.marketNames.append((market, name))
       }
     }
+  }
+  
+  func getFirebasePairData() {
+    for tradingPairRef in tradingPairRefs {
+      let coin = tradingPairRef.0
+      let pair = tradingPairRef.1
+      let market = tradingPairRef.2
+      tradingPairRef.3.observeSingleEvent(of: .value, with: {(snapshot) -> Void in
+        if let cryptoDict = snapshot.value as? [String : AnyObject] {
+          print(cryptoDict)
+          
+          if self.tradingPairDataDict[coin] == nil {
+            self.tradingPairDataDict[coin] = [:]
+          }
+          
+          if self.tradingPairDataDict[coin]![pair] == nil {
+            self.tradingPairDataDict[coin]![pair] = [:]
+          }
+          
+          if self.tradingPairDataDict[coin]![pair]![market] == nil {
+            self.tradingPairDataDict[coin]![pair]![market] = [:]
+          }
+          
+          if let price = cryptoDict["buy_price"] as? Double {
+            self.tradingPairDataDict[coin]![pair]![market]!["price"] = price
+          }
+          else if let price = cryptoDict["price"] as? Double {
+            self.tradingPairDataDict[coin]![pair]![market]!["price"] = price
+          }
+          
+          self.tableView.reloadData()
+
+        }
+      })
+    }
+  }
+  
+  func resetFavourites() {
+    favouriteTradingPairsDict = [:]
+    sortedTradingPairs = []
+    fannedOutTradingPairs = []
+    tradingPairRefs = []
+    marketNames = []
   }
   
   /*
@@ -107,7 +212,7 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if favouritesTab {
       if section == 0 {
-        return 5
+        return fannedOutTradingPairs.count
       }
       else {
         return marketNames.count
@@ -132,8 +237,25 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
       if section == 0 {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tradingPair") as! MarketsTradingPairTableViewCell
         cell.selectionStyle = .none
+        
+        let (coin, base, market) = fannedOutTradingPairs[row]
 
-        cell.coinNameLabel.text = "Bitcoin"
+        cell.coinSymbolImage.loadSavedImage(coin: coin)
+        
+        for (symbol, name) in GlobalValues.coins {
+          if symbol == coin {
+            cell.coinNameLabel.text = name
+            break
+          }
+        }
+        
+        cell.tradingPairLabel.text = "\(coin)/\(base)"
+        cell.exchangeLabel.text = market
+        if let price = self.tradingPairDataDict[coin]?[base]?[market]?["price"] as? Double {
+          cell.currentPriceLabel.text = price.asSelectedCurrency(currency: base)
+        }
+        
+        
         return cell
       }
       else {
@@ -159,7 +281,17 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
     let section = indexPath.section
     
     if favouritesTab {
-      if section == 1 { // favourite markets
+      if section == 0 { // favourite trading pairs
+        let targetVC = storyboard?.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
+        
+        let (coin, base, market) = fannedOutTradingPairs[row]
+        targetVC.coinPairData = self.tradingPairDataDict[coin]?[base]
+        targetVC.currentPair = (coin, base)
+        targetVC.currentMarket = (market, "")
+        
+        self.navigationController?.pushViewController(targetVC, animated: true)
+      }
+      else if section == 1 { // favourite markets
         let targetVC = storyboard?.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
         targetVC.market = marketInformation[marketNames[row].0]!
         

@@ -9,21 +9,21 @@
 import Foundation
 
 class CoinMarket {
-    var title: String!
-    var siteLink: URL!
-    var buyPrice: Double!
-    var sellPrice: Double!
-    var lastPrice: Double?
-    var percentChange: Double?
-    var description: String!
-    var links: [String] = []
-    
-    init(title: String, siteLink: URL!, buyPrice: Double, sellPrice: Double, description: String, links: [String]) {
-        self.title = title
-        self.siteLink = siteLink
-        self.sellPrice = sellPrice
-        self.buyPrice = buyPrice
-        self.description = description
-        self.links = links
-    }
+  var title: String!
+  var siteLink: URL!
+  var buyPrice: Double!
+  var sellPrice: Double!
+  var lastPrice: Double?
+  var percentChange: Double?
+  var description: String!
+  var links: [String] = []
+  
+  init(title: String, siteLink: URL!, buyPrice: Double, sellPrice: Double, description: String, links: [String]) {
+    self.title = title
+    self.siteLink = siteLink
+    self.sellPrice = sellPrice
+    self.buyPrice = buyPrice
+    self.description = description
+    self.links = links
+  }
 }

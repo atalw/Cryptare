@@ -44,7 +44,9 @@ extension DefaultsKeys {
   // chose this - favouritePairs -> ["BTC" : ["INR" : ["Koinex" : "koinex"], "USD": ["Coinbase": "coinbase"]], "ETH" : ["INR" : ["Koinex": "koinex"]]]
   // not gonna do this - favouritePairs -> ["Koinex: ["title" : "koinex", "pairs": [(BTC, INR), (ETH, INR)]]]
   static let favouritePairs = DefaultsKey<[String: Any]>("favouritePairs")
-
+  
+  // Alerts
+  static let allCoinAlerts = DefaultsKey<[String: Any]>("allCoinAlerts")
   
   // News
   static let newsSettingsExist = DefaultsKey<Bool>("newsSettingsExist")

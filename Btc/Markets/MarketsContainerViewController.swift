@@ -12,6 +12,33 @@ import SwiftyUserDefaults
 
 class MarketsContainerViewController: UIViewController {
   
+  // for testing------------------------------------
+  let testingFavouritePairs = [
+    "BTC" : [
+      "INR": [
+        [
+          "name": "Koinex",
+          "databaseTitle": "koinex/BTC/INR"
+        ],
+        [
+          "name": "WazirX",
+          "databaseTitle": "wazirx/BTC/INR"
+        ]
+      ],
+      "ETH" : [ [
+        "name": "Binance",
+        "databaseTitle": "binance/BTC/ETH"
+        ] ]
+    ],
+    "ETH" : [
+      "USD" : [ [
+        "name": "Coinbase",
+        "databaseTitle" : "coinbase/ETH/USD"
+        ] ]
+    ]
+  ]
+  //------------------------------------------------
+  
   var marketsVC: MarketsViewController!
   var favouritesVC: MarketsViewController!
   
@@ -37,6 +64,11 @@ class MarketsContainerViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    // for testing-------------------------------------------
+//    Defaults[.favouritePairs] = testingFavouritePairs
+//    print(Defaults[.favouritePairs])
+    // --------------------------------------------------------
     
     self.title = "Markets"
     
@@ -70,7 +102,7 @@ class MarketsContainerViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     if let favouritesVC = viewControllerList.first as? MarketsViewController {
-      favouritesVC.marketNames = []
+      favouritesVC.resetFavourites()
       favouritesVC.getFavourites()
     }
     

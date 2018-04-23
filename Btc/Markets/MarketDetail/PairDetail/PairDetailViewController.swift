@@ -16,6 +16,8 @@ class PairDetailViewController: UIViewController {
     super.viewDidLoad()
     
     self.title = "Details"
+    
+    self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
   }
   
   override func didReceiveMemoryWarning() {
