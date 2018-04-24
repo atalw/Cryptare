@@ -171,7 +171,7 @@ class AddTransactionTableViewController: UITableViewController {
             }
         })
         
-        deductFromHoldingsSwitch.isOn = true
+        deductFromHoldingsSwitch.setOn(true, animated: true)
         parentController.deductFromHoldings = true
         
     }
@@ -252,48 +252,64 @@ class AddTransactionTableViewController: UITableViewController {
     }
     
     func updateCostPerCoinTextfield(exchange: (String, String)) {
-        self.databaseReference.child("all_exchanges_update_type").observe(.value, with: {(snapshot) -> Void in
-            if let dict = snapshot.value as? [String: String] {
-                self.all_exchanges_update_type = dict
-                let exchangeName = exchange.0
-                if self.all_exchanges_update_type[exchangeName] == "update" {
-                    self.databaseReference.child(exchange.1).observe(.value, with: {(snapshot) -> Void in
-                        if let dict = snapshot.value as? [String: AnyObject] {
-                            //                            self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
-                            let buyPrice = dict["buy_price"] as! Double
-                            let sellPrice = dict["sell_price"] as! Double
-                            
-                            if self.transactionType == "buy" {
-                                self.costPerCoinTextField.text = "\(buyPrice)"
-                                self.parentController.costPerCoin = buyPrice
-                            }
-                            else {
-                                self.costPerCoinTextField.text = "\(sellPrice)"
-                                self.parentController.costPerCoin = sellPrice
-                            }
-                        }
-                    })
-                }
-                else {
-                    self.databaseReference.child(exchange.1).queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-                        if let dict = snapshot.value as? [String: AnyObject] {
-                            let buyPrice = dict["buy_price"] as! Double
-                            let sellPrice = dict["sell_price"] as! Double
-                            
-                            if self.transactionType == "buy" {
-                                self.costPerCoinTextField.text = "\(buyPrice)"
-                                self.parentController.costPerCoin = buyPrice
-                            }
-                            else {
-                                self.costPerCoinTextField.text = "\(sellPrice)"
-                                self.parentController.costPerCoin = sellPrice
-                            }
-                        }
-                    })
-                }
-            }
-        })
-        
+      self.databaseReference.child(exchange.1).observe(.value, with: {(snapshot) -> Void in
+        if let dict = snapshot.value as? [String: AnyObject] {
+          //                            self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
+          let buyPrice = dict["buy_price"] as! Double
+          let sellPrice = dict["sell_price"] as! Double
+          
+          if self.transactionType == "buy" {
+            self.costPerCoinTextField.text = "\(buyPrice)"
+            self.parentController.costPerCoin = buyPrice
+          }
+          else {
+            self.costPerCoinTextField.text = "\(sellPrice)"
+            self.parentController.costPerCoin = sellPrice
+          }
+        }
+      })
+//        self.databaseReference.child("all_exchanges_update_type").observe(.value, with: {(snapshot) -> Void in
+//            if let dict = snapshot.value as? [String: String] {
+//                self.all_exchanges_update_type = dict
+//                let exchangeName = exchange.0
+//                if self.all_exchanges_update_type[exchangeName] == "update" {
+//                    self.databaseReference.child(exchange.1).observe(.value, with: {(snapshot) -> Void in
+//                        if let dict = snapshot.value as? [String: AnyObject] {
+//                            //                            self.updateFirebaseObservedData(dict: dict, title: fiatExchangeRef.1)
+//                            let buyPrice = dict["buy_price"] as! Double
+//                            let sellPrice = dict["sell_price"] as! Double
+//
+//                            if self.transactionType == "buy" {
+//                                self.costPerCoinTextField.text = "\(buyPrice)"
+//                                self.parentController.costPerCoin = buyPrice
+//                            }
+//                            else {
+//                                self.costPerCoinTextField.text = "\(sellPrice)"
+//                                self.parentController.costPerCoin = sellPrice
+//                            }
+//                        }
+//                    })
+//                }
+//                else {
+//                    self.databaseReference.child(exchange.1).queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+//                        if let dict = snapshot.value as? [String: AnyObject] {
+//                            let buyPrice = dict["buy_price"] as! Double
+//                            let sellPrice = dict["sell_price"] as! Double
+//
+//                            if self.transactionType == "buy" {
+//                                self.costPerCoinTextField.text = "\(buyPrice)"
+//                                self.parentController.costPerCoin = buyPrice
+//                            }
+//                            else {
+//                                self.costPerCoinTextField.text = "\(sellPrice)"
+//                                self.parentController.costPerCoin = sellPrice
+//                            }
+//                        }
+//                    })
+//                }
+//            }
+//        })
+      
     }
     
     func createDatePicker() {
@@ -354,12 +370,7 @@ class AddTransactionTableViewController: UITableViewController {
     }
 
     @IBAction func deductSwitchTapped(_ sender: Any) {
-        if deductFromHoldingsSwitch.isOn {
-            parentController.deductFromHoldings = true
-        }
-        else {
-            parentController.deductFromHoldings = false
-        }
+      parentController.deductFromHoldings = deductFromHoldingsSwitch.isOn
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -395,7 +406,7 @@ class AddTransactionTableViewController: UITableViewController {
             destinationVC.tradingPairs = self.tradingPairs
         }
         else if let destinationVc = segue.destination as? AvailableExchangesTableViewController {
-            destinationVc.cryptoParentController = self
+            destinationVc.parentController = self
             destinationVc.markets = self.currentTradingPairMarkets
         }
         

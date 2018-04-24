@@ -10,8 +10,9 @@ import UIKit
 
 class TradingPairTableViewController: UITableViewController {
   
-  var parentController: AddTransactionTableViewController!
-  
+//  var parentController: AddTransactionTableViewController!
+  var parentController: UIViewController!
+
   var globalCoins: [String] = []
   var globalCurrencies: [String] = []
 
@@ -121,7 +122,13 @@ class TradingPairTableViewController: UITableViewController {
     
     FirebaseService.shared.transaction_tradingPair_selected(pair: selectedPair)
     
-    parentController.updateCurrentTradingPair(pair: selectedPair)
+    if let addTransactionTableVc = parentController as? AddTransactionTableViewController {
+      addTransactionTableVc.updateCurrentTradingPair(pair: selectedPair)
+    }
+    else if let addPairAlertTableVc = parentController as? AddPairAlertTableViewController {
+      addPairAlertTableVc.updateCurrentTradingPair(pair: selectedPair)
+    }
+    
     navigationController?.popViewController(animated: true)
   }
   

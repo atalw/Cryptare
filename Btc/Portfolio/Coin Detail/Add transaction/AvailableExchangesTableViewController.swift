@@ -10,9 +10,11 @@ import UIKit
 
 class AvailableExchangesTableViewController: UITableViewController {
   
-  var cryptoParentController: AddTransactionTableViewController?
-  var fiatParentController: AddFiatTransactionTableViewController?
+//  var cryptoParentController: AddTransactionTableViewController?
+//  var fiatParentController: AddFiatTransactionTableViewController?
   
+  var parentController: UIViewController!
+
   var markets: [String: String]!
   var sortedMarkets: [(String, String)]!
   
@@ -71,11 +73,15 @@ class AvailableExchangesTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let market = sortedMarkets[indexPath.row]
-    if cryptoParentController != nil {
-      cryptoParentController?.updateCurrentExchange(exchange: market)
+    
+    if let cryptoParentController = parentController as? AddTransactionTableViewController {
+      cryptoParentController.updateCurrentExchange(exchange: market)
     }
-    else if fiatParentController != nil {
-      fiatParentController?.updateCurrentExchange(exchange: market)
+    else if let fiatParentController = parentController as? AddFiatTransactionTableViewController {
+      fiatParentController.updateCurrentExchange(exchange: market)
+    }
+    else if let addPairAlertTableVc = parentController as? AddPairAlertTableViewController {
+      addPairAlertTableVc.updateCurrentExchange(exchange: market)
     }
     
     FirebaseService.shared.transaction_exchange_selected(name: market.0)

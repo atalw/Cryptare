@@ -24,17 +24,18 @@ class MarketsContainerViewController: UIViewController {
           "name": "WazirX",
           "databaseTitle": "wazirx/BTC/INR"
         ]
-      ],
-      "ETH" : [ [
-        "name": "Binance",
-        "databaseTitle": "binance/BTC/ETH"
-        ] ]
+      ]
     ],
     "ETH" : [
       "USD" : [ [
         "name": "Coinbase",
         "databaseTitle" : "coinbase/ETH/USD"
-        ] ]
+        ] ],
+      "BTC" : [ [
+        "name": "Binance",
+        "databaseTitle": "binance/ETH/BTC"
+        ]
+      ]
     ]
   ]
   //------------------------------------------------

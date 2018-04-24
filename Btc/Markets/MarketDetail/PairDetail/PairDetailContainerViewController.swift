@@ -37,7 +37,11 @@ class PairDetailContainerViewController: UIViewController {
     vc2.title = "Alerts"
     vc2.currentPair = currentPair
     vc2.currentMarket = currentMarket
-
+    print(coinPairData)
+    if let marketData = coinPairData[currentMarket.0] as? [String: Any] {
+      vc2.exchangePrice = marketData["price"] as? Double
+    }
+    
     return [vc1, vc2]
   }()
   
@@ -125,7 +129,7 @@ class PairDetailContainerViewController: UIViewController {
         
         if var pairArray = favouritePairs[coin]![pair] {
           if pairArray.count < 2 {
-            favouritePairs[pair] = nil
+            favouritePairs[coin]![pair] = nil
           }
           else {
             for index in 0..<pairArray.count {
@@ -137,7 +141,7 @@ class PairDetailContainerViewController: UIViewController {
             favouritePairs[coin]![pair] = pairArray
           }
         }
-        favouriteStatus = true
+        favouriteStatus = false
       }
     } else {
       if doesContain {

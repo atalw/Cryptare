@@ -38,6 +38,7 @@ class PairAlertViewController: UIViewController {
   
   var currentPair: (String, String)?
   var currentMarket: (String, String)?
+  var exchangePrice: Double?
   
   var parentController: PairDetailContainerViewController?
   
@@ -150,6 +151,7 @@ class PairAlertViewController: UIViewController {
     if let addAlertVc = destinationVc as? AddPairAlertViewController {
       addAlertVc.tradingPair = self.currentPair
       addAlertVc.exchange = self.currentMarket
+      addAlertVc.exchangePrice = self.exchangePrice
     }
    }
 }

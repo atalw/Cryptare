@@ -299,7 +299,7 @@ class AddFiatTransactionTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         
         if let destinationVc = segue.destination as? AvailableExchangesTableViewController {
-            destinationVc.fiatParentController = self
+            destinationVc.parentController = self
             destinationVc.markets = self.markets
         }
     }

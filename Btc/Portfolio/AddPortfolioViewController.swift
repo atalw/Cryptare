@@ -232,7 +232,7 @@ class AvailablePortfolioTableViewController: UITableViewController {
       self.changePortfolioName(name: name, index: index)
     })
     
-    let cancelAction = UIAlertAction(title: "No", style: .default, handler: { actino -> Void in
+    let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
       print("no tapped")
     })
     

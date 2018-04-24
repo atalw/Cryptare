@@ -12,8 +12,6 @@ import Firebase
 
 class MarketsViewController: UIViewController {
   
-  
-  
   var parentController: MarketsContainerViewController!
   
   var favouritesTab: Bool!
@@ -21,7 +19,6 @@ class MarketsViewController: UIViewController {
   var favouriteTradingPairsDict: [String: [String: [[String: String]]]] = [:]
   // (key, name)
   var marketNames: [(String, String)] = []
-  
   
   var sortedTradingPairs: [(String, [(String, String)])] = []
   var fannedOutTradingPairs: [(String, String, String)] = []
@@ -33,8 +30,6 @@ class MarketsViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -66,6 +61,21 @@ class MarketsViewController: UIViewController {
     super.viewWillAppear(animated)
     
     tableView.reloadData()
+  }
+  
+  override func viewWillLayoutSubviews() {
+    if favouritesTab {
+      if fannedOutTradingPairs.count == 0 && marketNames.count == 0 {
+        let messageLabel = UILabel()
+        messageLabel.text = "No favourite trading pairs and markets."
+        messageLabel.theme_textColor = GlobalPicker.viewTextColor
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center
+        messageLabel.sizeToFit()
+        
+        tableView.backgroundView = messageLabel
+      }
+    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
