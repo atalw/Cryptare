@@ -102,6 +102,39 @@ class FirebaseService: NSObject {
     }
   }
   
+//  func get_coin_alerts() -> [String: Any]? {
+//    var uid: String!
+//    if Auth.auth().currentUser?.uid == nil {
+//      print("user not signed in ERRRORRRR")
+//    }
+//    else {
+//      uid = Auth.auth().currentUser?.uid
+//      var dict: [String: Any] = [:]
+//      let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid)
+//      coinAlertRef.observeSingleEvent(of: .value, with: { (snapshot) in
+//        if let alertsDict = snapshot as? [String: Any] {
+//          return alertsDict
+//        }
+//      })
+//    }
+//  }
+  
+  func update_coin_alerts(data: [String: Any]) {
+    var uid: String!
+    if Auth.auth().currentUser?.uid == nil {
+      print("user not signed in ERRRORRRR")
+    }
+    else {
+      uid = Auth.auth().currentUser?.uid
+      let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid)
+      coinAlertRef.setValue(data) { (err, ref) in
+        if err != nil {
+          print(err, "coin alert update")
+        }
+      }
+    }
+  }
+  
 }
 
 // Firebase Analytics functions

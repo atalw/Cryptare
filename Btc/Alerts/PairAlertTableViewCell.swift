@@ -54,7 +54,7 @@ class PairAlertTableViewCell: UITableViewCell {
   
   @IBOutlet weak var isActiveSwitch: UISwitch! {
     didSet {
-      
+     
     }
   }
   
@@ -69,5 +69,7 @@ class PairAlertTableViewCell: UITableViewCell {
     
     // Configure the view for the selected state
   }
+  
+  
   
 }

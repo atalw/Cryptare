@@ -8,8 +8,11 @@
 
 import UIKit
 import Firebase
+import SwiftyUserDefaults
 
 class AddPairAlertViewController: UIViewController {
+  
+  var parentController: UIViewController?
   
   var tradingPair: (String, String)?
   var exchange: (String, String)?
@@ -21,6 +24,15 @@ class AddPairAlertViewController: UIViewController {
   @IBOutlet weak var addAlertButton: UIButton!
   
   @IBAction func addAlertButtonTapped(_ sender: Any) {
+    if tradingPair != nil && exchange != nil {
+      if tradingPair!.0 != "None" && exchange!.0 != "None" && thresholdPrice > 0 {
+        saveAlert()
+        self.navigationController?.popViewController(animated: true)
+      }
+      else {
+        addAlertButton.isEnabled = false
+      }
+    }
   }
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,12 +51,55 @@ class AddPairAlertViewController: UIViewController {
     }
   }
   
+  func saveAlert() {
+    var coinAlerts = Defaults[.allCoinAlerts]
+    print(coinAlerts)
+    if tradingPair != nil && exchange != nil {
+      if tradingPair!.0 != "None" && exchange!.0 != "None" {
+        let arrayDataEntry: [String: Any] = ["thresholdPrice": thresholdPrice,
+                                             "isAbove": isAbove,
+                                             "isActive": true,
+                                             "databaseTitle": exchange!.1,
+                                             "date": "23 Apr, 2018",
+                                             "type": "single"]
+        
+        if var exchangeData = coinAlerts[exchange!.0] as? [String: Any] {
+          if var coinData = exchangeData[tradingPair!.0] as? [String: Any] {
+            if var pairData = coinData[tradingPair!.1] as? [[String: Any]] {
+              pairData.append(arrayDataEntry)
+              coinData[tradingPair!.1] = pairData
+              exchangeData[tradingPair!.0] = coinData
+              coinAlerts[exchange!.0] = exchangeData
+            }
+            else {
+              coinData[tradingPair!.1] = [arrayDataEntry]
+              exchangeData[tradingPair!.0] = coinData
+              coinAlerts[exchange!.0] = exchangeData
+            }
+          }
+          else {
+            exchangeData[tradingPair!.0] = [tradingPair!.1: [arrayDataEntry]]
+            coinAlerts[exchange!.0] = exchangeData
+          }
+        }
+        else {
+          coinAlerts[exchange!.0] = [tradingPair!.0: [tradingPair!.1: [arrayDataEntry]]]
+        }
+        Defaults[.allCoinAlerts] = coinAlerts
+        
+        FirebaseService.shared.update_coin_alerts(data: coinAlerts)
+        
+        if let pairDetailContainerVc = parentController as? PairAlertViewController {
+          pairDetailContainerVc.loadAlerts()
+        }
+      }
+    }
+  }
   
+  // MARK: - Navigation
   
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let destinationVc = segue.destination
     if let addAlertTableVc = destinationVc as? AddPairAlertTableViewController {
       
@@ -61,7 +116,7 @@ class AddPairAlertViewController: UIViewController {
       addAlertTableVc.exchange = self.exchange
       addAlertTableVc.exchangePrice = self.exchangePrice
     }
-   }
+  }
   
 }
 
@@ -71,13 +126,13 @@ class AddPairAlertTableViewController: UITableViewController {
   
   var tradingPair: (String, String)!
   var exchange: (String, String)!
-
+  
   // tradingPairs: [(coin, currency)]
   var tradingPairs: [(String, String)] = []
   // markets: [currency: [(marketName, dbTableTitle)]
   var allMarkets: [String: [String: String]] = [:]
   var currentTradingPairMarkets: [String: String] = [:]
-
+  
   var exchangePrice: Double!
   
   var coinReference: DatabaseReference!
@@ -197,12 +252,12 @@ class AddPairAlertTableViewController: UITableViewController {
     coinReference.removeAllObservers()
     exchangeReference.removeAllObservers()
   }
-    
+  
   func updateLabels() {
     if let markets = allMarkets[tradingPair.1] as? [String: String] {
       self.currentTradingPairMarkets = markets
-//      self.exchangePrice = ("None", "none")
-//      self.currentExchangeLabel.text = currentExchange.0
+      //      self.exchangePrice = ("None", "none")
+      //      self.currentExchangeLabel.text = currentExchange.0
     }
   }
   
@@ -290,10 +345,10 @@ class AddPairAlertTableViewController: UITableViewController {
   }
   
   
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  // MARK: - Navigation
+  
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
     if let destinationVc = segue.destination as? TradingPairTableViewController {
       destinationVc.parentController = self
@@ -303,7 +358,7 @@ class AddPairAlertTableViewController: UITableViewController {
       destinationVc.parentController = self
       destinationVc.markets = self.currentTradingPairMarkets
     }
-   }
+  }
   
   
 }

@@ -8,12 +8,14 @@
 
 import UIKit
 import SwiftyUserDefaults
+import FirebaseAuth
+import FirebaseDatabase
 
 class PairAlertViewController: UIViewController {
   
   // For testing
   
-  let testingAlertData = ["Coinbase" : [
+  let testingAlertData: [String: [String: [String: [[String: Any]]]]] = ["Coinbase" : [
     "ETH" : [
       "USD" : [ [
         "thresholdPrice": 500,
@@ -44,7 +46,11 @@ class PairAlertViewController: UIViewController {
   
   var alerts: [Alert] = []
   
+  var alertActiveChanged: Int = -1
+  
   @IBOutlet weak var tableView: UITableView!
+  
+  @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,6 +59,12 @@ class PairAlertViewController: UIViewController {
     
     if parentController == nil {
       self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+    }
+    
+    if #available(iOS 11.0, *) {
+      self.navigationController?.navigationBar.prefersLargeTitles = true
+    } else {
+      // Fallback on earlier versions
     }
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -65,23 +77,57 @@ class PairAlertViewController: UIViewController {
     tableView.tableFooterView = UIView()
     
     // for testing-------------------------------------------
-    Defaults[.allCoinAlerts] = testingAlertData
+    //    Defaults[.allCoinAlerts] = testingAlertData
     
     // --------------------------------------------------------
     
-    if currentPair == nil || currentMarket == nil {
-      getAllAlerts()
-    }
-    else {
-      getAlertsFor(tradingPair: currentPair!, market: currentMarket!)
-    }
+    loadAlerts()
     
     print(alerts.count)
     self.tableView.reloadData()
   }
   
-  func getAllAlerts() {
-    let allCoinAlerts = Defaults[.allCoinAlerts]
+  override func viewWillLayoutSubviews() {
+    if alerts.count == 0 {
+      let messageLabel = UILabel()
+      messageLabel.text = "Add an alert"
+      messageLabel.theme_textColor = GlobalPicker.viewTextColor
+      messageLabel.numberOfLines = 0;
+      messageLabel.textAlignment = .center
+      messageLabel.sizeToFit()
+      
+      tableView.backgroundView = messageLabel
+    }
+  }
+  
+  func loadAlerts() {
+    
+    if Auth.auth().currentUser?.uid == nil {
+      print("user not signed in ERRRORRRR")
+    }
+    else {
+      let uid = Auth.auth().currentUser?.uid
+      var dict: [String: Any] = [:]
+      let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid!)
+      coinAlertRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        if let alertsDict = snapshot.value as? [String: Any] {
+          if self.currentPair != nil && self.currentMarket != nil {
+            self.getAlertsFor(alerts: alertsDict, tradingPair: self.currentPair!, market: self.currentMarket!)
+          }
+          else {
+            self.getAllAlerts(alerts: alertsDict)
+          }
+          self.tableView.reloadData()
+        }
+      })
+    }
+  }
+  
+  func getAllAlerts(alerts: [String: Any]) {
+//    let allCoinAlertsFirebase = alerts
+//    let allCoinAlertsDefaults = Defaults[.allCoinAlerts]
+    
+    let allCoinAlerts = alerts
     for (exchange, data) in allCoinAlerts {
       guard let exchangeData = data as? [String: Any] else { return }
       
@@ -109,9 +155,8 @@ class PairAlertViewController: UIViewController {
     }
   }
   
-  func getAlertsFor(tradingPair: (String, String), market: (String, String)) {
-    print(tradingPair, market)
-    let allCoinAlerts = Defaults[.allCoinAlerts]
+  func getAlertsFor(alerts: [String: Any], tradingPair: (String, String), market: (String, String)) {
+    let allCoinAlerts = alerts
     for (exchange, data) in allCoinAlerts {
       if exchange != market.0 { continue }
       guard let exchangeData = data as? [String: Any] else { return }
@@ -143,17 +188,17 @@ class PairAlertViewController: UIViewController {
   }
   
   
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  // MARK: - Navigation
+  
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let destinationVc = segue.destination
     if let addAlertVc = destinationVc as? AddPairAlertViewController {
       addAlertVc.tradingPair = self.currentPair
       addAlertVc.exchange = self.currentMarket
       addAlertVc.exchangePrice = self.exchangePrice
     }
-   }
+  }
 }
 
 extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
@@ -162,15 +207,18 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
     return 1
   }
   
-//  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//    return "Alerts"
-//  }
+  //  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  //    return "Alerts"
+  //  }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return alerts.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    tableViewHeightConstraint.constant = tableView.contentSize.height + 50
+    
     let row = indexPath.row
     let section = indexPath.section
     
@@ -199,8 +247,14 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
     else {
       cell.isActiveSwitch.setOn(false, animated: true)
     }
+    self.alertActiveChanged = row
+    cell.isActiveSwitch.addTarget(self, action: #selector(isActiveSwitchChanged), for: .valueChanged)
     
     return cell
+  }
+  
+  @objc func isActiveSwitchChanged(sender: UISwitch) {
+    
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
