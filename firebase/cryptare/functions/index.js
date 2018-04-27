@@ -28,13 +28,13 @@ exports.coinAlerts = functions.database.ref('/coin_alerts/{uid}/{market}/{coin}/
 		return change.after.ref.parent.child('isActive').once('value').then(snap => {
 			const isActive = snap.val();
 			if (isActive) {
-				return change.after.ref.parent.child('price').once('value').then(snap => {
+				return change.after.ref.parent.child('thresholdPrice').once('value').then(snap => {
 					const notification_price = snap.val();
 					return change.after.ref.parent.child('isAbove').once('value').then(snap => {
 						const isAbove = snap.val();
 						var fire_notification = false
 
-						if (above) {
+						if (isAbove) {
 							if (current_price > notification_price) {
 								fire_notification = true
 							}
@@ -69,7 +69,7 @@ exports.coinAlerts = functions.database.ref('/coin_alerts/{uid}/{market}/{coin}/
 								const title_text = `Price alert for ${market} (${coin}/${currency})`
 								var body_text = ''
 
-								if (above) {
+								if (isAbove) {
 									body_text = `📈 The price is ${current_price}, above your set threshold of ${notification_price}`
 								}
 								else {
