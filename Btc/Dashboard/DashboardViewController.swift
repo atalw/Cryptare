@@ -191,7 +191,6 @@ class DashboardViewController: UIViewController {
         tableView.backgroundView = nil
       }
     }
-    headerBackgroundView.isHidden = false
     activityIndicator.stopAnimating()
     self.setupCoinRefs()
   }
@@ -287,6 +286,7 @@ class DashboardViewController: UIViewController {
       coinData[coin]!["marketcap"] = marketcap
     }
     
+    headerBackgroundView.isHidden = false
     tableView.reloadData()
 
   }

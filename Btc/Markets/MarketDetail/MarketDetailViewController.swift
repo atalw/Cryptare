@@ -32,9 +32,9 @@ class MarketDetailViewController: UIViewController {
     let activityIndicator = UIActivityIndicatorView()
     activityIndicator.theme_activityIndicatorViewStyle = GlobalPicker.activityIndicatorColor
     activityIndicator.center = self.tableView.center
-    activityIndicator.center.y += 200
+    activityIndicator.center.y += 100
     activityIndicator.hidesWhenStopped = true
-    tableView.addSubview(activityIndicator)
+    view.addSubview(activityIndicator)
     
     return activityIndicator
   }()
@@ -125,7 +125,6 @@ class MarketDetailViewController: UIViewController {
           }
           
           self.activityIndicator.stopAnimating()
-
           self.tableView.reloadData()
         }
       }
@@ -136,13 +135,13 @@ class MarketDetailViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    guard tableView != nil else { return }
+    if let selectedTableIndex = tableView.indexPathForSelectedRow {
+      deselectTableRow(indexPath: selectedTableIndex)
+    }
+    
     getFavouriteMarketsList()
     setFavouriteButtonStatus()
-    
-    guard (self.tableView) != nil else { return }
-    if let selectedTableIndex = self.tableView.indexPathForSelectedRow {
-      self.deselectTableRow(indexPath: selectedTableIndex)
-    }
   }
   
   override func viewDidLayoutSubviews() {
@@ -152,9 +151,9 @@ class MarketDetailViewController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
-    tradingPairData = [:]
-    sortedTradingPairs = []
-    fannedOutTradingPairs = []
+//    tradingPairData = [:]
+//    sortedTradingPairs = []
+//    fannedOutTradingPairs = []
     
     databaseRef.removeAllObservers()
   }
@@ -318,8 +317,6 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
       else {
         title = "\(databaseTitle!)/\(coin)/\(base)"
       }
-      
-      print(databaseTitle, marketName, "adsf")
       
       targetViewController.currentMarket = (marketName, title)
       

@@ -77,6 +77,7 @@ class PairAlertViewController: UIViewController {
     tableView.delegate = self
     tableView.dataSource = self
     tableView.tableFooterView = UIView()
+    tableView.allowsSelection = false
     
     // for testing-------------------------------------------
     //    Defaults[.allCoinAlerts] = testingAlertData
@@ -352,7 +353,7 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
 //    guard let cell = tableView.cellForRow(at: indexPath) else { return }
 //    cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
 //  }
-//  
+//
 //  func deselectTableRow(indexPath: IndexPath) {
 //    tableView.deselectRow(at: indexPath, animated: true)
 //    tableView(tableView, didDeselectRowAt: indexPath)

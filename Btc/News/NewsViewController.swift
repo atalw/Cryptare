@@ -177,6 +177,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
   }
+  
   @objc func appMovedToBackground() {
     if let row = self.tableView.indexPathForSelectedRow {
       self.tableView.deselectRow(at: row, animated: false)
