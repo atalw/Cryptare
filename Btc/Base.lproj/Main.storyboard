@@ -1634,7 +1634,7 @@
         <!--Coins-->
         <scene sceneID="acg-Gs-9hi">
             <objects>
-                <tableViewController id="uub-El-oLy" customClass="AddCoinTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AddCoinTableViewController" id="uub-El-oLy" customClass="AddCoinTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Dx7-mA-pyf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5162,7 +5162,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iOs-jH-sEN">
-                                <rect key="frame" x="0.0" y="44" width="375" height="685"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uUT-oe-XTn">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="673"/>
@@ -5197,17 +5197,17 @@
                                                                                     <rect key="frame" x="0.0" y="0.0" width="283" height="51.666666666666664"/>
                                                                                     <subviews>
                                                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fn3-Ck-ouJ">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="94" height="31"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="95" height="31"/>
                                                                                             <subviews>
                                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGB-Wc-4hh">
-                                                                                                    <rect key="frame" x="0.0" y="0.0" width="10.333333333333334" height="31"/>
-                                                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                                                    <rect key="frame" x="0.0" y="0.0" width="9.6666666666666661" height="31"/>
+                                                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                                                     <nil key="textColor"/>
                                                                                                     <nil key="highlightedColor"/>
                                                                                                 </label>
                                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 9999.99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P5Z-pc-dfL">
-                                                                                                    <rect key="frame" x="15.333333333333336" y="0.0" width="78.666666666666657" height="31"/>
-                                                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                                                                    <rect key="frame" x="14.666666666666664" y="0.0" width="80.333333333333343" height="31"/>
+                                                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                                                                     <nil key="textColor"/>
                                                                                                     <nil key="highlightedColor"/>
                                                                                                 </label>
@@ -5216,14 +5216,14 @@
                                                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="f44-5K-yZD">
                                                                                             <rect key="frame" x="0.0" y="36" width="115.33333333333333" height="15.666666666666664"/>
                                                                                             <subviews>
-                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="BTC/INR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouY-HF-YVG">
-                                                                                                    <rect key="frame" x="0.0" y="0.0" width="51.333333333333336" height="15.666666666666666"/>
+                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exchange" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yR-oG-zG0">
+                                                                                                    <rect key="frame" x="0.0" y="0.0" width="59" height="15.666666666666666"/>
                                                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                                                     <nil key="textColor"/>
                                                                                                     <nil key="highlightedColor"/>
                                                                                                 </label>
-                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exchange" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yR-oG-zG0">
-                                                                                                    <rect key="frame" x="56.333333333333329" y="0.0" width="59" height="15.666666666666666"/>
+                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="BTC/INR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouY-HF-YVG">
+                                                                                                    <rect key="frame" x="64" y="0.0" width="51.333333333333343" height="15.666666666666666"/>
                                                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                                                     <nil key="textColor"/>
                                                                                                     <nil key="highlightedColor"/>
@@ -5301,7 +5301,7 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1e9-va-yJr">
-                                <rect key="frame" x="30" y="679" width="315" height="40"/>
+                                <rect key="frame" x="30" y="728" width="315" height="40"/>
                                 <color key="backgroundColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Os2-75-2Tv"/>
@@ -5335,7 +5335,6 @@
                         <viewLayoutGuide key="safeArea" id="VcU-nq-76i"/>
                     </view>
                     <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="M6X-YO-QVF" id="EBa-4S-4Vo"/>
                         <outlet property="tableViewHeightConstraint" destination="FvR-Hk-A0a" id="IDd-Ol-t1Q"/>
@@ -5519,7 +5518,7 @@
             </objects>
             <point key="canvasLocation" x="-2036" y="1193"/>
         </scene>
-        <!--Add Pair Alert View Controller-->
+        <!--Add Alert-->
         <scene sceneID="BYW-GV-ZkM">
             <objects>
                 <viewController storyboardIdentifier="AddPairAlertViewController" id="8Cq-yb-pPL" customClass="AddPairAlertViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
@@ -5537,7 +5536,7 @@
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WL-qq-pbB">
-                                <rect key="frame" x="0.0" y="679" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="728" width="375" height="50"/>
                                 <color key="backgroundColor" red="0.27450980390000002" green="0.38823529410000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="YIM-wc-2PK"/>
@@ -5564,6 +5563,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VUe-0c-ZvZ"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Add Alert" largeTitleDisplayMode="never" id="WyD-Zs-P45"/>
                     <connections>
                         <outlet property="addAlertButton" destination="4WL-qq-pbB" id="oUi-6D-8dC"/>
                     </connections>

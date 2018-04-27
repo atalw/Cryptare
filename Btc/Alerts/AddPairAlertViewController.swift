@@ -61,7 +61,6 @@ class AddPairAlertViewController: UIViewController {
   
   func saveAlert() {
     var coinAlerts = Defaults[.allCoinAlerts]
-    print(coinAlerts)
     if tradingPair != nil && exchange != nil {
       if tradingPair!.0 != "None" && exchange!.0 != "None" {
         let arrayDataEntry: [String: Any] = ["thresholdPrice": thresholdPrice,
@@ -93,13 +92,15 @@ class AddPairAlertViewController: UIViewController {
         else {
           coinAlerts[exchange!.0] = [tradingPair!.0: [tradingPair!.1: [arrayDataEntry]]]
         }
-        Defaults[.allCoinAlerts] = coinAlerts
+        
         
         FirebaseService.shared.update_coin_alerts(data: coinAlerts)
-        FirebaseService.shared.update_users_coin_alerts(exchangeName: exchange!.0, tradingPair: tradingPair!)
+        FirebaseService.shared.add_users_coin_alerts(exchangeName: exchange!.0, tradingPair: tradingPair!)
         
         if let pairDetailContainerVc = parentController as? PairAlertViewController {
-          pairDetailContainerVc.loadAlerts()
+//          pairDetailContainerVc.getAlertsFor(alerts: coinAlerts, tradingPair: tradingPair!, market: exchange!)
+          pairDetailContainerVc.loadAlertsFromDefaults()
+//          pairDetailContainerVc.tableView.reloadData()
         }
       }
     }
@@ -133,8 +134,16 @@ class AddPairAlertTableViewController: UITableViewController {
   
   var parentController: AddPairAlertViewController!
   
-  var tradingPair: (String, String)!
-  var exchange: (String, String)!
+  var tradingPair: (String, String)! {
+    didSet {
+      parentController.tradingPair = tradingPair
+    }
+  }
+  var exchange: (String, String)! {
+    didSet {
+      parentController.exchange = exchange
+    }
+  }
   
   // tradingPairs: [(coin, currency)]
   var tradingPairs: [(String, String)] = []
@@ -266,6 +275,17 @@ class AddPairAlertTableViewController: UITableViewController {
     }
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    if tradingPair.0 == "None" {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let controller = storyboard.instantiateViewController(withIdentifier: "AddCoinTableViewController") as! AddCoinTableViewController
+      controller.parentController = self
+      self.present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+    }
+  }
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
@@ -276,9 +296,36 @@ class AddPairAlertTableViewController: UITableViewController {
     exchangeReference.removeAllObservers()
   }
   
+  func getTradingPairs(coin: String) {
+    let databaseRef = Database.database().reference().child(coin)
+    
+    databaseRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
+      if let dict = snapshot.value as? [String : AnyObject] {
+        for (title, data) in dict {
+          if title != "name" && title != "rank" {
+            self.tradingPairs.append((coin, title))
+            self.allMarkets[title] = [:]
+            if let markets = data["markets"] as? [String: String] {
+              //                            print(markets)
+              self.allMarkets[title] = markets
+            }
+            self.allMarkets[title]!["None"] = "none"
+          }
+        }
+        self.tradingPair = self.tradingPairs.first
+        self.updateLabels()
+      }
+    })
+  }
+  
   func updateLabels() {
+    if let pair = tradingPair as? (String, String) {
+      self.tradingPairLabel.text = "\(pair.0)-\(pair.1)"
+    }
+    
     if let markets = allMarkets[tradingPair.1] as? [String: String] {
       self.currentTradingPairMarkets = markets
+      
       //      self.exchangePrice = ("None", "none")
       //      self.currentExchangeLabel.text = currentExchange.0
     }
@@ -376,6 +423,9 @@ class AddPairAlertTableViewController: UITableViewController {
     
     if let destinationVc = segue.destination as? TradingPairTableViewController {
       destinationVc.parentController = self
+      if self.tradingPairs.isEmpty {
+        
+      }
       destinationVc.tradingPairs = self.tradingPairs
     }
     else if let destinationVc = segue.destination as? AvailableExchangesTableViewController {

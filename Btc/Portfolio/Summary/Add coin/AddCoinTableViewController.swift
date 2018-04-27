@@ -10,7 +10,9 @@ import UIKit
 
 class AddCoinTableViewController: UITableViewController {
   
-  var parentController: PortfolioSummaryViewController!
+  var parentController: UIViewController!
+  
+  var isAddAlertVc: Bool!
   
   var coins: [(String, String)] = []
   var currencies: [(String, String)] = []
@@ -29,6 +31,10 @@ class AddCoinTableViewController: UITableViewController {
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+    
+    if (parentController as? AddPairAlertTableViewController) != nil {
+      isAddAlertVc = true
+    }
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = false
@@ -132,10 +138,16 @@ class AddCoinTableViewController: UITableViewController {
 // MARK: - Table view data source
 
 override func numberOfSections(in tableView: UITableView) -> Int {
+  if isAddAlertVc {
+    return 1
+  }
   return 2
 }
 
 override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  if isAddAlertVc {
+    return "Cryptocurrencies"
+  }
   if section == 0 {
     return "Fiat Currencies"
   }
@@ -146,6 +158,12 @@ override func tableView(_ tableView: UITableView, titleForHeaderInSection sectio
 }
 
 override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  
+  if isAddAlertVc {
+    if isFiltering() { return coinSearchResults.count }
+    return coins.count
+  }
+  
   if isFiltering() {
     if section == 0 {
       return currencySearchResults.count
@@ -168,28 +186,42 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
   cell.selectionStyle = .none
   var data: (String, String) = ("", "")
   let section = indexPath.section
-  if isFiltering() {
-    if section == 0 {
-      data = currencySearchResults[indexPath.row]
-    }
-    if section == 1 {
+  
+  if isAddAlertVc {
+    if isFiltering() {
       data = coinSearchResults[indexPath.row]
-    }
-  }
-  else {
-    if section == 0 {
-      data = currencies[indexPath.row]
     }
     else {
       data = coins[indexPath.row]
     }
-  }
-  
-  if section == 0 {
-    cell.coinImage.image = UIImage(named: data.0.lowercased())
+    
+    cell.coinImage.loadSavedImage(coin: data.0)
+
   }
   else {
-    cell.coinImage.loadSavedImage(coin: data.0)
+    if isFiltering() {
+      if section == 0 {
+        data = currencySearchResults[indexPath.row]
+      }
+      if section == 1 {
+        data = coinSearchResults[indexPath.row]
+      }
+    }
+    else {
+      if section == 0 {
+        data = currencies[indexPath.row]
+      }
+      else {
+        data = coins[indexPath.row]
+      }
+    }
+    
+    if section == 0 {
+      cell.coinImage.image = UIImage(named: data.0.lowercased())
+    }
+    else {
+      cell.coinImage.loadSavedImage(coin: data.0)
+    }
   }
   
   cell.coinNameLabel.text = data.1
@@ -202,33 +234,48 @@ override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: Inde
   var coin: String!
   let section = indexPath.section
   
-  if isFiltering() {
+  if isAddAlertVc {
+    if isFiltering() { coin = coinSearchResults[indexPath.row].0 }
+    else { coin = coins[indexPath.row].0 }
+  }
+  else {
+    if isFiltering() {
+      if section == 0 {
+        coin = currencySearchResults[indexPath.row].0
+        
+      }
+      else if section == 1 {
+        coin = coinSearchResults[indexPath.row].0
+      }
+    }
+    else {
+      if section == 0 {
+        coin = currencies[indexPath.row].0
+      }
+      else if section == 1 {
+        coin = coins[indexPath.row].0
+      }
+    }
+  }
+  
+  
+  if let portfolioSummaryVc = parentController as? PortfolioSummaryViewController {
+    self.navigationController?.popViewController(animated: true)
+
     if section == 0 {
-      coin = currencySearchResults[indexPath.row].0
+      portfolioSummaryVc.newCurrencyAdded(currency: coin)
       
     }
     else if section == 1 {
-      coin = coinSearchResults[indexPath.row].0
+      portfolioSummaryVc.newCoinAdded(coin: coin)
     }
   }
-  else {
-    if section == 0 {
-      coin = currencies[indexPath.row].0
-    }
-    else if section == 1 {
-      coin = coins[indexPath.row].0
-    }
+  else if let addPairTableVc = parentController as? AddPairAlertTableViewController {
+    addPairTableVc.getTradingPairs(coin: coin)
+
+    self.dismiss(animated: true, completion: nil)
   }
   
-  self.navigationController?.popViewController(animated: true)
-  
-  if section == 0 {
-    self.parentController.newCurrencyAdded(currency: coin)
-    
-  }
-  else if section == 1 {
-    self.parentController.newCoinAdded(coin: coin)
-  }
 }
 
 override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {

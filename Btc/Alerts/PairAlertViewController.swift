@@ -57,16 +57,15 @@ class PairAlertViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Alerts"
-    
-    if parentController == nil {
-      self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
-    }
-    
     if #available(iOS 11.0, *) {
       self.navigationController?.navigationBar.prefersLargeTitles = true
     } else {
       // Fallback on earlier versions
+    }
+    self.title = "Alerts"
+    
+    if parentController == nil {
+      self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     }
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -85,9 +84,13 @@ class PairAlertViewController: UIViewController {
     // --------------------------------------------------------
     
     loadAlerts()
-    
-    print(alerts.count)
+
     self.tableView.reloadData()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
   }
   
   override func viewWillLayoutSubviews() {
@@ -101,10 +104,12 @@ class PairAlertViewController: UIViewController {
       
       tableView.backgroundView = messageLabel
     }
+    else {
+      tableView.backgroundView = nil
+    }
   }
   
   func loadAlerts() {
-    
     if Auth.auth().currentUser?.uid == nil {
       print("user not signed in ERRRORRRR")
     }
@@ -119,7 +124,7 @@ class PairAlertViewController: UIViewController {
             self.getAlertsFor(alerts: alertsDict, tradingPair: self.currentPair!, market: self.currentMarket!)
           }
           else {
-            self.getAllAlerts(alerts: alertsDict)
+            self.getAllAlerts(alertsDict: alertsDict)
           }
           self.tableView.reloadData()
         }
@@ -127,16 +132,28 @@ class PairAlertViewController: UIViewController {
     }
   }
   
-  func getAllAlerts(alerts: [String: Any]) {
+  func loadAlertsFromDefaults() {
+    self.alerts = []
+    let alertsDict = Defaults[.allCoinAlerts]
+    if self.currentPair != nil && self.currentMarket != nil {
+      self.getAlertsFor(alerts: alertsDict, tradingPair: self.currentPair!, market: self.currentMarket!)
+    }
+    else {
+      self.getAllAlerts(alertsDict: alertsDict)
+    }
+    self.tableView.reloadData()
+  }
+  
+  func getAllAlerts(alertsDict: [String: Any]) {
 //    let allCoinAlertsFirebase = alerts
 //    let allCoinAlertsDefaults = Defaults[.allCoinAlerts]
     
-    let allCoinAlerts = alerts
+    let allCoinAlerts = alertsDict
     for (exchange, data) in allCoinAlerts {
       guard let exchangeData = data as? [String: Any] else { return }
       
       for (coin, coinData) in exchangeData {
-        guard var alertData = coinData as? [String: Any] else { return }
+        guard let alertData = coinData as? [String: Any] else { return }
         
         for (pair, alertsArray) in alertData {
           guard let alerts = alertsArray as? [[String: Any]] else { return }
@@ -157,6 +174,7 @@ class PairAlertViewController: UIViewController {
         }
       }
     }
+    Defaults[.allCoinAlerts] = allCoinAlerts
   }
   
   func getAlertsFor(alerts: [String: Any], tradingPair: (String, String), market: (String, String)) {
@@ -199,6 +217,7 @@ class PairAlertViewController: UIViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let destinationVc = segue.destination
     if let addAlertVc = destinationVc as? AddPairAlertViewController {
+      addAlertVc.parentController = self
       addAlertVc.tradingPair = self.currentPair
       addAlertVc.exchange = self.currentMarket
       addAlertVc.exchangePrice = self.exchangePrice
@@ -222,23 +241,22 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-    tableViewHeightConstraint.constant = tableView.contentSize.height + 75
+    tableViewHeightConstraint.constant = tableView.contentSize.height + 150
     
     let row = indexPath.row
-    let section = indexPath.section
     
     let cell = tableView.dequeueReusableCell(withIdentifier: "alertCell") as! PairAlertTableViewCell
     cell.selectionStyle = .none
     
     let alert = alerts[row]
     
-    cell.dateLabel.text = alert.date
+    cell.dateLabel.text = "Created on \(alert.date)"
     
     if alert.isAbove {
-      cell.aboveLabel.text = ">"
+      cell.aboveLabel.text = "1 \(alert.tradingPair.0) >"
     }
     else {
-      cell.aboveLabel.text = "<"
+      cell.aboveLabel.text = "1 \(alert.tradingPair.0)  <"
     }
     
     cell.thresholdPriceLabel.text = alert.thresholdPrice.asSelectedCurrency(currency: alert.tradingPair.1)
@@ -306,7 +324,7 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
       }
     }
     self.alertsDict = allCoinAlerts
-    
+    Defaults[.allCoinAlerts] = allCoinAlerts
     FirebaseService.shared.update_coin_alerts(data: allCoinAlerts)
   }
   
@@ -342,6 +360,7 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
       // delete item at indexPath
       let alert = self.alerts[indexPath.row]
       self.alerts.remove(at: indexPath.row)
+      self.tableViewHeightConstraint.constant = tableView.contentSize.height + 150
       self.deleteAlert(alert: alert)
       tableView.deleteRows(at: [indexPath], with: .fade)
     }
@@ -397,7 +416,12 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
             if date == alert.date && isAbove == alert.isAbove && thresholdPrice == alert.thresholdPrice && isActive == alert.isActive && type == alert.type && databaseTitle == alert.databaseTitle {
               
               alerts.remove(at: index)
-              alertData[quote] = alerts
+              if alerts.count == 0 {
+                alertData[quote] = nil
+              }
+              else {
+                alertData[quote] = alerts
+              }
               exchangeData[base] = alertData
               allCoinAlerts[exchange] = exchangeData
               break outerLoop
@@ -407,7 +431,11 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
       }
     }
     self.alertsDict = allCoinAlerts
+    Defaults[.allCoinAlerts] = allCoinAlerts
     
+
     FirebaseService.shared.update_coin_alerts(data: allCoinAlerts)
+    FirebaseService.shared.remove_users_coin_alerts(exchangeName: alert.exchange.0, tradingPair: alert.tradingPair)
+    
   }
 }

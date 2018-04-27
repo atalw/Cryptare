@@ -205,7 +205,6 @@ class MarketDetailViewController: UIViewController {
       else {
         favouriteMarkets.append(marketName)
         favouriteStatus = true
-        
       }
     }
     

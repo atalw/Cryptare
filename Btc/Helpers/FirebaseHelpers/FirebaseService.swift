@@ -103,6 +103,8 @@ class FirebaseService: NSObject {
   }
   
   func update_coin_alerts(data: [String: Any]) {
+    Defaults[.allCoinAlerts] = data
+
     var uid: String!
     if Auth.auth().currentUser?.uid == nil {
       print("user not signed in ERRRORRRR")
@@ -118,7 +120,7 @@ class FirebaseService: NSObject {
     }
   }
   
-  func update_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
+  func add_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
     var uid: String!
     if Auth.auth().currentUser?.uid == nil {
       print("user not signed in ERRRORRRR")
@@ -135,6 +137,55 @@ class FirebaseService: NSObject {
                 if dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] != nil {
                   let count = dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid]!
                   dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] = count + 1
+                }
+                else {
+                  dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] = 1
+                }
+              }
+              else {
+                dict[exchangeName]![tradingPair.0]![tradingPair.1] = [uid: 1]
+              }
+            }
+            else {
+              dict[exchangeName]![tradingPair.0] = [tradingPair.1: [uid: 1]]
+            }
+          }
+          else {
+            dict[exchangeName] = [tradingPair.0: [tradingPair.1: [uid: 1]]]
+          }
+          
+          userCoinAlertRef.setValue(dict) { (err, ref) in
+            if err != nil {
+              print(err!, "users coin alert update")
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  func remove_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
+    var uid: String!
+    if Auth.auth().currentUser?.uid == nil {
+      print("user not signed in ERRRORRRR")
+    }
+    else {
+      uid = Auth.auth().currentUser?.uid
+      let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
+      
+      userCoinAlertRef.observeSingleEvent(of: .value) { (snapshot) in
+        if var dict = snapshot.value as? [String: [String: [String: [String: Int]]]] {
+          if dict[exchangeName] != nil {
+            if dict[exchangeName]![tradingPair.0] != nil {
+              if dict[exchangeName]![tradingPair.0]![tradingPair.1] != nil {
+                if dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] != nil {
+                  let count = dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid]!
+                  if count == 1 {
+                    dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] = nil
+                  }
+                  else {
+                    dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] = count - 1
+                  }
                 }
                 else {
                   dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] = 1
