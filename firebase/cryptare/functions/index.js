@@ -92,6 +92,8 @@ exports.coinAlerts = functions.database.ref('/coin_alerts/{uid}/{market}/{coin}/
 
 								tokens = Object.keys(tokensSnapshot.val());
 
+								change.after.ref.parent.update({'isActive': false})
+
 								return admin.messaging().sendToDevice(tokens, payload, options);
 							}).then((response) => {
 								const tokensToRemove = [];

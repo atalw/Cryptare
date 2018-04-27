@@ -31,8 +31,6 @@ class DashboardViewController: UIViewController {
   var coinData: [String: [String: Any]] = [:]
   var changedRow = 0
   
-  @IBOutlet weak var tableView: UITableView!
-  
   var databaseRef: DatabaseReference!
   var listOfCoins: DatabaseReference!
   var coinRefs: [DatabaseReference] = []
@@ -40,9 +38,27 @@ class DashboardViewController: UIViewController {
   //    let searchController = UISearchController(searchResultsController: nil)
   var coinSearchResults = [String]()
   
+  @IBOutlet weak var tableView: UITableView!
+  
+  lazy var activityIndicator: UIActivityIndicatorView = {
+    let activityIndicator = UIActivityIndicatorView()
+    activityIndicator.theme_activityIndicatorViewStyle = GlobalPicker.activityIndicatorColor
+    activityIndicator.center = view.center
+    activityIndicator.center.y -= 200
+    activityIndicator.hidesWhenStopped = true
+    view.addSubview(activityIndicator)
+    
+    return activityIndicator
+  }()
+  
   @IBOutlet weak var rankLabel: UILabel! {
     didSet {
       rankLabel.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+  }
+  @IBOutlet weak var headerBackgroundView: UIView! {
+    didSet {
+      headerBackgroundView.isHidden = true
     }
   }
   @IBOutlet weak var header24hrChangeLabel: UILabel!
@@ -73,6 +89,7 @@ class DashboardViewController: UIViewController {
     
     var allCoins: [String] = []
     
+    activityIndicator.startAnimating()
     listOfCoins.observeSingleEvent(of: .value, with: { (snapshot) in
       if let dict = snapshot.value as? [String: [String: Any]] {
         let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})
@@ -174,7 +191,8 @@ class DashboardViewController: UIViewController {
         tableView.backgroundView = nil
       }
     }
-    
+    headerBackgroundView.isHidden = false
+    activityIndicator.stopAnimating()
     self.setupCoinRefs()
   }
   

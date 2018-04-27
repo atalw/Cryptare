@@ -20,9 +20,9 @@ class MarketsViewController: UIViewController {
   // (key, name)
   var marketNames: [(String, String)] = []
   
-  var sortedTradingPairs: [(String, [(String, String)])] = []
-  var fannedOutTradingPairs: [(String, String, String)] = []
-  var tradingPairRefs: [(String, String, String, DatabaseReference)] = []
+  var sortedTradingPairs: [(String, [(String, String, String)])] = []
+  var fannedOutTradingPairs: [(String, String, String, String)] = []
+  var tradingPairRefs: [(String, String, String, String, DatabaseReference)] = []
   
   var tradingPairDataDict: [String: [String: [String: [String: Any]]]] = [:]
   
@@ -44,8 +44,10 @@ class MarketsViewController: UIViewController {
     if !favouritesTab {
       for market in marketInformation {
 
-        if let name = market.value["name"] as? String {
+        if let name = market.value["name"] as? String, let isActive = market.value["is_active"] as? Bool {
+          if isActive {
             self.marketNames.append((market.key, name))
+          }
         }
       }
       
@@ -82,7 +84,7 @@ class MarketsViewController: UIViewController {
     super.viewWillDisappear(animated)
     
     for tradingPairRef in tradingPairRefs {
-      tradingPairRef.3.removeAllObservers()
+      tradingPairRef.4.removeAllObservers()
     }
   }
   
@@ -104,16 +106,16 @@ class MarketsViewController: UIViewController {
     
     for (coin, value) in tradingPairs {
       guard let coinData = value as? [String: Any] else { return }
-      var baseArray: [(String, String)] = []
+      var baseArray: [(String, String, String)] = []
       
       for (pair, pairValue) in coinData {
         guard let pairArray = pairValue as? [[String: String]] else { return }
         
         for pairData in pairArray {
           if let marketName = pairData["name"], let databaseTitle = pairData["databaseTitle"] {
-            baseArray.append((pair, marketName))
+            baseArray.append((pair, marketName, databaseTitle))
             let ref = Database.database().reference().child(databaseTitle)
-            tradingPairRefs.append((coin, pair, marketName, ref))
+            tradingPairRefs.append((coin, pair, marketName, databaseTitle, ref))
           }
         }
       }
@@ -128,7 +130,7 @@ class MarketsViewController: UIViewController {
     
     for (key, baseArray) in self.sortedTradingPairs {
       for base in baseArray {
-        self.fannedOutTradingPairs.append((key, base.0, base.1))
+        self.fannedOutTradingPairs.append((key, base.0, base.1, base.2))
       }
     }
   }
@@ -137,8 +139,10 @@ class MarketsViewController: UIViewController {
     // favourite markets
     let markets = Defaults[.favouriteMarkets]
     for market in markets {
-      if let name = marketInformation[market]!["name"] as? String {
-        self.marketNames.append((market, name))
+      if let name = marketInformation[market]!["name"] as? String, let isActive = marketInformation[market]!["is_active"] as? Bool {
+        if isActive {
+          self.marketNames.append((market, name))
+        }
       }
     }
   }
@@ -148,9 +152,8 @@ class MarketsViewController: UIViewController {
       let coin = tradingPairRef.0
       let pair = tradingPairRef.1
       let market = tradingPairRef.2
-      tradingPairRef.3.observeSingleEvent(of: .value, with: {(snapshot) -> Void in
+      tradingPairRef.4.observeSingleEvent(of: .value, with: {(snapshot) -> Void in
         if let cryptoDict = snapshot.value as? [String : AnyObject] {
-          print(cryptoDict)
           
           if self.tradingPairDataDict[coin] == nil {
             self.tradingPairDataDict[coin] = [:]
@@ -248,7 +251,7 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tradingPair") as! MarketsTradingPairTableViewCell
         cell.selectionStyle = .none
         
-        let (coin, base, market) = fannedOutTradingPairs[row]
+        let (coin, base, market, _) = fannedOutTradingPairs[row]
 
         cell.coinSymbolImage.loadSavedImage(coin: coin)
         
@@ -294,10 +297,10 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
       if section == 0 { // favourite trading pairs
         let targetVC = storyboard?.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
         
-        let (coin, base, market) = fannedOutTradingPairs[row]
+        let (coin, base, market, databaseTitle) = fannedOutTradingPairs[row]
         targetVC.coinPairData = self.tradingPairDataDict[coin]?[base]
         targetVC.currentPair = (coin, base)
-        targetVC.currentMarket = (market, "")
+        targetVC.currentMarket = (market, databaseTitle)
         
         self.navigationController?.pushViewController(targetVC, animated: true)
       }

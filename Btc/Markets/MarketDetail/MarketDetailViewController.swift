@@ -29,8 +29,10 @@ class MarketDetailViewController: UIViewController {
   var databaseRef: DatabaseReference!
   
   lazy var activityIndicator: UIActivityIndicatorView = {
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    let activityIndicator = UIActivityIndicatorView()
+    activityIndicator.theme_activityIndicatorViewStyle = GlobalPicker.activityIndicatorColor
     activityIndicator.center = self.tableView.center
+    activityIndicator.center.y += 200
     activityIndicator.hidesWhenStopped = true
     tableView.addSubview(activityIndicator)
     
@@ -316,6 +318,8 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
       else {
         title = "\(databaseTitle!)/\(coin)/\(base)"
       }
+      
+      print(databaseTitle, marketName, "adsf")
       
       targetViewController.currentMarket = (marketName, title)
       

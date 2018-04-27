@@ -30,7 +30,7 @@ class FirebaseService: NSObject {
       let portfolioNamesRef = Database.database().reference().child("portfolios").child(uid).child("Names")
       portfolioNamesRef.setValue(Defaults[.portfolioNames]) { (err, ref) in
         if err != nil {
-          print(err, "Names update")
+          print(err!, "Names update")
         }
       }
     }
@@ -46,7 +46,7 @@ class FirebaseService: NSObject {
       let cryptoDataRef = Database.database().reference().child("portfolios").child(uid).child("CryptoData")
       cryptoDataRef.setValue(Defaults[.cryptoPortfolioData]) { (err, ref) in
         if err != nil {
-          print(err, "Crypto update")
+          print(err!, "Crypto update")
         }
       }
     }
@@ -62,7 +62,7 @@ class FirebaseService: NSObject {
       let fiatDataRef = Database.database().reference().child("portfolios").child(uid).child("FiatData")
       fiatDataRef.setValue(Defaults[.fiatPortfolioData]) { (err, ref) in
         if err != nil {
-          print(err, "Fiat update")
+          print(err!, "Fiat update")
         }
       }
     }
@@ -79,7 +79,7 @@ class FirebaseService: NSObject {
       let portfolioRef = Database.database().reference().child("portfolios").child(uid).child(databaseTitle)
       portfolioRef.updateChildValues(data) { (err, ref) in
         if err != nil {
-          print(err, "\(databaseTitle) update")
+          print(err!, "\(databaseTitle) update")
         }
       }
     }
@@ -96,28 +96,11 @@ class FirebaseService: NSObject {
       let portfolioRef = Database.database().reference().child("portfolios").child(uid).child(databaseTitle)
       portfolioRef.setValue(data) { (err, ref) in
         if err != nil {
-          print(err, "\(databaseTitle) update")
+          print(err!, "\(databaseTitle) update")
         }
       }
     }
   }
-  
-//  func get_coin_alerts() -> [String: Any]? {
-//    var uid: String!
-//    if Auth.auth().currentUser?.uid == nil {
-//      print("user not signed in ERRRORRRR")
-//    }
-//    else {
-//      uid = Auth.auth().currentUser?.uid
-//      var dict: [String: Any] = [:]
-//      let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid)
-//      coinAlertRef.observeSingleEvent(of: .value, with: { (snapshot) in
-//        if let alertsDict = snapshot as? [String: Any] {
-//          return alertsDict
-//        }
-//      })
-//    }
-//  }
   
   func update_coin_alerts(data: [String: Any]) {
     var uid: String!
@@ -129,12 +112,55 @@ class FirebaseService: NSObject {
       let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid)
       coinAlertRef.setValue(data) { (err, ref) in
         if err != nil {
-          print(err, "coin alert update")
+          print(err!, "coin alert update")
         }
       }
     }
   }
   
+  func update_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
+    var uid: String!
+    if Auth.auth().currentUser?.uid == nil {
+      print("user not signed in ERRRORRRR")
+    }
+    else {
+      uid = Auth.auth().currentUser?.uid
+      let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
+      
+      userCoinAlertRef.observeSingleEvent(of: .value) { (snapshot) in
+        if var dict = snapshot.value as? [String: [String: [String: [String: Int]]]] {
+          if dict[exchangeName] != nil {
+            if dict[exchangeName]![tradingPair.0] != nil {
+              if dict[exchangeName]![tradingPair.0]![tradingPair.1] != nil {
+                if dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] != nil {
+                  let count = dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid]!
+                  dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] = count + 1
+                }
+                else {
+                  dict[exchangeName]![tradingPair.0]![tradingPair.1]![uid] = 1
+                }
+              }
+              else {
+                dict[exchangeName]![tradingPair.0]![tradingPair.1] = [uid: 1]
+              }
+            }
+            else {
+              dict[exchangeName]![tradingPair.0] = [tradingPair.1: [uid: 1]]
+            }
+          }
+          else {
+            dict[exchangeName] = [tradingPair.0: [tradingPair.1: [uid: 1]]]
+          }
+          
+          userCoinAlertRef.setValue(dict) { (err, ref) in
+            if err != nil {
+              print(err!, "users coin alert update")
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 // Firebase Analytics functions

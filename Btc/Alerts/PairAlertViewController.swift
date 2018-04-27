@@ -10,6 +10,7 @@ import UIKit
 import SwiftyUserDefaults
 import FirebaseAuth
 import FirebaseDatabase
+import CodableFirebase
 
 class PairAlertViewController: UIViewController {
   
@@ -45,8 +46,9 @@ class PairAlertViewController: UIViewController {
   var parentController: PairDetailContainerViewController?
   
   var alerts: [Alert] = []
+  var alertsDict: [String: Any] = [:]
   
-  var alertActiveChanged: Int = -1
+//  var alertsFirebase: [AlertFirebase] = []
   
   @IBOutlet weak var tableView: UITableView!
   
@@ -90,7 +92,7 @@ class PairAlertViewController: UIViewController {
   override func viewWillLayoutSubviews() {
     if alerts.count == 0 {
       let messageLabel = UILabel()
-      messageLabel.text = "Add an alert"
+      messageLabel.text = "You have no alerts."
       messageLabel.theme_textColor = GlobalPicker.viewTextColor
       messageLabel.numberOfLines = 0;
       messageLabel.textAlignment = .center
@@ -107,10 +109,11 @@ class PairAlertViewController: UIViewController {
     }
     else {
       let uid = Auth.auth().currentUser?.uid
-      var dict: [String: Any] = [:]
       let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid!)
       coinAlertRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
         if let alertsDict = snapshot.value as? [String: Any] {
+          self.alertsDict = alertsDict
           if self.currentPair != nil && self.currentMarket != nil {
             self.getAlertsFor(alerts: alertsDict, tradingPair: self.currentPair!, market: self.currentMarket!)
           }
@@ -132,7 +135,7 @@ class PairAlertViewController: UIViewController {
       guard let exchangeData = data as? [String: Any] else { return }
       
       for (coin, coinData) in exchangeData {
-        guard let alertData = coinData as? [String: Any] else { return }
+        guard var alertData = coinData as? [String: Any] else { return }
         
         for (pair, alertsArray) in alertData {
           guard let alerts = alertsArray as? [[String: Any]] else { return }
@@ -148,7 +151,7 @@ class PairAlertViewController: UIViewController {
             let tradingPair = (coin, pair)
             let market = (exchange, databaseTitle)
             
-            self.alerts.append(Alert(date: date, isAbove: isAbove, thresholdPrice: thresholdPrice, tradingPair: tradingPair, exchange: market, isActive: isActive, type: type))
+            self.alerts.append(Alert(date: date, isAbove: isAbove, thresholdPrice: thresholdPrice, tradingPair: tradingPair, exchange: market, isActive: isActive, type: type, databaseTitle: databaseTitle))
           }
         }
       }
@@ -163,7 +166,7 @@ class PairAlertViewController: UIViewController {
       
       for (coin, coinData) in exchangeData {
         if coin != tradingPair.0 { continue }
-        guard let alertData = coinData as? [String: Any] else { return }
+        guard var alertData = coinData as? [String: Any] else { return }
         
         for (pair, alertsArray) in alertData {
           if pair != tradingPair.1 { continue }
@@ -180,7 +183,8 @@ class PairAlertViewController: UIViewController {
             let tradingPair = (coin, pair)
             let market = (exchange, databaseTitle)
             
-            self.alerts.append(Alert(date: date, isAbove: isAbove, thresholdPrice: thresholdPrice, tradingPair: tradingPair, exchange: market, isActive: isActive, type: type))
+            self.alerts.append(Alert(date: date, isAbove: isAbove, thresholdPrice: thresholdPrice, tradingPair: tradingPair, exchange: market, isActive: isActive, type: type, databaseTitle: databaseTitle))
+            
           }
         }
       }
@@ -217,12 +221,14 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-    tableViewHeightConstraint.constant = tableView.contentSize.height + 50
+    tableViewHeightConstraint.constant = tableView.contentSize.height + 75
     
     let row = indexPath.row
     let section = indexPath.section
     
     let cell = tableView.dequeueReusableCell(withIdentifier: "alertCell") as! PairAlertTableViewCell
+    cell.selectionStyle = .none
+    
     let alert = alerts[row]
     
     cell.dateLabel.text = alert.date
@@ -235,10 +241,10 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     cell.thresholdPriceLabel.text = alert.thresholdPrice.asSelectedCurrency(currency: alert.tradingPair.1)
-    
-    
+
+
     cell.tradingPairLabel.text = "\(alert.tradingPair.0)/\(alert.tradingPair.1)"
-    
+
     cell.exchangeLabel.text = alert.exchange.0
     
     if alert.isActive {
@@ -247,15 +253,64 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
     else {
       cell.isActiveSwitch.setOn(false, animated: true)
     }
-    self.alertActiveChanged = row
+    
+    cell.isActiveSwitch.tag = row
     cell.isActiveSwitch.addTarget(self, action: #selector(isActiveSwitchChanged), for: .valueChanged)
     
     return cell
   }
   
   @objc func isActiveSwitchChanged(sender: UISwitch) {
+    let rowChanged = sender.tag
+    let alert = self.alerts[rowChanged]
+    alert.isActive = sender.isOn
     
+    let exchangeName = alert.exchange.0
+    let baseCoin = alert.tradingPair.0
+    let quoteCoin = alert.tradingPair.1
+    
+    var allCoinAlerts = self.alertsDict
+    
+    outerLoop: for (exchange, data) in allCoinAlerts {
+      
+      if exchange != exchangeName { continue }
+      guard var exchangeData = data as? [String: Any] else { return }
+      
+      for (base, coinData) in exchangeData {
+        if base != baseCoin { continue }
+        guard var alertData = coinData as? [String: Any] else { return }
+        
+        for (quote, alertsArray) in alertData {
+          if quote != quoteCoin { continue }
+          guard var alerts = alertsArray as? [[String: Any]] else { return }
+          
+          for (index, alertValues) in alerts.enumerated() {
+            guard let date = alertValues["date"] as? String else { return }
+            guard let isAbove = alertValues["isAbove"] as? Bool else { return }
+            guard let thresholdPrice = alertValues["thresholdPrice"] as? Double else { return }
+            guard let databaseTitle = alertValues["databaseTitle"] as? String else { return }
+            guard let isActive = alertValues["isActive"] as? Bool else { return }
+            guard let type = alertValues["type"] as? String else { return }
+            
+            if date == alert.date && isAbove == alert.isAbove && thresholdPrice == alert.thresholdPrice && type == alert.type && databaseTitle == alert.databaseTitle {
+              
+              alerts[index]["isActive"] = alert.isActive
+              alertData[quote] = alerts
+              exchangeData[base] = alertData
+              allCoinAlerts[exchange] = exchangeData
+              break outerLoop
+            }
+          }
+        }
+      }
+    }
+    self.alertsDict = allCoinAlerts
+    
+    FirebaseService.shared.update_coin_alerts(data: allCoinAlerts)
   }
+  
+  
+  // work on delete and isActiveSwitch implemention
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let row = indexPath.row
@@ -280,19 +335,78 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
     cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
   }
   
-  func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-    guard let cell = tableView.cellForRow(at: indexPath) else { return }
-    cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+  func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    
+    let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+      // delete item at indexPath
+      let alert = self.alerts[indexPath.row]
+      self.alerts.remove(at: indexPath.row)
+      self.deleteAlert(alert: alert)
+      tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+    
+    return [delete]
   }
   
-  func deselectTableRow(indexPath: IndexPath) {
-    tableView.deselectRow(at: indexPath, animated: true)
-    tableView(tableView, didDeselectRowAt: indexPath)
-  }
+//  func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//    guard let cell = tableView.cellForRow(at: indexPath) else { return }
+//    cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+//  }
+//  
+//  func deselectTableRow(indexPath: IndexPath) {
+//    tableView.deselectRow(at: indexPath, animated: true)
+//    tableView(tableView, didDeselectRowAt: indexPath)
+//  }
   
   func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
     let header = view as? UITableViewHeaderFooterView
     
     header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+  }
+  
+  func deleteAlert(alert: Alert) {
+    
+    let exchangeName = alert.exchange.0
+    let baseCoin = alert.tradingPair.0
+    let quoteCoin = alert.tradingPair.1
+    
+    var allCoinAlerts = self.alertsDict
+    
+    outerLoop: for (exchange, data) in allCoinAlerts {
+      
+      if exchange != exchangeName { continue }
+      guard var exchangeData = data as? [String: Any] else { return }
+      
+      for (base, coinData) in exchangeData {
+        if base != baseCoin { continue }
+        guard var alertData = coinData as? [String: Any] else { return }
+        
+        for (quote, alertsArray) in alertData {
+          if quote != quoteCoin { continue }
+          guard var alerts = alertsArray as? [[String: Any]] else { return }
+          
+          for (index, alertValues) in alerts.enumerated() {
+            guard let date = alertValues["date"] as? String else { return }
+            guard let isAbove = alertValues["isAbove"] as? Bool else { return }
+            guard let thresholdPrice = alertValues["thresholdPrice"] as? Double else { return }
+            guard let databaseTitle = alertValues["databaseTitle"] as? String else { return }
+            guard let isActive = alertValues["isActive"] as? Bool else { return }
+            guard let type = alertValues["type"] as? String else { return }
+            
+            if date == alert.date && isAbove == alert.isAbove && thresholdPrice == alert.thresholdPrice && isActive == alert.isActive && type == alert.type && databaseTitle == alert.databaseTitle {
+              
+              alerts.remove(at: index)
+              alertData[quote] = alerts
+              exchangeData[base] = alertData
+              allCoinAlerts[exchange] = exchangeData
+              break outerLoop
+            }
+          }
+        }
+      }
+    }
+    self.alertsDict = allCoinAlerts
+    
+    FirebaseService.shared.update_coin_alerts(data: allCoinAlerts)
   }
 }

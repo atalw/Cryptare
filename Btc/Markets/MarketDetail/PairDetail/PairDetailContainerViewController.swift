@@ -37,7 +37,7 @@ class PairDetailContainerViewController: UIViewController {
     vc2.title = "Alerts"
     vc2.currentPair = currentPair
     vc2.currentMarket = currentMarket
-    print(coinPairData)
+    
     if let marketData = coinPairData[currentMarket.0] as? [String: Any] {
       vc2.exchangePrice = marketData["price"] as? Double
     }

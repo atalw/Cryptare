@@ -263,7 +263,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       }
       
       guard let uid = user?.uid else { return }
-      
+      print("uid", uid)
       let usersReference = Database.database().reference()
                             .child("users").child(uid)
       

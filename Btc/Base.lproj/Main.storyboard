@@ -3913,6 +3913,7 @@
                     </view>
                     <connections>
                         <outlet property="header24hrChangeLabel" destination="mXb-Qx-L2J" id="ecq-rh-xIH"/>
+                        <outlet property="headerBackgroundView" destination="b8K-Of-aXj" id="H2p-Xf-cFG"/>
                         <outlet property="headerCurrentPriceLabel" destination="aNK-eV-j7e" id="mu4-xg-52R"/>
                         <outlet property="rankLabel" destination="t4G-Ss-LUP" id="bup-tY-zPB"/>
                         <outlet property="tableView" destination="6Oy-jE-Ssm" id="sfe-TR-bJc"/>
@@ -4723,7 +4724,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83m-O7-cJk">
-                                                            <rect key="frame" x="20" y="0.0" width="229" height="64.666666666666671"/>
+                                                            <rect key="frame" x="20" y="0.0" width="229" height="64"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="highlightedColor"/>
                                                             <userDefinedRuntimeAttributes>
@@ -5161,7 +5162,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iOs-jH-sEN">
-                                <rect key="frame" x="0.0" y="44" width="375" height="635"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="685"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uUT-oe-XTn">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="673"/>
@@ -5328,7 +5329,7 @@
                             <constraint firstItem="VcU-nq-76i" firstAttribute="trailing" secondItem="1e9-va-yJr" secondAttribute="trailing" constant="30" id="5NN-5w-D9r"/>
                             <constraint firstItem="1e9-va-yJr" firstAttribute="leading" secondItem="VcU-nq-76i" secondAttribute="leading" constant="30" id="Qdi-ck-di9"/>
                             <constraint firstItem="VcU-nq-76i" firstAttribute="bottom" secondItem="1e9-va-yJr" secondAttribute="bottom" constant="10" id="U0K-Pq-IQl"/>
-                            <constraint firstItem="1e9-va-yJr" firstAttribute="top" secondItem="iOs-jH-sEN" secondAttribute="bottom" id="X4r-it-WHW"/>
+                            <constraint firstItem="VcU-nq-76i" firstAttribute="bottom" secondItem="iOs-jH-sEN" secondAttribute="bottom" id="X4r-it-WHW"/>
                             <constraint firstItem="iOs-jH-sEN" firstAttribute="leading" secondItem="VcU-nq-76i" secondAttribute="leading" id="qan-y3-Njb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VcU-nq-76i"/>
@@ -5476,7 +5477,6 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alert when price goes above threshold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SbS-it-gSM">
                                                             <rect key="frame" x="0.0" y="2.3333333333333339" width="286" height="19.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                            <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9al-bt-IXH">
@@ -6785,6 +6785,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="header24hrChangeLabel" destination="0mc-2a-7f0" id="fpO-ui-DbL"/>
+                        <outlet property="headerBackgroundView" destination="Qu7-rX-ZZk" id="Eg7-7F-gg1"/>
                         <outlet property="headerCurrentPriceLabel" destination="124-YI-Wrs" id="P9v-BP-zQg"/>
                         <outlet property="tableView" destination="Qu7-rX-ZZk" id="dCa-34-wg7"/>
                     </connections>
@@ -6899,20 +6900,20 @@
                                                                             <rect key="frame" x="0.0" y="23" width="210" height="26.666666666666671"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" text="Exchange" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rnT-SI-iUz">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="59" height="26.666666666666668"/>
-                                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="60.333333333333336" height="26.666666666666668"/>
+                                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nla-fr-CO0">
-                                                                                    <rect key="frame" x="63.999999999999993" y="0.0" width="0.6666666666666643" height="26.666666666666668"/>
+                                                                                    <rect key="frame" x="65.333333333333329" y="0.0" width="0.6666666666666714" height="26.666666666666668"/>
                                                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="width" constant="1" id="SmA-3N-RD3"/>
                                                                                     </constraints>
                                                                                 </view>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Quote / Base" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZRr-qP-94S">
-                                                                                    <rect key="frame" x="69.666666666666671" y="0.0" width="140.33333333333331" height="26.666666666666668"/>
+                                                                                    <rect key="frame" x="71" y="0.0" width="139" height="26.666666666666668"/>
                                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <nil key="highlightedColor"/>

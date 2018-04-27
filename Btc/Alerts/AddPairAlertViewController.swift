@@ -37,7 +37,15 @@ class AddPairAlertViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.title = "Add Alert"
+    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+    
+    if #available(iOS 11.0, *) {
+      self.navigationController?.navigationItem.largeTitleDisplayMode = .never
+    } else {
+      // Fallback on earlier versions
+    }
     
     addAlertButton.isEnabled = false
   }
@@ -88,6 +96,7 @@ class AddPairAlertViewController: UIViewController {
         Defaults[.allCoinAlerts] = coinAlerts
         
         FirebaseService.shared.update_coin_alerts(data: coinAlerts)
+        FirebaseService.shared.update_users_coin_alerts(exchangeName: exchange!.0, tradingPair: tradingPair!)
         
         if let pairDetailContainerVc = parentController as? PairAlertViewController {
           pairDetailContainerVc.loadAlerts()
@@ -134,6 +143,11 @@ class AddPairAlertTableViewController: UITableViewController {
   var currentTradingPairMarkets: [String: String] = [:]
   
   var exchangePrice: Double!
+  var thresholdPrice: Double! {
+    didSet {
+      self.parentController.thresholdPrice = thresholdPrice
+    }
+  }
   
   var coinReference: DatabaseReference!
   var exchangeReference: DatabaseReference!
@@ -223,6 +237,12 @@ class AddPairAlertTableViewController: UITableViewController {
     
     exchangeReference = Database.database().reference()
     
+    print(exchange, tradingPair)
+    
+    if exchange.0 != "None" || exchange != nil {
+      updateThresholdPriceTextfield(exchange: exchange)
+    }
+    
     if tradingPair.0 != "None" {
       let coin = tradingPair.0
       coinReference = Database.database().reference().child(coin)
@@ -249,7 +269,10 @@ class AddPairAlertTableViewController: UITableViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
-    coinReference.removeAllObservers()
+    if coinReference != nil {
+      coinReference.removeAllObservers()
+    }
+    
     exchangeReference.removeAllObservers()
   }
   
@@ -296,7 +319,7 @@ class AddPairAlertTableViewController: UITableViewController {
         let buyPrice = dict["buy_price"] as! Double
         self.exchangePrice = buyPrice
         self.thresholdPriceLabel.text = "\(buyPrice)"
-        self.parentController.thresholdPrice = buyPrice
+        self.thresholdPrice = buyPrice
       }
     })
   }
@@ -330,12 +353,13 @@ class AddPairAlertTableViewController: UITableViewController {
     let yesAction = UIAlertAction(title: "Ok", style: .default, handler: { action -> Void in
       print("yes tapped")
       self.isAboveSwitch.setOn(!self.isAboveSwitch.isOn, animated: true)
+      self.parentController.isAbove = self.isAboveSwitch.isOn
     })
     
     let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { action -> Void in
       print("no tapped")
       self.thresholdPriceLabel.text = ""
-      self.parentController.thresholdPrice = 0
+      self.thresholdPrice = 0
     })
     
     dialogMessage.addAction(yesAction)
@@ -371,11 +395,11 @@ extension AddPairAlertTableViewController: UITextFieldDelegate {
     if textField == self.thresholdPriceLabel {
       if let text = textField.text {
         if let thresholdPrice = Double(text) {
-          print(exchangePrice)
           if exchangePrice != nil {
+            self.thresholdPrice = thresholdPrice
             if thresholdPrice > exchangePrice {
               if isAboveSwitch.isOn {
-                parentController.thresholdPrice = thresholdPrice
+                self.thresholdPrice = thresholdPrice
               }
               else {
                 showThresholdPriceAlert(isPriceLower: false)
@@ -386,13 +410,13 @@ extension AddPairAlertTableViewController: UITextFieldDelegate {
                 showThresholdPriceAlert(isPriceLower: true)
               }
               else {
-                parentController.thresholdPrice = thresholdPrice
+                self.thresholdPrice = thresholdPrice
               }
             }
           }
         }
         else {
-          parentController.thresholdPrice = 0.0
+          self.thresholdPrice = 0.0
         }
       }
     }

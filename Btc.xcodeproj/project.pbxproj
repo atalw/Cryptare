@@ -142,6 +142,7 @@
 		86B1300E2081FF1C004DC6AA /* Portfolio.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B1300D2081FF1C004DC6AA /* Portfolio.xib */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		86BAB82C20864C1000DF73B2 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BAB82B20864C1000DF73B2 /* FirebaseService.swift */; };
+		86BB1A542090D12200F08321 /* AlertFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB1A532090D12200F08321 /* AlertFirebase.swift */; };
 		86BD6F981F85203700C4B0CA /* CoinMarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* CoinMarketsTableViewCell.swift */; };
 		86BD6F991F85203700C4B0CA /* CoinMarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* CoinMarketsTableViewCell.swift */; };
 		86BD6F9B1F85236100C4B0CA /* CoinMarketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F9A1F85236100C4B0CA /* CoinMarketModel.swift */; };
@@ -296,6 +297,7 @@
 		86B1300D2081FF1C004DC6AA /* Portfolio.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Portfolio.xib; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		86BAB82B20864C1000DF73B2 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		86BB1A532090D12200F08321 /* AlertFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFirebase.swift; sourceTree = "<group>"; };
 		86BD6F971F85203700C4B0CA /* CoinMarketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinMarketsTableViewCell.swift; sourceTree = "<group>"; };
 		86BD6F9A1F85236100C4B0CA /* CoinMarketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinMarketModel.swift; sourceTree = "<group>"; };
 		86BD6F9D1F87BF5200C4B0CA /* CustomUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIButton.swift; sourceTree = "<group>"; };
@@ -533,6 +535,7 @@
 		8643625E1F68044500883792 /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				86BAB82A20864BFA00DF73B2 /* FirebaseHelpers */,
 				864C63E4207F7CF5008AC7BF /* Cryptare-Bridging-Header.h */,
 				864C63E7207F7FBA008AC7BF /* pkcs7_union_accessors.c */,
 				864C63E8207F7FBA008AC7BF /* pkcs7_union_accessors.h */,
@@ -600,6 +603,7 @@
 				865146F9208CCAB700652213 /* AddPairAlertViewController.swift */,
 				865146FC208CD7E900652213 /* PairAlertTableViewCell.swift */,
 				8673828C208DA03600EDB817 /* AlertModel.swift */,
+				86BB1A532090D12200F08321 /* AlertFirebase.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -635,7 +639,6 @@
 				8650C5771FC07BE80078FD02 /* SortDropDown */,
 				86492AA91FB98571003EC0B6 /* PortfolioEntryModel.swift */,
 				86492AAF1FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift */,
-				86BAB82A20864BFA00DF73B2 /* FirebaseHelpers */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -1029,6 +1032,7 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireRSSParser/AlamofireRSSParser.framework",
 				"${BUILT_PRODUCTS_DIR}/Armchair/Armchair.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/CodableFirebase/CodableFirebase.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
@@ -1047,6 +1051,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireRSSParser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Armchair.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CodableFirebase.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
@@ -1142,6 +1147,7 @@
 				86277C191FF3A12B00CC9819 /* AddCoinTableViewController.swift in Sources */,
 				8633625B2042F512009D1778 /* TradingPairTableViewController.swift in Sources */,
 				8602BAB71F83D217003733E8 /* UIColor+Extensions.swift in Sources */,
+				86BB1A542090D12200F08321 /* AlertFirebase.swift in Sources */,
 				86BD6F981F85203700C4B0CA /* CoinMarketsTableViewCell.swift in Sources */,
 				864C63E9207F7FBA008AC7BF /* pkcs7_union_accessors.c in Sources */,
 				865BAAD1206A94D30008E21E /* AddPortfolioViewController.swift in Sources */,
