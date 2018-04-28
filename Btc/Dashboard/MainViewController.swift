@@ -13,16 +13,17 @@ import Parchment
 
 class MainViewController: UIViewController {
   
-  var searchController = UISearchController(searchResultsController: nil) {
-    didSet {
-      searchController.searchBar.placeholder = "Search"
-      
-      definesPresentationContext = true
-      searchController.searchBar.searchBarStyle = .minimal
-      searchController.searchBar.barStyle = .default
-      searchController.searchResultsUpdater =  self
-    }
-  }
+  lazy var searchController: UISearchController = {
+    let searchController = UISearchController(searchResultsController: nil)
+    searchController.searchBar.placeholder = "Search"
+    
+    definesPresentationContext = true
+    searchController.searchBar.searchBarStyle = .minimal
+    searchController.searchBar.barStyle = .default
+    searchController.searchResultsUpdater =  self
+    return searchController
+  }()
+  
   var dashboardVC: DashboardViewController!
   var favouritesVC: DashboardViewController!
   
@@ -61,12 +62,11 @@ class MainViewController: UIViewController {
     
     if #available(iOS 11.0, *) {
       navigationItem.hidesSearchBarWhenScrolling = false
+      navigationItem.searchController = searchController
     }
     
     if #available(iOS 9.1, *) {
       searchController.obscuresBackgroundDuringPresentation = false
-    } else {
-      // Fallback on earlier versions
     }
     
     
@@ -87,11 +87,6 @@ class MainViewController: UIViewController {
       }
     }
     
-    if #available(iOS 11.0, *) {
-      navigationItem.searchController = searchController
-    } else {
-      // Fallback on earlier versions
-    }
     // Do any additional setup after loading the view.
     self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     

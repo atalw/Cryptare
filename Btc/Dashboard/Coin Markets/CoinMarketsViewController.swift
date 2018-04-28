@@ -304,7 +304,7 @@ class CoinMarketsViewController: UIViewController {
     
     if coinMarkets.count != 0 {
       tableView.backgroundView = nil
-      tableHeightConstraint.constant = tableView.contentSize.height
+//      tableHeightConstraint.constant = tableView.contentSize.height
     }
     else {
       let messageLabel = UILabel()
@@ -320,8 +320,7 @@ class CoinMarketsViewController: UIViewController {
     
     if coinBtcMarkets.count != 0 {
       btcMarketsTable.backgroundView = nil
-      btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
-      
+//      btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
     }
     else {
       let messageLabel = UILabel()
@@ -337,8 +336,7 @@ class CoinMarketsViewController: UIViewController {
     
     if coinEthMarkets.count != 0 {
       ethMarketsTable.backgroundView = nil
-      ethTableHeightConstraint.constant = self.ethMarketsTable.contentSize.height
-      
+//      ethTableHeightConstraint.constant = self.ethMarketsTable.contentSize.height
     }
     else {
       let messageLabel = UILabel()

@@ -39,6 +39,19 @@ class MarketDetailViewController: UIViewController {
     return activityIndicator
   }()
   
+  lazy var searchController: UISearchController = {
+    let searchController = UISearchController(searchResultsController: nil)
+    searchController.searchBar.placeholder = "Search"
+    
+    definesPresentationContext = true
+    searchController.searchBar.searchBarStyle = .minimal
+    searchController.searchBar.barStyle = .default
+    searchController.searchResultsUpdater =  self
+    return searchController
+  }()
+  
+  var coinSearchResults = [(String, String)]()
+
   var favouriteMarkets: [String] = []
   var favouriteStatus: Bool = false
   var favouriteButton: UIBarButtonItem!
@@ -129,6 +142,33 @@ class MarketDetailViewController: UIViewController {
         }
       }
     }
+    
+    if #available(iOS 9.1, *) {
+      searchController.obscuresBackgroundDuringPresentation = false
+    }
+    
+    if #available(iOS 11.0, *) {
+      navigationItem.searchController = searchController
+      navigationItem.hidesSearchBarWhenScrolling = true
+      
+    }
+    
+    let scb = searchController.searchBar
+    scb.theme_tintColor = GlobalPicker.searchTintColor
+    scb.theme_barTintColor = GlobalPicker.searchBarTintColor
+    
+    if let textfield = scb.value(forKey: "searchField") as? UITextField {
+      textfield.theme_textColor = GlobalPicker.searchBarTextColor
+      if let backgroundview = textfield.subviews.first {
+        
+        // Background color
+        backgroundview.theme_backgroundColor = GlobalPicker.searchBarBackgroundColor
+        
+        // Rounded corner
+        backgroundview.layer.cornerRadius = 10;
+        backgroundview.clipsToBounds = true;
+      }
+    }
 
   }
   
@@ -142,6 +182,10 @@ class MarketDetailViewController: UIViewController {
     
     getFavouriteMarketsList()
     setFavouriteButtonStatus()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
   }
   
   override func viewDidLayoutSubviews() {
@@ -254,6 +298,9 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
       return sortedLinks.count
     }
     else {
+      if isFiltering() {
+        return coinSearchResults.count
+      }
       return fannedOutTradingPairs.count
     }
   }
@@ -280,8 +327,17 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
     else {
       let cell = tableView.dequeueReusableCell(withIdentifier: "tradingPair") as! MarketDetailTradingPairTableViewCell
       cell.selectionStyle = .none
-
-      let (coin, base) = fannedOutTradingPairs[row]
+      
+      var coin: String
+      var base: String
+      
+      if isFiltering() {
+        (coin, base) = coinSearchResults[row]
+      }
+      else {
+        (coin, base) = fannedOutTradingPairs[row]
+      }
+      
       cell.tradingPairLabel.text = "\(coin)/\(base)"
       if let data = tradingPairData[coin]![base] as? [String: Any] {
         if let lastPrice = data["last_price"] as? Double {
@@ -290,7 +346,17 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
         else if let buyPrice = data["buy_price"] as? Double {
           cell.currentPriceLabel.text = buyPrice.asSelectedCurrency(currency: base)
         }
+        
+        if let volume = data["vol_24hrs"] as? Double {
+          let roundedVolume = round(100*volume)/100
+          cell.volumeLabel.text = "\(roundedVolume.asSelectedCurrency(currency: coin)) in 24 hrs"
+        }
+        else {
+          cell.volumeLabel.text = "NA in 24 hrs"
+        }
       }
+      
+      
       
       cell.symbolImage.loadSavedImage(coin: coin)
       
@@ -306,7 +372,16 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
     if section == 1 {
       let targetViewController = storyboard?.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
       
-      let (coin, base) = fannedOutTradingPairs[row]
+      var coin: String
+      var base: String
+      
+      if isFiltering() {
+        (coin, base) = coinSearchResults[row]
+      }
+      else {
+        (coin, base) = fannedOutTradingPairs[row]
+      }
+      
       targetViewController.currentPair = (coin, base)
       targetViewController.coinPairData = tradingPairData[coin]![base] as! [String : Any]
       var title: String!
@@ -340,5 +415,36 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
     let header = view as? UITableViewHeaderFooterView
     
     header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+  }
+}
+
+
+// search
+extension MarketDetailViewController: UISearchResultsUpdating {
+  
+  func isFiltering() -> Bool {
+    return searchController.isActive && !searchBarIsEmpty()
+  }
+  
+  func searchBarIsEmpty() -> Bool {
+    // Returns true if the text is empty or nil
+    return searchController.searchBar.text?.isEmpty ?? true
+  }
+  
+  func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+    coinSearchResults = fannedOutTradingPairs.filter( {( arg0 ) -> Bool in
+      let (coin, pair) = arg0
+      if coin.lowercased().contains(searchText.lowercased()) || pair.lowercased().contains(searchText.lowercased()) {
+        return true
+      }
+      else { return false }
+    })
+    
+    tableView.reloadData()
+  }
+  
+  // MARK: - UISearchResultsUpdating Delegate
+  func updateSearchResults(for searchController: UISearchController) {
+    filterContentForSearchText(searchController.searchBar.text!)
   }
 }

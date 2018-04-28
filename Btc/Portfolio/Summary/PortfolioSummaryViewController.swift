@@ -144,9 +144,9 @@ class PortfolioSummaryViewController: UIViewController {
   @IBOutlet weak var scrollView: UIScrollView! {
     didSet {
       self.scrollView.addSubview(self.refreshControl)
-
     }
   }
+  
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   
@@ -608,12 +608,6 @@ class PortfolioSummaryViewController: UIViewController {
   }
   
   @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-    
-//    let newHotel = Hotels(name: "Montage Laguna Beach", place:
-//      "California south")
-//    hotels.append(newHotel)
-//
-//    hotels.sort() { $0.name < $0.place }
     
     initalizePortfolioEntries(cryptoPortfolioData: [:], fiatPortfolioData: [:])
     self.tableView.reloadData()

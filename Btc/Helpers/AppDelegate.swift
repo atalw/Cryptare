@@ -12,11 +12,10 @@ import FirebaseDatabase
 import FirebaseAuth
 import UserNotifications
 import SlideMenuControllerSwift
-import Charts
-import GoogleMobileAds
 import SwiftyStoreKit
 import Armchair
 import SwiftyUserDefaults
+import SwiftTheme
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -28,16 +27,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     
-    
     // armchair - for app review
     Armchair.appID("1266256984")
     Armchair.significantEventsUntilPrompt(5)
     
     // navigation bar
-    UINavigationBar.appearance().barTintColor = UIColor.init(hex: "46637F")
     UINavigationBar.appearance().isTranslucent = false
     UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     UINavigationBar.appearance().tintColor = UIColor.white
+    
     
     UINavigationBar.appearance().theme_barTintColor = GlobalPicker.navigationBarTintColor
     
@@ -45,69 +43,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     }
     
-    // return local receipt or fetch receipt if not available
-    SwiftyStoreKit.fetchReceipt(forceRefresh: false) { result in
-      switch result {
-      case .success(let receiptData):
-        let encryptedReceipt = receiptData.base64EncodedString(options: [])
-        print("Fetch receipt success:\n\(encryptedReceipt)")
-        
-        let receiptValidator = ReceiptValidator()
-        let validationResult = receiptValidator.validateReceipt()
-        
-        switch validationResult {
-        case .success(let receipt):
-          // Work with parsed receipt data. Possibilities might be...
-          // enable a feature of your app
-          // remove ads
-        // etc...
-          print("here")
-        case .error(let error):
-          // Handle receipt validation failure. Possibilities might be...
-          // use StoreKit to request a new receipt
-          // enter a "grace period"
-          // disable a feature of your app
-          // etc...
-          print("not") 
-        }
-      case .error(let error):
-        print("Fetch receipt failed: \(error)")
-      }
-    }
     
-    //        // apple receipt validation
-    //        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
-    //        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
-    //            switch result {
-    //            case .success(let receipt):
-    //                print("Verify receipt success: \(receipt)")
-    //                if let originalAppVersion = receipt["receipt"]?["original_application_version"] as? String {
-    //                    print(originalAppVersion, "Original")
-    //                    if let versionNumber = Double(originalAppVersion) {
-    //                        if versionNumber < 2.92 {
-    //                            Defaults[.removeAdsPurchased] = true
-    //                            Defaults[.previousPaidUser] = true
-    //                        }
-    //                    }
-    //                }
-    //            case .error(let error):
-    //                print("Verify receipt failed: \(error)")
-    //            }
-    //        }
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(changeAppearanceColours),
+      name: NSNotification.Name(rawValue: ThemeUpdateNotification),
+      object: nil
+    )
+    
+    #if DEBUG
+      print("DEBUG")
+    #else
+      fetchReceipt()
+    #endif
+    
     
     // google ads
 //    GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
     
     
-    
-    // storyboard
-    #if PRO_VERSION
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    #endif
-    
-    #if LITE_VERSION
-    let storyboard = UIStoryboard(name: "MainLite", bundle: nil)
-    #endif
     
     // dashboard settings
     if !Defaults.hasKey(.dashboardFavourites) &&
@@ -277,25 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           }
         })
       }
-      
     }
-    
-//    //Retrieve lists of items or listen for additions to a list of items.
-//    //This event is triggered once for each existing child and then again every time a new child is added to the specified path.
-//    //The listener is passed a snapshot containing the new child's data.
-//    ref.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
-//      let enumerator = snapshot.children
-//
-//      while let child = enumerator.nextObject() as? DataSnapshot {
-//        if child.value as? String == fcmToken {
-//          print("exists")
-//          return;
-//        }
-//      }
-//      let newChild = self.ref.child("users").childByAutoId()
-//      newChild.setValue(Messaging.messaging().fcmToken)
-//    })
-    
     Database.database().reference().child("all_exchange_info").observeSingleEvent(of: .value, with: { snapshot -> Void in
       if let dict = snapshot.value as? [String: [String: Any]] {
         marketInformation = dict
@@ -364,6 +301,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   // display notification even if in app
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     completionHandler(.alert)
+  }
+  
+  func fetchReceipt() {
+    // return local receipt or fetch receipt if not available
+    SwiftyStoreKit.fetchReceipt(forceRefresh: false) { result in
+      switch result {
+      case .success(let receiptData):
+        let encryptedReceipt = receiptData.base64EncodedString(options: [])
+        print("Fetch receipt success:\n\(encryptedReceipt)")
+        
+        let receiptValidator = ReceiptValidator()
+        let validationResult = receiptValidator.validateReceipt()
+        
+        switch validationResult {
+        case .success(let receipt):
+          // Work with parsed receipt data. Possibilities might be...
+          // enable a feature of your app
+          // remove ads
+          // etc...
+          print("here")
+        case .error(let error):
+          // Handle receipt validation failure. Possibilities might be...
+          // use StoreKit to request a new receipt
+          // enter a "grace period"
+          // disable a feature of your app
+          // etc...
+          print("not")
+        }
+      case .error(let error):
+        print("Fetch receipt failed: \(error)")
+      }
+    }
+    
+    //        // apple receipt validation
+    //        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
+    //        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
+    //            switch result {
+    //            case .success(let receipt):
+    //                print("Verify receipt success: \(receipt)")
+    //                if let originalAppVersion = receipt["receipt"]?["original_application_version"] as? String {
+    //                    print(originalAppVersion, "Original")
+    //                    if let versionNumber = Double(originalAppVersion) {
+    //                        if versionNumber < 2.92 {
+    //                            Defaults[.removeAdsPurchased] = true
+    //                            Defaults[.previousPaidUser] = true
+    //                        }
+    //                    }
+    //                }
+    //            case .error(let error):
+    //                print("Verify receipt failed: \(error)")
+    //            }
+    //        }
+  }
+  
+  @objc func changeAppearanceColours() {
+    let themeIndex = ThemeManager.currentThemeIndex
+    //do something according to `themeIndex`
+    if themeIndex == 0 {
+      UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.black]
+    }
+    else {
+       UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
+    }
   }
   
 }
