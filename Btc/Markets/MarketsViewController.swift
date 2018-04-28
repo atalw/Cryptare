@@ -174,6 +174,14 @@ class MarketsViewController: UIViewController {
             self.tradingPairDataDict[coin]![pair]![market]!["price"] = price
           }
           
+          if let volume = cryptoDict["vol_24hrs"] as? Double {
+            self.tradingPairDataDict[coin]![pair]![market]!["volume"] = volume
+          }
+          
+          if let perChange = cryptoDict["per_change_24hrs"] as? Double {
+            self.tradingPairDataDict[coin]![pair]![market]!["perChange"] = perChange
+          }
+          
           self.tableView.reloadData()
 
         }
@@ -268,6 +276,13 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
           cell.currentPriceLabel.text = price.asSelectedCurrency(currency: base)
         }
         
+        if let volume = self.tradingPairDataDict[coin]?[base]?[market]?["volume"] as? Double {
+          let roundedVolume = round(100*volume)/100
+          cell.percentageChangeLabel.text = "\(roundedVolume.asSelectedCurrency(currency: coin)) in 24 hrs"
+        }
+        else {
+          cell.percentageChangeLabel.text = "NA in 24 hrs"
+        }
         
         return cell
       }

@@ -42,7 +42,7 @@ class MarketsTradingPairTableViewCell: UITableViewCell {
   @IBOutlet weak var percentageChangeLabel: UILabel! {
     didSet {
       percentageChangeLabel.adjustsFontSizeToFitWidth = true
-      percentageChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+      percentageChangeLabel.theme_textColor = GlobalPicker.viewAltTextColor
     }
   }
   
