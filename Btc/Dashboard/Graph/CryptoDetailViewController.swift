@@ -270,11 +270,11 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     
     self.loadChartData()
     
-//    ref.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
-//      if let dict = snapshot.value as? [String : AnyObject] {
-//        self.updateCoinDataStructure(dict: dict)
-//      }
-//    })
+    //    ref.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+    //      if let dict = snapshot.value as? [String : AnyObject] {
+    //        self.updateCoinDataStructure(dict: dict)
+    //      }
+    //    })
     updateLabels()
   }
   
@@ -300,44 +300,44 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     // Dispose of any resources that can be recreated.
   }
   
-//  func updateCoinDataStructure(dict: [String: Any]) {
-//    self.coinData["rank"] = dict["rank"] as! Int
-//    self.coinData["name"] = dict["name"] as! String
-//
-//    self.title = self.coinData["name"] as! String
-//
-//    let currencyData = dict[GlobalValues.currency!] as? [String: Any]
-//
-//    if self.coinData["oldPrice"] == nil {
-//      self.coinData["oldPrice"] = 0.0
-//    }
-//    else {
-//      self.coinData["oldPrice"] = self.coinData["currentPrice"]
-//    }
-//    self.coinData["currentPrice"] = currencyData!["price"] as! Double
-//
-//    let volumeCoin = currencyData!["vol_24hrs_coin"] as! Double
-//    self.coinData["volume24hrsCoin"] = Double(round(1000*volumeCoin)/1000)
-//    self.coinData["volume24hrsFiat"] = currencyData!["vol_24hrs_fiat"] as! Double
-//
-//    self.coinData["high24hrs"] = currencyData!["high_24hrs"] as! Double
-//    self.coinData["low24hrs"] = currencyData!["low_24hrs"] as! Double
-//
-//    self.coinData["lastTradeMarket"] = currencyData!["last_trade_market"] as! String
-//    self.coinData["lastTradeVolume"] = currencyData!["last_trade_volume"] as! Double
-//
-//    self.coinData["supply"] = currencyData!["supply"] as! Double
-//    self.coinData["marketcap"] = currencyData!["marketcap"] as! Double
-//
-//
-//    let percentage = currencyData!["change_24hrs_percent"] as! Double
-//    let roundedPercentage = Double(round(1000*percentage)/1000)
-//    self.coinData["percentageChange24hrs"] = roundedPercentage
-//    self.coinData["priceChange24hrs"] = currencyData!["change_24hrs_fiat"] as! Double
-//    self.coinData["timestamp"] = currencyData!["timestamp"] as! Double
-//
-//    self.updateLabels()
-//  }
+  //  func updateCoinDataStructure(dict: [String: Any]) {
+  //    self.coinData["rank"] = dict["rank"] as! Int
+  //    self.coinData["name"] = dict["name"] as! String
+  //
+  //    self.title = self.coinData["name"] as! String
+  //
+  //    let currencyData = dict[GlobalValues.currency!] as? [String: Any]
+  //
+  //    if self.coinData["oldPrice"] == nil {
+  //      self.coinData["oldPrice"] = 0.0
+  //    }
+  //    else {
+  //      self.coinData["oldPrice"] = self.coinData["currentPrice"]
+  //    }
+  //    self.coinData["currentPrice"] = currencyData!["price"] as! Double
+  //
+  //    let volumeCoin = currencyData!["vol_24hrs_coin"] as! Double
+  //    self.coinData["volume24hrsCoin"] = Double(round(1000*volumeCoin)/1000)
+  //    self.coinData["volume24hrsFiat"] = currencyData!["vol_24hrs_fiat"] as! Double
+  //
+  //    self.coinData["high24hrs"] = currencyData!["high_24hrs"] as! Double
+  //    self.coinData["low24hrs"] = currencyData!["low_24hrs"] as! Double
+  //
+  //    self.coinData["lastTradeMarket"] = currencyData!["last_trade_market"] as! String
+  //    self.coinData["lastTradeVolume"] = currencyData!["last_trade_volume"] as! Double
+  //
+  //    self.coinData["supply"] = currencyData!["supply"] as! Double
+  //    self.coinData["marketcap"] = currencyData!["marketcap"] as! Double
+  //
+  //
+  //    let percentage = currencyData!["change_24hrs_percent"] as! Double
+  //    let roundedPercentage = Double(round(1000*percentage)/1000)
+  //    self.coinData["percentageChange24hrs"] = roundedPercentage
+  //    self.coinData["priceChange24hrs"] = currencyData!["change_24hrs_fiat"] as! Double
+  //    self.coinData["timestamp"] = currencyData!["timestamp"] as! Double
+  //
+  //    self.updateLabels()
+  //  }
   
   func updateLabels() {
     
@@ -385,19 +385,64 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
       self.percentageChangeLabel.textColor = percentageChangeColour
       self.priceChangeLabel.textColor = percentageChangeColour
       
-      self.high24hrsLabel.text = (self.coinData["high24hrs"] as! Double).asCurrency
-      self.low24hrsLabel.text = (self.coinData["low24hrs"] as! Double).asCurrency
-      self.lastTradedMarketLabel.text = self.coinData["lastTradeMarket"] as! String
+      if let high24hrs = self.coinData["high24hrs"] as? Double {
+        self.high24hrsLabel.text = high24hrs.asCurrency
+      }
+      else {
+        self.high24hrsLabel.text = "NA"
+      }
       
-      let formattedVolumeCoin = self.decimalNumberFormatter.string(from: NSNumber(value: self.coinData["volume24hrsCoin"] as! Double))
-      self.volume24hrsCoinLabel.text = "\(formattedVolumeCoin!) \(self.databaseTableTitle!)"
-      self.volume24hrsFiatLabel.text = (self.coinData["volume24hrs"] as! Double).asCurrency
-      let formattedLastTradedVolume = self.decimalNumberFormatter.string(from: NSNumber(value: self.coinData["lastTradeVolume"] as! Double))
-      self.lastTradedVolumeLabel.text = "\(formattedLastTradedVolume!) \(self.databaseTableTitle!)"
+      if let low24hrs = self.coinData["low24hrs"] as? Double {
+        self.low24hrsLabel.text = low24hrs.asCurrency
+      }
+      else {
+        self.low24hrsLabel.text = "NA"
+      }
       
-      let formattedSupply = self.decimalNumberFormatter.string(from: NSNumber(value: self.coinData["supply"] as! Double))
-      self.coinSupplyLabel.text = "\(formattedSupply!) \(self.databaseTableTitle!)"
-      self.marketCapLabel.text = (self.coinData["marketcap"] as! Double).asCurrency
+      if let lastTradeMarket = self.coinData["lastTradeMarket"] as? String {
+        self.lastTradedMarketLabel.text = lastTradeMarket
+      }
+      else {
+        self.lastTradedMarketLabel.text = "NA"
+      }
+      
+      if let volumeCoin = self.coinData["volume24hrsCoin"] as? Double {
+        let formattedVolumeCoin = self.decimalNumberFormatter.string(from: NSNumber(value: volumeCoin))
+        self.volume24hrsCoinLabel.text = "\(formattedVolumeCoin!) \(self.databaseTableTitle!)"
+      }
+      else {
+        self.volume24hrsCoinLabel.text = "NA"
+      }
+      
+      if let volumeFiat = self.coinData["volume24hrs"] as? Double {
+        self.volume24hrsFiatLabel.text = volumeFiat.asCurrency
+      }
+      else {
+        self.volume24hrsFiatLabel.text = "NA"
+      }
+      
+      if let lastTradeVolume = self.coinData["lastTradeVolume"] as? Double {
+        let formattedLastTradedVolume = self.decimalNumberFormatter.string(from: NSNumber(value: lastTradeVolume))
+        self.lastTradedVolumeLabel.text = "\(formattedLastTradedVolume!) \(self.databaseTableTitle!)"
+      }
+      else {
+        self.lastTradedVolumeLabel.text = "NA"
+      }
+      
+      if let supply = self.coinData["supply"] as? Double {
+        let formattedSupply = self.decimalNumberFormatter.string(from: NSNumber(value: supply))
+        self.coinSupplyLabel.text = "\(formattedSupply!) \(self.databaseTableTitle!)"
+      }
+      else {
+        self.coinSupplyLabel.text = "NA"
+      }
+      
+      if let marketcap = self.coinData["marketcap"] as? Double {
+        self.marketCapLabel.text = marketcap.asCurrency
+      }
+      else {
+        self.marketCapLabel.text = "NA"
+      }
     }
   }
   
