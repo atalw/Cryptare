@@ -21,6 +21,8 @@ class AddPairAlertViewController: UIViewController {
   var thresholdPrice: Double = 0.0
   var isAbove: Bool = true
   
+  
+  
   @IBOutlet weak var addAlertButton: UIButton!
   
   @IBAction func addAlertButtonTapped(_ sender: Any) {
@@ -61,13 +63,17 @@ class AddPairAlertViewController: UIViewController {
   
   func saveAlert() {
     var coinAlerts = Defaults[.allCoinAlerts]
+    
     if tradingPair != nil && exchange != nil {
       if tradingPair!.0 != "None" && exchange!.0 != "None" {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM, YYYY"
+        let dateString = dateFormatter.string(from: Date())
         let arrayDataEntry: [String: Any] = ["thresholdPrice": thresholdPrice,
                                              "isAbove": isAbove,
                                              "isActive": true,
                                              "databaseTitle": exchange!.1,
-                                             "date": "23 Apr, 2018",
+                                             "date": dateString,
                                              "type": "single"]
         
         if var exchangeData = coinAlerts[exchange!.0] as? [String: Any] {
@@ -414,7 +420,6 @@ class AddPairAlertTableViewController: UITableViewController {
     
     self.present(dialogMessage, animated: true, completion: nil)
   }
-  
   
   // MARK: - Navigation
   

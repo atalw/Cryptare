@@ -33,7 +33,7 @@ class PairAlertTableViewCell: UITableViewCell {
   @IBOutlet weak var tradingPairLabel: UILabel! {
     didSet {
       tradingPairLabel.adjustsFontSizeToFitWidth = true
-      tradingPairLabel.theme_textColor = GlobalPicker.viewTextColor
+      tradingPairLabel.theme_textColor = GlobalPicker.viewAltTextColor
       
     }
   }

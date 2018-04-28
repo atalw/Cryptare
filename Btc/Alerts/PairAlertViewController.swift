@@ -48,7 +48,29 @@ class PairAlertViewController: UIViewController {
   var alerts: [Alert] = []
   var alertsDict: [String: Any] = [:]
   
+  lazy var refreshControl: UIRefreshControl = {
+    
+    let refreshControl = UIRefreshControl()
+//    let title = NSLocalizedString("Pull to refresh", comment: "Pull to refresh")
+//
+//    refreshControl.attributedTitle = NSAttributedString(string: title)
+  
+    refreshControl.addTarget(self, action:
+      #selector(handleRefresh(_:)),
+                             for: UIControlEvents.valueChanged)
+    
+    refreshControl.theme_tintColor = GlobalPicker.viewTextColor
+    
+    return refreshControl
+  }()
+  
 //  var alertsFirebase: [AlertFirebase] = []
+  
+  @IBOutlet weak var scrollView: UIScrollView! {
+    didSet {
+//      scrollView.addSubview(refreshControl)
+    }
+  }
   
   @IBOutlet weak var tableView: UITableView!
   
@@ -77,6 +99,18 @@ class PairAlertViewController: UIViewController {
     tableView.dataSource = self
     tableView.tableFooterView = UIView()
     tableView.allowsSelection = false
+    let insets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+    self.tableView.contentInset = insets
+    
+    self.extendedLayoutIncludesOpaqueBars = true
+    
+    if #available(iOS 10.0, *) {
+      tableView.refreshControl = refreshControl
+    } else {
+      // Fallback on earlier versions
+      tableView.addSubview(refreshControl)
+      
+    }
     
     // for testing-------------------------------------------
     //    Defaults[.allCoinAlerts] = testingAlertData
@@ -105,6 +139,7 @@ class PairAlertViewController: UIViewController {
       tableView.backgroundView = messageLabel
     }
     else {
+      tableViewHeightConstraint.constant = tableView.contentSize.height + 150
       tableView.backgroundView = nil
     }
   }
@@ -126,6 +161,8 @@ class PairAlertViewController: UIViewController {
           else {
             self.getAllAlerts(alertsDict: alertsDict)
           }
+          
+          self.sortAlertsByDate()
           self.tableView.reloadData()
         }
       })
@@ -141,7 +178,13 @@ class PairAlertViewController: UIViewController {
     else {
       self.getAllAlerts(alertsDict: alertsDict)
     }
+    
+    sortAlertsByDate()
     self.tableView.reloadData()
+  }
+  
+  func sortAlertsByDate() {
+    alerts = alerts.sorted(by: {$0.date.compare($1.date) == .orderedDescending})
   }
   
   func getAllAlerts(alertsDict: [String: Any]) {
@@ -208,6 +251,14 @@ class PairAlertViewController: UIViewController {
         }
       }
     }
+  }
+  
+  @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+    alerts = []
+    tableView.reloadData()
+    print(alerts)
+    loadAlertsFromDefaults()
+    refreshControl.endRefreshing()
   }
   
   
