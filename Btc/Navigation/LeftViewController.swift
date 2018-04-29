@@ -166,7 +166,12 @@ extension LeftViewController : UITableViewDataSource {
       switch menu {
       case .dashboard, .portfolio, .markets, .alerts, .news, .settings:
         let cell = tableView.dequeueReusableCell(withIdentifier: "navigationCell", for: indexPath) as! LeftNavigationTableViewCell
-        cell.setData(menus[indexPath.row])
+        
+        if let menuText = menus[indexPath.row] as? String {
+          cell.titleLabel.text = menuText
+          cell.symbolImage.image = UIImage(named: "\(menuText.lowercased()).png")
+        }
+        
         cell.theme_backgroundColor = GlobalPicker.mainBackgroundColor
         return cell
       }

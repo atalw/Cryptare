@@ -19,16 +19,16 @@ enum GlobalPicker {
   static let navigationTitleTextSelectedColor: ThemeColorPicker = ["#fff", "#fff"]
   
   // search bar
-  static let searchTintColor: ThemeColorPicker = ["#1c2832", "#fff"]
+  static let searchTintColor: ThemeColorPicker = ["#253542", "#fff"]
   static let searchBarTintColor: ThemeColorPicker = ["#fff", "#fff"]
-  static let searchBarBackgroundColor: ThemeColorPicker = ["#fff", "#1c2832"]
-  static let searchBarTextColor: ThemeColorPicker = ["#1c2832", "#fff"]
+  static let searchBarBackgroundColor: ThemeColorPicker = ["#fff", "#253542"]
+  static let searchBarTextColor: ThemeColorPicker = ["#253542", "#fff"]
   
   
   // table
   static let viewBackgroundColor: ThemeColorPicker = ["#fff", "#3e556e"]
   static let viewTextColor: ThemeColorPicker = ["#000", "#fff"]
-  static let viewAltTextColor: ThemeColorPicker = ["#555555", "#E8E8E8"]
+  static let viewAltTextColor: ThemeColorPicker = ["#555555", "#C8C8C8"]
   static let tableGroupBackgroundColor: ThemeColorPicker = ["#EBEBF1", "#35495d"]
   static let tableSeparatorColor: ThemeColorPicker = ["#E0E0E0", "#14171A"]
   static let viewSelectedBackgroundColor: ThemeColorPicker = ["#e5e5e5", "#2b3d4d"]

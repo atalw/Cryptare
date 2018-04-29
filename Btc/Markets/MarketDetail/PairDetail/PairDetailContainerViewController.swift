@@ -41,8 +41,8 @@ class PairDetailContainerViewController: UIViewController {
     if let marketData = coinPairData[currentMarket.0] as? [String: Any] {
       vc2.exchangePrice = marketData["price"] as? Double
     }
-    
-    return [vc1, vc2]
+    return [vc2]
+//    return [vc1, vc2]
   }()
   
   var favouritePairs: [String: [String: [[String: String]]]] = [:]
