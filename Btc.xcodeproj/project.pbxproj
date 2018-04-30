@@ -577,6 +577,39 @@
 			path = Graph;
 			sourceTree = "<group>";
 		};
+		8647015B20975607007EBB10 /* AppIntro */ = {
+			isa = PBXGroup;
+			children = (
+				866175A52056C7F000085B44 /* IntroViewController.swift */,
+				866175A72056CCBB00085B44 /* Dashboard.xib */,
+				86B1300D2081FF1C004DC6AA /* Portfolio.xib */,
+				866175A92056CCD600085B44 /* News.xib */,
+				860162E6205824310052F77E /* Markets.xib */,
+			);
+			path = AppIntro;
+			sourceTree = "<group>";
+		};
+		8647015C20975618007EBB10 /* MarketsIntro */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MarketsIntro;
+			sourceTree = "<group>";
+		};
+		8647015D20975625007EBB10 /* PortfolioIntro */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PortfolioIntro;
+			sourceTree = "<group>";
+		};
+		8647015E20975630007EBB10 /* AlertsIntro */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AlertsIntro;
+			sourceTree = "<group>";
+		};
 		8650C5771FC07BE80078FD02 /* SortDropDown */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,11 +652,10 @@
 		866175A22056C7AF00085B44 /* Intro */ = {
 			isa = PBXGroup;
 			children = (
-				866175A52056C7F000085B44 /* IntroViewController.swift */,
-				866175A72056CCBB00085B44 /* Dashboard.xib */,
-				866175A92056CCD600085B44 /* News.xib */,
-				860162E6205824310052F77E /* Markets.xib */,
-				86B1300D2081FF1C004DC6AA /* Portfolio.xib */,
+				8647015E20975630007EBB10 /* AlertsIntro */,
+				8647015D20975625007EBB10 /* PortfolioIntro */,
+				8647015C20975618007EBB10 /* MarketsIntro */,
+				8647015B20975607007EBB10 /* AppIntro */,
 			);
 			path = Intro;
 			sourceTree = "<group>";

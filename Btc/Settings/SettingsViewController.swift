@@ -10,6 +10,7 @@ import UIKit
 import Charts
 import Armchair
 import SwiftyUserDefaults
+import FirebaseAuth
 
 class SettingsViewController: UITableViewController {
   
@@ -266,6 +267,18 @@ class SettingsViewController: UITableViewController {
     }
   }
   // footer
+  @IBOutlet weak var uidTextView: UITextView! {
+    didSet {
+      if let uid = FirebaseService.shared.uid {
+        uidTextView.text = "uid: \(uid)"
+      }
+      else {
+        uidTextView.text = "uid: ERROR"
+      }
+      uidTextView.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+  }
+  
   @IBOutlet weak var appVersionLabel: UILabel! {
     didSet {
       #if PRO_VERSION

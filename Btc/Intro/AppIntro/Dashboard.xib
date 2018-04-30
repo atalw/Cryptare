@@ -17,19 +17,19 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dashboard" translatesAutoresizingMaskIntoConstraints="NO" id="pKp-D9-w8q">
-                    <rect key="frame" x="30" y="70" width="315" height="278.5"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dashboardIntro" translatesAutoresizingMaskIntoConstraints="NO" id="pKp-D9-w8q">
+                    <rect key="frame" x="30" y="50" width="315" height="278.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="pKp-D9-w8q" secondAttribute="height" multiplier="61:54" id="B8P-er-bIg"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Real Time Market Averages" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2c-Ok-TrV">
-                    <rect key="frame" x="20" y="408.5" width="335" height="20.5"/>
+                    <rect key="frame" x="20" y="358.5" width="335" height="20.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Global prices of 500+ Cryptocurrencies updated every minute in 15+ different Fiat currencies." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XXJ-L6-S9f">
-                    <rect key="frame" x="20" y="449" width="335" height="64.5"/>
+                    <rect key="frame" x="20" y="399" width="335" height="64.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -39,8 +39,8 @@
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pKp-D9-w8q" secondAttribute="trailing" constant="30" id="C5V-IO-oSu"/>
                 <constraint firstItem="XXJ-L6-S9f" firstAttribute="top" secondItem="D2c-Ok-TrV" secondAttribute="bottom" constant="20" id="EMU-dp-gwF"/>
-                <constraint firstItem="pKp-D9-w8q" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="50" id="EbD-zp-eHK"/>
-                <constraint firstItem="D2c-Ok-TrV" firstAttribute="top" secondItem="pKp-D9-w8q" secondAttribute="bottom" constant="60" id="HeI-z6-eZx"/>
+                <constraint firstItem="pKp-D9-w8q" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="EbD-zp-eHK"/>
+                <constraint firstItem="D2c-Ok-TrV" firstAttribute="top" secondItem="pKp-D9-w8q" secondAttribute="bottom" constant="30" id="HeI-z6-eZx"/>
                 <constraint firstItem="D2c-Ok-TrV" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="K7U-sj-lp9"/>
                 <constraint firstItem="XXJ-L6-S9f" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="SlT-yB-cue"/>
                 <constraint firstItem="XXJ-L6-S9f" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="WfC-Qj-I41"/>
@@ -54,6 +54,6 @@
         </view>
     </objects>
     <resources>
-        <image name="dashboard" width="719" height="599"/>
+        <image name="dashboardIntro" width="719" height="599"/>
     </resources>
 </document>

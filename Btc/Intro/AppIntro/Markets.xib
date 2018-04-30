@@ -18,19 +18,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marketsIntro" translatesAutoresizingMaskIntoConstraints="NO" id="yqo-JN-0XK">
-                    <rect key="frame" x="30" y="70" width="315" height="278.5"/>
+                    <rect key="frame" x="30" y="50" width="315" height="278.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="yqo-JN-0XK" secondAttribute="height" multiplier="61:54" id="c7h-Pt-AJf"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make wise financial decisions by comparing the prices of cryptocurrencies on 100+ different exchanges." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDs-qa-UCC">
-                    <rect key="frame" x="20" y="449" width="335" height="64.5"/>
+                    <rect key="frame" x="20" y="399" width="335" height="64.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Markets" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQH-vs-srY">
-                    <rect key="frame" x="20" y="408.5" width="335" height="20.5"/>
+                    <rect key="frame" x="20" y="358.5" width="335" height="20.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -42,10 +42,10 @@
                 <constraint firstItem="wDs-qa-UCC" firstAttribute="top" secondItem="kQH-vs-srY" secondAttribute="bottom" constant="20" id="D9g-h8-ZqO"/>
                 <constraint firstItem="yqo-JN-0XK" firstAttribute="leading" secondItem="0vU-6b-TaR" secondAttribute="leading" constant="30" id="MWy-Ru-G0k"/>
                 <constraint firstItem="0vU-6b-TaR" firstAttribute="trailing" secondItem="wDs-qa-UCC" secondAttribute="trailing" constant="20" id="Pgn-OX-R7R"/>
-                <constraint firstItem="kQH-vs-srY" firstAttribute="top" secondItem="yqo-JN-0XK" secondAttribute="bottom" constant="60" id="bMV-Bl-J5A"/>
+                <constraint firstItem="kQH-vs-srY" firstAttribute="top" secondItem="yqo-JN-0XK" secondAttribute="bottom" constant="30" id="bMV-Bl-J5A"/>
                 <constraint firstItem="kQH-vs-srY" firstAttribute="leading" secondItem="0vU-6b-TaR" secondAttribute="leading" constant="20" id="bhQ-fZ-rib"/>
                 <constraint firstItem="0vU-6b-TaR" firstAttribute="trailing" secondItem="yqo-JN-0XK" secondAttribute="trailing" constant="30" id="qk0-lG-1ki"/>
-                <constraint firstItem="yqo-JN-0XK" firstAttribute="top" secondItem="0vU-6b-TaR" secondAttribute="top" constant="50" id="quq-YU-QJP"/>
+                <constraint firstItem="yqo-JN-0XK" firstAttribute="top" secondItem="0vU-6b-TaR" secondAttribute="top" constant="30" id="quq-YU-QJP"/>
                 <constraint firstItem="0vU-6b-TaR" firstAttribute="trailing" secondItem="kQH-vs-srY" secondAttribute="trailing" constant="20" id="xnd-6F-YJg"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="0vU-6b-TaR"/>

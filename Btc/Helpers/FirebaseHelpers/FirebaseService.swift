@@ -14,19 +14,22 @@ import SwiftyUserDefaults
 class FirebaseService: NSObject {
   
   // cant create IAPService object
-  private override init() {}
+  private override init() { super.init(); get_uid() }
   
   // use singleton
   static let shared = FirebaseService()
   
+  var uid: String?
+  
+  func get_uid() {
+    if Auth.auth().currentUser?.uid != nil {
+      self.uid = Auth.auth().currentUser?.uid
+    }
+  }
+  
   func updatePortfolioNames() {
     // update on firebase
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let portfolioNamesRef = Database.database().reference().child("portfolios").child(uid).child("Names")
       portfolioNamesRef.setValue(Defaults[.portfolioNames]) { (err, ref) in
         if err != nil {
@@ -37,12 +40,7 @@ class FirebaseService: NSObject {
   }
   
   func updateCryptoPortfolioName() {
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let cryptoDataRef = Database.database().reference().child("portfolios").child(uid).child("CryptoData")
       cryptoDataRef.setValue(Defaults[.cryptoPortfolioData]) { (err, ref) in
         if err != nil {
@@ -53,12 +51,7 @@ class FirebaseService: NSObject {
   }
   
   func updateFiatPortfolioName() {
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let fiatDataRef = Database.database().reference().child("portfolios").child(uid).child("FiatData")
       fiatDataRef.setValue(Defaults[.fiatPortfolioData]) { (err, ref) in
         if err != nil {
@@ -69,13 +62,7 @@ class FirebaseService: NSObject {
   }
   
   func updatePortfolioData(databaseTitle: String, data: [String: Any]) {
-    // update on firebase
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let portfolioRef = Database.database().reference().child("portfolios").child(uid).child(databaseTitle)
       portfolioRef.updateChildValues(data) { (err, ref) in
         if err != nil {
@@ -86,13 +73,7 @@ class FirebaseService: NSObject {
   }
   
   func deletePortfolioData(databaseTitle: String, data: [String: Any]) {
-    // update on firebase
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let portfolioRef = Database.database().reference().child("portfolios").child(uid).child(databaseTitle)
       portfolioRef.setValue(data) { (err, ref) in
         if err != nil {
@@ -105,12 +86,7 @@ class FirebaseService: NSObject {
   func update_coin_alerts(data: [String: Any]) {
     Defaults[.allCoinAlerts] = data
 
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid)
       coinAlertRef.setValue(data) { (err, ref) in
         if err != nil {
@@ -122,11 +98,7 @@ class FirebaseService: NSObject {
   
   func add_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
     var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
       
       userCoinAlertRef.observeSingleEvent(of: .value) { (snapshot) in
@@ -166,11 +138,7 @@ class FirebaseService: NSObject {
   
   func remove_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
     var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if let uid = uid {
       let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
       
       userCoinAlertRef.observeSingleEvent(of: .value) { (snapshot) in

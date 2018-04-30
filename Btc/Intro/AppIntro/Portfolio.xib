@@ -18,19 +18,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marketsIntro" translatesAutoresizingMaskIntoConstraints="NO" id="AAC-73-sJF">
-                    <rect key="frame" x="30" y="70" width="315" height="278.5"/>
+                    <rect key="frame" x="30" y="50" width="315" height="278.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="AAC-73-sJF" secondAttribute="height" multiplier="61:54" id="Zc8-vl-nvu"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track all your cryptocurrency investments easily and accurately." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehq-00-TUk">
-                    <rect key="frame" x="20" y="449" width="335" height="42.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track all your cryptocurrency transactions" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehq-00-TUk">
+                    <rect key="frame" x="20" y="399" width="335" height="20.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Portfolio management" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjL-P9-BZl">
-                    <rect key="frame" x="20" y="408.5" width="335" height="20.5"/>
+                    <rect key="frame" x="20" y="358.5" width="335" height="20.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -39,10 +39,10 @@
             <constraints>
                 <constraint firstItem="w2R-R1-Ad7" firstAttribute="trailing" secondItem="ehq-00-TUk" secondAttribute="trailing" constant="20" id="003-Lc-mvn"/>
                 <constraint firstItem="CjL-P9-BZl" firstAttribute="leading" secondItem="w2R-R1-Ad7" secondAttribute="leading" constant="20" id="2BA-wj-ef7"/>
-                <constraint firstItem="CjL-P9-BZl" firstAttribute="top" secondItem="AAC-73-sJF" secondAttribute="bottom" constant="60" id="5hO-GU-e6Y"/>
+                <constraint firstItem="CjL-P9-BZl" firstAttribute="top" secondItem="AAC-73-sJF" secondAttribute="bottom" constant="30" id="5hO-GU-e6Y"/>
                 <constraint firstItem="w2R-R1-Ad7" firstAttribute="trailing" secondItem="AAC-73-sJF" secondAttribute="trailing" constant="30" id="aVe-Tw-hEm"/>
                 <constraint firstItem="w2R-R1-Ad7" firstAttribute="trailing" secondItem="CjL-P9-BZl" secondAttribute="trailing" constant="20" id="cF0-hQ-PfA"/>
-                <constraint firstItem="AAC-73-sJF" firstAttribute="top" secondItem="w2R-R1-Ad7" secondAttribute="top" constant="50" id="dEH-og-84V"/>
+                <constraint firstItem="AAC-73-sJF" firstAttribute="top" secondItem="w2R-R1-Ad7" secondAttribute="top" constant="30" id="dEH-og-84V"/>
                 <constraint firstItem="AAC-73-sJF" firstAttribute="leading" secondItem="w2R-R1-Ad7" secondAttribute="leading" constant="30" id="dYL-aC-Azz"/>
                 <constraint firstItem="ehq-00-TUk" firstAttribute="top" secondItem="CjL-P9-BZl" secondAttribute="bottom" constant="20" id="ibl-oa-gOP"/>
                 <constraint firstItem="ehq-00-TUk" firstAttribute="leading" secondItem="w2R-R1-Ad7" secondAttribute="leading" constant="20" id="jQW-1t-URw"/>
