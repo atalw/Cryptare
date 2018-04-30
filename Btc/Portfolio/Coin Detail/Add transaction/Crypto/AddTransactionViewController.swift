@@ -73,7 +73,7 @@ class AddTransactionViewController: UIViewController {
       
     }
     
-    for (country, symbol, locale, name) in GlobalValues.countryList {
+    for (_, symbol, _, _) in GlobalValues.countryList {
       currencies.append(symbol)
     }
   }

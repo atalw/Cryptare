@@ -201,7 +201,6 @@ class PortfolioSummaryViewController: UIViewController {
     
     if coins.count == 0 {
       tableView.reloadData()
-      //            updateSummaryLabels(portfolioName: portfolioName)
       let messageLabel = UILabel()
       messageLabel.text = "Add a coin"
       messageLabel.theme_textColor = GlobalPicker.viewTextColor
@@ -428,9 +427,6 @@ class PortfolioSummaryViewController: UIViewController {
                   
                   self.fiatDict[currency]![index]["amount"] = amount
                   self.fiatDict[currency]![index]["fees"] = fees
-                  DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                  }
                 }
               })
             }
@@ -483,6 +479,10 @@ class PortfolioSummaryViewController: UIViewController {
     }
     else if type == "withdraw" {
       summary[currency]!["amount"] = summary[currency]!["amount"]! - amount - fees
+    }
+    
+    DispatchQueue.main.async {
+      self.tableView.reloadData()
     }
   }
   

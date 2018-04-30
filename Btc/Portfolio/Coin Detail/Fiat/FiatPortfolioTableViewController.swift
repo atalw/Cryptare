@@ -146,8 +146,8 @@ extension FiatPortfolioTableViewController {
     else if portfolioEntry["type"] as! String == "withdraw" {
       parentController.updateTotalWithdrawn(value: amount+fees)
     }
-    tableView.reloadData()
     savePortfolioEntry(portfolioEntry: portfolioEntry)
+    tableView.reloadData()
   }
   
   func initalizePortfolioEntries() {

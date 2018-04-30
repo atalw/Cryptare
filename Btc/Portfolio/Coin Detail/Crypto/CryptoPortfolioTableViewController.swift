@@ -32,7 +32,16 @@ class CryptoPortfolioTableViewController: UITableViewController {
   
   var parentController: CryptoPortfolioViewController!
   var portfolioData: [[String: Any]] = []
-  var portfolioEntries: [PortfolioEntryModel] = []
+  var portfolioEntries: [PortfolioEntryModel] = [] {
+    didSet {
+      if portfolioEntries.count > 0 {
+        parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
+      }
+      else {
+         parentController.containerViewHeightConstraint.constant = CGFloat(150)
+      }
+    }
+  }
   
   let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
   
@@ -74,9 +83,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
   
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
-    if portfolioEntries.count > 0 {
-      parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
-    }
+    
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -393,6 +400,7 @@ extension CryptoPortfolioTableViewController {
       }
       allData[portfolioName] = data
       Defaults[.cryptoPortfolioData] = allData
+      
       FirebaseService.shared.updatePortfolioData(databaseTitle: "CryptoData", data: allData)
       
       FirebaseService.shared.crypto_transaction_added(coin: coin)
