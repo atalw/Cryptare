@@ -159,6 +159,8 @@ class PairDetailContainerViewController: UIViewController {
         let data = ["name": currentMarket.0, "databaseTitle": currentMarket.1]
         favouritePairs[coin]![pair]?.append(data)
         favouriteStatus = true
+        
+        FirebaseService.shared.all_markets_trading_pair_favourited(coin: coin, pair: pair, exchange: currentMarket.0)
       }
     }
     

@@ -249,6 +249,7 @@ class MarketDetailViewController: UIViewController {
       else {
         favouriteMarkets.append(marketName)
         favouriteStatus = true
+        FirebaseService.shared.all_markets_exchange_favourited(exchange: marketName)
       }
     }
     
@@ -393,6 +394,8 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
       }
       
       targetViewController.currentMarket = (marketName, title)
+      
+      FirebaseService.shared.all_markets_trading_pair_tapped(coin: coin, pair: base, exchange: marketName)
       
       self.navigationController?.pushViewController(targetViewController, animated: true)
     }

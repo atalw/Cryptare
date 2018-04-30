@@ -323,11 +323,15 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
         targetVC.currentPair = (coin, base)
         targetVC.currentMarket = (market, databaseTitle)
         
+        FirebaseService.shared.all_markets_trading_pair_tapped(coin: coin, pair: base, exchange: market)
+        
         self.navigationController?.pushViewController(targetVC, animated: true)
       }
       else if section == 1 { // favourite markets
         let targetVC = storyboard?.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
         targetVC.market = marketInformation[marketNames[row].0]!
+        
+        FirebaseService.shared.all_markets_exchange_tapped(exchange: market)
         
         self.navigationController?.pushViewController(targetVC, animated: true)
       }

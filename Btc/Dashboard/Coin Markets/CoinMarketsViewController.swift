@@ -290,7 +290,7 @@ class CoinMarketsViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
-    FirebaseService.shared.markets_view_appeared(coin: currentCoin, currency: GlobalValues.currency!)
+    FirebaseService.shared.coin_markets_view_appeared(coin: currentCoin, currency: GlobalValues.currency!)
     
     if currentReachabilityStatus == .notReachable {
       let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
@@ -701,7 +701,7 @@ class CoinMarketsViewController: UIViewController {
   
   @objc func handleButton(sender: CustomUIButton!) {
     if let title = sender.title {
-      FirebaseService.shared.market_button_tapped(name: title)
+      FirebaseService.shared.coin_market_button_tapped(name: title)
     }
     if let link = sender.url {
       if #available(iOS 10.0, *) {

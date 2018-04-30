@@ -203,17 +203,61 @@ extension FirebaseService {
       ])
   }
   
-  // Markets
-  func markets_view_appeared(coin: String, currency: String) {
-    Analytics.logEvent("markets_view_appeared", parameters: [
+  // Coin Markets
+  func coin_markets_view_appeared(coin: String, currency: String) {
+    Analytics.logEvent("coin_markets_view_appeared", parameters: [
       "coin": coin as NSString,
       "currency": currency as NSString
       ])
   }
   
-  func market_button_tapped(name: String) {
-    Analytics.logEvent("market_url_tapped", parameters: [
-      "market": name as NSString
+  func coin_market_button_tapped(name: String) {
+    Analytics.logEvent("coin_market_url_tapped", parameters: [
+      "exchange": name as NSString
+      ])
+  }
+  
+  // Markets
+  
+  func all_markets_view_appeared() {
+    Analytics.logEvent("all_markets_view_appeared", parameters: [:])
+  }
+  
+  func all_markets_trading_pair_tapped(coin: String, pair: String, exchange: String) {
+    Analytics.logEvent("all_markets_trading_pair_tapped", parameters: [
+      "coin": coin as NSString,
+      "pair": pair as NSString,
+      "exchange": exchange as NSString
+      ])
+  }
+  
+  func all_markets_trading_pair_favourited(coin: String, pair: String, exchange: String) {
+    Analytics.logEvent("all_markets_trading_pair_favourited", parameters: [
+      "coin": coin as NSString,
+      "pair": pair as NSString,
+      "exchange": exchange as NSString
+      ])
+  }
+  
+  func all_markets_exchange_tapped(exchange: String) {
+    Analytics.logEvent("all_markets_exchange_tapped", parameters: [
+      "exchange": exchange as NSString
+      ])
+  }
+  
+  func all_markets_exchange_favourited(exchange: String) {
+    Analytics.logEvent("all_markets_exchange_favourited", parameters: [
+      "exchange": exchange as NSString
+      ])
+  }
+  
+  // Alerts
+  
+  func alert_added(coin: String, pair: String, exchange: String) {
+    Analytics.logEvent("alert_added", parameters: [
+      "coin": coin as NSString,
+      "pair": pair as NSString,
+      "exchange": exchange as NSString
       ])
   }
   

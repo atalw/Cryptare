@@ -88,7 +88,18 @@ class PairAlertViewController: UIViewController {
     }
   }
   
-  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var tableView: UITableView! {
+    didSet {
+      let messageLabel = UILabel()
+      messageLabel.text = "You have no alerts."
+      messageLabel.theme_textColor = GlobalPicker.viewTextColor
+      messageLabel.numberOfLines = 0;
+      messageLabel.textAlignment = .center
+      messageLabel.sizeToFit()
+      
+      tableView.backgroundView = messageLabel
+    }
+  }
   
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   

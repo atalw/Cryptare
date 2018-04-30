@@ -128,6 +128,8 @@ class AddPairAlertViewController: UIViewController {
         FirebaseService.shared.update_coin_alerts(data: coinAlerts)
         FirebaseService.shared.add_users_coin_alerts(exchangeName: exchange!.0, tradingPair: tradingPair!)
         
+        FirebaseService.shared.alert_added(coin: tradingPair!.0, pair: tradingPair!.1, exchange: exchange!.0)
+        
         if let pairDetailContainerVc = parentController as? PairAlertViewController {
           pairDetailContainerVc.loadAlertsFromDefaults()
         }
