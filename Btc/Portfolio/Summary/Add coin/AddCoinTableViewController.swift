@@ -12,7 +12,7 @@ class AddCoinTableViewController: UITableViewController {
   
   var parentController: UIViewController!
   
-  var isAddAlertVc: Bool!
+  var isAddAlertVc: Bool! = false
   
   var coins: [(String, String)] = []
   var currencies: [(String, String)] = []

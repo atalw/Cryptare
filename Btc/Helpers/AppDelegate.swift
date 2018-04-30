@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       Defaults[.chartSettingsExist] = true
     }
     
-    // market settings
+    // coin market settings
     if !Defaults.hasKey(.marketSettingsExist) {
       Defaults[.marketSort] = "buy"
       Defaults[.marketOrder] = "ascending"
@@ -92,8 +92,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       Defaults[.marketSettingsExist] = true
     }
     
-    // news settings
     
+    // market settings
+    if !Defaults.hasKey(.favouritePairs) {
+      Defaults[.favouritePairs] = ["BTC": ["USDT": [["name": "Binance", "databaseTitle": "binance/BTC/USDT"]], "USD": [["name": "Coinbase", "databaseTitle": "coinbase/BTC/USD"]], "GBP": [["name": "LocalBitcoins", "databaseTitle": "localbitcoins/BTC/GBP"]]], "ETH": ["USDT": [["name": "Binance", "databaseTitle": "binance/ETH/USDT"]], "INR": [["name": "Koinex", "databaseTitle": "koinex/ETH/INR"]]], "NEO": ["BTC": [["name": "Bittrex", "databaseTitle": "bittrex/NEO/BTC"]]], "LTC": ["USD": [["name": "Coinbase", "databaseTitle": "coinbase/LTC/USD"]]]]
+    }
+    if !Defaults.hasKey(.favouriteMarkets) {
+      Defaults[.favouriteMarkets] = ["Bittrex", "Binance", "Coinbase", "Bitfinex", "Bitbns"]
+    }
+    
+    
+    // news settings
     if !Defaults.hasKey(.newsSettingsExist) {
       Defaults[.newsSort] = "popularity"
       

@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyUserDefaults
 import Firebase
+import SwiftReorder
 
 class MarketsViewController: UIViewController {
   
@@ -54,7 +55,7 @@ class MarketsViewController: UIViewController {
       marketNames = marketNames.sorted(by: {$0.1.localizedCaseInsensitiveCompare($1.1) == .orderedAscending})
     }
     else { // load markets from UserDefaults
-//      getFavourites()
+      self.tableView.reorder.delegate = self
     }
     
   }
@@ -270,6 +271,11 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
           }
         }
         
+        
+        if let spacer = tableView.reorder.spacerCell(for: indexPath) {
+          return spacer
+        }
+        
         cell.tradingPairLabel.text = "\(coin)/\(base)"
         cell.exchangeLabel.text = market
         if let price = self.tradingPairDataDict[coin]?[base]?[market]?["price"] as? Double {
@@ -351,5 +357,17 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
     let header = view as? UITableViewHeaderFooterView
     
     header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+  }
+}
+
+extension MarketsViewController: TableViewReorderDelegate {
+  func tableView(_ tableView: UITableView, reorderRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    
+    // Update data model
+    let destinationCoin = marketNames[destinationIndexPath.row]
+    marketNames[destinationIndexPath.row] = marketNames[sourceIndexPath.row]
+    marketNames[sourceIndexPath.row] = destinationCoin
+    
+    Defaults[.favouriteMarkets] = marketNames.map{ $0.1 }
   }
 }

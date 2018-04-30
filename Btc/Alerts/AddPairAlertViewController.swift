@@ -22,8 +22,33 @@ class AddPairAlertViewController: UIViewController {
   var isAbove: Bool = true
   
   
+  @IBOutlet weak var lockAlertsView: UIView! {
+    didSet {
+      let subscriptionPurchased = Defaults[.subscriptionPurchased]
+      let numberOfCoinAlerts = Defaults[.numberOfCoinAlerts]
+      if numberOfCoinAlerts < 4 {
+        lockAlertsView.isHidden = true
+      }
+      else {
+        if subscriptionPurchased {
+          lockAlertsView.isHidden = true
+        }
+        else {
+          lockAlertsView.isHidden = false
+        }
+      }
+    }
+  }
   
-  @IBOutlet weak var addAlertButton: UIButton!
+  @IBOutlet weak var addAlertButton: UIButton! {
+    didSet {
+      addAlertButton.theme_backgroundColor = GlobalPicker.addCoinButton
+      addAlertButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)
+      
+      addAlertButton.setTitleColor(UIColor.white, for: .normal)
+      addAlertButton.setTitleColor(UIColor.lightGray, for: .disabled)
+    }
+  }
   
   @IBAction func addAlertButtonTapped(_ sender: Any) {
     if tradingPair != nil && exchange != nil {
@@ -104,9 +129,7 @@ class AddPairAlertViewController: UIViewController {
         FirebaseService.shared.add_users_coin_alerts(exchangeName: exchange!.0, tradingPair: tradingPair!)
         
         if let pairDetailContainerVc = parentController as? PairAlertViewController {
-//          pairDetailContainerVc.getAlertsFor(alerts: coinAlerts, tradingPair: tradingPair!, market: exchange!)
           pairDetailContainerVc.loadAlertsFromDefaults()
-//          pairDetailContainerVc.tableView.reloadData()
         }
       }
     }
@@ -283,12 +306,13 @@ class AddPairAlertTableViewController: UITableViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    
-    if tradingPair.0 == "None" {
-      let storyboard = UIStoryboard(name: "Main", bundle: nil)
-      let controller = storyboard.instantiateViewController(withIdentifier: "AddCoinTableViewController") as! AddCoinTableViewController
-      controller.parentController = self
-      self.present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+    if parentController.lockAlertsView.isHidden {
+      if tradingPair.0 == "None" {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "AddCoinTableViewController") as! AddCoinTableViewController
+        controller.parentController = self
+        self.present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+      }
     }
   }
   

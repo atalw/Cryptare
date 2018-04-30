@@ -47,7 +47,8 @@ extension DefaultsKeys {
   
   // Alerts
   static let allCoinAlerts = DefaultsKey<[String: Any]>("allCoinAlerts")
-  
+  static let numberOfCoinAlerts = DefaultsKey<Int>("numberOfCoinAlerts")
+
   // News
   static let newsSettingsExist = DefaultsKey<Bool>("newsSettingsExist")
   static let newsSort = DefaultsKey<String>("newsSort")
@@ -59,8 +60,10 @@ extension DefaultsKeys {
   
   // IAP
   static let previousPaidUser = DefaultsKey<Bool>("previousPaidUser")
-  static let removeAdsPurchased =  DefaultsKey<Bool>("removeAdsPurchased")
-  static let unlockMarketsPurchased =  DefaultsKey<Bool>("unlockMarketsPurchased")
-  static let multiplePortfoliosPurchased =  DefaultsKey<Bool>("multiplePortfoliosPurchased")
-  static let unlockAllPurchased =  DefaultsKey<Bool>("unlockAllPurchased")
+//  static let removeAdsPurchased =  DefaultsKey<Bool>("removeAdsPurchased")
+//  static let unlockMarketsPurchased =  DefaultsKey<Bool>("unlockMarketsPurchased")
+//  static let multiplePortfoliosPurchased =  DefaultsKey<Bool>("multiplePortfoliosPurchased")
+//  static let unlockAllPurchased =  DefaultsKey<Bool>("unlockAllPurchased")
+  static let subscriptionPurchased =  DefaultsKey<Bool>("subscriptionPurchased")
+  
 }

@@ -35,7 +35,7 @@ class AddPortfolioViewController: UIViewController {
     
     doneButton.isEnabled = false
     
-    let multiplePortfoliosPurchased = Defaults[.multiplePortfoliosPurchased]
+    let multiplePortfoliosPurchased = Defaults[.subscriptionPurchased]
     
     #if DEBUG
     unlockPortfolioView.isHidden = true

@@ -198,7 +198,7 @@ class CoinMarketsViewController: UIViewController {
   
   @IBOutlet weak var marketsLockView: UIView! {
     didSet {
-      marketsLockView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+//      marketsLockView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     }
   }
   @IBOutlet weak var unlockMarketsPriceButton: UIButton! {
@@ -275,7 +275,7 @@ class CoinMarketsViewController: UIViewController {
       marketsLockView.isHidden = true
     }
     else {
-      let unlockMarketsPurchased = Defaults[.unlockMarketsPurchased]
+      let unlockMarketsPurchased = Defaults[.subscriptionPurchased]
       if unlockMarketsPurchased == true {
         marketsLockView.isHidden = true
       }
@@ -358,7 +358,9 @@ class CoinMarketsViewController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
-    coinRef.removeAllObservers()
+    if coinRef != nil {
+      coinRef.removeAllObservers()
+    }
     
     for fiatExchangeRef in fiatExchangeRefs {
       fiatExchangeRef.0.removeAllObservers()

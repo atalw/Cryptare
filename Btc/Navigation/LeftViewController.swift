@@ -10,8 +10,8 @@ import SwiftyUserDefaults
 
 enum LeftMenu: Int {
   case dashboard = 0
-  case portfolio
   case markets
+  case portfolio
   case alerts
   case news
   case settings
@@ -37,7 +37,7 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     }
   }
   
-  var menus = ["Dashboard", "Portfolio", "Markets", "Alerts", "News", "Settings"]
+  var menus = ["Dashboard", "Markets", "Portfolio", "Alerts", "News", "Settings"]
   var mainViewController: UIViewController!
   var mainPortfolioViewController: UIViewController!
   var marketsViewController: UIViewController!
@@ -68,11 +68,11 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
     self.mainViewController = UINavigationController(rootViewController: mainViewController)
     
-    let mainPortfolioViewController = storyboard.instantiateViewController(withIdentifier: "MainPortfolioViewController") as! MainPortfolioViewController
-    self.mainPortfolioViewController = UINavigationController(rootViewController: mainPortfolioViewController)
-    
     let marketsViewController = storyboard.instantiateViewController(withIdentifier: "MarketsContainerViewController") as! MarketsContainerViewController
     self.marketsViewController = UINavigationController(rootViewController: marketsViewController)
+    
+    let mainPortfolioViewController = storyboard.instantiateViewController(withIdentifier: "MainPortfolioViewController") as! MainPortfolioViewController
+    self.mainPortfolioViewController = UINavigationController(rootViewController: mainPortfolioViewController)
     
     let pairAlertViewController = storyboard.instantiateViewController(withIdentifier: "PairAlertViewController") as! PairAlertViewController
     self.pairAlertViewController = UINavigationController(rootViewController: pairAlertViewController)
@@ -115,11 +115,11 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
     switch menu {
     case .dashboard:
       self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
-    case .portfolio:
-      self.slideMenuController()?.changeMainViewController(self.mainPortfolioViewController, close: true)
+      
     case .markets:
       self.slideMenuController()?.changeMainViewController(self.marketsViewController, close: true)
-      
+    case .portfolio:
+      self.slideMenuController()?.changeMainViewController(self.mainPortfolioViewController, close: true)
     case .alerts:
       self.slideMenuController()?.changeMainViewController(self.pairAlertViewController, close: true)
     case .news:
@@ -134,7 +134,7 @@ extension LeftViewController : UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if let menu = LeftMenu(rawValue: indexPath.row) {
       switch menu {
-      case .dashboard, .portfolio, .markets, .alerts, .news, .settings:
+      case .dashboard, .markets, .portfolio, .alerts, .news, .settings:
         return 50
       }
     }
@@ -164,7 +164,7 @@ extension LeftViewController : UITableViewDataSource {
     
     if let menu = LeftMenu(rawValue: indexPath.row) {
       switch menu {
-      case .dashboard, .portfolio, .markets, .alerts, .news, .settings:
+      case .dashboard, .markets, .portfolio, .alerts, .news, .settings:
         let cell = tableView.dequeueReusableCell(withIdentifier: "navigationCell", for: indexPath) as! LeftNavigationTableViewCell
         
         if let menuText = menus[indexPath.row] as? String {

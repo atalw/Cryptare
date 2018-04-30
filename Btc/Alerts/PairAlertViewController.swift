@@ -45,7 +45,23 @@ class PairAlertViewController: UIViewController {
   
   var parentController: PairDetailContainerViewController?
   
-  var alerts: [Alert] = []
+  var alerts: [Alert] = [] {
+    didSet {
+      if alerts.count > 0 {
+        tableView.backgroundView = nil
+      }
+      else {
+        let messageLabel = UILabel()
+        messageLabel.text = "You have no alerts."
+        messageLabel.theme_textColor = GlobalPicker.viewTextColor
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center
+        messageLabel.sizeToFit()
+        
+        tableView.backgroundView = messageLabel
+      }
+    }
+  }
   var alertsDict: [String: Any] = [:]
   
   lazy var refreshControl: UIRefreshControl = {
@@ -127,28 +143,8 @@ class PairAlertViewController: UIViewController {
     
   }
   
-  override func viewWillLayoutSubviews() {
-    if alerts.count == 0 {
-      let messageLabel = UILabel()
-      messageLabel.text = "You have no alerts."
-      messageLabel.theme_textColor = GlobalPicker.viewTextColor
-      messageLabel.numberOfLines = 0;
-      messageLabel.textAlignment = .center
-      messageLabel.sizeToFit()
-      
-      tableView.backgroundView = messageLabel
-    }
-    else {
-      tableViewHeightConstraint.constant = tableView.contentSize.height + 150
-      tableView.backgroundView = nil
-    }
-  }
-  
   func loadAlerts() {
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
+    if Auth.auth().currentUser?.uid != nil {
       let uid = Auth.auth().currentUser?.uid
       let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid!)
       coinAlertRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -188,8 +184,6 @@ class PairAlertViewController: UIViewController {
   }
   
   func getAllAlerts(alertsDict: [String: Any]) {
-//    let allCoinAlertsFirebase = alerts
-//    let allCoinAlertsDefaults = Defaults[.allCoinAlerts]
     
     let allCoinAlerts = alertsDict
     for (exchange, data) in allCoinAlerts {
@@ -218,6 +212,7 @@ class PairAlertViewController: UIViewController {
       }
     }
     Defaults[.allCoinAlerts] = allCoinAlerts
+    Defaults[.numberOfCoinAlerts] = alerts.count
   }
   
   func getAlertsFor(alerts: [String: Any], tradingPair: (String, String), market: (String, String)) {
@@ -380,11 +375,9 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
   }
   
   
-  // work on delete and isActiveSwitch implemention
-  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let row = indexPath.row
-    let section = indexPath.section
+//    let row = indexPath.row
+//    let section = indexPath.section
     
     //    if favouritesTab {
     //      if section == 1 { // favourite markets
@@ -483,7 +476,7 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
     }
     self.alertsDict = allCoinAlerts
     Defaults[.allCoinAlerts] = allCoinAlerts
-    
+    Defaults[.numberOfCoinAlerts] = alerts.count
 
     FirebaseService.shared.update_coin_alerts(data: allCoinAlerts)
     FirebaseService.shared.remove_users_coin_alerts(exchangeName: alert.exchange.0, tradingPair: alert.tradingPair)

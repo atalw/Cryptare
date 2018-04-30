@@ -218,21 +218,23 @@ class DashboardViewController: UIViewController {
     for coin in self.coins {
       self.coinRefs.append(self.databaseRef.child(coin).child("Data").child(currency))
     }
-    
+    var isInitialSetup = true
+
     for coinRef in self.coinRefs {
       coinRef.observe(.value, with: {(snapshot) -> Void in
         if let dict = snapshot.value as? [String : AnyObject] {
           if let index = self.coinRefs.index(of: coinRef) {
             let coin = self.coins[index]
             self.changedRow = index
-            self.updateCoinDataStructure(coin: coin, dict: dict)
+            self.updateCoinDataStructure(coin: coin, dict: dict, isInitialSetup: isInitialSetup)
           }
         }
       })
     }
+    isInitialSetup = false
   }
   
-  func updateCoinDataStructure(coin: String, dict: [String: Any]) {
+  func updateCoinDataStructure(coin: String, dict: [String: Any], isInitialSetup: Bool) {
     
     if coinData[coin]!["oldPrice"] == nil {
       coinData[coin]!["oldPrice"] = 0.0
@@ -288,6 +290,22 @@ class DashboardViewController: UIViewController {
     
     headerBackgroundView.isHidden = false
     tableView.reloadData()
+    
+//    if !isInitialSetup {
+//      print("update row \(self.changedRow)")
+//      tableView.reloadRows(at: [IndexPath(row: self.changedRow, section: 0)], with: .automatic)
+//    }
+//    else {
+//      print("reload table")
+//    }
+
+//    if let index = coins.index(of: coin) {
+//      print("reloading \(index)")
+//
+//    }
+//    else {
+//      print("reload whole table fuck")
+//    }
 
   }
   
