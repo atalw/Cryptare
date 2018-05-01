@@ -35,12 +35,16 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
   }
   
   func createSlides() -> [UIView] {
-    let Dashboard = Bundle.main.loadNibNamed("Dashboard", owner: self, options: nil)?.first as! UIView
-    let Markets = Bundle.main.loadNibNamed("Markets", owner: self, options: nil)?.first as! UIView
-    let News = Bundle.main.loadNibNamed("News", owner: self, options: nil)?.first as! UIView
-    let Portfolio = Bundle.main.loadNibNamed("Portfolio", owner: self, options: nil)?.first as! UIView
+//    let Dashboard = Bundle.main.loadNibNamed("Dashboard", owner: self, options: nil)?.first as! UIView
+//    let Markets = Bundle.main.loadNibNamed("Markets", owner: self, options: nil)?.first as! UIView
+//    let News = Bundle.main.loadNibNamed("News", owner: self, options: nil)?.first as! UIView
+//    let Portfolio = Bundle.main.loadNibNamed("Portfolio", owner: self, options: nil)?.first as! UIView
     
-    return [Dashboard, Portfolio, Markets, News ]
+    let Dashboard = IntroTemplateView()
+    let Markets = IntroTemplateView()
+    let News = IntroTemplateView()
+    let Portfolio = IntroTemplateView()
+    return [Dashboard, Portfolio, Markets, News]
   }
   
   func setupSlideScrollView(slides: [UIView]) {
