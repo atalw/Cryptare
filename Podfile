@@ -24,7 +24,7 @@ pod 'Armchair', '>= 0.3'
 pod 'SwiftyUserDefaults'
 pod 'SwiftTheme'
 pod 'OpenSSL', '~> 1.0'
-pod 'CodableFirebase'
+pod 'PagedArray'
 
 target 'BtcTests' do
 inherit! :search_paths

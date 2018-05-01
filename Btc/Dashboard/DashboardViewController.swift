@@ -11,10 +11,13 @@ import Firebase
 import SwiftReorder
 import SwiftyUserDefaults
 import SwiftTheme
+import PagedArray
 
 class DashboardViewController: UIViewController {
   
   var parentController: MainViewController!
+  
+  var pagedArray: PagedArray<String>!
   
   var currency: String!
   
@@ -38,7 +41,13 @@ class DashboardViewController: UIViewController {
   //    let searchController = UISearchController(searchResultsController: nil)
   var coinSearchResults = [String]()
   
-  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var tableView: UITableView! {
+    didSet {
+      tableView.delegate = self
+      tableView.dataSource = self
+      tableView.tableFooterView = UIView()
+    }
+  }
   
   lazy var activityIndicator: UIActivityIndicatorView = {
     let activityIndicator = UIActivityIndicatorView()
@@ -78,10 +87,6 @@ class DashboardViewController: UIViewController {
     ThemeManager.setTheme(index: Defaults[.currentThemeIndex])
     
     self.currency = GlobalValues.currency!
-    
-    tableView.delegate = self
-    tableView.dataSource = self
-    tableView.tableFooterView = UIView()
     
     databaseRef = Database.database().reference()
     
@@ -127,11 +132,8 @@ class DashboardViewController: UIViewController {
         
         self.tableView.reorder.delegate = self
       }
-      
       self.loadAllCoinData()
     })
-    
-    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -142,6 +144,15 @@ class DashboardViewController: UIViewController {
     }
     
     databaseRef = Database.database().reference()
+    
+    if coins.count > 20 {
+      self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 20)
+    }
+    else {
+      print(coins)
+      self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 2)
+      print(pagedArray)
+    }
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -152,6 +163,7 @@ class DashboardViewController: UIViewController {
       alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
       present(alert, animated: true, completion: nil)
     }
+    tableView.reloadData()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -191,50 +203,94 @@ class DashboardViewController: UIViewController {
         tableView.backgroundView = nil
       }
     }
-    self.setupCoinRefs()
+    
+    if coins.count > 20 {
+      self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 20)
+    }
+    else {
+      self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 2)
+    }
+    
+    tableView.reloadData()
   }
   
-  func setupCoinRefs() {
-//    coinData = [:]
-    for coin in self.coins {
+//  func setupCoinRefs() {
+//
+//    for coinRef in coinRefs {
+//      coinRef.removeAllObservers()
+//    }
+//
+//    coinRefs = []
+//
+//    for coin in self.pagedArray {
+//      if let coin = coin {
+//
+//        if coinData[coin] == nil {
+//          self.coinData[coin] = [:]
+//        }
+//        self.coinData[coin]!["currentPrice"] = 0.0
+//        self.coinData[coin]!["timestamp"] = 0.0
+//        self.coinData[coin]!["volume24hrs"] = 0.0
+//        self.coinData[coin]!["percentageChange24hrs"] = 0.0
+//        self.coinData[coin]!["priceChange24hrs"] = 0.0
+//
+//        self.coinRefs.append(self.databaseRef.child(coin).child("Data").child(currency))
+//      }
+//
+//    }
+//
+//    for coinRef in self.coinRefs {
+//      coinRef.observe(.value, with: {(snapshot) -> Void in
+//        if let dict = snapshot.value as? [String : AnyObject] {
+//          if let index = self.coinRefs.index(of: coinRef) {
+//            let coin = self.coins[index]
+//            self.changedRow = index
+//            self.updateCoinDataStructure(coin: coin, dict: dict)
+//          }
+//        }
+//      })
+//    }
+//  }
+  
+  func setupCoinRefs(index: Int) {
+    
+    if let coin = self.pagedArray[index] {
       if coinData[coin] == nil {
         self.coinData[coin] = [:]
       }
-//      self.coinData[coin]!["rank"] = 0
       self.coinData[coin]!["currentPrice"] = 0.0
       self.coinData[coin]!["timestamp"] = 0.0
       self.coinData[coin]!["volume24hrs"] = 0.0
       self.coinData[coin]!["percentageChange24hrs"] = 0.0
       self.coinData[coin]!["priceChange24hrs"] = 0.0
-    }
-    
-    for coinRef in coinRefs {
-      coinRef.removeAllObservers()
-    }
-    
-    coinRefs = []
-    
-    for coin in self.coins {
-     print(currency)
-      self.coinRefs.append(self.databaseRef.child(coin).child("Data").child(currency))
-    }
-    var isInitialSetup = true
-
-    for coinRef in self.coinRefs {
-      coinRef.observe(.value, with: {(snapshot) -> Void in
-        if let dict = snapshot.value as? [String : AnyObject] {
-          if let index = self.coinRefs.index(of: coinRef) {
+      
+      if index < coinRefs.count {
+        coinRefs[index].removeAllObservers()
+        self.coinRefs[index] = self.databaseRef.child(coin).child("Data").child(currency)
+        
+        coinRefs[index].observe(.value, with: {(snapshot) -> Void in
+          if let dict = snapshot.value as? [String : AnyObject] {
             let coin = self.coins[index]
             self.changedRow = index
-            self.updateCoinDataStructure(coin: coin, dict: dict, isInitialSetup: isInitialSetup)
+            self.updateCoinDataStructure(coin: coin, dict: dict)
           }
-        }
-      })
+        })
+      }
+      else {
+        self.coinRefs.append(self.databaseRef.child(coin).child("Data").child(currency))
+        
+        coinRefs[coinRefs.count-1].observe(.value, with: {(snapshot) -> Void in
+          if let dict = snapshot.value as? [String : AnyObject] {
+            let coin = self.coins[index]
+            self.changedRow = index
+            self.updateCoinDataStructure(coin: coin, dict: dict)
+          }
+        })
+      }
     }
-    isInitialSetup = false
   }
   
-  func updateCoinDataStructure(coin: String, dict: [String: Any], isInitialSetup: Bool) {
+  func updateCoinDataStructure(coin: String, dict: [String: Any]) {
     
     if coinData[coin]!["oldPrice"] == nil {
       coinData[coin]!["oldPrice"] = 0.0
@@ -291,23 +347,6 @@ class DashboardViewController: UIViewController {
     headerBackgroundView.isHidden = false
     activityIndicator.stopAnimating()
     tableView.reloadData()
-    
-//    if !isInitialSetup {
-//      print("update row \(self.changedRow)")
-//      tableView.reloadRows(at: [IndexPath(row: self.changedRow, section: 0)], with: .automatic)
-//    }
-//    else {
-//      print("reload table")
-//    }
-
-//    if let index = coins.index(of: coin) {
-//      print("reloading \(index)")
-//
-//    }
-//    else {
-//      print("reload whole table fuck")
-//    }
-
   }
   
   func isFiltering() -> Bool {
@@ -337,10 +376,16 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     if isFiltering() {
       return coinSearchResults.count
     }
-    return coins.count
+    if pagedArray != nil {
+      print(pagedArray.count, favouritesTab)
+      return pagedArray.count
+    }
+    print("here")
+    return 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    loadDataIfNeededForRow(row: indexPath.row)
     
     if favouritesTab {
       if let spacer = tableView.reorder.spacerCell(for: indexPath) {
@@ -351,9 +396,18 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     var coin: String
     if isFiltering() {
       coin = coinSearchResults[indexPath.row]
+      
+      let coinIndex = coins.index(of: coin)!
+      
+      loadDataIfNeededForRow(row: coinIndex)
     }
     else {
-      coin = coins[indexPath.row]
+      if let pagedCoin =  pagedArray[indexPath.row] {
+        coin = pagedCoin
+      }
+      else {
+        coin = "BTC"
+      }
     }
     
     let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
@@ -492,10 +546,67 @@ extension DashboardViewController: TableViewReorderDelegate {
     coins[destinationIndexPath.row] = coins[sourceIndexPath.row]
     coins[sourceIndexPath.row] = destinationCoin
     
+    let destinationPagedCoin = pagedArray[destinationIndexPath.row]
+    pagedArray[destinationIndexPath.row] = pagedArray[sourceIndexPath.row]
+    pagedArray[sourceIndexPath.row] = destinationPagedCoin
+    
     Defaults[.dashboardFavourites] = coins
   }
 }
 
+
+// paged array
+extension DashboardViewController {
+  
+  
+  func loadDataIfNeededForRow(row: Int) {
+    
+    let currentPage = pagedArray.page(for: row)
+    if needsLoadDataForPage(currentPage) {
+      loadDataForPage(currentPage)
+    }
+    
+    var preloadMargin: Int
+    if pagedArray.count > 5 {
+      preloadMargin = 5
+
+    }
+    else {
+      preloadMargin = 0
+    }
+
+    let preloadIndex = row + preloadMargin
+    if preloadIndex < pagedArray.endIndex {
+      let preloadPage = pagedArray.page(for: preloadIndex)
+      if preloadPage > currentPage && needsLoadDataForPage(preloadPage) {
+        loadDataForPage(preloadPage)
+      }
+    }
+  }
+  
+  func needsLoadDataForPage(_ page: Int) -> Bool {
+    return pagedArray.elements[page] == nil
+  }
+  
+  func loadDataForPage(_ page: Int) {
+    let indexes = pagedArray.indexes(for: page)
+    let data = Array(coins[indexes])
+    self.pagedArray.set(data, forPage: page)
+    
+    for index in indexes {
+      setupCoinRefs(index: index)
+    }
+//    // Reload cells
+//    if let indexPathsToReload = self.visibleIndexPathsForIndexes(indexes) {
+//      self.tableView.reloadRows(at: indexPathsToReload, with: .automatic)
+//    }
+    
+  }
+  
+  func visibleIndexPathsForIndexes(_ indexes: CountableRange<Int>) -> [IndexPath]? {
+    return tableView.indexPathsForVisibleRows?.filter { indexes.contains($0.row) }
+  }
+}
 
 
 

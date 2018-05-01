@@ -10,7 +10,6 @@ import UIKit
 import SwiftyUserDefaults
 import FirebaseAuth
 import FirebaseDatabase
-import CodableFirebase
 
 class PairAlertViewController: UIViewController {
   
