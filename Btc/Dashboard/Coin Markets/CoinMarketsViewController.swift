@@ -36,12 +36,14 @@ class CoinMarketsViewController: UIViewController {
   let percentChangeTitleArray = ["24hr Change", "24hr Change ▲", "24hr Change ▼"]
   
   var markets: [CoinMarket] = []
+  var usdtMarkets: [CoinMarket] = []
   var btcMarkets: [CoinMarket] = []
   var ethMarkets: [CoinMarket] = []
   
   var liteMarkets : [(String, String)] = []
   
   var copyMarkets: [(Double, Double)] = []
+  var copyUsdtMarkets: [(Double, Double)] = []
   var copyBtcMarkets: [(Double, Double)] = []
   var copyEthMarkets: [(Double, Double)] = []
   
@@ -49,6 +51,7 @@ class CoinMarketsViewController: UIViewController {
   var coinRef: DatabaseReference!
   
   var coinMarkets: [String: String] = [:]
+  var coinUsdtMarkets: [String: String] = [:]
   var coinBtcMarkets: [String: String] = [:]
   var coinEthMarkets: [String: String] = [:]
   
@@ -57,6 +60,7 @@ class CoinMarketsViewController: UIViewController {
   var all_exchanges_update_type: [String: String] = [:]
   
   var fiatExchangeRefs: [(DatabaseReference, String, String)] = []
+  var usdtExchangeRefs: [(DatabaseReference, String, String)] = []
   var btcExchangeRefs: [(DatabaseReference, String, String)] = []
   var ethExchangeRefs: [(DatabaseReference, String, String)] = []
   
@@ -94,6 +98,9 @@ class CoinMarketsViewController: UIViewController {
   @IBOutlet weak var buySortButton: UIButton!
   @IBOutlet weak var sellSortButton: UIButton!
   
+  @IBOutlet weak var buySortUsdtButton: UIButton!
+  @IBOutlet weak var sellSortUsdtButton: UIButton!
+  
   @IBOutlet weak var buySortBtcButton: UIButton!
   @IBOutlet weak var sellSortBtcButton: UIButton!
   
@@ -105,6 +112,13 @@ class CoinMarketsViewController: UIViewController {
       fiatMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using \(GlobalValues.currency!)."
       fiatMarketDescriptionLabel.adjustsFontSizeToFitWidth = true
       fiatMarketDescriptionLabel.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+  }
+  @IBOutlet weak var usdtMarketDescriptionLabel: UILabel! {
+    didSet {
+      usdtMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using \(GlobalValues.currency!)."
+      usdtMarketDescriptionLabel.adjustsFontSizeToFitWidth = true
+      usdtMarketDescriptionLabel.theme_textColor = GlobalPicker.viewAltTextColor
     }
   }
   @IBOutlet weak var btcMarketDescriptionLabel: UILabel! {
@@ -126,6 +140,12 @@ class CoinMarketsViewController: UIViewController {
     didSet {
       fiatMarketsTitleLabel.adjustsFontSizeToFitWidth = true
       fiatMarketsTitleLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  @IBOutlet weak var usdtMarketsTitleLabel: UILabel! {
+    didSet {
+      usdtMarketsTitleLabel.adjustsFontSizeToFitWidth = true
+      usdtMarketsTitleLabel.theme_textColor = GlobalPicker.viewTextColor
     }
   }
   @IBOutlet weak var btcMarketsTitleLabel: UILabel! {
@@ -152,6 +172,16 @@ class CoinMarketsViewController: UIViewController {
     }
   }
   
+  @IBOutlet weak var usdtMarketsTable: UITableView! {
+    didSet {
+      usdtMarketsTable.delegate = self
+      usdtMarketsTable.dataSource = self
+      usdtMarketsTable.tableFooterView = UIView()
+      
+      usdtMarketsTable.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+      usdtMarketsTable.theme_separatorColor = GlobalPicker.tableSeparatorColor
+    }
+  }
   @IBOutlet weak var btcMarketsTable: UITableView! {
     didSet {
       btcMarketsTable.delegate = self
@@ -176,6 +206,7 @@ class CoinMarketsViewController: UIViewController {
   }
   
   @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
+  @IBOutlet weak var usdtTableHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var btcTableHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var ethTableHeightConstraint: NSLayoutConstraint!
   
@@ -183,6 +214,11 @@ class CoinMarketsViewController: UIViewController {
   @IBOutlet weak var fiatTableHeader: UIView! {
     didSet {
       fiatTableHeader.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+    }
+  }
+  @IBOutlet weak var usdtTableHeader: UIView! {
+    didSet {
+      usdtTableHeader.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     }
   }
   @IBOutlet weak var btcTableHeader: UIView! {
@@ -224,6 +260,12 @@ class CoinMarketsViewController: UIViewController {
     
     buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     self.buySortButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
+    
+    sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+    self.sellSortButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
+    
+    buySortUsdtButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+    self.buySortUsdtButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
     
     sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
     self.sellSortButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
@@ -318,6 +360,22 @@ class CoinMarketsViewController: UIViewController {
       tableView.backgroundView = messageLabel
     }
     
+    if coinUsdtMarkets.count != 0 {
+      usdtMarketsTable.backgroundView = nil
+      //      btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
+    }
+    else {
+      let messageLabel = UILabel()
+      messageLabel.text = "No markets currently available."
+      messageLabel.theme_textColor = GlobalPicker.viewTextColor
+      messageLabel.numberOfLines = 0;
+      messageLabel.textAlignment = .center
+      messageLabel.sizeToFit()
+      
+      usdtTableHeightConstraint.constant = CGFloat(140)
+      usdtMarketsTable.backgroundView = messageLabel
+    }
+    
     if coinBtcMarkets.count != 0 {
       btcMarketsTable.backgroundView = nil
 //      btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
@@ -409,6 +467,34 @@ class CoinMarketsViewController: UIViewController {
     self.populateFiatTable()
     self.defaultSort()
     self.btcAmount.text = "1"
+  }
+  
+  func setupCoinUsdtMarketRefs() {
+    
+    for (key, value) in self.coinUsdtMarkets {
+      usdtExchangeRefs.append((databaseReference.child(value), key, value))
+    }
+    
+    for usdtExchangeRef in usdtExchangeRefs {
+      let exchangeName = usdtExchangeRef.1
+      if all_exchanges_update_type[exchangeName] == "update" {
+        usdtExchangeRef.0.observe(.value, with: {(snapshot) -> Void in
+          if let dict = snapshot.value as? [String: AnyObject] {
+            self.updateFirebaseObservedDataUsdt(dict: dict, title: usdtExchangeRef.1)
+          }
+        })
+      }
+      else {
+        usdtExchangeRef.0.queryLimited(toLast: 1).observe(.childAdded, with: {(snapshot) -> Void in
+          if let dict = snapshot.value as? [String: AnyObject] {
+            self.updateFirebaseObservedDataUsdt(dict: dict, title: usdtExchangeRef.1)
+          }
+        })
+      }
+    }
+    
+    self.populateUsdtTable()
+    
   }
   
   func setupCoinBtcMarketRefs() {
@@ -518,10 +604,66 @@ class CoinMarketsViewController: UIViewController {
     }
   }
   
+  func updateFirebaseObservedDataUsdt(dict: [String: AnyObject], title: String) {
+    
+    let unformattedBuyPrice = dict["buy_price"] as! Double
+    let unformattedSellPrice = dict["sell_price"] as! Double
+    
+    let currentBuyPrice = round(unformattedBuyPrice*1000)/1000
+    let currentSellPrice = round(unformattedSellPrice*1000)/1000
+    
+    if let index = self.usdtMarkets.index(where: {$0.title == title}) {
+      
+      let oldBuyPrice = self.copyUsdtMarkets[index].0
+      let oldSellPrice = self.copyUsdtMarkets[index].1
+      
+      self.usdtMarkets[index].buyPrice = currentBuyPrice * self.textFieldValue
+      self.usdtMarkets[index].sellPrice = currentSellPrice * self.textFieldValue
+      
+      // update other array
+      self.copyUsdtMarkets[index].0 = currentBuyPrice
+      self.copyUsdtMarkets[index].1 = currentSellPrice
+      
+      if oldBuyPrice < currentBuyPrice {
+        newBuyPriceIsGreater = true
+        changedCell = index
+        changedTableView = usdtMarketsTable
+      }
+      else if oldBuyPrice > currentBuyPrice {
+        newBuyPriceIsGreater = false
+        changedCell = index
+        changedTableView = usdtMarketsTable
+      }
+      else {
+        newBuyPriceIsGreater = nil
+      }
+      
+      if oldSellPrice < currentSellPrice {
+        newSellPriceIsGreater = true
+        changedCell = index
+        changedTableView = usdtMarketsTable
+      }
+      else if oldSellPrice > currentSellPrice {
+        newSellPriceIsGreater = false
+        changedCell = index
+        changedTableView = usdtMarketsTable
+      }
+      else {
+        newSellPriceIsGreater = nil
+      }
+      
+      self.usdtMarketsTable.reloadData()
+      self.reSort()
+    }
+  }
+  
   func updateFirebaseObservedDataBtc(dict: [String: AnyObject], title: String) {
     
-    let currentBuyPrice = dict["buy_price"] as! Double
-    let currentSellPrice = dict["sell_price"] as! Double
+    let unformattedBuyPrice = dict["buy_price"] as! Double
+    let unformattedSellPrice = dict["sell_price"] as! Double
+    
+    let currentBuyPrice = round(unformattedBuyPrice*100000000)/100000000
+    let currentSellPrice = round(unformattedSellPrice*100000000)/100000000
     
     if let index = self.btcMarkets.index(where: {$0.title == title}) {
       
@@ -529,7 +671,7 @@ class CoinMarketsViewController: UIViewController {
       let oldSellPrice = self.copyBtcMarkets[index].1
       
       self.btcMarkets[index].buyPrice = currentBuyPrice * self.textFieldValue
-      self.btcMarkets[index].sellPrice = currentBuyPrice * self.textFieldValue
+      self.btcMarkets[index].sellPrice = currentSellPrice * self.textFieldValue
       
       // update other array
       self.copyBtcMarkets[index].0 = currentBuyPrice
@@ -570,8 +712,11 @@ class CoinMarketsViewController: UIViewController {
   
   func updateFirebaseObservedDataEth(dict: [String: AnyObject], title: String) {
     
-    let currentBuyPrice = dict["buy_price"] as! Double
-    let currentSellPrice = dict["sell_price"] as! Double
+    let unformattedBuyPrice = dict["buy_price"] as! Double
+    let unformattedSellPrice = dict["sell_price"] as! Double
+    
+    let currentBuyPrice = round(unformattedBuyPrice*100000000)/100000000
+    let currentSellPrice = round(unformattedSellPrice*100000000)/100000000
     
     if let index = self.ethMarkets.index(where: {$0.title == title}) {
       
@@ -579,7 +724,7 @@ class CoinMarketsViewController: UIViewController {
       let oldSellPrice = self.copyEthMarkets[index].1
       
       self.ethMarkets[index].buyPrice = currentBuyPrice * self.textFieldValue
-      self.ethMarkets[index].sellPrice = currentBuyPrice * self.textFieldValue
+      self.ethMarkets[index].sellPrice = currentSellPrice * self.textFieldValue
       
       // update other array
       self.copyEthMarkets[index].0 = currentBuyPrice
@@ -627,34 +772,39 @@ class CoinMarketsViewController: UIViewController {
     }
     if buySortButtonCounter == 1 {
       self.markets.sort(by: {$0.buyPrice < $1.buyPrice})
+      self.usdtMarkets.sort(by: {$0.buyPrice < $1.buyPrice})
       self.btcMarkets.sort(by: {$0.buyPrice < $1.buyPrice})
       self.ethMarkets.sort(by: {$0.buyPrice < $1.buyPrice})
       
       self.copyMarkets.sort(by: {$0.0 < $1.0})
+      self.copyUsdtMarkets.sort(by: {$0.0 < $1.0})
       self.copyBtcMarkets.sort(by: {$0.0 < $1.0})
       self.copyEthMarkets.sort(by: {$0.0 < $1.0})
-      
-      
     }
     else if buySortButtonCounter == 2 {
       self.markets.sort(by: {$0.buyPrice > $1.buyPrice})
+      self.usdtMarkets.sort(by: {$0.buyPrice > $1.buyPrice})
       self.btcMarkets.sort(by: {$0.buyPrice > $1.buyPrice})
       self.ethMarkets.sort(by: {$0.buyPrice > $1.buyPrice})
       
       self.copyMarkets.sort(by: {$0.0 > $1.0})
+      self.copyUsdtMarkets.sort(by: {$0.0 > $1.0})
       self.copyBtcMarkets.sort(by: {$0.0 > $1.0})
       self.copyEthMarkets.sort(by: {$0.0 > $1.0})
     }
     buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+    buySortUsdtButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     buySortBtcButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     buySortEthButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     
     sellSortButtonCounter = 0
     sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+    sellSortUsdtButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
     sellSortBtcButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
     sellSortEthButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
     
     tableView.reloadData()
+    usdtMarketsTable.reloadData()
     btcMarketsTable.reloadData()
     ethMarketsTable.reloadData()
   }
@@ -666,34 +816,41 @@ class CoinMarketsViewController: UIViewController {
     }
     if sellSortButtonCounter == 1 {
       self.markets.sort(by: {$0.sellPrice < $1.sellPrice})
+      self.usdtMarkets.sort(by: {$0.sellPrice < $1.sellPrice})
       self.btcMarkets.sort(by: {$0.sellPrice < $1.sellPrice})
       self.ethMarkets.sort(by: {$0.sellPrice < $1.sellPrice})
       
       self.copyMarkets.sort(by: {$0.1 < $1.1})
+      self.copyUsdtMarkets.sort(by: {$0.1 < $1.1})
       self.copyBtcMarkets.sort(by: {$0.1 < $1.1})
       self.copyEthMarkets.sort(by: {$0.1 < $1.1})
       
     }
     else if sellSortButtonCounter == 2 {
       self.markets.sort(by: {$0.sellPrice > $1.sellPrice})
+      self.usdtMarkets.sort(by: {$0.sellPrice > $1.sellPrice})
       self.btcMarkets.sort(by: {$0.sellPrice > $1.sellPrice})
       self.ethMarkets.sort(by: {$0.sellPrice > $1.sellPrice})
       
       self.copyMarkets.sort(by: {$0.1 > $1.1})
+      self.copyUsdtMarkets.sort(by: {$0.1 > $1.1})
       self.copyBtcMarkets.sort(by: {$0.1 > $1.1})
       self.copyEthMarkets.sort(by: {$0.1 > $1.1})
       
     }
     sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+    sellSortUsdtButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
     sellSortBtcButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
     sellSortEthButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
     
     buySortButtonCounter = 0
     buySortButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
+    buySortUsdtButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     buySortBtcButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     buySortEthButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     
     tableView.reloadData()
+    usdtMarketsTable.reloadData()
     btcMarketsTable.reloadData()
     ethMarketsTable.reloadData()
     
@@ -774,17 +931,10 @@ class CoinMarketsViewController: UIViewController {
     self.markets.removeAll()
     self.copyMarkets.removeAll()
     self.coinMarkets.removeAll()
+    self.usdtMarkets.removeAll()
     self.btcMarkets.removeAll()
     self.ethMarkets.removeAll()
     self.tableView.reloadData()
-    
-    //        self.currentCoinPrice = GlobalValues.currentCoinPrice
-    //        self.currentCoinPriceString = GlobalValues.currentCoinPriceString
-    
-    //        self.btcPriceLabel.text = self.currentCoinPriceString
-    
-    //        self.populateFiatTable()
-    //        self.populateCryptoTable()
     
     // for current coin price
     let tableTitle = currentCoin!
@@ -796,7 +946,6 @@ class CoinMarketsViewController: UIViewController {
           let oldBtcPrice = self.currentCoinPrice
           self.currentCoinPrice = currencyData["price"] as! Double
           
-          let unixTime = currencyData["timestamp"] as! Double
           var colour: UIColor
           
           if self.currentCoinPrice > oldBtcPrice {
@@ -829,6 +978,13 @@ class CoinMarketsViewController: UIViewController {
           if let currencyMarkets = currencyData["markets"] as? [String: String] {
             self.coinMarkets = currencyMarkets
             self.setupCoinMarketRefs()
+          }
+        }
+        
+        if let usdtData = dict["USDT"] as? [String: Any] {
+          if let usdtMarkets = usdtData["markets"] as? [String: String] {
+            self.coinUsdtMarkets = usdtMarkets
+            self.setupCoinUsdtMarketRefs()
           }
         }
         
@@ -879,19 +1035,22 @@ class CoinMarketsViewController: UIViewController {
           self.markets[index].sellPrice = self.copyMarkets[index].1 * value
           
         }
+        for index in 0..<self.copyUsdtMarkets.count {
+          self.usdtMarkets[index].buyPrice = self.copyUsdtMarkets[index].0 * value
+          self.usdtMarkets[index].sellPrice = self.copyUsdtMarkets[index].1 * value
+        }
         for index in 0..<self.copyBtcMarkets.count {
           self.btcMarkets[index].buyPrice = self.copyBtcMarkets[index].0 * value
           self.btcMarkets[index].sellPrice = self.copyBtcMarkets[index].1 * value
-          
         }
         for index in 0..<self.copyEthMarkets.count {
           self.ethMarkets[index].buyPrice = self.copyEthMarkets[index].0 * value
           self.ethMarkets[index].sellPrice = self.copyEthMarkets[index].1 * value
-          
         }
         
       }
       self.tableView.reloadData()
+      self.usdtMarketsTable.reloadData()
       self.btcMarketsTable.reloadData()
       self.ethMarketsTable.reloadData()
     }
@@ -912,6 +1071,18 @@ class CoinMarketsViewController: UIViewController {
         }
       }
       
+    }
+  }
+  
+  func populateUsdtTable() {
+    
+    for coinUsdtMarket in coinUsdtMarkets {
+      if let currentMarketInfo = marketInformation[coinUsdtMarket.key] {
+        if let links = currentMarketInfo["links"] as? [String: Any] {
+          addUsdtExchangeToTable(title: coinUsdtMarket.key, url: links["Website"] as! String, description: "", links: [])
+        }
+        
+      }
     }
   }
   
@@ -941,6 +1112,11 @@ class CoinMarketsViewController: UIViewController {
   func addExchangeToTable(title: String, url: String, description: String, links: [String]) {
     self.markets.append(CoinMarket(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
     self.copyMarkets.append((0, 0))
+  }
+  
+  func addUsdtExchangeToTable(title: String, url: String, description: String, links: [String]) {
+    self.usdtMarkets.append(CoinMarket(title: title, siteLink: URL(string: url), buyPrice: 0, sellPrice: 0, description: description, links: links))
+    self.copyUsdtMarkets.append((0, 0))
   }
   
   func addBtcExchangeToTable(title: String, url: String, description: String, links: [String]) {
@@ -985,6 +1161,10 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
       count = self.markets.count + self.liteMarkets.count
     }
     
+    if self.usdtMarketsTable == tableView {
+      count = self.usdtMarkets.count
+    }
+    
     if self.btcMarketsTable == tableView {
       count = self.btcMarkets.count
     }
@@ -1014,6 +1194,46 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
       cell!.sellLabel?.text = market.sellPrice.asCurrency
       
       if indexPath.row == changedCell && changedTableView == tableView {
+        if newBuyPriceIsGreater != nil {
+          if newBuyPriceIsGreater! {
+            flashBuyPriceLabel(cell: cell!, colour: greenColour)
+          }
+          else if !newBuyPriceIsGreater! {
+            flashBuyPriceLabel(cell: cell!, colour: redColour)
+          }
+        }
+        
+        if newSellPriceIsGreater != nil {
+          if newSellPriceIsGreater! {
+            flashSellPriceLabel(cell: cell!, colour: greenColour)
+          }
+          else if !newSellPriceIsGreater! {
+            flashSellPriceLabel(cell: cell!, colour: redColour)
+          }
+        }
+        
+        changedCell = -1
+        changedTableView = nil
+      }
+      
+      return cell!
+    }
+    
+    if self.usdtMarketsTable == tableView {
+      usdtTableHeightConstraint.constant = self.usdtMarketsTable.contentSize.height
+      
+      let cell = self.usdtMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
+      let market = self.usdtMarkets[indexPath.row]
+      cell!.siteLabel?.setTitle(market.title, for: .normal)
+      cell!.siteLabel.url = market.siteLink
+      cell!.siteLabel.title = market.title
+      cell!.siteLabel.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+      
+      cell!.buyLabel?.text = market.buyPrice.asSelectedCurrency(currency: "USDT")
+      
+      cell!.sellLabel?.text = market.sellPrice.asSelectedCurrency(currency: "USDT")
+      
+      if indexPath.row == changedCell && changedTableView == usdtMarketsTable {
         if newBuyPriceIsGreater != nil {
           if newBuyPriceIsGreater! {
             flashBuyPriceLabel(cell: cell!, colour: greenColour)
