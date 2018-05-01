@@ -215,7 +215,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   
   func setUpFirebase() {
     FirebaseApp.configure()
+    Database.database().isPersistenceEnabled = true
     ref = Database.database().reference()
+
     
     let fcmToken = Messaging.messaging().fcmToken
     print("FCM token: \(fcmToken ?? "")")

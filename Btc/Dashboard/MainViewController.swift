@@ -122,8 +122,7 @@ class MainViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    var currency = GlobalValues.currency
-    if currency == nil {
+    if GlobalValues.currency == nil {
       currency = "USD"
       GlobalValues.currency = "USD"
       Defaults[.selectedCountry] = "usa"
@@ -143,6 +142,7 @@ class MainViewController: UIViewController {
     
     if currency != GlobalValues.currency! {
       currency = GlobalValues.currency!
+      
       for (index, viewController) in viewControllerList.enumerated() {
         if let dashboardVC = viewController as? DashboardViewController {
           dashboardVC.currency = currency

@@ -191,7 +191,6 @@ class DashboardViewController: UIViewController {
         tableView.backgroundView = nil
       }
     }
-    activityIndicator.stopAnimating()
     self.setupCoinRefs()
   }
   
@@ -216,6 +215,7 @@ class DashboardViewController: UIViewController {
     coinRefs = []
     
     for coin in self.coins {
+     print(currency)
       self.coinRefs.append(self.databaseRef.child(coin).child("Data").child(currency))
     }
     var isInitialSetup = true
@@ -289,6 +289,7 @@ class DashboardViewController: UIViewController {
     }
     
     headerBackgroundView.isHidden = false
+    activityIndicator.stopAnimating()
     tableView.reloadData()
     
 //    if !isInitialSetup {

@@ -331,7 +331,7 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
         let targetVC = storyboard?.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
         targetVC.market = marketInformation[marketNames[row].0]!
         
-        FirebaseService.shared.all_markets_exchange_tapped(exchange: market)
+        FirebaseService.shared.all_markets_exchange_tapped(exchange: marketNames[row].0)
         
         self.navigationController?.pushViewController(targetVC, animated: true)
       }
