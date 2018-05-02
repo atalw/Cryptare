@@ -77,6 +77,14 @@ class MarketsContainerViewController: UIViewController {
     
     self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     
+    let introComplete = Defaults[.mainMarketsIntroComplete]
+    
+    if !introComplete {
+      let introViewController = storyboard?.instantiateViewController(withIdentifier: "MarketsIntroViewController") as! MarketsIntroViewController
+      
+      self.navigationController?.present(introViewController, animated: true, completion: nil)
+    }
+    
     pagingViewController.dataSource = self
     pagingViewController.delegate = self
     

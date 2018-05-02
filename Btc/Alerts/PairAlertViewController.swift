@@ -105,6 +105,14 @@ class PairAlertViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    let introComplete = Defaults[.mainAlertsIntroComplete]
+    
+    if !introComplete {
+      let introViewController = storyboard?.instantiateViewController(withIdentifier: "AlertsIntroViewController") as! AlertsIntroViewController
+      
+      self.navigationController?.present(introViewController, animated: true, completion: nil)
+    }
+    
     if #available(iOS 11.0, *) {
       self.navigationController?.navigationBar.prefersLargeTitles = true
     } else {

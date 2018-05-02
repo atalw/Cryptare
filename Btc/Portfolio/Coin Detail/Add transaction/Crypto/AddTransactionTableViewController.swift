@@ -215,7 +215,7 @@ class AddTransactionTableViewController: UITableViewController {
   
   func updateCurrentTradingPair(pair: (String, String)) {
     self.currentTradingPair = pair
-    self.currentTradingPairLabel.text = "\(pair.0)-\(pair.1)"
+    self.currentTradingPairLabel.text = "\(pair.0)/\(pair.1)"
     
     
     if transactionType == "buy" {

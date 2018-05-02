@@ -222,10 +222,10 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     if favouritesTab {
       if section == 0 {
-        return "Trading Pairs"
+        return "Favourite Trading Pairs"
       }
       else {
-        return "Markets"
+        return "Favourite Markets"
       }
     }
     return "Markets"

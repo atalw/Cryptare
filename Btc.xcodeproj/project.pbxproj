@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		15DFE81E344F47F5A759C997 /* Pods_Cryptare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BB410863D3FDD24A42599 /* Pods_Cryptare.framework */; };
 		7A7C244BA027D9F18FDBA49F /* Pods_BtcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */; };
-		860162E7205824310052F77E /* Markets.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860162E6205824310052F77E /* Markets.xib */; };
 		8602BAAE1F83C824003733E8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAAD1F83C824003733E8 /* GradientView.swift */; };
 		8602BAAF1F83C824003733E8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAAD1F83C824003733E8 /* GradientView.swift */; };
 		8602BAB71F83D217003733E8 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */; };
@@ -80,9 +79,8 @@
 		865BAAD1206A94D30008E21E /* AddPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865BAAD0206A94D30008E21E /* AddPortfolioViewController.swift */; };
 		865FF08D202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */; };
 		865FF08E202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */; };
-		866175A62056C7F000085B44 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866175A52056C7F000085B44 /* IntroViewController.swift */; };
-		866175A82056CCBB00085B44 /* Dashboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866175A72056CCBB00085B44 /* Dashboard.xib */; };
-		866175AA2056CCD600085B44 /* News.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866175A92056CCD600085B44 /* News.xib */; };
+		866175A62056C7F000085B44 /* AppIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866175A52056C7F000085B44 /* AppIntroViewController.swift */; };
+		866175A82056CCBB00085B44 /* IntroTemplate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866175A72056CCBB00085B44 /* IntroTemplate.xib */; };
 		8661C7372053ED6C00221DE2 /* FiatTransactionEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661C7362053ED6C00221DE2 /* FiatTransactionEntryModel.swift */; };
 		8661C739205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661C738205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift */; };
 		8661C73A205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661C738205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift */; };
@@ -123,6 +121,8 @@
 		868FC174208B1E7700ED00EC /* MarketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FC173208B1E7700ED00EC /* MarketDetailViewController.swift */; };
 		868FC176208B3E4B00ED00EC /* MarketDetailTradingPairTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FC175208B3E4B00ED00EC /* MarketDetailTradingPairTableViewCell.swift */; };
 		868FC178208B3E5E00ED00EC /* MarketDetailLinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FC177208B3E5E00ED00EC /* MarketDetailLinkTableViewCell.swift */; };
+		868FFBC02099E469004339EF /* PortfolioIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FFBBF2099E469004339EF /* PortfolioIntroViewController.swift */; };
+		868FFBC22099E4EC004339EF /* AlertsIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FFBC12099E4EC004339EF /* AlertsIntroViewController.swift */; };
 		869BFA121FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
 		869BFA131FB3135B00625A64 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BFA111FB3135B00625A64 /* SettingsViewController.swift */; };
 		86A2B57020528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2B56F20528650001A3DE2 /* FiatPortfolioTableViewCell.swift */; };
@@ -139,7 +139,6 @@
 		86AC1F271F9137B70079F013 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1F251F9137B60079F013 /* BalloonMarker.swift */; };
 		86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */; };
 		86AFB1001FACBCF000AB6DFC /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
-		86B1300E2081FF1C004DC6AA /* Portfolio.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B1300D2081FF1C004DC6AA /* Portfolio.xib */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
 		86BAB82C20864C1000DF73B2 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BAB82B20864C1000DF73B2 /* FirebaseService.swift */; };
 		86BB1A542090D12200F08321 /* AlertFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB1A532090D12200F08321 /* AlertFirebase.swift */; };
@@ -170,6 +169,7 @@
 		86E73047203EE73200015380 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E73046203EE73200015380 /* StoreKit.framework */; };
 		86E8A5752028A69B00D7E467 /* MarketInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8A5742028A69B00D7E467 /* MarketInformation.swift */; };
 		86E8A5762028A69B00D7E467 /* MarketInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8A5742028A69B00D7E467 /* MarketInformation.swift */; };
+		86EB09B02099E1D400F3369D /* MarketsIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EB09AF2099E1D400F3369D /* MarketsIntroViewController.swift */; };
 		86F2015720414C5600DC7654 /* SubscriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F2015620414C5600DC7654 /* SubscriptionsViewController.swift */; };
 		86F2015820414C5600DC7654 /* SubscriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F2015620414C5600DC7654 /* SubscriptionsViewController.swift */; };
 		86FC11BA1FEBC6A50094B82F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FC11B91FEBC6A40094B82F /* LaunchScreen.storyboard */; };
@@ -203,7 +203,6 @@
 		5629BB1E73FD556D76AB4FF6 /* Pods_BtcTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BtcTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		644FCEA4336E786DD955E594 /* Pods_Btc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Btc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74798DE924C07F8DEE656B0E /* Pods-Btc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Btc.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Btc/Pods-Btc.debug.xcconfig"; sourceTree = "<group>"; };
-		860162E6205824310052F77E /* Markets.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Markets.xib; sourceTree = "<group>"; };
 		8602BAAD1F83C824003733E8 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		8602BAB61F83D217003733E8 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		861A751F1FF8F21100263A90 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
@@ -264,9 +263,8 @@
 		865B73B91F90F35C00F222C6 /* CryptareLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptareLite.entitlements; sourceTree = "<group>"; };
 		865BAAD0206A94D30008E21E /* AddPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPortfolioViewController.swift; sourceTree = "<group>"; };
 		865FF08C202C9EDB005AA4F0 /* CryptoMarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoMarketTableViewCell.swift; sourceTree = "<group>"; };
-		866175A52056C7F000085B44 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
-		866175A72056CCBB00085B44 /* Dashboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Dashboard.xib; sourceTree = "<group>"; };
-		866175A92056CCD600085B44 /* News.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = News.xib; sourceTree = "<group>"; };
+		866175A52056C7F000085B44 /* AppIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntroViewController.swift; sourceTree = "<group>"; };
+		866175A72056CCBB00085B44 /* IntroTemplate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroTemplate.xib; sourceTree = "<group>"; };
 		8661C7362053ED6C00221DE2 /* FiatTransactionEntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatTransactionEntryModel.swift; sourceTree = "<group>"; };
 		8661C738205419E300221DE2 /* PortfolioFiatSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioFiatSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		8661F5D01FB5F7B700D6F365 /* CryptoPortfolioTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoPortfolioTableViewController.swift; sourceTree = "<group>"; };
@@ -287,6 +285,8 @@
 		868FC173208B1E7700ED00EC /* MarketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewController.swift; sourceTree = "<group>"; };
 		868FC175208B3E4B00ED00EC /* MarketDetailTradingPairTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailTradingPairTableViewCell.swift; sourceTree = "<group>"; };
 		868FC177208B3E5E00ED00EC /* MarketDetailLinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailLinkTableViewCell.swift; sourceTree = "<group>"; };
+		868FFBBF2099E469004339EF /* PortfolioIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioIntroViewController.swift; sourceTree = "<group>"; };
+		868FFBC12099E4EC004339EF /* AlertsIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsIntroViewController.swift; sourceTree = "<group>"; };
 		869BFA111FB3135B00625A64 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		86A2B56F20528650001A3DE2 /* FiatPortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatPortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		86A2B5722052866A001A3DE2 /* FiatPortfolioTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatPortfolioTableViewController.swift; sourceTree = "<group>"; };
@@ -295,7 +295,6 @@
 		86A713861FB5DAAF003DA98C /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		86AC1F251F9137B60079F013 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		86B1300D2081FF1C004DC6AA /* Portfolio.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Portfolio.xib; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		86BAB82B20864C1000DF73B2 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		86BB1A532090D12200F08321 /* AlertFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFirebase.swift; sourceTree = "<group>"; };
@@ -317,6 +316,7 @@
 		86E31CCA1F41D77900445B08 /* NewsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
 		86E73046203EE73200015380 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		86E8A5742028A69B00D7E467 /* MarketInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInformation.swift; sourceTree = "<group>"; };
+		86EB09AF2099E1D400F3369D /* MarketsIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsIntroViewController.swift; sourceTree = "<group>"; };
 		86F2015620414C5600DC7654 /* SubscriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsViewController.swift; sourceTree = "<group>"; };
 		86FA4DF71F8A33B80030FD07 /* Cryptare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cryptare.entitlements; sourceTree = "<group>"; };
 		86FC11B91FEBC6A40094B82F /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -582,11 +582,7 @@
 		8647015B20975607007EBB10 /* AppIntro */ = {
 			isa = PBXGroup;
 			children = (
-				866175A52056C7F000085B44 /* IntroViewController.swift */,
-				866175A72056CCBB00085B44 /* Dashboard.xib */,
-				86B1300D2081FF1C004DC6AA /* Portfolio.xib */,
-				866175A92056CCD600085B44 /* News.xib */,
-				860162E6205824310052F77E /* Markets.xib */,
+				866175A52056C7F000085B44 /* AppIntroViewController.swift */,
 			);
 			path = AppIntro;
 			sourceTree = "<group>";
@@ -594,6 +590,7 @@
 		8647015C20975618007EBB10 /* MarketsIntro */ = {
 			isa = PBXGroup;
 			children = (
+				86EB09AF2099E1D400F3369D /* MarketsIntroViewController.swift */,
 			);
 			path = MarketsIntro;
 			sourceTree = "<group>";
@@ -601,6 +598,7 @@
 		8647015D20975625007EBB10 /* PortfolioIntro */ = {
 			isa = PBXGroup;
 			children = (
+				868FFBBF2099E469004339EF /* PortfolioIntroViewController.swift */,
 			);
 			path = PortfolioIntro;
 			sourceTree = "<group>";
@@ -608,6 +606,7 @@
 		8647015E20975630007EBB10 /* AlertsIntro */ = {
 			isa = PBXGroup;
 			children = (
+				868FFBC12099E4EC004339EF /* AlertsIntroViewController.swift */,
 			);
 			path = AlertsIntro;
 			sourceTree = "<group>";
@@ -659,6 +658,7 @@
 				8647015C20975618007EBB10 /* MarketsIntro */,
 				8647015B20975607007EBB10 /* AppIntro */,
 				8663430F2098C27000F97DAE /* IntroTemplateView.swift */,
+				866175A72056CCBB00085B44 /* IntroTemplate.xib */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -961,12 +961,9 @@
 			files = (
 				868F1AA21F7D3AF90093402A /* Main.storyboard in Resources */,
 				86733333207FA3F900551C38 /* AppleIncRootCertificate.cer in Resources */,
-				86B1300E2081FF1C004DC6AA /* Portfolio.xib in Resources */,
-				866175A82056CCBB00085B44 /* Dashboard.xib in Resources */,
+				866175A82056CCBB00085B44 /* IntroTemplate.xib in Resources */,
 				86701533209593F500EFFDD9 /* Assets.xcassets in Resources */,
 				86FC11BA1FEBC6A50094B82F /* LaunchScreen.storyboard in Resources */,
-				860162E7205824310052F77E /* Markets.xib in Resources */,
-				866175AA2056CCD600085B44 /* News.xib in Resources */,
 				86D381382089DDB1000EE505 /* GoogleService-Info.plist in Resources */,
 				8650C5751FC073DF0078FD02 /* SortDropDownViews.xib in Resources */,
 			);
@@ -1132,6 +1129,7 @@
 				86A2B5732052866A001A3DE2 /* FiatPortfolioTableViewController.swift in Sources */,
 				86F2015720414C5600DC7654 /* SubscriptionsViewController.swift in Sources */,
 				865146FA208CCAB700652213 /* AddPairAlertViewController.swift in Sources */,
+				868FFBC02099E469004339EF /* PortfolioIntroViewController.swift in Sources */,
 				863E7497208A169E00FBDBDF /* MarketsViewController.swift in Sources */,
 				86D608402064E9E500C2157B /* UIImage+Extensions.swift in Sources */,
 				865146F4208CAF7F00652213 /* PairDetailContainerViewController.swift in Sources */,
@@ -1141,18 +1139,20 @@
 				86492AB01FB9EA4C003EC0B6 /* PortfolioEntryDelegate.swift in Sources */,
 				86E003271FE963C1000AD106 /* PortfolioSummaryViewController.swift in Sources */,
 				86CD93CB2051851C009046F2 /* FiatPortfolioViewController.swift in Sources */,
-				866175A62056C7F000085B44 /* IntroViewController.swift in Sources */,
+				866175A62056C7F000085B44 /* AppIntroViewController.swift in Sources */,
 				868B5D842077C6860088938B /* GlobalPicker.swift in Sources */,
 				8673828D208DA03600EDB817 /* AlertModel.swift in Sources */,
 				86A2B57A20529C9F001A3DE2 /* AddFiatTransactionTableViewController.swift in Sources */,
 				86A2B57720529C85001A3DE2 /* AddFiatTransactionViewController.swift in Sources */,
 				864362591F67ADF100883792 /* MainViewController.swift in Sources */,
 				865361FD1FEBB54E00D49B05 /* PortfolioSummaryTableViewCell.swift in Sources */,
+				868FFBC22099E4EC004339EF /* AlertsIntroViewController.swift in Sources */,
 				863E7495208A169200FBDBDF /* MarketsContainerViewController.swift in Sources */,
 				8650C5721FC051270078FD02 /* CryptoPortfolioViewController.swift in Sources */,
 				86E31CC91F41D2A400445B08 /* CustomNewsTableViewCell.swift in Sources */,
 				86D6083E2064D25200C2157B /* UIBarBarButtonItem+Extensions.swift in Sources */,
 				863E7499208A26F700FBDBDF /* MarketsTradingPairTableViewCell.swift in Sources */,
+				86EB09B02099E1D400F3369D /* MarketsIntroViewController.swift in Sources */,
 				86733335207FA7D800551C38 /* ReceiptValidator.swift in Sources */,
 				8661C7372053ED6C00221DE2 /* FiatTransactionEntryModel.swift in Sources */,
 				868B5D862077E6220088938B /* ColourThemes.swift in Sources */,

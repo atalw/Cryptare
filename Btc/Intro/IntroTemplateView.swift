@@ -34,10 +34,16 @@ class IntroTemplateView: UIView {
   }
   
   private func commonInit() {
-    Bundle.main.loadNibNamed("Dashboard", owner: self, options: nil)
+    Bundle.main.loadNibNamed("IntroTemplate", owner: self, options: nil)
     addSubview(contentView)
     contentView.frame = self.bounds
     contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+  }
+  
+  func updateData(image: UIImage, title: String, description: String) {
+    templateImage.image = image
+    templateTitleLabel.text = title
+    templateDescriptionLabel.text = description
   }
   
   /*

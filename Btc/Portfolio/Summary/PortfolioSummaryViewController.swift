@@ -45,7 +45,24 @@ class PortfolioSummaryViewController: UIViewController {
   var summary: [String: [String: Double] ] = [:]
   var yesterdayCoinValues: [String: Double] = [:]
   
-  var coins: [String] = []
+  var coins: [String] = [] {
+    didSet {
+      if coins.count == 0 && currencies.count == 0 {
+        tableView.reloadData()
+        let messageLabel = UILabel()
+        messageLabel.text = "Add a coin"
+        messageLabel.theme_textColor = GlobalPicker.viewTextColor
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center
+        messageLabel.sizeToFit()
+        
+        tableView.backgroundView = messageLabel
+      }
+      else {
+        tableView.backgroundView = nil
+      }
+    }
+  }
   var currencies: [String] = []
   
   var databaseRef: DatabaseReference!
@@ -179,7 +196,6 @@ class PortfolioSummaryViewController: UIViewController {
     
     yesterdayCoinValues = [:]
     
-    
     tableView.tableFooterView = UIView(frame: .zero)
     
     currentPortfolioValueLabel.text = 0.0.asCurrency
@@ -197,22 +213,6 @@ class PortfolioSummaryViewController: UIViewController {
     
     for coinRef in coinRefs {
       coinRef.removeAllObservers()
-    }
-    
-    if coins.count == 0 {
-      tableView.reloadData()
-      let messageLabel = UILabel()
-      messageLabel.text = "Add a coin"
-      messageLabel.theme_textColor = GlobalPicker.viewTextColor
-      messageLabel.numberOfLines = 0;
-      messageLabel.textAlignment = .center
-      messageLabel.sizeToFit()
-      
-      tableView.backgroundView = messageLabel
-    }
-    else {
-      tableView.backgroundView = nil
-      
     }
   }
   

@@ -20,6 +20,8 @@ extension DefaultsKeys {
   //Intros
   static let mainAppIntroComplete = DefaultsKey<Bool>("mainAppIntroComplete")
   static let mainPortfolioIntroComplete = DefaultsKey<Bool>("mainPortfolioIntroComplete")
+  static let mainMarketsIntroComplete = DefaultsKey<Bool>("mainMarketsIntroComplete")
+  static let mainAlertsIntroComplete = DefaultsKey<Bool>("mainAlertsIntroComplete")
   static let paidUserRestoreIntroComplete = DefaultsKey<Bool>("paidUserRestoreIntroComplete")
   
   // Dashboard

@@ -1,16 +1,16 @@
 //
-//  IntroViewController.swift
+//  AlertsIntroViewController.swift
 //  Cryptare
 //
-//  Created by Akshit Talwar on 12/03/2018.
+//  Created by Akshit Talwar on 02/05/2018.
 //  Copyright © 2018 atalw. All rights reserved.
 //
 
 import UIKit
 import SwiftyUserDefaults
 
-class IntroViewController: UIViewController, UIScrollViewDelegate {
-  
+class AlertsIntroViewController: UIViewController, UIScrollViewDelegate {
+
   var baseController: UIViewController!
   var fromAppDelegate: Bool = false
   
@@ -21,7 +21,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Intro Onboard", screenClass: "IntroViewController")
+    FirebaseService.shared.updateScreenName(screenName: "Markets Onboard", screenClass: "MarketsIntroViewController")
     
     slideScrollView.delegate = self
     let slides = createSlides()
@@ -35,16 +35,20 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
   }
   
   func createSlides() -> [UIView] {
-//    let Dashboard = Bundle.main.loadNibNamed("Dashboard", owner: self, options: nil)?.first as! UIView
-//    let Markets = Bundle.main.loadNibNamed("Markets", owner: self, options: nil)?.first as! UIView
-//    let News = Bundle.main.loadNibNamed("News", owner: self, options: nil)?.first as! UIView
-//    let Portfolio = Bundle.main.loadNibNamed("Portfolio", owner: self, options: nil)?.first as! UIView
     
-    let Dashboard = IntroTemplateView()
-    let Markets = IntroTemplateView()
-    let News = IntroTemplateView()
-    let Portfolio = IntroTemplateView()
-    return [Dashboard, Portfolio, Markets, News]
+    let AlertsView = IntroTemplateView()
+    AlertsView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Price Alerts", description: "Add price alerts for any supported cryptocurrency to be notified of the market trends immediately.")
+    
+    let HowOneView = IntroTemplateView()
+    HowOneView.updateData(image: UIImage(named: "marketsIntro")!, title: "How? - (1)", description: "Select the trading pair and exchange for the cryptocurrency.")
+    
+    let HowTwoView = IntroTemplateView()
+    HowTwoView.updateData(image: UIImage(named: "marketsIntro")!, title: "How? - (2)", description: "Then set a threshold price above or below which you will be alerted!")
+    
+    let ActiveView = IntroTemplateView()
+    ActiveView.updateData(image: UIImage(named: "newsIntro")!, title: "News", description: "Reactivate and deactivate alerts with the ease of a tap.")
+    
+    return [AlertsView, HowOneView, HowTwoView, ActiveView]
   }
   
   func setupSlideScrollView(slides: [UIView]) {
@@ -67,16 +71,8 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
   }
   
   @IBAction func skipButtonTapped(_ sender: Any) {
-    Defaults[.mainAppIntroComplete] = true
-    self.dismiss(animated: true, completion: {
-      if self.fromAppDelegate && self.baseController != nil {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let countrySelectionViewController = storyboard.instantiateViewController(withIdentifier: "CountrySelectionViewController") as! CountrySelectionViewController
-        
-        self.baseController.present(countrySelectionViewController, animated: true, completion: nil)
-      }
-    })
+    Defaults[.mainAlertsIntroComplete] = true
+    self.dismiss(animated: true, completion: nil)
   }
   
   /*
@@ -88,5 +84,5 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
    // Pass the selected object to the new view controller.
    }
    */
-  
+
 }

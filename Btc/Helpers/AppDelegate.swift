@@ -124,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       self.createMenuView(storyboard: storyboard)
       
       if !introComplete {
-        let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+        let introViewController = storyboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
         
         self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
       }
@@ -145,7 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         self.createMenuView(storyboard: storyboard)
         
-        let introViewController = storyboard.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
+        let introViewController = storyboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
         introViewController.baseController = self.window?.rootViewController
         introViewController.fromAppDelegate = true
         

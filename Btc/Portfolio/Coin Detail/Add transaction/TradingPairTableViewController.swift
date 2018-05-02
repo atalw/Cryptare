@@ -102,10 +102,10 @@ class TradingPairTableViewController: UITableViewController {
     cell.textLabel?.theme_textColor = GlobalPicker.viewTextColor
     
     if indexPath.section == 0 {
-      cell.textLabel?.text = "\(sortedCryptoTradingPairs[indexPath.row].0)-\(sortedCryptoTradingPairs[indexPath.row].1)"
+      cell.textLabel?.text = "\(sortedCryptoTradingPairs[indexPath.row].0)/\(sortedCryptoTradingPairs[indexPath.row].1)"
     }
     else {
-      cell.textLabel?.text = "\(sortedFiatTradingPairs[indexPath.row].0)-\(sortedFiatTradingPairs[indexPath.row].1)"
+      cell.textLabel?.text = "\(sortedFiatTradingPairs[indexPath.row].0)/\(sortedFiatTradingPairs[indexPath.row].1)"
     }
     
     return cell

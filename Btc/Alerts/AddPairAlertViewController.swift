@@ -352,7 +352,7 @@ class AddPairAlertTableViewController: UITableViewController {
   
   func updateLabels() {
     if let pair = tradingPair as? (String, String) {
-      self.tradingPairLabel.text = "\(pair.0)-\(pair.1)"
+      self.tradingPairLabel.text = "\(pair.0)/\(pair.1)"
     }
     
     if let markets = allMarkets[tradingPair.1] as? [String: String] {

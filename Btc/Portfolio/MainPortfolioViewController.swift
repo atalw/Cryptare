@@ -40,6 +40,14 @@ class MainPortfolioViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    let introComplete = Defaults[.mainPortfolioIntroComplete]
+    
+    if !introComplete {
+      let introViewController = storyboard?.instantiateViewController(withIdentifier: "PortfolioIntroViewController") as! PortfolioIntroViewController
+      
+      self.navigationController?.present(introViewController, animated: true, completion: nil)
+    }
+    
     pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     
