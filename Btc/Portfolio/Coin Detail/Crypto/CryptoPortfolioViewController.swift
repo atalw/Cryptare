@@ -221,10 +221,5 @@ class CryptoPortfolioViewController: UIViewController {
         
       }
     }
-    else if let portfolioSummaryController = destinationVC as? PortfolioSummaryViewController {
-      print("here")
-    }
   }
-  
-  
 }

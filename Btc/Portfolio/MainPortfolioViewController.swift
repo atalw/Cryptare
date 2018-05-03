@@ -102,7 +102,7 @@ class MainPortfolioViewController: UIViewController {
           
           portfolioRef.updateChildValues(portfolioData, withCompletionBlock: { (err, ref) in
             if err != nil {
-              print(err, "here")
+              print(err ?? "firebase update protfolio error")
               return
             }
           })

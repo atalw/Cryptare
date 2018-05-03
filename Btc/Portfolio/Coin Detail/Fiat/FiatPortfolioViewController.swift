@@ -84,7 +84,7 @@ class FiatPortfolioViewController: UIViewController {
         self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
 
         // Do any additional setup after loading the view.
-        for (country, symbol, locale, name) in GlobalValues.countryList {
+        for (_, symbol, _, name) in GlobalValues.countryList {
             if symbol == currency {
                 currencyNameLabel.text = name
                 break

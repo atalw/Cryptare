@@ -97,7 +97,6 @@ class FirebaseService: NSObject {
   }
   
   func add_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
-    var uid: String!
     if let uid = uid {
       let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
       
@@ -137,7 +136,6 @@ class FirebaseService: NSObject {
   }
   
   func remove_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
-    var uid: String!
     if let uid = uid {
       let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
       

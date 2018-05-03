@@ -241,7 +241,7 @@ class PairAlertViewController: UIViewController {
       
       for (coin, coinData) in exchangeData {
         if coin != tradingPair.0 { continue }
-        guard var alertData = coinData as? [String: Any] else { return }
+        guard let alertData = coinData as? [String: Any] else { return }
         
         for (pair, alertsArray) in alertData {
           if pair != tradingPair.1 { continue }
@@ -372,7 +372,6 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
             guard let isAbove = alertValues["isAbove"] as? Bool else { return }
             guard let thresholdPrice = alertValues["thresholdPrice"] as? Double else { return }
             guard let databaseTitle = alertValues["databaseTitle"] as? String else { return }
-            guard let isActive = alertValues["isActive"] as? Bool else { return }
             guard let type = alertValues["type"] as? String else { return }
             
             if date == alert.date && isAbove == alert.isAbove && thresholdPrice == alert.thresholdPrice && type == alert.type && databaseTitle == alert.databaseTitle {

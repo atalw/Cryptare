@@ -228,7 +228,6 @@ class AddTransactionViewController: UIViewController {
       type = "cryptoBuy"
     }
     let amountOfCoins = self.amountOfCoins*self.costPerCoin
-    let totalCostFiat = (amountOfCoins-self.fees) * exchangePrice
     
     dateFormatter.dateFormat =  "yyyy-MM-dd hh:mm a"
     let dateString = dateFormatter.string(from: date)

@@ -190,7 +190,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
         }
       }
       
-      if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins, let fees = portfolio.fees {
+      if let cost = portfolio.costPerCoin, let fees = portfolio.fees {
         
         if portfolio.coin == "BTC" {
           cell.costPerCoinLabel.text = cost.asBtcCurrency
@@ -235,9 +235,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
         }
       }
       
-      if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins, let fees = portfolio.fees {
-        
-        let total = (cost * amountOfCoins) - fees
+      if let cost = portfolio.costPerCoin, let fees = portfolio.fees {
         
         if portfolio.coin == "BTC" {
           cell.costPerCoinLabel.text = cost.asBtcCurrency
@@ -265,7 +263,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
       return cell
     }
     
-    if let cost = portfolio.costPerCoin, let amountOfCoins = portfolio.amountOfCoins, let fees = portfolio.fees {
+    if let cost = portfolio.costPerCoin, let fees = portfolio.fees {
       
       if portfolio.tradingPair == "BTC" {
         cell.costPerCoinLabel.text = cost.asBtcCurrency
@@ -356,7 +354,7 @@ extension CryptoPortfolioTableViewController {
         let dateString = portfolio["date"] as! String
         let date = dateFormatter.date(from: dateString)
         if type == "cryptoBuy" || type == "cryptoSell" {
-          PortfolioEntryModel(type: portfolio["type"] as! String,
+          let _ = PortfolioEntryModel(type: portfolio["type"] as! String,
                               coin: coin,
                               tradingPair: portfolio["tradingPair"] as! String,
                               exchange: portfolio["exchange"] as! String,
@@ -370,7 +368,7 @@ extension CryptoPortfolioTableViewController {
         }
         else {
           
-          PortfolioEntryModel(type: portfolio["type"] as! String,
+          let _ = PortfolioEntryModel(type: portfolio["type"] as! String,
                               coin: coin,
                               tradingPair: portfolio["tradingPair"] as! String,
                               exchange: portfolio["exchange"] as! String,

@@ -245,10 +245,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       
       if let token = fcmToken {
         let values: [String : Any] = ["timestamp": Date().timeIntervalSince1970,
-                                      "notificationTokens": [fcmToken!: true] as [String: Any]]
+                                      "notificationTokens": [token: true] as [String: Any]]
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
           if err != nil {
-            print(err)
+            print(err ?? "err")
             return
           }
         })
@@ -346,7 +346,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           // etc...
           guard let inAppPurchaseReceipts = receipt.inAppPurchaseReceipts else { print("problemsss"); return}
           if let iapReceipt = inAppPurchaseReceipts.last {
-            let productId = iapReceipt.productIdentifier
+//            let productId = iapReceipt.productIdentifier
             if let subscriptionExpirationDate = iapReceipt.subscriptionExpirationDate {
               print(Date().timeIntervalSince1970, subscriptionExpirationDate.timeIntervalSince1970)
               if Date().timeIntervalSince1970 > subscriptionExpirationDate.timeIntervalSince1970 {
@@ -365,7 +365,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           // enter a "grace period"
           // disable a feature of your app
           // etc...
-          print("receipt validation failed")
+          print(error, "receipt validation failed")
           Defaults[.subscriptionPurchased] = false
         }
       case .error(let error):

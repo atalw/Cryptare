@@ -54,22 +54,22 @@ class AddPortfolioViewController: UIViewController {
     super.viewWillAppear(animated)
   }
   
-  @objc func unlockPortfolioButtonTapped() {
-    
-    self.navigationController?.popViewController(animated: true)
-    self.navigationController?.popViewController(animated: true)
-    self.navigationController?.openLeft()
-    
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let settingsViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController")
-    
-    let leftViewController = self.slideMenuController()?.leftViewController as? LeftViewController
-    let indexPath = IndexPath(row: 3, section: 0)
-    leftViewController?.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
-    leftViewController?.tableView((leftViewController?.tableView)!, didSelectRowAt: indexPath)
-    
-    self.navigationController?.closeLeft()
-  }
+//  @objc func unlockPortfolioButtonTapped() {
+//
+//    self.navigationController?.popViewController(animated: true)
+//    self.navigationController?.popViewController(animated: true)
+//    self.navigationController?.openLeft()
+//
+//    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//    let settingsViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController")
+//
+//    let leftViewController = self.slideMenuController()?.leftViewController as? LeftViewController
+//    let indexPath = IndexPath(row: 3, section: 0)
+//    leftViewController?.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
+//    leftViewController?.tableView((leftViewController?.tableView)!, didSelectRowAt: indexPath)
+//
+//    self.navigationController?.closeLeft()
+//  }
   
   func updateDoneButton(status: Bool) {
     doneButton.isEnabled = status

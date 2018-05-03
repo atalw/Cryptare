@@ -58,12 +58,11 @@ extension IAPService: SKProductsRequestDelegate {
   
   func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
     self.products = response.products
-    for product in response.products {
+//    for product in response.products {
 //      print(product.localizedTitle)
 //      print(product.priceLocale)
 //      print(product.price)
-    }
-    
+//    }
     completionHandler(true, products)
   }
 }

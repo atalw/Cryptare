@@ -176,7 +176,7 @@ class PortfolioSummaryViewController: UIViewController {
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     
-    for (symbol, name) in GlobalValues.coins {
+    for (symbol, _) in GlobalValues.coins {
       globalCoins.append(symbol)
     }
     

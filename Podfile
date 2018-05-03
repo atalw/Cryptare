@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '9.0'
+platform :ios, '11.3'
 
 target 'Cryptare' do
 # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -9,7 +9,7 @@ use_frameworks!
 pod 'Alamofire', '~> 4.4'
 pod 'AlamofireRSSParser'
 pod 'SwiftyJSON'
-pod 'Charts', :git => 'https://github.com/danielgindi/Charts.git', :branch => 'swift4'
+pod 'Charts'
 pod 'Firebase/Core', '4.0.4'
 pod 'Firebase/Messaging', '4.0.4'
 pod 'Firebase/Database', '4.0.4'
@@ -19,7 +19,7 @@ pod 'SlideMenuControllerSwift', :git => 'https://github.com/dekatotoro/SlideMenu
 pod 'Google-Mobile-Ads-SDK'
 pod 'SwiftyStoreKit'
 pod 'Parchment', '~> 1.2'
-pod 'SwiftReorder', '~> 4.0'
+pod 'SwiftReorder', '~> 5.0'
 pod 'Armchair', '>= 0.3'
 pod 'SwiftyUserDefaults'
 pod 'SwiftTheme'

@@ -190,7 +190,7 @@ class AddTransactionTableViewController: UITableViewController {
           self.deductFromHoldingsLabel.text = "Add to \(currency) holdings"
         }
         
-        if let markets = allMarkets[currency] as? [String: String] {
+        if let markets = allMarkets[currency] {
           self.currentTradingPairMarkets = markets
           self.currentExchange = ("None", "none")
           self.currentExchangeLabel.text = currentExchange.0
@@ -227,7 +227,7 @@ class AddTransactionTableViewController: UITableViewController {
       
     }
     
-    if let markets = allMarkets[pair.1] as? [String: String] {
+    if let markets = allMarkets[pair.1] {
       currentTradingPairMarkets = markets
       self.currentExchange = ("None", "none")
       self.currentExchangeLabel.text = currentExchange.0

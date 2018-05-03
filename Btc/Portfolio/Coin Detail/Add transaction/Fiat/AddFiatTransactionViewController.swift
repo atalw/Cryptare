@@ -60,7 +60,7 @@ class AddFiatTransactionViewController: UIViewController {
   
   func updateAddTransactionButtonStatus() {
     if currentExchange != nil && amount != nil &&
-      fees != nil && time != nil && date != nil {
+      fees != nil && date != nil {
       addTransactionButton.isEnabled = true
     }
     else {

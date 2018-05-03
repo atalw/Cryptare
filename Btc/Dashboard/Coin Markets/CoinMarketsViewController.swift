@@ -1063,7 +1063,7 @@ class CoinMarketsViewController: UIViewController {
   func populateFiatTable() {
     
     for coinMarket in coinMarkets {
-      if let currentMarketInfo = marketInformation[coinMarket.key] as? [String: Any] {
+      if let currentMarketInfo = marketInformation[coinMarket.key] {
         if let links = currentMarketInfo["links"] as? [String: Any] {
           if let url = links["Website"] as? String {
             addExchangeToTable(title: coinMarket.key, url: url, description: "", links: [])

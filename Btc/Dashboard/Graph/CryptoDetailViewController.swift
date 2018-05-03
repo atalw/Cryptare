@@ -356,7 +356,9 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
         colour = UIColor.black
       }
       
-      self.coinNameLabel.text = self.coinData["name"] as! String
+      if let coinName = self.coinData["name"] as? String {
+        self.coinNameLabel.text = coinName
+      }
       
       self.currentPriceLabel.text = (self.coinData["currentPrice"] as! Double).asCurrency
       if colour != UIColor.black {
@@ -550,7 +552,7 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
               exchangeRate = JSON(data:data)["rates"][self.currency!].double!
               
               for hour in prices {
-                let time = hour["time"].double! * exchangeRate
+//                let time = hour["time"].double! * exchangeRate
                 let high = hour["high"].double! * exchangeRate
                 let low = hour["low"].double! * exchangeRate
                 let open = hour["open"].double! * exchangeRate
@@ -568,7 +570,7 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
         }
         else {
           for hour in prices {
-            let time = hour["time"].double!
+//            let time = hour["time"].double!
             let high = hour["high"].double!
             let low = hour["low"].double!
             let open = hour["open"].double!
