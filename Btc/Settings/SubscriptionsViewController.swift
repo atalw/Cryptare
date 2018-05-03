@@ -23,18 +23,43 @@ class SubscriptionsViewController: UIViewController {
       self.buyProModeOneMonth.titleLabel?.textAlignment = NSTextAlignment.center
 //      self.buyProModeOneMonth.titleLabel?.lineBreakMode = .byWordWrapping
       self.buyProModeOneMonth.contentVerticalAlignment = .center
-      self.buyProModeOneMonth.addTarget(self, action: #selector(self.unlockProModeTapped), for: .touchUpInside)
+//      self.buyProModeOneMonth.addTarget(self, action: #selector(self.unlockProModeTapped), for: .touchUpInside)
     }
   }
+  
   @IBOutlet weak var buyProModeOneYear: UIButton! {
     didSet {
       self.buyProModeOneYear.backgroundColor = darkerGreenColour
       self.buyProModeOneYear.titleLabel?.textAlignment = .center
       self.buyProModeOneYear.titleLabel?.adjustsFontSizeToFitWidth = true
       self.buyProModeOneYear.titleLabel?.textAlignment = NSTextAlignment.center
-//      self.buyProModeOneYear.titleLabel?.lineBreakMode = .byWordWrapping
+      //      self.buyProModeOneYear.titleLabel?.lineBreakMode = .byWordWrapping
       self.buyProModeOneYear.contentVerticalAlignment = .center
-      self.buyProModeOneYear.addTarget(self, action: #selector(self.unlockProModeOneYearTapped), for: .touchUpInside)
+      //      self.buyProModeOneYear.addTarget(self, action: #selector(self.unlockProModeOneYearTapped), for: .touchUpInside)
+    }
+  }
+  
+  
+  @IBOutlet weak var priceOneYearLabel: UILabel!
+  @IBOutlet weak var priceSixMonthsLabel: UILabel!
+  @IBOutlet weak var priceOneMonthLabel: UILabel!
+
+  @IBOutlet weak var oneYearView: UIView! {
+    didSet {
+      let oneYearGesture = UITapGestureRecognizer(target: self, action:  #selector(unlockProModeOneYearTapped(sender:)))
+      oneYearView.addGestureRecognizer(oneYearGesture)
+    }
+  }
+  @IBOutlet weak var sixMonthsView: UIView! {
+    didSet {
+      let sixMonthsGesture = UITapGestureRecognizer(target: self, action:  #selector(unlockProModeSixMonthsTapped(sender:)))
+      sixMonthsView.addGestureRecognizer(sixMonthsGesture)
+    }
+  }
+  @IBOutlet weak var oneMonthView: UIView! {
+    didSet {
+      let oneMonthGesture = UITapGestureRecognizer(target: self, action:  #selector(unlockProModeOneMonthTapped(sender:)))
+      oneMonthView.addGestureRecognizer(oneMonthGesture)
     }
   }
   
@@ -68,14 +93,22 @@ class SubscriptionsViewController: UIViewController {
           for product in products! {
             if product.productIdentifier == IAPProduct.unlockProMode.rawValue {
               price = product.localizedPrice()
-              self.buyProModeOneMonth.setTitle("\(price) / Month \nBilled Monthly", for: .normal)
-
+              self.priceOneMonthLabel.text = "\(price) / Mo"
+              
+            }
+            else if product.productIdentifier == IAPProduct.unlockProModeSixMonths.rawValue {
+              price = product.localizedPrice()
+              let locale = product.priceLocale
+              let priceRaw = product.price
+              let monthlyPrice = Double(truncating: (priceRaw as Decimal)/6 as NSNumber)
+              self.priceSixMonthsLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
             }
             else if product.productIdentifier == IAPProduct.unlockProModeOneYear.rawValue {
               price = product.localizedPrice()
+              let locale = product.priceLocale
               let priceRaw = product.price
-              let monthlyPrice = Double((priceRaw as Decimal)/12 as NSNumber)
-              self.buyProModeOneYear.setTitle("\(monthlyPrice.asCurrency) / Month \nBilled Annually", for: .normal)
+              let monthlyPrice = Double(truncating: (priceRaw as Decimal)/12 as NSNumber)
+              self.priceOneYearLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
             }
           }
         }
@@ -88,20 +121,30 @@ class SubscriptionsViewController: UIViewController {
     FirebaseService.shared.subscription_page_opened()
   }
   
-  @objc func unlockProModeTapped() {
-    FirebaseService.shared.one_month_subscription_tapped()
+  @objc func unlockProModeOneYearTapped(sender : UITapGestureRecognizer) {
+    FirebaseService.shared.one_year_subscription_tapped()
     
-    IAPService.shared.purchase(product: .unlockProMode, completionHandlerBool: { (success) -> Void in
+    IAPService.shared.purchase(product: .unlockProModeOneYear, completionHandlerBool: { (success) -> Void in
       if success {
         self.dismiss(animated: true, completion: nil)
       }
     })
   }
   
-  @objc func unlockProModeOneYearTapped() {
-    FirebaseService.shared.one_year_subscription_tapped()
+  @objc func unlockProModeSixMonthsTapped(sender : UITapGestureRecognizer) {
+    FirebaseService.shared.six_months_subscription_tapped()
     
-    IAPService.shared.purchase(product: .unlockProModeOneYear, completionHandlerBool: { (success) -> Void in
+    IAPService.shared.purchase(product: .unlockProModeSixMonths, completionHandlerBool: { (success) -> Void in
+      if success {
+        self.dismiss(animated: true, completion: nil)
+      }
+    })
+  }
+  
+  @objc func unlockProModeOneMonthTapped(sender : UITapGestureRecognizer) {
+    FirebaseService.shared.one_month_subscription_tapped()
+    
+    IAPService.shared.purchase(product: .unlockProMode, completionHandlerBool: { (success) -> Void in
       if success {
         self.dismiss(animated: true, completion: nil)
       }

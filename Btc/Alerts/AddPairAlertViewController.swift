@@ -26,6 +26,9 @@ class AddPairAlertViewController: UIViewController {
     didSet {
       let subscriptionPurchased = Defaults[.subscriptionPurchased]
       let numberOfCoinAlerts = Defaults[.numberOfCoinAlerts]
+      #if DEBUG
+      lockAlertsView.isHidden = true
+      #else
       if numberOfCoinAlerts < 4 {
         lockAlertsView.isHidden = true
       }
@@ -37,6 +40,8 @@ class AddPairAlertViewController: UIViewController {
           lockAlertsView.isHidden = false
         }
       }
+      #endif
+      
     }
   }
   

@@ -90,19 +90,15 @@ class MainPortfolioViewController: UIViewController {
     view.constrainToEdges(pagingViewController.view)
     pagingViewController.didMove(toParentViewController: self)
     
-    var uid: String!
-    if Auth.auth().currentUser?.uid == nil {
-      print("user not signed in ERRRORRRR")
-    }
-    else {
-      uid = Auth.auth().currentUser?.uid
+    if FirebaseService.shared.uid != nil {
+      let uid = FirebaseService.shared.uid!
       let portfolioRef = Database.database().reference().child("portfolios").child(uid)
       
       portfolioRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
         if !snapshot.exists() {
           let portfolioData: [String: Any] = ["CryptoData": Defaults[.cryptoPortfolioData],
-            "FiatData": Defaults[.fiatPortfolioData],
-            "Names": Defaults[.portfolioNames]]
+                                              "FiatData": Defaults[.fiatPortfolioData],
+                                              "Names": Defaults[.portfolioNames]]
           
           portfolioRef.updateChildValues(portfolioData, withCompletionBlock: { (err, ref) in
             if err != nil {
@@ -113,7 +109,6 @@ class MainPortfolioViewController: UIViewController {
         }
         else {
           if let portfolio = snapshot.value as? [String: AnyObject] {
-            print(portfolio)
             if let cryptoData = portfolio["CryptoData"] as? [String: Any] {
               Defaults[.cryptoPortfolioData] = cryptoData
             }
@@ -130,7 +125,6 @@ class MainPortfolioViewController: UIViewController {
       self.viewControllerList = self.getPortfolios()
       self.pagingViewController.reloadData()
     }
-    
   }
   
   override func viewWillAppear(_ animated: Bool) {

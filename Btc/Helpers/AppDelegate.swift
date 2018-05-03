@@ -31,6 +31,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     Armchair.appID("1266256984")
     Armchair.significantEventsUntilPrompt(5)
     
+    SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+      for purchase in purchases {
+        switch purchase.transaction.transactionState {
+        case .purchased, .restored:
+          if purchase.needsFinishTransaction {
+            // Deliver content from server, then:
+            SwiftyStoreKit.finishTransaction(purchase.transaction)
+          }
+        // Unlock content
+        case .failed, .purchasing, .deferred:
+          break // do nothing
+        }
+      }
+    }
+    
     // navigation bar
     UINavigationBar.appearance().isTranslucent = false
     UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
@@ -54,20 +69,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     #if DEBUG
       print("DEBUG")
     #else
-      fetchReceipt()
+      if Defaults.hasKey(.subscriptionPurchased) {
+        fetchReceipt()
+      }
     #endif
-    
-    
-    // google ads
-//    GADMobileAds.configure(withApplicationID: "ca-app-pub-5797975753570133~4584171807")
-    
     
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     
     // dashboard settings
     if !Defaults.hasKey(.dashboardFavourites) &&
       !Defaults.hasKey(.dashboardFavouritesFirstTab) {
-      Defaults[.dashboardFavourites] = ["BTC", "ETH", "LTC", "XRB"]
+      Defaults[.dashboardFavourites] = ["BTC", "ETH", "LTC", "EOS", "XLM", "NEO"]
       Defaults[.dashboardFavouritesFirstTab] = true
     }
     
@@ -91,7 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       
       Defaults[.marketSettingsExist] = true
     }
-    
     
     // market settings
     if !Defaults.hasKey(.favouritePairs) {
@@ -229,7 +240,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       }
       
       guard let uid = user?.uid else { return }
-      print("uid", uid)
       let usersReference = Database.database().reference()
                             .child("users").child(uid)
       
@@ -249,6 +259,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         marketInformation = dict
       }
     })
+    
+    FirebaseService.shared.get_uid()
   }
   
   func connectToFCM() {
@@ -315,6 +327,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   }
   
   func fetchReceipt() {
+    
     // return local receipt or fetch receipt if not available
     SwiftyStoreKit.fetchReceipt(forceRefresh: false) { result in
       switch result {
@@ -331,39 +344,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           // enable a feature of your app
           // remove ads
           // etc...
-          print("here")
+          guard let inAppPurchaseReceipts = receipt.inAppPurchaseReceipts else { print("problemsss"); return}
+          if let iapReceipt = inAppPurchaseReceipts.last {
+            let productId = iapReceipt.productIdentifier
+            if let subscriptionExpirationDate = iapReceipt.subscriptionExpirationDate {
+              print(Date().timeIntervalSince1970, subscriptionExpirationDate.timeIntervalSince1970)
+              if Date().timeIntervalSince1970 > subscriptionExpirationDate.timeIntervalSince1970 {
+                print("IAP expired")
+                Defaults[.subscriptionPurchased] = false
+              }
+              else {
+                print("IAP valid")
+                Defaults[.subscriptionPurchased] = true
+              }
+            }
+          }
         case .error(let error):
           // Handle receipt validation failure. Possibilities might be...
           // use StoreKit to request a new receipt
           // enter a "grace period"
           // disable a feature of your app
           // etc...
-          print("not")
+          print("receipt validation failed")
+          Defaults[.subscriptionPurchased] = false
         }
       case .error(let error):
         print("Fetch receipt failed: \(error)")
+        Defaults[.subscriptionPurchased] = false
       }
     }
-    
-    //        // apple receipt validation
-    //        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
-    //        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
-    //            switch result {
-    //            case .success(let receipt):
-    //                print("Verify receipt success: \(receipt)")
-    //                if let originalAppVersion = receipt["receipt"]?["original_application_version"] as? String {
-    //                    print(originalAppVersion, "Original")
-    //                    if let versionNumber = Double(originalAppVersion) {
-    //                        if versionNumber < 2.92 {
-    //                            Defaults[.removeAdsPurchased] = true
-    //                            Defaults[.previousPaidUser] = true
-    //                        }
-    //                    }
-    //                }
-    //            case .error(let error):
-    //                print("Verify receipt failed: \(error)")
-    //            }
-    //        }
   }
   
   @objc func changeAppearanceColours() {

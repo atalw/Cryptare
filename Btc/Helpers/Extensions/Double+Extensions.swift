@@ -59,4 +59,12 @@ extension Double {
     NSDecimalRound(&result, &decimalValue, 8, .plain)
     return "\(result) ETH"
   }
+  
+  func asCurrencyWith(locale: Locale) -> String {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .currency
+    numberFormatter.locale = locale
+    
+    return numberFormatter.string(from: NSNumber(value: self))!
+  }
 }

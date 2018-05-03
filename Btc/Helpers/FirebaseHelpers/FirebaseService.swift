@@ -14,7 +14,7 @@ import SwiftyUserDefaults
 class FirebaseService: NSObject {
   
   // cant create IAPService object
-  private override init() { super.init(); get_uid() }
+  private override init() {}
   
   // use singleton
   static let shared = FirebaseService()
@@ -307,6 +307,10 @@ extension FirebaseService {
   
   func one_month_subscription_tapped() {
     Analytics.logEvent("one_month_subscription_tapped", parameters: nil)
+  }
+  
+  func six_months_subscription_tapped() {
+    Analytics.logEvent("six_months_subscription_tapped", parameters: nil)
   }
   
   func one_year_subscription_tapped() {

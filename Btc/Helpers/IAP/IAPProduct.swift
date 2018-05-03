@@ -10,5 +10,6 @@ import Foundation
 
 enum IAPProduct: String {
   case unlockProMode = "com.atalwar.Cryptare.UnlockProMode"
+  case unlockProModeSixMonths = "com.atalwar.Cryptare.UnlockProModeSixMonths"
   case unlockProModeOneYear = "com.atalwar.Cryptare.UnlockProModeOneYear"
 }

@@ -149,9 +149,7 @@ class DashboardViewController: UIViewController {
       self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 20)
     }
     else {
-      print(coins)
       self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 2)
-      print(pagedArray)
     }
   }
   
@@ -377,10 +375,8 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
       return coinSearchResults.count
     }
     if pagedArray != nil {
-      print(pagedArray.count, favouritesTab)
       return pagedArray.count
     }
-    print("here")
     return 0
   }
   

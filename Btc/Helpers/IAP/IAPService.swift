@@ -30,6 +30,7 @@ class IAPService: NSObject {
     self.completionHandler = completionHandler
     
     let products: Set = [IAPProduct.unlockProMode.rawValue,
+                         IAPProduct.unlockProModeSixMonths.rawValue,
                          IAPProduct.unlockProModeOneYear.rawValue]
     
     let request = SKProductsRequest(productIdentifiers: products)
@@ -41,7 +42,7 @@ class IAPService: NSObject {
   
   func purchase(product: IAPProduct, completionHandlerBool:@escaping (Bool) -> Void) {
     self.completionHandlerBool = completionHandlerBool
-    print(product.rawValue, products[0].productIdentifier)
+//    print(product.rawValue, products[0].productIdentifier)
     guard let productToPurchase = products.filter({ $0.productIdentifier == product.rawValue }).first else { return }
     let payment = SKPayment(product: productToPurchase)
     paymentQueue.add(payment)
@@ -58,9 +59,9 @@ extension IAPService: SKProductsRequestDelegate {
   func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
     self.products = response.products
     for product in response.products {
-      print(product.localizedTitle)
-      print(product.priceLocale)
-      print(product.price)
+//      print(product.localizedTitle)
+//      print(product.priceLocale)
+//      print(product.price)
     }
     
     completionHandler(true, products)

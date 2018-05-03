@@ -34,12 +34,13 @@ class CryptoPortfolioTableViewController: UITableViewController {
   var portfolioData: [[String: Any]] = []
   var portfolioEntries: [PortfolioEntryModel] = [] {
     didSet {
-      if portfolioEntries.count > 0 {
-        parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
-      }
-      else {
-         parentController.containerViewHeightConstraint.constant = CGFloat(150)
-      }
+//      if portfolioEntries.count > 0 {
+//        parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
+//        print(tableView.contentSize.height)
+//      }
+//      else {
+//         parentController.containerViewHeightConstraint.constant = CGFloat(150)
+//      }
     }
   }
   
@@ -83,7 +84,9 @@ class CryptoPortfolioTableViewController: UITableViewController {
   
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
-    
+    if portfolioEntries.count > 0 {
+      parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
+    }
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -105,6 +108,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
     dateFormatter.dateFormat = "dd/MM/YY"
     
     parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
+    print(tableView.contentSize.height)
     
     let portfolio = portfolioEntries[indexPath.row]
     var cell: PortfolioTableViewCell
@@ -179,7 +183,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
         let dateString = dateFormatter.string(from: date)
         let timeString = timeFormatter.string(from: date)
         if let exchange = portfolio.exchange {
-          cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) on \(dateString) via \(exchange) at \(timeString)"
+          cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) via \(exchange) on \(dateString) at \(timeString)"
         }
         else {
           cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) on \(dateString) at \(timeString)"
@@ -223,7 +227,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
         let dateString = dateFormatter.string(from: date)
         let timeString = timeFormatter.string(from: date)
         if let exchange = portfolio.exchange {
-          cell.transactionInfoLabel.text = "Deduct due to purchase of \(tradingPair) on \(dateString) via \(exchange) at \(timeString)"
+          cell.transactionInfoLabel.text = "Deduct due to purchase of \(tradingPair) via \(exchange) on \(dateString) at \(timeString)"
           
         }
         else {
