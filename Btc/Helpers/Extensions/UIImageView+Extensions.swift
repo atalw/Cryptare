@@ -46,6 +46,8 @@ extension UIImageView {
     self.image = UIImage(named: "generic.png")
   }
   
+ 
+  
   func loadSavedImage(coin: String) {
     var cryptoIconsDict = Defaults[.cryptoIcons]
     

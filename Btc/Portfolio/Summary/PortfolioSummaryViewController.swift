@@ -261,10 +261,14 @@ class PortfolioSummaryViewController: UIViewController {
     let unixTime = Int((date?.timeIntervalSince1970)!)
     let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=\(GlobalValues.currency!)&ts=\(unixTime)")!
     Alamofire.request(url).responseJSON(completionHandler: { response in
-      
-      let json = JSON(data: response.data!)
-      if let price = json["BTC"][self.currency].double {
-        completionHandler(price)
+      do {
+        let json = try JSON(data: response.data!)
+        if let price = json["BTC"][self.currency].double {
+          completionHandler(price)
+        }
+      }
+      catch (let error) {
+        print(error)
       }
     })
   }
@@ -493,12 +497,16 @@ class PortfolioSummaryViewController: UIViewController {
       let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=\(coin)&tsyms=\(GlobalValues.currency!)&ts=\(yesterday)")!
       
       Alamofire.request(url).responseJSON(completionHandler: { response in
-        
-        let json = JSON(data: response.data!)
-        if let price = json[coin][self.currency].double {
-          self.summary[coin]!["coinValueYesterday"] = price
-          self.summary[coin]!["holdingsValueYesterday"] = price * self.summary[coin]!["amountOfCoins"]!
-          self.tableView.reloadData()
+        do {
+          let json = try JSON(data: response.data!)
+          if let price = json[coin][self.currency].double {
+            self.summary[coin]!["coinValueYesterday"] = price
+            self.summary[coin]!["holdingsValueYesterday"] = price * self.summary[coin]!["amountOfCoins"]!
+            self.tableView.reloadData()
+          }
+        }
+        catch (let error) {
+          print(error)
         }
       })
     }
@@ -584,10 +592,13 @@ class PortfolioSummaryViewController: UIViewController {
         return
       }
       do {
-        if let rate = JSON(data:data)["rates"][symbol].double {
+        if let rate = try JSON(data:data)["rates"][symbol].double {
           exchangeRate = rate
         }
         completion(true, exchangeRate)
+      }
+      catch (let error) {
+        print(error)
       }
     }
     exchangeTask.resume()

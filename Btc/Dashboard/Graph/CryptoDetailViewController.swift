@@ -537,7 +537,8 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
         return
       }
       do {
-        let prices = JSON(data: data)["Data"].arrayValue
+        let prices = try JSON(data: data)["Data"].arrayValue
+        
         var index = 1
         if self.currency == "INR" || self.currency == "CAD" || self.currency == "GBP" {
           let exchangeURL = URL(string: "https://api.fixer.io/latest?symbols=\(self.currency!)&base=USD")!
@@ -549,7 +550,7 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
               return
             }
             do {
-              exchangeRate = JSON(data:data)["rates"][self.currency!].double!
+              exchangeRate = try! JSON(data:data)["rates"][self.currency!].double!
               
               for hour in prices {
 //                let time = hour["time"].double! * exchangeRate
@@ -584,6 +585,9 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
           }
         }
         
+      }
+      catch (let error) {
+        print(error)
       }
     }
     task.resume()

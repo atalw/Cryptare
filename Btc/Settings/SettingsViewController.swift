@@ -11,6 +11,7 @@ import Charts
 import Armchair
 import SwiftyUserDefaults
 import FirebaseAuth
+import SwiftyStoreKit
 
 class SettingsViewController: UITableViewController {
   
@@ -206,6 +207,24 @@ class SettingsViewController: UITableViewController {
     didSet {
       appFeaturesIntroDescLabel.adjustsFontSizeToFitWidth = true
       appFeaturesIntroDescLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  @IBOutlet weak var marketsIntroDescLabel: UILabel! {
+    didSet {
+      marketsIntroDescLabel.adjustsFontSizeToFitWidth = true
+      marketsIntroDescLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  @IBOutlet weak var portfolioIntroDescLabel: UILabel! {
+    didSet {
+      portfolioIntroDescLabel.adjustsFontSizeToFitWidth = true
+      portfolioIntroDescLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  @IBOutlet weak var alertsIntroDescLabel: UILabel! {
+    didSet {
+      alertsIntroDescLabel.adjustsFontSizeToFitWidth = true
+      alertsIntroDescLabel.theme_textColor = GlobalPicker.viewTextColor
     }
   }
   
@@ -625,12 +644,35 @@ class SettingsViewController: UITableViewController {
       }
       
       if row == 1 {
-        IAPService.shared.restorePurchases()
+        SwiftyStoreKit.restorePurchases(atomically: true) { results in
+          if results.restoreFailedPurchases.count > 0 {
+            print("Restore Failed: \(results.restoreFailedPurchases)")
+          }
+          else if results.restoredPurchases.count > 0 {
+            print("Restore Success: \(results.restoredPurchases)")
+          }
+          else {
+            print("Nothing to Restore")
+          }
+        }
       }
     }
     else if section == 1 {
       if row == 1 { // Remove all favourites
-        Defaults[.dashboardFavourites] = []
+        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete your favouite coins? This action cannot be undone.", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+          Defaults[.dashboardFavourites] = []
+        })
+        
+        let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
+          print("no tapped")
+        })
+        
+        dialogMessage.addAction(yesAction)
+        dialogMessage.addAction(cancelAction)
+        
+        self.present(dialogMessage, animated: true, completion: nil)
       }
     }
     else if section == 7 { // social

@@ -1183,7 +1183,8 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
       tableHeightConstraint.constant = self.tableView.contentSize.height
 
       let market = self.markets[indexPath.row]
-      let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
+      let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell
+      
       cell!.siteLabel?.setTitle(market.title, for: .normal)
       cell!.siteLabel.url = market.siteLink
       cell!.siteLabel.title = market.title
@@ -1222,7 +1223,7 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
     if self.usdtMarketsTable == tableView {
       usdtTableHeightConstraint.constant = self.usdtMarketsTable.contentSize.height
       
-      let cell = self.usdtMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
+      let cell = self.usdtMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell
       let market = self.usdtMarkets[indexPath.row]
       cell!.siteLabel?.setTitle(market.title, for: .normal)
       cell!.siteLabel.url = market.siteLink
@@ -1262,7 +1263,7 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
     if self.btcMarketsTable == tableView {
       btcTableHeightConstraint.constant = self.btcMarketsTable.contentSize.height
 
-      let cell = self.btcMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
+      let cell = self.btcMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell
       let market = self.btcMarkets[indexPath.row]
       cell!.siteLabel?.setTitle(market.title, for: .normal)
       cell!.siteLabel.url = market.siteLink
@@ -1302,7 +1303,7 @@ extension CoinMarketsViewController: UITableViewDataSource, UITableViewDelegate 
     if self.ethMarketsTable == tableView {
       ethTableHeightConstraint.constant = self.ethMarketsTable.contentSize.height
 
-      let cell = self.ethMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell!
+      let cell = self.ethMarketsTable.dequeueReusableCell(withIdentifier: "Cell") as? CoinMarketsTableViewCell
       let market = self.ethMarkets[indexPath.row]
       cell!.siteLabel?.setTitle(market.title, for: .normal)
       cell!.siteLabel.url = market.siteLink

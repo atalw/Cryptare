@@ -75,11 +75,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     #endif
     
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    
     // dashboard settings
     if !Defaults.hasKey(.dashboardFavourites) &&
       !Defaults.hasKey(.dashboardFavouritesFirstTab) {
-      Defaults[.dashboardFavourites] = ["BTC", "ETH", "LTC", "EOS", "XLM", "NEO"]
+      let favourites = ["BTC", "ETH", "LTC", "EOS", "XLM", "NEO"]
+      for coin in favourites {
+        UIImage(named: coin.lowercased())?.saveImage(coin: coin)
+      }
+      Defaults[.dashboardFavourites] = favourites
       Defaults[.dashboardFavouritesFirstTab] = true
     }
     
