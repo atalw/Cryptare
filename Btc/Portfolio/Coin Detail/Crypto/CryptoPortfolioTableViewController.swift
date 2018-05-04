@@ -108,7 +108,6 @@ class CryptoPortfolioTableViewController: UITableViewController {
     dateFormatter.dateFormat = "dd/MM/YY"
     
     parentController.containerViewHeightConstraint.constant = tableView.contentSize.height
-    print(tableView.contentSize.height)
     
     let portfolio = portfolioEntries[indexPath.row]
     var cell: PortfolioTableViewCell
@@ -183,11 +182,12 @@ class CryptoPortfolioTableViewController: UITableViewController {
         let dateString = dateFormatter.string(from: date)
         let timeString = timeFormatter.string(from: date)
         if let exchange = portfolio.exchange {
-          cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) via \(exchange) on \(dateString) at \(timeString)"
+          cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) via \(exchange)"
         }
         else {
-          cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair) on \(dateString) at \(timeString)"
+          cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair)"
         }
+        cell.dateTimeLabel.text = "\(dateString) at \(timeString)"
       }
       
       if let cost = portfolio.costPerCoin, let fees = portfolio.fees {
@@ -213,7 +213,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
       }
       
       if let tradePair = portfolio.tradingPair {
-        cell.tradingPairLabel.text = "\(tradePair)-\(coin!)"
+        cell.tradingPairLabel.text = "\(tradePair)/\(coin!)"
       }
       
       return cell
@@ -227,12 +227,12 @@ class CryptoPortfolioTableViewController: UITableViewController {
         let dateString = dateFormatter.string(from: date)
         let timeString = timeFormatter.string(from: date)
         if let exchange = portfolio.exchange {
-          cell.transactionInfoLabel.text = "Deduct due to purchase of \(tradingPair) via \(exchange) on \(dateString) at \(timeString)"
-          
+          cell.transactionInfoLabel.text = "Deduction due to purchase of \(tradingPair) via \(exchange)"
         }
         else {
-          cell.transactionInfoLabel.text = "Deduct due to purchase of \(tradingPair) on \(dateString) at \(timeString)"
+          cell.transactionInfoLabel.text = "Deduction due to purchase of \(tradingPair)"
         }
+        cell.dateTimeLabel.text = "\(dateString) at \(timeString)"
       }
       
       if let cost = portfolio.costPerCoin, let fees = portfolio.fees {
@@ -258,7 +258,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
       }
       
       if let tradePair = portfolio.tradingPair {
-        cell.tradingPairLabel.text = "\(tradePair)-\(coin!)"
+        cell.tradingPairLabel.text = "\(tradePair)/\(coin!)"
       }
       return cell
     }
@@ -286,7 +286,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
     }
     
     if let tradePair = portfolio.tradingPair {
-      cell.tradingPairLabel.text = "\(coin!)-\(tradePair)"
+      cell.tradingPairLabel.text = "\(coin!)/\(tradePair)"
     }
     
     return cell
@@ -477,11 +477,6 @@ extension CryptoPortfolioTableViewController: PortfolioEntryDelegate {
       parentController.addSellTotalPortfolioValues(amountOfBitcoin: portfolioEntry.amountOfCoins, cost: portfolioEntry.totalCost, currentValue: portfolioEntry.currentValue)
     }
     portfolioEntries.append(portfolioEntry)
-//    print(portfolioEntries)
-//    print(portfolioEntry)
-    for portfolio in portfolioEntries {
-      print(portfolio.date)
-    }
     portfolioEntries = portfolioEntries.sorted(by: {$0.date.compare($1.date) == .orderedDescending})
     
     tableView.reloadData()

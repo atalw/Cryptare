@@ -23,6 +23,12 @@ class AppIntroViewController: UIViewController, UIScrollViewDelegate {
       doneButton.setTitleColor(UIColor.white, for: .normal)
       doneButton.setTitleColor(UIColor.lightGray, for: .disabled)
       doneButton.layer.cornerRadius = 5
+      doneButton.clipsToBounds = true
+    }
+  }
+  @IBOutlet weak var settingsLabel: UILabel! {
+    didSet {
+      settingsLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var skipButton: UIButton!
@@ -48,7 +54,7 @@ class AppIntroViewController: UIViewController, UIScrollViewDelegate {
     let WelcomeView = Bundle.main.loadNibNamed("WelcomeView", owner: self, options: nil)?.first as! UIView
     
     let PortfolioView = IntroTemplateView()
-    PortfolioView.updateData(image: UIImage(named: "marketsIntro")!, title: "Easy portfolio management.", description: "Stop calculating your profits on paper and let Cryptare do the work for you.")
+    PortfolioView.updateData(image: UIImage(named: "portfolioIntro")!, title: "Easy portfolio management.", description: "Stop calculating your profits on paper and let Cryptare do the work for you.")
     
     let MarketsView = IntroTemplateView()
     MarketsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Save upto 20% on each purchase.", description: "Make wise financial decisions by comparing the prices of cryptocurrencies on 100+ different exchanges.")

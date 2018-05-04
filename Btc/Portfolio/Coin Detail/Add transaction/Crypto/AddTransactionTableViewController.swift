@@ -180,7 +180,7 @@ class AddTransactionTableViewController: UITableViewController {
     for (coin, currency) in tradingPairs {
       if GlobalValues.currency == currency {
         self.currentTradingPair = (coin, currency)
-        self.currentTradingPairLabel.text = "\(coin)-\(currency)"
+        self.currentTradingPairLabel.text = "\(coin)/\(currency)"
         
         if transactionType == "buy" {
           self.deductFromHoldingsLabel.text = "Deduct from \(currency) holdings"

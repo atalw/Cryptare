@@ -246,7 +246,7 @@ class AddPairAlertTableViewController: UITableViewController {
   @IBOutlet weak var aboveDescLabel: UILabel! {
     didSet {
       aboveDescLabel.adjustsFontSizeToFitWidth = true
-      aboveDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+      aboveDescLabel.theme_textColor = GlobalPicker.viewTextColor
     }
   }
   

@@ -17,7 +17,13 @@ class PortfolioTableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var coinLogoImage: UIImageView! {
+  @IBOutlet weak var dateTimeLabel: UILabel! {
+    didSet {
+      dateTimeLabel.adjustsFontSizeToFitWidth = true
+      dateTimeLabel.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+  }
+  @IBOutlet weak var coinLogoImage: UIImageView! {
         didSet {
             
         }

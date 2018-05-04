@@ -24,6 +24,12 @@ class AlertsIntroViewController: UIViewController, UIScrollViewDelegate {
       doneButton.setTitleColor(UIColor.white, for: .normal)
       doneButton.setTitleColor(UIColor.lightGray, for: .disabled)
       doneButton.layer.cornerRadius = 5
+      doneButton.clipsToBounds = true
+    }
+  }
+  @IBOutlet weak var settingsLabel: UILabel! {
+    didSet {
+      settingsLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var skipButton: UIButton!
@@ -47,16 +53,16 @@ class AlertsIntroViewController: UIViewController, UIScrollViewDelegate {
   func createSlides() -> [UIView] {
     
     let AlertsView = IntroTemplateView()
-    AlertsView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Smart price alerts.", description: "Stop worrying about the price of your favourite crypto. Create price alerts in 2 steps and be notified immediately.")
+    AlertsView.updateData(image: UIImage(named: "alertsIntro")!, title: "Smart price alerts.", description: "Stop worrying about the price of your favourite crypto. Create price alerts in 2 steps and be notified immediately.")
     
     let HowOneView = IntroTemplateView()
-    HowOneView.updateData(image: UIImage(named: "marketsIntro")!, title: "Step 1", description: "Select the cryptocurrency and exchange whose price you want to track.")
+    HowOneView.updateData(image: UIImage(named: "stepOneAlertsIntro")!, title: "Step 1", description: "Select the cryptocurrency and exchange whose price you want to track.")
     
     let HowTwoView = IntroTemplateView()
-    HowTwoView.updateData(image: UIImage(named: "marketsIntro")!, title: "Step 2", description: "Set a threshold price above or below which you'll be notified. Then save. That's it!")
+    HowTwoView.updateData(image: UIImage(named: "stepTwoAlertsIntro")!, title: "Step 2", description: "Set a threshold price above or below which you'll be notified. Then save. That's it!")
     
     let ActiveView = IntroTemplateView()
-    ActiveView.updateData(image: UIImage(named: "newsIntro")!, title: "Alert activation.", description: "You can also deactivate and reactivate alerts with the ease of a tap.")
+    ActiveView.updateData(image: UIImage(named: "activateAlertsIntro")!, title: "Alert activation.", description: "You can also deactivate and reactivate alerts with the ease of a tap.")
     
     return [AlertsView, HowOneView, HowTwoView, ActiveView]
   }

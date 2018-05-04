@@ -23,6 +23,12 @@ class PortfolioIntroViewController: UIViewController, UIScrollViewDelegate {
       doneButton.setTitleColor(UIColor.white, for: .normal)
       doneButton.setTitleColor(UIColor.lightGray, for: .disabled)
       doneButton.layer.cornerRadius = 5
+      doneButton.clipsToBounds = true
+    }
+  }
+  @IBOutlet weak var settingsLabel: UILabel! {
+    didSet {
+      settingsLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var skipButton: UIButton!
@@ -46,16 +52,16 @@ class PortfolioIntroViewController: UIViewController, UIScrollViewDelegate {
   func createSlides() -> [UIView] {
     
     let SummaryView = IntroTemplateView()
-    SummaryView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Easy portfolio management.", description: "Track your cryptocurrency transactions with very high accuracy anytime and anywhere.")
+    SummaryView.updateData(image: UIImage(named: "portfolioIntro")!, title: "Easy portfolio management.", description: "Track your cryptocurrency transactions with very high accuracy anytime and anywhere.")
     
     let TransactionView = IntroTemplateView()
-    TransactionView.updateData(image: UIImage(named: "marketsIntro")!, title: "Detailed transaction entry.", description: "Add a buy or sell transaction with details - exchange, fees, date and time.")
+    TransactionView.updateData(image: UIImage(named: "transactionDetailIntro")!, title: "Detailed transaction entry.", description: "Add a buy or sell transaction with details - exchange, fees, date and time.")
     
     let TransactionDetailsView = IntroTemplateView()
-    TransactionDetailsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Crypto-Crypto transactions have never been easier.", description: "Add crypto-crypto transactions normally as you would and let Cryptare handle all the conversions for you.")
+    TransactionDetailsView.updateData(image: UIImage(named: "transactionsIntro")!, title: "Track your transactions easily.", description: "Add crypto-fiat and crypto-crypto transactions and let Cryptare handle all the calculations for you.")
     
     let MultiplePortfoliosView = IntroTemplateView()
-    MultiplePortfoliosView.updateData(image: UIImage(named: "newsIntro")!, title: "Create multiple portfolios.", description: "Declutter your invesments by organizing them into multiple portfolios.")
+    MultiplePortfoliosView.updateData(image: UIImage(named: "multiplePortfoliosIntro")!, title: "Create multiple portfolios.", description: "Declutter your invesments by organizing them into multiple portfolios.")
     
     return [SummaryView, TransactionView, TransactionDetailsView, MultiplePortfoliosView]
   }

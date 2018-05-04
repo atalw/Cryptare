@@ -23,6 +23,12 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
       doneButton.setTitleColor(UIColor.white, for: .normal)
       doneButton.setTitleColor(UIColor.lightGray, for: .disabled)
       doneButton.layer.cornerRadius = 5
+      doneButton.clipsToBounds = true
+    }
+  }
+  @IBOutlet weak var settingsLabel: UILabel! {
+    didSet {
+      settingsLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var skipButton: UIButton!
@@ -46,13 +52,13 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
   func createSlides() -> [UIView] {
     
     let FavouritesView = IntroTemplateView()
-    FavouritesView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Create a favourites list.", description: "Track your favourite trading-pairs and exchanges all in one place.")
+    FavouritesView.updateData(image: UIImage(named: "favouriteTradingPairsIntro")!, title: "Create a favourites list.", description: "Track your favourite trading-pairs and exchanges all in one place.")
     
     let Markets = IntroTemplateView()
-    Markets.updateData(image: UIImage(named: "marketsIntro")!, title: "Detailed market information.", description: "Access details of every market including all supported trading-pairs.")
+    Markets.updateData(image: UIImage(named: "marketDetailsIntro")!, title: "Detailed market information.", description: "Access details of every market including all supported trading-pairs.")
     
     let AlertsView = IntroTemplateView()
-    AlertsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Smart trade-pair alerts.", description: "Create market trade-pair alerts easily to track the price on that specific exchange.")
+    AlertsView.updateData(image: UIImage(named: "marketAlertsIntro")!, title: "Smart trade-pair alerts.", description: "Create market trade-pair alerts easily to track the price on that specific exchange.")
     
     return [FavouritesView, Markets, AlertsView]
   }
