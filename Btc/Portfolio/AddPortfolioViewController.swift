@@ -224,16 +224,15 @@ class AvailablePortfolioTableViewController: UITableViewController {
     parentController.availablePortfoliosContainerHeightConstraint.constant = tableView.contentSize.height
   }
   
-  func updatePortfolioName(name: String, index: Int) {
+  func updatePortfolioName(sender: UITextField, name: String, index: Int) {
     let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to change the portfolio name from \(portfolioNames[index]) to \(name)?", preferredStyle: .alert)
     
     let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
-      print("yes tapped")
       self.changePortfolioName(name: name, index: index)
     })
     
     let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
-      print("no tapped")
+      sender.text = self.portfolioNames[index]
     })
     
     dialogMessage.addAction(yesAction)
@@ -318,13 +317,11 @@ class AvailablePortfolioTableViewController: UITableViewController {
       let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this portfolio? All transactions will be deleted.", preferredStyle: .alert)
       
       let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
-        print("yes tapped")
         self.deletePortfolio(index: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
       })
       
       let cancelAction = UIAlertAction(title: "No", style: .default, handler: { actino -> Void in
-        print("no tapped")
       })
       
       dialogMessage.addAction(yesAction)
@@ -383,7 +380,7 @@ extension AvailablePortfolioTableViewController: UITextFieldDelegate {
     if name != "" && !portfolioNames.contains(name) {
       
       if let indexPath = (textField.superview?.superview?.superview as! UITableView).indexPath(for: textField.superview?.superview as! AvailablePortfolioTableViewCell) {
-        updatePortfolioName(name: name, index: indexPath.row)
+        updatePortfolioName(sender: textField, name: name, index: indexPath.row)
       }
     }
   }

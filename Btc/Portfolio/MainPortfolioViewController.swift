@@ -133,6 +133,8 @@ class MainPortfolioViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    print(Defaults[.portfolioNames])
+    
     for (_, viewController) in viewControllerList.enumerated() {
       if let portfolioVC = viewController as? PortfolioSummaryViewController {
         guard (portfolioVC.tableView) != nil else { return }
@@ -238,28 +240,26 @@ class MainPortfolioViewController: UIViewController {
     }
     
     for portfolioName in portfolioNames {
+      let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
+      vc.title = portfolioName
+      vc.portfolioName = portfolioName
+      
       if let data = allCryptoPortfolioData[portfolioName] {
-        let vc = storyboard.instantiateViewController(withIdentifier: "PortfolioSummaryViewController") as! PortfolioSummaryViewController
-        vc.title = portfolioName
-        vc.portfolioName = portfolioName
-        
         if let cryptoData = data as? [String: [[String: Any]] ] {
           vc.cryptoPortfolioData = cryptoData
         }
         else {
           vc.cryptoDict = [:]
         }
-        
-        if let fiatData =  allFiatPortfolioData[portfolioName]  as? [String: [[String: Any]] ] {
-          vc.fiatPortfolioData = fiatData
-        }
-        else {
-          vc.fiatPortfolioData = [:]
-        }
-        
-        viewControllers.append(vc)
-        
       }
+      if let fiatData =  allFiatPortfolioData[portfolioName]  as? [String: [[String: Any]] ] {
+        vc.fiatPortfolioData = fiatData
+      }
+      else {
+        vc.fiatPortfolioData = [:]
+      }
+      
+      viewControllers.append(vc)
     }
     
     return viewControllers
