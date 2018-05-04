@@ -48,10 +48,6 @@ class MainPortfolioViewController: UIViewController {
       self.navigationController?.present(introViewController, animated: true, completion: nil)
     }
     
-    pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
-    pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
-    
-    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
 //    let newData = NSKeyedArchiver.archivedData(withRootObject: portfolioEntries)
@@ -73,7 +69,13 @@ class MainPortfolioViewController: UIViewController {
     self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     
     pagingViewController.dataSource = self
+    pagingViewController.delegate = self
     
+    pagingViewController.menuItemSize = .sizeToFit(minWidth: 100, height: 40)
+    pagingViewController.menuHorizontalAlignment = .center
+    
+    pagingViewController.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
+    pagingViewController.collectionViewLayout.collectionView?.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     pagingViewController.indicatorColor = UIColor.init(hex: "ff7043")
     pagingViewController.textColor = UIColor.lightGray
     pagingViewController.selectedTextColor = UIColor.white
@@ -83,6 +85,7 @@ class MainPortfolioViewController: UIViewController {
       zIndex: Int.max,
       spacing: UIEdgeInsets.zero,
       insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+    
     // Add the paging view controller as a child view controller and
     // contrain it to all edges.
     addChildViewController(pagingViewController)
@@ -288,6 +291,17 @@ extension MainPortfolioViewController: PagingViewControllerDataSource {
   
   func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
     return viewControllerList.count
+  }
+  
+}
+
+extension MainPortfolioViewController: PagingViewControllerDelegate {
+  
+  func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, didScrollToItem pagingItem: T, startingViewController: UIViewController?, destinationViewController: UIViewController, transitionSuccessful: Bool) where T : PagingItem, T : Comparable, T : Hashable {
+    
+//    if let index = viewControllerList.index(of: destinationViewController) {
+//      self.currentSelectedIndex = index
+//    }
   }
   
 }
