@@ -16,6 +16,15 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
   
   @IBOutlet weak var slideScrollView: UIScrollView!
   @IBOutlet weak var pageControl: UIPageControl!
+  @IBOutlet weak var doneButton: UIButton! {
+    didSet {
+      doneButton.isEnabled = false
+      doneButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)
+      doneButton.setTitleColor(UIColor.white, for: .normal)
+      doneButton.setTitleColor(UIColor.lightGray, for: .disabled)
+      doneButton.layer.cornerRadius = 5
+    }
+  }
   @IBOutlet weak var skipButton: UIButton!
   
   override func viewDidLoad() {
@@ -37,13 +46,13 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
   func createSlides() -> [UIView] {
     
     let FavouritesView = IntroTemplateView()
-    FavouritesView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Favourite List", description: "Add favourite trading pairs and markets for easy access.")
+    FavouritesView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Create a favourites list.", description: "Track your favourite trading-pairs and exchanges all in one place.")
     
     let Markets = IntroTemplateView()
-    Markets.updateData(image: UIImage(named: "marketsIntro")!, title: "Markets", description: "View market details including all supported pairs.")
+    Markets.updateData(image: UIImage(named: "marketsIntro")!, title: "Detailed market information.", description: "Access details of every market including all supported trading-pairs.")
     
     let AlertsView = IntroTemplateView()
-    AlertsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Trade Pair Alerts", description: "Add price alerts for specific trading pairs.")
+    AlertsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Smart trade-pair alerts.", description: "Create market trade-pair alerts easily to track the price on that specific exchange.")
     
     return [FavouritesView, Markets, AlertsView]
   }
@@ -65,6 +74,10 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
     
     let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
     pageControl.currentPage = Int(pageIndex)
+    
+    if pageControl.currentPage == pageControl.numberOfPages-1 {
+      doneButton.isEnabled = true
+    }
   }
   
   @IBAction func skipButtonTapped(_ sender: Any) {

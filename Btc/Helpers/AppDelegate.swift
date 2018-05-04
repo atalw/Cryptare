@@ -167,43 +167,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
       }
     }
-    
     if #available(iOS 10.0, *) {
-      // For iOS 10 display notification (sent via APNS)
       UNUserNotificationCenter.current().delegate = self
-      
-      let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-      UNUserNotificationCenter.current().requestAuthorization(
-        options: authOptions,
-        completionHandler: {_, _ in })
     } else {
-      let settings: UIUserNotificationSettings =
-        UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-      application.registerUserNotificationSettings(settings)
+      // Fallback on earlier versions
     }
-    UIApplication.shared.registerForRemoteNotifications()
-    application.registerForRemoteNotifications()
-    Messaging.messaging().delegate = self
 
+    Messaging.messaging().delegate = self
     setUpFirebase()
 
-    
-//    // notification request
-//    if #available(iOS 10.0, *) {
-//      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (isGranted, error) in
-//        if error != nil { return }
-//
-//        if isGranted {
-//          UNUserNotificationCenter.current().delegate = self
-//        }
-//      })
-//      application.registerForRemoteNotifications()
-//
-//
-//    } else {
-//      // Fallback on earlier versions
-//    }
-    
     return true
   }
   
@@ -227,6 +199,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     self.window?.makeKeyAndVisible()
   }
   
+  func registerForPushNotifications(application: UIApplication) {
+    let settings: UIUserNotificationSettings =
+      UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+    application.registerUserNotificationSettings(settings)
+  }
+  
   func setUpFirebase() {
     FirebaseApp.configure()
     Database.database().isPersistenceEnabled = true
@@ -234,7 +212,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     let fcmToken = Messaging.messaging().fcmToken
-    print("FCM token: \(fcmToken ?? "")")
+//    print("FCM token: \(fcmToken ?? "")")
     
     Auth.auth().signInAnonymously() { (user, error) in
       if error != nil {
@@ -251,7 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                       "notificationTokens": [token: true] as [String: Any]]
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
           if err != nil {
-            print(err ?? "err")
+            print(err ?? "update user timestamp error")
             return
           }
         })
@@ -307,13 +285,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     // Convert token to string
-    let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-    
-    // Print it to console
-    print("APNs device token: \(deviceTokenString)")
-    
+//    let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
     Messaging.messaging().apnsToken = deviceToken
-    print("registered")
     Messaging.messaging().subscribe(toTopic: "/topics/general")
   }
   
@@ -330,13 +303,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   }
   
   func fetchReceipt() {
-    
     // return local receipt or fetch receipt if not available
     SwiftyStoreKit.fetchReceipt(forceRefresh: false) { result in
       switch result {
       case .success(let receiptData):
         let encryptedReceipt = receiptData.base64EncodedString(options: [])
-        print("Fetch receipt success:\n\(encryptedReceipt)")
+//        print("Fetch receipt success:\n\(encryptedReceipt)")
         
         let receiptValidator = ReceiptValidator()
         let validationResult = receiptValidator.validateReceipt()

@@ -42,7 +42,10 @@ class AddTransactionViewController: UIViewController {
   }
   @IBOutlet weak var addTransactionButton: UIButton! {
     didSet {
-      
+      addTransactionButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)
+      addTransactionButton.setTitleColor(UIColor.white, for: .normal)
+      addTransactionButton.setTitleColor(UIColor.lightGray, for: .disabled)
+      addTransactionButton.isEnabled = false
     }
   }
   
@@ -55,12 +58,6 @@ class AddTransactionViewController: UIViewController {
     
     portfolioName = parentController.portfolioName
     
-    addTransactionButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)
-    
-    addTransactionButton.setTitleColor(UIColor.white, for: .normal)
-    addTransactionButton.setTitleColor(UIColor.lightGray, for: .disabled)
-    
-    addTransactionButton.isEnabled = false
     
     if transactionType == "buy" {
       addTransactionButton.setTitle("Add Buy Transaction", for: .normal)

@@ -10,6 +10,7 @@ import UIKit
 import SwiftyUserDefaults
 import FirebaseAuth
 import FirebaseDatabase
+import UserNotifications
 
 class PairAlertViewController: UIViewController {
   
@@ -104,6 +105,15 @@ class PairAlertViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+//    if Defaults[.mainAlertsIntroComplete] {
+//      let notificationType = UIApplication.shared.currentUserNotificationSettings!.types
+//      if notificationType == [] {
+//        print("notifications are NOT enabled")
+//      } else {
+//        print("notifications are enabled")
+//      }
+//    }
     
     let introComplete = Defaults[.mainAlertsIntroComplete]
     

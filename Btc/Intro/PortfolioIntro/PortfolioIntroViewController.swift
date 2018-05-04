@@ -16,6 +16,15 @@ class PortfolioIntroViewController: UIViewController, UIScrollViewDelegate {
   
   @IBOutlet weak var slideScrollView: UIScrollView!
   @IBOutlet weak var pageControl: UIPageControl!
+  @IBOutlet weak var doneButton: UIButton! {
+    didSet {
+      doneButton.isEnabled = false
+      doneButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)
+      doneButton.setTitleColor(UIColor.white, for: .normal)
+      doneButton.setTitleColor(UIColor.lightGray, for: .disabled)
+      doneButton.layer.cornerRadius = 5
+    }
+  }
   @IBOutlet weak var skipButton: UIButton!
   
   override func viewDidLoad() {
@@ -37,16 +46,16 @@ class PortfolioIntroViewController: UIViewController, UIScrollViewDelegate {
   func createSlides() -> [UIView] {
     
     let SummaryView = IntroTemplateView()
-    SummaryView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Portfolio Management", description: "Track your cryptocurrency transactions with very high accuracy.")
+    SummaryView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Easy portfolio management.", description: "Track your cryptocurrency transactions with very high accuracy anytime and anywhere.")
     
     let TransactionView = IntroTemplateView()
-    TransactionView.updateData(image: UIImage(named: "marketsIntro")!, title: "Detailed Transaction Entry", description: "Add a buy or sell transaction with details - exchange, fees, date and time.")
+    TransactionView.updateData(image: UIImage(named: "marketsIntro")!, title: "Detailed transaction entry.", description: "Add a buy or sell transaction with details - exchange, fees, date and time.")
     
     let TransactionDetailsView = IntroTemplateView()
-    TransactionDetailsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Crypto-Crypto Transactions", description: "In addition to Crypto-Fiat (\(GlobalValues.currency)) transactions, Cryptare also supports Crypto-Crypto transactions")
+    TransactionDetailsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Crypto-Crypto transactions have never been easier.", description: "Add crypto-crypto transactions normally as you would and let Cryptare handle all the conversions for you.")
     
     let MultiplePortfoliosView = IntroTemplateView()
-    MultiplePortfoliosView.updateData(image: UIImage(named: "newsIntro")!, title: "Multiple Portfolios", description: "Add multiple portfolios to organise your investments.")
+    MultiplePortfoliosView.updateData(image: UIImage(named: "newsIntro")!, title: "Create multiple portfolios.", description: "Declutter your invesments by organizing them into multiple portfolios.")
     
     return [SummaryView, TransactionView, TransactionDetailsView, MultiplePortfoliosView]
   }
@@ -68,6 +77,10 @@ class PortfolioIntroViewController: UIViewController, UIScrollViewDelegate {
     
     let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
     pageControl.currentPage = Int(pageIndex)
+    
+    if pageControl.currentPage == pageControl.numberOfPages-1 {
+      doneButton.isEnabled = true
+    }
   }
   
   @IBAction func skipButtonTapped(_ sender: Any) {

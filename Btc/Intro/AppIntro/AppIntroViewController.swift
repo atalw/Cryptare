@@ -16,8 +16,17 @@ class AppIntroViewController: UIViewController, UIScrollViewDelegate {
   
   @IBOutlet weak var slideScrollView: UIScrollView!
   @IBOutlet weak var pageControl: UIPageControl!
+  @IBOutlet weak var doneButton: UIButton! {
+    didSet {
+      doneButton.isEnabled = false
+      doneButton.setBackgroundColor(color: UIColor.darkGray, forState: .disabled)
+      doneButton.setTitleColor(UIColor.white, for: .normal)
+      doneButton.setTitleColor(UIColor.lightGray, for: .disabled)
+      doneButton.layer.cornerRadius = 5
+    }
+  }
   @IBOutlet weak var skipButton: UIButton!
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -36,19 +45,22 @@ class AppIntroViewController: UIViewController, UIScrollViewDelegate {
   
   func createSlides() -> [UIView] {
     
-    let DashboardView = IntroTemplateView()
-    DashboardView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Real Time Market Averages", description: "Global prices of 500+ Cryptocurrencies updated every minute in 15+ different Fiat currencies.")
+    let WelcomeView = Bundle.main.loadNibNamed("WelcomeView", owner: self, options: nil)?.first as! UIView
     
     let PortfolioView = IntroTemplateView()
-    PortfolioView.updateData(image: UIImage(named: "marketsIntro")!, title: "Portfolio Management", description: "Track all of your cryptocurrency investments and transactions with a very high accuracy.")
+    PortfolioView.updateData(image: UIImage(named: "marketsIntro")!, title: "Easy portfolio management.", description: "Stop calculating your profits on paper and let Cryptare do the work for you.")
     
     let MarketsView = IntroTemplateView()
-    MarketsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Markets", description: "Make wise financial decisions by comparing the prices of cryptocurrencies on 100+ different exchanges.")
+    MarketsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Save upto 20% on each purchase.", description: "Make wise financial decisions by comparing the prices of cryptocurrencies on 100+ different exchanges.")
+    
+    let DashboardView = IntroTemplateView()
+    DashboardView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Real-time market data.", description: "View the global data of 500+ Cryptocurrencies updated every minute in 15+ different currencies.")
+   
     
     let NewsView = IntroTemplateView()
-    NewsView.updateData(image: UIImage(named: "newsIntro")!, title: "News", description: "View latest news of your favourite cryptocurrencies to stay ahead of the curve.")
+    NewsView.updateData(image: UIImage(named: "newsIntro")!, title: "Aggregated news for each cryptocurrency.", description: "In such a fast-paced market staying ahead of the curve has never been easier.")
     
-    return [DashboardView, PortfolioView, MarketsView, NewsView]
+    return [WelcomeView, PortfolioView, MarketsView, DashboardView, NewsView]
   }
   
   func setupSlideScrollView(slides: [UIView]) {
@@ -68,9 +80,14 @@ class AppIntroViewController: UIViewController, UIScrollViewDelegate {
     
     let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
     pageControl.currentPage = Int(pageIndex)
+    
+    if pageControl.currentPage == pageControl.numberOfPages-1 {
+      doneButton.isEnabled = true
+    }
   }
   
   @IBAction func skipButtonTapped(_ sender: Any) {
+    
     Defaults[.mainAppIntroComplete] = true
     self.dismiss(animated: true, completion: {
       if self.fromAppDelegate && self.baseController != nil {
