@@ -267,8 +267,8 @@ class CoinMarketsViewController: UIViewController {
     buySortUsdtButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     self.buySortUsdtButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
     
-    sellSortButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
-    self.sellSortButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
+    sellSortUsdtButton.setTitle(sellTitleArray[sellSortButtonCounter], for: .normal)
+    self.sellSortUsdtButton.addTarget(self, action: #selector(sellSortButtonTapped), for: .touchUpInside)
     
     buySortBtcButton.setTitle(buyTitleArray[buySortButtonCounter], for: .normal)
     self.buySortBtcButton.addTarget(self, action: #selector(buySortButtonTapped), for: .touchUpInside)
