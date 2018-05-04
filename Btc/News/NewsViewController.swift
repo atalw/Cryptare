@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import AlamofireRSSParser
 import Armchair
+import SwiftyUserDefaults
 
 public enum NetworkResponseStatus {
   case success
@@ -37,12 +38,12 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
       tableView.delegate = self
     }
   }
-  @IBOutlet weak var indiaButton: UIButton! {
+  @IBOutlet weak var countryButton: UIButton! {
     didSet {
-      indiaButton.setTitleColor(UIColor.white, for: .selected)
-      indiaButton.isSelected = true
-      indiaButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
-      indiaButton.theme_tintColor = GlobalPicker.sortButtonSelectedColor
+      countryButton.setTitleColor(UIColor.white, for: .selected)
+      countryButton.isSelected = true
+      countryButton.addTarget(self, action: #selector(newsButtonTapped), for: .touchUpInside)
+      countryButton.theme_tintColor = GlobalPicker.sortButtonSelectedColor
     }
   }
   @IBOutlet weak var worldwideButton: UIButton! {
@@ -109,13 +110,40 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    self.selectedCountry = self.defaults.string(forKey: "selectedCountry")
+    self.selectedCountry = Defaults[.selectedCountry]
     
     if self.selectedCountry == "india" {
-      self.indiaButton.setTitle("🇮🇳", for: .normal)
+      self.countryButton.setTitle("🇮🇳", for: .normal)
     }
     else if self.selectedCountry == "usa" {
-      self.indiaButton.setTitle("🇺🇸", for: .normal)
+      self.countryButton.setTitle("🇺🇸", for: .normal)
+    }
+    else if self.selectedCountry == "eu" {
+      self.countryButton.setTitle("🇪🇺", for: .normal)
+    }
+    else if self.selectedCountry == "uk" {
+      self.countryButton.setTitle("🇬🇧", for: .normal)
+    }
+    else if self.selectedCountry == "canada" {
+      self.countryButton.setTitle("🇨🇦", for: .normal)
+    }
+    else if self.selectedCountry == "japan" {
+      self.countryButton.setTitle("🇯🇵", for: .normal)
+    }
+    else if self.selectedCountry == "china" {
+      self.countryButton.setTitle("🇨🇳", for: .normal)
+    }
+    else if self.selectedCountry == "singapore" {
+      self.countryButton.setTitle("🇸🇬", for: .normal)
+    }
+    else if self.selectedCountry == "australia" {
+      self.countryButton.setTitle("🇦🇺", for: .normal)
+    }
+    else if self.selectedCountry == "turkey" {
+      self.countryButton.setTitle("🇹🇷", for: .normal)
+    }
+    else if self.selectedCountry == "uae" {
+      self.countryButton.setTitle("🇦🇪", for: .normal)
     }
     
     FirebaseService.shared.news_view_appeared(coin: coin, country: selectedCountry)
@@ -124,7 +152,7 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   }
   
   @objc func newsButtonTapped() {
-    indiaButton.isSelected = !self.indiaButton.isSelected
+    countryButton.isSelected = !self.countryButton.isSelected
     worldwideButton.isSelected = !self.worldwideButton.isSelected
     getNews()
   }
@@ -169,8 +197,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
       sortDateButton.sendActions(for: .touchUpInside)
     }
     
-    if (self.indiaButton.isSelected) {
-      self.getIndiaNews()
+    if (self.countryButton.isSelected) {
+      self.getCountryNews()
     }
     else if (self.worldwideButton.isSelected) {
       self.getWorldwideNews()
@@ -184,15 +212,9 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
   }
   
-  func getIndiaNews() {
-    var url: String! = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) india/\(cryptoName) india?hl=en&ned=us"
+  func getCountryNews() {
+    var url: String! = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) \(self.selectedCountry!)?hl=en&ned=us"
     
-    if self.selectedCountry == "india" {
-      url = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) india/\(cryptoName!) india?hl=en&ned=us"
-    }
-    else if self.selectedCountry == "usa" {
-      url = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) usa/\(cryptoName!) usa?hl=en&ned=us"
-    }
     url = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
     self.getRSSFeedResponse(path: url) { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
       

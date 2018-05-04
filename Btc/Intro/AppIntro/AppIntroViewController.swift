@@ -64,7 +64,7 @@ class AppIntroViewController: UIViewController, UIScrollViewDelegate {
    
     
     let NewsView = IntroTemplateView()
-    NewsView.updateData(image: UIImage(named: "newsIntro")!, title: "Aggregated news for each cryptocurrency.", description: "In such a fast-paced market staying ahead of the curve has never been easier.")
+    NewsView.updateData(image: UIImage(named: "newsIntro")!, title: "News for each cryptocurrency.", description: "In such a fast-paced market, stay ahead of the curve with aggregated news for each cryptocurrency.")
     
     return [WelcomeView, PortfolioView, MarketsView, DashboardView, NewsView]
   }
