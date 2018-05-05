@@ -29,23 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // armchair - for app review
     Armchair.appID("1266256984")
-    Armchair.significantEventsUntilPrompt(5)
+    Armchair.significantEventsUntilPrompt(4)
     Armchair.useStoreKitReviewPrompt(true)
     
-    SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
-      for purchase in purchases {
-        switch purchase.transaction.transactionState {
-        case .purchased, .restored:
-          if purchase.needsFinishTransaction {
-            // Deliver content from server, then:
-            SwiftyStoreKit.finishTransaction(purchase.transaction)
-          }
-        // Unlock content
-        case .failed, .purchasing, .deferred:
-          break // do nothing
-        }
-      }
-    }
     
     // navigation bar
     UINavigationBar.appearance().isTranslucent = false
@@ -71,6 +57,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       print("DEBUG")
     #else
       if Defaults.hasKey(.subscriptionPurchased) {
+        
+        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+          for purchase in purchases {
+            switch purchase.transaction.transactionState {
+            case .purchased, .restored:
+              if purchase.needsFinishTransaction {
+                // Deliver content from server, then:
+                SwiftyStoreKit.finishTransaction(purchase.transaction)
+              }
+            // Unlock content
+            case .failed, .purchasing, .deferred:
+              break // do nothing
+            }
+          }
+        }
+        
         fetchReceipt()
       }
     #endif

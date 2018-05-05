@@ -11,6 +11,7 @@ import Parchment
 import SwiftyUserDefaults
 import FirebaseAuth
 import FirebaseDatabase
+import Armchair
 
 class MainPortfolioViewController: UIViewController {
   
@@ -153,6 +154,12 @@ class MainPortfolioViewController: UIViewController {
         }
       }
     }
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    Armchair.showPromptIfNecessary()
   }
   
   func updateOldFormatPortfolioEntries() {
