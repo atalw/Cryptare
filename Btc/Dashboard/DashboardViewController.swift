@@ -95,6 +95,7 @@ class DashboardViewController: UIViewController {
     var allCoins: [String] = []
     
     activityIndicator.startAnimating()
+    listOfCoins.keepSynced(true)
     listOfCoins.observeSingleEvent(of: .value, with: { (snapshot) in
       if let dict = snapshot.value as? [String: [String: Any]] {
         let sortedDict = dict.sorted(by: { ($0.1["rank"] as! Int) < ($1.1["rank"] as! Int)})

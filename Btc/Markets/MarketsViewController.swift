@@ -153,6 +153,7 @@ class MarketsViewController: UIViewController {
       let coin = tradingPairRef.0
       let pair = tradingPairRef.1
       let market = tradingPairRef.2
+      tradingPairRef.4.keepSynced(true)
       tradingPairRef.4.observeSingleEvent(of: .value, with: {(snapshot) -> Void in
         if let cryptoDict = snapshot.value as? [String : AnyObject] {
           

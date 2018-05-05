@@ -99,7 +99,7 @@ class FirebaseService: NSObject {
   func add_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
     if let uid = uid {
       let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
-      
+      userCoinAlertRef.keepSynced(true)
       userCoinAlertRef.observeSingleEvent(of: .value) { (snapshot) in
         if var dict = snapshot.value as? [String: [String: [String: [String: Int]]]] {
           if dict[exchangeName] != nil {
@@ -138,7 +138,7 @@ class FirebaseService: NSObject {
   func remove_users_coin_alerts(exchangeName: String, tradingPair: (String, String)) {
     if let uid = uid {
       let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
-      
+      userCoinAlertRef.keepSynced(true)
       userCoinAlertRef.observeSingleEvent(of: .value) { (snapshot) in
         if var dict = snapshot.value as? [String: [String: [String: [String: Int]]]] {
           if dict[exchangeName] != nil {

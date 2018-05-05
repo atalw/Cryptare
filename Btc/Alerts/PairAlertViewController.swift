@@ -160,7 +160,6 @@ class PairAlertViewController: UIViewController {
     //    Defaults[.allCoinAlerts] = testingAlertData
     
     // --------------------------------------------------------
-    
     loadAlerts()
 
     self.tableView.reloadData()
@@ -175,19 +174,24 @@ class PairAlertViewController: UIViewController {
     if Auth.auth().currentUser?.uid != nil {
       let uid = Auth.auth().currentUser?.uid
       let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid!)
+      coinAlertRef.keepSynced(true)
       coinAlertRef.observeSingleEvent(of: .value, with: { (snapshot) in
-        
-        if let alertsDict = snapshot.value as? [String: Any] {
-          self.alertsDict = alertsDict
-          if self.currentPair != nil && self.currentMarket != nil {
-            self.getAlertsFor(alerts: alertsDict, tradingPair: self.currentPair!, market: self.currentMarket!)
+        if snapshot.exists() {
+          if let alertsDict = snapshot.value as? [String: Any] {
+            self.alertsDict = alertsDict
+            if self.currentPair != nil && self.currentMarket != nil {
+              self.getAlertsFor(alerts: alertsDict, tradingPair: self.currentPair!, market: self.currentMarket!)
+            }
+            else {
+              self.getAllAlerts(alertsDict: alertsDict)
+            }
+            
+            self.sortAlertsByDate()
+            self.tableView.reloadData()
           }
-          else {
-            self.getAllAlerts(alertsDict: alertsDict)
-          }
-          
-          self.sortAlertsByDate()
-          self.tableView.reloadData()
+        }
+        else {
+          self.getAllAlerts(alertsDict: [:])
         }
       })
     }
@@ -212,7 +216,7 @@ class PairAlertViewController: UIViewController {
   }
   
   func getAllAlerts(alertsDict: [String: Any]) {
-    
+    self.alerts = []
     let allCoinAlerts = alertsDict
     for (exchange, data) in allCoinAlerts {
       guard let exchangeData = data as? [String: Any] else { return }
@@ -244,6 +248,7 @@ class PairAlertViewController: UIViewController {
   }
   
   func getAlertsFor(alerts: [String: Any], tradingPair: (String, String), market: (String, String)) {
+    self.alerts = []
     let allCoinAlerts = alerts
     for (exchange, data) in allCoinAlerts {
       if exchange != market.0 { continue }
@@ -279,7 +284,6 @@ class PairAlertViewController: UIViewController {
   @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
     alerts = []
     tableView.reloadData()
-    print(alerts)
     loadAlertsFromDefaults()
     refreshControl.endRefreshing()
   }
@@ -340,12 +344,7 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
 
     cell.exchangeLabel.text = alert.exchange.0
     
-    if alert.isActive {
-      cell.isActiveSwitch.setOn(true, animated: true)
-    }
-    else {
-      cell.isActiveSwitch.setOn(false, animated: true)
-    }
+    cell.isActiveSwitch.setOn(alert.isActive, animated: true)
     
     cell.isActiveSwitch.tag = row
     cell.isActiveSwitch.addTarget(self, action: #selector(isActiveSwitchChanged), for: .valueChanged)

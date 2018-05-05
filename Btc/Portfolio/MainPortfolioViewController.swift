@@ -96,7 +96,7 @@ class MainPortfolioViewController: UIViewController {
     if FirebaseService.shared.uid != nil {
       let uid = FirebaseService.shared.uid!
       let portfolioRef = Database.database().reference().child("portfolios").child(uid)
-      
+      portfolioRef.keepSynced(true)
       portfolioRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
         if !snapshot.exists() {
           let portfolioData: [String: Any] = ["CryptoData": Defaults[.cryptoPortfolioData],

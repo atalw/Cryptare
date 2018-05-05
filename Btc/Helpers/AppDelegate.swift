@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // armchair - for app review
     Armchair.appID("1266256984")
     Armchair.significantEventsUntilPrompt(5)
+    Armchair.useStoreKitReviewPrompt(true)
     
     SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
       for purchase in purchases {
