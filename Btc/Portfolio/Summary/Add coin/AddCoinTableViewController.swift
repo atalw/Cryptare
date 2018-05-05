@@ -25,9 +25,6 @@ class AddCoinTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Add Coin", screenClass: "AddCoinViewController")
-
-    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
@@ -90,6 +87,9 @@ class AddCoinTableViewController: UITableViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Add Coin", screenClass: "AddCoinViewController")
+
     
     if #available(iOS 11.0, *) {
       navigationItem.hidesSearchBarWhenScrolling = true

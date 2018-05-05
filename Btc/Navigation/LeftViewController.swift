@@ -52,7 +52,6 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Navigation Slider", screenClass: "LeftViewController")
     
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
@@ -87,6 +86,9 @@ class LeftViewController : UIViewController, LeftMenuProtocol {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Navigation Slider", screenClass: "LeftViewController")
+
     
     let currentThemeIndex = Defaults[.currentThemeIndex]
     if currentThemeIndex == 1 {

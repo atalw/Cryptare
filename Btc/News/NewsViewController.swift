@@ -91,8 +91,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     Armchair.userDidSignificantEvent(true)
     
-    FirebaseService.shared.updateScreenName(screenName: "News", screenClass: "NewsViewController")
-    
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     
@@ -149,6 +147,13 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     FirebaseService.shared.news_view_appeared(coin: coin, country: selectedCountry)
     
     getNews()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "News", screenClass: "NewsViewController")
+
   }
   
   @objc func newsButtonTapped() {

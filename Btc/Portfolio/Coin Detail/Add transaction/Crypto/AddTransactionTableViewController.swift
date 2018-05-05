@@ -122,8 +122,6 @@ class AddTransactionTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Add Crypto Transaction", screenClass: "AddTransactionViewController")
-    
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     
@@ -204,6 +202,9 @@ class AddTransactionTableViewController: UITableViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Add Crypto Transaction", screenClass: "AddTransactionViewController")
+
     parentController.tableViewHeightConstraint.constant = tableView.contentSize.height
     databaseReference = Database.database().reference()
   }

@@ -133,8 +133,6 @@ class MainPortfolioViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    print(Defaults[.portfolioNames])
-    
     for (_, viewController) in viewControllerList.enumerated() {
       if let portfolioVC = viewController as? PortfolioSummaryViewController {
         guard (portfolioVC.tableView) != nil else { return }

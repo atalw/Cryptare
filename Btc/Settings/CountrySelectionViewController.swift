@@ -25,8 +25,6 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Currency Selection", screenClass: "CountrySelectionViewController")
-    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableViewController.countryTable.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableViewController.countryTable.theme_separatorColor = GlobalPicker.tableSeparatorColor
@@ -38,9 +36,11 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     tableViewController.countryTable.tableFooterView = UIView(frame: .zero)
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Currency Selection", screenClass: "CountrySelectionViewController")
+
   }
   
   // MARK: - Navigation

@@ -85,8 +85,6 @@ class AddFiatTransactionTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-      FirebaseService.shared.updateScreenName(screenName: "Add Fiat Transaction", screenClass: "AddFiatTransactionViewController")
 
         self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
         self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
@@ -142,6 +140,13 @@ class AddFiatTransactionTableViewController: UITableViewController {
         })
         
     }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Add Fiat Transaction", screenClass: "AddFiatTransactionViewController")
+
+  }
 
     func updateLabels() {
         self.currentExchange = ("None", "none")

@@ -28,7 +28,6 @@ class AddPortfolioViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    Analytics.setScreenName("Add Portfolio", screenClass: "AddPortfolioViewController")
 
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -52,6 +51,11 @@ class AddPortfolioViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    Analytics.setScreenName("Add Portfolio", screenClass: "AddPortfolioViewController")
   }
   
 //  @objc func unlockPortfolioButtonTapped() {

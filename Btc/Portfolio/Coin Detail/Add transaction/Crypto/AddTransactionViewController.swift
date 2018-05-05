@@ -52,8 +52,6 @@ class AddTransactionViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Add Crypto Transaction", screenClass: "AddTransactionViewController")
-    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
     portfolioName = parentController.portfolioName
@@ -77,6 +75,8 @@ class AddTransactionViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Add Crypto Transaction", screenClass: "AddTransactionViewController")
     
   }
   

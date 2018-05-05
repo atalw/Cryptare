@@ -27,9 +27,6 @@ class TradingPairTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Trading Pairs Add Transaction", screenClass: "TradingPairViewController")
-
-    
     self.title = "Trading Pairs"
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -66,6 +63,8 @@ class TradingPairTableViewController: UITableViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Trading Pairs Add Transaction", screenClass: "TradingPairViewController")
   }
   
   // MARK: - Table view data source

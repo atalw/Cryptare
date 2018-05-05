@@ -435,13 +435,11 @@ class AddPairAlertTableViewController: UITableViewController {
     
     
     let yesAction = UIAlertAction(title: "Ok", style: .default, handler: { action -> Void in
-      print("yes tapped")
       self.isAboveSwitch.setOn(!self.isAboveSwitch.isOn, animated: true)
       self.parentController.isAbove = self.isAboveSwitch.isOn
     })
     
     let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { action -> Void in
-      print("no tapped")
       self.thresholdPriceLabel.text = ""
       self.thresholdPrice = 0
     })

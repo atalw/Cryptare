@@ -21,8 +21,6 @@ class AvailableExchangesTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Available Exchanges Add Transaction", screenClass: "AvailableExchangesTableViewController")
-    
     self.title = "Exchanges"
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -40,9 +38,10 @@ class AvailableExchangesTableViewController: UITableViewController {
     
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Available Exchanges Add Transaction", screenClass: "AvailableExchangesTableViewController")
   }
   
   // MARK: - Table view data source

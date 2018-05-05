@@ -124,13 +124,10 @@ class DashboardViewController: UIViewController {
         }
       }
       if !self.favouritesTab {
-        FirebaseService.shared.updateScreenName(screenName: "All Dashboard", screenClass: "DashboardViewController")
         self.coins = allCoins
       }
       else {
         // for reorder ability
-        FirebaseService.shared.updateScreenName(screenName: "Favourites Dashboard", screenClass: "FavouritesDashboardViewController")
-        
         self.tableView.reorder.delegate = self
       }
       self.loadAllCoinData()
@@ -156,6 +153,13 @@ class DashboardViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    if !self.favouritesTab {
+      FirebaseService.shared.updateScreenName(screenName: "All Dashboard", screenClass: "DashboardViewController")
+    }
+    else {
+      FirebaseService.shared.updateScreenName(screenName: "Favourites Dashboard", screenClass: "FavouritesDashboardViewController")
+    }
     
     if currentReachabilityStatus == .notReachable {
       let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)

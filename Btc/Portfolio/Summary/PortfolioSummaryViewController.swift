@@ -170,8 +170,6 @@ class PortfolioSummaryViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Portfolio Summary", screenClass: "PortfolioSummaryViewController")
-    
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
@@ -218,6 +216,9 @@ class PortfolioSummaryViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Portfolio Summary", screenClass: "PortfolioSummaryViewController")
+
   }
   
   override func viewDidLayoutSubviews() {

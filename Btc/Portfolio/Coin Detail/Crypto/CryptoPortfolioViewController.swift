@@ -101,8 +101,6 @@ class CryptoPortfolioViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    FirebaseService.shared.updateScreenName(screenName: "Crypto Portfolio", screenClass: "CryptoPortfolioViewController")
 
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
@@ -123,6 +121,7 @@ class CryptoPortfolioViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
+    FirebaseService.shared.updateScreenName(screenName: "Crypto Portfolio", screenClass: "CryptoPortfolioViewController")
   }
   
   override func viewDidDisappear(_ animated: Bool) {

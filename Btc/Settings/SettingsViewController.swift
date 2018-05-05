@@ -318,8 +318,6 @@ class SettingsViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Settings", screenClass: "SettingsViewController")
-    
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
@@ -342,6 +340,9 @@ class SettingsViewController: UITableViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Settings", screenClass: "SettingsViewController")
+
     
 //    let unlockAll: Bool = Defaults[.unlockAllPurchased]
 //    let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
@@ -666,7 +667,7 @@ class SettingsViewController: UITableViewController {
         })
         
         let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
-          print("no tapped")
+          // do nothing
         })
         
         dialogMessage.addAction(yesAction)

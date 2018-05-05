@@ -36,7 +36,6 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Markets Onboard", screenClass: "MarketsIntroViewController")
     
     slideScrollView.delegate = self
     let slides = createSlides()
@@ -47,6 +46,12 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
     
     view.bringSubview(toFront: pageControl)
     view.bringSubview(toFront: skipButton)
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    FirebaseService.shared.updateScreenName(screenName: "Markets Tutorial", screenClass: "MarketsIntroViewController")
+
   }
   
   func createSlides() -> [UIView] {

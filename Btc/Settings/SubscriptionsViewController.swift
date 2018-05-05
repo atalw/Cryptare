@@ -82,8 +82,6 @@ class SubscriptionsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FirebaseService.shared.updateScreenName(screenName: "Subscriptions", screenClass: "SubscriptionsViewController")
-    
     proLabel.adjustsFontSizeToFitWidth = true
     
     IAPService.shared.requestProductsWithCompletionHandler(completionHandler: { (success, products) -> Void in
@@ -119,6 +117,13 @@ class SubscriptionsViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     FirebaseService.shared.subscription_page_opened()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Subscriptions", screenClass: "SubscriptionsViewController")
+
   }
   
   @objc func unlockProModeOneYearTapped(sender : UITapGestureRecognizer) {

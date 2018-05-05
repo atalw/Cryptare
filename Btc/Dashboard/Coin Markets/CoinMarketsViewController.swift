@@ -250,8 +250,6 @@ class CoinMarketsViewController: UIViewController {
     
     Armchair.userDidSignificantEvent(true)
     
-    FirebaseService.shared.updateScreenName(screenName: "Markets", screenClass: "MarketsViewController")
-    
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     
     coinNameLabel.text = currentCoin
@@ -331,6 +329,8 @@ class CoinMarketsViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Markets", screenClass: "MarketsViewController")
     
     FirebaseService.shared.coin_markets_view_appeared(coin: currentCoin, currency: GlobalValues.currency!)
     

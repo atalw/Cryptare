@@ -232,9 +232,6 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    Analytics.setScreenName("Crypto Details", screenClass: "CryptoDetailViewController")
-    
-    
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     
     self.chart.delegate = self
@@ -280,6 +277,8 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    Analytics.setScreenName("Crypto Details", screenClass: "CryptoDetailViewController")
     
     coinSymbolLabel.text = databaseTableTitle
     coinLogo.loadSavedImage(coin: databaseTableTitle)
