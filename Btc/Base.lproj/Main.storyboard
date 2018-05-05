@@ -6515,28 +6515,28 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="navigationCell" id="Mz0-Ny-9cm" customClass="LeftNavigationTableViewCell" customModule="Cryptare" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="navigationCell" id="Mz0-Ny-9cm" customClass="LeftNavigationTableViewCell" customModule="Cryptare" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="205" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mz0-Ny-9cm" id="6eW-x3-dHI">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mz0-Ny-9cm" id="6eW-x3-dHI">
                                             <rect key="frame" x="0.0" y="0.0" width="205" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WVy-OU-Q6U">
-                                                    <rect key="frame" x="5" y="5" width="280" height="40"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WVy-OU-Q6U">
+                                                    <rect key="frame" x="5" y="5" width="195" height="40"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="7.5" translatesAutoresizingMaskIntoConstraints="NO" id="8my-ZM-KXa">
-                                                            <rect key="frame" x="10" y="0.0" width="113" height="40"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="7.5" translatesAutoresizingMaskIntoConstraints="NO" id="8my-ZM-KXa">
+                                                            <rect key="frame" x="10" y="0.0" width="175" height="40"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sa0-cn-Ijn">
-                                                                    <rect key="frame" x="0.0" y="8" width="50.333333333333336" height="24"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sa0-cn-Ijn">
+                                                                    <rect key="frame" x="0.0" y="8" width="24" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="24" id="fbU-wO-jhQ"/>
                                                                         <constraint firstAttribute="height" constant="24" id="sB6-zV-FcB"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dy8-VY-dZN">
-                                                                    <rect key="frame" x="58" y="6.9999999999999982" width="55" height="26.333333333333329"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dy8-VY-dZN">
+                                                                    <rect key="frame" x="31.666666666666671" y="6.9999999999999982" width="143.33333333333331" height="26.333333333333329"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -6559,10 +6559,10 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="WVy-OU-Q6U" firstAttribute="leading" secondItem="6eW-x3-dHI" secondAttribute="leading" constant="5" id="2uP-FB-2mq"/>
-                                                <constraint firstAttribute="trailing" secondItem="WVy-OU-Q6U" secondAttribute="trailing" constant="5" id="XGO-r0-o8K"/>
-                                                <constraint firstItem="WVy-OU-Q6U" firstAttribute="top" secondItem="6eW-x3-dHI" secondAttribute="top" constant="5" id="fXd-L0-kLd"/>
-                                                <constraint firstAttribute="bottom" secondItem="WVy-OU-Q6U" secondAttribute="bottom" constant="5" id="ryl-Dz-8hX"/>
+                                                <constraint firstAttribute="trailing" secondItem="WVy-OU-Q6U" secondAttribute="trailing" constant="5" id="1Cy-yI-oqk"/>
+                                                <constraint firstItem="WVy-OU-Q6U" firstAttribute="leading" secondItem="6eW-x3-dHI" secondAttribute="leading" constant="5" id="6qg-5K-XnX"/>
+                                                <constraint firstItem="WVy-OU-Q6U" firstAttribute="top" secondItem="6eW-x3-dHI" secondAttribute="top" constant="5" id="AJe-Md-yyA"/>
+                                                <constraint firstAttribute="bottom" secondItem="WVy-OU-Q6U" secondAttribute="bottom" constant="5" id="ftV-RK-ues"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -6839,10 +6839,10 @@
         <scene sceneID="Cwl-2W-3Ul">
             <objects>
                 <tableViewController storyboardIdentifier="FiatPortfolioTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="wQK-Lg-mTS" customClass="FiatPortfolioTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="QNT-Vy-U6q">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="QNT-Vy-U6q">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="500"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="EEG-mx-vdh">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -6850,7 +6850,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="currencyCell" rowHeight="110" id="3MC-yg-P70" customClass="FiatPortfolioTableViewCell" customModule="Cryptare" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="110"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="110"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3MC-yg-P70" id="ziZ-4e-hbe">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>

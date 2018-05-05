@@ -21,7 +21,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   
   let defaults = UserDefaults.standard
   var selectedCountry: String!
-  var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
   var allNewsData : [NewsData] = [];
   var sortedNewsData : [NewsData] = [];
   
@@ -31,6 +30,17 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   let marketRowColour : UIColor = UIColor.white
   let alternateMarketRowColour: UIColor = UIColor.init(hex: "e6ecf1")
   let sortButtonSelectedColour: UIColor = UIColor.init(hex: "46637F")
+  
+  lazy var activityIndicator: UIActivityIndicatorView = {
+    let activityIndicator = UIActivityIndicatorView()
+    activityIndicator.theme_activityIndicatorViewStyle = GlobalPicker.activityIndicatorColor
+    activityIndicator.center = tableView.center
+    activityIndicator.center.y -= 150
+    activityIndicator.hidesWhenStopped = true
+    tableView.addSubview(activityIndicator)
+    
+    return activityIndicator
+  }()
   
   @IBOutlet weak var tableView: UITableView! {
     didSet {
@@ -93,11 +103,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     self.tableView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
-    
-    activityIndicator.center = self.view.center
-    activityIndicator.hidesWhenStopped = true
-    activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-    view.addSubview(activityIndicator)
     
     let notificationCenter = NotificationCenter.default
     notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
@@ -193,7 +198,6 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   func getNews() {
     self.allNewsData = []
     self.tableView.reloadData()
-    self.activityIndicator.startAnimating()
     
     if defaults.string(forKey: "newsSort") == "popularity" {
       sortPopularityButton.sendActions(for: .touchUpInside)
@@ -218,6 +222,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   }
   
   func getCountryNews() {
+    self.activityIndicator.startAnimating()
+
     var url: String! = "https://news.google.com/news/rss/search/section/q/\(cryptoName!) \(self.selectedCountry!)?hl=en&ned=us"
     
     url = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
@@ -241,6 +247,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   }
   
   func getWorldwideNews() {
+    self.activityIndicator.startAnimating()
+
     var url: String! = "https://news.google.com/news/rss/search/section/q/\(cryptoName!)/\(cryptoName!)?hl=en&ned=us"
     
     url = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
