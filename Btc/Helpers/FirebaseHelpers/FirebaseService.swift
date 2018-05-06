@@ -83,6 +83,17 @@ class FirebaseService: NSObject {
     }
   }
   
+  func deleteAllPortfolioData() {
+    if let uid = uid {
+      let portfolioRef = Database.database().reference().child("portfolios").child(uid)
+      portfolioRef.removeValue(completionBlock: { (err, ref) in
+        if err != nil {
+          print(err!, "delete all portfolios")
+        }
+      })
+    }
+  }
+  
   func update_coin_alerts(data: [String: Any]) {
     Defaults[.allCoinAlerts] = data
 
@@ -124,7 +135,6 @@ class FirebaseService: NSObject {
           else {
             dict[exchangeName] = [tradingPair.0: [tradingPair.1: [uid: 1]]]
           }
-          
           userCoinAlertRef.setValue(dict) { (err, ref) in
             if err != nil {
               print(err!, "users coin alert update")
@@ -177,6 +187,45 @@ class FirebaseService: NSObject {
         }
       }
     }
+  }
+  
+  func deleteAllAlerts() {
+    if let uid = uid {
+      let coinAlertRef = Database.database().reference().child("coin_alerts").child(uid)
+      coinAlertRef.removeValue(completionBlock: { (err, ref) in
+        if err != nil {
+          print(err!, "coin alert update")
+        }
+      })
+      
+      let userCoinAlertRef = Database.database().reference().child("coin_alerts_users")
+      userCoinAlertRef.observeSingleEvent(of: .value) { (snapshot) in
+        if var dict = snapshot.value as? [String: [String: [String: [String: Int]]]] {
+          for (exchange, data) in dict {
+            guard let exchangeData = data as? [String: Any] else { return }
+            for (coin, coinData) in exchangeData {
+              guard let alertData = coinData as? [String: Any] else { return }
+              for (pair, _) in alertData {
+                if dict[exchange] != nil {
+                  if dict[exchange]![coin] != nil {
+                    if dict[exchange]![coin]![pair] != nil {
+                      dict[exchange]![coin]![pair]![uid] = nil
+                    }
+                  }
+                }
+              }
+            }
+          }
+          userCoinAlertRef.setValue(dict) { (err, ref) in
+            if err != nil {
+              print(err!, "users coin alert update")
+            }
+          }
+        }
+      }
+    }
+    Defaults.remove(.allCoinAlerts)
+    Defaults.remove(.numberOfCoinAlerts)
   }
 }
 

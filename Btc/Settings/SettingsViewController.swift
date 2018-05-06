@@ -675,8 +675,104 @@ class SettingsViewController: UITableViewController {
         
         self.present(dialogMessage, animated: true, completion: nil)
       }
+      
+      
     }
-    else if section == 7 { // social
+    else if section == 7 {
+      if row == 0 {
+        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete all your Portfolio Data? All backups will be removed.", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+          let dialogMessage = UIAlertController(title: "Confirm", message: "This action is irreversible. Are you sure?", preferredStyle: .alert)
+          
+          let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+            Defaults.remove(.portfolioNames)
+            Defaults.remove(.cryptoPortfolioData)
+            Defaults.remove(.fiatPortfolioData)
+            
+            FirebaseService.shared.deleteAllPortfolioData()
+          })
+          
+          let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
+            // do nothing
+          })
+          
+          dialogMessage.addAction(yesAction)
+          dialogMessage.addAction(cancelAction)
+          
+          self.present(dialogMessage, animated: true, completion: nil)
+        })
+        
+        let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
+          // do nothing
+        })
+        
+        dialogMessage.addAction(yesAction)
+        dialogMessage.addAction(cancelAction)
+        
+        self.present(dialogMessage, animated: true, completion: nil)
+      }
+      else if row == 1 {
+        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete all your Alerts? All backups will be removed.", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+          let dialogMessage = UIAlertController(title: "Confirm", message: "This action is irreversible. Are you sure?", preferredStyle: .alert)
+          
+          let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+            FirebaseService.shared.deleteAllAlerts()
+          })
+          
+          let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
+            // do nothing
+          })
+          
+          dialogMessage.addAction(yesAction)
+          dialogMessage.addAction(cancelAction)
+          
+          self.present(dialogMessage, animated: true, completion: nil)
+        })
+        
+        let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
+          // do nothing
+        })
+        
+        dialogMessage.addAction(yesAction)
+        dialogMessage.addAction(cancelAction)
+        
+        self.present(dialogMessage, animated: true, completion: nil)
+      }
+      else if row == 2 {
+        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete all your data? All backups will be removed.", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+          let dialogMessage = UIAlertController(title: "Confirm", message: "This action is irreversible. Are you sure?", preferredStyle: .alert)
+          
+          let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in
+            FirebaseService.shared.deleteAllPortfolioData()
+            FirebaseService.shared.deleteAllAlerts()
+          })
+          
+          let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
+            // do nothing
+          })
+          
+          dialogMessage.addAction(yesAction)
+          dialogMessage.addAction(cancelAction)
+          
+          self.present(dialogMessage, animated: true, completion: nil)
+        })
+        
+        let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action -> Void in
+          // do nothing
+        })
+        
+        dialogMessage.addAction(yesAction)
+        dialogMessage.addAction(cancelAction)
+        
+        self.present(dialogMessage, animated: true, completion: nil)
+      }
+    }
+    else if section == 8 { // social
       if row == 0 { //twitter
         FirebaseService.shared.cryptare_twitter_tapped()
         let url = URL(string: "https://twitter.com/cryptare")
@@ -701,7 +797,7 @@ class SettingsViewController: UITableViewController {
         UIApplication.shared.openURL(url!)
       }
     }
-    else if section == 8 {
+    else if section == 9 {
       let row = row
       if row == 0 { // app review
         FirebaseService.shared.rate_app_tapped()

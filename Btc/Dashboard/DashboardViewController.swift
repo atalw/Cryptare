@@ -214,6 +214,8 @@ class DashboardViewController: UIViewController {
       self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 2)
     }
     
+    headerBackgroundView.isHidden = false
+    activityIndicator.stopAnimating()
     tableView.reloadData()
   }
   
@@ -347,8 +349,6 @@ class DashboardViewController: UIViewController {
       coinData[coin]!["marketcap"] = marketcap
     }
     
-    headerBackgroundView.isHidden = false
-    activityIndicator.stopAnimating()
     tableView.reloadData()
   }
   

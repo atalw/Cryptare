@@ -29,7 +29,7 @@ class AddPairAlertViewController: UIViewController {
       #if DEBUG
       lockAlertsView.isHidden = true
       #else
-      if numberOfCoinAlerts < 4 {
+      if numberOfCoinAlerts < 3 {
         lockAlertsView.isHidden = true
       }
       else {
