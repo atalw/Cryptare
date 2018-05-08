@@ -424,6 +424,10 @@ class CoinMarketsViewController: UIViewController {
       fiatExchangeRef.0.removeAllObservers()
     }
     
+    for usdtExchangeRef in usdtExchangeRefs {
+      usdtExchangeRef.0.removeAllObservers()
+    }
+    
     for btcExchangeRef in btcExchangeRefs {
       btcExchangeRef.0.removeAllObservers()
     }
@@ -555,8 +559,24 @@ class CoinMarketsViewController: UIViewController {
   
   func updateFirebaseObservedData(dict: [String: AnyObject], title: String) {
     
-    let currentBuyPrice = dict["buy_price"] as! Double
-    let currentSellPrice = dict["sell_price"] as! Double
+    var currentBuyPrice = dict["buy_price"] as! Double
+    var currentSellPrice = dict["sell_price"] as! Double
+    
+    if currentBuyPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentBuyPrice = lastPrice
+        }
+      }
+    }
+    
+    if currentSellPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentSellPrice = lastPrice
+        }
+      }
+    }
     
     if let index = self.markets.index(where: {$0.title == title}) {
       
@@ -609,8 +629,24 @@ class CoinMarketsViewController: UIViewController {
     let unformattedBuyPrice = dict["buy_price"] as! Double
     let unformattedSellPrice = dict["sell_price"] as! Double
     
-    let currentBuyPrice = round(unformattedBuyPrice*1000)/1000
-    let currentSellPrice = round(unformattedSellPrice*1000)/1000
+    var currentBuyPrice = round(unformattedBuyPrice*1000)/1000
+    var currentSellPrice = round(unformattedSellPrice*1000)/1000
+    
+    if currentBuyPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentBuyPrice = lastPrice
+        }
+      }
+    }
+    
+    if currentSellPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentSellPrice = lastPrice
+        }
+      }
+    }
     
     if let index = self.usdtMarkets.index(where: {$0.title == title}) {
       
@@ -662,8 +698,24 @@ class CoinMarketsViewController: UIViewController {
     let unformattedBuyPrice = dict["buy_price"] as! Double
     let unformattedSellPrice = dict["sell_price"] as! Double
     
-    let currentBuyPrice = round(unformattedBuyPrice*100000000)/100000000
-    let currentSellPrice = round(unformattedSellPrice*100000000)/100000000
+    var currentBuyPrice = round(unformattedBuyPrice*100000000)/100000000
+    var currentSellPrice = round(unformattedSellPrice*100000000)/100000000
+    
+    if currentBuyPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentBuyPrice = lastPrice
+        }
+      }
+    }
+    
+    if currentSellPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentSellPrice = lastPrice
+        }
+      }
+    }
     
     if let index = self.btcMarkets.index(where: {$0.title == title}) {
       
@@ -715,8 +767,24 @@ class CoinMarketsViewController: UIViewController {
     let unformattedBuyPrice = dict["buy_price"] as! Double
     let unformattedSellPrice = dict["sell_price"] as! Double
     
-    let currentBuyPrice = round(unformattedBuyPrice*100000000)/100000000
-    let currentSellPrice = round(unformattedSellPrice*100000000)/100000000
+    var currentBuyPrice = round(unformattedBuyPrice*100000000)/100000000
+    var currentSellPrice = round(unformattedSellPrice*100000000)/100000000
+    
+    if currentBuyPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentBuyPrice = lastPrice
+        }
+      }
+    }
+    
+    if currentSellPrice == 0 {
+      if let lastPrice = dict["last_price"] as? Double {
+        if lastPrice > 0 {
+          currentSellPrice = lastPrice
+        }
+      }
+    }
     
     if let index = self.ethMarkets.index(where: {$0.title == title}) {
       

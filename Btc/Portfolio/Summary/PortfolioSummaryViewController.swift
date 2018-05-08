@@ -623,6 +623,22 @@ class PortfolioSummaryViewController: UIViewController {
     
     initalizePortfolioEntries(cryptoPortfolioData: [:], fiatPortfolioData: [:])
     self.tableView.reloadData()
+    
+    if let data = Defaults[.cryptoPortfolioData][portfolioName] {
+      if let cryptoData = data as? [String: [[String: Any]] ] {
+        self.cryptoPortfolioData = cryptoData
+      }
+      else {
+        self.cryptoDict = [:]
+      }
+    }
+    
+    if let fiatData =  Defaults[.fiatPortfolioData][portfolioName]  as? [String: [[String: Any]] ] {
+      self.fiatPortfolioData = fiatData
+    }
+    else {
+      self.fiatPortfolioData = [:]
+    }
       
     initalizePortfolioEntries(cryptoPortfolioData: cryptoPortfolioData, fiatPortfolioData: fiatPortfolioData)
     self.tableView.reloadData()

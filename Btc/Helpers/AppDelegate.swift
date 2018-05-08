@@ -238,7 +238,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
       }
     }
-    Database.database().reference().child("all_exchange_info").observeSingleEvent(of: .value, with: { snapshot -> Void in
+    
+    let exchangeInfoRef = Database.database().reference().child("all_exchange_info")
+    exchangeInfoRef.keepSynced(true)
+    exchangeInfoRef.observeSingleEvent(of: .value, with: { snapshot -> Void in
       if let dict = snapshot.value as? [String: [String: Any]] {
         marketInformation = dict
       }

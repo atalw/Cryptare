@@ -187,7 +187,7 @@ class CryptoPortfolioTableViewController: UITableViewController {
         else {
           cell.transactionInfoLabel.text = "Deposit due to sale of \(tradingPair)"
         }
-        cell.dateTimeLabel.text = "\(dateString) at \(timeString)"
+//        cell.dateTimeLabel.text = "\(dateString) at \(timeString)"
       }
       
       if let cost = portfolio.costPerCoin, let fees = portfolio.fees {
