@@ -217,23 +217,24 @@ class PairAlertViewController: UIViewController {
   
   func getAllAlerts(alertsDict: [String: Any]) {
     self.alerts = []
+    print(alertsDict)
     let allCoinAlerts = alertsDict
     for (exchange, data) in allCoinAlerts {
-      guard let exchangeData = data as? [String: Any] else { return }
+      guard let exchangeData = data as? [String: Any] else { continue }
       
       for (coin, coinData) in exchangeData {
-        guard let alertData = coinData as? [String: Any] else { return }
+        guard let alertData = coinData as? [String: Any] else { continue }
         
         for (pair, alertsArray) in alertData {
-          guard let alerts = alertsArray as? [[String: Any]] else { return }
+          guard let alerts = alertsArray as? [[String: Any]] else { continue }
           
           for alert in alerts {
-            guard let date = alert["date"] as? String else { return }
-            guard let isAbove = alert["isAbove"] as? Bool else { return }
-            guard let thresholdPrice = alert["thresholdPrice"] as? Double else { return }
-            guard let databaseTitle = alert["databaseTitle"] as? String else { return }
-            guard let isActive = alert["isActive"] as? Bool else { return }
-            guard let type = alert["type"] as? String else { return }
+            guard let date = alert["date"] as? String else { continue }
+            guard let isAbove = alert["isAbove"] as? Bool else { continue }
+            guard let thresholdPrice = alert["thresholdPrice"] as? Double else { continue }
+            guard let databaseTitle = alert["databaseTitle"] as? String else { continue }
+            guard let isActive = alert["isActive"] as? Bool else { continue }
+            guard let type = alert["type"] as? String else { continue }
             
             let tradingPair = (coin, pair)
             let market = (exchange, databaseTitle)
@@ -252,23 +253,23 @@ class PairAlertViewController: UIViewController {
     let allCoinAlerts = alerts
     for (exchange, data) in allCoinAlerts {
       if exchange != market.0 { continue }
-      guard let exchangeData = data as? [String: Any] else { return }
+      guard let exchangeData = data as? [String: Any] else { continue }
       
       for (coin, coinData) in exchangeData {
         if coin != tradingPair.0 { continue }
-        guard let alertData = coinData as? [String: Any] else { return }
+        guard let alertData = coinData as? [String: Any] else { continue }
         
         for (pair, alertsArray) in alertData {
           if pair != tradingPair.1 { continue }
-          guard let alerts = alertsArray as? [[String: Any]] else { return }
+          guard let alerts = alertsArray as? [[String: Any]] else { continue }
           
           for alert in alerts {
-            guard let date = alert["date"] as? String else { return }
-            guard let isAbove = alert["isAbove"] as? Bool else { return }
-            guard let thresholdPrice = alert["thresholdPrice"] as? Double else { return }
-            guard let databaseTitle = alert["databaseTitle"] as? String else { return }
-            guard let isActive = alert["isActive"] as? Bool else { return }
-            guard let type = alert["type"] as? String else { return }
+            guard let date = alert["date"] as? String else { continue }
+            guard let isAbove = alert["isAbove"] as? Bool else { continue }
+            guard let thresholdPrice = alert["thresholdPrice"] as? Double else { continue }
+            guard let databaseTitle = alert["databaseTitle"] as? String else { continue }
+            guard let isActive = alert["isActive"] as? Bool else { continue }
+            guard let type = alert["type"] as? String else { continue }
             
             let tradingPair = (coin, pair)
             let market = (exchange, databaseTitle)
@@ -370,18 +371,18 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
       
       for (base, coinData) in exchangeData {
         if base != baseCoin { continue }
-        guard var alertData = coinData as? [String: Any] else { return }
+        guard var alertData = coinData as? [String: Any] else { continue }
         
         for (quote, alertsArray) in alertData {
           if quote != quoteCoin { continue }
-          guard var alerts = alertsArray as? [[String: Any]] else { return }
+          guard var alerts = alertsArray as? [[String: Any]] else { continue }
           
           for (index, alertValues) in alerts.enumerated() {
-            guard let date = alertValues["date"] as? String else { return }
-            guard let isAbove = alertValues["isAbove"] as? Bool else { return }
-            guard let thresholdPrice = alertValues["thresholdPrice"] as? Double else { return }
-            guard let databaseTitle = alertValues["databaseTitle"] as? String else { return }
-            guard let type = alertValues["type"] as? String else { return }
+            guard let date = alertValues["date"] as? String else { continue }
+            guard let isAbove = alertValues["isAbove"] as? Bool else { continue }
+            guard let thresholdPrice = alertValues["thresholdPrice"] as? Double else { continue }
+            guard let databaseTitle = alertValues["databaseTitle"] as? String else { continue }
+            guard let type = alertValues["type"] as? String else { continue }
             
             if date == alert.date && isAbove == alert.isAbove && thresholdPrice == alert.thresholdPrice && type == alert.type && databaseTitle == alert.databaseTitle {
               
@@ -465,23 +466,23 @@ extension PairAlertViewController: UITableViewDataSource, UITableViewDelegate {
     outerLoop: for (exchange, data) in allCoinAlerts {
       
       if exchange != exchangeName { continue }
-      guard var exchangeData = data as? [String: Any] else { return }
+      guard var exchangeData = data as? [String: Any] else { continue }
       
       for (base, coinData) in exchangeData {
         if base != baseCoin { continue }
-        guard var alertData = coinData as? [String: Any] else { return }
+        guard var alertData = coinData as? [String: Any] else { continue }
         
         for (quote, alertsArray) in alertData {
           if quote != quoteCoin { continue }
-          guard var alerts = alertsArray as? [[String: Any]] else { return }
+          guard var alerts = alertsArray as? [[String: Any]] else { continue }
           
           for (index, alertValues) in alerts.enumerated() {
-            guard let date = alertValues["date"] as? String else { return }
-            guard let isAbove = alertValues["isAbove"] as? Bool else { return }
-            guard let thresholdPrice = alertValues["thresholdPrice"] as? Double else { return }
-            guard let databaseTitle = alertValues["databaseTitle"] as? String else { return }
-            guard let isActive = alertValues["isActive"] as? Bool else { return }
-            guard let type = alertValues["type"] as? String else { return }
+            guard let date = alertValues["date"] as? String else { continue }
+            guard let isAbove = alertValues["isAbove"] as? Bool else { continue }
+            guard let thresholdPrice = alertValues["thresholdPrice"] as? Double else { continue }
+            guard let databaseTitle = alertValues["databaseTitle"] as? String else { continue }
+            guard let isActive = alertValues["isActive"] as? Bool else { continue }
+            guard let type = alertValues["type"] as? String else { continue }
             
             if date == alert.date && isAbove == alert.isAbove && thresholdPrice == alert.thresholdPrice && isActive == alert.isActive && type == alert.type && databaseTitle == alert.databaseTitle {
               
