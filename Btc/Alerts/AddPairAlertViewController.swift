@@ -370,7 +370,7 @@ class AddPairAlertTableViewController: UITableViewController {
   
   func updateCurrentTradingPair(pair: (String, String)) {
     self.tradingPair = pair
-    self.tradingPairLabel.text = "\(pair.0)-\(pair.1)"
+    self.tradingPairLabel.text = "\(pair.0)/\(pair.1)"
     
     if let markets = allMarkets[pair.1] {
       currentTradingPairMarkets = markets
@@ -402,7 +402,8 @@ class AddPairAlertTableViewController: UITableViewController {
       if let dict = snapshot.value as? [String: AnyObject] {
         let buyPrice = dict["buy_price"] as! Double
         self.exchangePrice = buyPrice
-        self.thresholdPriceLabel.text = "\(buyPrice)"
+        self.thresholdPriceLabel.text = ""
+        self.thresholdPriceLabel.placeholder = "\(buyPrice)"
         self.thresholdPrice = buyPrice
       }
     })

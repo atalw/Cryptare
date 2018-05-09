@@ -91,6 +91,9 @@ class FirebaseService: NSObject {
           print(err!, "delete all portfolios")
         }
       })
+      Defaults.remove(.portfolioNames)
+      Defaults.remove(.cryptoPortfolioData)
+      Defaults.remove(.fiatPortfolioData)
     }
   }
   

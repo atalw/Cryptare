@@ -16,7 +16,8 @@ class AddCoinTableViewController: UITableViewController {
   
   var coins: [(String, String)] = []
   var currencies: [(String, String)] = []
-  
+  var sortedCurrencies: [(String, String)] = []
+
   var coinSearchResults = [(String, String)]()
   var currencySearchResults = [(String, String)]()
   
@@ -100,6 +101,9 @@ class AddCoinTableViewController: UITableViewController {
     for country in GlobalValues.countryList {
       self.currencies.append((country.1, country.3))
     }
+    
+    sortedCurrencies = currencies.sorted(by: {$0.1 < $1.1})
+
     self.tableView.reloadData()
     
   }
@@ -122,7 +126,7 @@ class AddCoinTableViewController: UITableViewController {
       else { return false }
     })
     
-    currencySearchResults = currencies.filter( {( arg0 ) -> Bool in
+    currencySearchResults = sortedCurrencies.filter( {( arg0 ) -> Bool in
       let (currency, name) = arg0
       if currency.lowercased().contains(searchText.lowercased()) || name.lowercased().contains(searchText.lowercased()) {
         return true
@@ -173,7 +177,7 @@ override func tableView(_ tableView: UITableView, numberOfRowsInSection section:
     }
   }
   if section == 0 {
-    return self.currencies.count
+    return self.sortedCurrencies.count
   }
   if section == 1 {
     return self.coins.count
@@ -209,7 +213,7 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
     }
     else {
       if section == 0 {
-        data = currencies[indexPath.row]
+        data = sortedCurrencies[indexPath.row]
       }
       else {
         data = coins[indexPath.row]
@@ -250,7 +254,7 @@ override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: Inde
     }
     else {
       if section == 0 {
-        coin = currencies[indexPath.row].0
+        coin = sortedCurrencies[indexPath.row].0
       }
       else if section == 1 {
         coin = coins[indexPath.row].0

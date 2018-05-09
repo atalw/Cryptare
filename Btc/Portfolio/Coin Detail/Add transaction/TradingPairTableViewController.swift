@@ -49,7 +49,9 @@ class TradingPairTableViewController: UITableViewController {
     
     for (_, tradingPair) in tradingPairs.enumerated() {
       if globalCoins.contains(tradingPair.1) {
-        cryptoTradingPairs.append(tradingPair)
+        if tradingPair.0 != tradingPair.1 {
+            cryptoTradingPairs.append(tradingPair)
+        }
       }
       else if globalCurrencies.contains(tradingPair.1) {
         fiatTradingPairs.append(tradingPair)

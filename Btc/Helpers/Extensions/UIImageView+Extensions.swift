@@ -24,24 +24,30 @@ extension UIImageView {
       
     }
     
-    let url = URL(string: urlString)
-    
-    URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-      if error != nil {
-        print(error ?? "image fetch error")
-        return
-      }
+    if let image = UIImage(named: coin.lowercased()) {
+      image.saveImage(coin: coin)
+      return
+    }
+    else {
+      let url = URL(string: urlString)
       
-      DispatchQueue.main.async {
-        if let downloadedImage = UIImage(data: data!) {
-          let imageData = UIImagePNGRepresentation(downloadedImage)
-          Defaults[.cryptoIcons][coin] = imageData
-          
-          self.image = downloadedImage
+      URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+        if error != nil {
+          print(error ?? "image fetch error")
           return
         }
-      }
-    }).resume()
+        
+        DispatchQueue.main.async {
+          if let downloadedImage = UIImage(data: data!) {
+            let imageData = UIImagePNGRepresentation(downloadedImage)
+            Defaults[.cryptoIcons][coin] = imageData
+            
+            self.image = downloadedImage
+            return
+          }
+        }
+      }).resume()
+    }
     
     self.image = UIImage(named: "generic.png")
   }
@@ -59,6 +65,13 @@ extension UIImageView {
         }
       }
       
+    }
+    else {
+      if let image = UIImage(named: coin.lowercased()) {
+        image.saveImage(coin: coin)
+        self.image = image
+        return
+      }
     }
     
     self.image = UIImage(named: "generic.png")
