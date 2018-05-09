@@ -115,11 +115,29 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     self.selectedCountry = Defaults[.selectedCountry]
     
-    if self.selectedCountry == "india" {
-      self.countryButton.setTitle("🇮🇳", for: .normal)
+    if self.selectedCountry == "australia" {
+      self.countryButton.setTitle("🇦🇺", for: .normal)
     }
-    else if self.selectedCountry == "usa" {
-      self.countryButton.setTitle("🇺🇸", for: .normal)
+    else if self.selectedCountry == "brazil" {
+      self.countryButton.setTitle("🇧🇷", for: .normal)
+    }
+    else if self.selectedCountry == "canada" {
+      self.countryButton.setTitle("🇨🇦", for: .normal)
+    }
+    else if self.selectedCountry == "switzerland" {
+      self.countryButton.setTitle("🇨🇭", for: .normal)
+    }
+    else if self.selectedCountry == "chile" {
+      self.countryButton.setTitle("🇨🇱", for: .normal)
+    }
+    else if self.selectedCountry == "china" {
+      self.countryButton.setTitle("🇨🇳", for: .normal)
+    }
+    else if self.selectedCountry == "czech" {
+      self.countryButton.setTitle("🇨🇿", for: .normal)
+    }
+    else if self.selectedCountry == "denmark" {
+      self.countryButton.setTitle("🇩🇰", for: .normal)
     }
     else if self.selectedCountry == "eu" {
       self.countryButton.setTitle("🇪🇺", for: .normal)
@@ -127,26 +145,71 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     else if self.selectedCountry == "uk" {
       self.countryButton.setTitle("🇬🇧", for: .normal)
     }
-    else if self.selectedCountry == "canada" {
-      self.countryButton.setTitle("🇨🇦", for: .normal)
+    else if self.selectedCountry == "hongkong" {
+      self.countryButton.setTitle("🇭🇰", for: .normal)
+    }
+    else if self.selectedCountry == "hungary" {
+      self.countryButton.setTitle("🇭🇺", for: .normal)
+    }
+    else if self.selectedCountry == "indonesia" {
+      self.countryButton.setTitle("🇮🇩", for: .normal)
+    }
+    else if self.selectedCountry == "israel" {
+      self.countryButton.setTitle("🇮🇱", for: .normal)
+    }
+    else if self.selectedCountry == "india" {
+      self.countryButton.setTitle("🇮🇳", for: .normal)
     }
     else if self.selectedCountry == "japan" {
       self.countryButton.setTitle("🇯🇵", for: .normal)
     }
-    else if self.selectedCountry == "china" {
-      self.countryButton.setTitle("🇨🇳", for: .normal)
+    else if self.selectedCountry == "korea" {
+      self.countryButton.setTitle("🇰🇷", for: .normal)
+    }
+    else if self.selectedCountry == "mexico" {
+      self.countryButton.setTitle("🇲🇽", for: .normal)
+    }
+    else if self.selectedCountry == "malaysia" {
+      self.countryButton.setTitle("🇲🇾", for: .normal)
+    }
+    else if self.selectedCountry == "norway" {
+      self.countryButton.setTitle("🇳🇴", for: .normal)
+    }
+    else if self.selectedCountry == "newzealand" {
+      self.countryButton.setTitle("🇳🇿", for: .normal)
+    }
+    else if self.selectedCountry == "philippines" {
+      self.countryButton.setTitle("🇵🇭", for: .normal)
+    }
+    else if self.selectedCountry == "pakistan" {
+      self.countryButton.setTitle("🇵🇰", for: .normal)
+    }
+    else if self.selectedCountry == "poland" {
+      self.countryButton.setTitle("🇵🇱", for: .normal)
+    }
+    else if self.selectedCountry == "russia" {
+      self.countryButton.setTitle("🇷🇺", for: .normal)
+    }
+    else if self.selectedCountry == "sweden" {
+      self.countryButton.setTitle("🇸🇪", for: .normal)
     }
     else if self.selectedCountry == "singapore" {
       self.countryButton.setTitle("🇸🇬", for: .normal)
     }
-    else if self.selectedCountry == "australia" {
-      self.countryButton.setTitle("🇦🇺", for: .normal)
+    else if self.selectedCountry == "thailand" {
+      self.countryButton.setTitle("🇹🇭", for: .normal)
     }
     else if self.selectedCountry == "turkey" {
       self.countryButton.setTitle("🇹🇷", for: .normal)
     }
-    else if self.selectedCountry == "uae" {
-      self.countryButton.setTitle("🇦🇪", for: .normal)
+    else if self.selectedCountry == "taiwan" {
+      self.countryButton.setTitle("🇹🇼", for: .normal)
+    }
+    else if self.selectedCountry == "usa" {
+      self.countryButton.setTitle("🇺🇸", for: .normal)
+    }
+    else if self.selectedCountry == "southafrica" {
+      self.countryButton.setTitle("🇿🇦", for: .normal)
     }
     
     FirebaseService.shared.news_view_appeared(coin: coin, country: selectedCountry)

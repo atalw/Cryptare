@@ -256,24 +256,6 @@ class PortfolioSummaryViewController: UIViewController {
     }
   }
   
-  func calculateCostFromDate(dateString: String, completionHandler: @escaping (Double) -> ()) {
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    let date = dateFormatter.date(from: dateString)
-    let unixTime = Int((date?.timeIntervalSince1970)!)
-    let url = URL(string: "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=\(GlobalValues.currency!)&ts=\(unixTime)")!
-    Alamofire.request(url).responseJSON(completionHandler: { response in
-      do {
-        let json = try JSON(data: response.data!)
-        if let price = json["BTC"][self.currency].double {
-          completionHandler(price)
-        }
-      }
-      catch (let error) {
-        print(error)
-      }
-    })
-  }
-  
   func initalizePortfolioEntries(cryptoPortfolioData: [String: [[String: Any]]]?, fiatPortfolioData: [String: [[String: Any]]]?) {
     
     if cryptoPortfolioData != nil {

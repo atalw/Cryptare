@@ -16,12 +16,14 @@ extension Double {
     
     let currency = GlobalValues.currency!
     
+    if currency == "BTC" {
+      return self.asBtcCurrency
+    }
     for countryTuple in GlobalValues.countryList {
       if currency == countryTuple.1 {
         numberFormatter.locale = Locale.init(identifier: countryTuple.2)
       }
     }
-    
     return numberFormatter.string(from: NSNumber(value: self))!
   }
   

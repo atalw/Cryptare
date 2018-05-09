@@ -13,17 +13,38 @@ public struct GlobalValues {
     static var currentBtcPrice: Double!
     static var currentBtcPriceString: String!
     static var coins: [(String, String)] = []
-    static let countryList = [("india", "INR", "en_IN", "Indian Rupee"),
-                              ("usa", "USD", "en_US", "US Dollar"),
+    static let countryList = [("australia", "AUD", "en_AU", "Australian Dollar"),
+                              ("brazil", "BRL", "pt_BR", "Brazilian real"),
+                              ("canada", "CAD", "en_CA", "Canadian Dollar"),
+                              ("switzerland", "CHF", "fr_CH", "Swiss Franc"),
+                              ("chile", "CLP", "es_CL", "Chilean Peso"),
+                              ("china", "CNY", "ii_CN", "Chinese Yuan"),
+                              ("czech", "CZK", "cs", "Czech Koruna"),
+                              ("denmark", "DKK", "da_DK", "Danish Krone"),
                               ("eu", "EUR", "nl_NL", "Euro"),
                               ("uk", "GBP", "en_GB", "British Pound"),
-                              ("canada", "CAD", "en_CA", "Canadian Dollar"),
+                              ("hongkong", "HKD", "en_HK", "Hong Kong Dollar"),
+                              ("hungary", "HUF", "hu_HU", "Hungarian Forint"),
+                              ("indonesia", "IDR", "id_ID", "Indonesian Rupiah"),
+                              ("israel", "ILS", "he_IL", "Israeili New Shekel"),
+                              ("india", "INR", "en_IN", "Indian Rupee"),
                               ("japan", "JPY", "ja_JP", "Japanese Yen"),
-                              ("china", "CNY", "ii_CN", "Chinese Yuan"),
+                              ("korea", "KRW", "ko_KR", "Korean Won"),
+                              ("mexico", "MXN", "es_MX", "Mexican Peso"),
+                              ("malaysia", "MYR", "ms_MY", "Malaysian Ringgit"),
+                              ("norway", "NOK", "nn_NO", "Norwegian Kroner"),
+                              ("newzealand", "NZD", "en_NZ", "New Zealand Dollar"),
+                              ("philippines", "PHP", "fil_PH", "Philippine Peso"),
+                              ("pakistan", "PKR", "ur_PK", "Pakistan Rupee"),
+                              ("poland", "PLN", "pl_PL", "Polish Zloty"),
+                              ("russia", "RUB", "ru_RU", "Russian Rouble"),
+                              ("sweden", "SEK", "sv_SE", "Swedish Krona"),
                               ("singapore", "SGD", "en_SG", "Singapore Dollar"),
-                              ("australia", "AUD", "en_AU", "Australian Dollar"),
+                              ("thailand", "THB", "th_TH", "Thai Baht"),
                               ("turkey", "TRY", "tr_TR", "Turkish Lira"),
-                              ("uae", "AED", "ar_AE", "United Arab Emirates Dirham")]
+                              ("taiwan", "TWD", "zh_Hant_TW", "Taiwan Dollar"),
+                              ("usa", "USD", "en_US", "US Dollar"),
+                              ("southafrica", "ZAR", "en_ZA", "South African Rand")]
 }
 
 public struct ChartSettings {
