@@ -44,6 +44,10 @@ class SubscriptionsViewController: UIViewController {
   @IBOutlet weak var priceSixMonthsLabel: UILabel!
   @IBOutlet weak var priceOneMonthLabel: UILabel!
 
+  @IBOutlet weak var priceOneMonthPerMonthLabel: UILabel!
+  @IBOutlet weak var priceSixMonthsPerMonthLabel: UILabel!
+  @IBOutlet weak var priceOneYearPerMonthLabel: UILabel!
+
   @IBOutlet weak var oneYearView: UIView! {
     didSet {
       let oneYearGesture = UITapGestureRecognizer(target: self, action:  #selector(unlockProModeOneYearTapped(sender:)))
@@ -91,7 +95,8 @@ class SubscriptionsViewController: UIViewController {
           for product in products! {
             if product.productIdentifier == IAPProduct.unlockProMode.rawValue {
               price = product.localizedPrice()
-              self.priceOneMonthLabel.text = "\(price) / Mo"
+              self.priceOneMonthLabel.text = "\(price)"
+              self.priceOneMonthPerMonthLabel.text = "\(price) / Mo"
               
             }
             else if product.productIdentifier == IAPProduct.unlockProModeSixMonths.rawValue {
@@ -99,14 +104,16 @@ class SubscriptionsViewController: UIViewController {
               let locale = product.priceLocale
               let priceRaw = product.price
               let monthlyPrice = Double(truncating: (priceRaw as Decimal)/6 as NSNumber)
-              self.priceSixMonthsLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
+              self.priceSixMonthsLabel.text = "\(price)"
+              self.priceSixMonthsPerMonthLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
             }
             else if product.productIdentifier == IAPProduct.unlockProModeOneYear.rawValue {
               price = product.localizedPrice()
               let locale = product.priceLocale
               let priceRaw = product.price
               let monthlyPrice = Double(truncating: (priceRaw as Decimal)/12 as NSNumber)
-              self.priceOneYearLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
+              self.priceOneYearLabel.text = "\(price)"
+              self.priceOneYearPerMonthLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
             }
           }
         }

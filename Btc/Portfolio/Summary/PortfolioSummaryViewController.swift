@@ -110,45 +110,52 @@ class PortfolioSummaryViewController: UIViewController {
   @IBOutlet weak var currentPortfolioValueLabel: UILabel! {
     didSet {
       currentPortfolioValueLabel.theme_textColor = GlobalPicker.viewTextColor
+      currentPortfolioValueLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var totalInvestedLabel: UILabel! {
     didSet {
       totalInvestedLabel.theme_textColor = GlobalPicker.viewTextColor
+      totalInvestedLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var totalPercentageChangeLabel: UILabel! {
     didSet {
-      totalPercentageChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+//      totalPercentageChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+      totalPercentageChangeLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var totalPriceChangeLabel: UILabel! {
     didSet {
-      totalPriceChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+//      totalPriceChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+      totalPriceChangeLabel.adjustsFontSizeToFitWidth = true
     }
   }
   
   @IBOutlet weak var totalPortfolioDescLabel: UILabel! {
     didSet {
       totalPortfolioDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+      totalPortfolioDescLabel.adjustsFontSizeToFitWidth = true
     }
   }
   
   @IBOutlet weak var percentageChangeDescLabel: UILabel! {
     didSet {
       percentageChangeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
-      
+      percentageChangeDescLabel.adjustsFontSizeToFitWidth = true
     }
   }
   
   @IBOutlet weak var totalInvestDescLabel: UILabel! {
     didSet {
       totalInvestDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+      totalInvestDescLabel.adjustsFontSizeToFitWidth = true
     }
   }
   @IBOutlet weak var priceChangeDescLabel: UILabel! {
     didSet {
       priceChangeDescLabel.theme_textColor = GlobalPicker.viewAltTextColor
+      priceChangeDescLabel.adjustsFontSizeToFitWidth = true
     }
   }
   

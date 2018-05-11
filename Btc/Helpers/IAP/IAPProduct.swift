@@ -13,3 +13,7 @@ enum IAPProduct: String {
   case unlockProModeSixMonths = "com.atalwar.Cryptare.UnlockProModeSixMonths"
   case unlockProModeOneYear = "com.atalwar.Cryptare.UnlockProModeOneYear"
 }
+
+let IAPProductSet: Set<String> = [IAPProduct.unlockProMode.rawValue,
+                                  IAPProduct.unlockProModeSixMonths.rawValue,
+                                  IAPProduct.unlockProModeOneYear.rawValue]

@@ -314,40 +314,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       switch result {
       case .success(let receiptData):
         let encryptedReceipt = receiptData.base64EncodedString(options: [])
-//        print("Fetch receipt success:\n\(encryptedReceipt)")
         
-        let receiptValidator = ReceiptValidator()
-        let validationResult = receiptValidator.validateReceipt()
-        
-        switch validationResult {
-        case .success(let receipt):
-          // Work with parsed receipt data. Possibilities might be...
-          // enable a feature of your app
-          // remove ads
-          // etc...
-          guard let inAppPurchaseReceipts = receipt.inAppPurchaseReceipts else { print("problemsss"); return}
-          if let iapReceipt = inAppPurchaseReceipts.last {
-//            let productId = iapReceipt.productIdentifier
-            if let subscriptionExpirationDate = iapReceipt.subscriptionExpirationDate {
-              print(Date().timeIntervalSince1970, subscriptionExpirationDate.timeIntervalSince1970)
-              if Date().timeIntervalSince1970 > subscriptionExpirationDate.timeIntervalSince1970 {
-                print("IAP expired")
-                Defaults[.subscriptionPurchased] = false
-              }
-              else {
-                print("IAP valid")
-                Defaults[.subscriptionPurchased] = true
-              }
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "53544091a76a42a59e5474918d8e4948")
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+          switch result {
+          case .success(let receipt):
+            let result = SwiftyStoreKit.verifySubscriptions(productIds: IAPProductSet, inReceipt: receipt)
+            switch result {
+            case .purchased(let expiryDate, let items):
+              Defaults[.subscriptionPurchased] = true
+//              print(" is valid until \(expiryDate)")
+            case .expired(let expiryDate, let items):
+              Defaults[.subscriptionPurchased] = false
+//              print("expired since \(expiryDate)")
+            case .notPurchased:
+              Defaults[.subscriptionPurchased] = false
+//              print("The user has never purchased")
             }
+          case .error(let error):
+            print("Receipt verification failed: \(error)")
           }
-        case .error(let error):
-          // Handle receipt validation failure. Possibilities might be...
-          // use StoreKit to request a new receipt
-          // enter a "grace period"
-          // disable a feature of your app
-          // etc...
-          print(error, "receipt validation failed")
-          Defaults[.subscriptionPurchased] = false
         }
       case .error(let error):
         print("Fetch receipt failed: \(error)")

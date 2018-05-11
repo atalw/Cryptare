@@ -334,11 +334,11 @@ class CoinMarketsViewController: UIViewController {
     
     FirebaseService.shared.coin_markets_view_appeared(coin: currentCoin, currency: GlobalValues.currency!)
     
-    if currentReachabilityStatus == .notReachable {
-      let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
-      alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
-      present(alert, animated: true, completion: nil)
-    }
+//    if currentReachabilityStatus == .notReachable {
+//      let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
+//      alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in }  )
+//      present(alert, animated: true, completion: nil)
+//    }
     
   }
   

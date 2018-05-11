@@ -490,7 +490,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
         colour = redColour
       }
       else {
-        cell!.coinPercentageChangeLabel.theme_textColor = GlobalPicker.viewTextColor
+//        cell!.coinPercentageChangeLabel.theme_textColor = GlobalPicker.viewTextColor
       }
       
       if let priceChange = self.coinData[coin]?["priceChange24hrs"] as? Double {
