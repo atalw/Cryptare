@@ -25,32 +25,30 @@ class AddPortfolioViewController: UIViewController {
   @IBOutlet weak var unlockPortfolioView: UIView!
   
   @IBOutlet weak var availablePortfoliosContainerHeightConstraint: NSLayoutConstraint!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
     doneButton.isEnabled = false
     
-    let multiplePortfoliosPurchased = Defaults[.subscriptionPurchased]
-    
-    #if DEBUG
-    unlockPortfolioView.isHidden = true
-    #else
-    if multiplePortfoliosPurchased {
-      unlockPortfolioView.isHidden = true
-    } else {
-      unlockPortfolioView.isHidden = false
-    }
-    #endif
-    
-    
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    let subscriptionPurchased = Defaults[.subscriptionPurchased]
+
+    #if DEBUG
+      unlockPortfolioView.isHidden = true
+    #else
+      if subscriptionPurchased {
+        unlockPortfolioView.isHidden = true
+      } else {
+        unlockPortfolioView.isHidden = false
+      }
+    #endif
+    
   }
   
   override func viewDidAppear(_ animated: Bool) {

@@ -24,23 +24,6 @@ class AddPairAlertViewController: UIViewController {
   
   @IBOutlet weak var lockAlertsView: UIView! {
     didSet {
-      let subscriptionPurchased = Defaults[.subscriptionPurchased]
-      let numberOfCoinAlerts = Defaults[.numberOfCoinAlerts]
-      #if DEBUG
-      lockAlertsView.isHidden = true
-      #else
-      if numberOfCoinAlerts < 3 {
-        lockAlertsView.isHidden = true
-      }
-      else {
-        if subscriptionPurchased {
-          lockAlertsView.isHidden = true
-        }
-        else {
-          lockAlertsView.isHidden = false
-        }
-      }
-      #endif
       
     }
   }
@@ -80,6 +63,29 @@ class AddPairAlertViewController: UIViewController {
     }
     
     addAlertButton.isEnabled = false
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    let subscriptionPurchased = Defaults[.subscriptionPurchased]
+    let numberOfCoinAlerts = Defaults[.numberOfCoinAlerts]
+    #if DEBUG
+      lockAlertsView.isHidden = true
+    #else
+      if numberOfCoinAlerts < 3 {
+        lockAlertsView.isHidden = true
+      }
+      else {
+        if subscriptionPurchased {
+          lockAlertsView.isHidden = true
+        }
+        else {
+          lockAlertsView.isHidden = false
+        }
+      }
+    #endif
+    
   }
   
   func updateAddAlertButton() {
