@@ -145,8 +145,8 @@ class PairAlertViewController: UIViewController {
     tableView.dataSource = self
     tableView.tableFooterView = UIView()
     tableView.allowsSelection = false
-    let insets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-    self.tableView.contentInset = insets
+//    let insets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+//    self.tableView.contentInset = insets
     
     self.extendedLayoutIncludesOpaqueBars = true
     
@@ -219,7 +219,6 @@ class PairAlertViewController: UIViewController {
   
   func getAllAlerts(alertsDict: [String: Any]) {
     self.alerts = []
-    print(alertsDict)
     let allCoinAlerts = alertsDict
     for (exchange, data) in allCoinAlerts {
       guard let exchangeData = data as? [String: Any] else { continue }

@@ -233,7 +233,7 @@ class PortfolioSummaryViewController: UIViewController {
       tableViewHeightConstraint.constant = 500
     }
     else {
-      tableViewHeightConstraint.constant = tableView.contentSize.height + 50
+      tableViewHeightConstraint.constant = tableView.contentSize.height
     }
   }
   

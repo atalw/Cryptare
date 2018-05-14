@@ -83,6 +83,22 @@ class SubscriptionsViewController: UIViewController {
     }
   }
   
+  @IBOutlet weak var activityIndicatorOneYear: UIActivityIndicatorView! {
+    didSet {
+      activityIndicatorOneYear.hidesWhenStopped = true
+    }
+  }
+  @IBOutlet weak var activityIndicatorSixMonths: UIActivityIndicatorView! {
+    didSet {
+      activityIndicatorSixMonths.hidesWhenStopped = true
+    }
+  }
+  @IBOutlet weak var activityIndicatorOneMonth: UIActivityIndicatorView! {
+    didSet {
+      activityIndicatorOneMonth.hidesWhenStopped = true
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -97,7 +113,8 @@ class SubscriptionsViewController: UIViewController {
               price = product.localizedPrice()
               self.priceOneMonthLabel.text = "\(price)"
               self.priceOneMonthPerMonthLabel.text = "\(price) / Mo"
-              
+              self.activityIndicatorOneMonth.stopAnimating()
+              self.priceOneMonthLabel.isHidden = false
             }
             else if product.productIdentifier == IAPProduct.unlockProModeSixMonths.rawValue {
               price = product.localizedPrice()
@@ -106,6 +123,8 @@ class SubscriptionsViewController: UIViewController {
               let monthlyPrice = Double(truncating: (priceRaw as Decimal)/6 as NSNumber)
               self.priceSixMonthsLabel.text = "\(price)"
               self.priceSixMonthsPerMonthLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
+              self.activityIndicatorSixMonths.stopAnimating()
+              self.priceSixMonthsLabel.isHidden = false
             }
             else if product.productIdentifier == IAPProduct.unlockProModeOneYear.rawValue {
               price = product.localizedPrice()
@@ -114,6 +133,8 @@ class SubscriptionsViewController: UIViewController {
               let monthlyPrice = Double(truncating: (priceRaw as Decimal)/12 as NSNumber)
               self.priceOneYearLabel.text = "\(price)"
               self.priceOneYearPerMonthLabel.text = "\(monthlyPrice.asCurrencyWith(locale: locale)) / Mo"
+              self.activityIndicatorOneYear.stopAnimating()
+              self.priceOneYearLabel.isHidden = false
             }
           }
         }
@@ -124,6 +145,10 @@ class SubscriptionsViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     FirebaseService.shared.subscription_page_opened()
+    
+    activityIndicatorOneYear.startAnimating()
+    activityIndicatorSixMonths.startAnimating()
+    activityIndicatorOneMonth.startAnimating()
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -145,7 +170,7 @@ class SubscriptionsViewController: UIViewController {
   
   @objc func unlockProModeSixMonthsTapped(sender : UITapGestureRecognizer) {
     FirebaseService.shared.six_months_subscription_tapped()
-    
+
     IAPService.shared.purchase(product: .unlockProModeSixMonths, completionHandlerBool: { (success) -> Void in
       if success {
         self.dismiss(animated: true, completion: nil)
@@ -155,7 +180,7 @@ class SubscriptionsViewController: UIViewController {
   
   @objc func unlockProModeOneMonthTapped(sender : UITapGestureRecognizer) {
     FirebaseService.shared.one_month_subscription_tapped()
-    
+
     IAPService.shared.purchase(product: .unlockProMode, completionHandlerBool: { (success) -> Void in
       if success {
         self.dismiss(animated: true, completion: nil)

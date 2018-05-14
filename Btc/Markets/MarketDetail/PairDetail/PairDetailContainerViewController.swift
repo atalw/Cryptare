@@ -49,6 +49,8 @@ class PairDetailContainerViewController: UIViewController {
   var favouriteStatus: Bool = false
   var favouriteButton: UIBarButtonItem!
   
+  var addAlertButton: UIBarButtonItem!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -57,7 +59,9 @@ class PairDetailContainerViewController: UIViewController {
     
     let image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
     favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
-    self.navigationItem.rightBarButtonItem = favouriteButton
+    
+    addAlertButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAlertButtonTapped))
+    self.navigationItem.rightBarButtonItems = [addAlertButton, favouriteButton]
     
     pagingViewController.dataSource = self
     pagingViewController.delegate = self
@@ -103,7 +107,7 @@ class PairDetailContainerViewController: UIViewController {
       image = image?.maskWithColor(color: selectedColour)
       favouriteButton.image = image
       favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
-      self.navigationItem.rightBarButtonItem = favouriteButton
+      self.navigationItem.rightBarButtonItems = [addAlertButton, favouriteButton]
       favouriteStatus = true
       return
     }
@@ -111,7 +115,7 @@ class PairDetailContainerViewController: UIViewController {
     image = image?.maskWithColor(color: UIColor.gray)
     favouriteButton.image = image
     favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))
-    self.navigationItem.rightBarButtonItem = favouriteButton
+    self.navigationItem.rightBarButtonItems = [addAlertButton, favouriteButton]
     favouriteStatus = false
     
   }
@@ -167,6 +171,15 @@ class PairDetailContainerViewController: UIViewController {
     Defaults[.favouritePairs] = favouritePairs
     setFavouriteButtonStatus()
     
+  }
+  
+  @objc func addAlertButtonTapped() {
+    if let addPairAlertViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddPairAlertViewController") as? AddPairAlertViewController {
+      addPairAlertViewController.parentController = self
+      addPairAlertViewController.tradingPair = self.currentPair
+      addPairAlertViewController.exchange = self.currentMarket
+      self.navigationController?.pushViewController(addPairAlertViewController, animated: true)
+    }
   }
   
   func doesFavouritePairsContain(pair: (String, String), market: String) -> Bool {

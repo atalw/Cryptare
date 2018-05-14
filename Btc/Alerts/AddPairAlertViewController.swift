@@ -40,7 +40,7 @@ class AddPairAlertViewController: UIViewController {
   
   @IBAction func addAlertButtonTapped(_ sender: Any) {
     if tradingPair != nil && exchange != nil {
-      if tradingPair!.0 != "None" && exchange!.0 != "None" && thresholdPrice > 0 {
+      if tradingPair!.0 != "None" && thresholdPrice > 0 {
         saveAlert()
         self.navigationController?.popViewController(animated: true)
       }
@@ -89,7 +89,7 @@ class AddPairAlertViewController: UIViewController {
   }
   
   func updateAddAlertButton() {
-    if tradingPair?.0 != "None" && exchange?.0 != "None" && thresholdPrice > 0 {
+    if tradingPair?.0 != "None" && thresholdPrice > 0 {
       addAlertButton.isEnabled = true
     }
     else {
@@ -101,7 +101,7 @@ class AddPairAlertViewController: UIViewController {
     var coinAlerts = Defaults[.allCoinAlerts]
     
     if tradingPair != nil && exchange != nil {
-      if tradingPair!.0 != "None" && exchange!.0 != "None" {
+      if tradingPair!.0 != "None" {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM, YYYY"
         let dateString = dateFormatter.string(from: Date())
@@ -288,9 +288,7 @@ class AddPairAlertTableViewController: UITableViewController {
     
     exchangeReference = Database.database().reference()
     
-    print(exchange, tradingPair)
-    
-    if exchange.0 != "None" || exchange != nil {
+    if tradingPair.0 != "None" || exchange != nil {
       updateThresholdPriceTextfield(exchange: exchange)
     }
     
@@ -380,8 +378,7 @@ class AddPairAlertTableViewController: UITableViewController {
     
     if let markets = allMarkets[pair.1] {
       currentTradingPairMarkets = markets
-      self.exchange = ("None", "none")
-      self.exchangeLabel.text = exchange.0
+      self.updateCurrentExchange(exchange: ("None", "none"))
     }
     
     self.parentController.tradingPair = self.tradingPair
@@ -394,25 +391,34 @@ class AddPairAlertTableViewController: UITableViewController {
     
     self.parentController.exchange = exchange
     
-    if exchange.0 != "None" {
-      updateThresholdPriceTextfield(exchange: exchange)
-    }
-    else {
-      parentController.thresholdPrice = 0.0
-      self.thresholdPriceLabel.text = ""
-    }
+    updateThresholdPriceTextfield(exchange: exchange)
+
   }
   
   func updateThresholdPriceTextfield(exchange: (String, String)) {
-    exchangeReference.child(exchange.1).observe(.value, with: {(snapshot) -> Void in
-      if let dict = snapshot.value as? [String: AnyObject] {
-        let buyPrice = dict["buy_price"] as! Double
-        self.exchangePrice = buyPrice
-        self.thresholdPriceLabel.text = ""
-        self.thresholdPriceLabel.placeholder = "\(buyPrice)"
-        self.thresholdPrice = buyPrice
-      }
-    })
+    if exchange.0 != "None" {
+      exchangeReference.child(exchange.1).observe(.value, with: {(snapshot) -> Void in
+        if let dict = snapshot.value as? [String: AnyObject] {
+          let buyPrice = dict["buy_price"] as! Double
+          self.exchangePrice = buyPrice
+          self.thresholdPriceLabel.text = ""
+          self.thresholdPriceLabel.placeholder = "\(buyPrice)"
+          self.thresholdPrice = buyPrice
+        }
+      })
+    }
+    else {
+      exchangeReference.child(tradingPair.0).child("Data")
+        .child(tradingPair.1).child("price").observe(.value, with: {(snapshot) -> Void in
+          if let price = snapshot.value as? Double {
+            self.exchangePrice = price
+            self.thresholdPriceLabel.text = ""
+            self.thresholdPriceLabel.placeholder = "\(price)"
+            self.thresholdPrice = price
+          }
+        })
+    }
+    
   }
   
   override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

@@ -272,11 +272,6 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
           }
         }
         
-        
-        if let spacer = tableView.reorder.spacerCell(for: indexPath) {
-          return spacer
-        }
-        
         cell.tradingPairLabel.text = "\(coin)/\(base)"
         cell.exchangeLabel.text = market
         if let price = self.tradingPairDataDict[coin]?[base]?[market]?["price"] as? Double {
@@ -294,6 +289,10 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
       }
       else {
+        if let spacer = tableView.reorder.spacerCell(for: indexPath) {
+          return spacer
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "marketShortcut") as! MarketsTableViewCell
         cell.selectionStyle = .none
 
@@ -367,12 +366,18 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension MarketsViewController: TableViewReorderDelegate {
   func tableView(_ tableView: UITableView, reorderRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-    
     // Update data model
-    let destinationCoin = marketNames[destinationIndexPath.row]
-    marketNames[destinationIndexPath.row] = marketNames[sourceIndexPath.row]
-    marketNames[sourceIndexPath.row] = destinationCoin
-    
-    Defaults[.favouriteMarkets] = marketNames.map{ $0.1 }
+    if sourceIndexPath.section == 0 {
+      let sourceCoin = fannedOutTradingPairs[sourceIndexPath.row]
+      fannedOutTradingPairs.remove(at: sourceIndexPath.row)
+      fannedOutTradingPairs.insert(sourceCoin, at: destinationIndexPath.row)
+    }
+    if sourceIndexPath.section == 1 {
+      let sourceCoin = marketNames[sourceIndexPath.row]
+      marketNames.remove(at: sourceIndexPath.row)
+      marketNames.insert(sourceCoin, at: destinationIndexPath.row)
+      
+      Defaults[.favouriteMarkets] = marketNames.map{ $0.1 }
+    }
   }
 }

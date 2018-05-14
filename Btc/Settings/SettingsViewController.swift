@@ -348,20 +348,10 @@ class SettingsViewController: UITableViewController {
     loadChartSettings()
     loadMarketSettings()
     loadNewsSettings()
-    
-//    if #available(iOS 11.0, *) {
-//      self.navigationController?.navigationBar.prefersLargeTitles = true
-//    } else {
-//      // Fallback on earlier versions
-//    }
-    
-//    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    
-    FirebaseService.shared.updateScreenName(screenName: "Settings", screenClass: "SettingsViewController")
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     
     let currentThemeIndex = Defaults[.currentThemeIndex]
     if currentThemeIndex == 1 {
@@ -371,14 +361,18 @@ class SettingsViewController: UITableViewController {
       nightModeSwitch.setOn(false, animated: true)
     }
     
-//    let unlockAll: Bool = Defaults[.unlockAllPurchased]
-//    let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
-//    let unlockMultiplePortfoliosPurchased: Bool = Defaults[.multiplePortfoliosPurchased]
-    let paidUser: Bool = Defaults[.previousPaidUser]
+    let subscriptionPurchased: Bool = Defaults[.subscriptionPurchased]
     
-    if paidUser {
+    if subscriptionPurchased {
       self.unlockAllPriceLabel.text = "Already purchased"
     }
+    
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    FirebaseService.shared.updateScreenName(screenName: "Settings", screenClass: "SettingsViewController")
   }
   
   @objc func favouritesInitialTabChange(favouritesInitialTabSwitch: UISwitch) {
