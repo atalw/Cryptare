@@ -25,6 +25,8 @@ pod 'SwiftyUserDefaults'
 pod 'SwiftTheme'
 pod 'OpenSSL', '~> 1.0'
 pod 'PagedArray'
+pod 'AZDropdownMenu'
+
 
 target 'BtcTests' do
 inherit! :search_paths

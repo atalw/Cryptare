@@ -12,6 +12,7 @@ import SwiftyUserDefaults
 import FirebaseAuth
 import FirebaseDatabase
 import Armchair
+import AZDropdownMenu
 
 class MainPortfolioViewController: UIViewController {
   
@@ -37,9 +38,20 @@ class MainPortfolioViewController: UIViewController {
   }()
   
   var portfolioNames: [String]!
+  var currentSelectedIndex: Int = 0
+  
+  let dropDownTitles = ["Add a coin", "Add a portfolio"]
+  
+  var menu: AZDropdownMenu!
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    menu = AZDropdownMenu(titles: dropDownTitles)
+    menu.itemFontName = UIFont.systemFont(ofSize: 17, weight: .semibold).fontName
+    menu.itemFontSize = 17
+//    menu.itemFont
     
     let introComplete = Defaults[.mainPortfolioIntroComplete]
     
@@ -160,6 +172,25 @@ class MainPortfolioViewController: UIViewController {
     super.viewDidAppear(animated)
     
     Armchair.showPromptIfNecessary()
+    
+    menu.cellTapHandler = { [weak self] (indexPath: IndexPath) -> Void in
+      if indexPath.row == 0 {
+        if let addCoinViewController = self?.storyboard?.instantiateViewController(withIdentifier: "AddCoinTableViewController") as? AddCoinTableViewController {
+          guard let currentIndex = self?.currentSelectedIndex else { return }
+          if let currentSelectedVC = self?.viewControllerList[currentIndex] as? PortfolioSummaryViewController {
+            addCoinViewController.parentController = currentSelectedVC
+              self?.navigationController?.pushViewController(addCoinViewController, animated: true)
+          }
+          
+        }
+      }
+      if indexPath.row == 1 {
+        if let addPortfolioViewController = self?.storyboard?.instantiateViewController(withIdentifier: "addPortfolioViewController") as? AddPortfolioViewController {
+          addPortfolioViewController.parentController = self
+          self?.navigationController?.pushViewController(addPortfolioViewController, animated: true)
+        }
+      }
+    }
   }
   
   func updateOldFormatPortfolioEntries() {
@@ -216,11 +247,14 @@ class MainPortfolioViewController: UIViewController {
   
   
   @IBAction func addPortfolioButtonTapped(_ sender: Any) {
-    if let addPortfolioViewController = self.storyboard?.instantiateViewController(withIdentifier: "addPortfolioViewController") as? AddPortfolioViewController {
-      addPortfolioViewController.parentController = self
-      //            addPortfolioViewController.portfolioNames = self.portfolioNames
-      self.navigationController?.pushViewController(addPortfolioViewController, animated: true)
+    
+    if (self.menu?.isDescendant(of: self.view) == true) {
+      self.menu?.hideMenu()
+    } else {
+      self.menu?.showMenuFromView(self.view)
     }
+    
+    
   }
   
   func getPortfolios() -> [UIViewController] {
@@ -283,6 +317,8 @@ class MainPortfolioViewController: UIViewController {
       addPortfolioVC.parentController = self
     }
   }
+  
+  
 }
 
 extension MainPortfolioViewController: PagingViewControllerDataSource {
@@ -305,9 +341,9 @@ extension MainPortfolioViewController: PagingViewControllerDelegate {
   
   func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, didScrollToItem pagingItem: T, startingViewController: UIViewController?, destinationViewController: UIViewController, transitionSuccessful: Bool) where T : PagingItem, T : Comparable, T : Hashable {
     
-//    if let index = viewControllerList.index(of: destinationViewController) {
-//      self.currentSelectedIndex = index
-//    }
+    if let index = viewControllerList.index(of: destinationViewController) {
+      self.currentSelectedIndex = index
+    }
   }
   
 }
