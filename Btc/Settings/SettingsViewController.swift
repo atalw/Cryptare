@@ -35,6 +35,26 @@ class SettingsViewController: UITableViewController {
     }
   }
   
+  @IBOutlet weak var nightModeLabel: UILabel! {
+    didSet {
+      nightModeLabel.adjustsFontSizeToFitWidth = true
+      nightModeLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  @IBOutlet weak var nightModeSwitch: UISwitch! {
+    didSet {
+      nightModeSwitch.addTarget(self, action: #selector(nightModeSwitchTapped), for: .touchUpInside)
+    }
+  }
+  
+  @objc func nightModeSwitchTapped() {
+    if nightModeSwitch.isOn {
+      ColourThemes.switchTheme(theme: .night)
+    }
+    else {
+      ColourThemes.switchTheme(theme: .light)
+    }
+  }
   
   // dashboard
   @IBOutlet weak var favouritesInitialTabDescLabel: UILabel! {
@@ -329,20 +349,27 @@ class SettingsViewController: UITableViewController {
     loadMarketSettings()
     loadNewsSettings()
     
-    if #available(iOS 11.0, *) {
-      self.navigationController?.navigationBar.prefersLargeTitles = true
-    } else {
-      // Fallback on earlier versions
-    }
+//    if #available(iOS 11.0, *) {
+//      self.navigationController?.navigationBar.prefersLargeTitles = true
+//    } else {
+//      // Fallback on earlier versions
+//    }
     
-    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+//    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
     FirebaseService.shared.updateScreenName(screenName: "Settings", screenClass: "SettingsViewController")
-
+    
+    let currentThemeIndex = Defaults[.currentThemeIndex]
+    if currentThemeIndex == 1 {
+      nightModeSwitch.setOn(true, animated: true)
+    }
+    else {
+      nightModeSwitch.setOn(false, animated: true)
+    }
     
 //    let unlockAll: Bool = Defaults[.unlockAllPurchased]
 //    let unlockMarketsPurchased: Bool = Defaults[.unlockMarketsPurchased]
@@ -658,7 +685,7 @@ class SettingsViewController: UITableViewController {
         }
       }
     }
-    else if section == 1 {
+    else if section == 2 {
       if row == 1 { // Remove all favourites
         let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete your favouite coins? This action cannot be undone.", preferredStyle: .alert)
         
@@ -678,7 +705,7 @@ class SettingsViewController: UITableViewController {
       
       
     }
-    else if section == 7 {
+    else if section == 8 {
       if row == 0 {
         let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete all your Portfolio Data? All backups will be removed.", preferredStyle: .alert)
         
@@ -772,7 +799,7 @@ class SettingsViewController: UITableViewController {
         self.present(dialogMessage, animated: true, completion: nil)
       }
     }
-    else if section == 8 { // social
+    else if section == 9 { // social
       if row == 0 { //twitter
         FirebaseService.shared.cryptare_twitter_tapped()
         let url = URL(string: "https://twitter.com/cryptare")
@@ -797,7 +824,7 @@ class SettingsViewController: UITableViewController {
         UIApplication.shared.openURL(url!)
       }
     }
-    else if section == 9 {
+    else if section == 10 {
       let row = row
       if row == 0 { // app review
         FirebaseService.shared.rate_app_tapped()

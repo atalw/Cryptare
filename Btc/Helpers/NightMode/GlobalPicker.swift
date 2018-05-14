@@ -13,10 +13,13 @@ enum GlobalPicker {
   // general
   static let mainBackgroundColor: ThemeColorPicker = ["#fff", "#35495d"]
   static let activityIndicatorColor: ThemeActivityIndicatorViewStylePicker = [.gray, .white]
+  
   // navigation
   static let navigationBarTintColor: ThemeColorPicker = ["#46627c", "#2b3d4d"]
   static let navigationSelectedBackgroundColor: ThemeColorPicker = ["#35495d", "#59738b"]
   static let navigationTitleTextSelectedColor: ThemeColorPicker = ["#fff", "#fff"]
+  static let tabBarTintColor: ThemeColorPicker = ["#fff", "#2b3d4d"]
+  static let tabTintColor: ThemeColorPicker = ["#2b3d4d", "#cedae4"]
   
   // search bar
   static let searchTintColor: ThemeColorPicker = ["#253542", "#fff"]

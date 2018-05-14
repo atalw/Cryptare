@@ -71,11 +71,11 @@ class MarketsContainerViewController: UIViewController {
 //    print(Defaults[.favouritePairs])
     // --------------------------------------------------------
     
-    self.title = "Markets"
+//    self.title = "Markets"
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
-    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+//    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     
     let introComplete = Defaults[.mainMarketsIntroComplete]
     

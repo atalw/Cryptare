@@ -87,8 +87,7 @@ class MainViewController: UIViewController {
       }
     }
     
-    // Do any additional setup after loading the view.
-    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+//    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     

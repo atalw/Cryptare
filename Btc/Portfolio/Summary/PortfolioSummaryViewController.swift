@@ -161,7 +161,7 @@ class PortfolioSummaryViewController: UIViewController {
   
   @IBOutlet weak var addCoinButton: UIButton! {
     didSet {
-      addCoinButton.theme_backgroundColor = GlobalPicker.addCoinButton
+//      addCoinButton.theme_backgroundColor = GlobalPicker.addCoinButton
     }
   }
   

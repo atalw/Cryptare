@@ -66,8 +66,8 @@ class MainPortfolioViewController: UIViewController {
     
     updateOldFormatPortfolioEntries()
     
-    self.title = "Portfolio"
-    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+//    self.title = "Portfolio"
+//    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     
     pagingViewController.dataSource = self
     pagingViewController.delegate = self
@@ -197,6 +197,7 @@ class MainPortfolioViewController: UIViewController {
             let transaction: [String : Any] = ["type": type,
                                                "tradingPair": tradingPair,
                                                "exchange": exchange,
+                                               "exchangeDbTitle" : "MarketAverage",
                                                "costPerCoin": costPerCoin,
                                                "amountOfCoins": amountOfCoins,
                                                "fees": fees,

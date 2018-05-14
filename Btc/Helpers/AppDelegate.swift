@@ -38,12 +38,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     UINavigationBar.appearance().tintColor = UIColor.white
     
-    
     UINavigationBar.appearance().theme_barTintColor = GlobalPicker.navigationBarTintColor
     
     if #available(iOS 11.0, *) {
       UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     }
+    
+    
+//    UITabBar.appearance().theme_barStyle = [.blackTranslucent, .blackTranslucent]
+    UITabBar.appearance().theme_barTintColor = GlobalPicker.tabBarTintColor
+//    UITabBar.appearance().tintColor = UIColor.white
+    UITabBar.appearance().theme_tintColor = GlobalPicker.tabTintColor
+//    UITabBar.appearance().selected = UIColor.white
+    
+//    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.black], for: .normal)
+//
+//    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.white], for: .selected)
     
     
     NotificationCenter.default.addObserver(
@@ -76,6 +86,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         fetchReceipt()
       }
     #endif
+    
+    Messaging.messaging().delegate = self
+    setUpFirebase()
     
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     // dashboard settings
@@ -176,30 +189,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       // Fallback on earlier versions
     }
 
-    Messaging.messaging().delegate = self
-    setUpFirebase()
+    
 
     return true
   }
   
   func createMenuView(storyboard: UIStoryboard) {
-    let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-    let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
+//    let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+//    let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
     
-    let nvc: UINavigationController = UINavigationController(rootViewController: mainViewController)
+    let tabBarController = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
     
-    leftViewController.mainViewController = nvc
+    let mainViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController)
     
-    SlideMenuOptions.contentViewDrag = true
-    SlideMenuOptions.contentViewScale = 1
-    SlideMenuOptions.animationDuration = 0.2
-    SlideMenuOptions.contentViewOpacity = 0.1
-    SlideMenuOptions.leftViewWidth = 220
+    let marketsViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "MarketsContainerViewController") as! MarketsContainerViewController)
     
-    let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
-    self.window?.rootViewController = slideMenuController
-    slideMenuController.delegate = mainViewController as SlideMenuControllerDelegate
-    self.window?.makeKeyAndVisible()
+    let mainPortfolioViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "MainPortfolioViewController") as! MainPortfolioViewController)
+    
+    let pairAlertViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "PairAlertViewController") as! PairAlertViewController)
+    
+//    let newsViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController)
+    
+    let settingsViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController)
+    
+    let controllers = [mainViewController, marketsViewController, mainPortfolioViewController, pairAlertViewController, settingsViewController]
+    
+    tabBarController.viewControllers = controllers
+    tabBarController.removeTabbarItemsText()
+    
+//    let nvc: UINavigationController = UINavigationController(rootViewController: mainViewController)
+    
+//    leftViewController.mainViewController = nvc
+//
+//    SlideMenuOptions.contentViewDrag = true
+//    SlideMenuOptions.contentViewScale = 1
+//    SlideMenuOptions.animationDuration = 0.2
+//    SlideMenuOptions.contentViewOpacity = 0.1
+//    SlideMenuOptions.leftViewWidth = 220
+    
+//    let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
+    self.window?.rootViewController = tabBarController
+//    slideMenuController.delegate = mainViewController as SlideMenuControllerDelegate
+//    self.window?.makeKeyAndVisible()
   }
   
   func registerForPushNotifications(application: UIApplication) {
@@ -347,9 +378,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     //do something according to `themeIndex`
     if themeIndex == 0 {
       UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.black]
+      
+      if #available(iOS 10.0, *) {
+        UITabBar.appearance().unselectedItemTintColor = UIColor.init(hex: "#9fadb7")
+      } else {
+        // Fallback on earlier versions
+        //      UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.lightGray], for: .normal)
+      }
     }
     else {
        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
+      
+      if #available(iOS 10.0, *) {
+        UITabBar.appearance().unselectedItemTintColor = UIColor.init(hex: "#8899A6")
+      } else {
+        // Fallback on earlier versions
+        //      UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.lightGray], for: .normal)
+      }
     }
   }
   

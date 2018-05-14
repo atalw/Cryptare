@@ -106,6 +106,12 @@ class PairAlertViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+//    if #available(iOS 11.0, *) {
+//      self.navigationController?.navigationBar.prefersLargeTitles = true
+//    } else {
+//      // Fallback on earlier versions
+//    }
+    
 //    if Defaults[.mainAlertsIntroComplete] {
 //      let notificationType = UIApplication.shared.currentUserNotificationSettings!.types
 //      if notificationType == [] {
@@ -123,15 +129,11 @@ class PairAlertViewController: UIViewController {
       self.navigationController?.present(introViewController, animated: true, completion: nil)
     }
     
-    if #available(iOS 11.0, *) {
-      self.navigationController?.navigationBar.prefersLargeTitles = true
-    } else {
-      // Fallback on earlier versions
-    }
-    self.title = "Alerts"
+    
+//    self.title = "Alerts"
     
     if parentController == nil {
-      self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+//      self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
     }
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
