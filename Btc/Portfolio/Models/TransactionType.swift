@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+
+enum TransactionType: String {
+  case buy = "buy"
+  case sell = "sell"
+  case deposit = "deposit"
+  case withdraw = "withdraw"
+}
