@@ -464,7 +464,7 @@ class PortfolioSummaryViewController: UIViewController {
       summary[currency]!["deposited"] = summary[currency]!["deposited"]! + amount
     }
     else if type == "withdraw" {
-      summary[currency]!["amount"] = summary[currency]!["amount"]! - amount - fees
+      summary[currency]!["amount"] = summary[currency]!["amount"]! - amount
     }
     
     DispatchQueue.main.async {

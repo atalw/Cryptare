@@ -144,7 +144,7 @@ extension FiatPortfolioTableViewController {
       parentController.updateCurrentAvailable(value: amount-fees)
     }
     else if portfolioEntry["type"] as! String == "withdraw" {
-      parentController.updateTotalWithdrawn(value: amount+fees)
+      parentController.updateTotalWithdrawn(value: amount)
     }
     savePortfolioEntry(portfolioEntry: portfolioEntry)
     tableView.reloadData()
@@ -170,11 +170,11 @@ extension FiatPortfolioTableViewController {
         
         if entry.type == "deposit" {
           parentController.updateCurrentAvailable(value: entry.amount-entry.fees)
-          parentController.updateTotalDeposited(value: entry.amount+entry.fees)
+          parentController.updateTotalDeposited(value: entry.amount)
         }
         else if entry.type == "withdraw" {
-          parentController.updateTotalWithdrawn(value: entry.amount+entry.fees)
-          parentController.updateCurrentAvailable(value: -(entry.amount+entry.fees))
+          parentController.updateTotalWithdrawn(value: entry.amount)
+          parentController.updateCurrentAvailable(value: -(entry.amount))
           
         }
       }
@@ -243,12 +243,12 @@ extension FiatPortfolioTableViewController {
               portfolioEntry.date == date {
               
               if type == "deposit" {
-                parentController.updateTotalDeposited(value: -(amount+fees))
                 parentController.updateCurrentAvailable(value: -(amount-fees))
+                parentController.updateTotalDeposited(value: -(amount))
               }
               else if type == "withdraw" {
-                parentController.updateTotalWithdrawn(value: -(amount+fees))
-                parentController.updateCurrentAvailable(value: amount+fees)
+                parentController.updateTotalWithdrawn(value: -(amount))
+                parentController.updateCurrentAvailable(value: amount)
               }
               data[currency]!.remove(at: index)
               break
