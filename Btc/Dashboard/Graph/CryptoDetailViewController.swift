@@ -11,6 +11,7 @@ import Charts
 import SwiftyJSON
 import Firebase
 import SwiftyUserDefaults
+import SwiftTheme
 
 class CryptoDetailViewController: UIViewController, ChartViewDelegate {
   
@@ -145,8 +146,7 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     didSet {
       let selectedIndex = Defaults[.currentThemeIndex]
       if selectedIndex == 0 {
-        //                chart.xAxis.gridColor
-        
+        //      chart.xAxis.gridColor
       }
       else if selectedIndex == 1 {
         chart.xAxis.gridColor = UIColor.init(hex: "6c8298")
@@ -243,6 +243,13 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     
     ref = Database.database().reference().child(databaseTableTitle)
     
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(changeAppearanceColours),
+      name: NSNotification.Name(rawValue: ThemeUpdateNotification),
+      object: nil
+    )
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -298,45 +305,6 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
-  
-  //  func updateCoinDataStructure(dict: [String: Any]) {
-  //    self.coinData["rank"] = dict["rank"] as! Int
-  //    self.coinData["name"] = dict["name"] as! String
-  //
-  //    self.title = self.coinData["name"] as! String
-  //
-  //    let currencyData = dict[GlobalValues.currency!] as? [String: Any]
-  //
-  //    if self.coinData["oldPrice"] == nil {
-  //      self.coinData["oldPrice"] = 0.0
-  //    }
-  //    else {
-  //      self.coinData["oldPrice"] = self.coinData["currentPrice"]
-  //    }
-  //    self.coinData["currentPrice"] = currencyData!["price"] as! Double
-  //
-  //    let volumeCoin = currencyData!["vol_24hrs_coin"] as! Double
-  //    self.coinData["volume24hrsCoin"] = Double(round(1000*volumeCoin)/1000)
-  //    self.coinData["volume24hrsFiat"] = currencyData!["vol_24hrs_fiat"] as! Double
-  //
-  //    self.coinData["high24hrs"] = currencyData!["high_24hrs"] as! Double
-  //    self.coinData["low24hrs"] = currencyData!["low_24hrs"] as! Double
-  //
-  //    self.coinData["lastTradeMarket"] = currencyData!["last_trade_market"] as! String
-  //    self.coinData["lastTradeVolume"] = currencyData!["last_trade_volume"] as! Double
-  //
-  //    self.coinData["supply"] = currencyData!["supply"] as! Double
-  //    self.coinData["marketcap"] = currencyData!["marketcap"] as! Double
-  //
-  //
-  //    let percentage = currencyData!["change_24hrs_percent"] as! Double
-  //    let roundedPercentage = Double(round(1000*percentage)/1000)
-  //    self.coinData["percentageChange24hrs"] = roundedPercentage
-  //    self.coinData["priceChange24hrs"] = currencyData!["change_24hrs_fiat"] as! Double
-  //    self.coinData["timestamp"] = currencyData!["timestamp"] as! Double
-  //
-  //    self.updateLabels()
-  //  }
   
   func updateLabels() {
     
@@ -608,5 +576,18 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
    // Pass the selected object to the new view controller.
    }
    */
+  
+  @objc func changeAppearanceColours() {
+    let themeIndex = ThemeManager.currentThemeIndex
+    if themeIndex == 0 {
+//      chart.xAxis.gridColor
+    }
+    else if themeIndex == 1 {
+      chart.xAxis.gridColor = UIColor.init(hex: "6c8298")
+      chart.xAxis.labelTextColor = UIColor.white
+      chart.leftAxis.gridColor = UIColor.init(hex: "6c8298")
+      chart.leftAxis.labelTextColor = UIColor.white
+    }
+  }
   
 }
