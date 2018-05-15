@@ -508,7 +508,7 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
         
         var index = 1
         if self.currency == "INR" || self.currency == "CAD" || self.currency == "GBP" {
-          let exchangeURL = URL(string: "https://api.fixer.io/latest?symbols=\(self.currency!)&base=USD")!
+          let exchangeURL = URL(string: "https://ratesapi.io/api/latest?symbols=\(self.currency!)&base=USD")!
           let exchangeTask = URLSession.shared.dataTask(with: exchangeURL) { data, response, error in
             guard error == nil else {
               return

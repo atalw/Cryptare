@@ -132,18 +132,46 @@ class AddTransactionViewController: UIViewController {
     let totalCost = amount - fees
     let dateString = dateFormatter.string(from: date)
     
-    if currencies.contains(tradingPair) {
-      let data: [String: Any] = ["type": transactionType,
-                                 "coin": coin,
-                                 "tradingPair": tradingPair,
-                                 "exchange": currentExchange.0,
-                                 "costPerCoin": costPerCoin,
-                                 "amountOfCoins": amountOfCoins,
-                                 "fees": fees,
-                                 "totalCost": totalCost,
-                                 "date": dateString]
-      
-      parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
+    var totalCostUsd: Double!
+    
+    
+    if currencies.contains(tradingPair) { // Crypto-Fiat Transaction
+      if tradingPair == "USD" {
+        totalCostUsd = totalCost
+        
+        let data: [String: Any] = ["type": transactionType,
+                                   "coin": coin,
+                                   "tradingPair": tradingPair,
+                                   "exchange": currentExchange.0,
+                                   "exchangeDbTitle" : currentExchange.1,
+                                   "costPerCoin": costPerCoin,
+                                   "amountOfCoins": amountOfCoins,
+                                   "fees": fees,
+                                   "totalCost": totalCost,
+                                   "totalCostUsd": totalCostUsd,
+                                   "date": dateString]
+        
+        parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
+      }
+      else {
+        getExchangeRateUSD(symbol: tradingPair).then { rate in
+          totalCostUsd = totalCost*rate
+          
+          let data: [String: Any] = ["type": self.transactionType,
+                                     "coin": self.coin,
+                                     "tradingPair": tradingPair,
+                                     "exchange": self.currentExchange.0,
+                                     "exchangeDbTitle" : self.currentExchange.1,
+                                     "costPerCoin": self.costPerCoin,
+                                     "amountOfCoins": self.amountOfCoins,
+                                     "fees": self.fees,
+                                     "totalCost": totalCost,
+                                     "totalCostUsd": totalCostUsd,
+                                     "date": dateString]
+          
+          self.parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
+        }
+      }
       
       if deductFromHoldings {
         var type: String!
@@ -156,21 +184,23 @@ class AddTransactionViewController: UIViewController {
         addFiatTransaction(currency: tradingPair, type: type, exchange: currentExchange.0, amount: amount, fees: fees, date: dateString)
       }
     }
-    else {
+    else { // Crypto-Crypto Transaction
       Database.database().reference().child(tradingPair)
         .observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
           if let dict = snapshot.value as? [String : AnyObject] {
-            let price = dict[GlobalValues.currency!]!["price"] as! Double
+            let price = dict["USD"]!["price"] as! Double
             let totalCost = ((self.costPerCoin * self.amountOfCoins) - self.fees) * price
             let data: [String: Any] = ["type": self.transactionType,
                                        "coin": self.coin,
                                        "tradingPair": tradingPair,
                                        "exchange": self.currentExchange.0,
+                                       "exchangeDbTitle" : self.currentExchange.1,
                                        "costPerCoin": self.costPerCoin,
                                        "amountOfCoins": self.amountOfCoins,
                                        "fees": self.fees,
                                        "totalCost": totalCost,
-                                       "fiat": GlobalValues.currency!,
+                                       "fiat": "USD",
+                                       "totalCostUsd": totalCost,
                                        "date": dateString]
             
             self.parentController.portfolioTableController.addPortfolioEntry(portfolioEntry: data)
@@ -212,6 +242,7 @@ class AddTransactionViewController: UIViewController {
       }
       allData[portfolioName] = data
       Defaults[.fiatPortfolioData] = allData
+      FirebaseService.shared.updatePortfolioData(databaseTitle: "FiatData", data: allData)
       parentController.parentController.loadAllPortfolios(cryptoPortfolioData: nil, fiatPortfolioData: data)
     }
   }
@@ -225,19 +256,22 @@ class AddTransactionViewController: UIViewController {
       type = "cryptoBuy"
     }
     let amountOfCoins = self.amountOfCoins*self.costPerCoin
-    
+    let totalCost = (amountOfCoins - fees) * exchangePrice
     dateFormatter.dateFormat =  "yyyy-MM-dd hh:mm a"
     let dateString = dateFormatter.string(from: date)
     
     let cryptoData: [String: Any] = ["type": type,
                                      "tradingPair": self.coin,
                                      "exchange": self.currentExchange.0,
+                                     "exchangeDbTitle" : self.currentExchange.1,
                                      "costPerCoin": self.costPerCoin,
                                      "amountOfCoins": amountOfCoins,
                                      "fees": self.fees,
                                      "date": dateString,
                                      "fiatPrice": exchangePrice,
-                                     "fiat": GlobalValues.currency!]
+                                     "fiat": "USD",
+                                     "totalCost": totalCost,
+                                     "totalCostUsd": totalCost]
     self.parentController.portfolioTableController
       .savePortfolioEntry(coin: tradingPair, transaction: cryptoData)
   }

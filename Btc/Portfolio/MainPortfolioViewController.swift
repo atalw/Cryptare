@@ -225,17 +225,41 @@ class MainPortfolioViewController: UIViewController {
             
             let totalCost = (costPerCoin * amountOfCoins) - fees
             
-            let transaction: [String : Any] = ["type": type,
-                                               "tradingPair": tradingPair,
-                                               "exchange": exchange,
-                                               "exchangeDbTitle" : "MarketAverage",
-                                               "costPerCoin": costPerCoin,
-                                               "amountOfCoins": amountOfCoins,
-                                               "fees": fees,
-                                               "totalCost": totalCost,
-                                               "fiat": tradingPair,
-                                               "date": dateString]
-            data["Main"]![coin]!.append(transaction)
+            var totalCostUsd: Double!
+            if tradingPair == "USD" {
+              totalCostUsd = totalCost
+              let transaction: [String : Any] = ["type": type,
+                                                 "tradingPair": tradingPair,
+                                                 "exchange": exchange,
+                                                 "exchangeDbTitle" : "MarketAverage",
+                                                 "costPerCoin": costPerCoin,
+                                                 "amountOfCoins": amountOfCoins,
+                                                 "fees": fees,
+                                                 "totalCost": totalCost,
+                                                 "fiat": tradingPair,
+                                                 "totalCostUsd": totalCostUsd,
+                                                 "date": dateString]
+              data["Main"]![coin]!.append(transaction)
+            }
+            else {
+              getExchangeRateUSD(symbol: tradingPair).then { rate in
+                totalCostUsd = totalCost*rate
+                
+                let transaction: [String : Any] = ["type": type,
+                                                   "tradingPair": tradingPair,
+                                                   "exchange": exchange,
+                                                   "exchangeDbTitle" : "MarketAverage",
+                                                   "costPerCoin": costPerCoin,
+                                                   "amountOfCoins": amountOfCoins,
+                                                   "fees": fees,
+                                                   "totalCost": totalCost,
+                                                   "fiat": tradingPair,
+                                                   "totalCostUsd": totalCostUsd,
+                                                   "date": dateString]
+                data["Main"]![coin]!.append(transaction)
+                Defaults[.cryptoPortfolioData] = data
+              }
+            }
           }
         }
       }
@@ -244,8 +268,6 @@ class MainPortfolioViewController: UIViewController {
     }
   }
   
-  
-  
   @IBAction func addPortfolioButtonTapped(_ sender: Any) {
     
     if (self.menu?.isDescendant(of: self.view) == true) {
@@ -253,8 +275,6 @@ class MainPortfolioViewController: UIViewController {
     } else {
       self.menu?.showMenuFromView(self.view)
     }
-    
-    
   }
   
   func getPortfolios() -> [UIViewController] {

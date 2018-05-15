@@ -141,6 +141,7 @@
 		86AC1F2B1F913DC80079F013 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */; };
 		86AFB1001FACBCF000AB6DFC /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864F53271FAC9F0600BC852F /* LeftViewController.swift */; };
 		86B20F7F1F13B06100B6ADDD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B20F7E1F13B06100B6ADDD /* Reachability.swift */; };
+		86B2847720AADA8D00B7B35F /* Promise+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2847620AADA8D00B7B35F /* Promise+Extensions.swift */; };
 		86BAB82C20864C1000DF73B2 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BAB82B20864C1000DF73B2 /* FirebaseService.swift */; };
 		86BB1A542090D12200F08321 /* AlertFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB1A532090D12200F08321 /* AlertFirebase.swift */; };
 		86BD6F981F85203700C4B0CA /* CoinMarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BD6F971F85203700C4B0CA /* CoinMarketsTableViewCell.swift */; };
@@ -302,6 +303,7 @@
 		86AC1F251F9137B60079F013 /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		86AC1F2A1F913DBE0079F013 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86B20F7E1F13B06100B6ADDD /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		86B2847620AADA8D00B7B35F /* Promise+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Promise+Extensions.swift"; sourceTree = "<group>"; };
 		86BAB82B20864C1000DF73B2 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		86BB1A532090D12200F08321 /* AlertFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFirebase.swift; sourceTree = "<group>"; };
 		86BD6F971F85203700C4B0CA /* CoinMarketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinMarketsTableViewCell.swift; sourceTree = "<group>"; };
@@ -742,6 +744,7 @@
 				86293883206BA2580005AD26 /* UIButton+Extensions.swift */,
 				868B5D802075FDDB0088938B /* UIImageView+Extensions.swift */,
 				8690DADB20A98216000B9A01 /* UITabBarController+Extensions.swift */,
+				86B2847620AADA8D00B7B35F /* Promise+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1091,6 +1094,8 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/PagedArray/PagedArray.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SlideMenuControllerSwift/SlideMenuControllerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftReorder/SwiftReorder.framework",
@@ -1111,6 +1116,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PagedArray.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlideMenuControllerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftReorder.framework",
@@ -1188,6 +1195,7 @@
 				868FC174208B1E7700ED00EC /* MarketDetailViewController.swift in Sources */,
 				865146FD208CD7E900652213 /* PairAlertTableViewCell.swift in Sources */,
 				86A2B57020528650001A3DE2 /* FiatPortfolioTableViewCell.swift in Sources */,
+				86B2847720AADA8D00B7B35F /* Promise+Extensions.swift in Sources */,
 				864E973B203C57570023238F /* IAPService.swift in Sources */,
 				86E31CCB1F41D77900445B08 /* NewsData.swift in Sources */,
 				86C1623920429C3000BFC90E /* AddTransactionTableViewController.swift in Sources */,

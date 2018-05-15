@@ -119,7 +119,7 @@ class AddFiatTransactionTableViewController: UITableViewController {
         createTimePicker()
         
         databaseRef = Database.database().reference().child("BTC")
-
+        databaseRef.keepSynced(true)
         databaseRef.observeSingleEvent(of: .childAdded, with: {(snapshot) -> Void in
             if let dict = snapshot.value as? [String : AnyObject] {
                 for (title, data) in dict {

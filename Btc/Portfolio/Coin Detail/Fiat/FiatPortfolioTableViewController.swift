@@ -219,7 +219,8 @@ extension FiatPortfolioTableViewController {
   }
   
   func deletePortfolioEntry(portfolioEntry: FiatTransactionEntryModel) {
-    
+    dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
+
     var allData = Defaults[.fiatPortfolioData]
     if let currentPortfolioData = allData[portfolioName] as? [String: [[String: Any]] ] {
       var data: [String: [[String: Any]] ] = [:]
@@ -228,13 +229,15 @@ extension FiatPortfolioTableViewController {
         data[currency] = transactions
         if currency == portfolioEntry.currency {
           for (index, transaction) in data[currency]!.enumerated() {
-            
             let type = transaction["type"] as? String
             let exchange = transaction["exchange"] as? String
             let amount = transaction["amount"] as! Double
             let fees = transaction["fees"] as! Double
-            let date = transaction["date"] as? Date
-            
+            var date: Date!
+            if let dateString = transaction["date"] as? String {
+              date = dateFormatter.date(from: dateString)
+            }
+
             if portfolioEntry.type == type &&
               portfolioEntry.exchange == exchange &&
               portfolioEntry.date == date {

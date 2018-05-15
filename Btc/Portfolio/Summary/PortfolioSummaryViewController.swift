@@ -322,15 +322,13 @@ class PortfolioSummaryViewController: UIViewController {
               self.cryptoDict[coin]![index]["totalCost"] = totalCostFiat
             }
             else {
-              self.getExchangeRate(symbol: self.currency, base: fiat, completion: { success, exchangeRate in
-                if success {
-                  costPerCoinFiat = (costPerCoin * fiatPrice) * exchangeRate
-                  totalCostFiat = (((amountOfCoins * costPerCoin) - fees) * fiatPrice) * exchangeRate
-                  self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoinFiat, totalCost: totalCostFiat)
-                  
-                  self.cryptoDict[coin]![index]["totalCost"] = totalCostFiat
-                }
-              })
+              getExchangeRate(symbol: self.currency, pair: fiat).then { exchangeRate in
+                costPerCoinFiat = (costPerCoin * fiatPrice) * exchangeRate
+                totalCostFiat = (((amountOfCoins * costPerCoin) - fees) * fiatPrice) * exchangeRate
+                self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoinFiat, totalCost: totalCostFiat)
+                
+                self.cryptoDict[coin]![index]["totalCost"] = totalCostFiat
+              }
             }
           }
         }
@@ -338,22 +336,20 @@ class PortfolioSummaryViewController: UIViewController {
           if tradingPair != GlobalValues.currency! {
             // check if trading pair is a fiat currency
             if globalCurrencies.contains(tradingPair) {
-              self.getExchangeRate(symbol: self.currency, base: tradingPair, completion: { success, exchangeRate in
-                if success {
-                  let type = trans["type"] as! String
-                  let amountOfCoins = trans["amountOfCoins"] as! Double
-                  let costPerCoin = trans["costPerCoin"] as! Double * exchangeRate
-                  let fees = (trans["fees"] as! Double) * exchangeRate
-                  let totalCost = (trans["totalCost"] as! Double) * exchangeRate
-                  
-                  self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
-                  
-                  // update crypto dict to show converted in crypto table VC
-                  self.cryptoDict[coin]![index]["costPerCoin"] = costPerCoin
-                  self.cryptoDict[coin]![index]["fees"] = fees
-                  self.cryptoDict[coin]![index]["totalCost"] = totalCost
-                }
-              })
+              getExchangeRate(symbol: self.currency, pair: tradingPair).then { exchangeRate in
+                let type = trans["type"] as! String
+                let amountOfCoins = trans["amountOfCoins"] as! Double
+                let costPerCoin = trans["costPerCoin"] as! Double * exchangeRate
+                let fees = (trans["fees"] as! Double) * exchangeRate
+                let totalCost = (trans["totalCost"] as! Double) * exchangeRate
+                
+                self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
+                
+                // update crypto dict to show converted in crypto table VC
+                self.cryptoDict[coin]![index]["costPerCoin"] = costPerCoin
+                self.cryptoDict[coin]![index]["fees"] = fees
+                self.cryptoDict[coin]![index]["totalCost"] = totalCost
+              }
             }
             else {
               // check if trans fiat value is same as current fiat
@@ -362,19 +358,17 @@ class PortfolioSummaryViewController: UIViewController {
               let fiat = trans["fiat"] as! String
               
               if fiat != self.currency {
-                self.getExchangeRate(symbol: self.currency, base: fiat, completion: { success, exchangeRate in
-                  if success {
-                    let type = trans["type"] as! String
-                    let amountOfCoins = trans["amountOfCoins"] as! Double
-                    let costPerCoin = trans["costPerCoin"] as! Double
-                    var totalCost = trans["totalCost"] as! Double
-                    
-                    totalCost = totalCost * exchangeRate
-                    self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
-                    
-                    self.cryptoDict[coin]![index]["totalCost"] = totalCost
-                  }
-                })
+                getExchangeRate(symbol: self.currency, pair: fiat).then { exchangeRate in
+                  let type = trans["type"] as! String
+                  let amountOfCoins = trans["amountOfCoins"] as! Double
+                  let costPerCoin = trans["costPerCoin"] as! Double
+                  var totalCost = trans["totalCost"] as! Double
+                  
+                  totalCost = totalCost * exchangeRate
+                  self.updateSummaryWithCryptoTransaction(coin: coin, type: type, amountOfCoins: amountOfCoins, costPerCoin: costPerCoin, totalCost: totalCost)
+                  
+                  self.cryptoDict[coin]![index]["totalCost"] = totalCost
+                }
               }
               else {
                 self.cryptoTransactionSummary(coin: coin, trans: trans)
@@ -411,18 +405,16 @@ class PortfolioSummaryViewController: UIViewController {
           // check if trading pair is a fiat currency
           for (_, symbol, _, _) in GlobalValues.countryList {
             if symbol == currency {
-              self.getExchangeRate(symbol: self.currency, base: currency, completion: { success, exchangeRate in
-                if success {
-                  let type = entry["type"] as! String
-                  let amount = (entry["amount"] as! Double) * exchangeRate
-                  let fees = (entry["fees"] as! Double) * exchangeRate
-                  
-                  self.updateSummaryWithFiatTransaction(currency: currency, type: type, amount: amount, fees: fees)
-                  
-                  self.fiatDict[currency]![index]["amount"] = amount
-                  self.fiatDict[currency]![index]["fees"] = fees
-                }
-              })
+              getExchangeRate(symbol: self.currency, pair: currency).then { exchangeRate in
+                let type = entry["type"] as! String
+                let amount = (entry["amount"] as! Double) * exchangeRate
+                let fees = (entry["fees"] as! Double) * exchangeRate
+                
+                self.updateSummaryWithFiatTransaction(currency: currency, type: type, amount: amount, fees: fees)
+                
+                self.fiatDict[currency]![index]["amount"] = amount
+                self.fiatDict[currency]![index]["fees"] = fees
+              }
             }
           }
         }
@@ -568,30 +560,6 @@ class PortfolioSummaryViewController: UIViewController {
       totalPriceChangeLabel.textColor = colour
     }
     
-  }
-  
-  func getExchangeRate(symbol: String, base: String, completion: @escaping (_ success : Bool, _ exchangeRate: Double) -> ()) {
-    var exchangeRate: Double = 1
-    
-    let exchangeURL = URL(string: "https://api.fixer.io/latest?symbols=\(symbol)&base=\(base)")!
-    let exchangeTask = URLSession.shared.dataTask(with: exchangeURL) { data, response, error in
-      guard error == nil else {
-        return
-      }
-      guard let data = data else {
-        return
-      }
-      do {
-        if let rate = try JSON(data:data)["rates"][symbol].double {
-          exchangeRate = rate
-        }
-        completion(true, exchangeRate)
-      }
-      catch (let error) {
-        print(error)
-      }
-    }
-    exchangeTask.resume()
   }
   
   @IBAction func optionAllTimeTapped(_ sender: Any) {
