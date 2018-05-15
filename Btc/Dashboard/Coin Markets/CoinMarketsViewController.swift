@@ -116,7 +116,7 @@ class CoinMarketsViewController: UIViewController {
   }
   @IBOutlet weak var usdtMarketDescriptionLabel: UILabel! {
     didSet {
-      usdtMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using \(GlobalValues.currency!)."
+      usdtMarketDescriptionLabel.text = "Markets that support \(currentCoin!) purchase directly using USDT."
       usdtMarketDescriptionLabel.adjustsFontSizeToFitWidth = true
       usdtMarketDescriptionLabel.theme_textColor = GlobalPicker.viewAltTextColor
     }
