@@ -839,20 +839,20 @@ class SettingsViewController: UITableViewController {
       else if row == 2 { // support
         FirebaseService.shared.support_tapped()
 
-        let email = "support@cryptare.io"
+        let email = "support@cryptare.app"
         if let url = URL(string: "mailto:\(email)") {
           UIApplication.shared.openURL(url)
         }
       }
       else if row == 3 { // privacy policy
         FirebaseService.shared.privacy_tapped()
-        if let url = URL(string: "http://cryptare.io/privacy.html") {
+        if let url = URL(string: "http://cryptare.app/privacy.html") {
           UIApplication.shared.openURL(url)
         }
       }
       else if row == 4 { // terms and conditions
         FirebaseService.shared.tos_tapped()
-        if let url = URL(string: "http://cryptare.io/tos.html") {
+        if let url = URL(string: "http://cryptare.app/tos.html") {
           UIApplication.shared.openURL(url)
         }
       }

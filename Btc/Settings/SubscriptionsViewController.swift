@@ -195,14 +195,14 @@ class SubscriptionsViewController: UIViewController {
   @IBAction func tosButtonTapped(_ sender: Any) {
     FirebaseService.shared.tos_tapped_from_subscription()
     
-    if let url = URL(string: "http://cryptare.io/privacy.html") {
+    if let url = URL(string: "http://cryptare.app/privacy.html") {
       UIApplication.shared.openURL(url)
     }
   }
   @IBAction func privacyButtonTapped(_ sender: Any) {
     FirebaseService.shared.privacy_tapped_from_subscription()
     
-    if let url = URL(string: "http://cryptare.io/tos.html") {
+    if let url = URL(string: "http://cryptare.app/tos.html") {
       UIApplication.shared.openURL(url)
     }
   }
