@@ -20,12 +20,18 @@ class CountrySelectionViewController: UIViewController, UITableViewDataSource, U
     }
   }
   
+  @IBOutlet weak var cancelButton: UIBarButtonItem!
+  
+  @IBAction func closeButtonPressed(_ sender: Any) {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
   var sortedCountryList: [(String, String, String, String)] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+    self.view.theme_backgroundColor = GlobalPicker.navigationBarTintColor
     self.tableViewController.countryTable.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     self.tableViewController.countryTable.theme_separatorColor = GlobalPicker.tableSeparatorColor
     

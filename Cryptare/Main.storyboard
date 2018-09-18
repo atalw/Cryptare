@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QBu-mH-Hb4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QBu-mH-Hb4">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,52 +13,51 @@
         <scene sceneID="Z96-z4-Jyi">
             <objects>
                 <viewController storyboardIdentifier="CountrySelectionViewController" id="QBu-mH-Hb4" customClass="CountrySelectionViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Skt-wu-Vr4">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="Skt-wu-Vr4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="t3T-t0-7Xt">
-                                <rect key="frame" x="0.0" y="54" width="375" height="724"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Currency" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wCB-26-DES">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="31.333333333333332"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="26"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PqX-Dd-5Yx">
-                                        <rect key="frame" x="0.0" y="51.333333333333314" width="375" height="672.66666666666674"/>
-                                        <connections>
-                                            <segue destination="DqS-7T-2f7" kind="embed" id="A1b-3g-vJ3"/>
-                                        </connections>
-                                    </containerView>
-                                </subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M8B-SA-wzO">
+                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                 <constraints>
-                                    <constraint firstItem="PqX-Dd-5Yx" firstAttribute="leading" secondItem="t3T-t0-7Xt" secondAttribute="leading" id="TXF-mb-RAv"/>
-                                    <constraint firstItem="wCB-26-DES" firstAttribute="leading" secondItem="t3T-t0-7Xt" secondAttribute="leading" id="Vb9-3m-hyM"/>
-                                    <constraint firstAttribute="trailing" secondItem="PqX-Dd-5Yx" secondAttribute="trailing" id="YYK-Kg-qHc"/>
-                                    <constraint firstItem="wCB-26-DES" firstAttribute="top" secondItem="t3T-t0-7Xt" secondAttribute="top" id="itT-lT-skW"/>
-                                    <constraint firstAttribute="trailing" secondItem="wCB-26-DES" secondAttribute="trailing" id="oED-J9-vnn"/>
-                                    <constraint firstAttribute="bottom" secondItem="PqX-Dd-5Yx" secondAttribute="bottom" id="zTZ-f1-Lde"/>
+                                    <constraint firstAttribute="height" constant="44" id="2Zt-qN-Nrf"/>
                                 </constraints>
-                            </stackView>
+                                <items>
+                                    <navigationItem title="Select Currency" id="fi4-MA-WOh">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="UVz-OV-q2S">
+                                            <connections>
+                                                <action selector="closeButtonPressed:" destination="QBu-mH-Hb4" id="6QR-8r-7gs"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PqX-Dd-5Yx">
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
+                                <connections>
+                                    <segue destination="DqS-7T-2f7" kind="embed" id="A1b-3g-vJ3"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WFy-SR-sTG" firstAttribute="bottom" secondItem="t3T-t0-7Xt" secondAttribute="bottom" id="OzC-57-6FP"/>
-                            <constraint firstItem="WFy-SR-sTG" firstAttribute="trailing" secondItem="t3T-t0-7Xt" secondAttribute="trailing" id="aQi-DH-Le6"/>
-                            <constraint firstItem="t3T-t0-7Xt" firstAttribute="leading" secondItem="WFy-SR-sTG" secondAttribute="leading" id="dtM-DS-iKg"/>
-                            <constraint firstItem="t3T-t0-7Xt" firstAttribute="top" secondItem="WFy-SR-sTG" secondAttribute="top" constant="10" id="vvG-2f-h6C"/>
+                            <constraint firstItem="PqX-Dd-5Yx" firstAttribute="top" secondItem="M8B-SA-wzO" secondAttribute="bottom" id="4T4-CU-I3K"/>
+                            <constraint firstItem="M8B-SA-wzO" firstAttribute="trailing" secondItem="WFy-SR-sTG" secondAttribute="trailing" id="69r-7C-AeV"/>
+                            <constraint firstItem="PqX-Dd-5Yx" firstAttribute="trailing" secondItem="WFy-SR-sTG" secondAttribute="trailing" id="9c7-1c-b2p"/>
+                            <constraint firstItem="M8B-SA-wzO" firstAttribute="top" secondItem="WFy-SR-sTG" secondAttribute="top" id="EVW-4e-MvN"/>
+                            <constraint firstAttribute="bottom" secondItem="PqX-Dd-5Yx" secondAttribute="bottom" id="Sjz-xb-dvj"/>
+                            <constraint firstItem="M8B-SA-wzO" firstAttribute="leading" secondItem="WFy-SR-sTG" secondAttribute="leading" id="aZY-xy-K4l"/>
+                            <constraint firstItem="PqX-Dd-5Yx" firstAttribute="leading" secondItem="WFy-SR-sTG" secondAttribute="leading" id="s4c-dv-LXe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WFy-SR-sTG"/>
                     </view>
                     <connections>
-                        <outlet property="selectCountryTitleLabel" destination="wCB-26-DES" id="Lfs-uF-md5"/>
+                        <outlet property="cancelButton" destination="UVz-OV-q2S" id="Ya8-vn-zv3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KvT-sV-YjD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4823" y="-550"/>
+            <point key="canvasLocation" x="-4823.1999999999998" y="-550.49261083743841"/>
         </scene>
         <!--Settings-->
         <scene sceneID="G4r-18-VNg">
@@ -5369,7 +5367,7 @@
             <objects>
                 <tableViewController id="DqS-7T-2f7" customClass="countryTableViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="6sl-p8-skL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="672.66666666666674"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -7902,6 +7900,6 @@
         <segue reference="s86-Ej-huc"/>
         <segue reference="LUE-nf-4Sn"/>
         <segue reference="dRg-qx-seb"/>
-        <segue reference="Vxq-BP-5vg"/>
+        <segue reference="aMw-vO-4ZL"/>
     </inferredMetricsTieBreakers>
 </document>
