@@ -60,6 +60,17 @@ class MainViewController: UIViewController {
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     
+    let introComplete = Defaults[.mainAppIntroComplete]
+    
+    if !introComplete {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let introViewController = storyboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
+      introViewController.fromAppDelegate = true
+      
+      self.present(introViewController, animated: true, completion: nil)
+    }
+   
+
     if #available(iOS 11.0, *) {
       navigationItem.hidesSearchBarWhenScrolling = false
       navigationItem.searchController = searchController

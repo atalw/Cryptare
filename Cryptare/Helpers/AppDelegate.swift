@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UIImage(named: coin.lowercased())?.saveImage(coin: coin)
       }
       Defaults[.dashboardFavourites] = favourites
-      Defaults[.dashboardFavouritesFirstTab] = true
+      Defaults[.dashboardFavouritesFirstTab] = false
     }
     
     // chart settings
@@ -175,11 +175,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         self.createMenuView(storyboard: storyboard)
         
-        let introViewController = storyboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
-        introViewController.baseController = self.window?.rootViewController
-        introViewController.fromAppDelegate = true
-        
-        self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
+//        let introViewController = storyboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
+//        introViewController.baseController = self.window?.rootViewController
+//        introViewController.fromAppDelegate = true
+//
+//        self.window?.rootViewController?.present(introViewController, animated: true, completion: nil)
         
       }
     }
@@ -188,8 +188,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     } else {
       // Fallback on earlier versions
     }
-
-    
 
     return true
   }
