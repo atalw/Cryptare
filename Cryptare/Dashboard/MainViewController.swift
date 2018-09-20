@@ -138,7 +138,7 @@ class MainViewController: UIViewController {
       Defaults[.selectedCountry] = "usa"
     }
     
-    currencyButton.title = currency!
+    currencyButton.title = GlobalValues.currency
     
     
     for (_, viewController) in viewControllerList.enumerated() {
