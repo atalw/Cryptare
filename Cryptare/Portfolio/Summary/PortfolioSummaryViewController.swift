@@ -45,6 +45,8 @@ class PortfolioSummaryViewController: UIViewController {
   var summary: [String: [String: Double] ] = [:]
   var yesterdayCoinValues: [String: Double] = [:]
   
+  var currentPortfolioValue: Double = 0
+  
   var coins: [String] = [] {
     didSet {
       if coins.count == 0 && currencies.count == 0 {
@@ -171,15 +173,23 @@ class PortfolioSummaryViewController: UIViewController {
     }
   }
   
-  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var tableView: UITableView! {
+    didSet {
+      self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+      self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+      
+      tableView.delegate = self
+      tableView.dataSource = self
+      
+      tableView.tableFooterView = UIView(frame: .zero)
+    }
+  }
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
-    self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
-    self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     
     for (symbol, _) in GlobalValues.coins {
       globalCoins.append(symbol)
@@ -196,17 +206,11 @@ class PortfolioSummaryViewController: UIViewController {
     
     timeFormatter.dateFormat = "hh:mm a"
     
-    tableView.delegate = self
-    tableView.dataSource = self
-    
     yesterdayCoinValues = [:]
-    
-    tableView.tableFooterView = UIView(frame: .zero)
     
     currentPortfolioValueLabel.text = 0.0.asCurrency
     totalInvestedLabel.text = 0.0.asCurrency
     totalPriceChangeLabel.text = 0.0.asCurrency
-    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -560,6 +564,8 @@ class PortfolioSummaryViewController: UIViewController {
       totalPriceChangeLabel.textColor = colour
     }
     
+    self.currentPortfolioValue = currentPortfolioValue
+    
   }
   
   @IBAction func optionAllTimeTapped(_ sender: Any) {
@@ -617,6 +623,12 @@ class PortfolioSummaryViewController: UIViewController {
     }
     else if let cryptoPortfolioVC = destinationVc as? CryptoPortfolioViewController {
       cryptoPortfolioVC.parentController = self
+    }
+    else if let pieChartVC = destinationVc as? PortfolioPieChartController {
+      pieChartVC.summary = summary
+      pieChartVC.coins = coins
+      pieChartVC.currencies = currencies
+      pieChartVC.currentPortfolioValue = currentPortfolioValue
     }
   }
   
