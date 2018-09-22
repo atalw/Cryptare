@@ -17,7 +17,8 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
   var currencies: [String] = []
   var summary: [String: [String: Double] ] = [:]
   
-  var currentPortfolioValue: Double = 0
+  var currentPortfolioValue: Double = 0.0
+  var totalAmountOfCoins: Double = 0.0
   
   @IBOutlet weak var pieChartView: PieChartView! {
     didSet {
@@ -45,8 +46,14 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       
       pieChartView.animate(xAxisDuration: 0.9, easingOption: .easeOutBack)
       
-      updateChartData(portfolioValue: currentPortfolioValue)
+      updateChartData()
     }
+  }
+  
+  @IBOutlet weak var chartTypeSegmentedControl: UISegmentedControl!
+  
+  @IBAction func typeSegmentControlValueChanged(_ sender: Any) {
+    updateChartData()
   }
   
   override func viewDidLoad() {
@@ -54,7 +61,7 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     
     self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
     
-    updateChartData(portfolioValue: self.currentPortfolioValue)
+    updateChartData()
     
     NotificationCenter.default.addObserver(
       self,
@@ -64,44 +71,46 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     )
   }
   
-  func updateChartData(portfolioValue: Double) {
-    //    if self.shouldHideData {
-    //      chartView.data = nil
-    //      return
-    //    }
-    
-    //    self.setDataCount(Int(coins.count+currencies.count), range: UInt32(coins.count+currencies.count))
+  func updateChartData() {
     
     var combinedCoinsAndCurrencies: [String] = []
     for coin in coins {
       combinedCoinsAndCurrencies.append(coin)
     }
-    for currency in currencies {
-      combinedCoinsAndCurrencies.append(currency)
+    
+    if self.chartTypeSegmentedControl.selectedSegmentIndex == 0 {
+      for currency in currencies {
+        combinedCoinsAndCurrencies.append(currency)
+      }
     }
     
-    print("currencies", combinedCoinsAndCurrencies)
-    
-    self.setDataCount(Int(combinedCoinsAndCurrencies.count), labels: combinedCoinsAndCurrencies, portfolioValue: portfolioValue)
+    self.setDataCount(Int(combinedCoinsAndCurrencies.count), labels: combinedCoinsAndCurrencies, portfolioValue: currentPortfolioValue)
   }
   
   func setDataCount(_ count: Int, labels: [String], portfolioValue: Double) {
     let entries = (0..<count).map { (i) -> PieChartDataEntry in
       // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
       let label = labels[i % labels.count]
-      print(label)
-      
       var value: Double = 0
-      if let totalCost = summary[label]!["totalCost"] {
-        value =  totalCost / portfolioValue * 100
+      
+      if self.chartTypeSegmentedControl.selectedSegmentIndex == 0 {
+        
+        if let totalCost = summary[label]!["totalCost"] {
+          value =  totalCost / portfolioValue * 100
+        }
+        else if let totalCost = summary[label]!["amount"] {
+          value =  totalCost / portfolioValue * 100
+        }
+        
       }
-      else if let totalCost = summary[label]!["amount"] {
-        value =  totalCost / portfolioValue * 100
+      else {
+        if let amountOfCoins = summary[label]!["amountOfCoins"] {
+          value = amountOfCoins / totalAmountOfCoins * 100
+        }
       }
       return PieChartDataEntry(value: value,
                                label: label,
                                icon: #imageLiteral(resourceName: "gbp"))
-      
     }
     
     let set = PieChartDataSet(values: entries, label: "")
@@ -120,14 +129,25 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     let data = PieChartData(dataSet: set)
     
     let pFormatter = NumberFormatter()
+
     pFormatter.numberStyle = .percent
-    pFormatter.maximumFractionDigits = 1
+    pFormatter.maximumFractionDigits = 2
     pFormatter.multiplier = 1
     pFormatter.percentSymbol = " %"
     data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
     
+//    if chartTypeSegmentedControl.selectedSegmentIndex == 0 {
+//      UserDefaults.standard.set(self.currentPortfolioValue, forKey: "totalValue")
+//    }
+//    else if chartTypeSegmentedControl.selectedSegmentIndex == 1 {
+//      UserDefaults.standard.set(self.totalAmountOfCoins, forKey: "totalValue")
+//    }
+//    let formatter:ChartFormatter = ChartFormatter()
+//    data.setValueFormatter(formatter)
+    
     data.setValueFont(.systemFont(ofSize: 11, weight: .regular))
     data.setValueTextColor(.white)
+    
     
     pieChartView.data = data
     pieChartView.highlightValues(nil)
@@ -141,6 +161,9 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     pieChartView.chartDescription?.text = ""
     
 //    pieChartView.tex
+    
+    pieChartView.drawSliceTextMinimumAngle = 20
+    
   }
   
   @objc func changeAppearanceColours() {
@@ -150,6 +173,26 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     }
     else if themeIndex == 1 {
       pieChartView.legend.textColor = UIColor.white
+    }
+  }
+  
+}
+
+public class ChartFormatter: NSObject, IValueFormatter{
+  
+  public func stringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String {
+    
+    
+    let valueToUse = Double(round(10*value)/10)
+    print("valueToUse: \(valueToUse)")
+    let minNumber = 5.0
+    
+    if(valueToUse<minNumber) {
+      
+      return ""
+    }
+    else {
+      return String(valueToUse) + "%"
     }
   }
   

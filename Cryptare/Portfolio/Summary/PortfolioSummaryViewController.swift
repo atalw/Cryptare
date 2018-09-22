@@ -46,6 +46,7 @@ class PortfolioSummaryViewController: UIViewController {
   var yesterdayCoinValues: [String: Double] = [:]
   
   var currentPortfolioValue: Double = 0
+  var totalAmountOfCoins: Double = 0
   
   var coins: [String] = [] {
     didSet {
@@ -502,6 +503,7 @@ class PortfolioSummaryViewController: UIViewController {
     var currentPortfolioValue = 0.0
     var totalInvested = 0.0
     var yesterdayPortfolioValue = 0.0
+    var totalAmountOfCoins = 0.0
     
     currentPortfolioValueLabel.text = 0.asCurrency
     totalInvestedLabel.text = 0.asCurrency
@@ -512,6 +514,7 @@ class PortfolioSummaryViewController: UIViewController {
     for coin in coins {
       if let yesterdayPrice = self.summary[coin]!["coinValueYesterday"],
         let amountOfCoins = self.summary[coin]!["amountOfCoins"] {
+        totalAmountOfCoins += amountOfCoins
         
         self.summary[coin]!["holdingsValueYesterday"] =  yesterdayPrice * amountOfCoins
         
@@ -565,7 +568,7 @@ class PortfolioSummaryViewController: UIViewController {
     }
     
     self.currentPortfolioValue = currentPortfolioValue
-    
+    self.totalAmountOfCoins = totalAmountOfCoins
   }
   
   @IBAction func optionAllTimeTapped(_ sender: Any) {
@@ -629,6 +632,7 @@ class PortfolioSummaryViewController: UIViewController {
       pieChartVC.coins = coins
       pieChartVC.currencies = currencies
       pieChartVC.currentPortfolioValue = currentPortfolioValue
+      pieChartVC.totalAmountOfCoins = totalAmountOfCoins
     }
   }
   
