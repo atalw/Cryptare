@@ -20,6 +20,8 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
   var currentPortfolioValue: Double = 0.0
   var totalAmountOfCoins: Double = 0.0
   
+  var combinedCoinsAndCurrencies: [String] = []
+  
   @IBOutlet weak var pieChartView: PieChartView! {
     didSet {
       pieChartView.delegate = self
@@ -29,8 +31,9 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       l.verticalAlignment = .bottom
       l.orientation = .horizontal
       l.xEntrySpace = 7
-      l.yEntrySpace = 0
-      l.yOffset = 0
+      l.yEntrySpace = 10
+      l.yOffset = 10
+      
       
       let selectedIndex = Defaults[.currentThemeIndex]
       if selectedIndex == 0 {
@@ -50,7 +53,21 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     }
   }
   
-  @IBOutlet weak var chartTypeSegmentedControl: UISegmentedControl!
+  @IBOutlet weak var chartTypeSegmentedControl: UISegmentedControl! {
+    didSet {
+      chartTypeSegmentedControl.theme_tintColor = GlobalPicker.segmentControlTintColor
+    }
+  }
+  @IBOutlet weak var tableView: UITableView! {
+    didSet {
+      tableView.delegate = self
+      tableView.dataSource = self
+      
+      
+    }
+  }
+  
+  @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   
   @IBAction func typeSegmentControlValueChanged(_ sender: Any) {
     updateChartData()
@@ -59,7 +76,10 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+    self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+    tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+    tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
+    
     
     updateChartData()
     
@@ -69,11 +89,28 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       name: NSNotification.Name(rawValue: ThemeUpdateNotification),
       object: nil
     )
+    
+    self.tableView.reloadData()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    self.tableView.reloadData()
+  }
+  
+  override func viewDidLayoutSubviews() {
+    tableViewHeightConstraint.constant = tableView.contentSize.height
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
   }
   
   func updateChartData() {
     
-    var combinedCoinsAndCurrencies: [String] = []
+    combinedCoinsAndCurrencies = []
+    
     for coin in coins {
       combinedCoinsAndCurrencies.append(coin)
     }
@@ -84,11 +121,17 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       }
     }
     
-    self.setDataCount(Int(combinedCoinsAndCurrencies.count), labels: combinedCoinsAndCurrencies, portfolioValue: currentPortfolioValue)
+//    combinedCoinsAndCurrencies = combinedCoinsAndCurrencies.sorted(by: {$0.1.localizedCaseInsensitiveCompare($1.1) == .orderedAscending})
+    
+    self.setDataCount(Int(combinedCoinsAndCurrencies.count), labels: combinedCoinsAndCurrencies)
+    
+    if self.tableView != nil {
+      self.tableView.reloadData()
+    }
   }
   
-  func setDataCount(_ count: Int, labels: [String], portfolioValue: Double) {
-    let entries = (0..<count).map { (i) -> PieChartDataEntry in
+  func setDataCount(_ count: Int, labels: [String]) {
+    var entries = (0..<count).map { (i) -> PieChartDataEntry in
       // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
       let label = labels[i % labels.count]
       var value: Double = 0
@@ -96,12 +139,11 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       if self.chartTypeSegmentedControl.selectedSegmentIndex == 0 {
         
         if let totalCost = summary[label]!["totalCost"] {
-          value =  totalCost / portfolioValue * 100
+          value =  totalCost / currentPortfolioValue * 100
         }
         else if let totalCost = summary[label]!["amount"] {
-          value =  totalCost / portfolioValue * 100
+          value =  totalCost / currentPortfolioValue * 100
         }
-        
       }
       else {
         if let amountOfCoins = summary[label]!["amountOfCoins"] {
@@ -111,6 +153,13 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       return PieChartDataEntry(value: value,
                                label: label,
                                icon: #imageLiteral(resourceName: "gbp"))
+    }
+    
+    entries = entries.sorted(by: {$0.value > $1.value})
+
+    combinedCoinsAndCurrencies = []
+    for entry in entries {
+      combinedCoinsAndCurrencies.append(entry.label ?? "None")
     }
     
     let set = PieChartDataSet(values: entries, label: "")
@@ -156,7 +205,7 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
 //    pieChartView.holeRadiusPercent = 20
     pieChartView.transparentCircleRadiusPercent = 0
     
-    pieChartView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+    pieChartView.theme_backgroundColor = GlobalPicker.viewBackgroundColor
     
     pieChartView.chartDescription?.text = ""
     
@@ -175,6 +224,61 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       pieChartView.legend.textColor = UIColor.white
     }
   }
+  
+}
+
+extension PortfolioPieChartController: UITableViewDataSource, UITableViewDelegate {
+  
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
+  
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return "Distribution"
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    let header = view as? UITableViewHeaderFooterView
+    
+    header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+  }
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return combinedCoinsAndCurrencies.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    var cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! UITableViewCell
+    
+    cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
+    cell.textLabel?.theme_textColor = GlobalPicker.viewTextColor
+    cell.detailTextLabel?.theme_textColor = GlobalPicker.viewTextColor
+    
+    let row = indexPath.row
+    let label = combinedCoinsAndCurrencies[row]
+    cell.textLabel?.text = label
+    
+    if self.chartTypeSegmentedControl.selectedSegmentIndex == 0 {
+      if let totalCost = summary[label]!["totalCost"] {
+//        let value =  totalCost / currentPortfolioValue * 100
+        cell.detailTextLabel?.text = totalCost.asCurrency
+      }
+      else if let totalCost = summary[label]!["amount"] {
+//        let value =  totalCost / currentPortfolioValue * 100
+        cell.detailTextLabel?.text = totalCost.asCurrency
+      }
+    }
+    else {
+      if let amountOfCoins = summary[label]!["amountOfCoins"] {
+        let value = amountOfCoins / self.totalAmountOfCoins * 100
+        cell.detailTextLabel?.text = "\(amountOfCoins) \(label)"
+      }
+    }
+    
+    return cell
+  }
+  
+  
   
 }
 
@@ -197,3 +301,4 @@ public class ChartFormatter: NSObject, IValueFormatter{
   }
   
 }
+

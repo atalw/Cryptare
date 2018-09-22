@@ -176,9 +176,6 @@ class PortfolioSummaryViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView! {
     didSet {
-      self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
-      self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
-      
       tableView.delegate = self
       tableView.dataSource = self
       
@@ -191,6 +188,8 @@ class PortfolioSummaryViewController: UIViewController {
     super.viewDidLoad()
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+    self.tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
+    self.tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
     
     for (symbol, _) in GlobalValues.coins {
       globalCoins.append(symbol)
