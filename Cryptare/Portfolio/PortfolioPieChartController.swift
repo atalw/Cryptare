@@ -8,6 +8,8 @@
 
 import Foundation
 import Charts
+import SwiftTheme
+import SwiftyUserDefaults
 
 class PortfolioPieChartController: UIViewController, ChartViewDelegate {
   
@@ -22,18 +24,26 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
       pieChartView.delegate = self
       
       let l = pieChartView.legend
-      l.horizontalAlignment = .right
-      l.verticalAlignment = .top
-      l.orientation = .vertical
+      l.horizontalAlignment = .center
+      l.verticalAlignment = .bottom
+      l.orientation = .horizontal
       l.xEntrySpace = 7
       l.yEntrySpace = 0
       l.yOffset = 0
       
+      let selectedIndex = Defaults[.currentThemeIndex]
+      if selectedIndex == 0 {
+        pieChartView.legend.textColor = UIColor.black
+      }
+      else if selectedIndex == 1 {
+        pieChartView.legend.textColor = UIColor.white
+      }
+      
       // entry label styling
       pieChartView.entryLabelColor = .white
-      pieChartView.entryLabelFont = .systemFont(ofSize: 12, weight: .light)
+      pieChartView.entryLabelFont = .systemFont(ofSize: 12, weight: .regular)
       
-      pieChartView.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+      pieChartView.animate(xAxisDuration: 0.9, easingOption: .easeOutBack)
       
       updateChartData(portfolioValue: currentPortfolioValue)
     }
@@ -42,7 +52,16 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.view.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+    
     updateChartData(portfolioValue: self.currentPortfolioValue)
+    
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(changeAppearanceColours),
+      name: NSNotification.Name(rawValue: ThemeUpdateNotification),
+      object: nil
+    )
   }
   
   func updateChartData(portfolioValue: Double) {
@@ -57,37 +76,37 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     for coin in coins {
       combinedCoinsAndCurrencies.append(coin)
     }
-    
     for currency in currencies {
       combinedCoinsAndCurrencies.append(currency)
     }
     
-    self.setDataCount(Int(combinedCoinsAndCurrencies.count), range: UInt32(combinedCoinsAndCurrencies.count), labels: combinedCoinsAndCurrencies, portfolioValue: portfolioValue)
+    print("currencies", combinedCoinsAndCurrencies)
+    
+    self.setDataCount(Int(combinedCoinsAndCurrencies.count), labels: combinedCoinsAndCurrencies, portfolioValue: portfolioValue)
   }
   
-  func setDataCount(_ count: Int, range: UInt32, labels: [String], portfolioValue: Double) {
+  func setDataCount(_ count: Int, labels: [String], portfolioValue: Double) {
     let entries = (0..<count).map { (i) -> PieChartDataEntry in
       // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
       let label = labels[i % labels.count]
+      print(label)
       
       var value: Double = 0
-      if let totalCost = summary[label]!["totalCost"] as? Double {
+      if let totalCost = summary[label]!["totalCost"] {
         value =  totalCost / portfolioValue * 100
       }
-      else if let totalCost = summary[label]!["amount"] as? Double {
+      else if let totalCost = summary[label]!["amount"] {
         value =  totalCost / portfolioValue * 100
       }
-      
-      print(label, value, Double(arc4random_uniform(range) + range / 5))
       return PieChartDataEntry(value: value,
                                label: label,
                                icon: #imageLiteral(resourceName: "gbp"))
+      
     }
     
-    let set = PieChartDataSet(values: entries, label: "Holdings")
+    let set = PieChartDataSet(values: entries, label: "")
     set.drawIconsEnabled = false
-    set.sliceSpace = 2
-    
+    set.sliceSpace = 0
     
     //    set.colors = ChartColorTemplates.vordiplom()
     //      + ChartColorTemplates.joyful()
@@ -96,7 +115,7 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     //      + ChartColorTemplates.pastel()
     //      + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
     
-    set.colors = ChartColorTemplates.pastel()
+    set.colors = ChartColorTemplates.material() + ChartColorTemplates.colorful()
     
     let data = PieChartData(dataSet: set)
     
@@ -107,13 +126,31 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     pFormatter.percentSymbol = " %"
     data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
     
-    data.setValueFont(.systemFont(ofSize: 11, weight: .light))
+    data.setValueFont(.systemFont(ofSize: 11, weight: .regular))
     data.setValueTextColor(.white)
     
     pieChartView.data = data
     pieChartView.highlightValues(nil)
+    pieChartView.drawHoleEnabled = false
+    pieChartView.holeColor = UIColor.clear
+//    pieChartView.holeRadiusPercent = 20
+    pieChartView.transparentCircleRadiusPercent = 0
+    
+    pieChartView.theme_backgroundColor = GlobalPicker.mainBackgroundColor
+    
+    pieChartView.chartDescription?.text = ""
+    
+//    pieChartView.tex
   }
   
-  
+  @objc func changeAppearanceColours() {
+    let themeIndex = ThemeManager.currentThemeIndex
+    if themeIndex == 0 {
+      pieChartView.legend.textColor = UIColor.black
+    }
+    else if themeIndex == 1 {
+      pieChartView.legend.textColor = UIColor.white
+    }
+  }
   
 }

@@ -16,6 +16,7 @@ import SwiftyStoreKit
 import Armchair
 import SwiftyUserDefaults
 import SwiftTheme
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -232,9 +233,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   }
   
   func registerForPushNotifications(application: UIApplication) {
-    let settings: UIUserNotificationSettings =
-      UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-    application.registerUserNotificationSettings(settings)
+//    let settings: UIUserNotificationSettings =
+//      UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+//    application.registerUserNotificationSettings(settings)
+    
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge],
+      completionHandler: { (granted, error) in
+          
+    })
   }
   
   func setUpFirebase() {

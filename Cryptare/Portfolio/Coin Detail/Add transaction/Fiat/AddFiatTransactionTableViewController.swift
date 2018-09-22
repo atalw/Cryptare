@@ -80,8 +80,8 @@ class AddFiatTransactionTableViewController: UITableViewController {
         }
     }
     
-    let timePicker = UIDatePicker()
-    let datePicker = UIDatePicker()
+  let timePicker: UIDatePicker! = UIDatePicker()
+  let datePicker: UIDatePicker! = UIDatePicker()
 
     override func viewDidLoad() {
         super.viewDidLoad()
