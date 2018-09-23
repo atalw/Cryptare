@@ -248,30 +248,28 @@ extension PortfolioPieChartController: UITableViewDataSource, UITableViewDelegat
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    var cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! UITableViewCell
-    
-    cell.theme_backgroundColor = GlobalPicker.viewBackgroundColor
-    cell.textLabel?.theme_textColor = GlobalPicker.viewTextColor
-    cell.detailTextLabel?.theme_textColor = GlobalPicker.viewTextColor
+    var cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ChartInfoTableViewCell
     
     let row = indexPath.row
     let label = combinedCoinsAndCurrencies[row]
-    cell.textLabel?.text = label
+    
+    cell.logoImage.image = UIImage(named: label.lowercased())
+    cell.titleLabel?.text = label
     
     if self.chartTypeSegmentedControl.selectedSegmentIndex == 0 {
       if let totalCost = summary[label]!["totalCost"] {
 //        let value =  totalCost / currentPortfolioValue * 100
-        cell.detailTextLabel?.text = totalCost.asCurrency
+        cell.valueLabel?.text = totalCost.asCurrency
       }
       else if let totalCost = summary[label]!["amount"] {
 //        let value =  totalCost / currentPortfolioValue * 100
-        cell.detailTextLabel?.text = totalCost.asCurrency
+        cell.valueLabel?.text = totalCost.asCurrency
       }
     }
     else {
       if let amountOfCoins = summary[label]!["amountOfCoins"] {
         let value = amountOfCoins / self.totalAmountOfCoins * 100
-        cell.detailTextLabel?.text = "\(amountOfCoins) \(label)"
+        cell.valueLabel?.text = "\(amountOfCoins) \(label)"
       }
     }
     

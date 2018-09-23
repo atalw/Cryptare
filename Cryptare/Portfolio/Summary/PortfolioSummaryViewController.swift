@@ -110,6 +110,11 @@ class PortfolioSummaryViewController: UIViewController {
       summaryView.theme_backgroundColor = GlobalPicker.summaryViewBackgroundColor
     }
   }
+  @IBOutlet weak var portfolioDistributionView: UIView! {
+    didSet {
+      portfolioDistributionView.theme_backgroundColor = GlobalPicker.summaryViewBackgroundColor
+    }
+  }
   @IBOutlet weak var currentPortfolioValueLabel: UILabel! {
     didSet {
       currentPortfolioValueLabel.theme_textColor = GlobalPicker.viewTextColor
