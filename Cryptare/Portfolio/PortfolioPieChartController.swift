@@ -62,8 +62,6 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
     didSet {
       tableView.delegate = self
       tableView.dataSource = self
-      
-      
     }
   }
   
@@ -100,7 +98,7 @@ class PortfolioPieChartController: UIViewController, ChartViewDelegate {
   }
   
   override func viewDidLayoutSubviews() {
-    tableViewHeightConstraint.constant = tableView.contentSize.height
+    tableViewHeightConstraint.constant = tableView.contentSize.height + 50
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -254,6 +252,26 @@ extension PortfolioPieChartController: UITableViewDataSource, UITableViewDelegat
     let label = combinedCoinsAndCurrencies[row]
     
     cell.logoImage.image = UIImage(named: label.lowercased())
+    
+    var fullName: String = ""
+    
+    for (symbol, name) in GlobalValues.coins {
+      if symbol == label {
+        fullName = name
+      }
+    }
+    
+    if fullName == "" {
+      for (_, symbol, _, name) in GlobalValues.countryList {
+        if symbol == label {
+          cell.fullNameLabel.text = name
+        }
+      }
+    }
+    else {
+      cell.fullNameLabel?.text = fullName
+    }
+    
     cell.titleLabel?.text = label
     
     if self.chartTypeSegmentedControl.selectedSegmentIndex == 0 {
@@ -275,8 +293,6 @@ extension PortfolioPieChartController: UITableViewDataSource, UITableViewDelegat
     
     return cell
   }
-  
-  
   
 }
 

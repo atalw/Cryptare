@@ -15,7 +15,7 @@ extension UITextField {
         let onCancel = onCancel ?? (target: self, action: #selector(cancelButtonTapped))
         let onDone = onDone ?? (target: self, action: #selector(doneButtonTapped))
         
-        let toolbar: UIToolbar = UIToolbar()
+        let toolbar: UIToolbar = UIToolbar(frame: .zero)
         toolbar.barStyle = .default
         toolbar.items = [
             UIBarButtonItem(title: "Cancel", style: .plain, target: onCancel.target, action: onCancel.action),

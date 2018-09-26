@@ -189,6 +189,13 @@ class PortfolioSummaryViewController: UIViewController {
   }
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   
+  @IBOutlet weak var portfolioDistributionViewBar: UIView! {
+    didSet {
+      let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.portfolioDistributionViewTapped))
+      portfolioDistributionViewBar.addGestureRecognizer(gesture)
+    }
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -589,6 +596,19 @@ class PortfolioSummaryViewController: UIViewController {
     tableView.reloadData()
   }
   
+  @objc func portfolioDistributionViewTapped(sender : UITapGestureRecognizer) {
+    let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+    let portfolioDistributionController = storyBoard.instantiateViewController(withIdentifier: "PortfolioPieChartController") as! PortfolioPieChartController
+    
+    portfolioDistributionController.summary = summary
+    portfolioDistributionController.coins = coins
+    portfolioDistributionController.currencies = currencies
+    portfolioDistributionController.currentPortfolioValue = currentPortfolioValue
+    portfolioDistributionController.totalAmountOfCoins = totalAmountOfCoins
+    
+    self.navigationController?.pushViewController(portfolioDistributionController, animated: true)
+  }
+  
   @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
     
     initalizePortfolioEntries(cryptoPortfolioData: [:], fiatPortfolioData: [:])
@@ -631,13 +651,13 @@ class PortfolioSummaryViewController: UIViewController {
     else if let cryptoPortfolioVC = destinationVc as? CryptoPortfolioViewController {
       cryptoPortfolioVC.parentController = self
     }
-    else if let pieChartVC = destinationVc as? PortfolioPieChartController {
-      pieChartVC.summary = summary
-      pieChartVC.coins = coins
-      pieChartVC.currencies = currencies
-      pieChartVC.currentPortfolioValue = currentPortfolioValue
-      pieChartVC.totalAmountOfCoins = totalAmountOfCoins
-    }
+//    else if let pieChartVC = destinationVc as? PortfolioPieChartController {
+//      pieChartVC.summary = summary
+//      pieChartVC.coins = coins
+//      pieChartVC.currencies = currencies
+//      pieChartVC.currentPortfolioValue = currentPortfolioValue
+//      pieChartVC.totalAmountOfCoins = totalAmountOfCoins
+//    }
   }
   
   

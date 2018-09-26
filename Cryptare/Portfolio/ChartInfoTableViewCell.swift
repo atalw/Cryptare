@@ -12,6 +12,7 @@ import SwiftTheme
 class ChartInfoTableViewCell: UITableViewCell {
 
   @IBOutlet weak var logoImage: UIImageView!
+  @IBOutlet weak var fullNameLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var valueLabel: UILabel!
   
@@ -19,7 +20,8 @@ class ChartInfoTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     self.theme_backgroundColor = GlobalPicker.viewBackgroundColor
-    self.titleLabel?.theme_textColor = GlobalPicker.viewTextColor
+    self.fullNameLabel?.theme_textColor = GlobalPicker.viewTextColor
+    self.titleLabel?.theme_textColor = GlobalPicker.viewAltTextColor
     self.valueLabel?.theme_textColor = GlobalPicker.viewTextColor
     }
 
