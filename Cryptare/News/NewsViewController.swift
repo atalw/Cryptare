@@ -292,15 +292,13 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     url = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
     self.getRSSFeedResponse(path: url) { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
       
-      #if PRO_VERSION
+      
       if let items = rssFeed?.items {
         for item in items {
           let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
           self.allNewsData.append(newsData)
         }
       }
-      
-      #endif
       
       self.sortedNewsData = self.sortNewsDataByDate(newsData: self.allNewsData)
       self.activityIndicator.stopAnimating()
@@ -317,15 +315,12 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     url = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
     
     self.getRSSFeedResponse(path: url) { (rssFeed: RSSFeed?, status: NetworkResponseStatus) in
-      #if PRO_VERSION
       if let items = rssFeed?.items {
         for item in items {
           let newsData = NewsData(title: item.title!, pubDate: item.pubDate!, link: item.link!)
           self.allNewsData.append(newsData)
         }
       }
-      
-      #endif
       
       self.sortedNewsData = self.sortNewsDataByDate(newsData: self.allNewsData)
       self.activityIndicator.stopAnimating()

@@ -320,12 +320,10 @@ class SettingsViewController: UITableViewController {
   
   @IBOutlet weak var appVersionLabel: UILabel! {
     didSet {
-      #if PRO_VERSION
         #if DEBUG
           appVersionLabel?.text = " Cryptare DEBUG v\(Bundle.appVersion)"
         #else
           appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
-      #endif
       #endif
       
       appVersionLabel.adjustsFontSizeToFitWidth = true
