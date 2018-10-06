@@ -21,7 +21,7 @@ class GraphViewController: UIViewController {
   
   var coinData: [String: Any] = [:]
   
-  let titles = ["Details", "News", "Markets"]
+  let titles = ["Details", "Markets"]
   var favourites: [String] = []
   var favouriteStatus: Bool = false
   var favouriteButton: UIBarButtonItem!
@@ -33,18 +33,10 @@ class GraphViewController: UIViewController {
     cryptoDetailVC.databaseTableTitle = databaseTableTitle
     cryptoDetailVC.coinData = coinData
     
-    let newsVC = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
-    for (symbol, name) in GlobalValues.coins {
-      if symbol == databaseTableTitle {
-        let searchTerm = "\(name) \(symbol) cryptocurrency"
-        newsVC.cryptoName = searchTerm
-        newsVC.coin = symbol
-      }
-    }
     let marketsVC = storyboard.instantiateViewController(withIdentifier: "CoinMarketsViewController") as! CoinMarketsViewController
     marketsVC.currentCoin = databaseTableTitle
     
-    return [cryptoDetailVC, newsVC, marketsVC]
+    return [cryptoDetailVC, marketsVC]
   }()
   
   let pagingViewController = PagingViewController<PagingIndexItem>()

@@ -21,8 +21,8 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
   
   let defaults = UserDefaults.standard
   var selectedCountry: String!
-  var allNewsData : [NewsData] = [];
-  var sortedNewsData : [NewsData] = [];
+  var allNewsData : [NewsData] = []
+  var sortedNewsData : [NewsData] = []
   
   var cryptoName: String! = "cryptocurrency"
   var coin: String! = "cryptocurrency"
@@ -107,7 +107,18 @@ class NewsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let notificationCenter = NotificationCenter.default
     notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
     
-//    self.addLeftBarButtonWithImage(UIImage(named: "icons8-menu")!)
+    // register observer
+    tableView.addObserver(self, forKeyPath: "contentSize", options: [.new, .old, .prior], context: nil)
+  }
+  
+  @objc override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    if keyPath == "contentSize" {
+      // content size changed
+      
+      if allNewsData.count > 0 {
+        (self.parent as! CryptoDetailViewController).newsTableHeight.constant = tableView.contentSize.height + 50
+      }
+    }
   }
   
   override func viewWillAppear(_ animated: Bool) {

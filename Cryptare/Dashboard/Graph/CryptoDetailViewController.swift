@@ -228,6 +228,14 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     }
   }
   
+  @IBOutlet weak var newsTitleLabel: UILabel! {
+    didSet {
+      newsTitleLabel.adjustsFontSizeToFitWidth = true
+      newsTitleLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  @IBOutlet weak var newsTableView: UIView!
+  @IBOutlet weak var newsTableHeight: NSLayoutConstraint!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -567,15 +575,21 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
     }
   }
   
-  /*
    // MARK: - Navigation
    
    // In a storyboard-based application, you will often want to do a little preparation before navigation
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
    // Get the new view controller using segue.destinationViewController.
    // Pass the selected object to the new view controller.
+    if segue.identifier == "newsEmbedSegue" {
+      if let vc = segue.destination as? NewsViewController {
+        if let coinName = self.coinData["name"] as? String {
+          vc.cryptoName = coinName
+        }
+        vc.coin = databaseTableTitle
+      }
+    }
    }
-   */
   
   @objc func changeAppearanceColours() {
     let themeIndex = ThemeManager.currentThemeIndex

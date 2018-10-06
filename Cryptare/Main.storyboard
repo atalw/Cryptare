@@ -5407,11 +5407,11 @@
             <objects>
                 <viewController storyboardIdentifier="NewsViewController" title="News" automaticallyAdjustsScrollViewInsets="NO" id="n4V-Dn-KKM" customClass="NewsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cTP-bC-Blb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BRU-9c-0o9">
-                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="222"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="smP-Pb-7mT">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="38"/>
@@ -5489,8 +5489,8 @@
                                             <constraint firstItem="Koe-zo-Kah" firstAttribute="top" secondItem="smP-Pb-7mT" secondAttribute="top" id="ylr-Zc-5fb"/>
                                         </constraints>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bVe-QR-bXp">
-                                        <rect key="frame" x="0.0" y="38" width="375" height="696"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bVe-QR-bXp">
+                                        <rect key="frame" x="0.0" y="38" width="375" height="184"/>
                                         <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="separatorColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="sectionIndexColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6369,25 +6369,6 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Graph" largeTitleDisplayMode="never" id="l9x-zm-9ij"/>
-                    <connections>
-                        <outlet property="chart" destination="4Bo-nE-7qd" id="70n-MT-VUu"/>
-                        <outlet property="coinLogo" destination="hH8-Mv-0WP" id="40J-YQ-Ml8"/>
-                        <outlet property="coinNameLabel" destination="eGp-SL-Hxh" id="CPe-bZ-Pgq"/>
-                        <outlet property="coinSupplyLabel" destination="n1t-1V-JKr" id="J0Z-0L-2tF"/>
-                        <outlet property="coinSymbolLabel" destination="Jh9-4q-Al0" id="uFT-ii-8SQ"/>
-                        <outlet property="currentPriceLabel" destination="1EU-JP-qKh" id="8in-nc-McH"/>
-                        <outlet property="high24hrsLabel" destination="LLE-v4-2aA" id="6e4-j9-HNj"/>
-                        <outlet property="lastTradedMarketLabel" destination="ro2-Wn-YBv" id="AzV-of-H8r"/>
-                        <outlet property="lastTradedVolumeLabel" destination="Vf9-0Q-EdN" id="3V4-rg-hRu"/>
-                        <outlet property="lastUpdatedLabel" destination="h7N-nH-8wh" id="tDw-cJ-BcC"/>
-                        <outlet property="low24hrsLabel" destination="oTe-er-XWs" id="oOF-ub-kcG"/>
-                        <outlet property="marketCapLabel" destination="xLo-QD-dW0" id="q46-do-tWI"/>
-                        <outlet property="percentageChangeLabel" destination="UAx-h7-C7C" id="fSC-bY-lSZ"/>
-                        <outlet property="priceChangeLabel" destination="5RS-0K-ut5" id="OIX-fZ-3tH"/>
-                        <outlet property="rangeSegmentControlObject" destination="oyw-cd-AxH" id="Rf9-V6-Bxn"/>
-                        <outlet property="volume24hrsCoinLabel" destination="CaY-C5-c05" id="dao-CD-dyI"/>
-                        <outlet property="volume24hrsFiatLabel" destination="wxI-DO-HLc" id="mKP-K4-kyF"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ae-aR-ZRB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="right" id="LsI-nN-uGg"/>
@@ -6399,14 +6380,14 @@
             <objects>
                 <viewController storyboardIdentifier="CryptoDetailViewController" id="T20-jd-JMW" customClass="CryptoDetailViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0p8-Yu-En1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="94K-8z-9PS">
-                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="1122"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cHg-MP-TeB">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="588.66666666666663"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="945"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BPZ-dx-48w">
                                                 <rect key="frame" x="15" y="15.000000000000004" width="345" height="50.333333333333343"/>
@@ -6649,7 +6630,6 @@
                                                         </segments>
                                                         <color key="tintColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="calibratedRGB"/>
                                                         <connections>
-                                                            <action selector="rangeSegmentedControl:" destination="kug-KB-86y" eventType="valueChanged" id="Thc-Y1-fDl"/>
                                                             <action selector="rangeSegmentedControl:" destination="T20-jd-JMW" eventType="valueChanged" id="kKA-Qj-TG3"/>
                                                         </connections>
                                                     </segmentedControl>
@@ -6724,11 +6704,29 @@
                                                     </stackView>
                                                 </subviews>
                                             </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qux-hx-0zo">
+                                                <rect key="frame" x="16" y="593.66666666666663" width="343" height="31.333333333333371"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w46-6I-2yN">
+                                                <rect key="frame" x="0.0" y="645" width="375" height="300"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" priority="250" constant="300" id="YqD-3o-s0T"/>
+                                                </constraints>
+                                                <connections>
+                                                    <segue destination="n4V-Dn-KKM" kind="embed" identifier="newsEmbedSegue" id="YlQ-7B-0fO"/>
+                                                </connections>
+                                            </containerView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="qux-hx-0zo" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" constant="16" id="FTM-0J-eVC"/>
                                             <constraint firstAttribute="trailing" secondItem="bHG-Tg-8KS" secondAttribute="trailing" constant="10" id="Lda-37-HaK"/>
+                                            <constraint firstAttribute="bottom" secondItem="w46-6I-2yN" secondAttribute="bottom" id="RG4-e2-1hN"/>
                                             <constraint firstItem="8M2-z2-PaX" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" constant="10" id="SiB-DV-RHY"/>
+                                            <constraint firstItem="qux-hx-0zo" firstAttribute="top" secondItem="Kcf-3q-lq1" secondAttribute="bottom" constant="20" id="Uf2-Ma-405"/>
                                             <constraint firstItem="Kcf-3q-lq1" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" constant="10" id="V4L-Gx-dgK"/>
                                             <constraint firstAttribute="trailing" secondItem="8M2-z2-PaX" secondAttribute="trailing" constant="10" id="XQx-gj-cOj"/>
                                             <constraint firstItem="BPZ-dx-48w" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" constant="15" id="XT3-or-6xV"/>
@@ -6736,12 +6734,15 @@
                                             <constraint firstItem="rLm-v2-r4c" firstAttribute="top" secondItem="BPZ-dx-48w" secondAttribute="bottom" constant="15" id="YKI-S3-Zq4"/>
                                             <constraint firstItem="bHG-Tg-8KS" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" constant="10" id="Yim-MU-xmd"/>
                                             <constraint firstItem="rLm-v2-r4c" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" constant="10" id="Z4U-fA-Mr5"/>
+                                            <constraint firstAttribute="trailing" secondItem="qux-hx-0zo" secondAttribute="trailing" constant="16" id="bq8-YS-jU8"/>
                                             <constraint firstItem="Kcf-3q-lq1" firstAttribute="top" secondItem="oNI-cF-aq9" secondAttribute="bottom" constant="15" id="cOi-fa-o4H"/>
                                             <constraint firstItem="8M2-z2-PaX" firstAttribute="top" secondItem="bHG-Tg-8KS" secondAttribute="bottom" constant="15" id="flr-AA-cEM"/>
                                             <constraint firstAttribute="trailing" secondItem="oNI-cF-aq9" secondAttribute="trailing" constant="10" id="hRV-lA-fMY"/>
+                                            <constraint firstItem="w46-6I-2yN" firstAttribute="top" secondItem="qux-hx-0zo" secondAttribute="bottom" constant="20" id="jUo-aB-3IU"/>
+                                            <constraint firstItem="w46-6I-2yN" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" id="lQN-ZJ-wRR"/>
                                             <constraint firstAttribute="trailing" secondItem="BPZ-dx-48w" secondAttribute="trailing" constant="15" id="qpg-l9-lhQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="w46-6I-2yN" secondAttribute="trailing" id="shb-zF-jXn"/>
                                             <constraint firstItem="oNI-cF-aq9" firstAttribute="leading" secondItem="cHg-MP-TeB" secondAttribute="leading" constant="10" id="t8H-zj-exq"/>
-                                            <constraint firstAttribute="bottom" secondItem="Kcf-3q-lq1" secondAttribute="bottom" constant="15" id="uc9-St-3hv"/>
                                             <constraint firstAttribute="trailing" secondItem="Kcf-3q-lq1" secondAttribute="trailing" constant="10" id="ve5-9L-uYG"/>
                                             <constraint firstItem="bHG-Tg-8KS" firstAttribute="top" secondItem="rLm-v2-r4c" secondAttribute="bottom" constant="15" id="wb4-J9-OfR"/>
                                             <constraint firstAttribute="trailing" secondItem="rLm-v2-r4c" secondAttribute="trailing" constant="10" id="xSV-4u-9fQ"/>
@@ -6767,6 +6768,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hHH-h0-sdT"/>
                     </view>
+                    <size key="freeformSize" width="375" height="1200"/>
                     <connections>
                         <outlet property="chart" destination="4Bo-nE-7qd" id="3dh-kh-TTO"/>
                         <outlet property="coinLogo" destination="hH8-Mv-0WP" id="T7y-Cx-NNp"/>
@@ -6785,6 +6787,9 @@
                         <outlet property="lowDescLabel" destination="eXF-bg-tki" id="xMx-y9-O9B"/>
                         <outlet property="marketCapDescLabel" destination="7DR-hf-Py7" id="0CY-ay-HRc"/>
                         <outlet property="marketCapLabel" destination="xLo-QD-dW0" id="uFG-Ro-sHe"/>
+                        <outlet property="newsTableHeight" destination="YqD-3o-s0T" id="Eby-kq-s1A"/>
+                        <outlet property="newsTableView" destination="w46-6I-2yN" id="wG2-kj-Evj"/>
+                        <outlet property="newsTitleLabel" destination="qux-hx-0zo" id="wdI-Hm-av0"/>
                         <outlet property="percentageChangeLabel" destination="UAx-h7-C7C" id="YAJ-IV-MKh"/>
                         <outlet property="priceChangeLabel" destination="5RS-0K-ut5" id="VxB-ky-fIA"/>
                         <outlet property="rangeSegmentControlObject" destination="oyw-cd-AxH" id="tkc-Zu-UOU"/>
@@ -6798,7 +6803,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TRx-wX-1xB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2642" y="-493"/>
+            <point key="canvasLocation" x="-2642.4000000000001" y="-493.5960591133005"/>
         </scene>
         <!--App Intro View Controller-->
         <scene sceneID="wyP-U1-XxS">
@@ -8092,6 +8097,19 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fPT-S5-H1W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-8836" y="-1456"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Hmh-gu-Rqg">
+            <objects>
+                <viewController id="L4L-Aa-bZV" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="boR-6A-dOi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zzU-sf-YyM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
