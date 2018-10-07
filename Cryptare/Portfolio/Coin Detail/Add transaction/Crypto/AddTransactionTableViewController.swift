@@ -49,13 +49,13 @@ class AddTransactionTableViewController: UITableViewController {
       timeTextField.theme_textColor = GlobalPicker.viewTextColor
     }
   }
-  let timePicker: UIDatePicker! = UIDatePicker(frame: .zero)
+  let timePicker: UIDatePicker! = UIDatePicker()
   @IBOutlet weak var dateTextField: UITextField! {
     didSet {
       dateTextField.theme_textColor = GlobalPicker.viewTextColor
     }
   }
-  let datePicker: UIDatePicker! = UIDatePicker(frame: .zero)
+  let datePicker: UIDatePicker! = UIDatePicker()
   
   @IBOutlet weak var costPerCoinTextField: UITextField! {
     didSet {

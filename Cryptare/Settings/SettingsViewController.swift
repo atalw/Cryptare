@@ -69,6 +69,12 @@ class SettingsViewController: UITableViewController {
     }
   }
   
+  @IBOutlet weak var portfolioInitialLoadSwitch: UISwitch! {
+    didSet {
+      portfolioInitialLoadSwitch.addTarget(self, action: #selector(portfolioInitialLoadChange), for: .valueChanged)
+    }
+  }
+  
   // charts
   @IBOutlet weak var lineModeDescLabel: UILabel! {
     didSet {
@@ -320,10 +326,10 @@ class SettingsViewController: UITableViewController {
   
   @IBOutlet weak var appVersionLabel: UILabel! {
     didSet {
-        #if DEBUG
-          appVersionLabel?.text = " Cryptare DEBUG v\(Bundle.appVersion)"
-        #else
-          appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
+      #if DEBUG
+        appVersionLabel?.text = " Cryptare DEBUG v\(Bundle.appVersion)"
+      #else
+        appVersionLabel?.text = " Cryptare v\(Bundle.appVersion)"
       #endif
       
       appVersionLabel.adjustsFontSizeToFitWidth = true
@@ -376,6 +382,11 @@ class SettingsViewController: UITableViewController {
   @objc func favouritesInitialTabChange(favouritesInitialTabSwitch: UISwitch) {
     let state = favouritesInitialTabSwitch.isOn
     Defaults[.dashboardFavouritesFirstTab] = state
+  }
+  
+  @objc func portfolioInitialLoadChange(portfolioInitialLoadSwitch: UISwitch) {
+    let state = portfolioInitialLoadSwitch.isOn
+    Defaults[.portfolioInitialLoad] = state
   }
   
   @objc func xAxisChange(xAxisSwitch: UISwitch) {
@@ -478,6 +489,7 @@ class SettingsViewController: UITableViewController {
   }
   
   func loadDashboardSettings() {
+    portfolioInitialLoadSwitch.isOn = Defaults[.portfolioInitialLoad]
     favouritesInitialTabSwitch.isOn = Defaults[.dashboardFavouritesFirstTab]
   }
   
@@ -678,7 +690,7 @@ class SettingsViewController: UITableViewController {
       }
     }
     else if section == 2 {
-      if row == 1 { // Remove all favourites
+      if row == 2 { // Remove all favourites
         let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete your favouite coins? This action cannot be undone.", preferredStyle: .alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action -> Void in

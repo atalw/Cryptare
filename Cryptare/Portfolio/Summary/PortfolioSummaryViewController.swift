@@ -712,11 +712,15 @@ extension PortfolioSummaryViewController: UITableViewDataSource, UITableViewDele
       
       cell!.coinImage.loadSavedImage(coin: coin)
       
-      for (symbol, name) in GlobalValues.coins {
-        if symbol == coin {
-          cell!.coinNameLabel.text = name
-        }
+      if let name = Defaults[.cryptoSymbolNamePairs][coin] as? String {
+        cell!.coinNameLabel.text = name
       }
+      
+//      for (symbol, name) in GlobalValues.coins {
+//        if symbol == coin {
+//          cell!.coinNameLabel.text = name
+//        }
+//      }
       
       if let amountOfCoins = self.summary[coin]!["amountOfCoins"] {
         cell!.coinHoldingsLabel.text = "\(amountOfCoins) \(coin)"

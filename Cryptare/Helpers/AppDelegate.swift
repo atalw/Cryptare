@@ -228,6 +228,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
 //    let slideMenuController = SlideMenuController(mainViewController: nvc, leftMenuViewController: leftViewController)
     self.window?.rootViewController = tabBarController
+    
+    if Defaults[.portfolioInitialLoad] {
+      tabBarController.selectedIndex = 2
+    }
 //    slideMenuController.delegate = mainViewController as SlideMenuControllerDelegate
 //    self.window?.makeKeyAndVisible()
   }

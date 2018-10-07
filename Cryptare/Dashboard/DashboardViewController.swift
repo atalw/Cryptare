@@ -93,6 +93,7 @@ class DashboardViewController: UIViewController {
     listOfCoins = databaseRef.child("coins")
     
     var allCoins: [String] = []
+    var cryptoSymbolNamePairs: [String: String] = [:]
     
     activityIndicator.startAnimating()
     listOfCoins.keepSynced(true)
@@ -113,6 +114,8 @@ class DashboardViewController: UIViewController {
           if let name = values["name"] as? String {
             self.coinData[coin]!["name"] = name
             GlobalValues.coins.append((coin, name))
+            cryptoSymbolNamePairs[coin] = name
+            
           }
           
           if let rank = values["rank"] as? Int {
@@ -121,6 +124,11 @@ class DashboardViewController: UIViewController {
           if let iconUrl = values["icon_url"] as? String {
             self.coinData[coin]!["iconUrl"] = iconUrl
           }
+        }
+        
+        if GlobalValues.coins.count > 0 {
+//          Defaults[.cryptoSymbolNamePairs]
+          Defaults[.cryptoSymbolNamePairs] = cryptoSymbolNamePairs
         }
       }
       if !self.favouritesTab {
