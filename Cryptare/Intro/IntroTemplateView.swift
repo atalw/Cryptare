@@ -38,17 +38,37 @@ class IntroTemplateView: UIView {
   }
   
   private func commonInit() {
-    Bundle.main.loadNibNamed("IntroTemplate", owner: self, options: nil)
-    addSubview(contentView)
+//    Bundle.main.loadNibNamed("IntroTemplate", owner: self, options: nil)
+    contentView = loadNib()
     contentView.frame = self.bounds
     contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    addSubview(contentView)
+    
+//    contentView.frame = self.bounds
+//    view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
   }
   
-  func updateData(image: UIImage, title: String, description: String) {
-    templateImage.image = image
-    templateTitleLabel.text = title
-    templateDescriptionLabel.text = description
+  /** Loads instance from nib with the same name. */
+  func loadNib() -> UIView {
+    let bundle = Bundle(for: type(of: self))
+    let nibName = "IntroTemplate"
+    let nib = UINib(nibName: nibName, bundle: bundle)
+    return nib.instantiate(withOwner: self, options: nil).first as! UIView
   }
+  
+//  func updateData(image: UIImage, title: String, description: String) {
+//    if templateImage != nil {
+//      templateImage.image = image
+//    }
+//
+//    if templateTitleLabel != nil {
+//      templateTitleLabel.text = title
+//    }
+//
+//    if templateDescriptionLabel != nil {
+//      templateDescriptionLabel.text = description
+//    }
+//  }
   
   /*
     // Only override draw() if you perform custom drawing.

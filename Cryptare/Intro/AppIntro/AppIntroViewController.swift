@@ -58,18 +58,33 @@ class AppIntroViewController: UIViewController, UIScrollViewDelegate {
     
     let WelcomeView = Bundle.main.loadNibNamed("WelcomeView", owner: self, options: nil)?.first as! UIView
     
-    let PortfolioView = IntroTemplateView()
-    PortfolioView.updateData(image: UIImage(named: "portfolioIntro")!, title: "Easy portfolio management.", description: "Stop calculating your profits on paper and let Cryptare do the work for you.")
+    let PortfolioView = IntroTemplateView(frame: .zero)
+    PortfolioView.templateTitleLabel.text = "Easy portfolio management."
+    PortfolioView.templateImage.image = UIImage(named: "portfolioIntro")!
+    PortfolioView.templateDescriptionLabel.text = "Stop calculating your profits on paper and let Cryptare do the work for you."
+    
     
     let MarketsView = IntroTemplateView()
-    MarketsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Save upto 20% on each purchase.", description: "Make wise financial decisions by comparing the prices of cryptocurrencies on 100+ different exchanges.")
+//    MarketsView.updateData(image: UIImage(named: "marketsIntro")!, title: "Save upto 20% on each purchase.", description: "Make wise financial decisions by comparing the prices of cryptocurrencies on 100+ different exchanges.")
+    
+    MarketsView.templateTitleLabel.text = "Save upto 20% on each purchase."
+    MarketsView.templateImage.image = UIImage(named: "marketsIntro")!
+    MarketsView.templateDescriptionLabel.text = "Make wise financial decisions by comparing the prices of cryptocurrencies on 100+ different exchanges."
     
     let DashboardView = IntroTemplateView()
-    DashboardView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Real-time market data.", description: "View the global data of 500+ Cryptocurrencies updated every minute in 15+ different currencies.")
+//    DashboardView.updateData(image: UIImage(named: "dashboardIntro")!, title: "Real-time market data.", description: "View the global data of 500+ Cryptocurrencies updated every minute in 15+ different currencies.")
+    
+    DashboardView.templateTitleLabel.text = "Real-time market data."
+    DashboardView.templateImage.image = UIImage(named: "dashboardIntro")!
+    DashboardView.templateDescriptionLabel.text = "View the global data of 500+ Cryptocurrencies updated every minute in 15+ different currencies."
    
     
     let NewsView = IntroTemplateView()
-    NewsView.updateData(image: UIImage(named: "newsIntro")!, title: "News for each cryptocurrency.", description: "In such a fast-paced market, stay ahead of the curve with aggregated news for each cryptocurrency.")
+//    NewsView.updateData(image: UIImage(named: "newsIntro")!, title: "News for each cryptocurrency.", description: "In such a fast-paced market, stay ahead of the curve with aggregated news for each cryptocurrency.")
+    
+    NewsView.templateTitleLabel.text = "News for each cryptocurrency."
+    NewsView.templateImage.image = UIImage(named: "newsIntro")!
+    NewsView.templateDescriptionLabel.text = "In such a fast-paced market, stay ahead of the curve with aggregated news for each cryptocurrency."
     
     return [WelcomeView, PortfolioView, MarketsView, DashboardView, NewsView]
   }

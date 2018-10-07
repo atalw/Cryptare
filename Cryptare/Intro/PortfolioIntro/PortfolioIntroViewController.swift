@@ -57,16 +57,32 @@ class PortfolioIntroViewController: UIViewController, UIScrollViewDelegate {
   func createSlides() -> [UIView] {
     
     let SummaryView = IntroTemplateView()
-    SummaryView.updateData(image: UIImage(named: "portfolioIntro")!, title: "Easy portfolio management.", description: "Track your cryptocurrency transactions with very high accuracy anytime and anywhere.")
+//    SummaryView.updateData(image: UIImage(named: "portfolioIntro")!, title: "Easy portfolio management.", description: "Track your cryptocurrency transactions with very high accuracy anytime and anywhere.")
+    
+    SummaryView.templateTitleLabel.text = "Easy portfolio management."
+    SummaryView.templateImage.image = UIImage(named: "portfolioIntro")!
+    SummaryView.templateDescriptionLabel.text = "Track your cryptocurrency transactions with very high accuracy anytime and anywhere."
     
     let TransactionView = IntroTemplateView()
-    TransactionView.updateData(image: UIImage(named: "transactionDetailIntro")!, title: "Detailed transaction entry.", description: "Add a buy or sell transaction with details - exchange, fees, date and time.")
+//    TransactionView.updateData(image: UIImage(named: "transactionDetailIntro")!, title: "Detailed transaction entry.", description: "Add a buy or sell transaction with details - exchange, fees, date and time.")
+    
+    TransactionView.templateTitleLabel.text = "Detailed transaction entry."
+    TransactionView.templateImage.image = UIImage(named: "transactionDetailIntro")!
+    TransactionView.templateDescriptionLabel.text = "Add a buy or sell transaction with details - exchange, fees, date and time."
     
     let TransactionDetailsView = IntroTemplateView()
-    TransactionDetailsView.updateData(image: UIImage(named: "transactionsIntro")!, title: "Track your transactions easily.", description: "Add crypto-fiat and crypto-crypto transactions and let Cryptare handle all the calculations for you.")
+//    TransactionDetailsView.updateData(image: UIImage(named: "transactionsIntro")!, title: "Track your transactions easily.", description: "Add crypto-fiat and crypto-crypto transactions and let Cryptare handle all the calculations for you.")
+    
+    TransactionDetailsView.templateTitleLabel.text = "Track your transactions easily."
+    TransactionDetailsView.templateImage.image = UIImage(named: "transactionsIntro")!
+    TransactionDetailsView.templateDescriptionLabel.text = "Add crypto-fiat and crypto-crypto transactions and let Cryptare handle all the calculations for you."
     
     let MultiplePortfoliosView = IntroTemplateView()
-    MultiplePortfoliosView.updateData(image: UIImage(named: "multiplePortfoliosIntro")!, title: "Create multiple portfolios.", description: "Declutter your invesments by organizing them into multiple portfolios.")
+//    MultiplePortfoliosView.updateData(image: UIImage(named: "multiplePortfoliosIntro")!, title: "Create multiple portfolios.", description: "Declutter your invesments by organizing them into multiple portfolios.")
+    
+    MultiplePortfoliosView.templateTitleLabel.text = "Create multiple portfolios."
+    MultiplePortfoliosView.templateImage.image = UIImage(named: "multiplePortfoliosIntro")!
+    MultiplePortfoliosView.templateDescriptionLabel.text = "Declutter your invesments by organizing them into multiple portfolios."
     
     return [SummaryView, TransactionView, TransactionDetailsView, MultiplePortfoliosView]
   }

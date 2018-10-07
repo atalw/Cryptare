@@ -57,13 +57,25 @@ class MarketsIntroViewController: UIViewController, UIScrollViewDelegate {
   func createSlides() -> [UIView] {
     
     let FavouritesView = IntroTemplateView()
-    FavouritesView.updateData(image: UIImage(named: "favouriteTradingPairsIntro")!, title: "Create a favourites list.", description: "Track your favourite trading-pairs and exchanges all in one place.")
+//    FavouritesView.updateData(image: UIImage(named: "favouriteTradingPairsIntro")!, title: "Create a favourites list.", description: "Track your favourite trading-pairs and exchanges all in one place.")
+    
+    FavouritesView.templateTitleLabel.text = "Create a favourites list."
+    FavouritesView.templateImage.image = UIImage(named: "favouriteTradingPairsIntro")!
+    FavouritesView.templateDescriptionLabel.text = "Track your favourite trading-pairs and exchanges all in one place."
     
     let Markets = IntroTemplateView()
-    Markets.updateData(image: UIImage(named: "marketDetailsIntro")!, title: "Detailed market information.", description: "Access details of every market including all supported trading-pairs.")
+//    Markets.updateData(image: UIImage(named: "marketDetailsIntro")!, title: "Detailed market information.", description: "Access details of every market including all supported trading-pairs.")
+    
+    Markets.templateTitleLabel.text = "Detailed market information."
+    Markets.templateImage.image = UIImage(named: "marketDetailsIntro")!
+    Markets.templateDescriptionLabel.text = "Track your favourite trading-pairs and exchanges all in one place."
     
     let AlertsView = IntroTemplateView()
-    AlertsView.updateData(image: UIImage(named: "marketAlertsIntro")!, title: "Smart trade-pair alerts.", description: "Create market trade-pair alerts easily to track the price on that specific exchange.")
+//    AlertsView.updateData(image: UIImage(named: "marketAlertsIntro")!, title: "Smart trade-pair alerts.", description: "Create market trade-pair alerts easily to track the price on that specific exchange.")
+    
+    AlertsView.templateTitleLabel.text = "Smart trade-pair alerts."
+    AlertsView.templateImage.image = UIImage(named: "marketAlertsIntro")!
+    AlertsView.templateDescriptionLabel.text = "Create market trade-pair alerts easily to track the price on that specific exchange."
     
     return [FavouritesView, Markets, AlertsView]
   }
