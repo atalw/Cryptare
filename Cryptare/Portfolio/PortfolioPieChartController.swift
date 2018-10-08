@@ -255,11 +255,15 @@ extension PortfolioPieChartController: UITableViewDataSource, UITableViewDelegat
     
     var fullName: String = ""
     
-    for (symbol, name) in GlobalValues.coins {
-      if symbol == label {
-        fullName = name
-      }
+    if let name = Defaults[.cryptoSymbolNamePairs][label] as? String {
+      fullName = name
     }
+    
+//    for (symbol, name) in GlobalValues.coins {
+//      if symbol == label {
+//        fullName = name
+//      }
+//    }
     
     if fullName == "" {
       for (_, symbol, _, name) in GlobalValues.countryList {

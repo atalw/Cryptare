@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   let defaults = UserDefaults.standard
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    
     // Override point for customization after application launch.
     
     // armchair - for app review
@@ -189,6 +190,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     } else {
       // Fallback on earlier versions
     }
+    
+    application.statusBarStyle = .lightContent
 
     return true
   }
@@ -232,6 +235,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     if Defaults[.portfolioInitialLoad] {
       tabBarController.selectedIndex = 2
     }
+    
+    ThemeManager.setTheme(index: Defaults[.currentThemeIndex])
 //    slideMenuController.delegate = mainViewController as SlideMenuControllerDelegate
 //    self.window?.makeKeyAndVisible()
   }

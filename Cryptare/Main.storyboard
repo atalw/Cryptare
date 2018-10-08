@@ -696,10 +696,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Pra-1F-GcU">
-                                                    <rect key="frame" x="16" y="0.0" width="309" height="44.666666666666664"/>
+                                                    <rect key="frame" x="16" y="0.0" width="317" height="44.666666666666664"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change currency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fo8-lo-YK0">
-                                                            <rect key="frame" x="0.0" y="12.333333333333334" width="309" height="20.333333333333329"/>
+                                                            <rect key="frame" x="0.0" y="12.333333333333334" width="317" height="20.333333333333329"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1211,6 +1211,7 @@
                         <outlet property="nightModeLabel" destination="Yu2-Sc-1Xf" id="2Ld-Ua-umW"/>
                         <outlet property="nightModeSwitch" destination="sTp-Sv-bn0" id="QPk-cS-dRB"/>
                         <outlet property="popularitySort" destination="8fN-Cp-GxN" id="vsI-gi-4wU"/>
+                        <outlet property="portfolioInitialLoadLabel" destination="J5h-4s-6v7" id="rfu-9P-BIF"/>
                         <outlet property="portfolioInitialLoadSwitch" destination="bU2-Mj-L7Y" id="o9d-fd-ZYp"/>
                         <outlet property="portfolioIntroDescLabel" destination="lQj-vF-7w1" id="xdE-i7-DBl"/>
                         <outlet property="privacyPolicyDescLabel" destination="Q3c-eT-8cF" id="qUT-Ov-shz"/>
@@ -8137,6 +8138,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="EB5-sg-DaV"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzU-sf-YyM" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -326,15 +326,15 @@
 				867DC8BB2119859A00FD0161 /* Main.storyboard */,
 				867DC8BC2119859A00FD0161 /* MainLite.storyboard */,
 				867DC8992119840600FD0161 /* Info.plist */,
-				867DC90A211985A900FD0161 /* Alerts */,
-				867DC932211985AA00FD0161 /* Dashboard */,
-				867DC910211985AA00FD0161 /* Helpers */,
 				867DC8C1211985A800FD0161 /* Intro */,
-				867DC8CD211985A800FD0161 /* Markets */,
-				867DC8D9211985A900FD0161 /* Navigation */,
+				867DC932211985AA00FD0161 /* Dashboard */,
 				867DC8DC211985A900FD0161 /* News */,
+				867DC8CD211985A800FD0161 /* Markets */,
 				867DC8E4211985A900FD0161 /* Portfolio */,
+				867DC90A211985A900FD0161 /* Alerts */,
 				867DC8E0211985A900FD0161 /* Settings */,
+				867DC910211985AA00FD0161 /* Helpers */,
+				867DC8D9211985A900FD0161 /* Navigation */,
 			);
 			path = Cryptare;
 			sourceTree = "<group>";
@@ -360,12 +360,12 @@
 		867DC8C1211985A800FD0161 /* Intro */ = {
 			isa = PBXGroup;
 			children = (
-				867DC8C2211985A800FD0161 /* MarketsIntro */,
 				867DC8C4211985A800FD0161 /* IntroTemplate.xib */,
 				867DC8C5211985A800FD0161 /* IntroTemplateView.swift */,
+				867DC8CA211985A800FD0161 /* AppIntro */,
+				867DC8C2211985A800FD0161 /* MarketsIntro */,
 				867DC8C6211985A800FD0161 /* PortfolioIntro */,
 				867DC8C8211985A800FD0161 /* AlertsIntro */,
-				867DC8CA211985A800FD0161 /* AppIntro */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -406,11 +406,11 @@
 		867DC8CD211985A800FD0161 /* Markets */ = {
 			isa = PBXGroup;
 			children = (
-				867DC8CE211985A800FD0161 /* MarketDetail */,
-				867DC8D5211985A900FD0161 /* MarketsTradingPairTableViewCell.swift */,
-				867DC8D6211985A900FD0161 /* MarketsViewController.swift */,
 				867DC8D7211985A900FD0161 /* MarketsContainerViewController.swift */,
+				867DC8D6211985A900FD0161 /* MarketsViewController.swift */,
+				867DC8D5211985A900FD0161 /* MarketsTradingPairTableViewCell.swift */,
 				867DC8D8211985A900FD0161 /* MarketsTableViewCell.swift */,
+				867DC8CE211985A800FD0161 /* MarketDetail */,
 			);
 			path = Markets;
 			sourceTree = "<group>";
@@ -457,9 +457,9 @@
 		867DC8E0211985A900FD0161 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				867DC8E1211985A900FD0161 /* SubscriptionsViewController.swift */,
-				867DC8E2211985A900FD0161 /* CountrySelectionViewController.swift */,
 				867DC8E3211985A900FD0161 /* SettingsViewController.swift */,
+				867DC8E2211985A900FD0161 /* CountrySelectionViewController.swift */,
+				867DC8E1211985A900FD0161 /* SubscriptionsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -467,16 +467,16 @@
 		867DC8E4211985A900FD0161 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
-				867DC8E5211985A900FD0161 /* PortfolioEntryModel.swift */,
-				867DC8E6211985A900FD0161 /* Models */,
 				867DC8EA211985A900FD0161 /* MainPortfolioViewController.swift */,
-				867DC8EB211985A900FD0161 /* AddPortfolioViewController.swift */,
-				867DC8EC211985A900FD0161 /* Coin Detail */,
-				867DC8FF211985A900FD0161 /* SortDropDown */,
 				867DC902211985A900FD0161 /* Summary */,
+				867DC8EC211985A900FD0161 /* Coin Detail */,
+				867DC8E6211985A900FD0161 /* Models */,
+				867DC8E5211985A900FD0161 /* PortfolioEntryModel.swift */,
+				867DC8EB211985A900FD0161 /* AddPortfolioViewController.swift */,
 				867DC909211985A900FD0161 /* PortfolioEntryDelegate.swift */,
 				86A90EA52154F13C003F3566 /* PortfolioPieChartController.swift */,
 				861E122321577A5C004DC834 /* ChartInfoTableViewCell.swift */,
+				867DC8FF211985A900FD0161 /* SortDropDown */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -563,10 +563,10 @@
 		867DC902211985A900FD0161 /* Summary */ = {
 			isa = PBXGroup;
 			children = (
-				867DC903211985A900FD0161 /* PortfolioFiatSummaryTableViewCell.swift */,
-				867DC904211985A900FD0161 /* Add coin */,
 				867DC907211985A900FD0161 /* PortfolioSummaryViewController.swift */,
 				867DC908211985A900FD0161 /* PortfolioSummaryTableViewCell.swift */,
+				867DC903211985A900FD0161 /* PortfolioFiatSummaryTableViewCell.swift */,
+				867DC904211985A900FD0161 /* Add coin */,
 			);
 			path = Summary;
 			sourceTree = "<group>";
@@ -583,11 +583,11 @@
 		867DC90A211985A900FD0161 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
-				867DC90B211985A900FD0161 /* AlertFirebase.swift */,
+				867DC90F211985A900FD0161 /* PairAlertViewController.swift */,
 				867DC90C211985A900FD0161 /* AddPairAlertViewController.swift */,
 				867DC90D211985A900FD0161 /* PairAlertTableViewCell.swift */,
+				867DC90B211985A900FD0161 /* AlertFirebase.swift */,
 				867DC90E211985A900FD0161 /* AlertModel.swift */,
-				867DC90F211985A900FD0161 /* PairAlertViewController.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -595,6 +595,7 @@
 		867DC910211985AA00FD0161 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				867DC92F211985AA00FD0161 /* AppDelegate.swift */,
 				867DC911211985AA00FD0161 /* Constants.swift */,
 				867DC912211985AA00FD0161 /* LaunchScreen.storyboard */,
 				867DC913211985AA00FD0161 /* UserDefaultsKeys.swift */,
@@ -605,7 +606,6 @@
 				867DC91A211985AA00FD0161 /* Extensions */,
 				867DC927211985AA00FD0161 /* NightMode */,
 				867DC92A211985AA00FD0161 /* IAP */,
-				867DC92F211985AA00FD0161 /* AppDelegate.swift */,
 				867DC930211985AA00FD0161 /* GradientView.swift */,
 				867DC931211985AA00FD0161 /* Bundle.swift */,
 			);
@@ -659,8 +659,8 @@
 		867DC932211985AA00FD0161 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
-				867DC933211985AA00FD0161 /* DashboardViewController.swift */,
 				867DC934211985AA00FD0161 /* MainViewController.swift */,
+				867DC933211985AA00FD0161 /* DashboardViewController.swift */,
 				867DC935211985AA00FD0161 /* Graph */,
 				867DC939211985AA00FD0161 /* Coin Markets */,
 				867DC940211985AA00FD0161 /* CoinTableViewCell.swift */,
@@ -671,9 +671,9 @@
 		867DC935211985AA00FD0161 /* Graph */ = {
 			isa = PBXGroup;
 			children = (
-				867DC936211985AA00FD0161 /* BalloonMarker.swift */,
-				867DC937211985AA00FD0161 /* GraphViewController.swift */,
 				867DC938211985AA00FD0161 /* CryptoDetailViewController.swift */,
+				867DC937211985AA00FD0161 /* GraphViewController.swift */,
+				867DC936211985AA00FD0161 /* BalloonMarker.swift */,
 			);
 			path = Graph;
 			sourceTree = "<group>";

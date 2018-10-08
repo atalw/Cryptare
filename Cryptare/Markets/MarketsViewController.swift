@@ -265,12 +265,16 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.coinSymbolImage.loadSavedImage(coin: coin)
         
-        for (symbol, name) in GlobalValues.coins {
-          if symbol == coin {
-            cell.coinNameLabel.text = name
-            break
-          }
+        if let name = Defaults[.cryptoSymbolNamePairs][coin] as? String {
+          cell.coinNameLabel.text = name
         }
+        
+//        for (symbol, name) in GlobalValues.coins {
+//          if symbol == coin {
+//            cell.coinNameLabel.text = name
+//            break
+//          }
+//        }
         
         cell.tradingPairLabel.text = "\(coin)/\(base)"
         cell.exchangeLabel.text = market

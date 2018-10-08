@@ -57,6 +57,19 @@ class SettingsViewController: UITableViewController {
   }
   
   // dashboard
+  @IBOutlet weak var portfolioInitialLoadLabel: UILabel! {
+    didSet {
+      portfolioInitialLoadLabel.adjustsFontSizeToFitWidth = true
+      portfolioInitialLoadLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  
+  @IBOutlet weak var portfolioInitialLoadSwitch: UISwitch! {
+    didSet {
+      portfolioInitialLoadSwitch.addTarget(self, action: #selector(portfolioInitialLoadChange), for: .valueChanged)
+    }
+  }
+  
   @IBOutlet weak var favouritesInitialTabDescLabel: UILabel! {
     didSet {
       favouritesInitialTabDescLabel.adjustsFontSizeToFitWidth = true
@@ -66,12 +79,6 @@ class SettingsViewController: UITableViewController {
   @IBOutlet weak var favouritesInitialTabSwitch: UISwitch! {
     didSet {
       favouritesInitialTabSwitch.addTarget(self, action: #selector(favouritesInitialTabChange), for: .valueChanged)
-    }
-  }
-  
-  @IBOutlet weak var portfolioInitialLoadSwitch: UISwitch! {
-    didSet {
-      portfolioInitialLoadSwitch.addTarget(self, action: #selector(portfolioInitialLoadChange), for: .valueChanged)
     }
   }
   
