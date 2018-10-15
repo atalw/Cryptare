@@ -4452,8 +4452,11 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OXW-af-dmB">
+                                                                    <rect key="frame" x="153.33333333333334" y="0.0" width="20" height="40"/>
+                                                                </activityIndicatorView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLr-xA-ffu">
-                                                                    <rect key="frame" x="153.33333333333337" y="0.0" width="189.66666666666663" height="40"/>
+                                                                    <rect key="frame" x="178.33333333333337" y="0.0" width="164.66666666666663" height="40"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                                     <state key="normal" title="Filters">
                                                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4732,6 +4735,7 @@
                         <outlet property="header24hrChangeLabel" destination="mXb-Qx-L2J" id="ecq-rh-xIH"/>
                         <outlet property="headerBackgroundView" destination="b8K-Of-aXj" id="H2p-Xf-cFG"/>
                         <outlet property="headerCurrentPriceLabel" destination="aNK-eV-j7e" id="mu4-xg-52R"/>
+                        <outlet property="lastUpdatedActivityIndicator" destination="OXW-af-dmB" id="Heq-bd-iug"/>
                         <outlet property="lastUpdatedDescriptionLabel" destination="sGP-vJ-36c" id="avn-Lv-R0J"/>
                         <outlet property="lastUpdatedTimeLabel" destination="OG6-l6-nze" id="sGr-QQ-ScV"/>
                         <outlet property="rankLabel" destination="t4G-Ss-LUP" id="bup-tY-zPB"/>

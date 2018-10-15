@@ -84,11 +84,19 @@ class DashboardViewController: UIViewController {
     }
   }
   
+  @IBOutlet weak var lastUpdatedActivityIndicator: UIActivityIndicatorView! {
+    didSet {
+      lastUpdatedActivityIndicator.hidesWhenStopped = true
+    }
+  }
+  
   @IBOutlet weak var header24hrChangeLabel: UILabel!
   @IBOutlet weak var headerCurrentPriceLabel: UILabel!
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    self.lastUpdatedActivityIndicator.startAnimating()
     
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
@@ -217,6 +225,7 @@ class DashboardViewController: UIViewController {
     headerBackgroundView.isHidden = false
     activityIndicator.stopAnimating()
     tableView.reloadData()
+    lastUpdatedActivityIndicator.stopAnimating()
   }
   
   func setupCoinRefs(index: Int) {
