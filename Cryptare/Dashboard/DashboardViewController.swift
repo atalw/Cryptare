@@ -26,6 +26,8 @@ class DashboardViewController: UIViewController {
   var favouritesTab: Bool!
   
   var coins: [String] = []
+  var favouriteCoins: [String] = []
+  
   let greenColour = UIColor.init(hex: "#35CC4B")
   let redColour = UIColor.init(hex: "#e74c3c")
   
@@ -131,12 +133,12 @@ class DashboardViewController: UIViewController {
           Defaults[.cryptoSymbolNamePairs] = cryptoSymbolNamePairs
         }
       }
-      if !self.favouritesTab {
-        self.coins = allCoins
+      self.coins = allCoins
+      if self.coins.count > 20 {
+        self.pagedArray = PagedArray<String>(count: self.coins.count, pageSize: 20)
       }
       else {
-        // for reorder ability
-        self.tableView.reorder.delegate = self
+        self.pagedArray = PagedArray<String>(count: self.coins.count, pageSize: 2)
       }
       self.loadAllCoinData()
     })
@@ -151,12 +153,6 @@ class DashboardViewController: UIViewController {
     
     databaseRef = Database.database().reference()
     
-    if coins.count > 20 {
-      self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 20)
-    }
-    else {
-      self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 2)
-    }
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -193,27 +189,11 @@ class DashboardViewController: UIViewController {
   }
   
   func getFavourites() {
-    self.coins = Defaults[.dashboardFavourites]
+    self.favouriteCoins = Defaults[.dashboardFavourites]
   }
   
   func loadAllCoinData() {
-    if favouritesTab {
-      self.getFavourites()
-      
-      if coins.count == 0 {
-        let messageLabel = UILabel(frame: .zero)
-        messageLabel.text = "No coins added to your favourites"
-        messageLabel.theme_textColor = GlobalPicker.viewTextColor
-        messageLabel.numberOfLines = 0;
-        messageLabel.textAlignment = .center
-        messageLabel.sizeToFit()
-        
-        tableView.backgroundView = messageLabel
-      }
-      else {
-        tableView.backgroundView = nil
-      }
-    }
+    self.getFavourites()
     
     if coins.count > 20 {
       self.pagedArray = PagedArray<String>(count: coins.count, pageSize: 20)
@@ -226,44 +206,6 @@ class DashboardViewController: UIViewController {
     activityIndicator.stopAnimating()
     tableView.reloadData()
   }
-  
-//  func setupCoinRefs() {
-//
-//    for coinRef in coinRefs {
-//      coinRef.removeAllObservers()
-//    }
-//
-//    coinRefs = []
-//
-//    for coin in self.pagedArray {
-//      if let coin = coin {
-//
-//        if coinData[coin] == nil {
-//          self.coinData[coin] = [:]
-//        }
-//        self.coinData[coin]!["currentPrice"] = 0.0
-//        self.coinData[coin]!["timestamp"] = 0.0
-//        self.coinData[coin]!["volume24hrs"] = 0.0
-//        self.coinData[coin]!["percentageChange24hrs"] = 0.0
-//        self.coinData[coin]!["priceChange24hrs"] = 0.0
-//
-//        self.coinRefs.append(self.databaseRef.child(coin).child("Data").child(currency))
-//      }
-//
-//    }
-//
-//    for coinRef in self.coinRefs {
-//      coinRef.observe(.value, with: {(snapshot) -> Void in
-//        if let dict = snapshot.value as? [String : AnyObject] {
-//          if let index = self.coinRefs.index(of: coinRef) {
-//            let coin = self.coins[index]
-//            self.changedRow = index
-//            self.updateCoinDataStructure(coin: coin, dict: dict)
-//          }
-//        }
-//      })
-//    }
-//  }
   
   func setupCoinRefs(index: Int) {
     
@@ -383,24 +325,54 @@ class DashboardViewController: UIViewController {
 
 extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
   
+  func numberOfSections(in tableView: UITableView) -> Int {
+    if isFiltering() {
+      return 1
+    }
+    return 2
+  }
+  
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    if isFiltering() {
+      return "All"
+    }
+    
+    if section == 0 {
+      return "Favourites"
+    }
+    else {
+      return "All"
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    
+    let header = view as? UITableViewHeaderFooterView
+
+    header?.backgroundView?.theme_backgroundColor = GlobalPicker.alternateMarketRowColour
+    
+    header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
+  }
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if isFiltering() {
       return coinSearchResults.count
     }
-    if pagedArray != nil {
-      return pagedArray.count
+    else {
+      if section ==  0 {
+        return favouriteCoins.count
+      }
+      else {
+        if pagedArray != nil {
+          return pagedArray.count
+        }
+      }
     }
     return 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    loadDataIfNeededForRow(row: indexPath.row)
-    
-    if favouritesTab {
-      if let spacer = tableView.reorder.spacerCell(for: indexPath) {
-        return spacer
-      }
-    }
+    let section = indexPath.section
     
     var coin: String
     if isFiltering() {
@@ -411,18 +383,44 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
       loadDataIfNeededForRow(row: coinIndex)
     }
     else {
-      if let pagedCoin =  pagedArray[indexPath.row] {
-        coin = pagedCoin
+      if section == 0 {
+        coin = favouriteCoins[indexPath.row]
       }
       else {
-        coin = "BTC"
+        if let pagedCoin = pagedArray[indexPath.row] {
+          coin = pagedCoin
+        }
+        else {
+          coin = "BTC"
+        }
+        
+        loadDataIfNeededForRow(row: indexPath.row)
+
       }
     }
     
-    let cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
+    if section == 1 {
+    }
+    
+    var cell: CoinTableViewCell?
+    
+    if isFiltering() {
+      cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
+    }
+    else {
+      if section == 0 {
+        cell = self.tableView.dequeueReusableCell(withIdentifier: "favouriteCell") as? CoinTableViewCell
+      }
+      else {
+        cell = self.tableView.dequeueReusableCell(withIdentifier: "coinCell") as? CoinTableViewCell
+      }
+    }
+    
+    
     
     cell!.selectionStyle = .none
-    if !favouritesTab {
+    
+    if isFiltering() || section == 1 {
       if let rank = self.coinData[coin]?["rank"] as? Int {
         cell!.coinRank.text = "\(rank)"
         cell!.coinRank.adjustsFontSizeToFitWidth = true
@@ -515,6 +513,10 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    let row = indexPath.row
+    let section = indexPath.section
+    
     let targetViewController = storyboard?.instantiateViewController(withIdentifier: "graphViewController") as! GraphViewController
     
     if isFiltering() {
@@ -523,7 +525,14 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
       targetViewController.coinData = self.coinData[coin]!
     }
     else {
-      let coin = self.coins[indexPath.row]
+      var coin: String
+      if section == 0 {
+        coin = self.favouriteCoins[row]
+      }
+      else {
+        coin = self.coins[row]
+      }
+      
       targetViewController.databaseTableTitle = coin
       targetViewController.coinData = self.coinData[coin]!
     }

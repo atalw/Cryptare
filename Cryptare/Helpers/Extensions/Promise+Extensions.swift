@@ -30,7 +30,16 @@ func getExchangeRateUSD(symbol: String) -> Promise<Double> {
 }
 
 func getExchangeRate(symbol: String, pair: String) -> Promise<Double> {
-  let exchangeURL = URL(string: "https://ratesapi.io/api/latest?symbols=\(symbol)&base=\(pair)")!
+  
+  var currency: String = ""
+  if symbol == "PKR" {
+    currency = "INR"
+  }
+  else {
+    currency = symbol
+  }
+  
+  let exchangeURL = URL(string: "https://ratesapi.io/api/latest?symbols=\(currency)&base=\(pair)")!
   
   return Promise { fulfill, reject in
     Alamofire.request(exchangeURL).responseJSON { (response) in
@@ -40,7 +49,7 @@ func getExchangeRate(symbol: String, pair: String) -> Promise<Double> {
           fulfill(rate)
         }
         else {
-          reject(response.error!)
+          reject(NSError(domain: "exchangeURL", code: (response.response?.statusCode)!, userInfo: [:]))
         }
       }
     }
