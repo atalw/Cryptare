@@ -32,7 +32,7 @@ class CoinTableViewCell: UITableViewCell {
     self.coinSymbolLabel.theme_textColor = GlobalPicker.viewTextColor
     self.coinNameLabel.theme_textColor = GlobalPicker.viewAltTextColor
     self.coinCurrentValueLabel.theme_textColor = GlobalPicker.viewTextColor
-    self.coinTimestampLabel.theme_textColor = GlobalPicker.viewAltTextColor
+//    self.coinTimestampLabel.theme_textColor = GlobalPicker.viewAltTextColor
   }
   
   override func setSelected(_ selected: Bool, animated: Bool) {

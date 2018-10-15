@@ -72,6 +72,18 @@ class DashboardViewController: UIViewController {
       headerBackgroundView.isHidden = true
     }
   }
+  @IBOutlet weak var lastUpdatedDescriptionLabel: UILabel! {
+    didSet {
+      lastUpdatedDescriptionLabel.theme_textColor = GlobalPicker.viewAltTextColor
+    }
+  }
+  @IBOutlet weak var lastUpdatedTimeLabel: UILabel! {
+    didSet {
+      lastUpdatedTimeLabel.adjustsFontSizeToFitWidth = true
+      lastUpdatedTimeLabel.theme_textColor = GlobalPicker.viewTextColor
+    }
+  }
+  
   @IBOutlet weak var header24hrChangeLabel: UILabel!
   @IBOutlet weak var headerCurrentPriceLabel: UILabel!
   
@@ -349,7 +361,7 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
     let header = view as? UITableViewHeaderFooterView
 
-    header?.backgroundView?.theme_backgroundColor = GlobalPicker.alternateMarketRowColour
+//    header?.backgroundView?.theme_backgroundColor = GlobalPicker.alternateMarketRowColour
     
     header?.textLabel?.theme_textColor = GlobalPicker.viewAltTextColor
   }
@@ -480,8 +492,10 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     self.dateFormatter.dateFormat = "h:mm a"
     
     if let timestamp = self.coinData[coin]?["timestamp"] as? Double {
-      cell!.coinTimestampLabel.text =  self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
-      cell!.coinTimestampLabel.adjustsFontSizeToFitWidth = true
+      self.lastUpdatedTimeLabel.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
+//      cell!.coinTimestampLabel.text =  self.dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
+//      cell!.coinTimestampLabel.adjustsFontSizeToFitWidth = true
+//      cell!.coinTimestampLabel.isHidden = true
     }
     
     if let percentageChange = self.coinData[coin]?["percentageChange24hrs"] as? Double {
