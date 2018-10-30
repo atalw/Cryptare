@@ -27,13 +27,13 @@ class GraphViewController: UIViewController {
   var favouriteButton: UIBarButtonItem!
   
   lazy var viewControllerList: [UIViewController] = {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
     
-    let cryptoDetailVC = storyboard.instantiateViewController(withIdentifier: "CryptoDetailViewController") as! CryptoDetailViewController
+    let cryptoDetailVC = dashboardStoryboard.instantiateViewController(withIdentifier: "CryptoDetailViewController") as! CryptoDetailViewController
     cryptoDetailVC.databaseTableTitle = databaseTableTitle
     cryptoDetailVC.coinData = coinData
     
-    let marketsVC = storyboard.instantiateViewController(withIdentifier: "CoinMarketsViewController") as! CoinMarketsViewController
+    let marketsVC = dashboardStoryboard.instantiateViewController(withIdentifier: "CoinMarketsViewController") as! CoinMarketsViewController
     marketsVC.currentCoin = databaseTableTitle
     
     return [cryptoDetailVC, marketsVC]

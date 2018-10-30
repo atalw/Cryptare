@@ -34,6 +34,12 @@ class MainViewController: UIViewController {
   
   @IBOutlet weak var currencyButton: UIBarButtonItem!
   
+  @IBAction func currencyButtonTapped(_ sender: Any) {
+    let settingsStoryboard = UIStoryboard(name: "Settings", bundle: nil)
+    let selectCurrencyController = settingsStoryboard.instantiateViewController(withIdentifier: "CountrySelectionViewController")
+    self.present(selectCurrencyController, animated: true, completion: nil)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -77,8 +83,8 @@ class MainViewController: UIViewController {
       }
     }
     
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    dashboardVC = storyboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
+    let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+    dashboardVC = dashboardStoryboard.instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
     dashboardVC.favouritesTab = false
     dashboardVC.title = "All"
     dashboardVC.parentController = self

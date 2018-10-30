@@ -49,6 +49,13 @@ class AddPairAlertViewController: UIViewController {
       }
     }
   }
+  
+  @IBAction func learnSubscriptionButtonTapped(_ sender: Any) {
+    let settingsStoryboard = UIStoryboard(name: "Settings", bundle: nil)
+    let subscriptionsViewController = settingsStoryboard.instantiateViewController(withIdentifier: "SubscriptionsViewController")
+    self.present(subscriptionsViewController, animated: true, completion: nil)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -319,8 +326,8 @@ class AddPairAlertTableViewController: UITableViewController {
     super.viewDidAppear(animated)
     if parentController.lockAlertsView.isHidden {
       if tradingPair.0 == "None" {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "AddCoinTableViewController") as! AddCoinTableViewController
+        let portfolioStoryboard = UIStoryboard(name: "Portfolio", bundle: nil)
+        let controller = portfolioStoryboard.instantiateViewController(withIdentifier: "AddCoinTableViewController") as! AddCoinTableViewController
         controller.parentController = self
         self.present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
       }

@@ -242,6 +242,11 @@ class CoinMarketsViewController: UIViewController {
       //            unlockMarketsPriceButton.theme
     }
   }
+  @IBAction func learnSubscriptionButtonTapped(_ sender: Any) {
+    let settingsStoryboard = UIStoryboard(name: "Settings", bundle: nil)
+    let subscriptionsViewController = settingsStoryboard.instantiateViewController(withIdentifier: "SubscriptionsViewController")
+    self.present(subscriptionsViewController, animated: true, completion: nil)
+  }
   
   // MARK: VC Lifecycle
   

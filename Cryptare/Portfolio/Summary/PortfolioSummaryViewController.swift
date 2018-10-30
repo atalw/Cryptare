@@ -597,7 +597,7 @@ class PortfolioSummaryViewController: UIViewController {
   }
   
   @objc func portfolioDistributionViewTapped(sender : UITapGestureRecognizer) {
-    let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+    let storyBoard : UIStoryboard = UIStoryboard(name: "Portfolio", bundle:nil)
     let portfolioDistributionController = storyBoard.instantiateViewController(withIdentifier: "PortfolioPieChartController") as! PortfolioPieChartController
     
     portfolioDistributionController.summary = summary

@@ -677,8 +677,8 @@ class SettingsViewController: UITableViewController {
       if row == 0 {
         FirebaseService.shared.view_subscription_page_tapped()
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "SubscriptionsViewController")
+        let settingsStoryboard = UIStoryboard(name: "Settings", bundle: nil)
+        let controller = settingsStoryboard.instantiateViewController(withIdentifier: "SubscriptionsViewController")
         self.present(controller, animated: true, completion: nil)
       }
       
@@ -715,6 +715,34 @@ class SettingsViewController: UITableViewController {
       }
       
       
+    }
+    else if section == 7 { // tutorials
+      let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+      
+      if row == 0 { // app features
+        let introViewController = mainStoryboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
+        
+        self.present(introViewController, animated: true, completion: nil)
+
+      }
+      else if row == 1 { //  markets
+        let introViewController = mainStoryboard.instantiateViewController(withIdentifier: "MarketsIntroViewController") as! MarketsIntroViewController
+        
+        self.present(introViewController, animated: true, completion: nil)
+
+      }
+      else if row == 2 { // portfolio
+        let introViewController = mainStoryboard.instantiateViewController(withIdentifier: "PortfolioIntroViewController") as! PortfolioIntroViewController
+        
+        self.present(introViewController, animated: true, completion: nil)
+
+      }
+      else if row == 3 { // alerts
+        let introViewController = mainStoryboard.instantiateViewController(withIdentifier: "AlertsIntroViewController") as! AlertsIntroViewController
+        
+        self.present(introViewController, animated: true, completion: nil)
+
+      }
     }
     else if section == 8 {
       if row == 0 {

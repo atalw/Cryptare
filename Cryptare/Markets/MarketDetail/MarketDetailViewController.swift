@@ -371,7 +371,9 @@ extension MarketDetailViewController: UITableViewDelegate, UITableViewDataSource
     let section = indexPath.section
     
     if section == 1 {
-      let targetViewController = storyboard?.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
+      let marketStoryboard = UIStoryboard(name: "Market", bundle: nil)
+
+      let targetViewController = marketStoryboard.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
       
       var coin: String
       var base: String

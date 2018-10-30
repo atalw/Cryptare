@@ -46,15 +46,15 @@ class MarketsContainerViewController: UIViewController {
   let pagingViewController = PagingViewController<PagingIndexItem>()
   
   lazy var viewControllerList: [UIViewController] = {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let marketStoryboard = UIStoryboard(name: "Market", bundle: nil)
     
-    let vc1 = storyboard.instantiateViewController(withIdentifier: "MarketsViewController") as! MarketsViewController
+    let vc1 = marketStoryboard.instantiateViewController(withIdentifier: "MarketsViewController") as! MarketsViewController
     vc1.favouritesTab = false
     vc1.title = "All"
     self.marketsVC = vc1
     vc1.parentController = self
     
-    let vc2 = storyboard.instantiateViewController(withIdentifier: "FavouritesMarketsViewController") as! MarketsViewController
+    let vc2 = marketStoryboard.instantiateViewController(withIdentifier: "FavouritesMarketsViewController") as! MarketsViewController
     vc2.favouritesTab = true
     vc2.title = "Favourites"
     self.favouritesVC = vc2
@@ -80,7 +80,9 @@ class MarketsContainerViewController: UIViewController {
     let introComplete = Defaults[.mainMarketsIntroComplete]
     
     if !introComplete {
-      let introViewController = storyboard?.instantiateViewController(withIdentifier: "MarketsIntroViewController") as! MarketsIntroViewController
+      let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+
+      let introViewController = mainStoryboard.instantiateViewController(withIdentifier: "MarketsIntroViewController") as! MarketsIntroViewController
       
       self.navigationController?.present(introViewController, animated: true, completion: nil)
     }

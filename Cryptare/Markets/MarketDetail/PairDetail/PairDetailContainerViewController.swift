@@ -24,14 +24,15 @@ class PairDetailContainerViewController: UIViewController {
   let pagingViewController = PagingViewController<PagingIndexItem>()
   
   lazy var viewControllerList: [UIViewController] = {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    
-    let vc1 = storyboard.instantiateViewController(withIdentifier: "PairDetailViewController") as! PairDetailViewController
+    let marketStoryboard = UIStoryboard(name: "Market", bundle: nil)
+    let alertStoryboard = UIStoryboard(name: "Alert", bundle: nil)
+
+    let vc1 = marketStoryboard.instantiateViewController(withIdentifier: "PairDetailViewController") as! PairDetailViewController
     self.detailVC = vc1
     vc1.parentController = self
     vc1.title = "Details"
 
-    let vc2 = storyboard.instantiateViewController(withIdentifier: "PairAlertViewController") as! PairAlertViewController
+    let vc2 = alertStoryboard.instantiateViewController(withIdentifier: "PairAlertViewController") as! PairAlertViewController
     self.alertVC = vc2
     vc2.parentController = self
     vc2.title = "Alerts"

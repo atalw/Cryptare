@@ -540,7 +540,9 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     let row = indexPath.row
     let section = indexPath.section
     
-    let targetViewController = storyboard?.instantiateViewController(withIdentifier: "graphViewController") as! GraphViewController
+    let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+    
+    let targetViewController = dashboardStoryboard.instantiateViewController(withIdentifier: "graphViewController") as! GraphViewController
     
     if isFiltering() {
       let coin = self.coinSearchResults[indexPath.row]

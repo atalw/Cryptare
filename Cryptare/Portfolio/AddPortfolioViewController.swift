@@ -26,6 +26,12 @@ class AddPortfolioViewController: UIViewController {
   
   @IBOutlet weak var availablePortfoliosContainerHeightConstraint: NSLayoutConstraint!
   
+  @IBAction func learnSubscriptionButtonTapped(_ sender: Any) {
+    let settingsStoryboard = UIStoryboard(name: "Settings", bundle: nil)
+    let subscriptionsViewController = settingsStoryboard.instantiateViewController(withIdentifier: "SubscriptionsViewController")
+    self.present(subscriptionsViewController, animated: true, completion: nil)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -62,7 +68,7 @@ class AddPortfolioViewController: UIViewController {
 //    self.navigationController?.popViewController(animated: true)
 //    self.navigationController?.openLeft()
 //
-//    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//    let storyboard = UIStoryboard(name: "Portfolio", bundle: nil)
 //    let settingsViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController")
 //
 //    let leftViewController = self.slideMenuController()?.leftViewController as? LeftViewController

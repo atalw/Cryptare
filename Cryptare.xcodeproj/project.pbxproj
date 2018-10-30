@@ -109,6 +109,11 @@
 		867DC99F211985AB00FD0161 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867DC940211985AA00FD0161 /* CoinTableViewCell.swift */; };
 		867DC9A52119865400FD0161 /* InfoLite.plist in Resources */ = {isa = PBXBuildFile; fileRef = 867DC9A42119865400FD0161 /* InfoLite.plist */; };
 		86A90EA62154F13C003F3566 /* PortfolioPieChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A90EA52154F13C003F3566 /* PortfolioPieChartController.swift */; };
+		86F5DE29218852C10077CBB3 /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F5DE28218852C10077CBB3 /* Dashboard.storyboard */; };
+		86F5DE2B218855BA0077CBB3 /* Portfolio.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F5DE2A218855BA0077CBB3 /* Portfolio.storyboard */; };
+		86F5DE2E218859380077CBB3 /* Alert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F5DE2D218859380077CBB3 /* Alert.storyboard */; };
+		86F5DE3021885EEB0077CBB3 /* Market.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F5DE2F21885EEB0077CBB3 /* Market.storyboard */; };
+		86F5DE322188619E0077CBB3 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F5DE312188619E0077CBB3 /* Settings.storyboard */; };
 		CEBF1FE36E0AB168AEE2C94B /* Pods_CryptareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3CBB3B2F3E7BEE87A72A5E2 /* Pods_CryptareUITests.framework */; };
 		D38B7BCF1B7E207058CEFA83 /* Pods_Cryptare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5201E0EA690BE5EB5023D216 /* Pods_Cryptare.framework */; };
 /* End PBXBuildFile section */
@@ -246,6 +251,11 @@
 		867DC9A2211985DC00FD0161 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		867DC9A42119865400FD0161 /* InfoLite.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InfoLite.plist; sourceTree = "<group>"; };
 		86A90EA52154F13C003F3566 /* PortfolioPieChartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPieChartController.swift; sourceTree = "<group>"; };
+		86F5DE28218852C10077CBB3 /* Dashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
+		86F5DE2A218855BA0077CBB3 /* Portfolio.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Portfolio.storyboard; sourceTree = "<group>"; };
+		86F5DE2D218859380077CBB3 /* Alert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Alert.storyboard; sourceTree = "<group>"; };
+		86F5DE2F21885EEB0077CBB3 /* Market.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Market.storyboard; sourceTree = "<group>"; };
+		86F5DE312188619E0077CBB3 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		B35071A4DC9B8F7458BE2219 /* Pods_CryptareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptareTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3CBB3B2F3E7BEE87A72A5E2 /* Pods_CryptareUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptareUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5BF99337238A8763F330C73 /* Pods-CryptareUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptareUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CryptareUITests/Pods-CryptareUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -406,6 +416,7 @@
 		867DC8CD211985A800FD0161 /* Markets */ = {
 			isa = PBXGroup;
 			children = (
+				86F5DE2F21885EEB0077CBB3 /* Market.storyboard */,
 				867DC8D7211985A900FD0161 /* MarketsContainerViewController.swift */,
 				867DC8D6211985A900FD0161 /* MarketsViewController.swift */,
 				867DC8D5211985A900FD0161 /* MarketsTradingPairTableViewCell.swift */,
@@ -457,6 +468,7 @@
 		867DC8E0211985A900FD0161 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				86F5DE312188619E0077CBB3 /* Settings.storyboard */,
 				867DC8E3211985A900FD0161 /* SettingsViewController.swift */,
 				867DC8E2211985A900FD0161 /* CountrySelectionViewController.swift */,
 				867DC8E1211985A900FD0161 /* SubscriptionsViewController.swift */,
@@ -467,6 +479,7 @@
 		867DC8E4211985A900FD0161 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				86F5DE2A218855BA0077CBB3 /* Portfolio.storyboard */,
 				867DC8EA211985A900FD0161 /* MainPortfolioViewController.swift */,
 				867DC902211985A900FD0161 /* Summary */,
 				867DC8EC211985A900FD0161 /* Coin Detail */,
@@ -583,6 +596,7 @@
 		867DC90A211985A900FD0161 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
+				86F5DE2D218859380077CBB3 /* Alert.storyboard */,
 				867DC90F211985A900FD0161 /* PairAlertViewController.swift */,
 				867DC90C211985A900FD0161 /* AddPairAlertViewController.swift */,
 				867DC90D211985A900FD0161 /* PairAlertTableViewCell.swift */,
@@ -659,6 +673,7 @@
 		867DC932211985AA00FD0161 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				86F5DE28218852C10077CBB3 /* Dashboard.storyboard */,
 				867DC934211985AA00FD0161 /* MainViewController.swift */,
 				867DC933211985AA00FD0161 /* DashboardViewController.swift */,
 				867DC935211985AA00FD0161 /* Graph */,
@@ -809,14 +824,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86F5DE3021885EEB0077CBB3 /* Market.storyboard in Resources */,
 				867DC97A211985AB00FD0161 /* LaunchScreen.storyboard in Resources */,
 				867DC96D211985AB00FD0161 /* SortDropDownViews.xib in Resources */,
 				867DC97E211985AB00FD0161 /* Assets.xcassets in Resources */,
+				86F5DE29218852C10077CBB3 /* Dashboard.storyboard in Resources */,
 				867DC8BF2119859A00FD0161 /* MainLite.storyboard in Resources */,
+				86F5DE2E218859380077CBB3 /* Alert.storyboard in Resources */,
 				867DC9A52119865400FD0161 /* InfoLite.plist in Resources */,
 				867DC947211985AB00FD0161 /* WelcomeView.xib in Resources */,
+				86F5DE322188619E0077CBB3 /* Settings.storyboard in Resources */,
 				867DC8C02119859A00FD0161 /* AppleIncRootCertificate.cer in Resources */,
 				867DC97F211985AB00FD0161 /* GoogleService-Info.plist in Resources */,
+				86F5DE2B218855BA0077CBB3 /* Portfolio.storyboard in Resources */,
 				867DC942211985AB00FD0161 /* IntroTemplate.xib in Resources */,
 				867DC8BE2119859A00FD0161 /* Main.storyboard in Resources */,
 			);

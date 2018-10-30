@@ -153,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
       }
       
-      self.createMenuView(storyboard: storyboard)
+      self.createMenuView()
       
       if !introComplete {
         let introViewController = storyboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
@@ -166,7 +166,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         GlobalValues.currency = "USD"
         
-        self.createMenuView(storyboard: storyboard)
+        self.createMenuView()
         
         let countrySelectionViewController = storyboard.instantiateViewController(withIdentifier: "CountrySelectionViewController") as! CountrySelectionViewController
         
@@ -175,7 +175,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       else {
         GlobalValues.currency = "USD"
         
-        self.createMenuView(storyboard: storyboard)
+        self.createMenuView()
         
 //        let introViewController = storyboard.instantiateViewController(withIdentifier: "AppIntroViewController") as! AppIntroViewController
 //        introViewController.baseController = self.window?.rootViewController
@@ -196,23 +196,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     return true
   }
   
-  func createMenuView(storyboard: UIStoryboard) {
+  func createMenuView() {
 //    let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
 //    let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
     
-    let tabBarController = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
+    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+    let portfolioStoryboard = UIStoryboard(name: "Portfolio", bundle: nil)
+    let marketStoryboard = UIStoryboard(name: "Market", bundle: nil)
+    let alertStoryboard = UIStoryboard(name: "Alert", bundle: nil)
+    let settingsStoryboard = UIStoryboard(name: "Settings", bundle: nil)
+
     
-    let mainViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController)
+    let tabBarController = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
     
-    let marketsViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "MarketsContainerViewController") as! MarketsContainerViewController)
+    let mainViewController = UINavigationController(rootViewController: dashboardStoryboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController)
     
-    let mainPortfolioViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "MainPortfolioViewController") as! MainPortfolioViewController)
+    let marketsViewController = UINavigationController(rootViewController: marketStoryboard.instantiateViewController(withIdentifier: "MarketsContainerViewController") as! MarketsContainerViewController)
     
-    let pairAlertViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "PairAlertViewController") as! PairAlertViewController)
+    let mainPortfolioViewController = UINavigationController(rootViewController: portfolioStoryboard.instantiateViewController(withIdentifier: "MainPortfolioViewController") as! MainPortfolioViewController)
     
-//    let newsViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController)
+    let pairAlertViewController = UINavigationController(rootViewController: alertStoryboard.instantiateViewController(withIdentifier: "PairAlertViewController") as! PairAlertViewController)
     
-    let settingsViewController = UINavigationController(rootViewController: storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController)
+    let settingsViewController = UINavigationController(rootViewController: settingsStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController)
     
     let controllers = [mainViewController, marketsViewController, mainPortfolioViewController, pairAlertViewController, settingsViewController]
     

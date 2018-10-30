@@ -279,7 +279,7 @@ class MainPortfolioViewController: UIViewController {
   
   func getPortfolios() -> [UIViewController] {
     
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let storyboard = UIStoryboard(name: "Portfolio", bundle: nil)
     
     self.portfolioNames = []
     self.viewControllerList = []

@@ -318,9 +318,12 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
     let row = indexPath.row
     let section = indexPath.section
     
+    let marketStoryboard = UIStoryboard(name: "Market", bundle: nil)
+
     if favouritesTab {
       if section == 0 { // favourite trading pairs
-        let targetVC = storyboard?.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
+
+        let targetVC = marketStoryboard.instantiateViewController(withIdentifier: "PairDetailContainerViewController") as! PairDetailContainerViewController
         
         let (coin, base, market, databaseTitle) = fannedOutTradingPairs[row]
         targetVC.coinPairData = self.tradingPairDataDict[coin]?[base]
@@ -332,7 +335,7 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
         self.navigationController?.pushViewController(targetVC, animated: true)
       }
       else if section == 1 { // favourite markets
-        let targetVC = storyboard?.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
+        let targetVC = marketStoryboard.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
         targetVC.market = marketInformation[marketNames[row].0]!
         
         FirebaseService.shared.all_markets_exchange_tapped(exchange: marketNames[row].0)
@@ -341,7 +344,7 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
       }
     }
     else {
-      let targetVC = storyboard?.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
+      let targetVC = marketStoryboard.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
       targetVC.market = marketInformation[marketNames[row].0]!
       
       self.navigationController?.pushViewController(targetVC, animated: true)
