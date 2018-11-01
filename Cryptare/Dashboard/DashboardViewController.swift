@@ -12,6 +12,7 @@ import SwiftReorder
 import SwiftyUserDefaults
 import SwiftTheme
 import PagedArray
+import FloatingPanel
 
 class DashboardViewController: UIViewController {
   
@@ -93,8 +94,17 @@ class DashboardViewController: UIViewController {
   @IBOutlet weak var header24hrChangeLabel: UILabel!
   @IBOutlet weak var headerCurrentPriceLabel: UILabel!
   
+  
+  var fpc: FloatingPanelController!
+
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    // Initialize a `FloatingPanelController` object.
+    fpc = FloatingPanelController()
+    fpc.surfaceView.cornerRadius = 12.0
+    fpc.surfaceView.borderWidth = 1.0 / traitCollection.displayScale
+    fpc.surfaceView.borderColor = UIColor.black.withAlphaComponent(0.2)
     
     self.lastUpdatedActivityIndicator.startAnimating()
     
@@ -564,7 +574,21 @@ extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     
     FirebaseService.shared.dashboard_coin_tapped(coin: targetViewController.databaseTableTitle)
     
-    self.navigationController?.pushViewController(targetViewController, animated: true)
+    // Add a content view controller.
+    targetViewController.fpc = fpc
+    let contentVC = targetViewController
+    
+    fpc.show(contentVC, sender: nil)
+    
+    // Track a scroll view(or the siblings) in the content view controller.
+//    fpc.track(scrollView: (contentVC.viewControllerList[0] as! CryptoDetailViewController).scrollView)
+    
+    
+    // Add the views managed by the `FloatingPanelController` object to self.view.
+    fpc.addPanel(toParent: self)
+    fpc.move(to: .full, animated: true)
+
+//    self.navigationController?.pushViewController(targetViewController, animated: true)
     
     guard let cell = tableView.cellForRow(at: indexPath) else { return }
     cell.theme_backgroundColor = GlobalPicker.viewSelectedBackgroundColor
@@ -649,7 +673,30 @@ extension DashboardViewController {
   func visibleIndexPathsForIndexes(_ indexes: CountableRange<Int>) -> [IndexPath]? {
     return tableView.indexPathsForVisibleRows?.filter { indexes.contains($0.row) }
   }
+  
+  func floatingPanel(_ vc: FloatingPanelController, behaviorFor newCollection: UITraitCollection) -> FloatingPanelBehavior? {
+    return FloatingPanelStocksBehavior()
+  }
 }
 
-
+class FloatingPanelStocksBehavior: FloatingPanelBehavior {
+  var velocityThreshold: CGFloat {
+    return 15.0
+  }
+  
+  func interactionAnimator(_ fpc: FloatingPanelController, to targetPosition: FloatingPanelPosition, with velocity: CGVector) -> UIViewPropertyAnimator {
+    let damping = self.getDamping(with: velocity)
+    let springTiming = UISpringTimingParameters(dampingRatio: damping, initialVelocity: velocity)
+    return UIViewPropertyAnimator(duration: 0.5, timingParameters: springTiming)
+  }
+  
+  func getDamping(with velocity: CGVector) -> CGFloat {
+    let dy = abs(velocity.dy)
+    if dy > velocityThreshold {
+      return 0.7
+    } else {
+      return 1.0
+    }
+  }
+}
 

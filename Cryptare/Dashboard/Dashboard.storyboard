@@ -38,7 +38,6 @@
         <!--View Controller-->
         <scene sceneID="VB6-sy-1kO">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NIx-WH-mrN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="DP9-GF-5Co" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kpt-UJ-3IY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -47,13 +46,13 @@
                         <viewLayoutGuide key="safeArea" id="es7-Zi-VyG"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NIx-WH-mrN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3795" y="-1560"/>
         </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="F1C-fZ-mjq">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3td-Cj-78H" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="DashboardViewController" id="GCb-Sq-qXR" customClass="DashboardViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e6o-nd-hi0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -377,13 +376,13 @@
                         <outlet property="tableView" destination="B1J-3y-1Q2" id="Mcg-Ks-9eV"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3td-Cj-78H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2791.1999999999998" y="-1445.3201970443351"/>
         </scene>
         <!--Markets-->
         <scene sceneID="fXO-RQ-15J">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jy8-Va-RKN" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="CoinMarketsViewController" title="Markets" id="Tbx-pp-i5g" customClass="CoinMarketsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZeR-km-N0A">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1221,13 +1220,13 @@
                         <outlet property="usdtTableHeightConstraint" destination="NWB-mh-9CH" id="FZF-pv-WXf"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jy8-Va-RKN" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1758" y="-493"/>
         </scene>
         <!--News-->
         <scene sceneID="70R-9K-hwI">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8C0-bf-iDy" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="NewsViewController" title="News" automaticallyAdjustsScrollViewInsets="NO" id="54K-qJ-1Ix" customClass="NewsViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S8Q-EW-Jis">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
@@ -1392,14 +1391,13 @@
                         <outlet property="worldwideButton" destination="ioM-BF-MaJ" id="cL6-Ju-reX"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8C0-bf-iDy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2642" y="368"/>
         </scene>
         <!--Graph-->
         <scene sceneID="lf1-gk-N5N">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4eG-Dh-Chn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="rUY-Hc-eNm"/>
                 <viewController storyboardIdentifier="graphViewController" title="Graph" id="ndN-x7-Wd8" customClass="GraphViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Toq-wT-fDb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1414,13 +1412,14 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Graph" largeTitleDisplayMode="never" id="keC-yz-ANE"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4eG-Dh-Chn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="rUY-Hc-eNm"/>
             </objects>
             <point key="canvasLocation" x="-3596" y="-493"/>
         </scene>
         <!--Crypto Detail View Controller-->
         <scene sceneID="89K-MT-1RD">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nJG-SW-FjK" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="CryptoDetailViewController" id="gt3-SD-zZb" customClass="CryptoDetailViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MzZ-Eh-qjC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
@@ -1836,6 +1835,7 @@
                         <outlet property="percentageChangeLabel" destination="3JF-3h-ldn" id="r0p-Fr-z3j"/>
                         <outlet property="priceChangeLabel" destination="puh-cl-gZL" id="BBN-gB-cQJ"/>
                         <outlet property="rangeSegmentControlObject" destination="dDd-0P-fu7" id="zNc-DW-IXR"/>
+                        <outlet property="scrollView" destination="Hk2-TR-pEP" id="bWE-tW-8T0"/>
                         <outlet property="separatorView" destination="1mC-yg-J4l" id="guZ-Ro-2Mu"/>
                         <outlet property="supplyDescLabel" destination="pjx-KN-9Fz" id="6va-1U-0kA"/>
                         <outlet property="volume24hrsCoinLabel" destination="UNh-Cm-WRu" id="Vwr-Wd-ttm"/>
@@ -1844,13 +1844,13 @@
                         <outlet property="volumePriceDescLabel" destination="oSO-Uk-kRQ" id="Icp-zu-0mN"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nJG-SW-FjK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2642.4000000000001" y="-493.5960591133005"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="FPE-D1-bIk">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6d6-co-9P4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="FavouriteDashboardViewController" id="87b-v2-wgc" customClass="DashboardViewController" customModule="Cryptare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M6k-sa-vpO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -2072,6 +2072,7 @@
                         <outlet property="tableView" destination="CnA-sa-dHA" id="jy5-4t-Pnt"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6d6-co-9P4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2034" y="-1454"/>
         </scene>

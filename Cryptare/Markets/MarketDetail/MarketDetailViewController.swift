@@ -9,8 +9,9 @@
 import UIKit
 import Firebase
 import SwiftyUserDefaults
+import FloatingPanel
 
-class MarketDetailViewController: UIViewController {
+class MarketDetailViewController: UIViewController, FloatingPanelControllerDelegate {
   
   let selectedColour = UIColor.init(hex: "#F7B54A")
   
@@ -56,11 +57,21 @@ class MarketDetailViewController: UIViewController {
   var favouriteStatus: Bool = false
   var favouriteButton: UIBarButtonItem!
   
+  @IBOutlet weak var scrollView: UIScrollView! {
+    didSet {
+      fpc.track(scrollView: self.scrollView)
+    }
+  }
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+  
+  var fpc: FloatingPanelController!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    fpc.delegate = self
+    
     marketName = market["name"] as! String
     self.title = marketName
     

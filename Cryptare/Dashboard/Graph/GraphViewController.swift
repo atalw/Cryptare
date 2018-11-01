@@ -10,8 +10,9 @@ import UIKit
 import Parchment
 import Armchair
 import SwiftyUserDefaults
+import FloatingPanel
 
-class GraphViewController: UIViewController {
+class GraphViewController: UIViewController, FloatingPanelControllerDelegate {
   
   let selectedColour = UIColor.init(hex: "#F7B54A")
   
@@ -26,12 +27,16 @@ class GraphViewController: UIViewController {
   var favouriteStatus: Bool = false
   var favouriteButton: UIBarButtonItem!
   
+  var fpc: FloatingPanelController!
+  
   lazy var viewControllerList: [UIViewController] = {
     let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
     
     let cryptoDetailVC = dashboardStoryboard.instantiateViewController(withIdentifier: "CryptoDetailViewController") as! CryptoDetailViewController
     cryptoDetailVC.databaseTableTitle = databaseTableTitle
     cryptoDetailVC.coinData = coinData
+    cryptoDetailVC.fpc = fpc
+    
     
     let marketsVC = dashboardStoryboard.instantiateViewController(withIdentifier: "CoinMarketsViewController") as! CoinMarketsViewController
     marketsVC.currentCoin = databaseTableTitle
@@ -43,6 +48,8 @@ class GraphViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    fpc.delegate = self
     
     let image = UIImage(named: "favouriteIcon")?.withRenderingMode(.alwaysTemplate)
     favouriteButton = UIBarButtonItem.itemWith(colorfulImage: image, target: self, action: #selector(favouriteButtonTapped))

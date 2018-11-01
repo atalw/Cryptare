@@ -12,8 +12,11 @@ import SwiftyJSON
 import Firebase
 import SwiftyUserDefaults
 import SwiftTheme
+import FloatingPanel
 
 class CryptoDetailViewController: UIViewController, ChartViewDelegate {
+  
+  var fpc: FloatingPanelController!
   
   let greenColour = UIColor.init(hex: "#2ecc71")
   let redColour = UIColor.init(hex: "#e74c3c")
@@ -34,6 +37,12 @@ class CryptoDetailViewController: UIViewController, ChartViewDelegate {
   var currentPrice: Double! = 0.0
   
   var coinData: [String: Any] = [:]
+  
+  @IBOutlet weak var scrollView: UIScrollView! {
+    didSet {
+      fpc.track(scrollView: self.scrollView)
+    }
+  }
   
   @IBOutlet weak var coinNameLabel: UILabel! {
     didSet {

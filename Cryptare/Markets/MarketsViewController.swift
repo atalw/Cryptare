@@ -10,6 +10,7 @@ import UIKit
 import SwiftyUserDefaults
 import Firebase
 import SwiftReorder
+import FloatingPanel
 
 class MarketsViewController: UIViewController {
   
@@ -29,9 +30,17 @@ class MarketsViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView!
   
+  var fpc: FloatingPanelController!
+
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // Initialize a `FloatingPanelController` object.
+    fpc = FloatingPanelController()
+    fpc.surfaceView.cornerRadius = 12.0
+    fpc.surfaceView.borderWidth = 1.0 / traitCollection.displayScale
+    fpc.surfaceView.borderColor = UIColor.black.withAlphaComponent(0.2)
+
     self.view.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_backgroundColor = GlobalPicker.tableGroupBackgroundColor
     tableView.theme_separatorColor = GlobalPicker.tableSeparatorColor
@@ -340,14 +349,33 @@ extension MarketsViewController: UITableViewDataSource, UITableViewDelegate {
         
         FirebaseService.shared.all_markets_exchange_tapped(exchange: marketNames[row].0)
         
-        self.navigationController?.pushViewController(targetVC, animated: true)
+//        self.navigationController?.pushViewController(targetVC, animated: true)
+        
+        // Add a content view controller.
+        targetVC.fpc = fpc
+        let contentVC = targetVC
+        
+        fpc.show(contentVC, sender: nil)
+        
+        // Add the views managed by the `FloatingPanelController` object to self.view.
+        fpc.addPanel(toParent: self)
+        fpc.move(to: .full, animated: true)
       }
     }
     else {
       let targetVC = marketStoryboard.instantiateViewController(withIdentifier: "MarketDetailViewController") as! MarketDetailViewController
       targetVC.market = marketInformation[marketNames[row].0]!
       
-      self.navigationController?.pushViewController(targetVC, animated: true)
+      // Add a content view controller.
+      targetVC.fpc = fpc
+      let contentVC = targetVC
+      
+      fpc.show(contentVC, sender: nil)
+      
+      // Add the views managed by the `FloatingPanelController` object to self.view.
+      fpc.addPanel(toParent: self)
+      fpc.move(to: .full, animated: true)
+//      self.navigationController?.pushViewController(targetVC, animated: true)
     }
     
     guard let cell = tableView.cellForRow(at: indexPath) else { return }
@@ -385,6 +413,26 @@ extension MarketsViewController: TableViewReorderDelegate {
       marketNames.insert(sourceCoin, at: destinationIndexPath.row)
       
       Defaults[.favouriteMarkets] = marketNames.map{ $0.1 }
+    }
+  }
+}
+
+extension MarketsViewController {
+  func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout? {
+    return MyFloatingPanelLayout()
+  }
+}
+
+class MyFloatingPanelLayout: FloatingPanelLayout {
+  public var initialPosition: FloatingPanelPosition {
+    return .full
+  }
+  
+  public func insetFor(position: FloatingPanelPosition) -> CGFloat? {
+    switch position {
+    case .full: return 16.0 // A top inset from safe area
+    case .half: return 216.0 // A bottom inset from the safe area
+    case .tip: return 44.0 // A bottom inset from the safe area
     }
   }
 }
