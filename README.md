@@ -22,8 +22,8 @@ I was in the process of building a standardized API for developers to fetch cryp
 
 If you're interested in learning more about Cryptare, here are some marketing resources that I built and used at the time.
 - [Website](http://akshittalwar.com/cryptare.io/)
-- [Cryptare (2017) Producthunt](https://www.producthunt.com/posts/cryptare-for-ios)
-- [Cryptare (2018) Producthunt](https://www.producthunt.com/posts/cryptare)
+- [Cryptare (2018) Producthunt](https://www.producthunt.com/posts/cryptare-for-ios)
+- [Cryptare (2017) Producthunt](https://www.producthunt.com/posts/cryptare)
 - [Youtube demo video](https://www.youtube.com/watch?v=V7Pqoy11aLE)
 
 ## Licensing
